@@ -1,0 +1,22 @@
+= link_to 'Back', root_path, class: 'govuk-back-link'
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      %h1.govuk-heading-l Add users
+
+      .govuk-hint Please invite your adminstrators to create an account.
+
+      = form_tag add_users_path, method: :post do
+        .govuk-form-group
+          .govuk-form-group
+            %label.govuk-label{for: 'name'} Name
+            %input.govuk-input.govuk-input--width-20
+
+        .govuk-form-group
+          .govuk-form-group
+            %label.govuk-label{for: 'email'} Email address
+            .govuk-hint This will be used to send an invite to create an account
+            %input.govuk-input
+
+        = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

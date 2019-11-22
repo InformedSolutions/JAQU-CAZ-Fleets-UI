@@ -5,6 +5,6 @@
 #
 class WelcomeController < ApplicationController
   def index
-    # No variables or interactions on root page
+    # Renders a static page
   end
 end

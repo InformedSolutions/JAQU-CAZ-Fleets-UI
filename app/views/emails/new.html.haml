@@ -1,0 +1,14 @@
+= link_to 'Back', root_path, class: 'govuk-back-link'
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      %h1.govuk-heading-l Email address
+
+      = form_tag company_email_address_path, method: :post do
+        .govuk-form-group
+          .govuk-form-group
+            %label.govuk-label{for: 'email-address'} Email address
+            %input.govuk-input.govuk-input--width-20
+
+        = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

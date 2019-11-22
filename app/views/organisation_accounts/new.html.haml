@@ -1,0 +1,17 @@
+= link_to 'Back', root_path, class: 'govuk-back-link'
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      %h1.govuk-heading-l Create account
+
+      .govuk-hint
+        Create an account for your vehicle fleet. You can declare vehicles in the fleet and pay for all vehicles at once.
+
+      = form_tag create_account_path, method: :post do
+        .govuk-form-group
+          .govuk-form-group
+            %label.govuk-label{for: 'company-name'} Company name
+            %input.govuk-input.govuk-input--width-20
+
+        = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
