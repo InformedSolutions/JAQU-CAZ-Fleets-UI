@@ -10,6 +10,7 @@ gem 'rails', '~> 6.0.1'
 gem 'bootsnap', require: false
 gem 'brakeman'
 gem 'bundler-audit'
+gem 'devise'
 gem 'haml'
 gem 'logstash-logger'
 gem 'puma'
