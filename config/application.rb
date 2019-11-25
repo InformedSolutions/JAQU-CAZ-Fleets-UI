@@ -18,11 +18,6 @@ module FleetsUI
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    # http://www.glitchwrks.com/2017/01/16/removing-cookies-sessions-rails-5
-    config.middleware.delete ActionDispatch::Cookies
-    config.middleware.delete ActionDispatch::Session::CookieStore
-    config.middleware.use ActionDispatch::Flash
-
     feedback_url_default = nil
     config.x.feedback_url = (ENV['FEEDBACK_URL'].presence || feedback_url_default)
 
