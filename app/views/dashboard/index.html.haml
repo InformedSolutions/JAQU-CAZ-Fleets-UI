@@ -1,0 +1,22 @@
+= link_to 'Back', root_path, class: 'govuk-back-link'
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      %h1.govuk-heading-xl Prototype Fleet Account
+      %h1.govuk-heading-l Users
+
+      - users = ['First Fake User', 'Second Fake User']
+
+      %dl.govuk-summary-list{class: 'govuk-!-margin-bottom-9'}
+        - users.each do |user|
+          .govuk-summary-list__row
+            %dd.govuk-summary-list__value
+              = user
+            %dd.govuk-summary-list__actions
+              = link_to 'Change', '#', class: 'govuk-link'
+            %dd.govuk-summary-list__actions
+              = link_to 'Remove', '#', class: 'govuk-link'
+
+      %p.govuk-body
+        = link_to('Add another', '#', class: 'govuk-link')
