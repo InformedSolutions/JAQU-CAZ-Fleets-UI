@@ -1,0 +1,47 @@
+.govuk-form-group{class: ('govuk-form-group--error' if errors[:email].present?)}
+  = form.label :email, 'Enter your email address', class: 'govuk-label'
+  %span#govuk-error-email.govuk-error-message
+    - if errors[:email].present?
+      %span.govuk-visually-hidden Error:
+      = errors[:email].join(', ')
+  = form.text_field :email,
+                    class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if errors[:email].present?}",
+                    value: params.dig(:email_and_password_form, :email),
+                    spellcheck: false,
+                    autocomplete: :on,
+                    maxlength: 45
+
+.govuk-form-group{class: ('govuk-form-group--error' if errors[:email_confirmation].present?)}
+  = form.label :email_confirmation, 'Confirm email address', class: 'govuk-label'
+  %span#govuk-error-email_confirmation.govuk-error-message
+    - if errors[:email_confirmation].present?
+      %span.govuk-visually-hidden Error:
+      = errors[:email_confirmation].join(', ')
+  = form.text_field :email_confirmation,
+                    class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if errors[:email_confirmation].present?}",
+                    value: params.dig(:email_and_password_form, :email_confirmation),
+                    spellcheck: false,
+                    autocomplete: :on,
+                    maxlength: 45
+
+.govuk-form-group{class: ('govuk-form-group--error' if errors[:password].present?)}
+  = form.label :password, 'Create a password', class: 'govuk-label'
+  %span#govuk-error-password.govuk-error-message
+    - if errors[:password].present?
+      %span.govuk-visually-hidden Error:
+      = errors[:password].join(', ')
+  = form.password_field :password,
+                         class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if errors[:password].present?}",
+                         value: params.dig(:email_and_password_form, :password),
+                         maxlength: 45
+
+.govuk-form-group{class: ('govuk-form-group--error' if errors[:password_confirmation].present?)}
+  = form.label :password_confirmation, 'Confirm Password', class: 'govuk-label'
+  %span#govuk-error-password_confirmation.govuk-error-message
+    - if errors[:password_confirmation].present?
+      %span.govuk-visually-hidden Error:
+      = errors[:password_confirmation].join(', ')
+  = form.password_field :password_confirmation,
+                         class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if errors[:password_confirmation].present?}",
+                         value: params.dig(:email_and_password_form, :password_confirmation),
+                         maxlength: 45

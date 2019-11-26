@@ -4,3 +4,9 @@ en:
      password_missing: "[TBA] Enter your password"
      invalid_email: "[TBA] Enter your email address in a valid format"
      incorrect: "[TBA] The email or password you entered is incorrect"
+  password:
+    errors:
+      password_equality: Password and password confirmation must be the same
+    email:
+      errors:
+        email_equality: Email address and email address confirmation must be the same

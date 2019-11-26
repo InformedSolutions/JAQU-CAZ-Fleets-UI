@@ -1,0 +1,33 @@
+-# TO DO: Change back path to CAZ Payments url
+
+= link_to 'Back', root_path, class: 'govuk-back-link'
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      - if alert
+        = render 'common/error_summary',
+          error_msg_div: '#company_name',
+          error_msg: alert
+
+      %h1.govuk-heading-l Create account
+      = render 'common/draft_tag'
+      %p
+      %span#create-account-hint.govuk-hint
+        Create an account to upload and pay for multiple vehicles.
+
+      %fieldset.govuk-fieldset{'aria-describedby': 'create-account-hint'}
+        %legend.govuk-visually-hidden Create account fields
+
+        = form_for('company', url: create_account_name_path, method: :post,
+            html: {autocomplete: 'off', novalidate: 'novalidate'}) do |f|
+
+          .govuk-form-group{class: ('govuk-form-group--error' if alert)}
+            = f.label :name, 'Company name', class: 'govuk-label'
+            %span#govuk-error-first_name.govuk-error-message
+              - if alert
+                %span.govuk-visually-hidden Error:
+                = alert
+            = f.text_field :name, class: 'govuk-input govuk-!-width-two-thirds', maxlength: 45
+
+          = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

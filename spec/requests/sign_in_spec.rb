@@ -29,7 +29,7 @@ describe 'User signing in', type: :request do
     before { allow(AccountsApi).to receive(:sign_in).and_return(false) }
 
     it 'renders login view' do
-      expect(http_request).to render_template("devise/sessions/new")
+      expect(http_request).to render_template('devise/sessions/new')
     end
 
     it 'shows base error message once' do
