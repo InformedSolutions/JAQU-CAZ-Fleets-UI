@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe WelcomeController, type: :request do
   describe 'GET #index' do
-    http_request { get welcome_index_path }
+    subject(:http_request) { get root_path }
 
     it 'returns http success' do
       http_request

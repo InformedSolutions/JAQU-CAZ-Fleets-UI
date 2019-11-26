@@ -4,16 +4,14 @@ Rails.application.routes.draw do
   get 'welcome/index'
   root 'welcome#index'
 
-  scope '/fleets/organisation-account' do
-    get 'create-account', to: 'organisation_accounts#new'
-    post 'create-account', to: 'organisation_accounts#create'
-    get 'account-set-up', to: 'organisation_accounts#show'
+  scope '/fleets/organisation-account', only: %i[] do
+    get 'create-account-name', to: 'organisations#new_name'
+    post 'create-account-name', to: 'organisations#create_name'
 
-    get 'company-email-address', to: 'emails#new'
-    post 'company-email-address', to: 'emails#create'
+    get 'email-address-and-password', to: 'organisations#new_password'
+    post 'email-address-and-password', to: 'organisations#create_account'
 
-    get 'company-password', to: 'passwords#new'
-    post 'company-password', to: 'passwords#create'
+    get 'email_sent', to: 'organisations#email_sent'
 
     get 'add-users', to: 'users#new'
     post 'add-users', to: 'users#create'

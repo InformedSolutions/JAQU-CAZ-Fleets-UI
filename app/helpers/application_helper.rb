@@ -8,4 +8,24 @@ module ApplicationHelper
   def service_name
     Rails.configuration.x.service_name
   end
+
+  # Remove duplicated error messages, e.g. `Password and password confirmation must be the same`
+  def remove_duplicated_messages(errors)
+    transformed_errors(errors).uniq(&:first)
+  end
+
+  # Transform hash of errors:
+  # {
+  #   :email=>["Email is in an invalid format"],
+  #   :password_confirmation=>["Password and password confirmation must be the same"]
+  # }
+  # to array:
+  # [
+  #   ["Email is in an invalid format", :email],
+  #   ["Password and password confirmation must be the same",:password_confirmation]
+  # ]
+  #
+  def transformed_errors(errors)
+    errors.map { |error| error.second.map { |msg| [msg, error.first] } }.flatten(1)
+  end
 end
