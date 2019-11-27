@@ -20,17 +20,19 @@ module Devise
         authenticate_user(resource, params_auth_hash)
       end
 
-      # Validation are made by LoginForm
+      # Other validations are made by LoginForm
       def valid?
         params_authenticatable? && valid_params_request? && valid_params?
       end
 
       private
 
+      # Checks if email and password was submitted and email is in valid format
       def validate_login_form
         form = LoginForm.new(params_auth_hash[:email], params_auth_hash[:password])
         return true if form.valid?
 
+        # Moves form errors to warden errors
         form.errors.each { |field, msg| errors.add(field, msg) }
         false
       end
@@ -47,6 +49,7 @@ module Devise
         if validate(resource) { resource = resource.authentication(auth_params) }
           success!(resource)
         else
+          # Sets errors with base error to display in the error summary
           errors.add(:base, I18n.t('login_form.incorrect'))
           errors.add(:email, I18n.t('login_form.email_missing'))
           errors.add(:password, I18n.t('login_form.password_missing'))
