@@ -9,9 +9,7 @@ module Devise
       #
       # If the authentication fails you should return false
       def authentication(params)
-        return false unless params[:password] == 'password'
-
-        User.new(email: params[:email], sub: SecureRandom.uuid)
+        AccountsApi.sign_in(email: params[:email], password: params[:password])
       end
 
       module ClassMethods
