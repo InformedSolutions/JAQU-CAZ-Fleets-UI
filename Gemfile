@@ -14,7 +14,6 @@ gem 'devise'
 gem 'haml'
 gem 'logstash-logger'
 gem 'puma'
-gem 'rubocop-govuk'
 gem 'sass-rails'
 gem 'sdoc', require: false
 gem 'sqlite3'

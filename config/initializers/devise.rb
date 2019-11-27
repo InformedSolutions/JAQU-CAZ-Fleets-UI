@@ -16,7 +16,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '1eb710fdcec1fc5e8ebf2dbbe58084692768046b5d688082671e7484928f667c439259a5995c23da05ba4d9de2cedb8e320f4e040ef2bcedb7366992f6568940'
+  # config.secret_key = '1eb710fdcec1fc5e8ebf2dbbe58084692768046b5d688082671e7484928f667c439257366'
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -122,7 +122,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 11
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '559e9b895e99c51d4d8a214a049508fe5596b084d4d64ca1e2e73b5b11375e5ad23f690a7d0a89903de9448eb3ed92c6939cc58c9f920d474da02af06f1ecaa0'
+  # config.pepper = '559e9b895e99c51d4d8a214a049508fe5596b084d4d64ca1e2e73b5b11375e5ad23f690a7d0a8'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -293,7 +293,8 @@ Devise.setup do |config|
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 
   # ==> Turbolinks configuration
-  # If your app is using Turbolinks, Turbolinks::Controller needs to be included to make redirection work correctly:
+  # If your app is using Turbolinks, Turbolinks::Controller needs to be included to make
+  # redirection work correctly:
   #
   # ActiveSupport.on_load(:devise_failure_app) do
   #   include Turbolinks::Controller
