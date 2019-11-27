@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AccountsApi
   class << self
     def sign_in(email:, password:)
