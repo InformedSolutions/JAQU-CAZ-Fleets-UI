@@ -1,3 +1,4 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
+      = link_to('Sign Out', destroy_user_session_path, method: :delete, id: 'sign-out')

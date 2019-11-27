@@ -1,0 +1,13 @@
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      %h1.govuk-heading-xl Sign in
+
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        = render 'error_summary'
+        %fieldset.govuk-fieldset
+          %legend.govuk-visually-hidden
+            Submit your login credentials
+          = render 'email_field', form: f
+          = render 'password_field', form: f
+        = f.submit 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
