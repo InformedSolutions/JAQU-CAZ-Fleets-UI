@@ -1,3 +1,12 @@
+# frozen_string_literal: true
+
+##
+# Class used to validate data submitted on the login page.
+#
+# ==== Usage
+#    form = LoginForm.new('test@example.com', 'password')
+#    process_log_in if form.valid?
+#
 class LoginForm
   include ActiveModel::Validations
 
@@ -8,6 +17,13 @@ class LoginForm
     message: I18n.t('login_form.invalid_email')
   }
 
+  ##
+  # Initializes the form
+  #
+  # ==== Attributes
+  # * +email+ - email, the email address submitted by the user
+  # + +password+ - string, the password submitted by the user
+  #
   def initialize(email, password)
     @email = email
     @password = password
