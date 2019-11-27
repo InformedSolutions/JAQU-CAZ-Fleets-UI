@@ -1,0 +1,210 @@
+  #################################################### Nightly Steps ############################################################
+kind: pipeline
+type: docker
+name: fleets-web-nightly
+trigger:
+  event:
+    - cron
+concurrency:
+  limit: 1
+volumes:
+- name: docker_sock
+  host:
+    path: /var/run/docker.sock
+
+steps:
+
+  # Execute OWASP Zap tests
+  - name: owasp zap tests
+    image: owasp/zap2docker-stable
+    commands:
+      - mkdir -p /zap/wrk
+      - cp zap.conf /zap/wrk/zap.conf
+      - cd /zap
+      - zap-full-scan.py -t https://dev.paycleanairzonecharge.co.uk -c zap.conf
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+    # Build end to end tests docker image
+  - name: build end to end test image
+    image: docker:git
+    commands:
+      - mkdir ~/.ssh
+      - echo -n "$GIT_PRIVATE_SSH" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - touch ~/.ssh/known_hosts
+      - chmod 600 ~/.ssh/known_hosts
+      - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
+      - git clone git@github.com:InformedSolutions/JAQU-CAZ-QA-selenium.git
+      - cd JAQU-CAZ-QA-selenium
+      - docker build -t selenium-jaqu .
+    environment:
+      GIT_PRIVATE_SSH:
+        from_secret: github_private_key
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+    # Run end to end tests
+  - name: run end to end tests
+    image: selenium-jaqu
+    pull: never
+    environment:
+      BS_USERNAME:
+        from_secret: browserstack_username
+      BS_AUTHKEY:
+        from_secret: browserstack_auth_key
+      BASEURL_fleets: 'https://dev.paycleanairzonecharge.co.uk/'
+      BROWSER_SET: 'min'
+      BUILD: ${DRONE_BUILD_NUMBER}
+      LOCATION: browserstack
+    commands:
+      - cd JAQU-CAZ-QA-selenium
+      - cucumber -t @fleets --retry 3
+  ################################################# End Nightly Steps ############################################################
+
+---
+
+  #################################################### DEV Steps ############################################################
+
+kind: pipeline
+type: docker
+name: fleets-web-dev
+trigger:
+  branch:
+    - develop
+  event:
+    - pull_request
+    - push
+concurrency:
+  limit: 1
+
+volumes:
+- name: docker_sock
+  host:
+    path: /var/run/docker.sock
+
+
+steps:
+
+  # Clean agent images and containers to prevent disk space overuse
+  - name: clean agent
+    image: docker
+    commands:
+    - docker system prune -f
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+  # Build docker image
+  - name: build
+    image: docker
+    commands:
+    - docker build -f Dockerfile.test -t test-fleets-frontend:latest --build-arg secret_key_base=${DRONE_COMMIT} .
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+  # Trigger unit tests
+  - name: unit tests
+    image: test-fleets-frontend
+    pull: never
+    environment:
+      COMPLIANCE_CHECKER_API_URL: http://localhost
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+    commands:
+      - yarn install
+      - rspec -f d
+
+  # Execute integration/scenario tests
+  - name: integration tests
+    image: test-fleets-frontend
+    pull: never
+    environment:
+      COMPLIANCE_CHECKER_API_URL: https://s5fbiclr6j.execute-api.eu-west-2.amazonaws.com/dev
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+    commands:
+      - cucumber
+
+  # Invoke static code analysis through Ruby libraries and assets (js + stylesheets)
+  - name: static code analysis (Ruby + assets)
+    image: test-fleets-frontend
+    pull: never
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+    commands:
+      - rubocop
+      - scss-lint app/javascript
+
+  # Invoke security analysis through Ruby libraries
+  - name: security tests (Ruby)
+    image: test-fleets-frontend
+    pull: never
+    commands:
+       - bundle audit check --update
+       - yarn audit
+       - brakeman --except Redirect,LinkToHref
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+  ################################################# End DEV Steps #######################################################
+
+  ################################################ Secrets #########################################################
+
+# Note the below values are pulled from AWS Secrets Manager via the aws-secrets Drone plugin
+---
+kind: secret
+name: aws_access_key_id
+get:
+  path: /secret/drone.global
+  name: awsAccessKeyId
+
+---
+kind: secret
+name: aws_secret_access_key
+get:
+  path: /secret/drone.global
+  name: awsSecretAccessKey
+
+---
+kind: secret
+name: sonar_host
+get:
+  path: /secret/drone.global
+  name: sonarHost
+
+---
+kind: secret
+name: sonar_token
+get:
+  path: /secret/drone.global
+  name: sonarToken
+
+---
+kind: secret
+name: github_private_key
+get:
+  path: /secret/drone.global
+  name: githubPrivateKey
+
+---
+kind: secret
+name: browserstack_auth_key
+get:
+  path: /secret/drone.global
+  name: browserStackAuthKey
+
+---
+kind: secret
+name: browserstack_username
+get:
+  path: /secret/drone.global
+  name: browserStackUsername
+
+  ################################################ End Secrets #########################################################
