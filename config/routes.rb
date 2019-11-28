@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
     get 'email_sent', to: 'organisations#email_sent'
 
+    get 'email-verified', to: 'users#email_verified'
     get 'add-users', to: 'users#new'
     post 'add-users', to: 'users#create'
     get 'user-added', to: 'users#show'
