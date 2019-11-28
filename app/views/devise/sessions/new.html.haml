@@ -10,4 +10,6 @@
             Submit your login credentials
           = render 'email_field', form: f
           = render 'password_field', form: f
+        %p
+          = link_to('Forgotten your password?', new_password_path)
         = f.submit 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
