@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  resources :passwords, only: %i[new create]
+
   scope '/fleets/organisation-account' do
     get 'create-account', to: 'organisation_accounts#new'
     post 'create-account', to: 'organisation_accounts#create'

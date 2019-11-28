@@ -3,17 +3,11 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      %h1.govuk-heading-l Password
-
-      = form_tag company_password_path, method: :post do
+      %h1.govuk-heading-l Reset your password
+      = form_tag passwords_path, method: :post do
         .govuk-form-group
           .govuk-form-group
-            %label.govuk-label{for: 'password'} Password
-            %input.govuk-input.govuk-input--width-20{type: 'password'}
-
-        .govuk-form-group
-          .govuk-form-group
-            %label.govuk-label{for: 'confirm-password'} Confirm Password
-            %input.govuk-input.govuk-input--width-20{type: 'password'}
-
-        = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
+            %label.govuk-label{for: 'email'} Email address
+            %span.govuk-hint We'll send a reset link to the address you provide
+            %input.govuk-input.govuk-input--width-20{type: 'text'}
+        = submit_tag 'Send email', class: 'govuk-button', 'data-module': 'govuk-button'
