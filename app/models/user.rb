@@ -16,7 +16,7 @@ class User
   devise :timeoutable
 
   # Attribute that is being used to authorize a user and use it in csv uploading.
-  attr_accessor :email, :admin, :sub
+  attr_accessor :email, :password, :password_confirmation, :admin, :sub
 
   # Overrides default initializer for compliance with Devise Gem.
   #

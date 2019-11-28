@@ -1,0 +1,20 @@
+= link_to 'Back', email_address_and_password_path, class: 'govuk-back-link'
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      %h1.govuk-heading-l Verification email
+      %p
+        We've sent a verification email to example@email.com. This can take a few minutes to arrive.
+
+      %p If you do not get an email:
+      %ul.govuk-list.govuk-list--bullet
+        %li check your spam or junk folders
+        %li check you have entered the correct email
+        %li
+          = link_to("resend the email", email_sent_path)
+
+      %br
+      %br
+      %p
+        = link_to("For demonstration purposes", '#')

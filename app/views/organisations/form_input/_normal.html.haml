@@ -1,0 +1,27 @@
+.govuk-form-group
+  = form.label :email, 'Enter your email address', class: 'govuk-label'
+  = form.text_field :email,
+                    class: 'govuk-input govuk-!-width-two-thirds',
+                    spellcheck: false,
+                    autocomplete: :on,
+                    maxlength: 45
+
+.govuk-form-group
+  = form.label :email_confirmation, 'Confirm email address', class: 'govuk-label'
+  = form.text_field :email_confirmation,
+                    class: 'govuk-input govuk-!-width-two-thirds',
+                    spellcheck: false,
+                    autocomplete: :on,
+                    maxlength: 45
+
+.govuk-form-group
+  = form.label :password, 'Create a password', class: 'govuk-label'
+  = form.password_field :password,
+                        class: 'govuk-input govuk-!-width-two-thirds',
+                        maxlength: 45
+
+.govuk-form-group
+  = form.label :password_confirmation, 'Confirm Password', class: 'govuk-label'
+  = form.password_field :password_confirmation,
+                        class: 'govuk-input govuk-!-width-two-thirds',
+                        maxlength: 45
