@@ -5,10 +5,10 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      - if alert
+      - if @error
         = render 'common/error_summary',
-          error_msg_div: '#company_name',
-          error_msg: alert
+          error_msg_div: '#govuk-error-company_name',
+          error_msg: 'Enter the company name'
 
       %h1.govuk-heading-l Create account
       = render 'common/draft_tag'
@@ -22,12 +22,16 @@
         = form_for('company', url: create_account_name_path, method: :post,
             html: {autocomplete: 'off', novalidate: 'novalidate'}) do |f|
 
-          .govuk-form-group{class: ('govuk-form-group--error' if alert)}
-            = f.label :name, 'Company name', class: 'govuk-label'
-            %span#govuk-error-first_name.govuk-error-message
-              - if alert
+          .govuk-form-group{class: ('govuk-form-group--error' if @error)}
+            = f.label :company_name, 'Company name', class: 'govuk-label'
+            %span#govuk-error-company_name.govuk-error-message
+              - if @error
                 %span.govuk-visually-hidden Error:
-                = alert
-            = f.text_field :name, class: 'govuk-input govuk-!-width-two-thirds', maxlength: 45
+                = @error
+            = f.text_field :company_name,
+                            class: 'govuk-input govuk-!-width-two-thirds',
+                            maxlength: 100,
+                            spellcheck: false,
+                            autocomplete: :on
 
           = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

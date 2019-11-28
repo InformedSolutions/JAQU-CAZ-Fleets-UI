@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ##
-# Raises exception if invalid password was provided.
+# Raises exception if invalid email or password was provided.
 #
 class NewPasswordException < ApplicationException
   # Attribute used internally
@@ -10,9 +10,9 @@ class NewPasswordException < ApplicationException
   # Initializer method for the class. Calls +super+ method on parent class (ApplicationException).
   #
   # ==== Attributes
-  # * +errors_array+ - hash - messaged passed to parent exception
+  # * +errors_object+ - hash - messaged passed to parent exception
   def initialize(errors)
     @errors_object = errors
-    super(errors_object || 'New email and password is invalid')
+    super(errors_object)
   end
 end

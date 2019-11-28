@@ -7,6 +7,6 @@ RSpec.describe 'OrganisationsController - GET #new_email_and_password', type: :r
 
   it 'returns an ok response' do
     subject
-    expect(response).to have_http_status(:ok)
+    expect(response).to have_http_status(:found)
   end
 end

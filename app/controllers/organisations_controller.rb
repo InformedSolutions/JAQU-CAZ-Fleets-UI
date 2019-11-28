@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class OrganisationsController < ApplicationController
+  skip_before_action :authenticate_user!
+  # checks if company name is present in session
+  before_action :check_company_name, only: %i[new_email_and_password create_account email_sent]
   ##
   # Renders the create account name page.
   #
@@ -23,13 +26,16 @@ class OrganisationsController < ApplicationController
   #    POST /fleets/organisation-account/create-account-name
   #
   # ==== Params
-  # * +name+ - account name
+  # * +company_name+ - account name
   #
   def create_name
-    if company_params['name'].present?
+    form = CompanyNameForm.new(company_params)
+    if form.valid?
+      session[:company_name] = form.company_name
       redirect_to email_address_and_password_path
     else
-      redirect_to create_account_name_path, alert: 'Enter the company name'
+      @error = form.errors.full_messages.join(',')
+      render 'organisations/new_name'
     end
   end
 
@@ -58,7 +64,7 @@ class OrganisationsController < ApplicationController
   # * +name+ - account name
   #
   def create_account
-    CreateAccountService.call(user_params: user_params)
+    CreateAccountService.call(user_params: user_params, company_name: session[:company_name])
     redirect_to email_sent_path
   rescue NewPasswordException => e
     @errors = e.errors_object
@@ -90,6 +96,15 @@ class OrganisationsController < ApplicationController
 
   # Returns the list of permitted params
   def company_params
-    params.require(:company).permit(:name)
+    params.require(:company).permit(:company_name)
+  end
+
+  # Checks if company name is present in the session.
+  # If not, redirects to root path.
+  def check_company_name
+    return if session[:company_name]
+
+    Rails.logger.warn('Company name is missing in the session. Redirecting to :root_path')
+    redirect_to root_path
   end
 end

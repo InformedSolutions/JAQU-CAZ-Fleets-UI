@@ -5,15 +5,16 @@
 #
 class CreateAccountService < BaseService
   # Attribute used internally
-  attr_reader :user_params
+  attr_reader :user_params, :company_name
   ##
   # Initializer method.
   #
   # ==== Attributes
   #
   # * +user_params+ - hash
-  def initialize(user_params:)
+  def initialize(user_params:, company_name:)
     @user_params = user_params
+    @company_name = company_name
   end
 
   # The caller method for the service. It invokes validating.
