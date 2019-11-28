@@ -3,7 +3,8 @@
 class OrganisationsController < ApplicationController
   skip_before_action :authenticate_user!
   # checks if company name is present in session
-  before_action :check_company_name, only: %i[new_email_and_password create_account email_sent]
+  before_action :check_company_name, only: %i[new_email_and_password create_account
+                                              create_account_name email_sent]
   ##
   # Renders the create account name page.
   #

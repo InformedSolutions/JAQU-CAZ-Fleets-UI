@@ -5,15 +5,16 @@
 #
 class CreateAccountService < BaseService
   # Attribute used internally
-  attr_reader :user_params, :company_name
+  attr_reader :user_params, :email, :password, :company_name
   ##
   # Initializer method.
   #
   # ==== Attributes
-  #
-  # * +user_params+ - hash
+  # * +user_params+ - hash, email and password submitted by the user
+  # * +company_name+ - string, the company name submitted by the user
   def initialize(user_params:, company_name:)
-    @user_params = user_params
+    @email = user_params['email']
+    @password = user_params['password']
     @company_name = company_name
   end
 
