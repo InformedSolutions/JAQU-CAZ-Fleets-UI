@@ -1,6 +1,6 @@
 en:
   login_form:
-     email_missing: [TBA] Enter your email address
-     password_missing: [TBA] Enter your password
-     invalid_email: [TBA] Enter your email address in a valid format
-     incorrect: [TBA] The email or password you entered is incorrect
+     email_missing: "[TBA] Enter your email address"
+     password_missing: "[TBA] Enter your password"
+     invalid_email: "[TBA] Enter your email address in a valid format"
+     incorrect: "[TBA] The email or password you entered is incorrect"
