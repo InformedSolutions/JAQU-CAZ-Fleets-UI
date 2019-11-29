@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'UsersController - GET #email_verified', type: :request do
+RSpec.describe 'OrganisationsController - GET #email_verified' do
   subject { get email_verified_path }
 
   it 'returns an ok response' do

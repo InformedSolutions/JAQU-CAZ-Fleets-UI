@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'OrganisationsController - GET #new_name', type: :request do
+RSpec.describe 'OrganisationsController - GET #new_name' do
   subject { get create_account_name_path }
 
   it 'returns an ok response' do

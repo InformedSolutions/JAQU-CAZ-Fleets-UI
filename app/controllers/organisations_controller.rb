@@ -83,6 +83,18 @@ class OrganisationsController < ApplicationController
     # Renders static page
   end
 
+  ##
+  # Renders the email verified page.
+  #
+  # ==== Path
+  #
+  #    GET /fleets/organisation-account/email-verified
+  #
+  def email_verified
+    # TODO: Verify if user is activated.
+    @user = User.new
+  end
+
   private
 
   # Returns the list of permitted params
