@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe 'OrganisationsController - GET #new_name' do
-  subject { get create_account_name_path }
+RSpec.describe 'OrganisationsController - GET #email_verified' do
+  subject { get email_verified_path }
 
   it 'returns an ok response' do
     subject

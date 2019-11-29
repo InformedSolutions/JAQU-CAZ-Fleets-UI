@@ -1,9 +1,13 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      %h1.govuk-heading-xl Sign in
+      %h1.govuk-heading-xl Your account has been created
+      %p
+        Your email address has been verified and your account has been activated.
+      %p
+        Enter your email address and password to sign in.
 
-      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      = form_for(@user, as: @user, url: session_path(@user)) do |f|
         = render 'shared/sign_in/error_summary'
         %fieldset.govuk-fieldset
           %legend.govuk-visually-hidden

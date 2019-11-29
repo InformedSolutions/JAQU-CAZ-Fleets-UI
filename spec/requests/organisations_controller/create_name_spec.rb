@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'OrganisationsController - POST #create_name', type: :request do
+RSpec.describe 'OrganisationsController - POST #create_name' do
   subject do
     post create_account_name_path, params: { company: { company_name: 'Company Name' } }
   end

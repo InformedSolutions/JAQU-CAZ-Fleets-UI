@@ -1,6 +1,6 @@
 - email_alert = request.env['warden'].errors[:email]
 .govuk-form-group{class: ('govuk-form-group--error' if email_alert.present?)}
-  = form.label :email, class: 'govuk-label'
+  = form.label :email, 'Email address', class: 'govuk-label'
   %span#email-error.govuk-error-message
     - if email_alert.present?
       %span.govuk-visually-hidden Error:

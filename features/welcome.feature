@@ -5,4 +5,4 @@ Feature: Welcome
 
   Scenario: View welcome page
       Given I am on the home page
-      Then I should see "Clean Air Zones"
+      Then I should see "Sign in"

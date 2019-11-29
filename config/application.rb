@@ -24,5 +24,8 @@ module FleetsUI
     config.x.feedback_url = (ENV['FEEDBACK_URL'].presence || feedback_url_default)
 
     config.x.service_name = 'Fleets UI'
+
+    # timeout the user session without activity.
+    config.x.session_timeout_in_min = ENV.fetch('SESSION_TIMEOUT', 15).to_i
   end
 end

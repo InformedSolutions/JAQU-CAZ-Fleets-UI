@@ -39,6 +39,7 @@ group :test do
   gem 'capybara'
   gem 'cucumber-rails', require: false
   gem 'rails-controller-testing'
+  gem 'rack_session_access'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   gem 'webdrivers'
