@@ -27,10 +27,10 @@ class OrganisationsController < ApplicationController
   #    POST /fleets/organisation-account/create-account-name
   #
   # ==== Params
-  # * +company_name+ - account name
+  # * +company_name+ - string, account name e.g. 'Company name'
   #
   def create_name
-    form = CompanyNameForm.new(company_params)
+    form = CompanyNameForm.new(company_name_params)
     if form.valid?
       session[:company_name] = form.company_name
       redirect_to email_address_and_password_path
@@ -53,7 +53,7 @@ class OrganisationsController < ApplicationController
 
   ##
   # Validates submitted email and password.
-  # If successful, redirects to {email_sent}[rdoc-ref:OrganisationsController.email_sent]
+  # If successful, redirects to {email-sent}[rdoc-ref:OrganisationsController.email_sent]
   # If no, redirects to {new_email_and_password}
   # [rdoc-ref:OrganisationsController.new_email_and_password]
   #
@@ -62,10 +62,13 @@ class OrganisationsController < ApplicationController
   #    POST /fleets/organisation-account/create-account-name
   #
   # ==== Params
-  # * +name+ - account name
+  # * +company_name+ - string, account name e.g. 'Company name'
   #
   def create_account
-    CreateAccountService.call(user_params: user_params, company_name: session[:company_name])
+    CreateAccountService.call(
+      organisations_params: organisations_params,
+      company_name: session[:company_name]
+    )
     redirect_to email_sent_path
   rescue NewPasswordException => e
     @errors = e.errors_object
@@ -77,7 +80,7 @@ class OrganisationsController < ApplicationController
   #
   # ==== Path
   #
-  #    GET /fleets/organisation-account/email_sent
+  #    GET /fleets/organisation-account/email-sent
   #
   def email_sent
     # Renders static page
@@ -98,8 +101,8 @@ class OrganisationsController < ApplicationController
   private
 
   # Returns the list of permitted params
-  def user_params
-    params.require(:email_and_password_form).permit(
+  def organisations_params
+    params.require(:organisations).permit(
       :email,
       :email_confirmation,
       :password,
@@ -108,8 +111,8 @@ class OrganisationsController < ApplicationController
   end
 
   # Returns the list of permitted params
-  def company_params
-    params.require(:company).permit(:company_name)
+  def company_name_params
+    params.require(:organisations).permit(:company_name)
   end
 
   # Checks if company name is present in the session.

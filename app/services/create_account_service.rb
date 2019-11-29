@@ -5,17 +5,17 @@
 #
 class CreateAccountService < BaseService
   # Attribute used internally
-  attr_reader :user_params, :email, :password, :company_name
+  attr_reader :organisations_params, :email, :password, :company_name
   ##
   # Initializer method.
   #
   # ==== Attributes
-  # * +user_params+ - hash, email and password submitted by the user
+  # * +organisations_params+ - hash, email and password submitted by the user
   # * +company_name+ - string, the company name submitted by the user
-  def initialize(user_params:, company_name:)
-    @user_params = user_params
-    @email = user_params['email']
-    @password = user_params['password']
+  def initialize(organisations_params:, company_name:)
+    @organisations_params = organisations_params
+    @email = organisations_params['email']
+    @password = organisations_params['password']
     @company_name = company_name
   end
 
@@ -31,7 +31,7 @@ class CreateAccountService < BaseService
   # Validate user params.
   # Raises `NewPasswordException` exception if validation failed.
   def validate_user_params
-    form = EmailAndPasswordForm.new(user_params)
+    form = EmailAndPasswordForm.new(organisations_params)
     return if form.valid?
 
     log_invalid_params(form.errors.full_messages)

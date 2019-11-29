@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe 'OrganisationsController - GET #new_email_and_password' do
-  subject { get email_address_and_password_path }
+RSpec.describe 'OrganisationsController - GET #email_sent' do
+  subject { get email_sent_path }
 
   before do
     add_to_session(company_name: 'Company name')

@@ -19,8 +19,8 @@
       %fieldset.govuk-fieldset{'aria-describedby': 'create-account-hint'}
         %legend.govuk-visually-hidden Create account fields
 
-        = form_for('company', url: create_account_name_path, method: :post,
-            html: {autocomplete: 'off', novalidate: 'novalidate'}) do |f|
+        = form_for('organisations', url: create_account_name_path, method: :post,
+            html: { autocomplete: :on, novalidate: 'novalidate', spellcheck: false }) do |f|
 
           .govuk-form-group{class: ('govuk-form-group--error' if @error)}
             = f.label :company_name, 'Company name', class: 'govuk-label'
@@ -29,9 +29,8 @@
                 %span.govuk-visually-hidden Error:
                 = @error
             = f.text_field :company_name,
-                            class: 'govuk-input govuk-!-width-two-thirds',
-                            maxlength: 100,
-                            spellcheck: false,
-                            autocomplete: :on
+                            class: determinate_input_class(@error),
+                            value: params.dig(:organisations, :company_name),
+                            maxlength: 100
 
           = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

@@ -14,6 +14,7 @@ gem 'devise'
 gem 'haml'
 gem 'logstash-logger'
 gem 'puma'
+gem 'rubocop-rails'
 gem 'sass-rails'
 gem 'sdoc', require: false
 gem 'sqlite3'
@@ -38,8 +39,8 @@ end
 group :test do
   gem 'capybara'
   gem 'cucumber-rails', require: false
-  gem 'rails-controller-testing'
   gem 'rack_session_access'
+  gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   gem 'webdrivers'

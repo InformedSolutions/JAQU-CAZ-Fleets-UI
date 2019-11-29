@@ -28,4 +28,10 @@ module ApplicationHelper
   def transformed_errors(errors)
     errors.map { |error| error.second.map { |msg| [msg, error.first] } }.flatten(1)
   end
+
+  # Determinate input field class.
+  # If error is present add `govuk-input--error` error class to field class.
+  def determinate_input_class(field_error)
+    "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if field_error.present?}"
+  end
 end
