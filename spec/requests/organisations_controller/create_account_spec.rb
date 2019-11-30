@@ -3,21 +3,44 @@
 require 'rails_helper'
 
 RSpec.describe 'OrganisationsController - POST #create_account' do
-  subject do
-    post create_account_name_path, params:
-  {
-    company:
-      {
-        email: 'email@example.com',
-        email_confirmation: 'email@example.com',
-        password: '8NAOTpMkx2%9',
-        password_confirmation: '8NAOTpMkx2%9'
-      }
-  }
+  subject { post email_address_and_password_path, params: params }
+
+  let(:params) do
+    {
+      organisations:
+        {
+          email: email,
+          email_confirmation: email,
+          password: '8NAOTpMkx2%9',
+          password_confirmation: '8NAOTpMkx2%9'
+        }
+    }
   end
 
-  it 'returns an ok response' do
-    subject
-    expect(response).to have_http_status(:ok)
+  let(:email) { 'email@example.com' }
+
+  context 'with company name in the session' do
+    before do
+      add_to_session(company_name: 'Company name')
+      subject
+    end
+
+    context 'with valid params' do
+      it 'redirects to email sent page' do
+        expect(response).to redirect_to(email_sent_path)
+      end
+    end
+
+    context 'with invalid params' do
+      let(:email) { '' }
+
+      it 'renders account details view' do
+        expect(response).to render_template('organisations/new_email_and_password')
+      end
+    end
+  end
+
+  context 'without company name in session' do
+    it_behaves_like 'company name is missing'
   end
 end

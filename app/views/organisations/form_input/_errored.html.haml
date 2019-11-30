@@ -5,10 +5,8 @@
       %span.govuk-visually-hidden Error:
       = errors[:email].join(', ')
   = form.text_field :email,
-                    class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if errors[:email].present?}",
-                    value: params.dig(:email_and_password_form, :email),
-                    spellcheck: false,
-                    autocomplete: :on,
+                    class: determinate_input_class(errors[:email]),
+                    value: params.dig(:organisations, :email),
                     maxlength: 45
 
 .govuk-form-group{class: ('govuk-form-group--error' if errors[:email_confirmation].present?)}
@@ -18,10 +16,8 @@
       %span.govuk-visually-hidden Error:
       = errors[:email_confirmation].join(', ')
   = form.text_field :email_confirmation,
-                    class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if errors[:email_confirmation].present?}",
-                    value: params.dig(:email_and_password_form, :email_confirmation),
-                    spellcheck: false,
-                    autocomplete: :on,
+                    class: determinate_input_class(errors[:email_confirmation]),
+                    value: params.dig(:organisations, :email_confirmation),
                     maxlength: 45
 
 .govuk-form-group{class: ('govuk-form-group--error' if errors[:password].present?)}
@@ -31,8 +27,7 @@
       %span.govuk-visually-hidden Error:
       = errors[:password].join(', ')
   = form.password_field :password,
-                         class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if errors[:password].present?}",
-                         value: params.dig(:email_and_password_form, :password),
+                         class: determinate_input_class(errors[:password]),
                          maxlength: 45
 
 .govuk-form-group{class: ('govuk-form-group--error' if errors[:password_confirmation].present?)}
@@ -42,6 +37,5 @@
       %span.govuk-visually-hidden Error:
       = errors[:password_confirmation].join(', ')
   = form.password_field :password_confirmation,
-                         class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if errors[:password_confirmation].present?}",
-                         value: params.dig(:email_and_password_form, :password_confirmation),
+                         class: determinate_input_class(errors[:password_confirmation]),
                          maxlength: 45

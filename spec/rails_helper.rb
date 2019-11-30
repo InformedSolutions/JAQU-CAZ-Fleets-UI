@@ -13,8 +13,10 @@ require 'rspec/rails'
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
+  # add helpers to rspec classes
   config.include RequestSpecHelper, type: :request
   config.include StringCountHelper, type: :request
+  config.include AddToSession, type: :request
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
