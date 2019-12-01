@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'welcome/index'
-  root 'welcome#index'
-
   devise_for :users
+
+  authenticated(:user) { root 'dashboard#index', as: :authenticated_root }
+  devise_scope(:user) { root to: 'devise/sessions#new' }
 
   resources :passwords, only: %i[new create]
 
@@ -23,6 +23,13 @@ Rails.application.routes.draw do
     get 'user-added', to: 'users#show'
     post 'another-user', to: 'users#another_user'
 
-    get 'organisation-dashboard', to: 'dashboard#index'
+    get 'dashboard', to: 'dashboard#index'
+    get 'manage-users', to: 'users#manage'
+  end
+
+  scope '/fleets/single-user', only: %i[] do
+    get 'csv-upload', to: 'users#upload'
+    get 'first-upload', to: 'users#payment'
+    get 'select-direct-debit', to: 'users#caz_selection'
   end
 end

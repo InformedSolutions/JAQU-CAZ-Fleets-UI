@@ -42,6 +42,7 @@ group :test do
   gem 'rack_session_access'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
+  gem 'show_me_the_cookies'
   gem 'simplecov', require: false
   gem 'webdrivers'
 end

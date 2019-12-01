@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe WelcomeController, type: :request do
+RSpec.describe DashboardController, type: :request do
   describe 'GET #index' do
-    subject(:http_request) { get welcome_index_path }
+    subject(:http_request) { get dashboard_path }
 
     it 'returns redirect to the login page' do
       http_request

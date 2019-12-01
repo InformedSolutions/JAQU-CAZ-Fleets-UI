@@ -9,4 +9,4 @@
                     autofocus: true,
                     autocomplete: 'email',
                     maxlength: 45,
-                    class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if email_alert.present?}"
+                    class:determinate_input_class(email_alert)

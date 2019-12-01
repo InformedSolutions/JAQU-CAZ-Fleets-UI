@@ -3,7 +3,9 @@
 class PasswordsController < ApplicationController
   skip_before_action :authenticate_user!
 
-  def new; end
+  def new
+    # renders static page
+  end
 
   def create
     # Storing the password?
