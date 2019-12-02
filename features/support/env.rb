@@ -7,6 +7,8 @@
 # files.
 
 require 'cucumber/rails'
+# add rspec helpers
+require 'cucumber/rspec/doubles'
 # add 'show_me_the_cookies' gem helpers to manipulate cookies.
 World(ShowMeTheCookies)
 

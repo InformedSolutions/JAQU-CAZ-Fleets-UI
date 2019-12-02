@@ -9,14 +9,8 @@ Then('I should enter valid credentials and press the Continue') do
 end
 
 Then('I should enter fleet admin credentials and press the Continue') do
-  sign_in_user(password: 'admin_password')
-end
-
-def sign_in_user(password: 'password')
-  visit new_user_session_path
-  fill_in('user_email', with: 'user@example.com')
-  fill_in('user_password', with: password)
-  click_button 'Continue'
+  allow(AccountsApi).to receive(:sign_in).and_return(login_admin)
+  fill_sign_in_form
 end
 
 When('I have no authentication cookie') do
@@ -81,5 +75,17 @@ When('I enter invalid email format') do
   fill_in('user_email', with: 'user.example.com')
   fill_in('user_password', with: '12345678')
 
+  click_button 'Continue'
+end
+
+def sign_in_user
+  allow(AccountsApi).to receive(:sign_in).and_return(login_user)
+  fill_sign_in_form
+end
+
+def fill_sign_in_form
+  visit new_user_session_path
+  fill_in('user_email', with: 'user@example.com')
+  fill_in('user_password', with: 'password')
   click_button 'Continue'
 end

@@ -1,9 +1,9 @@
 Feature: Dashboard
   In order to read the page
-  As a viewer
+  As a user
   I want to see the dashboard page
 
-  Scenario: View dashboard page as a admin
+  Scenario: View dashboard page as a user
     Given I am on the root page
       And I should see "Sign in"
     Then I should enter valid credentials and press the Continue
