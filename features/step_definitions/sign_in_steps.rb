@@ -5,12 +5,11 @@ Given('I am on the Sign in page') do
 end
 
 Then('I should enter valid credentials and press the Continue') do
-  sign_in_user
+  login_user
 end
 
 Then('I should enter fleet admin credentials and press the Continue') do
-  allow(AccountsApi).to receive(:sign_in).and_return(login_admin)
-  fill_sign_in_form
+  login_admin
 end
 
 When('I have no authentication cookie') do
@@ -25,7 +24,7 @@ end
 
 When('I have authentication cookie that has not expired') do
   visit new_user_session_path
-  sign_in_user
+  login_user
 
   cookie = get_me_the_cookie('_caz-fleets_session')
   expect(cookie).to_not be_nil
@@ -55,7 +54,7 @@ Given('I have authentication cookie that has expired') do
   Rails.configuration.x.session_timeout = 15
 
   travel_to(20.minutes.ago) do
-    sign_in_user
+    login_user
   end
 
   cookie = get_me_the_cookie('_caz-fleets_session')
@@ -64,7 +63,7 @@ Given('I have authentication cookie that has expired') do
 end
 
 Given('I am signed in') do
-  sign_in_user
+  login_user
 end
 
 When('I request to sign out') do
@@ -75,17 +74,5 @@ When('I enter invalid email format') do
   fill_in('user_email', with: 'user.example.com')
   fill_in('user_password', with: '12345678')
 
-  click_button 'Continue'
-end
-
-def sign_in_user
-  allow(AccountsApi).to receive(:sign_in).and_return(login_user)
-  fill_sign_in_form
-end
-
-def fill_sign_in_form
-  visit new_user_session_path
-  fill_in('user_email', with: 'user@example.com')
-  fill_in('user_password', with: 'password')
   click_button 'Continue'
 end
