@@ -17,6 +17,10 @@ RSpec.configure do |config|
   config.include RequestSpecHelper, type: :request
   config.include StringCountHelper, type: :request
   config.include AddToSession, type: :request
+  config.include StrongParams
+  config.include UserFactory
+  config.include ActiveSupport::Testing::TimeHelpers
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
 

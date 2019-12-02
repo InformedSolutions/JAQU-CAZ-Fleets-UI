@@ -7,11 +7,13 @@ ruby '2.6.5'
 
 gem 'rails', '~> 6.0.1'
 
+gem 'aws-sdk-sqs'
 gem 'bootsnap', require: false
 gem 'brakeman'
 gem 'bundler-audit'
 gem 'devise'
 gem 'haml'
+gem 'httparty'
 gem 'logstash-logger'
 gem 'puma'
 gem 'rubocop-rails'
@@ -45,6 +47,7 @@ group :test do
   gem 'show_me_the_cookies'
   gem 'simplecov', require: false
   gem 'webdrivers'
+  gem 'webmock'
 end
 
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

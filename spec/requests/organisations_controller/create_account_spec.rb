@@ -5,36 +5,51 @@ require 'rails_helper'
 RSpec.describe 'OrganisationsController - POST #create_account' do
   subject { post email_address_and_password_path, params: params }
 
-  let(:params) do
+  let(:params) { { organisations: organization_params } }
+  let(:organization_params) do
     {
-      organisations:
-        {
-          email: email,
-          email_confirmation: email,
-          password: '8NAOTpMkx2%9',
-          password_confirmation: '8NAOTpMkx2%9'
-        }
+      email: email,
+      email_confirmation: email,
+      password: password,
+      password_confirmation: password
     }
   end
-
+  let(:user) { User.new(email: email, sub: SecureRandom.uuid) }
   let(:email) { 'email@example.com' }
+  let(:company_name) { 'Company name' }
+  let(:password) { '8NAOTpMkx2%9' }
 
   context 'with company name in the session' do
     before do
-      add_to_session(company_name: 'Company name')
-      subject
+      allow(CreateAccount).to receive(:call).and_return(user)
+      add_to_session(company_name: company_name)
     end
 
     context 'with valid params' do
       it 'redirects to email sent page' do
+        subject
         expect(response).to redirect_to(email_sent_path)
+      end
+
+      it 'calls CreateAccountService with proper params' do
+        expect(CreateAccount)
+          .to receive(:call)
+          .with(
+            organisations_params: strong_params(organization_params),
+            company_name: company_name,
+            host: root_url
+          )
+        subject
       end
     end
 
     context 'with invalid params' do
-      let(:email) { '' }
+      before do
+        allow(CreateAccount).to receive(:call).and_raise(NewPasswordException.new({}))
+      end
 
       it 'renders account details view' do
+        subject
         expect(response).to render_template('organisations/new_email_and_password')
       end
     end

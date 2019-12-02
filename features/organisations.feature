@@ -13,6 +13,7 @@ Feature: Organisations
       And I enter the account details
       And I press the Continue
     Then I should see "Verification email"
+      And I should receive verification email
 
   Scenario: View email verified page
     Given I am on the root page

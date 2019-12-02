@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Checks if no external calls are being performed during tests
+require 'webmock/rspec'
 require 'simplecov'
 SimpleCov.start
 

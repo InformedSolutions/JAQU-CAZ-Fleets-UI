@@ -15,8 +15,8 @@ class User
   # Takes care of verifying whether a user session has already expired or not.
   devise :timeoutable
 
-  # Attribute that is being used to authorize a user and use it in csv uploading.
-  attr_accessor :email, :password, :password_confirmation, :admin, :sub
+  # User attributes
+  attr_accessor :email, :admin, :user_id, :account_id, :account_name
 
   # Overrides default initializer for compliance with Devise Gem.
   #
@@ -43,7 +43,9 @@ class User
     {
       email: email,
       admin: admin,
-      sub: sub
+      user_id: user_id,
+      account_id: account_id,
+      account_name: account_name
     }
   end
 end

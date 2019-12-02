@@ -2,20 +2,30 @@
 
 module SignInHelper
   def login_user
-    user = User.new(email: 'email@example.com', sub: SecureRandom.uuid)
+    user = new_user
     allow(AccountsApi).to receive(:sign_in).and_return(user)
 
     fill_sign_in_form
   end
 
   def login_admin
-    admin = User.new(email: 'email_admin@example.com', sub: SecureRandom.uuid, admin: true)
+    admin = new_user(admin: true)
     allow(AccountsApi).to receive(:sign_in).and_return(admin)
 
     fill_sign_in_form
   end
 
   private
+
+  def new_user(options = {})
+    User.new(
+      email: options[:email] || 'test@exaple.com',
+      admin: options[:admin] || false,
+      user_id: options[:user_id] || SecureRandom.uuid,
+      account_id: options[:account_id] || SecureRandom.uuid,
+      account_name: options[:account_name] || 'Royal Mail'
+    )
+  end
 
   def fill_sign_in_form
     visit new_user_session_path

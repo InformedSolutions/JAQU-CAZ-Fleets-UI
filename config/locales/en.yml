@@ -20,3 +20,5 @@ en:
   email:
     errors:
       email_equality: '[TBA] Email address and email address confirmation must be the same'
+  verification_email:
+    error: 'There was an error while sending Verification Email to SQS'
