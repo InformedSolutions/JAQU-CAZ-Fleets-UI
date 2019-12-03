@@ -8,7 +8,7 @@
       - if @error
         = render 'common/error_summary',
           error_msg_div: '#govuk-error-company_name',
-          error_msg: 'Enter the company name'
+          error_msg: '[TBA] Enter the company name'
 
       %h1.govuk-heading-l Create account
       = render 'common/draft_tag'
@@ -27,7 +27,7 @@
             %span#govuk-error-company_name.govuk-error-message
               - if @error
                 %span.govuk-visually-hidden Error:
-                = @error
+                = "[TBA] #{@error}"
             = f.text_field :company_name,
                             class: determinate_input_class(@error),
                             value: params.dig(:organisations, :company_name),
