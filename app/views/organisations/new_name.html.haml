@@ -8,7 +8,7 @@
       - if @error
         = render 'common/error_summary',
           error_msg_div: '#govuk-error-company_name',
-          error_msg: '[TBA] Enter the company name'
+          error_msg: I18n.t('company_name.errors.summary')
 
       %h1.govuk-heading-l Create account
       = render 'common/draft_tag'
