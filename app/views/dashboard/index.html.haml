@@ -5,40 +5,18 @@
 
       = render 'common/draft_tag'
       %p
-
       %p On this page you can upload your vehicles, add and remove users, make a payment and view the payments you’ve already made.
-  .govuk-grid-row
-
-    %article.dashboard-total-group.govuk-grid-column-one-third
-      %p.govuk-body{class: 'govuk-!-font-size-16 govuk-!-margin-top-9'}
-        %strong
-          = link_to('Manage users', manage_users_path, id: 'manage-users')
-      %p.govuk-body Add and remove users who can manage your vehicles and payments.
-
-    %article.dashboard-total-group.govuk-grid-column-one-third
-      %p.govuk-body{class: 'govuk-!-font-size-16 govuk-!-margin-top-9'}
-        %strong
-          = link_to('Payment history', "#", id: 'payment-history')
-      %p.govuk-body View the Clean Air Zone payments made within your company.
-
-    - if current_user.admin
-      %article.dashboard-total-group.govuk-grid-column-one-third
-        %p.govuk-body{class: 'govuk-!-font-size-16 govuk-!-margin-top-9'}
-          %strong
-            = link_to('Upload your fleet', csv_upload_path, id: 'upload')
-        %p.govuk-body Add, edit and remove vehicles.
 
   - if current_user.admin
     .govuk-grid-row
-      %article.dashboard-total-group.govuk-grid-column-one-third
-        %p.govuk-body{class: 'govuk-!-font-size-16 govuk-!-margin-top-9'}
-          %strong
-            = link_to('Make a payment', first_upload_path, id: 'payment')
-        %p.govuk-body Pay CAZ charges for your fleet
-
-      %article.dashboard-total-group.govuk-grid-column-one-third
-        %p.govuk-body{class: 'govuk-!-font-size-16 govuk-!-margin-top-9'}
-          %strong
-            = link_to('Create a direct debit mandate', select_direct_debit_path, id: 'direct-debit')
-        %p.govuk-body
-          Create a direct debit mandate to allow BACS payments
+      = render 'manage_users'
+      = render 'payment_history'
+      = render 'upload'
+    .govuk-grid-row
+      = render 'make_payment'
+      = render 'select_direct_debit'
+  - else
+    .govuk-grid-row
+      = render 'upload'
+      = render 'make_payment'
+      = render 'select_direct_debit'

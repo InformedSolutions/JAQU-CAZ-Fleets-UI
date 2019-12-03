@@ -1,8 +1,8 @@
 en:
   form:
     errors:
-      missing: 'is required [TBA]'
-      maximum_length: 'is too long (maximum is %{length} characters) [TBA]'
+      missing: 'is required'
+      maximum_length: 'is too long (maximum is %{length} characters)'
   login_form:
      email_missing: '[TBA] Enter your email address'
      password_missing: '[TBA] Enter your password'
@@ -22,3 +22,6 @@ en:
       email_equality: '[TBA] Email address and email address confirmation must be the same'
   verification_email:
     error: 'There was an error while sending Verification Email to SQS'
+  company_name:
+    errors:
+      summary: '[TBA] Enter the company name'
