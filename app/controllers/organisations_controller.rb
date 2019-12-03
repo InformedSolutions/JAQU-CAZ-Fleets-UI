@@ -65,9 +65,10 @@ class OrganisationsController < ApplicationController
   # * +company_name+ - string, account name e.g. 'Company name'
   #
   def create_account
-    CreateAccountService.call(
+    CreateAccount.call(
       organisations_params: organisations_params,
-      company_name: session[:company_name]
+      company_name: session[:company_name],
+      host: root_url
     )
     redirect_to email_sent_path
   rescue NewPasswordException => e

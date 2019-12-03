@@ -3,6 +3,7 @@ FROM ruby:2.6.5-alpine3.10
 # Set correct environment variables.
 ARG secret_key_base
 ENV SECRET_KEY_BASE=$secret_key_base
+ENV ENCRYPTION_SERVICE_SALT=aaaaaa
 
 RUN apk add --no-cache --update build-base \
   linux-headers \

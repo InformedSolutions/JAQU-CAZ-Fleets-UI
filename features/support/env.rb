@@ -7,8 +7,10 @@
 # files.
 
 require 'cucumber/rails'
-# add rspec helpers
+# Allows mocking like in RSpec
 require 'cucumber/rspec/doubles'
+# Checks if all API calls are stubbed
+require 'webmock/cucumber'
 # add 'show_me_the_cookies' gem helpers to manipulate cookies.
 World(ShowMeTheCookies)
 
