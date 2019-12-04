@@ -10,7 +10,7 @@ class OrganisationsController < ApplicationController
   #
   # ==== Path
   #
-  #    GET /fleets/organisation-account/create-account-name
+  #    :GET /fleets/organisation-account/create-account-name
   #
   def new_name
     # Renders static page
@@ -45,7 +45,7 @@ class OrganisationsController < ApplicationController
   #
   # ==== Path
   #
-  #    GET /fleets/organisation-account/email-address-and-password
+  #    :GET /fleets/organisation-account/email-address-and-password
   #
   def new_email_and_password
     # Renders static page
@@ -81,7 +81,7 @@ class OrganisationsController < ApplicationController
   #
   # ==== Path
   #
-  #    GET /fleets/organisation-account/email-sent
+  #    :GET /fleets/organisation-account/email-sent
   #
   def email_sent
     # Renders static page
@@ -92,7 +92,7 @@ class OrganisationsController < ApplicationController
   #
   # ==== Path
   #
-  #    GET /fleets/organisation-account/email-verified
+  #    :GET /fleets/organisation-account/email-verified
   #
   def email_verified
     # TODO: Verify if user is activated.
