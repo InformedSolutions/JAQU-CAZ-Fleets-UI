@@ -20,16 +20,18 @@ Rails.application.routes.draw do
 
     get 'add-users', to: 'users#new'
     post 'add-users', to: 'users#create'
-    get 'user-added', to: 'users#show'
+    get 'delete-user', to: 'users#delete'
     post 'another-user', to: 'users#another_user'
 
     get 'dashboard', to: 'dashboard#index'
     get 'manage-users', to: 'users#manage'
+    post 'manage-users', to: 'users#confirm_manage'
   end
 
   scope '/fleets/single-user', only: %i[] do
     get 'csv-upload', to: 'users#upload'
     get 'first-upload', to: 'users#payment'
     get 'select-direct-debit', to: 'users#caz_selection'
+    get 'email-invite', to: 'users#email_invite'
   end
 end

@@ -11,7 +11,7 @@ module ApplicationHelper
 
   # Remove duplicated error messages, e.g. `Password and password confirmation must be the same`
   def remove_duplicated_messages(errors)
-    transformed_errors(errors).uniq(&:first)
+    transform_errors(errors).uniq(&:first)
   end
 
   # Transform hash of errors:
@@ -25,7 +25,7 @@ module ApplicationHelper
   #   ["Password and password confirmation must be the same",:password_confirmation]
   # ]
   #
-  def transformed_errors(errors)
+  def transform_errors(errors)
     errors.map { |error| error.second.map { |msg| [msg, error.first] } }.flatten(1)
   end
 

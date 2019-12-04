@@ -1,30 +1,43 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  ##
+  # Renders add users page.
+  #
+  # ==== Path
+  #
+  #    GET /fleets/organisation-account/add-users
+  #
   def new
     # renders static page
   end
 
+  ##
+  # Validates submitted name and email_address.
+  # If successful, redirects to {manage}[rdoc-ref:UsersController.manage]
+  # If no, renders to {new} [rdoc-ref:UsersController.new]
+  #
+  # ==== Path
+  #
+  #    POST /fleets/organisation-account/add-users
+  #
   def create
-    redirect_to user_added_path
+    form = NewUserForm.new(users_params)
+    if form.valid?
+      # TO DO: Send email invite
+      redirect_to manage_users_path
+    else
+      @errors = form.errors.messages
+      render :new
+    end
   end
 
-  def show
-    # renders static page
-  end
-
-  def update
+  def delete
     # renders static page
   end
 
   def destroy
     # renders static page
-  end
-
-  def another_user
-    return redirect_to add_users_path if params['add-user'] == 'yes'
-
-    redirect_to account_set_up_path
   end
 
   ##
@@ -35,7 +48,29 @@ class UsersController < ApplicationController
   #    GET /fleets/organisation-account/manage-users
   #
   def manage
-    # renders static page
+    @users = [
+      { name: 'First Fake User', email: 'example@email.com' },
+      { name: 'Second Fake User', email: 'example2@email.com' }
+    ]
+  end
+
+  ##
+  # Verifies if user confirms to create a new fleet administrator
+  # If yes, redirects to {adding a new user page}[rdoc-ref:UsersController.new]
+  # If no, redirects to {dashboard page}[rdoc-ref:DashboardController.index]
+  # If form was not confirmed, redirects to {manage}[rdoc-ref:UsersController.manage]
+  #
+  # ==== Path
+  #
+  #    POST /fleets/organisation-account/manage-users
+  #
+  def confirm_manage
+    form = ConfirmationForm.new(confirmation)
+    unless form.valid?
+      return redirect_to manage_users_path, alert: form.errors.messages[:confirmation].first
+    end
+
+    redirect_to form.confirmed? ? add_users_path : dashboard_path
   end
 
   ##
@@ -69,5 +104,17 @@ class UsersController < ApplicationController
   #
   def caz_selection
     # renders static page
+  end
+
+  private
+
+  # Returns user's form confirmation from the query params, values: 'yes', 'no', nil
+  def confirmation
+    params['confirm-admin-creation']
+  end
+
+  # Returns the list of permitted user params
+  def users_params
+    params.require(:users).permit(:name, :email_address)
   end
 end

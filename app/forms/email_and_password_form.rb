@@ -8,25 +8,25 @@ class EmailAndPasswordForm < BaseForm
 
   # validates attributes to presence
   validates :email, :email_confirmation, :password, :password_confirmation,
-            presence: { message: I18n.t('email_and_password_form.errors.missing') }
+            presence: { message: I18n.t('input_form.errors.missing') }
 
   # validates max length
   validates :email, :email_confirmation, :password, :password_confirmation,
             length: {
               maximum: 45,
-              message: I18n.t('email_and_password_form.errors.maximum_length')
+              message: I18n.t('input_form.errors.maximum_length')
             }
 
   # validates email format
   validates :email, :email_confirmation, format: {
-    with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/,
-    message: I18n.t('email_and_password_form.errors.invalid_format')
+    with: EMAIL_FORMAT,
+    message: I18n.t('input_form.errors.invalid_format')
   }
 
   # validates password and password_confirmation complexity
   validates :password, :password_confirmation, format: {
     with: /\A(?=.*?[A-Z])(?=.*?[a-z])(?=(.*[\W])+)(?!.*\s).{8,45}\z/,
-    message: I18n.t('email_and_password_form.errors.password_complexity')
+    message: I18n.t('input_form.errors.password_complexity')
   }
 
   # validates +password+ and +password_confirmation+
