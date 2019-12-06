@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 module UserFactory
-  def new_user(options = {})
+  def create_admin(options = {})
+    create_user(options.merge(admin: true))
+  end
+
+  def create_user(options = {})
     User.new(
       email: options[:email] || 'test@exaple.com',
       admin: options[:admin] || false,

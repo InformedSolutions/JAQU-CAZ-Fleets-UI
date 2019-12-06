@@ -30,7 +30,7 @@ RSpec.describe EmailAndPasswordForm, type: :model do
       it 'has a proper error message' do
         form.valid?
         expect(form.errors.messages[:email]).to include(
-          I18n.t('email_and_password_form.errors.missing', attribute: 'Email')
+          I18n.t('input_form.errors.missing', attribute: 'Email')
         )
       end
     end
@@ -43,7 +43,7 @@ RSpec.describe EmailAndPasswordForm, type: :model do
       it 'has a proper error message' do
         form.valid?
         expect(form.errors.messages[:email]).to include(
-          I18n.t('email_and_password_form.errors.invalid_format', attribute: 'Email')
+          I18n.t('input_form.errors.invalid_format', attribute: 'Email')
         )
       end
     end
@@ -56,7 +56,7 @@ RSpec.describe EmailAndPasswordForm, type: :model do
       it 'has a proper error message' do
         form.valid?
         expect(form.errors.messages[:email]).to include(
-          I18n.t('email_and_password_form.errors.maximum_length', attribute: 'Email')
+          I18n.t('input_form.errors.maximum_length', attribute: 'Email')
         )
       end
     end
@@ -84,7 +84,7 @@ RSpec.describe EmailAndPasswordForm, type: :model do
       it 'has a proper error message' do
         form.valid?
         expect(form.errors.messages[:password]).to include(
-          I18n.t('email_and_password_form.errors.missing', attribute: 'Password')
+          I18n.t('input_form.errors.missing', attribute: 'Password')
         )
       end
     end
@@ -97,7 +97,7 @@ RSpec.describe EmailAndPasswordForm, type: :model do
       it 'has a proper error message' do
         form.valid?
         expect(form.errors.messages[:password]).to include(
-          I18n.t('email_and_password_form.errors.password_complexity', attribute: 'Password')
+          I18n.t('input_form.errors.password_complexity', attribute: 'Password')
         )
       end
     end
@@ -110,7 +110,7 @@ RSpec.describe EmailAndPasswordForm, type: :model do
       it 'has a proper error message' do
         form.valid?
         expect(form.errors.messages[:password]).to include(
-          I18n.t('email_and_password_form.errors.maximum_length', attribute: 'Password')
+          I18n.t('input_form.errors.maximum_length', attribute: 'Password')
         )
       end
     end

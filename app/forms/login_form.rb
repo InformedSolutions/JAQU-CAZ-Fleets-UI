@@ -13,7 +13,7 @@ class LoginForm
   validates :email, presence: { message: I18n.t('login_form.email_missing') }
   validates :password, presence: { message: I18n.t('login_form.password_missing') }
   validates :email, format: {
-    with: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/,
+    with: BaseForm::EMAIL_FORMAT,
     message: I18n.t('login_form.invalid_email')
   }
 

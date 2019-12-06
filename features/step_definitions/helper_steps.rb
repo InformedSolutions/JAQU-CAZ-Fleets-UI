@@ -43,3 +43,11 @@ end
 Given('I am on the root page') do
   visit '/'
 end
+
+When('I am on Dashboard page') do
+  login_admin
+end
+
+Then('I choose {string}') do |string|
+  choose(string)
+end

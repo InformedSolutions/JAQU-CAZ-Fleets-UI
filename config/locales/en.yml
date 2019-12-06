@@ -8,7 +8,7 @@ en:
      password_missing: '[TBA] Enter your password'
      invalid_email: '[TBA] Enter your email address in a valid format'
      incorrect: '[TBA] The email or password you entered is incorrect'
-  email_and_password_form:
+  input_form:
     errors:
       missing: '[TBA] %{attribute} is required'
       invalid_format: '[TBA] %{attribute} is in an invalid format'
@@ -25,3 +25,5 @@ en:
   company_name:
     errors:
       summary: '[TBA] Enter the company name'
+  confirmation_form:
+    answer_missing: '[TBA] You must choose an answer'

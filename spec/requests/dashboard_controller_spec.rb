@@ -12,7 +12,7 @@ RSpec.describe DashboardController, type: :request do
     end
 
     context 'when user is signed in' do
-      before { sign_in new_user }
+      before { sign_in create_user }
 
       it 'returns http success' do
         http_request

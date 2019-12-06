@@ -7,7 +7,7 @@
     .govuk-grid-column-two-thirds
       - if @error
         = render 'common/error_summary',
-          error_msg_div: '#govuk-error-company_name',
+          error_msg_div: '#company_name-error',
           error_msg: I18n.t('company_name.errors.summary')
 
       %h1.govuk-heading-l Create account
@@ -24,8 +24,8 @@
 
           .govuk-form-group{class: ('govuk-form-group--error' if @error)}
             = f.label :company_name, 'Company name', class: 'govuk-label'
-            %span#govuk-error-company_name.govuk-error-message
-              - if @error
+            - if @error
+              %span#company_name-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
                 = "[TBA] #{@error}"
             = f.text_field :company_name,

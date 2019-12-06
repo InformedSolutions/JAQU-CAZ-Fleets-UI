@@ -15,7 +15,7 @@ describe CreateAccount do
       password_confirmation: password
     )
   end
-  let(:user) { new_user(email: email, account_name: company_name) }
+  let(:user) { create_user(email: email, account_name: company_name) }
   let(:email) { 'email@example.com' }
   let(:password) { '8NAOTpMkx2%9' }
   let(:company_name) { 'Mikusek Software' }
