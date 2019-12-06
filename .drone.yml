@@ -131,6 +131,7 @@ steps:
         from_secret: aws_access_key_id
       TF_VAR_secret_key:
         from_secret: aws_secret_access_key
+      TF_VAR_feedback_url: http://www.google.com
       TF_VAR_enable_https_redirect: false
     when:
       event:
