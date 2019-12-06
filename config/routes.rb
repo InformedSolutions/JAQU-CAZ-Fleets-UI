@@ -6,7 +6,12 @@ Rails.application.routes.draw do
   authenticated(:user) { root 'dashboard#index', as: :authenticated_root }
   devise_scope(:user) { root to: 'devise/sessions#new' }
 
-  resources :passwords, only: %i[new create]
+  resources :passwords, only: %i[] do
+    collection do
+      get :reset
+      post :reset, to: 'passwords#validate'
+    end
+  end
 
   scope '/fleets/organisation-account', only: %i[] do
     get 'create-account-name', to: 'organisations#new_name'

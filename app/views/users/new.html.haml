@@ -5,20 +5,7 @@
     .govuk-grid-column-two-thirds
 
       - if @errors.present?
-        .govuk-error-summary{'aria-labelledby': 'error-summary-title',
-                             'data-module': 'govuk-error-summary',
-                             role: 'alert',
-                             tabindex: '-1'}
-          %h2#error-summary-title.govuk-error-summary__title
-            There is a problem
-          .govuk-error-summary__body
-            %ul.govuk-list.govuk-error-summary__list
-              %li
-                - transform_errors(@errors).each_with_index do |error, index|
-                  %li.custom-csv-error
-                    = link_to(error.first,
-                              "##{error.second}-error",
-                              id: "#{error.second}-#{index}")
+        = render 'common/errors_summary', errors: @errors
 
       = form_for('users', url: add_users_path, method: :post,
         html: { autocomplete: :on, novalidate: true, spellcheck: false }) do |f|

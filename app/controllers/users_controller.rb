@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   #
   # ==== Path
   #
-  #    GET /fleets/organisation-account/add-users
+  #    :GET /fleets/organisation-account/add-users
   #
   def new
     # renders static page
@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   ##
   # Validates submitted name and email_address.
   # If successful, redirects to {manage}[rdoc-ref:UsersController.manage]
-  # If no, renders to {new} [rdoc-ref:UsersController.new]
+  # If no, renders {new} [rdoc-ref:UsersController.new]
   #
   # ==== Path
   #
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
   #
   # ==== Path
   #
-  #    GET /fleets/organisation-account/manage-users
+  #    :GET /fleets/organisation-account/manage-users
   #
   def manage
     @users = [
@@ -80,7 +80,7 @@ class UsersController < ApplicationController
   #
   # ==== Path
   #
-  #    GET /fleets/single-user/csv-upload
+  #    :GET /fleets/single-user/csv-upload
   #
   def upload
     # renders static page
@@ -91,7 +91,7 @@ class UsersController < ApplicationController
   #
   # ==== Path
   #
-  #    GET /fleets/single-user/first-upload
+  #    :GET /fleets/single-user/first-upload
   #
   def payment
     # renders static page
@@ -102,7 +102,7 @@ class UsersController < ApplicationController
   #
   # ==== Path
   #
-  #    GET /fleets/single-user/select-direct-debit
+  #    :GET /fleets/single-user/select-direct-debit
   #
   def caz_selection
     # renders static page
