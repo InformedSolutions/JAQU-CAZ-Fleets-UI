@@ -6,7 +6,7 @@ RSpec.describe 'UsersController - GET #new' do
   subject { get add_users_path }
 
   before do
-    sign_in new_user
+    sign_in create_admin
     subject
   end
 

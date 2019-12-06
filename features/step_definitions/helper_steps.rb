@@ -45,7 +45,7 @@ Given('I am on the root page') do
 end
 
 When('I am on Dashboard page') do
-  login_user
+  login_admin
 end
 
 Then('I choose {string}') do |string|

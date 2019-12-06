@@ -1,6 +1,6 @@
 Feature: Users
   In order to read the page
-  As a user
+  As an administrator
   I want to manage user accounts
 
   Scenario: View Manage users page

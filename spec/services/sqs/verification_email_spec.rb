@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe Sqs::VerificationEmail do
-  let(:user) { new_user(user_id: user_id, account_id: account_id, email: email) }
+  let(:user) { create_user(user_id: user_id, account_id: account_id, email: email) }
   let(:user_id) { SecureRandom.uuid }
   let(:account_id) { SecureRandom.uuid }
   let(:email) { 'test@example.com' }

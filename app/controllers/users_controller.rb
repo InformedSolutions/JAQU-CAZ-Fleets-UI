@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  # Verifies if current user is admin
+  before_action :verify_admin
   ##
   # Renders add users page.
   #

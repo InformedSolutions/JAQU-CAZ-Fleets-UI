@@ -10,7 +10,7 @@ RSpec.describe 'UsersController - GET #confirm_manage' do
   let(:confirmation) { 'yes' }
 
   before do
-    sign_in new_user
+    sign_in create_admin
     http_request
   end
 

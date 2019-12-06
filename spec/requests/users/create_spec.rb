@@ -18,7 +18,7 @@ RSpec.describe 'UsersController - POST #create' do
   let(:email_address) { 'example@email.com' }
 
   before do
-    sign_in new_user
+    sign_in create_admin
     http_request
   end
 
