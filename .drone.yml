@@ -33,14 +33,14 @@ steps:
   - name: build
     image: docker
     commands:
-    - docker build -f Dockerfile.test -t test-payments-frontend:latest --build-arg secret_key_base=${DRONE_COMMIT} .
+    - docker build -f Dockerfile.test -t test-fleet-frontend:latest --build-arg secret_key_base=${DRONE_COMMIT} .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
 
   # Trigger unit tests
   - name: unit tests
-    image: test-payments-frontend
+    image: test-fleet-frontend
     pull: never
     environment:
       COMPLIANCE_CHECKER_API_URL: http://localhost
