@@ -88,6 +88,28 @@ class OrganisationsController < ApplicationController
   end
 
   ##
+  # Checks the verification token.
+  # If the token is valid it calls backend to mark the email address as verified
+  # and redirects to :email_verified
+  # If verification fails it redirects to :verification_failed
+  #
+  # ==== Path
+  #
+  #    :GET /fleets/organisation-account/email-verification
+  #
+  # ==== Params
+  # * +token+ - string, encrypted token with verification data
+  #
+  def email_verification
+    path = if VerifyAccount.call(token: params[:token])
+             email_verified_path
+           else
+             verification_failed_path
+           end
+    redirect_to path
+  end
+
+  ##
   # Renders the email verified page.
   #
   # ==== Path
@@ -95,8 +117,18 @@ class OrganisationsController < ApplicationController
   #    :GET /fleets/organisation-account/email-verified
   #
   def email_verified
-    # TODO: Verify if user is activated.
     @user = User.new
+  end
+
+  ##
+  # Renders the error page if verification fails.
+  #
+  # ==== Path
+  #
+  #    :GET /fleets/organisation-account/verification-failed
+  #
+  def verification_failed
+    # Renders static page
   end
 
   private

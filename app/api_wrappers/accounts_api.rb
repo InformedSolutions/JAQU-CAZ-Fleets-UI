@@ -21,5 +21,9 @@ class AccountsApi
         admin: true
       )
     end
+
+    def verify_user(_account_id:, _user_id:)
+      true
+    end
   end
 end
