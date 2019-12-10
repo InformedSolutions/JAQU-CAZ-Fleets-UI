@@ -3,8 +3,9 @@
 class OrganisationsController < ApplicationController
   skip_before_action :authenticate_user!
   # checks if company name is present in session
-  before_action :check_company_name, only: %i[new_email_and_password create_account
-                                              create_account_name email_sent]
+  before_action :check_company_name, only: %i[new_email_and_password create_account]
+  # checks if new account details is present in session
+  before_action :check_account_details, only: %i[email_sent resend_email]
   ##
   # Renders the create account name page.
   #
@@ -85,14 +86,10 @@ class OrganisationsController < ApplicationController
   #    :GET /fleets/organisation-account/email-sent
   #
   def email_sent
-    redirect_to(root_path) and return unless session[:new_account]
-
     @email = User.new(session[:new_account]).email
   end
 
   def resend_email
-    redirect_to(root_path) and return unless session[:new_account]
-
     user = User.new(session[:new_account])
     Sqs::VerificationEmail.call(user: user, host: root_url)
     redirect_to email_sent_path
@@ -166,5 +163,11 @@ class OrganisationsController < ApplicationController
 
     Rails.logger.warn('Company name is missing in the session. Redirecting to :root_path')
     redirect_to root_path
+  end
+
+  # Checks if new account details is present in the session.
+  # If not, redirects to root path.
+  def check_account_details
+    redirect_to root_path unless session[:new_account]
   end
 end

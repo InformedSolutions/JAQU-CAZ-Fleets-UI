@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'OrganisationsController - GET #email_verification' do
   subject { get email_verification_path(token: token) }
 
-  let(:token) { 'aaaaaa' }
+  let(:token) { 'token' }
 
   before { allow(VerifyAccount).to receive(:call).and_return(true) }
 
