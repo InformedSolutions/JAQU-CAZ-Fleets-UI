@@ -35,6 +35,10 @@ Then('I am redirected to the Sign in page') do
   expect(page).to have_current_path(root_path)
 end
 
+Then('I am redirected to the Sign out page') do
+  expect(page).to have_current_path(sign_out_path)
+end
+
 Then('I am redirected to the unauthenticated root page') do
   expect(page).to have_current_path(new_user_session_path)
 end

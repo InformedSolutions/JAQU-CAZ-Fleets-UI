@@ -19,10 +19,12 @@ module FleetsUI
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
-
-    feedback_url_default = nil
-    config.x.feedback_url = (ENV['FEEDBACK_URL'].presence || feedback_url_default)
-
+    #
+    # feedback url
+    config.x.feedback_url = ENV.fetch('FEEDBACK_URL', nil)
+    # payments ui url
+    config.x.payments_ui_url = ENV.fetch('PAYMENTS_UI_URL', nil)
+    # service name for whole app
     config.x.service_name = 'Fleets UI'
 
     # timeout the user session without activity.
