@@ -7,14 +7,15 @@
   %ul#navigation.govuk-header__navigation{'aria-label': 'Top Level Navigation'}
     - if user_signed_in?
       %li.govuk-header__navigation-item{class: current_path?(authenticated_root_path)}
-        %a.govuk-header__link{href: authenticated_root_path, id: 'home'}
-          Home
+        = link_to('Home', authenticated_root_path, class: 'govuk-header__link', id: 'home')
       %li.govuk-header__navigation-item{class: current_path?('#')}
-        %a.govuk-header__link{href: '#', id: 'account'}
-          Account
-    %li.govuk-header__navigation-item{class: current_path?(new_user_session_path)}
-      - if user_signed_in?
+        = link_to('Account', '#', class: 'govuk-header__link', id: 'account')
+      %li.govuk-header__navigation-item
         = link_to('Sign Out', destroy_user_session_path,
           method: :delete, class: 'govuk-header__link', id: 'sign-out')
-      - else
+    - else
+      %li.govuk-header__navigation-item{class: current_path?(new_user_session_path)}
         = link_to('Sign In', new_user_session_path, class: 'govuk-header__link', id: 'sign-in')
+      %li.govuk-header__navigation-item{class: current_path?( create_account_name_path)}
+        = link_to('Create account', create_account_name_path, class: 'govuk-header__link', id: 'new-account')
+

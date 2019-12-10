@@ -39,7 +39,7 @@ module Sqs
       id
     rescue Aws::SQS::Errors::ServiceError => e
       log_error(e)
-      false
+      raise_service_unavailable
     end
 
     private
@@ -75,6 +75,14 @@ module Sqs
     # Return string, eg. "test@example.com-131500"
     def reference
       "#{email}-#{Time.current.strftime('%H%M%S')}"
+    end
+
+    def raise_service_unavailable
+      raise BaseApi::Error500Exception.new(
+        503,
+        'SQS unavailable',
+        message: I18n.t('email.sqs_error')
+      )
     end
   end
 end

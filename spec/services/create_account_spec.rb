@@ -49,14 +49,4 @@ describe CreateAccount do
       )
     service
   end
-
-  context 'when SQS call fails' do
-    before do
-      allow(Sqs::VerificationEmail).to receive(:call).and_return(false)
-    end
-
-    it 'raises API 500 Exception' do
-      expect { service }.to raise_error(BaseApi::Error500Exception)
-    end
-  end
 end

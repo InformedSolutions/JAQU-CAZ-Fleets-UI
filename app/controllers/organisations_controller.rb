@@ -65,11 +65,12 @@ class OrganisationsController < ApplicationController
   # * +company_name+ - string, account name e.g. 'Company name'
   #
   def create_account
-    CreateAccount.call(
+    user = CreateAccount.call(
       organisations_params: organisations_params,
       company_name: session[:company_name],
       host: root_url
     )
+    session[:new_account] = user.serializable_hash
     redirect_to email_sent_path
   rescue NewPasswordException => e
     @errors = e.errors_object
@@ -84,7 +85,17 @@ class OrganisationsController < ApplicationController
   #    :GET /fleets/organisation-account/email-sent
   #
   def email_sent
-    # Renders static page
+    redirect_to(root_path) and return unless session[:new_account]
+
+    @email = User.new(session[:new_account]).email
+  end
+
+  def resend_email
+    redirect_to(root_path) and return unless session[:new_account]
+
+    user = User.new(session[:new_account])
+    Sqs::VerificationEmail.call(user: user, host: root_url)
+    redirect_to email_sent_path
   end
 
   ##

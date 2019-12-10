@@ -23,14 +23,9 @@ class EmailAndPasswordForm < BaseForm
     message: I18n.t('input_form.errors.invalid_format')
   }
 
-  # validates password and password_confirmation complexity
-  validates :password, :password_confirmation, format: {
-    with: /\A(?=.*?[A-Z])(?=.*?[a-z])(?=(.*[\W])+)(?!.*\s).{8,45}\z/,
-    message: I18n.t('input_form.errors.password_complexity')
-  }
-
   # validates +password+ and +password_confirmation+
   validate :correct_password_confirmation
+
   # validates +email+ and +email_confirmation+
   validate :correct_email_confirmation
 

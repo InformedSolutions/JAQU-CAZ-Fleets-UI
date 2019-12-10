@@ -14,6 +14,9 @@ Feature: Organisations
       And I press the Continue
     Then I should see "Verification email"
       And I should receive verification email
+    Then I press "resend the email" link
+      And I should see "Verification email"
+      And I should receive verification email again
 
   Scenario: User wants to verify account with valid token
     Given I visit the verification link with a valid token

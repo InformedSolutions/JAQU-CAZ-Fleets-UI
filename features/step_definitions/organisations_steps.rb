@@ -33,3 +33,7 @@ end
 Then('I should receive verification email') do
   expect(Sqs::VerificationEmail).to have_received(:call)
 end
+
+Then('I should receive verification email again') do
+  expect(Sqs::VerificationEmail).to have_received(:call).twice
+end

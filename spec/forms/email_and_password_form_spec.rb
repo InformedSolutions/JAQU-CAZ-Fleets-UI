@@ -89,19 +89,6 @@ RSpec.describe EmailAndPasswordForm, type: :model do
       end
     end
 
-    context 'when password not meet complexity of the criteria' do
-      let(:password) { 'Abcdefg12345' }
-
-      it { is_expected.not_to be_valid }
-
-      it 'has a proper error message' do
-        form.valid?
-        expect(form.errors.messages[:password]).to include(
-          I18n.t('input_form.errors.password_complexity', attribute: 'Password')
-        )
-      end
-    end
-
     context 'when password is too long' do
       let(:password) { '8NAOTpMkx2%9' * 4 }
 
