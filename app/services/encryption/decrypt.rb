@@ -9,9 +9,14 @@ module Encryption
   #    Encryption::Decrypt.call(value: encrypted_token)
   #    # { user_id: 5 }
   #
+  # ==== Exceptions
+  #
+  # Raises ActiveSupport::MessageEncryptor::InvalidMessage when +value+ is nil or decryption fails.
   class Decrypt < Base
     # Instance level .call method used by class level .call
     def call
+      raise ActiveSupport::MessageEncryptor::InvalidMessage if value.nil?
+
       encryptor.decrypt_and_verify(value)
     end
   end

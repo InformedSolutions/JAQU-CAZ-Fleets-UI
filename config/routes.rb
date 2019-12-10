@@ -21,7 +21,10 @@ Rails.application.routes.draw do
     post 'email-address-and-password', to: 'organisations#create_account'
 
     get 'email-sent', to: 'organisations#email_sent'
+    get 'resend-email', to: 'organisations#resend_email'
     get 'email-verified', to: 'organisations#email_verified'
+    get 'email-verification', to: 'organisations#email_verification'
+    get 'verification-failed', to: 'organisations#verification_failed'
 
     get 'add-users', to: 'users#new'
     post 'add-users', to: 'users#create'

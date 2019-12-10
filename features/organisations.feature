@@ -14,8 +14,15 @@ Feature: Organisations
       And I press the Continue
     Then I should see "Verification email"
       And I should receive verification email
+    Then I press "resend the email" link
+      And I should see "Verification email"
+      And I should receive verification email again
 
-  Scenario: View email verified page
-    Given I am on the root page
-    When I go to the email verified page
-    Then I should see "Your account has been created"
+  Scenario: User wants to verify account with valid token
+    Given I visit the verification link with a valid token
+    Then I should see "Your email address has been verified and your account has been activated."
+
+  Scenario: User wants to verify account with invalid token
+    Given I visit the verification link with an invalid token
+    Then I should see "Your account verification failed"
+    

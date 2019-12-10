@@ -59,13 +59,6 @@ class CreateAccount < BaseService
   #
   # It raises BaseApi::Error500Exception if it fails.
   def send_verification_email(user)
-    message_id = Sqs::VerificationEmail.call(user: user, host: host)
-    return if message_id
-
-    raise BaseApi::Error500Exception.new(
-      500,
-      'SQS unavailable',
-      message: I18n.t('verification_email.error')
-    )
+    Sqs::VerificationEmail.call(user: user, host: host)
   end
 end

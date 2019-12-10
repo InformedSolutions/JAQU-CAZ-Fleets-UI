@@ -65,11 +65,12 @@ class OrganisationsController < ApplicationController
   # * +company_name+ - string, account name e.g. 'Company name'
   #
   def create_account
-    CreateAccount.call(
+    user = CreateAccount.call(
       organisations_params: organisations_params,
       company_name: session[:company_name],
       host: root_url
     )
+    session[:new_account] = user.serializable_hash
     redirect_to email_sent_path
   rescue NewPasswordException => e
     @errors = e.errors_object
@@ -84,7 +85,39 @@ class OrganisationsController < ApplicationController
   #    :GET /fleets/organisation-account/email-sent
   #
   def email_sent
-    # Renders static page
+    redirect_to(root_path) and return unless session[:new_account]
+
+    @email = User.new(session[:new_account]).email
+  end
+
+  def resend_email
+    redirect_to(root_path) and return unless session[:new_account]
+
+    user = User.new(session[:new_account])
+    Sqs::VerificationEmail.call(user: user, host: root_url)
+    redirect_to email_sent_path
+  end
+
+  ##
+  # Checks the verification token.
+  # If the token is valid it calls backend to mark the email address as verified
+  # and redirects to :email_verified
+  # If verification fails it redirects to :verification_failed
+  #
+  # ==== Path
+  #
+  #    :GET /fleets/organisation-account/email-verification
+  #
+  # ==== Params
+  # * +token+ - string, encrypted token with verification data
+  #
+  def email_verification
+    path = if VerifyAccount.call(token: params[:token])
+             email_verified_path
+           else
+             verification_failed_path
+           end
+    redirect_to path
   end
 
   ##
@@ -95,8 +128,18 @@ class OrganisationsController < ApplicationController
   #    :GET /fleets/organisation-account/email-verified
   #
   def email_verified
-    # TODO: Verify if user is activated.
     @user = User.new
+  end
+
+  ##
+  # Renders the error page if verification fails.
+  #
+  # ==== Path
+  #
+  #    :GET /fleets/organisation-account/verification-failed
+  #
+  def verification_failed
+    # Renders static page
   end
 
   private

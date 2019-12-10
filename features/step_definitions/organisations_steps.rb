@@ -5,6 +5,16 @@ Given('I go to the create account page') do
   visit create_account_name_path
 end
 
+Given('I visit the verification link with a valid token') do
+  allow(VerifyAccount).to receive(:call).and_return(true)
+  visit email_verification_path(token: SecureRandom.uuid)
+end
+
+Given('I visit the verification link with an invalid token') do
+  allow(VerifyAccount).to receive(:call).and_return(false)
+  visit email_verification_path(token: SecureRandom.uuid)
+end
+
 Then('I enter a company name') do
   fill_in('organisations_company_name', with: 'Company name')
 end
@@ -22,4 +32,8 @@ end
 
 Then('I should receive verification email') do
   expect(Sqs::VerificationEmail).to have_received(:call)
+end
+
+Then('I should receive verification email again') do
+  expect(Sqs::VerificationEmail).to have_received(:call).twice
 end

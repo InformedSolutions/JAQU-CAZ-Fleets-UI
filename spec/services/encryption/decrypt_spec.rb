@@ -11,4 +11,20 @@ describe Encryption::Decrypt do
   it 'decrypts message' do
     expect(service).to eq(value)
   end
+
+  context 'when token is nil' do
+    let(:token) { nil }
+
+    it 'raises ActiveSupport::MessageEncryptor::InvalidMessage' do
+      expect { service }.to raise_error(ActiveSupport::MessageEncryptor::InvalidMessage)
+    end
+  end
+
+  context 'when token is invalid' do
+    let(:token) { 'aaaaaaaaaa' }
+
+    it 'raises ActiveSupport::MessageEncryptor::InvalidMessage' do
+      expect { service }.to raise_error(ActiveSupport::MessageEncryptor::InvalidMessage)
+    end
+  end
 end

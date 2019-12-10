@@ -28,8 +28,8 @@ describe Sqs::VerificationEmail do
         )
       end
 
-      it 'returns false' do
-        expect(service).to be_falsey
+      it 'raises API 500 Exception' do
+        expect { service }.to raise_error(BaseApi::Error500Exception)
       end
     end
   end
