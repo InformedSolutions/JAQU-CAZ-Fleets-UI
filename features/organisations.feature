@@ -7,10 +7,15 @@ Feature: Organisations
   Scenario: User wants to create a company
     Given I go to the create account page
       And I should see "Create account"
+    Then I press the Continue
+      And I should see "[TBA] Company name is required"
     Then I enter a company name
       And I press the Continue
-    Then I should see "Account details"
-      And I enter the account details
+      And I should see "Account details"
+    Then I press the Continue
+      And I should see "[TBA] Email is required"
+      And I should see "[TBA] Password is required"
+    Then I enter the account details
       And I press the Continue
     Then I should see "Verification email"
       And I should receive verification email
@@ -25,4 +30,18 @@ Feature: Organisations
   Scenario: User wants to verify account with invalid token
     Given I visit the verification link with an invalid token
     Then I should see "Your account verification failed"
-    
+
+  Scenario: User wants to create a company when api returns 422 errors
+    Given I go to the create account page
+    Then I enter a company name
+      And I press the Continue
+      And I enter the account details with not uniq email address
+      And I press the Continue
+    Then I should see "[TBA] Email is already exists"
+      And I should see "[TBA] Email is in an invalid format"
+      And I should see "[TBA] Password must be at least 8 characters long, include at least one upper case letter, a number and a special character"
+
+  Scenario: View email verified page
+    Given I am on the root page
+    When I go to the email verified page
+    Then I should see "Your account has been created"

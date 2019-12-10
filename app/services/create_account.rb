@@ -24,7 +24,7 @@ class CreateAccount < BaseService
   # sends verification email.
   def call
     validate_user_params
-    user = perform_api_call
+    user = assign_user_attributes(perform_api_call)
     send_verification_email(user)
     user
   end
@@ -48,10 +48,57 @@ class CreateAccount < BaseService
   #
   # It returns a new User class instance.
   def perform_api_call
-    AccountsApi.create_organization(
+    AccountsApi.create_account(
       email: organisations_params[:email],
-      _password: organisations_params[:password],
-      _company_name: company_name
+      password: organisations_params[:password],
+      company_name: company_name
+    )
+  rescue BaseApi::Error422Exception => e
+    parse_422_error(e.body['details'])
+  end
+
+  # Check if api returns 422 errors. If yes assign error messages to error object and
+  # raise `NewPasswordException` exception
+  def parse_422_error(enums)
+    errors = {}
+
+    check_email_uniq(enums, errors)
+    check_email_format(enums, errors)
+    check_password_complexity(enums, errors)
+
+    raise(NewPasswordException, errors)
+  end
+
+  # add error to +errors+ object if `emailNotUnique` enum is present
+  def check_email_uniq(enums, errors)
+    (errors[:email] ||= []) << I18n.t('email.errors.exists') if enums.include?('emailNotUnique')
+  end
+
+  # add error to +errors+ object if `emailNotValid` enum is present
+  def check_email_format(enums, errors)
+    return unless enums.include?('emailNotValid')
+
+    (errors[:email] ||= []) << I18n.t('input_form.errors.invalid_format', attribute: 'Email')
+  end
+
+  # add error to +errors+ object if `passwordNotValid` enum is present
+  def check_password_complexity(enums, errors)
+    return unless enums.include?('passwordNotValid')
+
+    (errors[:password] ||= []) << I18n.t(
+      'input_form.errors.password_complexity',
+      attribute: 'Password'
+    )
+  end
+
+  # Assign user attributes received form api response to User instance
+  def assign_user_attributes(user_attributes)
+    User.new(
+      email: user_attributes['email'],
+      user_id: user_attributes['accountUserId'],
+      account_id: user_attributes['accountId'],
+      account_name: user_attributes['accountName'],
+      admin: user_attributes['admin']
     )
   end
 
