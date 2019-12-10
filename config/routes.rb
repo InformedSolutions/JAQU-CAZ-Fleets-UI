@@ -42,4 +42,7 @@ Rails.application.routes.draw do
     get 'select-direct-debit', to: 'users#caz_selection'
     get 'email-invite', to: 'users#email_invite'
   end
+
+  get :build_id, to: 'application#build_id'
+  get :health, to: 'application#health'
 end
