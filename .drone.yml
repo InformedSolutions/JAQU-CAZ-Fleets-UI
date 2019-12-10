@@ -51,6 +51,27 @@ steps:
       - yarn install
       - rspec -f d
 
+  # Execute integration/scenario tests
+  - name: integration tests
+    image: test-fleet-frontend
+    pull: never
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+    commands:
+      - cucumber
+
+  # Invoke static code analysis through Ruby libraries
+  - name: static code analysis (Ruby)
+    image: test-fleet-frontend
+    pull: never
+    commands:
+      - rubocop
+      - scss-lint app/javascript
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
   # Invoke terraform scripts to ensure ecr is available for deploy step.
   - name: initialise ecr
     image: hashicorp/terraform:0.12.3
