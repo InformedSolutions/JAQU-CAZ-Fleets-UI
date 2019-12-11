@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   #
   # ==== Path
   #
-  #    GET /health.json
+  #    :GET /health.json
   #
   def health
     render json: 'OK', status: :ok
@@ -36,9 +36,16 @@ class ApplicationController < ActionController::Base
   #
   # ==== Path
   #
-  #    GET /build_id.json
+  #    :GET /build_id.json
   #
   def build_id
     render json: ENV.fetch('BUILD_ID', 'undefined'), status: :ok
+  end
+
+  private
+
+  # Overwriting the sign_out redirect path method
+  def after_sign_out_path_for(_resource_or_scope)
+    sign_out_path
   end
 end

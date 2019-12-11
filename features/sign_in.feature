@@ -1,7 +1,7 @@
 Feature: Sign In
   In order to read the page
-  As a Licensing Authority
-  I want to see the upload page
+  As a user
+  I want to see the dashboard page
 
   Scenario: View dashboard page without cookie
     Given I have no authentication cookie
@@ -22,7 +22,7 @@ Feature: Sign In
   Scenario: View dashboard page with cookie that has expired
     Given I have authentication cookie that has expired
     When I navigate to a Dashboard page
-      And I should not see "Upload" link
+      And I should not see "Your fleet account"
     Then I am redirected to the unauthenticated root page
       And I should see "Sign In"
 
@@ -37,7 +37,10 @@ Feature: Sign In
   Scenario: Sign out
     Given I am signed in
     When I request to sign out
-    Then I am redirected to the Sign in page
+      And  I am redirected to the Sign out page
+      And I should see "Sign out successful"
+      And I should see "Pay a Clean Air Zone charge" link
+      And I should see "Login to your account" link
     When I navigate to a Dashboard page
     Then I am redirected to the unauthenticated root page
       And I should see "Sign In"

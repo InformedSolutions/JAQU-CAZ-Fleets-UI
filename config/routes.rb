@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   authenticated(:user) { root 'dashboard#index', as: :authenticated_root }
   devise_scope(:user) { root to: 'devise/sessions#new' }
 
+  get 'sign-out', to: 'sessions#sign_out'
+
   resources :passwords, only: %i[] do
     collection do
       get :reset
