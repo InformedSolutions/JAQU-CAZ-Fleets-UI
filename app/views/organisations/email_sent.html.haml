@@ -1,4 +1,4 @@
-= link_to 'Back', email_address_and_password_path, class: 'govuk-back-link'
+= link_to 'Back', new_credentials_organisations_path, class: 'govuk-back-link'
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
@@ -15,4 +15,4 @@
         %li check your spam or junk folders
         %li check you have entered the correct email
         %li
-          = link_to("resend the email", resend_email_path)
+          = link_to("resend the email", resend_email_organisations_path)

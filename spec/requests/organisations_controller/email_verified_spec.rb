@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'OrganisationsController - GET #email_verified' do
-  subject { get email_verified_path }
+  subject { get email_verified_organisations_path }
 
   it 'returns an ok response' do
     subject

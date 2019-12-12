@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'OrganisationsController - GET #resend_email' do
-  subject { get resend_email_path }
+  subject { get resend_email_organisations_path }
 
   let(:user) { create_user }
   let(:session_data) do
@@ -17,7 +17,7 @@ RSpec.describe 'OrganisationsController - GET #resend_email' do
 
   it 'returns a redirect to email_sent' do
     subject
-    expect(response).to redirect_to(email_sent_path)
+    expect(response).to redirect_to(email_sent_organisations_path)
   end
 
   it 'calls Sqs::VerificationEmail with proper data' do

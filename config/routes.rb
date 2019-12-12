@@ -15,19 +15,22 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :organisations, only: %i[] do
+    collection do
+      get :new
+      post :new, to: 'organisations#set_name'
+      get :new_credentials
+      post :new_credentials, to: 'organisations#create'
+
+      get :email_sent
+      get :resend_email
+      get :email_verified
+      get :email_verification
+      get :verification_failed
+    end
+  end
+
   scope '/fleets/organisation-account', only: %i[] do
-    get 'create-account-name', to: 'organisations#new_name'
-    post 'create-account-name', to: 'organisations#create_name'
-
-    get 'email-address-and-password', to: 'organisations#new_email_and_password'
-    post 'email-address-and-password', to: 'organisations#create_account'
-
-    get 'email-sent', to: 'organisations#email_sent'
-    get 'resend-email', to: 'organisations#resend_email'
-    get 'email-verified', to: 'organisations#email_verified'
-    get 'email-verification', to: 'organisations#email_verification'
-    get 'verification-failed', to: 'organisations#verification_failed'
-
     get 'add-users', to: 'users#new'
     post 'add-users', to: 'users#create'
     get 'delete-user', to: 'users#delete'
