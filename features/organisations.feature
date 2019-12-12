@@ -31,6 +31,10 @@ Feature: Organisations
     Given I visit the verification link with an invalid token
     Then I should see "Your account verification failed"
 
+  Scenario: User wants to verify account second time
+    Given I visit the verification link second time
+    Then I should see "Sign in"
+
   Scenario: User wants to create a company when api returns 422 errors
     Given I go to the create account page
     Then I enter a company name

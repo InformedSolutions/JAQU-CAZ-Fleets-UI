@@ -6,12 +6,14 @@ describe VerifyAccount do
   subject(:service) { described_class.call(token: token) }
 
   let(:token) do
-    Encryption::Encrypt.call(value: {
-                               user_id: user_id,
-                               account_id: account_id,
-                               created_at: Time.current.iso8601,
-                               salt: SecureRandom.uuid
-                             })
+    Encryption::Encrypt.call(
+      value: {
+        user_id: user_id,
+        account_id: account_id,
+        created_at: Time.current.iso8601,
+        salt: SecureRandom.uuid
+      }
+    )
   end
   let(:user_id) { SecureRandom.uuid }
   let(:account_id) { SecureRandom.uuid }
@@ -23,7 +25,7 @@ describe VerifyAccount do
   it 'calls AccountsApi.verify_user with proper params' do
     expect(AccountsApi)
       .to receive(:verify_user)
-      .with(_user_id: user_id, _account_id: account_id)
+      .with(user_id: user_id, account_id: account_id)
     service
   end
 
@@ -53,9 +55,21 @@ describe VerifyAccount do
     before do
       allow(AccountsApi)
         .to receive(:verify_user)
-        .and_raise(BaseApi::Error404Exception.new(404, 'User ot found', {}))
+        .and_raise(BaseApi::Error404Exception.new(404, 'User not found', {}))
     end
 
     it { is_expected.to be_falsey }
+  end
+
+  context 'when API responds with 404 error' do
+    before do
+      allow(AccountsApi)
+        .to receive(:verify_user)
+        .and_raise(BaseApi::Error400Exception.new(404, 'User already confirmed', {}))
+    end
+
+    it 'raises UserAlreadyConfirmedException' do
+      expect { service }.to raise_error(UserAlreadyConfirmedException)
+    end
   end
 end

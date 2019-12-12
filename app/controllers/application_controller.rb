@@ -5,6 +5,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery prepend: true
   # checks if a user is logged in
   before_action :authenticate_user!, except: %i[health build_id]
+  # rescues `UserAlreadyConfirmedException` exception
+  rescue_from UserAlreadyConfirmedException,
+              with: :redirect_to_sign_in
 
   # Verifies if current user is admin, if not redirects to root_path
   def verify_admin
@@ -47,5 +50,13 @@ class ApplicationController < ActionController::Base
   # Overwriting the sign_out redirect path method
   def after_sign_out_path_for(_resource_or_scope)
     sign_out_path
+  end
+
+  # Logs exception and redirects to sign in page
+  def redirect_to_sign_in(exception)
+    Rails.logger.error "#{exception.class}: #{exception}"
+
+    request.env['warden'].errors[:base] = [exception.message]
+    render 'devise/sessions/new'
   end
 end

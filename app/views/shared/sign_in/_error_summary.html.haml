@@ -10,7 +10,7 @@
       %ul.govuk-list.govuk-error-summary__list
         - if errors[:base].present?
           %li
-            = link_to(errors[:base].first, '#email-error', id: 'base-error-message')
+            = link_to(errors[:base].first, '#error-summary-title', id: 'base-error-message')
         - else
           - %i[email password].each do |field|
             - if errors[field].present?

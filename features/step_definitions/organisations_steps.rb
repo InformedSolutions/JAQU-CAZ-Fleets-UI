@@ -15,6 +15,26 @@ Given('I visit the verification link with an invalid token') do
   visit email_verification_organisations_path(token: SecureRandom.uuid)
 end
 
+Given('I visit the verification link second time') do
+  token = Encryption::Encrypt.call(
+    value: {
+      user_id: 2,
+      account_id: 1,
+      created_at: Time.current.iso8601,
+      salt: SecureRandom.uuid
+    }
+  )
+
+  stub_request(:post, /verify/).to_return(
+    status: 400,
+    body: {
+      'message': 'User already confirmed'
+    }.to_json
+  )
+
+  visit email_verification_path(token: token)
+end
+
 Then('I enter a company name') do
   fill_in('organisations_company_name', with: 'Company name')
 end
