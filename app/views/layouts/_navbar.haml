@@ -16,6 +16,7 @@
     - else
       %li.govuk-header__navigation-item{class: current_path?(new_user_session_path)}
         = link_to('Sign In', new_user_session_path, class: 'govuk-header__link', id: 'sign-in')
-      %li.govuk-header__navigation-item{class: current_path?(organisations_path)}
-        = link_to('Create account', organisations_path, class: 'govuk-header__link', id: 'new-account')
+      - if Rails.env.development?
+        %li.govuk-header__navigation-item{class: current_path?( create_account_name_path)}
+          = link_to('Create account', create_account_name_path, class: 'govuk-header__link', id: 'new-account')
 

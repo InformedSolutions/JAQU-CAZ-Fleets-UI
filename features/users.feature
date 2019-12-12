@@ -10,7 +10,6 @@ Feature: Users
     Then I press the Continue
       And I should see "There is a problem"
       And I should see "[TBA] You must choose an answer"
-      And I should see "[TBA] Select yes if you want to add another fleet administrator"
     Then I choose "No"
       And I press the Continue
     Then I should see "Your fleet account"

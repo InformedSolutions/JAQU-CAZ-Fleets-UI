@@ -24,8 +24,5 @@ en:
     sqs_error: 'There was an error while sending the email to SQS'
   verification_email:
     error: 'There was an error while sending Verification Email to SQS'
-  company_name:
-    errors:
-      summary: '[TBA] Enter the company name'
   confirmation_form:
     answer_missing: '[TBA] You must choose an answer'
