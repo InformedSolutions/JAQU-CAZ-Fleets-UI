@@ -3,7 +3,7 @@
     .govuk-grid-column-two-thirds
       %h1.govuk-heading-xl Sign in
 
-      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      = form_for(@user ||= User.new, as: @user, url: session_path(@user)) do |f|
         = render 'shared/sign_in/error_summary'
         %fieldset.govuk-fieldset
           %legend.govuk-visually-hidden

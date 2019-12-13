@@ -22,8 +22,7 @@ class VerifyAccount < BaseService
   # It return true if both actions were successful, and false if something fails.
   #
   def call
-    verify_user
-    true
+    perform_api_call
   rescue ActiveSupport::MessageEncryptor::InvalidMessage
     Rails.logger.error "[#{self.class.name}] Invalid token - #{encrypted_token}"
     false
@@ -34,12 +33,16 @@ class VerifyAccount < BaseService
 
   private
 
-  # Performs the API call to verification endpoint
-  def verify_user
+  # Performs the API call to verification endpoint.
+  # raise `UserAlreadyConfirmedException` exception if user already confirmed
+  def perform_api_call
     AccountsApi.verify_user(
-      _account_id: decrypted_token[:account_id],
-      _user_id: decrypted_token[:user_id]
+      account_id: decrypted_token[:account_id],
+      user_id: decrypted_token[:user_id]
     )
+    true
+  rescue BaseApi::Error400Exception
+    raise UserAlreadyConfirmedException
   end
 
   # Decrypts the token

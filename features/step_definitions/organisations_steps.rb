@@ -15,6 +15,11 @@ Given('I visit the verification link with an invalid token') do
   visit email_verification_organisations_path(token: SecureRandom.uuid)
 end
 
+Given('I visit the verification link second time') do
+  allow(VerifyAccount).to receive(:call).and_raise(UserAlreadyConfirmedException)
+  visit email_verification_organisations_path(token: SecureRandom.uuid)
+end
+
 Then('I enter a company name') do
   fill_in('organisations_company_name', with: 'Company name')
 end
