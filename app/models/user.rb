@@ -18,6 +18,9 @@ class User
   # User attributes
   attr_accessor :email, :admin, :user_id, :account_id, :account_name
 
+  # Delegates fleet methods to fleet
+  delegate :vehicles, :add_vehicle, to: :fleet
+
   # Overrides default initializer for compliance with Devise Gem.
   #
   # Set +admin+ to false by default
@@ -47,5 +50,10 @@ class User
       account_id: account_id,
       account_name: account_name
     }
+  end
+
+  # Returns associated fleet object
+  def fleet
+    @fleet ||= Fleet.new(account_id)
   end
 end

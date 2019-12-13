@@ -30,5 +30,28 @@ class AccountsApi < BaseApi
       log_action("Verifying account with account_id: #{account_id} and user_id: #{user_id}")
       request(:post, "/accounts/#{account_id}/users/#{user_id}/verify")
     end
+
+    def fleet_vehicles(_account_id:)
+      return [] unless $request
+
+      $request.session['mocked_fleet'] || []
+    end
+
+    def add_vehicle_to_fleet(details:, _account_id:) # rubocop:disable Metrics/MethodLength
+      return false unless $request
+
+      fleet = $request.session['mocked_fleet'] || []
+      fleet.push(
+        'vehicleId' => SecureRandom.uuid,
+        'vrn' => details[:vrn],
+        'type' => details[:type] || 'car',
+        'charges' => {
+          'leeds' => details[:leeds_charge] || 12.5,
+          'birmingham' => details[:birmingham_charge] || 8
+        }
+      )
+      $request.session['mocked_fleet'] = fleet
+      true
+    end
   end
 end

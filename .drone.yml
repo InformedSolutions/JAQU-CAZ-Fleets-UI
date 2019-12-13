@@ -49,7 +49,7 @@ steps:
         path: /var/run/docker.sock
     commands:
       - yarn install
-      - rspec -f d
+      - bundle exec rspec -f d
 
   # Execute integration/scenario tests
   - name: integration tests
@@ -59,18 +59,31 @@ steps:
       - name: docker_sock
         path: /var/run/docker.sock
     commands:
-      - cucumber
+      - bundle exec cucumber
 
   # Invoke static code analysis through Ruby libraries
-  - name: static code analysis (Ruby)
+  - name: static code analysis (Ruby + assets)
     image: test-fleet-frontend
     pull: never
     commands:
-      - rubocop
-      - scss-lint app/javascript
+      - bundle exec rubocop
+      - bundle exec scss-lint app/javascript
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
+
+  # Invoke security analysis through Ruby libraries and yarn
+  - name: security tests (Ruby + Yarn)
+    image: test-fleet-frontend
+    pull: never
+    commands:
+      - bundle exec bundle audit check --update
+      - yarn audit
+      - bundle exec brakeman
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
 
   # Invoke terraform scripts to ensure ecr is available for deploy step.
   - name: initialise ecr

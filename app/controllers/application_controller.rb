@@ -5,6 +5,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery prepend: true
   # checks if a user is logged in
   before_action :authenticate_user!, except: %i[health build_id]
+  # saves reference to the request for mocks
+  before_action :save_request_for_mocks
+
   # rescues `UserAlreadyConfirmedException` exception
   rescue_from UserAlreadyConfirmedException,
               with: :redirect_to_sign_in
@@ -58,5 +61,12 @@ class ApplicationController < ActionController::Base
 
     request.env['warden'].errors[:base] = [exception.message]
     render 'devise/sessions/new'
+  end
+
+  # It assigns current request to the global variable.
+  # It is used for the mocks to have access to the session
+  # TODO: SHOULD NOT be present in the final release!!!
+  def save_request_for_mocks
+    $request = request
   end
 end
