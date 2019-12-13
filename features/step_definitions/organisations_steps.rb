@@ -2,17 +2,17 @@
 
 Given('I go to the create account page') do
   mock_verification_email
-  visit create_account_name_path
+  visit organisations_path
 end
 
 Given('I visit the verification link with a valid token') do
   allow(VerifyAccount).to receive(:call).and_return(true)
-  visit email_verification_path(token: SecureRandom.uuid)
+  visit email_verification_organisations_path(token: SecureRandom.uuid)
 end
 
 Given('I visit the verification link with an invalid token') do
   allow(VerifyAccount).to receive(:call).and_return(false)
-  visit email_verification_path(token: SecureRandom.uuid)
+  visit email_verification_organisations_path(token: SecureRandom.uuid)
 end
 
 Then('I enter a company name') do
@@ -36,7 +36,7 @@ And('I enter the account details with not uniq email address') do
 end
 
 When('I go to the email verified page') do
-  visit email_verified_path
+  visit email_verified_organisations_path
 end
 
 Then('I should receive verification email') do

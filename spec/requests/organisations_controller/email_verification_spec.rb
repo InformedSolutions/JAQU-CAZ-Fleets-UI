@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'OrganisationsController - GET #email_verification' do
-  subject { get email_verification_path(token: token) }
+  subject { get email_verification_organisations_path(token: token) }
 
   let(:token) { 'token' }
 
@@ -11,7 +11,7 @@ RSpec.describe 'OrganisationsController - GET #email_verification' do
 
   it 'returns a redirect to :email_verified' do
     subject
-    expect(response).to redirect_to(email_verified_path)
+    expect(response).to redirect_to(email_verified_organisations_path)
   end
 
   it 'calls VerifyAccount with proper params' do
@@ -24,7 +24,7 @@ RSpec.describe 'OrganisationsController - GET #email_verification' do
 
     it 'returns a redirect to :verification_failed' do
       subject
-      expect(response).to redirect_to(verification_failed_path)
+      expect(response).to redirect_to(verification_failed_organisations_path)
     end
   end
 end

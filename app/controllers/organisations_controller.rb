@@ -3,41 +3,42 @@
 class OrganisationsController < ApplicationController
   skip_before_action :authenticate_user!
   # checks if company name is present in session
-  before_action :check_company_name, only: %i[new_email_and_password create_account]
+  before_action :check_company_name, only: %i[new_credentials create email_sent]
   # checks if new account details is present in session
   before_action :check_account_details, only: %i[email_sent resend_email]
+
   ##
   # Renders the create account name page.
   #
   # ==== Path
   #
-  #    :GET /fleets/organisation-account/create-account-name
+  #    :GET /organisations
   #
-  def new_name
+  def new
     # Renders static page
   end
 
   ##
   # Validates submitted account name.
-  # If successful, redirects to {new_email_and_password}
-  # [rdoc-ref:OrganisationsController.new_email_and_password]
-  # If no, redirects to {new_name}[rdoc-ref:OrganisationsController.new_name]
+  # If successful, redirects to {:new_credentials}
+  # [rdoc-ref:OrganisationsController.new_credentials]
+  # If no, redirects to {:new}[rdoc-ref:OrganisationsController.new]
   #
   # ==== Path
   #
-  #    POST /fleets/organisation-account/create-account-name
+  #    POST /organisations
   #
   # ==== Params
   # * +company_name+ - string, account name e.g. 'Company name'
   #
-  def create_name
+  def set_name
     form = CompanyNameForm.new(company_name_params)
     if form.valid?
       session[:company_name] = form.company_name
-      redirect_to email_address_and_password_path
+      redirect_to new_credentials_organisations_path
     else
       @error = form.errors.full_messages.join(',')
-      render 'organisations/new_name'
+      render 'organisations/new'
     end
   end
 
@@ -46,9 +47,12 @@ class OrganisationsController < ApplicationController
   #
   # ==== Path
   #
-  #    :GET /fleets/organisation-account/email-address-and-password
+  #    GET /organisations/new_credentials
   #
-  def new_email_and_password
+  # ==== Params
+  # * +company_name+ - string, account name stored in the session e.g. 'Company name'
+  #
+  def new_credentials
     # Renders static page
   end
 
@@ -60,22 +64,22 @@ class OrganisationsController < ApplicationController
   #
   # ==== Path
   #
-  #    POST /fleets/organisation-account/create-account-name
+  #    POST /organisations/new_credentials
   #
   # ==== Params
-  # * +company_name+ - string, account name e.g. 'Company name'
+  # * +company_name+ - string, account name stored in the session e.g. 'Company name'
   #
-  def create_account
+  def create
     user = CreateAccount.call(
       organisations_params: organisations_params,
       company_name: session[:company_name],
       host: root_url
     )
     session[:new_account] = user.serializable_hash
-    redirect_to email_sent_path
+    redirect_to email_sent_organisations_path
   rescue NewPasswordException => e
     @errors = e.errors_object
-    render :new_email_and_password
+    render :new_credentials
   end
 
   ##
@@ -92,7 +96,7 @@ class OrganisationsController < ApplicationController
   def resend_email
     user = User.new(session[:new_account])
     Sqs::VerificationEmail.call(user: user, host: root_url)
-    redirect_to email_sent_path
+    redirect_to email_sent_organisations_path
   end
 
   ##
@@ -110,9 +114,9 @@ class OrganisationsController < ApplicationController
   #
   def email_verification
     path = if VerifyAccount.call(token: params[:token])
-             email_verified_path
+             email_verified_organisations_path
            else
-             verification_failed_path
+             verification_failed_organisations_path
            end
     redirect_to path
   end

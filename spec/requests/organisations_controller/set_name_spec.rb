@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe 'OrganisationsController - POST #create_name' do
+RSpec.describe 'OrganisationsController - POST #set_name' do
   subject do
-    post create_account_name_path, params: { organisations: { company_name: company_name } }
+    post organisations_path, params: { organisations: { company_name: company_name } }
   end
 
   let(:company_name) { 'Company Name' }
@@ -21,7 +21,7 @@ RSpec.describe 'OrganisationsController - POST #create_name' do
     let(:company_name) { '' }
 
     it 'renders create company name view' do
-      expect(response).to render_template('organisations/new_name')
+      expect(response).to render_template('organisations/new')
     end
   end
 end

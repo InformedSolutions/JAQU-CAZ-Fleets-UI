@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'OrganisationsController - GET #email_sent' do
-  subject { get email_sent_path }
+  subject { get email_sent_organisations_path }
 
   let(:session_data) do
     { company_name: 'Company name', new_account: create_user.serializable_hash }

@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe 'OrganisationsController - POST #create_account' do
-  subject { post email_address_and_password_path, params: params }
+RSpec.describe 'OrganisationsController - POST #create' do
+  subject { post new_credentials_organisations_path, params: params }
 
   let(:params) { { organisations: organization_params } }
   let(:organization_params) do
@@ -28,7 +28,7 @@ RSpec.describe 'OrganisationsController - POST #create_account' do
     context 'with valid params' do
       it 'redirects to email sent page' do
         subject
-        expect(response).to redirect_to(email_sent_path)
+        expect(response).to redirect_to(email_sent_organisations_path)
       end
 
       it 'calls CreateAccountService with proper params' do
@@ -50,7 +50,7 @@ RSpec.describe 'OrganisationsController - POST #create_account' do
 
       it 'renders account details view' do
         subject
-        expect(response).to render_template('organisations/new_email_and_password')
+        expect(response).to render_template('organisations/new_credentials')
       end
     end
   end

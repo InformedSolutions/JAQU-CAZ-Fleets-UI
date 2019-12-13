@@ -19,7 +19,7 @@
       %fieldset.govuk-fieldset{'aria-describedby': 'create-account-hint'}
         %legend.govuk-visually-hidden Create account fields
 
-        = form_for('organisations', url: create_account_name_path, method: :post,
+        = form_for('organisations', url: organisations_path, method: :post,
             html: { autocomplete: :on, novalidate: 'novalidate', spellcheck: false }) do |f|
 
           .govuk-form-group{class: ('govuk-form-group--error' if @error)}
