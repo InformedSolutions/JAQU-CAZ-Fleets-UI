@@ -68,5 +68,13 @@ describe Sqs::VerificationEmail do
         end
       end
     end
+
+    describe '.personalisation' do
+      subject(:personalisation) { service.send(:personalisation) }
+
+      it 'returns a string' do
+        expect(personalisation).to be_a(String)
+      end
+    end
   end
 end

@@ -34,7 +34,7 @@ module Sqs
       link_params = { host: host, token: encrypted_token }
       # Adding port for development ENV
       link_params[:port] = 3000 if Rails.env.development?
-      { link: email_verification_organisations_url(link_params) }
+      { link: email_verification_organisations_url(link_params) }.to_json
     end
 
     # Generates token used to identify user after clicking link in the email
