@@ -65,7 +65,7 @@ describe VerifyAccount do
     before do
       allow(AccountsApi)
         .to receive(:verify_user)
-        .and_raise(BaseApi::Error400Exception.new(404, 'User already confirmed', {}))
+        .and_raise(BaseApi::Error400Exception.new(400, 'User already confirmed', {}))
     end
 
     it 'raises UserAlreadyConfirmedException' do

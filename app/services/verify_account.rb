@@ -40,8 +40,9 @@ class VerifyAccount < BaseService
       account_id: decrypted_token[:account_id],
       user_id: decrypted_token[:user_id]
     )
+    true
   rescue BaseApi::Error400Exception
-    raise UserAlreadyConfirmedException, 'User already confirmed'
+    raise UserAlreadyConfirmedException
   end
 
   # Decrypts the token
