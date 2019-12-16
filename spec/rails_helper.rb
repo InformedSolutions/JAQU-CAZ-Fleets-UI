@@ -14,12 +14,12 @@ Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   # add helpers to rspec classes
-  config.include RequestSpecHelper, type: :request
-  config.include StringCountHelper, type: :request
-  config.include AddToSession, type: :request
-  config.include StrongParams
-  config.include UserFactory
-  config.include ActiveSupport::Testing::TimeHelpers
+  [RequestSpecHelper, StringCountHelper, AddToSession].each do |h|
+    config.include h, type: :request
+  end
+  [StrongParams, UserFactory, ActiveSupport::Testing::TimeHelpers, FixturesHelpers].each do |h|
+    config.include h
+  end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -48,4 +48,11 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
 end

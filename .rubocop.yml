@@ -18,3 +18,11 @@ Metrics/BlockLength:
 
 Style/AndOr:
   EnforcedStyle: conditionals
+
+Style/AsciiComments:
+  Enabled: false
+
+# TODO: Remove after proper API integration
+Style/GlobalVars:
+  AllowedVariables:
+    - $request

@@ -1,0 +1,20 @@
+[
+  {
+    "vehicleId": 1,
+    "vrn": "CAS310",
+    "type": "Car",
+    "charges": {
+      "leeds": 12.5,
+      "birmingham": 8
+    }
+  },
+  {
+    "vehicleId": 2,
+    "vrn": "CAS316",
+    "type": "Van",
+    "charges": {
+      "leeds": 50,
+      "birmingham": 50
+    }
+  }
+]
