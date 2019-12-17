@@ -23,7 +23,10 @@ class AccountsApi < BaseApi
     def create_account(email:, password:, company_name:)
       log_action("Creating account with email: #{email} and company_name: #{company_name}")
       body = { accountName: company_name, email: email, password: password }.to_json
-      request(:post, '/accounts', body: body)
+      user_data = request(:post, '/accounts', body: body)
+      # Override for a dummy endpoint. Should be removed after proper backend implementation
+      user_data['email'] = email
+      user_data
     end
 
     def verify_user(account_id:, user_id:)
