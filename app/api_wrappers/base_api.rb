@@ -18,6 +18,9 @@ class BaseApi
   # Class representing 404 HTTP response code (Not Found) returned by API
   class Error404Exception < ApiException; end
   ##
+  # Class representing 401 HTTP response code (Not Authorized) returned by API
+  class Error401Exception < ApiException; end
+  ##
   # Class representing 400 HTTP response code (Bad Request) returned by API
   class Error400Exception < ApiException; end
 

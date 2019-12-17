@@ -22,3 +22,10 @@ Feature: Dashboard
       And I should see "Upload your fleet" link
       And I should see "Make a payment" link
       And I should see "Create a direct debit mandate" link
+
+  Scenario: User wants to view dashboard with different IP address
+    Given I am on Dashboard page
+    Then I should see "Your fleet account"
+    Then I change my IP
+      And I navigate to a Dashboard page
+    Then I am redirected to the unauthenticated root page

@@ -34,6 +34,12 @@ Feature: Sign In
       And I should see "[TBA] Enter your email address"
       And I should see "[TBA] Enter your password"
 
+  Scenario: Sign in with unconfirmed email
+    Given I am on the Sign in page
+    When I enter unconfirmed email
+    Then I remain on the current page
+      And I should see "[TBA] Your email address is not confirmed"
+
   Scenario: Sign out
     Given I am signed in
     When I request to sign out

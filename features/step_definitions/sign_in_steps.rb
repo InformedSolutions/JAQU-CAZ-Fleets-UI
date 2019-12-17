@@ -44,9 +44,17 @@ Then('I am redirected to the unauthenticated root page') do
 end
 
 When('I enter invalid credentials') do
-  fill_in('user_email', with: 'user@example.com')
-  fill_in('user_password', with: '1234')
-  click_button 'Continue'
+  allow(AccountsApi)
+    .to receive(:sign_in)
+    .and_raise(BaseApi::Error401Exception.new(401, '', {}))
+  fill_sign_in_form
+end
+
+When('I enter unconfirmed email') do
+  allow(AccountsApi)
+    .to receive(:sign_in)
+    .and_raise(BaseApi::Error422Exception.new(422, '', {}))
+  fill_sign_in_form
 end
 
 Then('I remain on the current page') do
@@ -79,4 +87,10 @@ When('I enter invalid email format') do
   fill_in('user_password', with: '12345678')
 
   click_button 'Continue'
+end
+
+Then('I change my IP') do
+  allow_any_instance_of(ActionDispatch::Request)
+    .to receive(:remote_ip)
+    .and_return('4.3.2.1')
 end

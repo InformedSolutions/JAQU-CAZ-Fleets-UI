@@ -46,6 +46,7 @@ end
 
 When('I am on Dashboard page') do
   login_admin
+  visit authenticated_root_path
 end
 
 Then('I choose {string}') do |string|

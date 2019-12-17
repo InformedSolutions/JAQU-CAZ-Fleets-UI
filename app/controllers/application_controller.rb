@@ -63,6 +63,23 @@ class ApplicationController < ActionController::Base
     render 'devise/sessions/new'
   end
 
+  # Adds checking IP to default Devise :authenticate_user!
+  def authenticate_user!
+    super
+    check_ip! if current_user
+  end
+
+  # Checks if request's remote IP matches the one set for the user during login
+  # If not, it logs out user and redirects to the login page
+  def check_ip!
+    remote_ip = request.remote_ip
+    return if current_user.login_ip == remote_ip
+
+    Rails.logger.warn "User with ip #{remote_ip} tried to access the page as #{current_user.email}"
+    sign_out current_user
+    redirect_to new_user_session_path
+  end
+
   # It assigns current request to the global variable.
   # It is used for the mocks to have access to the session
   # TODO: SHOULD NOT be present in the final release!!!
