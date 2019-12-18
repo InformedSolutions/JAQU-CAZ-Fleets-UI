@@ -16,7 +16,7 @@ class User
   devise :timeoutable
 
   # User attributes
-  attr_accessor :email, :admin, :user_id, :account_id, :account_name
+  attr_accessor :email, :admin, :user_id, :account_id, :account_name, :login_ip
 
   # Delegates fleet methods to fleet
   delegate :vehicles, :add_vehicle, to: :fleet
@@ -48,12 +48,24 @@ class User
       admin: admin,
       user_id: user_id,
       account_id: account_id,
-      account_name: account_name
+      account_name: account_name,
+      login_ip: login_ip
     }
   end
 
   # Returns associated fleet object
   def fleet
     @fleet ||= Fleet.new(account_id)
+  end
+
+  # Serializes User based on data from API
+  def self.serialize_from_api(user_attributes)
+    User.new(
+      email: user_attributes['email'],
+      user_id: user_attributes['accountUserId'],
+      account_id: user_attributes['accountId'],
+      account_name: user_attributes['accountName'],
+      admin: user_attributes['admin']
+    )
   end
 end

@@ -9,7 +9,17 @@ describe 'User signing in', type: :request do
   let(:password) { '12345678' }
   let(:params) { { user: { email: email, password: password } } }
 
-  before { allow(AccountsApi).to receive(:sign_in).and_return(User.new) }
+  before do
+    allow(AccountsApi)
+      .to receive(:sign_in)
+      .and_return(
+        'email' => email,
+        'accountUserId' => SecureRandom.uuid,
+        'accountId' => SecureRandom.uuid,
+        'accountName' => 'Royal Mail',
+        'admin' => false
+      )
+  end
 
   context 'when correct credentials given' do
     it 'calls AccountApi.sign_in with proper params' do
@@ -21,12 +31,21 @@ describe 'User signing in', type: :request do
 
     it 'redirects to root path' do
       http_request
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(authenticated_root_path)
+    end
+
+    it 'sets login IP' do
+      http_request
+      expect(controller.current_user.login_ip).to eq(@remote_ip)
     end
   end
 
   context 'when incorrect credentials given' do
-    before { allow(AccountsApi).to receive(:sign_in).and_return(false) }
+    before do
+      allow(AccountsApi)
+        .to receive(:sign_in)
+        .and_raise(BaseApi::Error401Exception.new(401, '', {}))
+    end
 
     it 'renders login view' do
       expect(http_request).to render_template('devise/sessions/new')
@@ -45,6 +64,23 @@ describe 'User signing in', type: :request do
     it 'shows password error message once' do
       http_request
       expect(body_scan(I18n.t('login_form.password_missing'))).to eq(1)
+    end
+  end
+
+  context 'when unconfirmed email is given' do
+    before do
+      allow(AccountsApi)
+        .to receive(:sign_in)
+        .and_raise(BaseApi::Error422Exception.new(422, '', {}))
+    end
+
+    it 'renders login view' do
+      expect(http_request).to render_template('devise/sessions/new')
+    end
+
+    it 'shows email error message twice' do
+      http_request
+      expect(body_scan(I18n.t('login_form.email_unconfirmed'))).to eq(2)
     end
   end
 

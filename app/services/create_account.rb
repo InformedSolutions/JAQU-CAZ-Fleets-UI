@@ -24,7 +24,7 @@ class CreateAccount < BaseService
   # sends verification email.
   def call
     validate_user_params
-    user = assign_user_attributes(perform_api_call)
+    user = User.serialize_from_api(perform_api_call)
     send_verification_email(user)
     user
   end
@@ -88,17 +88,6 @@ class CreateAccount < BaseService
     (errors[:password] ||= []) << I18n.t(
       'input_form.errors.password_complexity',
       attribute: 'Password'
-    )
-  end
-
-  # Assign user attributes received form api response to User instance
-  def assign_user_attributes(user_attributes)
-    User.new(
-      email: user_attributes['email'],
-      user_id: user_attributes['accountUserId'],
-      account_id: user_attributes['accountId'],
-      account_name: user_attributes['accountName'],
-      admin: user_attributes['admin']
     )
   end
 

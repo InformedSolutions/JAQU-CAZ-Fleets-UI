@@ -10,14 +10,17 @@ class AccountsApi < BaseApi
 
   class << self
     def sign_in(email:, password:)
-      user_details = { email: email, user_id: SecureRandom.uuid, account_id: SecureRandom.uuid }
-      if password == 'password'
-        User.new(user_details)
-      elsif password == 'admin_password'
-        User.new(user_details.merge(admin: true))
-      else
-        false
-      end
+      raise BaseApi::Error401Exception.new(401, '', {}) unless password.include?('password')
+
+      raise BaseApi::Error422Exception.new(422, '', {}) if email.include?('unconfirmed')
+
+      {
+        'email' => email,
+        'accountUserId' => SecureRandom.uuid,
+        'accountId' => SecureRandom.uuid,
+        'accountName' => 'Royal Mail',
+        'admin' => password == 'admin_password'
+      }
     end
 
     def create_account(email:, password:, company_name:)
