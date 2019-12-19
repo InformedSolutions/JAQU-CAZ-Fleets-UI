@@ -9,7 +9,7 @@ Feature: Dashboard
     Then I should enter valid credentials and press the Continue
       And I should not see "Manage users" link
       And I should not see "Payment history" link
-      And I should see "Upload your fleet" link
+      And I should see "Manage your fleet" link
       And I should see "Make a payment" link
       And I should see "Create a direct debit mandate" link
 
@@ -19,7 +19,7 @@ Feature: Dashboard
     Then I should enter fleet admin credentials and press the Continue
       And I should see "Manage users" link
       And I should see "Payment history" link
-      And I should see "Upload your fleet" link
+      And I should see "Manage your fleet" link
       And I should see "Make a payment" link
       And I should see "Create a direct debit mandate" link
 
