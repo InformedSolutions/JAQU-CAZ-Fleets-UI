@@ -12,6 +12,7 @@ Feature: Sign In
     Then I should enter valid credentials and press the Continue
     When I should see "Your fleet account"
       And Cookie is created for my session
+      And I should not see "Create account" link
 
   Scenario: View dashboard page with cookie that has not expired
     Given I have authentication cookie that has not expired
@@ -28,6 +29,7 @@ Feature: Sign In
 
   Scenario: Sign in with invalid credentials
     Given I am on the Sign in page
+      And I should see "Create account" link
     When I enter invalid credentials
     Then I remain on the current page
       And I should see "[TBA] The email or password you entered is incorrect"
