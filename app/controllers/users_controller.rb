@@ -76,28 +76,6 @@ class UsersController < ApplicationController
   end
 
   ##
-  # Renders the upload fleet page.
-  #
-  # ==== Path
-  #
-  #    :GET /fleets/single-user/csv-upload
-  #
-  def upload
-    # renders static page
-  end
-
-  ##
-  # Renders the payment page.
-  #
-  # ==== Path
-  #
-  #    :GET /fleets/single-user/first-upload
-  #
-  def payment
-    # renders static page
-  end
-
-  ##
   # Renders the direct debit mandate page.
   #
   # ==== Path

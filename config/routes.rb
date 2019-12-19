@@ -30,6 +30,17 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :fleets, only: %i[index] do
+    collection do
+      get :submission_method
+      post :submission_method, to: 'fleets#submit_method'
+      get :upload
+      get :enter_details
+      # For demonstration purposes
+      get :demonstrate_adding_vehicle
+    end
+  end
+
   scope '/fleets/organisation-account', only: %i[] do
     get 'add-users', to: 'users#new'
     post 'add-users', to: 'users#create'
@@ -42,8 +53,6 @@ Rails.application.routes.draw do
   end
 
   scope '/fleets/single-user', only: %i[] do
-    get 'csv-upload', to: 'users#upload'
-    get 'first-upload', to: 'users#payment'
     get 'select-direct-debit', to: 'users#caz_selection'
     get 'email-invite', to: 'users#email_invite'
   end
