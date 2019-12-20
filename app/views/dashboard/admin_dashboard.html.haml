@@ -1,0 +1,19 @@
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      %h1.govuk-heading-l Your company account
+
+      = render 'common/draft_tag'
+      %p
+      %p
+        On this page you can upload your vehicles, add and remove users, make a payment and view the
+        payments you’ve already made.
+      .govuk-inset-text
+        You must upload your vehicle details before making a payment.
+  .govuk-grid-row
+    = render 'manage_vehicles'
+    = render 'manage_users'
+  .govuk-grid-row
+    = render 'make_payment'
+    = render 'select_direct_debit'
+    = render 'payment_history'

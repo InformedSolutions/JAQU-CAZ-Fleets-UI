@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe 'FleetsController - #index', type: :request do
-  subject(:http_request) { get fleets_path }
+RSpec.describe 'PaymentsController - #index', type: :request do
+  subject(:http_request) { get payments_path }
 
   context 'with empty fleet' do
     before do
@@ -11,9 +11,9 @@ RSpec.describe 'FleetsController - #index', type: :request do
       sign_in create_user
     end
 
-    it 'redirects to  #submission_method' do
+    it 'redirects to #first_upload' do
       http_request
-      expect(response).to redirect_to submission_method_fleets_path
+      expect(response).to redirect_to first_upload_fleets_path
     end
   end
 
@@ -23,9 +23,9 @@ RSpec.describe 'FleetsController - #index', type: :request do
       sign_in create_user
     end
 
-    it 'renders manage vehicles page' do
+    it 'renders payments page' do
       http_request
-      expect(response).to render_template('fleets/index')
+      expect(response).to render_template('payments/index')
     end
   end
 end

@@ -34,7 +34,7 @@ class FleetsController < ApplicationController
       render :submission_method and return
     end
 
-    redirect_to action: form.manual? ? :enter_details : :upload
+    redirect_to action: form.manual? ? :add_vehicle : :upload
   end
 
   ##
@@ -50,6 +50,25 @@ class FleetsController < ApplicationController
   end
 
   ##
+  # Verifies if user confirms to add another vehicle
+  # If yes, redirects to {upload vehicle}[rdoc-ref:FleetsController.upload]
+  # If no, redirects to {dashboard page}[rdoc-ref:DashboardController.index]
+  # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:FleetsController.index]
+  #
+  # ==== Path
+  #
+  #    POST /fleets
+  #
+  def create
+    form = ConfirmationForm.new(confirmation)
+    unless form.valid?
+      return redirect_to fleets_path, alert: form.errors.messages[:confirmation].first
+    end
+
+    redirect_to form.confirmed? ? add_vehicle_fleets_path : dashboard_path
+  end
+
+  ##
   # Renders the view for CSV upload
   #
   # ==== Path
@@ -57,6 +76,17 @@ class FleetsController < ApplicationController
   #    :GET /fleets/upload
   #
   def upload
+    # nothing for now
+  end
+
+  ##
+  # Renders the view for first CSV upload
+  #
+  # ==== Path
+  #
+  #    :GET /fleets/first_upload
+  #
+  def first_upload
     # nothing for now
   end
 
@@ -82,5 +112,10 @@ class FleetsController < ApplicationController
   # Creates instant variable with fleet object
   def assign_fleet
     @fleet = current_user.fleet
+  end
+
+  # Returns user's form confirmation from the query params, values: 'yes', 'no', nil
+  def confirmation
+    params['confirm-vehicle-creation']
   end
 end

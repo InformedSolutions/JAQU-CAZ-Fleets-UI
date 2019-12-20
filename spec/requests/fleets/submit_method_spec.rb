@@ -31,7 +31,7 @@ RSpec.describe 'FleetsController - #submit_method', type: :request do
 
     it 'redirects to #enter_details' do
       http_request
-      expect(response).to redirect_to(enter_details_fleets_path)
+      expect(response).to redirect_to(add_vehicle_fleets_path)
     end
   end
 end

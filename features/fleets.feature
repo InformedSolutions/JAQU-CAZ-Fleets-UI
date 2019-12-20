@@ -18,10 +18,17 @@ Feature: Fleets
     When I visit the the submission method page
       And I select manual entry
       And I press the Continue
-    Then I should be on the enter details page
+    Then I should be on the add vehicle page
 
   Scenario: CSV Upload
     When I visit the the submission method page
       And I select CSV upload
       And I press the Continue
     Then I should be on the upload page
+
+  Scenario: Visiting the manage fleet page with vehicles in fleet
+    When I have vehicles in my fleet
+      And I visit the manage vehicles page
+      And I should be on the manage vehicles page
+    When I press the Continue
+      And I should see "[TBA] You must choose an answer"
