@@ -62,8 +62,20 @@ RSpec.describe Vehicle, type: :model do
   end
 
   describe '.formatted_charge' do
-    it 'returns formatted charge value' do
-      expect(vehicle.formatted_charge('Leeds')).to eq('£12.50')
+    context 'when charge is in full pounds' do
+      let(:leeds_charge) { 8 }
+
+      it 'returns formatted charge value without pence' do
+        expect(vehicle.formatted_charge('Leeds')).to eq('£8')
+      end
+    end
+
+    context 'when charge is not in full pounds' do
+      let(:leeds_charge) { 8.5 }
+
+      it 'returns formatted charge value with pence' do
+        expect(vehicle.formatted_charge('Leeds')).to eq('£8.50')
+      end
     end
 
     context 'when charge is 0' do

@@ -44,6 +44,8 @@ class Vehicle
     charge = charge(caz)
     return 'No charge' if charge.zero?
 
+    return "£#{charge.to_i}" if (charge % 1).zero?
+
     "£#{format('%<pay>.2f', pay: charge)}"
   end
 
