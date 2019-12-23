@@ -30,16 +30,21 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :fleets, only: %i[index] do
+  resources :fleets, only: %i[index create] do
     collection do
       get :submission_method
       post :submission_method, to: 'fleets#submit_method'
       get :upload
-      get :enter_details
+      get :reupload
+      get :first_upload
+      get :add_vehicle
+      get :delete
       # For demonstration purposes
       get :demonstrate_adding_vehicle
     end
   end
+
+  resources :payments, only: %i[index]
 
   scope '/fleets/organisation-account', only: %i[] do
     get 'add-users', to: 'users#new'

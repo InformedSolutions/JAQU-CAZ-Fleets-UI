@@ -3,7 +3,7 @@ Feature: Users
   As an administrator
   I want to manage user accounts
 
-  Scenario: View Manage users page
+  Scenario: View Manage users page as an admin
     Given I am on Dashboard page
     Then I navigate to a Manage users page
       And I should see "Manage your fleet administrators"
@@ -12,7 +12,7 @@ Feature: Users
       And I should see "[TBA] You must choose an answer"
     Then I choose "No"
       And I press the Continue
-    Then I should see "Your fleet account"
+    Then I should see "Your company account"
       And I navigate to a Manage users page
     Then I choose "Yes"
       And I press the Continue

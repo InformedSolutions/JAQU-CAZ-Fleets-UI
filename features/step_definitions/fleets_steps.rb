@@ -22,8 +22,8 @@ When('I select manual entry') do
   choose('Manual entry')
 end
 
-Then('I should be on the enter details page') do
-  expect(page).to have_current_path(enter_details_fleets_path)
+Then('I should be on the add vehicle page') do
+  expect(page).to have_current_path(add_vehicle_fleets_path)
 end
 
 When('I select CSV upload') do
@@ -32,4 +32,12 @@ end
 
 Then('I should be on the upload page') do
   expect(page).to have_current_path(upload_fleets_path)
+end
+
+When('I have vehicles in my fleet') do
+  mock_vehicles_in_fleet
+end
+
+Then('I should be on the manage vehicles page') do
+  expect(page).to have_current_path(fleets_path)
 end
