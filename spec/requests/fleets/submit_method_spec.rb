@@ -29,7 +29,7 @@ RSpec.describe 'FleetsController - #submit_method', type: :request do
   context 'with manual as method' do
     let(:submission_method) { 'manual' }
 
-    it 'redirects to #enter_details' do
+    it 'redirects to #add_vehicle' do
       http_request
       expect(response).to redirect_to(add_vehicle_fleets_path)
     end

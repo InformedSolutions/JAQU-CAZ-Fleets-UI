@@ -14,7 +14,7 @@ class FleetsController < ApplicationController
   #    :GET /fleets/submission_method
   #
   def submission_method
-    # Renders static view
+    session[:add_vehicle_back_button] = submission_method_fleets_path
   end
 
   ##
@@ -65,7 +65,7 @@ class FleetsController < ApplicationController
       return redirect_to fleets_path, alert: form.errors.messages[:confirmation].first
     end
 
-    redirect_to form.confirmed? ? add_vehicle_fleets_path : dashboard_path
+    determinate_next_page(form)
   end
 
   ##
@@ -91,14 +91,14 @@ class FleetsController < ApplicationController
   end
 
   ##
-  # Renders the view for VRN submission
+  # Renders the view for adding vehicle
   #
   # ==== Path
   #
-  #    :GET /fleets/enter_details
+  #    :GET /fleets/add_vehicle
   #
-  def enter_details
-    # nothing foe now
+  def add_vehicle
+    @return_path = session[:add_vehicle_back_button]
   end
 
   # For demonstration purposes
@@ -117,5 +117,16 @@ class FleetsController < ApplicationController
   # Returns user's form confirmation from the query params, values: 'yes', 'no', nil
   def confirmation
     params['confirm-vehicle-creation']
+  end
+
+  # Redirects to add vehicle page if form confirmed.
+  # If not, redirects to dashboard page
+  def determinate_next_page(form)
+    if form.confirmed?
+      session[:add_vehicle_back_button] = fleets_path
+      redirect_to add_vehicle_fleets_path
+    else
+      redirect_to dashboard_path
+    end
   end
 end
