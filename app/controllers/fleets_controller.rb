@@ -98,7 +98,7 @@ class FleetsController < ApplicationController
   #    :GET /fleets/add_vehicle
   #
   def add_vehicle
-    @return_path = session[:add_vehicle_back_button]
+    # Renders static view
   end
 
   # For demonstration purposes
@@ -123,7 +123,6 @@ class FleetsController < ApplicationController
   # If not, redirects to dashboard page
   def determinate_next_page(form)
     if form.confirmed?
-      session[:add_vehicle_back_button] = fleets_path
       redirect_to add_vehicle_fleets_path
     else
       redirect_to dashboard_path
