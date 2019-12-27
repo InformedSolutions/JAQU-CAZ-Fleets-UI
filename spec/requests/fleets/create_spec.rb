@@ -15,8 +15,8 @@ RSpec.describe 'FleetsController - POST #create' do
   end
 
   context 'when user confirms form' do
-    it 'redirects to add vehicle page ' do
-      expect(response).to redirect_to(add_vehicle_fleets_path)
+    it 'redirects to enter details page ' do
+      expect(response).to redirect_to(enter_details_vehicles_path)
     end
   end
 

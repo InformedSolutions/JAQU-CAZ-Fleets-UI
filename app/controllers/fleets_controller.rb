@@ -34,7 +34,7 @@ class FleetsController < ApplicationController
       render :submission_method and return
     end
 
-    redirect_to action: form.manual? ? :add_vehicle : :upload
+    redirect_to form.manual? ? enter_details_vehicles_path : upload_fleets_path
   end
 
   ##
@@ -65,7 +65,7 @@ class FleetsController < ApplicationController
       return redirect_to fleets_path, alert: form.errors.messages[:confirmation].first
     end
 
-    determinate_next_page(form)
+    redirect_to form.confirmed? ? enter_details_vehicles_path : dashboard_path
   end
 
   ##
@@ -90,17 +90,6 @@ class FleetsController < ApplicationController
     # nothing for now
   end
 
-  ##
-  # Renders the view for adding vehicle
-  #
-  # ==== Path
-  #
-  #    :GET /fleets/add_vehicle
-  #
-  def add_vehicle
-    # Renders static view
-  end
-
   # For demonstration purposes
   def demonstrate_adding_vehicle
     @fleet.add_vehicle(vrn: "CAZ#{rand(100...300)}")
@@ -117,15 +106,5 @@ class FleetsController < ApplicationController
   # Returns user's form confirmation from the query params, values: 'yes', 'no', nil
   def confirmation
     params['confirm-vehicle-creation']
-  end
-
-  # Redirects to add vehicle page if form confirmed.
-  # If not, redirects to dashboard page
-  def determinate_next_page(form)
-    if form.confirmed?
-      redirect_to add_vehicle_fleets_path
-    else
-      redirect_to dashboard_path
-    end
   end
 end

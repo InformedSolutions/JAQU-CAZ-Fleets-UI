@@ -1,0 +1,16 @@
+= link_to 'Back', fleets_path, class: 'govuk-back-link'
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      - if @errors.present?
+        = render 'common/error_summary',
+          error_msg_div: '#vrn-error',
+          error_msg: @errors[:vrn].first
+      = form_tag enter_details_vehicles_path, method: :post do
+        %fieldset.govuk-fieldset
+          %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
+            %h1.govuk-fieldset__heading
+              Enter the registration number of the vehicle
+          = render @errors.present? ? 'vehicles/vrn_input/errored' : 'vehicles/vrn_input/normal'
+        = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
