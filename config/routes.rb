@@ -37,7 +37,6 @@ Rails.application.routes.draw do
       get :upload
       get :reupload
       get :first_upload
-      get :add_vehicle
       get :delete
       # For demonstration purposes
       get :demonstrate_adding_vehicle
@@ -45,6 +44,14 @@ Rails.application.routes.draw do
   end
 
   resources :payments, only: %i[index]
+
+  resources :vehicles, only: [] do
+    collection do
+      get :enter_details
+      post :enter_details, to: 'vehicles#submit_details'
+      get :confirm_details
+    end
+  end
 
   scope '/fleets/organisation-account', only: %i[] do
     get 'add-users', to: 'users#new'
