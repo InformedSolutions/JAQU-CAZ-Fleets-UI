@@ -1,4 +1,5 @@
 en:
+  external_link: "Opens in new window - External website"
   form:
     errors:
       missing: 'is required'

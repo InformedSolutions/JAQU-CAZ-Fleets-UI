@@ -43,11 +43,21 @@ class AccountsApi < BaseApi
       $request.session['mocked_fleet'] || []
     end
 
-    def add_vehicle_to_fleet(details:, _account_id:) # rubocop:disable Metrics/MethodLength
+    def add_vehicle_to_fleet(details:, _account_id:)
       return false unless $request
 
       fleet = $request.session['mocked_fleet'] || []
-      fleet.push(
+      unless fleet.any? { |vehicle| vehicle['vrn'] == details[:vrn] }
+        fleet.push(mocked_new_vehicle(details))
+      end
+      $request.session['mocked_fleet'] = fleet
+      true
+    end
+
+    private
+
+    def mocked_new_vehicle(details)
+      {
         'vehicleId' => SecureRandom.uuid,
         'vrn' => details[:vrn],
         'type' => details[:type] || 'car',
@@ -55,9 +65,7 @@ class AccountsApi < BaseApi
           'leeds' => details[:leeds_charge] || 12.5,
           'birmingham' => details[:birmingham_charge] || 8
         }
-      )
-      $request.session['mocked_fleet'] = fleet
-      true
+      }
     end
   end
 end

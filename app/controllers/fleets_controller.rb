@@ -90,12 +90,6 @@ class FleetsController < ApplicationController
     # nothing for now
   end
 
-  # For demonstration purposes
-  def demonstrate_adding_vehicle
-    @fleet.add_vehicle(vrn: "CAZ#{rand(100...300)}")
-    redirect_to fleets_path
-  end
-
   private
 
   # Creates instant variable with fleet object

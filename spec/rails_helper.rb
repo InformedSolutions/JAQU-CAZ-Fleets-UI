@@ -22,6 +22,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
+    @vrn = 'ABC123'
     @remote_ip = '1.2.3.4'
     allow_any_instance_of(ActionDispatch::Request)
       .to receive(:remote_ip)
