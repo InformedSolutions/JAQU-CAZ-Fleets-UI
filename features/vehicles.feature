@@ -7,9 +7,40 @@ Feature: Vehicles
     When I visit the enter details page
       And I enter vrn
       And I press the Continue
-    Then I should be on the confirm details page
-    
+    Then I should be on the details page
+    When I choose that the details are correct
+      And I press the Confirm
+    Then I should be on the manage vehicles page
+
   Scenario: Submitting empty vrn
     When I visit the enter details page
       And I press the Continue
     Then I should see "[TBA] The registration number of the vehicle is required" twice
+
+  Scenario: Adding the exempt vehicle
+    When I visit the enter details page
+      And I enter exempt vrn
+      And I press the Continue
+    Then I should be on the exempt page
+
+  Scenario: Adding the not found vehicle
+    When I visit the enter details page
+      And I enter not found vrn
+      And I press the Continue
+    Then I should be on the vehicle not found page
+
+  Scenario: Adding a vehicle with incorrect details
+    When I visit the enter details page
+      And I enter vrn
+      And I press the Continue
+      And I choose that the details are incorrect
+      And I press the Confirm
+    Then I should be on the incorrect details page
+
+  Scenario: No selected answer on the details page
+    When I visit the enter details page
+      And I enter vrn
+      And I press the Continue
+      And I press the Confirm
+    Then I should be on the details page
+      And I should see "[TBA] You must choose an answer" twice

@@ -38,8 +38,6 @@ Rails.application.routes.draw do
       get :reupload
       get :first_upload
       get :delete
-      # For demonstration purposes
-      get :demonstrate_adding_vehicle
     end
   end
 
@@ -49,7 +47,11 @@ Rails.application.routes.draw do
     collection do
       get :enter_details
       post :enter_details, to: 'vehicles#submit_details'
-      get :confirm_details
+      get :details
+      post :confirm_details
+      get :exempt
+      get :incorrect_details
+      get :not_found
     end
   end
 

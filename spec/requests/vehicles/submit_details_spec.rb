@@ -21,8 +21,8 @@ RSpec.describe 'VehiclesController - #submit_details', type: :request do
     end
 
     context 'when VrnForm is valid' do
-      it 'redirects to #confirm_details' do
-        expect(response).to redirect_to(confirm_details_vehicles_path)
+      it 'redirects to #details' do
+        expect(response).to redirect_to(details_vehicles_path)
       end
 
       it 'sets vrn in the session' do

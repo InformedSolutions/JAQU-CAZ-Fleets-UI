@@ -2,8 +2,13 @@
 
 require 'rails_helper'
 
-RSpec.describe 'VehiclesController - #confirm_details', type: :request do
-  subject(:http_request) { get confirm_details_vehicles_path }
+RSpec.describe 'VehicleCheckersController - POST #confirm_details', type: :request do
+  subject(:http_request) do
+    post confirm_details_vehicles_path, params: { 'confirm-vehicle' => confirmation }
+  end
+
+  let(:confirmation) { 'yes' }
+  let(:account_id) { SecureRandom.uuid }
 
   it 'returns redirect to the login page' do
     http_request
@@ -11,7 +16,7 @@ RSpec.describe 'VehiclesController - #confirm_details', type: :request do
   end
 
   context 'when user is signed in' do
-    before { sign_in create_user }
+    before { sign_in create_user(account_id: account_id) }
 
     context 'without VRN in the session' do
       it 'returns redirect to vehicles#enter_details' do
@@ -21,11 +26,52 @@ RSpec.describe 'VehiclesController - #confirm_details', type: :request do
     end
 
     context 'with VRN in the session' do
-      before { add_to_session(vrn: 'ABC123') }
+      before do
+        allow(AccountsApi).to receive(:add_vehicle_to_fleet).and_return(true)
 
-      it 'returns http success' do
-        http_request
-        expect(response).to have_http_status(:success)
+        add_to_session(vrn: @vrn)
+      end
+
+      context 'when user confirms details' do
+        it 'redirects to fleets' do
+          http_request
+          expect(response).to redirect_to(fleets_path)
+        end
+
+        it 'adds the vehicle to the fleet' do
+          expect(AccountsApi)
+            .to receive(:add_vehicle_to_fleet)
+            .with(details: { vrn: @vrn }, _account_id: account_id)
+          http_request
+        end
+      end
+
+      context 'when user does not confirm details' do
+        let(:confirmation) { 'no' }
+
+        it 'redirects to incorrect details page' do
+          http_request
+          expect(response).to redirect_to(incorrect_details_vehicles_path)
+        end
+
+        it 'does not add the vehicle to the fleet' do
+          expect(AccountsApi).not_to receive(:add_vehicle_to_fleet)
+          http_request
+        end
+      end
+
+      context 'when confirmation is empty' do
+        let(:confirmation) { '' }
+
+        it 'redirects to confirm details page' do
+          http_request
+          expect(response).to redirect_to(details_vehicles_path)
+        end
+
+        it 'does not add the vehicle to the fleet' do
+          expect(AccountsApi).not_to receive(:add_vehicle_to_fleet)
+          http_request
+        end
       end
     end
   end
