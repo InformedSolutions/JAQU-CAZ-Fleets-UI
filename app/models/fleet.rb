@@ -16,7 +16,7 @@ class Fleet
   # Returns an array of Vehicle instances associated with the account.
   def vehicles
     @vehicles ||= begin
-                 data = AccountsApi.fleet_vehicles(_account_id: account_id)
+                 data = FleetsApi.fleet_vehicles(_account_id: account_id)
                  data.map { |vehicle_data| Vehicle.new(vehicle_data) }
                end
   end
@@ -30,7 +30,7 @@ class Fleet
   #    * +leeds_charge+ - float, charge in Leeds, optional
   #    * +birmingham_charge+ - float, charge in Birmingham, optional
   def add_vehicle(vehicle_details)
-    AccountsApi.add_vehicle_to_fleet(details: vehicle_details, _account_id: account_id)
+    FleetsApi.add_vehicle_to_fleet(details: vehicle_details, _account_id: account_id)
   end
 
   private
