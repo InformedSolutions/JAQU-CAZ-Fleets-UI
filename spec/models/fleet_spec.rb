@@ -10,13 +10,13 @@ RSpec.describe Fleet, type: :model do
   describe '.vehicles' do
     before do
       vehicles_data = read_response('fleet.json')
-      allow(AccountsApi)
+      allow(FleetsApi)
         .to receive(:fleet_vehicles)
         .and_return(vehicles_data)
     end
 
     it 'calls AccountsApi.fleet_vehicles with proper params' do
-      expect(AccountsApi)
+      expect(FleetsApi)
         .to receive(:fleet_vehicles)
         .with(_account_id: account_id)
       fleet.vehicles
@@ -37,13 +37,13 @@ RSpec.describe Fleet, type: :model do
     end
 
     before do
-      allow(AccountsApi)
+      allow(FleetsApi)
         .to receive(:add_vehicle_to_fleet)
         .and_return(true)
     end
 
     it 'calls AccountsApi.fleet_vehicles with proper params' do
-      expect(AccountsApi)
+      expect(FleetsApi)
         .to receive(:add_vehicle_to_fleet)
         .with(details: vehicle_details, _account_id: account_id)
       fleet.add_vehicle(vehicle_details)

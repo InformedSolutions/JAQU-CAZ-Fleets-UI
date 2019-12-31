@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
+##
+# API wrapper for connecting to Accounts API.
+# Wraps methods regarding user management.
+# See {FleetsApi}[rdoc-ref:FleetsApi] for fleet related actions.
+#
 class AccountsApi < BaseApi
   base_uri ENV.fetch('ACCOUNTS_API_URL', 'localhost:3001') + '/v1'
-
-  headers(
-    'Content-Type' => 'application/json',
-    'X-Correlation-ID' => -> { SecureRandom.uuid }
-  )
 
   class << self
     def sign_in(email:, password:)
@@ -35,37 +35,6 @@ class AccountsApi < BaseApi
     def verify_user(account_id:, user_id:)
       log_action("Verifying account with account_id: #{account_id} and user_id: #{user_id}")
       request(:post, "/accounts/#{account_id}/users/#{user_id}/verify")
-    end
-
-    def fleet_vehicles(_account_id:)
-      return [] unless $request
-
-      $request.session['mocked_fleet'] || []
-    end
-
-    def add_vehicle_to_fleet(details:, _account_id:)
-      return false unless $request
-
-      fleet = $request.session['mocked_fleet'] || []
-      unless fleet.any? { |vehicle| vehicle['vrn'] == details[:vrn] }
-        fleet.push(mocked_new_vehicle(details))
-      end
-      $request.session['mocked_fleet'] = fleet
-      true
-    end
-
-    private
-
-    def mocked_new_vehicle(details)
-      {
-        'vehicleId' => SecureRandom.uuid,
-        'vrn' => details[:vrn],
-        'type' => details[:type] || 'car',
-        'charges' => {
-          'leeds' => details[:leeds_charge] || 12.5,
-          'birmingham' => details[:birmingham_charge] || 8
-        }
-      }
     end
   end
 end

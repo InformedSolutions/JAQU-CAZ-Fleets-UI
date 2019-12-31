@@ -27,7 +27,7 @@ RSpec.describe 'VehicleCheckersController - POST #confirm_details', type: :reque
 
     context 'with VRN in the session' do
       before do
-        allow(AccountsApi).to receive(:add_vehicle_to_fleet).and_return(true)
+        allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true)
 
         add_to_session(vrn: @vrn)
       end
@@ -39,7 +39,7 @@ RSpec.describe 'VehicleCheckersController - POST #confirm_details', type: :reque
         end
 
         it 'adds the vehicle to the fleet' do
-          expect(AccountsApi)
+          expect(FleetsApi)
             .to receive(:add_vehicle_to_fleet)
             .with(details: { vrn: @vrn }, _account_id: account_id)
           http_request
@@ -55,7 +55,7 @@ RSpec.describe 'VehicleCheckersController - POST #confirm_details', type: :reque
         end
 
         it 'does not add the vehicle to the fleet' do
-          expect(AccountsApi).not_to receive(:add_vehicle_to_fleet)
+          expect(FleetsApi).not_to receive(:add_vehicle_to_fleet)
           http_request
         end
       end
@@ -69,7 +69,7 @@ RSpec.describe 'VehicleCheckersController - POST #confirm_details', type: :reque
         end
 
         it 'does not add the vehicle to the fleet' do
-          expect(AccountsApi).not_to receive(:add_vehicle_to_fleet)
+          expect(FleetsApi).not_to receive(:add_vehicle_to_fleet)
           http_request
         end
       end
