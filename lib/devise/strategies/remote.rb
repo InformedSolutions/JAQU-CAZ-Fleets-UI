@@ -51,7 +51,7 @@ module Devise
         else
           add_unauthorized_errors
         end
-      rescue BaseApi::Error401Exception
+      rescue BaseApi::Error401Exception, BaseApi::Error400Exception
         add_unauthorized_errors
       rescue BaseApi::Error422Exception
         add_unconfirmed_errors

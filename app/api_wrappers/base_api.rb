@@ -10,6 +10,7 @@ class BaseApi
 
   headers(
     'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
     'X-Correlation-ID' => -> { SecureRandom.uuid }
   )
 
@@ -103,6 +104,7 @@ class BaseApi
       JSON.parse(body.presence || '{}')
     rescue JSON::ParserError
       exception = Error500Exception.new(500, 'Response body parsing failed', body)
+      log_action("Response body: #{body}")
       log_exception(exception)
       raise exception
     end
@@ -111,13 +113,8 @@ class BaseApi
     # Matches error status with a proper exception class.
     # Returns an error class.
     def error_klass(status)
-      case status
-      when 400
-        Error400Exception
-      when 404
-        Error404Exception
-      when 422
-        Error422Exception
+      if status.in?([400, 401, 404, 422])
+        "BaseApi::Error#{status}Exception".constantize
       else
         Error500Exception
       end
