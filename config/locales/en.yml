@@ -15,14 +15,14 @@ en:
       missing: '[TBA] %{attribute} is required'
       invalid_format: '[TBA] %{attribute} is in an invalid format'
       maximum_length: '[TBA] %{attribute} is too long (maximum is 45 characters)'
-      password_complexity: '[TBA] %{attribute} must be at least 8 characters long, include at least one upper case letter, a number and a special character'
+      password_complexity: '[TBA] %{attribute} must be at least 8 characters long, include at least 1 upper case letter and a number'
     labels:
       email: 'Enter your email address'
       email_confirmation: 'Confirm your email address'
       password: 'Create a password'
       password_confirmation: 'Confirm password'
     hints:
-      password: 'Must be 8 characters long and include 1 digit'
+      password: 'Must be at least 8 characters long, include at least 1 upper case letter and a number'
   vrn_form:
     errors:
       vrn_missing: '[TBA] The registration number of the vehicle is required'
