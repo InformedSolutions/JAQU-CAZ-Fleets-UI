@@ -12,7 +12,7 @@
       %p
         Use this page to add and remove vehicles from your account.
         %br
-        You can pay for these vehicles on the Make a payment page.
+        You can pay then for these vehicles on the Make a payment page.
 
       %table.govuk-table
         %caption.govuk-table__caption
@@ -68,7 +68,6 @@
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
 
       %p
-        If you need to add more vehicles you can override this list by
-        = succeed '.' do
-          = link_to('uploading a new list of vehicles', reupload_fleets_path, id: 'reupload')
+        If you need to add more vehicles you can override this list by uploading a new list.
+        = link_to('Upload a new list of vehicles', reupload_fleets_path, id: 'reupload')
 

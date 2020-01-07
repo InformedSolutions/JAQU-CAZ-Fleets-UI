@@ -10,11 +10,11 @@
           error_msg_div: '#company_name-error',
           error_msg: "[TBA] #{@error}"
 
-      %h1.govuk-heading-l Create account
+      %h1.govuk-heading-l Create an account
       = render 'common/draft_tag'
       %p
       %span#create-account-hint.govuk-hint
-        Create an account to upload and pay for multiple vehicles.
+        Upload and pay the charge for multiple vehicles.
 
       %fieldset.govuk-fieldset{'aria-describedby': 'create-account-hint'}
         %legend.govuk-visually-hidden Create account fields
@@ -23,7 +23,7 @@
             html: { autocomplete: :on, novalidate: 'novalidate', spellcheck: false }) do |f|
 
           .govuk-form-group{class: ('govuk-form-group--error' if @error)}
-            = f.label :company_name, 'Company name', class: 'govuk-label'
+            = f.label :company_name, 'Enter your company name', class: 'govuk-label'
             - if @error
               %span#company_name-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
