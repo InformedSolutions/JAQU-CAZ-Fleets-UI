@@ -6,7 +6,7 @@ Feature: Users
   Scenario: View Manage users page as an admin
     Given I am on Dashboard page
     Then I navigate to a Manage users page
-      And I should see "Manage your fleet administrators"
+      And I should see "Manage your account administrators"
     Then I press the Continue
       And I should see "There is a problem"
       And I should see "[TBA] You must choose an answer"
@@ -29,4 +29,4 @@ Feature: Users
       And I should see "[TBA] Name is required"
       And I should see "[TBA] Email address is required, [TBA] Email address is in an invalid format"
     Then I should enter valid user details
-      And I should see "Manage your fleet administrators"
+      And I should see "Manage your account administrators"
