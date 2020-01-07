@@ -42,9 +42,6 @@ class AccountsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def sign_in(email:, password:)
-      # TODO: Remove when this endpoint will work
-      return mocked_user(email) if Rails.env.development? && password == 'password'
-
       log_action("Login user with email: #{email}")
       body = { email: email, password: password }.to_json
       request(:post, '/auth/login', body: body)
@@ -87,10 +84,7 @@ class AccountsApi < BaseApi
     def create_account(email:, password:, company_name:)
       log_action("Creating account with email: #{email} and company_name: #{company_name}")
       body = { accountName: company_name, email: email, password: password }.to_json
-      user_data = request(:post, '/accounts', body: body)
-      # Override for a dummy endpoint. Should be removed after proper backend implementation
-      user_data['email'] = email
-      user_data
+      request(:post, '/accounts', body: body)
     end
 
     ##
@@ -118,19 +112,6 @@ class AccountsApi < BaseApi
     def verify_user(account_id:, user_id:)
       log_action("Verifying account with account_id: #{account_id} and user_id: #{user_id}")
       request(:post, "/accounts/#{account_id}/users/#{user_id}/verify")
-    end
-
-    private
-
-    # Hacks backend API for development purposes
-    def mocked_user(email)
-      {
-        'email' => email,
-        'accountUserId' => SecureRandom.uuid,
-        'accountId' => SecureRandom.uuid,
-        'accountName' => 'Royal Mail',
-        'admin' => true
-      }
     end
   end
 end

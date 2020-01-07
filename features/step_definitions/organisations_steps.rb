@@ -34,7 +34,7 @@ And('I enter the account details with not uniq email address') do
     status: 422,
     body: {
       'message': 'Submitted parameters are invalid',
-      'details': %w[emailNotUnique passwordNotValid emailNotValid]
+      'errorCode': 'emailNotUnique'
     }.to_json
   )
   fill_account_details
