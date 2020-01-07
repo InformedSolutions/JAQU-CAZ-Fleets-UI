@@ -7,6 +7,7 @@
 #
 class FleetsApi < AccountsApi
   class << self
+    #:nocov:
     def fleet_vehicles(_account_id:)
       return [] unless $request
 
@@ -37,5 +38,6 @@ class FleetsApi < AccountsApi
         }
       }
     end
+    #:nocov:
   end
 end
