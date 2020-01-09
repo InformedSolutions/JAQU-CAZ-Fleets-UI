@@ -21,7 +21,7 @@ class Fleet
                end
   end
 
-  # Adds a new vehicle to fleet.
+  # Adds a new vehicle to the fleet.
   #
   # ==== Params
   # * +vehicle_details+ - hash
@@ -31,6 +31,15 @@ class Fleet
   #    * +birmingham_charge+ - float, charge in Birmingham, optional
   def add_vehicle(vehicle_details)
     FleetsApi.add_vehicle_to_fleet(details: vehicle_details, _account_id: account_id)
+  end
+
+  # Removes a vehicle from the fleet.
+  #
+  # ==== Params
+  # * +vrn+ - string, vehicle registration number, required
+  #
+  def delete_vehicle(vrn)
+    FleetsApi.remove_vehicle_from_fleet(vrn: vrn, _account_id: account_id)
   end
 
   private

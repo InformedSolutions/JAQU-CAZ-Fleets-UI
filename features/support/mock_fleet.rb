@@ -2,11 +2,11 @@
 
 module MockFleet
   def mock_empty_fleet
-    mock_fleet(instance_double(Fleet, vehicles: [], add_vehicle: true))
+    mock_fleet
   end
 
   def mock_vehicles_in_fleet
-    mock_fleet(instance_double(Fleet, vehicles: vehicles, add_vehicle: true))
+    mock_fleet(vehicles)
   end
 
   def vehicles
@@ -16,8 +16,9 @@ module MockFleet
 
   private
 
-  def mock_fleet(fleet_instance)
-    allow(Fleet).to receive(:new).and_return(fleet_instance)
+  def mock_fleet(vehicles = [])
+    @fleet = instance_double(Fleet, vehicles: vehicles, add_vehicle: true, delete_vehicle: true)
+    allow(Fleet).to receive(:new).and_return(@fleet)
   end
 end
 

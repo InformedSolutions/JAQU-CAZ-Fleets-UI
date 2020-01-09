@@ -37,7 +37,9 @@ Rails.application.routes.draw do
       get :upload
       get :reupload
       get :first_upload
+      get :assign_delete
       get :delete
+      post :delete, to: 'fleets#confirm_delete'
     end
   end
 

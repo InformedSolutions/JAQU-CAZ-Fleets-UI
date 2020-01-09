@@ -34,7 +34,7 @@
               %td.govuk-table__cell{scope: 'row'}
                 = vehicle.formatted_charge('Leeds')
               %td.govuk-table__cell{scope: 'row'}
-                = link_to('Remove', delete_fleets_path)
+                = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
       %p
         A vehicle labelled with 'No charge' under a Clean Air Zone means that it will not be charged
         when driving within that Clean Air Zone.
@@ -69,5 +69,6 @@
 
       %p
         If you need to add more vehicles you can override this list by uploading a new list.
-        = link_to('Upload a new list of vehicles', reupload_fleets_path, id: 'reupload')
+      %p
+        = link_to('Upload a new list of vehicles', reupload_fleets_path, id: 'reupload', class: 'govuk-link')
 

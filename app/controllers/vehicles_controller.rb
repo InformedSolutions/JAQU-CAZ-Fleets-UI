@@ -145,14 +145,10 @@ class VehiclesController < ApplicationController
     params['confirm-vehicle']
   end
 
-  # Returns a single error message
-  def confirmation_error(form)
-    form.errors.messages[:confirmation].first
-  end
-
   # Add vehicle with given VRN to the user's fleet
   def add_vehicle_to_fleet
     current_user.add_vehicle(vrn: vrn)
+    session[:vrn] = nil
     redirect_to fleets_path
   end
 
