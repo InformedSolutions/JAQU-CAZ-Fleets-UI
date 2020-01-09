@@ -28,7 +28,6 @@ RSpec.describe 'VehicleCheckersController - POST #confirm_details', type: :reque
     context 'with VRN in the session' do
       before do
         allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true)
-
         add_to_session(vrn: @vrn)
       end
 
@@ -43,6 +42,11 @@ RSpec.describe 'VehicleCheckersController - POST #confirm_details', type: :reque
             .to receive(:add_vehicle_to_fleet)
             .with(details: { vrn: @vrn }, _account_id: account_id)
           http_request
+        end
+
+        it 'removes vrn from session' do
+          http_request
+          expect(session[:vrn]).to be_nil
         end
       end
 

@@ -32,3 +32,15 @@ Feature: Fleets
     Then I should be on the manage vehicles page
     Then I press the Continue
     Then I should see "[TBA] You must choose an answer"
+    
+  Scenario: Removing vehicle from the fleet
+    When I have vehicles in my fleet
+      And I visit the manage vehicles page
+      And I press "Remove" link
+    Then I should be on the delete vehicle page
+      And I press the Continue
+    Then I should see "[TBA] You must choose an answer"
+      And I choose "Yes"
+      And I press the Continue
+    Then I should be on the manage vehicles page
+      And I should have deleted the vehicle

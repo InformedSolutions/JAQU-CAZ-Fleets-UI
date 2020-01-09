@@ -21,7 +21,7 @@ end
 # links interactions
 
 Then('I press {string} link') do |string|
-  click_link string
+  first(:link, string).click
 end
 
 Then('I press the Continue') do

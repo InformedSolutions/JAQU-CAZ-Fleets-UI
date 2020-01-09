@@ -25,6 +25,14 @@ class FleetsApi < AccountsApi
       true
     end
 
+    def remove_vehicle_from_fleet(vrn:, _account_id:)
+      return false unless $request
+
+      fleet = $request.session['mocked_fleet'] || []
+      $request.session['mocked_fleet'] = fleet.filter { |vehicle| vehicle['vrn'] != vrn }
+      true
+    end
+
     private
 
     def mocked_new_vehicle(details)

@@ -10,9 +10,9 @@ RSpec.shared_examples 'a vrn required view' do
     before { sign_in create_user }
 
     context 'without VRN in the session' do
-      it 'returns redirect to vehicles#enter_details' do
+      it 'returns redirect to no VRN path' do
         http_request
-        expect(response).to redirect_to(enter_details_vehicles_path)
+        expect(response).to redirect_to(no_vrn_path)
       end
     end
 
