@@ -5,6 +5,7 @@
 #
 class FleetsController < ApplicationController
   before_action :assign_fleet
+  before_action :check_vrn, only: %i[delete confirm_delete]
 
   ##
   # Renders submission method selection page
@@ -60,7 +61,7 @@ class FleetsController < ApplicationController
   #    POST /fleets
   #
   def create
-    form = ConfirmationForm.new(confirmation)
+    form = ConfirmationForm.new(params['confirm-vehicle-creation'])
     unless form.valid?
       return redirect_to fleets_path, alert: form.errors.messages[:confirmation].first
     end
@@ -90,6 +91,57 @@ class FleetsController < ApplicationController
     # nothing for now
   end
 
+  ##
+  # Assigns VRN to remove. Redirects to {delete view}[rdoc-ref:FleetsController.delete]
+  #
+  # ==== Path
+  #
+  #    :GET /fleets/assign_delete
+  #
+  # ==== Params
+  # * +vrn+ - vehicle registration number, required in params
+  #
+  def assign_delete
+    return redirect_to fleets_path unless params[:vrn]
+
+    session[:vrn] = params[:vrn]
+    redirect_to delete_fleets_path
+  end
+
+  ##
+  # Renders the confirmation page for deleting vehicles from the fleet.
+  #
+  # ==== Path
+  #
+  #    GET /fleets/delete
+  #
+  # ==== Params
+  # * +vrn+ - vehicle registration number, required in the session
+  #
+  def delete
+    @vehicle_registration = vrn
+  end
+
+  ##
+  # Removes the vehicle from the fleet if the user confirms this.
+  #
+  # ==== Path
+  #
+  #    POST /fleets/delete
+  #
+  # ==== Params
+  # * +vrn+ - vehicle registration number, required in the session
+  # * +confirm-delete+ - form confirmation, possible values: 'yes', 'no', nil
+  #
+  def confirm_delete
+    form = ConfirmationForm.new(params['confirm-delete'])
+    return redirect_to delete_fleets_path, alert: confirmation_error(form) unless form.valid?
+
+    @fleet.delete_vehicle(vrn) if form.confirmed?
+    session[:vrn] = nil
+    redirect_to fleets_path
+  end
+
   private
 
   # Creates instant variable with fleet object
@@ -97,8 +149,16 @@ class FleetsController < ApplicationController
     @fleet = current_user.fleet
   end
 
-  # Returns user's form confirmation from the query params, values: 'yes', 'no', nil
-  def confirmation
-    params['confirm-vehicle-creation']
+  # Check if vrn is present in the session
+  def check_vrn
+    return if vrn
+
+    Rails.logger.warn 'VRN is missing in the session. Redirecting to fleets_path'
+    redirect_to fleets_path
+  end
+
+  # Gets VRN from session. Returns string, eg 'CU1234'
+  def vrn
+    session[:vrn]
   end
 end

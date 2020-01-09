@@ -5,6 +5,8 @@ require 'rails_helper'
 RSpec.describe 'VehiclesController - #details', type: :request do
   subject(:http_request) { get details_vehicles_path }
 
+  let(:no_vrn_path) { enter_details_vehicles_path }
+
   before do
     vehicle_details = read_response('vehicle_details.json')
     allow(ComplianceCheckerApi)

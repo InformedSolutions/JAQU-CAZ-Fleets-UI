@@ -12,7 +12,7 @@
       %p
         Use this page to add and remove vehicles from your account.
         %br
-        You can pay for these vehicles on the Make a payment page.
+        You can pay then for these vehicles on the Make a payment page.
 
       %table.govuk-table
         %caption.govuk-table__caption
@@ -34,7 +34,7 @@
               %td.govuk-table__cell{scope: 'row'}
                 = vehicle.formatted_charge('Leeds')
               %td.govuk-table__cell{scope: 'row'}
-                = link_to('Remove', delete_fleets_path)
+                = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
       %p
         A vehicle labelled with 'No charge' under a Clean Air Zone means that it will not be charged
         when driving within that Clean Air Zone.
@@ -68,7 +68,7 @@
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
 
       %p
-        If you need to add more vehicles you can override this list by
-        = succeed '.' do
-          = link_to('uploading a new list of vehicles', reupload_fleets_path, id: 'reupload')
+        If you need to add more vehicles you can override this list by uploading a new list.
+      %p
+        = link_to('Upload a new list of vehicles', reupload_fleets_path, id: 'reupload', class: 'govuk-link')
 

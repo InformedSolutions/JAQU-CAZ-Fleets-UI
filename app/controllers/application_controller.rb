@@ -86,4 +86,9 @@ class ApplicationController < ActionController::Base
   def save_request_for_mocks
     $request = request
   end
+
+  # Returns a single error message from confirmation form
+  def confirmation_error(form)
+    form.errors.messages[:confirmation].first
+  end
 end

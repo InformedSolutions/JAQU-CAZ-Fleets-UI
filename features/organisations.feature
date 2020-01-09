@@ -6,13 +6,13 @@ Feature: Organisations
 
   Scenario: User wants to create a company
     Given I go to the create account page
-      And I should see "Create account"
+      And I should see "Create an account"
       And I should see "Create account" link
     Then I press the Continue
       And I should see "[TBA] Company name is required"
     Then I enter a company name
       And I press the Continue
-      And I should see "Account details"
+      And I should see "Sign in details"
       And I should see "Create account" link
     Then I press the Continue
       And I should see "[TBA] Email is required"

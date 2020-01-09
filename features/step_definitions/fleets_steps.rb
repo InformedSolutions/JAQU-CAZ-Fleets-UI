@@ -37,3 +37,11 @@ end
 Then('I should be on the manage vehicles page') do
   expect(page).to have_current_path(fleets_path)
 end
+
+Then('I should be on the delete vehicle page') do
+  expect(page).to have_current_path(delete_fleets_path)
+end
+
+Then('I should have deleted the vehicle') do
+  expect(@fleet).to have_received(:delete_vehicle)
+end

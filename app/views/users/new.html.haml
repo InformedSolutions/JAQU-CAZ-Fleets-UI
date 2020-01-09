@@ -14,7 +14,7 @@
           %legend.govuk-fieldset__legend.govuk-fieldset__legend--xl
             %h1.govuk-heading-l  Add users
             = render 'common/draft_tag'
-          .govuk-hint Please invite your administrators to create an account.
+          .govuk-hint Invite your administrators to create an account.
 
         - if @errors.present?
           = render 'users/new_user_form/errored', form: f, errors: @errors
