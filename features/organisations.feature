@@ -44,8 +44,6 @@ Feature: Organisations
       And I enter the account details with not uniq email address
       And I press the Continue
     Then I should see "[TBA] Email already exists"
-      And I should see "[TBA] Email is in an invalid format"
-      And I should see "[TBA] Password must be at least 8 characters long, include at least 1 upper case letter and a number"
 
   Scenario: View email verified page
     Given I am on the root page

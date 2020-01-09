@@ -54,41 +54,33 @@ class CreateAccount < BaseService
       company_name: company_name
     )
   rescue BaseApi::Error422Exception => e
-    parse_422_error(e.body['details'])
+    parse_422_error(e.body['errorCode'])
   end
 
   # Check if api returns 422 errors. If yes assign error messages to error object and
   # raise `NewPasswordException` exception
-  def parse_422_error(enums)
+  def parse_422_error(enum)
     errors = {}
 
-    check_email_uniq(enums, errors)
-    check_email_format(enums, errors)
-    check_password_complexity(enums, errors)
+    check_email_uniq(enum, errors)
+    check_password_complexity(enum, errors)
 
     raise(NewPasswordException, errors)
   end
 
   # add error to +errors+ object if `emailNotUnique` enum is present
-  def check_email_uniq(enums, errors)
-    (errors[:email] ||= []) << I18n.t('email.errors.exists') if enums.include?('emailNotUnique')
-  end
-
-  # add error to +errors+ object if `emailNotValid` enum is present
-  def check_email_format(enums, errors)
-    return unless enums.include?('emailNotValid')
-
-    (errors[:email] ||= []) << I18n.t('input_form.errors.invalid_format', attribute: 'Email')
+  def check_email_uniq(enum, errors)
+    errors[:email] = [I18n.t('email.errors.exists')] if enum.eql?('emailNotUnique')
   end
 
   # add error to +errors+ object if `passwordNotValid` enum is present
-  def check_password_complexity(enums, errors)
-    return unless enums.include?('passwordNotValid')
+  def check_password_complexity(enum, errors)
+    return unless enum.eql?('passwordNotValid')
 
-    (errors[:password] ||= []) << I18n.t(
+    errors[:password] = [I18n.t(
       'input_form.errors.password_complexity',
       attribute: 'Password'
-    )
+    )]
   end
 
   # It sends the verification email to the user via SQS.
