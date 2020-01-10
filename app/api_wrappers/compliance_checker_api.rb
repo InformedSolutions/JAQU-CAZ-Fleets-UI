@@ -51,5 +51,33 @@ class ComplianceCheckerApi < BaseApi
       log_action "Getting vehicle details, vrn: #{vrn}"
       request(:get, "/vehicles/#{vrn}/details")
     end
+
+    ##
+    # Calls +/v1/compliance-checker/clean-air-zones+ endpoint with +GET+ method
+    # and returns the list of available Clean Air Zones.
+    #
+    # ==== Example
+    #
+    #    ComplianceCheckerApi.clean_air_zones
+    #
+    # ==== Result
+    #
+    # Each returned CAZ will have following fields:
+    # * +name+ - string, eg. "Birmingham"
+    # * +cleanAirZoneId+ - UUID, this represents CAZ ID in the DB
+    # * +boundaryUrl+ - URL, this represents a link to eg. a map with CAZ boundaries
+    #
+    # ==== Serialization
+    #
+    # {Caz model}[rdoc-ref:Caz] can be used to create an instance of Clean Air Zone
+    #
+    # ==== Exceptions
+    #
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+
+    def clean_air_zones
+      log_action 'Getting clean air zones'
+      request(:get, '/clean-air-zones')['cleanAirZones']
+    end
   end
 end

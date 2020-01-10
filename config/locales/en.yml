@@ -10,6 +10,8 @@ en:
      invalid_email: '[TBA] Enter your email address in a valid format'
      incorrect: '[TBA] The email or password you entered is incorrect'
      email_unconfirmed: '[TBA] Your email address is not confirmed'
+  la_form:
+    la_missing: '[TBA] Selecting a Clean Air Zone is required'
   input_form:
     errors:
       missing: '[TBA] %{attribute} is required'

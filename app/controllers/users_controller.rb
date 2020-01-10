@@ -75,17 +75,6 @@ class UsersController < ApplicationController
     redirect_to form.confirmed? ? add_users_path : dashboard_path
   end
 
-  ##
-  # Renders the direct debit mandate page.
-  #
-  # ==== Path
-  #
-  #    :GET /fleets/single-user/select-direct-debit
-  #
-  def caz_selection
-    # renders static page
-  end
-
   private
 
   # Returns user's form confirmation from the query params, values: 'yes', 'no', nil

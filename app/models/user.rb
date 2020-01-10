@@ -19,7 +19,10 @@ class User
   attr_accessor :email, :admin, :user_id, :account_id, :account_name, :login_ip
 
   # Delegates fleet methods to fleet
-  delegate :vehicles, :add_vehicle, to: :fleet
+  delegate :vehicles, :add_vehicle, :remove_vehicle, to: :fleet
+
+  # Delegates debit methods to payment_method
+  delegate :mandates, :add_mandate, :zones_without_mandate, to: :direct_debit
 
   # Overrides default initializer for compliance with Devise Gem.
   #
@@ -56,6 +59,11 @@ class User
   # Returns associated fleet object
   def fleet
     @fleet ||= Fleet.new(account_id)
+  end
+
+  # Returns associated payment method object
+  def direct_debit
+    @direct_debit = DirectDebit.new(account_id)
   end
 
   # Serializes User based on data from API
