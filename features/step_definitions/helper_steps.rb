@@ -37,11 +37,11 @@ Then('I press the Back link') do
 end
 
 Then('I should see {string} link') do |string|
-  expect(page).to have_link(string)
+  expect(page).to have_selector(:link_or_button, string)
 end
 
 Then('I should not see {string} link') do |string|
-  expect(page).not_to have_link(string)
+  expect(page).not_to have_selector(:link_or_button, string)
 end
 
 Given('I am on the root page') do

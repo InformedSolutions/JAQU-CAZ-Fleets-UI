@@ -11,7 +11,7 @@ Feature: Dashboard
       And I should not see "Payment history" link
       And I should see "Manage your vehicles" link
       And I should see "Make a payment" link
-      And I should see "Create a direct debit mandate" link
+      And I should see "Manage direct debit mandates" link
 
   Scenario: View dashboard page as a admin
     Given I am on the root page
@@ -21,7 +21,7 @@ Feature: Dashboard
       And I should see "Payment history" link
       And I should see "Manage your vehicles" link
       And I should see "Make a payment" link
-      And I should see "Create a direct debit mandate" link
+      And I should see "Manage direct debit mandates" link
 
   Scenario: Admin wants to view dashboard with different IP address
     Given I am on Dashboard page
