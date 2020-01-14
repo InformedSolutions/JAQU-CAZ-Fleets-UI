@@ -38,7 +38,7 @@ class DebitsApi < AccountsApi
         'zoneId' => zone_id,
         'zoneName' => ComplianceCheckerApi.clean_air_zones.find do |zone|
           zone['cleanAirZoneId'] == zone_id
-        end['name'],
+        end['name'] || 'no name',
         'mandateId' => SecureRandom.uuid,
         'status' => 'pending'
       }
