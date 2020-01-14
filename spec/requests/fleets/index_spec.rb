@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'FleetsController - #index', type: :request do
+describe 'FleetsController - #index', type: :request do
   subject(:http_request) { get fleets_path }
 
   context 'with empty fleet' do

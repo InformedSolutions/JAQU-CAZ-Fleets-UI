@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe NewUserForm, type: :model do
+describe NewUserForm, type: :model do
   subject(:form) { described_class.new(user_params) }
 
   let(:user_params) do

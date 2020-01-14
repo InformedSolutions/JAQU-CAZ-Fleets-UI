@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Fleet, type: :model do
+describe Fleet, type: :model do
   subject(:fleet) { described_class.new(account_id) }
 
   let(:account_id) { SecureRandom.uuid }
@@ -26,7 +26,7 @@ RSpec.describe Fleet, type: :model do
       expect(fleet.vehicles).to all(be_a(Vehicle))
     end
 
-    it 'assigns data to vehciles' do
+    it 'assigns data to vehicles' do
       expect(fleet.vehicles.first.id).not_to be_nil
     end
   end

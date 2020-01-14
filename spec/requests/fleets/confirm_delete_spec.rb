@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'FleetsController - #confirm_delete', type: :request do
+describe 'FleetsController - #confirm_delete', type: :request do
   subject(:http_request) { post delete_fleets_path, params: { 'confirm-delete' => confirmation } }
   let(:confirmation) { 'yes' }
   let(:fleet) { create_fleet }

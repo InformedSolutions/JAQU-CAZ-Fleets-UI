@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+describe User, type: :model do
   subject(:user) { create_user(account_id: account_id) }
 
   let(:account_id) { SecureRandom.uuid }

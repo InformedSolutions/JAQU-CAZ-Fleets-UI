@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'UsersController - GET #manage' do
+describe 'UsersController - GET #manage' do
   subject { get manage_users_path }
 
   before do

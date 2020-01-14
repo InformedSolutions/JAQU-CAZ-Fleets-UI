@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'OrganisationsController - GET #verification_failed' do
+describe 'OrganisationsController - GET #verification_failed' do
   subject { get verification_failed_organisations_path }
 
   it 'returns an ok response' do

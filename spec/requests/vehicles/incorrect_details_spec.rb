@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'VehiclesController - #incorrect_details', type: :request do
+describe 'VehiclesController - #incorrect_details', type: :request do
   subject(:http_request) { get incorrect_details_vehicles_path }
 
   let(:no_vrn_path) { enter_details_vehicles_path }

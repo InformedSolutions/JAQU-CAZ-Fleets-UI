@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'OrganisationsController - POST #create' do
+describe 'OrganisationsController - POST #create' do
   subject { post new_credentials_organisations_path, params: params }
 
   let(:params) { { organisations: organization_params } }

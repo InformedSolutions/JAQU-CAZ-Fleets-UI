@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe SubmissionMethodForm do
+describe SubmissionMethodForm do
   subject(:form) { described_class.new(submission_method: submission_method) }
 
   let(:submission_method) { 'upload' }

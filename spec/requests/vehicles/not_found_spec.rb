@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'VehiclesController - #not_found', type: :request do
+describe 'VehiclesController - #not_found', type: :request do
   subject(:http_request) { get not_found_vehicles_path }
 
   let(:no_vrn_path) { enter_details_vehicles_path }

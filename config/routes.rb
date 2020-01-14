@@ -57,6 +57,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :debits, only: %i[index new create]
+
   scope '/fleets/organisation-account', only: %i[] do
     get 'add-users', to: 'users#new'
     post 'add-users', to: 'users#create'
@@ -69,7 +71,6 @@ Rails.application.routes.draw do
   end
 
   scope '/fleets/single-user', only: %i[] do
-    get 'select-direct-debit', to: 'users#caz_selection'
     get 'email-invite', to: 'users#email_invite'
   end
 

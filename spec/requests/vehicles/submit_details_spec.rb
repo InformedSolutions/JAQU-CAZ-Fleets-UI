@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'VehiclesController - #submit_details', type: :request do
+describe 'VehiclesController - #submit_details', type: :request do
   subject(:http_request) do
     post enter_details_vehicles_path, params: { vrn: vrn }
   end

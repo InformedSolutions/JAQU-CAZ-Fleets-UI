@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'UsersController - POST #create' do
+describe 'UsersController - POST #create' do
   subject(:http_request) do
     post add_users_path, params: { users: user_params }
   end

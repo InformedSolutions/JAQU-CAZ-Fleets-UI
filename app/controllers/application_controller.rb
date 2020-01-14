@@ -88,7 +88,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Returns a single error message from confirmation form
-  def confirmation_error(form)
-    form.errors.messages[:confirmation].first
+  def confirmation_error(form, field = :confirmation)
+    form.errors.messages[field].first
   end
 end

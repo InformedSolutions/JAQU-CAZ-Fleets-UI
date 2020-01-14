@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Vehicle, type: :model do
+describe Vehicle, type: :model do
   subject(:vehicle) { described_class.new(data) }
 
   let(:data) do

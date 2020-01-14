@@ -53,4 +53,9 @@ module ApplicationHelper
     )
     link_to text, url, html_options
   end
+
+  # Creates a bank button with link to the dashboard
+  def back_link_to_dashboard
+    link_to 'Back to dashboard', dashboard_path, class: 'govuk-back-link'
+  end
 end

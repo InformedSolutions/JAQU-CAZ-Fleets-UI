@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'OrganisationsController - POST #set_name' do
+describe 'OrganisationsController - POST #set_name' do
   subject do
     post organisations_path, params: { organisations: { company_name: company_name } }
   end
