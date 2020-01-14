@@ -11,7 +11,7 @@ class Mandate
   # * +zoneId+ - uuid, CleanAirZone ID
   # * +zoneName+ - string, name of the CAZ
   # * +mandateId+ - uuid, mandate ID
-  # * +status+ = string, status of the mandate eg. 'pending'
+  # * +status+ - string, status of the mandate eg. 'pending'
   #
   def initialize(data)
     @data = data

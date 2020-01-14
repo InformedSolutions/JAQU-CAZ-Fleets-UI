@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'UsersController - GET #confirm_manage' do
+describe 'UsersController - GET #confirm_manage' do
   subject(:http_request) do
     post manage_users_path, params: { 'confirm-admin-creation' => confirmation }
   end

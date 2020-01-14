@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe EmailAndPasswordForm, type: :model do
+describe EmailAndPasswordForm, type: :model do
   subject(:form) { described_class.new(params) }
 
   let(:params) do

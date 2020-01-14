@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'DebitsController - #index', type: :request do
+describe 'DebitsController - #index' do
   subject(:http_request) { get debits_path }
 
   before do

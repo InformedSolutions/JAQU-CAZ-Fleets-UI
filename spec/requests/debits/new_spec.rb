@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'DebitsController - #new', type: :request do
+describe 'DebitsController - #new' do
   subject(:http_request) { get new_debit_path }
 
   let(:debit) { create_debit(zones: zones) }

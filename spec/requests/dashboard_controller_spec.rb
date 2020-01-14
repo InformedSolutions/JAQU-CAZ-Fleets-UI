@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DashboardController, type: :request do
+describe DashboardController, type: :request do
   describe 'GET #index' do
     subject(:http_request) { get dashboard_path }
 

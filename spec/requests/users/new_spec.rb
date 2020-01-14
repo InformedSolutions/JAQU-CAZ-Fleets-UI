@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'UsersController - GET #new' do
+describe 'UsersController - GET #new' do
   subject { get add_users_path }
 
   before do

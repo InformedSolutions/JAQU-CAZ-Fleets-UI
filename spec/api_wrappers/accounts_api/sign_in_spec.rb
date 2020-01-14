@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'AccountsApi.sign_in' do
+describe 'AccountsApi.sign_in' do
   subject(:call) { AccountsApi.sign_in(email: email, password: password) }
 
   let(:email) { 'test@example.com' }

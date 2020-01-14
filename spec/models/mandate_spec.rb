@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Mandate, type: :model do
+describe Mandate, type: :model do
   subject(:mandate) { described_class.new(data) }
 
   let(:data) do

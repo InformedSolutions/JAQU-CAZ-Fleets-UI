@@ -78,7 +78,7 @@ steps:
     pull: never
     commands:
       - bundle audit check --update
-      - yarn audit
+      - yarn run improved-yarn-audit --exclude 961
       - brakeman
     volumes:
       - name: docker_sock

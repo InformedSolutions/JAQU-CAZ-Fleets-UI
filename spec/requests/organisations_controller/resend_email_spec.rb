@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'OrganisationsController - GET #resend_email' do
+describe 'OrganisationsController - GET #resend_email' do
   subject { get resend_email_organisations_path }
 
   let(:user) { create_user }

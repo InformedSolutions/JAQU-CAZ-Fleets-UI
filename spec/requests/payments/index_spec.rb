@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'PaymentsController - #index', type: :request do
+describe 'PaymentsController - #index', type: :request do
   subject(:http_request) { get payments_path }
 
   context 'with empty fleet' do

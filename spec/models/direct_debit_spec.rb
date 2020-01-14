@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DirectDebit, type: :model do
+describe DirectDebit, type: :model do
   subject(:debit) { described_class.new(account_id) }
 
   let(:account_id) { SecureRandom.uuid }

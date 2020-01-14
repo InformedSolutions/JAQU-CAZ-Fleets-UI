@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe LoginForm, type: :model do
+describe LoginForm, type: :model do
   subject(:form) { described_class.new(email, password) }
 
   let(:email) { 'test@example.com' }

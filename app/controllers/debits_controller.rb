@@ -45,12 +45,12 @@ class DebitsController < ApplicationController
   #
   def create
     form = LocalAuthorityForm.new(authority: params['local-authority'])
-    unless form.valid?
-      return redirect_to new_debit_path, alert: confirmation_error(form, :authority)
+    if form.valid?
+      @debit.add_mandate(form.authority)
+      redirect_to debits_path
+    else
+      redirect_to new_debit_path, alert: confirmation_error(form, :authority)
     end
-
-    @debit.add_mandate(form.authority)
-    redirect_to debits_path
   end
 
   private

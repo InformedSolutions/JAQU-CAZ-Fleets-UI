@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'DebitsController - POST #create' do
+describe 'DebitsController - POST #create' do
   subject(:http_request) do
     post debits_path, params: { 'local-authority' => la }
   end

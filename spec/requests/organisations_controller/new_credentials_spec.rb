@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'OrganisationsController - GET #new_credentials' do
+describe 'OrganisationsController - GET #new_credentials' do
   subject { get new_credentials_organisations_url }
 
   before do

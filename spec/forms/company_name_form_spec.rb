@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe CompanyNameForm, type: :model do
+describe CompanyNameForm, type: :model do
   subject(:form) { described_class.new(company_name_params) }
 
   let(:company_name_params) { { company_name: company_name } }

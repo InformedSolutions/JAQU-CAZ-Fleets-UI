@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe VrnForm, type: :model do
+describe VrnForm, type: :model do
   subject(:form) { described_class.new(vrn) }
 
   let(:vrn) { 'ABC123' }

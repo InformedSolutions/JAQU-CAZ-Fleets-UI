@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe CleanAirZone, type: :model do
+describe CleanAirZone, type: :model do
   subject(:caz) { described_class.new(data) }
 
   let(:data) { { 'name' => name, 'cleanAirZoneId' => id, 'boundaryUrl' => url } }

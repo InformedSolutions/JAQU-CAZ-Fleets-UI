@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'FleetsController - #submit_method', type: :request do
+describe 'FleetsController - #submit_method', type: :request do
   subject(:http_request) { post submission_method_fleets_path, params: params }
 
   let(:params) { { 'submission-method': submission_method } }

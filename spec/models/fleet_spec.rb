@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Fleet, type: :model do
+describe Fleet, type: :model do
   subject(:fleet) { described_class.new(account_id) }
 
   let(:account_id) { SecureRandom.uuid }

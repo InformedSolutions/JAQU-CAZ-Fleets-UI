@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'ComplianceCheckerApi.vehicle_details' do
+describe 'ComplianceCheckerApi.vehicle_details' do
   subject(:call) { ComplianceCheckerApi.vehicle_details(vrn) }
 
   let(:vrn) { 'CU57ABC' }

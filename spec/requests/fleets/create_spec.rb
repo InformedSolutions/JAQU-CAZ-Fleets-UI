@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'FleetsController - POST #create' do
+describe 'FleetsController - POST #create' do
   subject(:http_request) do
     post fleets_path, params: { 'confirm-vehicle-creation' => confirmation }
   end

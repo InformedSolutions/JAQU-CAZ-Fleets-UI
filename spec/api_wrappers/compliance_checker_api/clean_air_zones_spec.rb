@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'ComplianceCheckerApi.clean_air_zones' do
+describe 'ComplianceCheckerApi.clean_air_zones' do
   subject(:call) { ComplianceCheckerApi.clean_air_zones }
 
   context 'when call returns 200' do

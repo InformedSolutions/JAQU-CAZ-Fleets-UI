@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'AccountsApi.verify_user' do
+describe 'AccountsApi.verify_user' do
   subject(:call) { AccountsApi.verify_user(account_id: account_id, user_id: user_id) }
 
   let(:account_id) { SecureRandom.uuid }

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'FleetsController - #assign_delete', type: :request do
+describe 'FleetsController - #assign_delete', type: :request do
   subject(:http_request) { get assign_delete_fleets_path(vrn: vrn) }
 
   let(:vrn) { 'ABC123' }

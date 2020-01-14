@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'PasswordsController - POST #validate' do
+describe 'PasswordsController - POST #validate' do
   subject { post reset_passwords_path, params: { passwords: { email_address: email_address } } }
 
   let(:email_address) { 'email@example.com' }

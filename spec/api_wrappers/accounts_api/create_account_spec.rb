@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'AccountsApi.create_account' do
+describe 'AccountsApi.create_account' do
   subject(:call) do
     AccountsApi.create_account(email: email, password: password, company_name: name)
   end

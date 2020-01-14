@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ApplicationController, type: :request do
+describe ApplicationController, type: :request do
   describe 'verify_admin' do
     subject { get manage_users_path }
 
