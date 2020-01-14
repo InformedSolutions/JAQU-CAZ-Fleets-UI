@@ -24,12 +24,12 @@ class Mandate
 
   # Returns debit status
   def status
-    data['status'].humanize
+    data['status']&.humanize
   end
 
   # Returns the name od associated CAZ
   def zone_name
-    data['zoneName'].humanize
+    data['zoneName']&.humanize
   end
 
   # Returns the ID od associated CAZ
