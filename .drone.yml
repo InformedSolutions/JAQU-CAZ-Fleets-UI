@@ -417,7 +417,7 @@ steps:
       TF_VAR_enable_https_redirect: false
     when:
       event:
-        - pull_request
+        - push
 
 
 
