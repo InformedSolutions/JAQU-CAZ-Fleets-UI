@@ -45,3 +45,7 @@ end
 Then('I should have deleted the vehicle') do
   expect(@fleet).to have_received(:delete_vehicle)
 end
+
+When('Fleet backend API is unavailable') do
+  mock_unavailable_fleet
+end

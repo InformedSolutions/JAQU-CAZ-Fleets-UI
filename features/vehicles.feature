@@ -44,3 +44,4 @@ Feature: Vehicles
       And I press the Confirm
     Then I should be on the details page
       And I should see "[TBA] You must choose an answer" twice
+

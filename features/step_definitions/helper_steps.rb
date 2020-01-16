@@ -56,3 +56,7 @@ end
 Then('I choose {string}') do |string|
   choose(string)
 end
+
+Then('I should see the Service Unavailable page') do
+  expect(page).to have_title 'Sorry, the service is unavailable – Clean Air Zones – GOV.UK'
+end

@@ -14,6 +14,10 @@ module MockFleet
     vehicles_data.map { |data| Vehicle.new(data) }
   end
 
+  def mock_unavailable_fleet
+    allow(Fleet).to receive(:new).and_raise(BaseApi::Error500Exception.new(503, '', {}))
+  end
+
   private
 
   def mock_fleet(vehicles = [])

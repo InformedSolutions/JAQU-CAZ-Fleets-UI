@@ -29,5 +29,8 @@ module FleetsUI
 
     # timeout the user session without activity.
     config.x.session_timeout_in_min = ENV.fetch('SESSION_TIMEOUT', 15).to_i
+
+    # https://mattbrictson.com/dynamic-rails-error-pages
+    config.exceptions_app = routes
   end
 end
