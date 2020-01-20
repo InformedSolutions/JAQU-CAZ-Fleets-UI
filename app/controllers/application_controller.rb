@@ -8,6 +8,15 @@ class ApplicationController < ActionController::Base
   # saves reference to the request for mocks
   before_action :save_request_for_mocks
 
+  # rescues from API errors
+  rescue_from Errno::ECONNREFUSED,
+              SocketError,
+              BaseApi::Error500Exception,
+              BaseApi::Error422Exception,
+              BaseApi::Error400Exception,
+              BaseApi::Error404Exception,
+              with: :redirect_to_server_unavailable
+
   # rescues `UserAlreadyConfirmedException` exception
   rescue_from UserAlreadyConfirmedException,
               with: :redirect_to_sign_in
@@ -90,5 +99,13 @@ class ApplicationController < ActionController::Base
   # Returns a single error message from confirmation form
   def confirmation_error(form, field = :confirmation)
     form.errors.messages[field].first
+  end
+
+  # Function used as a rescue from API errors.
+  # Logs the exception and redirects to ErrorsController#service_unavailable
+  def redirect_to_server_unavailable(exception)
+    Rails.logger.error "#{exception.class}: #{exception}"
+
+    render template: 'errors/service_unavailable', status: :service_unavailable
   end
 end
