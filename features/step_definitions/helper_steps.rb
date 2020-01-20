@@ -10,8 +10,8 @@ Then('I should see {string}') do |string|
   expect(page).to have_content(string)
 end
 
-Then('I should see {string} twice') do |string|
-  expect(page).to have_content(string).twice
+Then('I should see {string} {int} times') do |string, count|
+  expect(page).to have_content(string, count: count.to_i)
 end
 
 Then('I should not see {string}') do |string|

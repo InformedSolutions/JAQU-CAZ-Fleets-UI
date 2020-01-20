@@ -26,7 +26,7 @@ Feature: Debits
     When I have no mandates
       And I visit the add new mandate page
       And I press the Continue
-    Then I should see "[TBA] Selecting a Clean Air Zone is required" twice
+    Then I should see "[TBA] Selecting a Clean Air Zone is required" 2 times
 
   Scenario: Adding a new mandate without selection
     When I have no mandates
