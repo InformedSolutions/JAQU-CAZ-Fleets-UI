@@ -43,3 +43,8 @@ en:
     error: 'There was an error while sending Verification Email to SQS'
   confirmation_form:
     answer_missing: '[TBA] You must choose an answer'
+  csv:
+    errors:
+      base: 'The selected file could not be uploaded – try again'
+      no_file: 'Select a CSV'
+      invalid_ext: 'The selected file must be a CSV'

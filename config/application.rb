@@ -29,5 +29,8 @@ module FleetsUI
 
     # timeout the user session without activity.
     config.x.session_timeout_in_min = ENV.fetch('SESSION_TIMEOUT', 15).to_i
+
+    config.time_zone = 'London'
+    config.x.time_format = '%d %B %Y %H:%M:%S %Z'
   end
 end

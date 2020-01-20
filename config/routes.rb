@@ -34,8 +34,7 @@ Rails.application.routes.draw do
     collection do
       get :submission_method
       post :submission_method, to: 'fleets#submit_method'
-      get :upload
-      get :reupload
+
       get :first_upload
       get :assign_delete
       get :delete
@@ -58,6 +57,15 @@ Rails.application.routes.draw do
   end
 
   resources :debits, only: %i[index new create]
+
+  resources :uploads, only: %i[index create] do
+    collection do
+      get :processing
+      # mocks for demonstration purposes
+      get :mock_successful_upload
+      get :mock_failed_upload
+    end
+  end
 
   scope '/fleets/organisation-account', only: %i[] do
     get 'add-users', to: 'users#new'

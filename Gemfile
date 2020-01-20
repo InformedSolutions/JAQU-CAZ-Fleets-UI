@@ -7,6 +7,7 @@ ruby '2.6.5'
 
 gem 'rails', '~> 6.0.2'
 
+gem 'aws-sdk-s3'
 gem 'aws-sdk-sqs'
 gem 'bootsnap', require: false
 gem 'brakeman'
