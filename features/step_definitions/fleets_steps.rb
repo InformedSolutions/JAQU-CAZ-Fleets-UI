@@ -27,7 +27,7 @@ When('I select CSV upload') do
 end
 
 Then('I should be on the upload page') do
-  expect(page).to have_current_path(upload_fleets_path)
+  expect(page).to have_current_path(uploads_path)
 end
 
 When('I have vehicles in my fleet') do

@@ -35,7 +35,7 @@ class FleetsController < ApplicationController
       render :submission_method and return
     end
 
-    redirect_to form.manual? ? enter_details_vehicles_path : upload_fleets_path
+    redirect_to form.manual? ? enter_details_vehicles_path : uploads_path
   end
 
   ##
@@ -67,17 +67,6 @@ class FleetsController < ApplicationController
     end
 
     redirect_to form.confirmed? ? enter_details_vehicles_path : dashboard_path
-  end
-
-  ##
-  # Renders the view for CSV upload
-  #
-  # ==== Path
-  #
-  #    :GET /fleets/upload
-  #
-  def upload
-    # nothing for now
   end
 
   ##

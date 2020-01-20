@@ -14,3 +14,8 @@ html {
 .transform {
   text-transform: uppercase;
 }
+
+.custom-csv-error {
+  color: govuk-colour($colour: 'red');
+  font-weight: 700;
+}

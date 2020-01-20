@@ -32,5 +32,8 @@ module FleetsUI
 
     # https://mattbrictson.com/dynamic-rails-error-pages
     config.exceptions_app = routes
+
+    config.time_zone = 'London'
+    config.x.time_format = '%d %B %Y %H:%M:%S %Z'
   end
 end
