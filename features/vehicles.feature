@@ -15,7 +15,7 @@ Feature: Vehicles
   Scenario: Submitting empty vrn
     When I visit the enter details page
       And I press the Continue
-    Then I should see "[TBA] The registration number of the vehicle is required" twice
+    Then I should see "Enter the registration number of the vehicle" 3 times
 
   Scenario: Adding the exempt vehicle
     When I visit the enter details page
@@ -43,5 +43,5 @@ Feature: Vehicles
       And I press the Continue
       And I press the Confirm
     Then I should be on the details page
-      And I should see "[TBA] You must choose an answer" twice
+      And I should see "[TBA] You must choose an answer" 2 times
 
