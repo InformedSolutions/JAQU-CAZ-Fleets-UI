@@ -20,9 +20,9 @@ describe 'FleetsController - #submit_method', type: :request do
   context 'with upload as method' do
     let(:submission_method) { 'upload' }
 
-    it 'redirects to #upload' do
+    it 'redirects to uploads#index' do
       http_request
-      expect(response).to redirect_to(upload_fleets_path)
+      expect(response).to redirect_to(uploads_path)
     end
   end
 

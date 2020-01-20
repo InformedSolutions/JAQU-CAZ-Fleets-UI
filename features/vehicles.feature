@@ -1,5 +1,5 @@
 Feature: Vehicles
-  In pay for a fleet
+  In order to pay for a fleet
   As a user
   I want to add manually vehicles to my fleet
 

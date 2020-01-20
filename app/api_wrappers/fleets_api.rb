@@ -33,13 +33,22 @@ class FleetsApi < AccountsApi
       true
     end
 
+    def mock_upload_fleet
+      return false unless $request
+
+      $request.session['mocked_fleet'] = (1..5).map do |i|
+        mocked_new_vehicle(vrn: "CAS30#{i}", type: 'car')
+      end
+      true
+    end
+
     private
 
     def mocked_new_vehicle(details)
       {
         'vehicleId' => SecureRandom.uuid,
         'vrn' => details[:vrn],
-        'type' => ComplianceCheckerApi.vehicle_details(details[:vrn])['type'],
+        'type' => details[:type] || ComplianceCheckerApi.vehicle_details(details[:vrn])['type'],
         'charges' => {
           'leeds' => details[:leeds_charge] || 12.5,
           'birmingham' => details[:birmingham_charge] || 8
