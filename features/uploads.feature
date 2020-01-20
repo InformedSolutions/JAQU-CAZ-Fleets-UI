@@ -20,6 +20,3 @@ Feature: Uploads
     When I attach a file
       And I press upload
     Then I should be on the processing page
-    When I attach a file
-    And I press upload
-    Then I should be on the processing page

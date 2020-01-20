@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 When('I visit the upload page') do
   login_user
   visit uploads_path
