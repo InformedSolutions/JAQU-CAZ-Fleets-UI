@@ -1,9 +1,8 @@
-FROM ruby:2.6.5-alpine3.10
+FROM ruby:2.6.5-alpine3.11
 
 # Set correct environment variables.
 ARG secret_key_base
 ENV SECRET_KEY_BASE=$secret_key_base
-ENV ENCRYPTION_SERVICE_SALT=aaaaaa
 
 RUN apk add --no-cache --update build-base \
   linux-headers \
@@ -33,5 +32,6 @@ RUN gem install bundler -v 2.0.2 \
 
 # Install node packages and precompile assets
 COPY . /home/app
+COPY .env.test .env
 
 CMD ["rspec"]
