@@ -86,7 +86,7 @@ class UploadFile < BaseService
   #
   # Returns a string.
   def bucket_name
-    ENV['S3_AWS_BUCKET']
+    ENV.fetch('S3_AWS_BUCKET', 'bucket_name')
   end
 
   # Attributes used internally to save values.
