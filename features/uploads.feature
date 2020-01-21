@@ -20,3 +20,10 @@ Feature: Uploads
     When I attach a file
       And I press upload
     Then I should be on the processing page
+
+  Scenario: Download template
+    When I have no vehicles in my fleet
+      And I visit the upload page
+    Then I should see "Download the CSV" link
+    When  I press "Download the CSV" link
+    Then I should download the template
