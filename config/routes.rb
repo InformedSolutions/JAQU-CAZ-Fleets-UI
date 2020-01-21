@@ -61,6 +61,7 @@ Rails.application.routes.draw do
   resources :uploads, only: %i[index create] do
     collection do
       get :processing
+      get :download_template
       # mocks for demonstration purposes
       get :mock_successful_upload
       get :mock_failed_upload

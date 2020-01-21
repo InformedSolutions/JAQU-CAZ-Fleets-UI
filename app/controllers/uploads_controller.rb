@@ -48,6 +48,21 @@ class UploadsController < ApplicationController
     redirect_to uploads_path unless session[:file_name]
   end
 
+  ##
+  # Sends CSV template for uploading the fleet
+  #
+  # ==== Path
+  #
+  #     GET /uploads/download_template
+  #
+  def download_template
+    send_file(
+      "#{Rails.root}/public/template.csv",
+      filename: 'VehicleUploadTemplate.csv',
+      type: 'text/csv'
+    )
+  end
+
   # Mocks successful upload - add vehicles to fleet and redirects to :index
   def mock_successful_upload
     session[:file_name] = nil
