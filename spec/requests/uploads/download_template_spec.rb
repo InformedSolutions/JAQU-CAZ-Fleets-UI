@@ -11,7 +11,7 @@ describe 'UploadsController - #download template' do
   end
 
   it 'returns a proper file' do
-    expect(response.body).to eq(IO.binread("#{Rails.root}/public/template.csv"))
+    expect(response.body).to eq(File.read("#{Rails.root}/public/template.csv"))
   end
 
   it 'has text/csv content type header' do
