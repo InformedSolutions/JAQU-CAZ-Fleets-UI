@@ -12,7 +12,9 @@ class DebitsApi < AccountsApi
       log_action("Getting mandates for account with id: #{account_id}")
       return [] unless $request
 
-      $request.session[session_key] || []
+      mandates = $request.session[session_key] || []
+      log_action("Current mandates: #{mandates}")
+      mandates
     end
 
     def add_mandate(zone_id:, account_id:)
@@ -24,13 +26,14 @@ class DebitsApi < AccountsApi
         mandates.push(mocked_new_mandate(zone_id))
       end
       $request.session[session_key] = mandates
+      log_action("Current mandates: #{mandates}")
       true
     end
 
     private
 
     def session_key
-      'mocked_fleet'
+      'mocked_mandates'
     end
 
     def mocked_new_mandate(zone_id)

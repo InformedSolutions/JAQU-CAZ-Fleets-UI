@@ -11,34 +11,44 @@ class FleetsApi < AccountsApi
     def fleet_vehicles(_account_id:)
       return [] unless $request
 
-      $request.session['mocked_fleet'] || []
+      log_action('Getting the fleet')
+      fleet = $request.session['mocked_fleet'] || []
+      log_action("Current fleet: #{fleet}")
+      fleet
     end
 
     def add_vehicle_to_fleet(details:, _account_id:)
       return false unless $request
 
+      log_action("Adding #{details[:vrn]} to the fleet")
       fleet = $request.session['mocked_fleet'] || []
       unless fleet.any? { |vehicle| vehicle['vrn'] == details[:vrn] }
         fleet.push(mocked_new_vehicle(details))
       end
       $request.session['mocked_fleet'] = fleet
+      log_action("Current fleet: #{fleet}")
       true
     end
 
     def remove_vehicle_from_fleet(vrn:, _account_id:)
       return false unless $request
 
+      log_action("Removing #{vrn} from the fleet")
       fleet = $request.session['mocked_fleet'] || []
-      $request.session['mocked_fleet'] = fleet.filter { |vehicle| vehicle['vrn'] != vrn }
+      fleet.filter! { |vehicle| vehicle['vrn'] != vrn }
+      $request.session['mocked_fleet'] = fleet
+      log_action("Current fleet: #{fleet}")
       true
     end
 
     def mock_upload_fleet
       return false unless $request
 
-      $request.session['mocked_fleet'] = (1..5).map do |i|
+      fleet = (1..5).map do |i|
         mocked_new_vehicle(vrn: "CAS30#{i}", type: 'car')
       end
+      $request.session['mocked_fleet'] = fleet
+      log_action("Current fleet: #{fleet}")
       true
     end
 
