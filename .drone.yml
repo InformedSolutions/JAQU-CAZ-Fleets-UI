@@ -226,7 +226,7 @@ steps:
         path: /var/run/docker.sock
     when:
       event:
-        - push
+        - pull_request
 
 
     # Run end to end tests
@@ -238,7 +238,7 @@ steps:
         from_secret: browserstack_username
       BS_AUTHKEY:
         from_secret: browserstack_auth_key
-      BASEURL_RETRO: 'https://dev-fleet.paycleanairzonecharge.co.uk/'
+      BASEURL_FLEETS: 'https://dev-fleet.paycleanairzonecharge.co.uk/'
       VALID_USERNAME: 'tester@informed.com'
       VALID_PASSWORD: 'Tester123..'
       BROWSER_SET: 'min'
