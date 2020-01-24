@@ -226,7 +226,7 @@ steps:
         path: /var/run/docker.sock
     when:
       event:
-        - pull_request
+        - push
 
 
     # Run end to end tests
@@ -249,7 +249,7 @@ steps:
       - cucumber -t @FLEETS --retry 3
     when:
       event:
-        - pull_request
+        - push
 
 
   ###########################################################################################################################
