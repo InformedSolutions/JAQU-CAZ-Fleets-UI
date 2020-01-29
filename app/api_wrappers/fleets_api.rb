@@ -58,12 +58,17 @@ class FleetsApi < AccountsApi
       {
         'vehicleId' => SecureRandom.uuid,
         'vrn' => details[:vrn],
-        'type' => details[:type] || ComplianceCheckerApi.vehicle_details(details[:vrn])['type'],
+        'type' => details[:type] || type(details[:vrn]),
         'charges' => {
           'leeds' => details[:leeds_charge] || 12.5,
           'birmingham' => details[:birmingham_charge] || 8
         }
       }
+    end
+
+    def type(vrn)
+      type = ComplianceCheckerApi.vehicle_details(vrn)['type']
+      type == 'null' ? 'unrecognised' : type
     end
     #:nocov:
   end

@@ -17,6 +17,7 @@ gem 'haml'
 gem 'httparty'
 gem 'logstash-logger'
 gem 'puma'
+gem 'redis'
 gem 'rubocop-rails'
 gem 'sass-rails'
 gem 'sdoc', require: false
