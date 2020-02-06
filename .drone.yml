@@ -433,7 +433,7 @@ steps:
     commands:
       - apk add --update bash python python-dev py-pip build-base
       - pip install awscli
-      - aws deploy create-deployment --application-name fleet-codedeploy-service-st --deployment-config-name CodeDeployDefault.ECSAllAtOnce --deployment-group-name fleet-codedeploy-service-dev --description "Deployment ECS" --s3-location bucket=jaqu-projects-lambda-bucket,bundleType=yaml,key=fleet/dev/appspec.yaml
+      - aws deploy create-deployment --application-name fleet-codedeploy-service-st --deployment-config-name CodeDeployDefault.ECSAllAtOnce --deployment-group-name fleet-codedeploy-service-st --description "Deployment ECS" --s3-location bucket=jaqu-projects-lambda-bucket,bundleType=yaml,key=fleet/st/appspec.yaml
     environment:
       AWS_ACCESS_KEY_ID:
         from_secret: aws_access_key_id
