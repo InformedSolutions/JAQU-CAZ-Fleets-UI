@@ -33,6 +33,7 @@ Then('I choose that the details are incorrect') do
 end
 
 Then('I choose that the details are correct') do
+  mock_clean_air_zones
   mock_vehicles_in_fleet
   choose('Yes')
 end

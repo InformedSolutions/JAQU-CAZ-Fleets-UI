@@ -17,7 +17,11 @@ RSpec.configure do |config|
   [RequestSpecHelper, StringCountHelper, AddToSession, FleetFactory, DebitFactory].each do |h|
     config.include h, type: :request
   end
-  [StrongParams, UserFactory, ActiveSupport::Testing::TimeHelpers, FixturesHelpers].each do |h|
+  [StrongParams,
+   UserFactory,
+   ActiveSupport::Testing::TimeHelpers,
+   FixturesHelpers,
+   MockCazList].each do |h|
     config.include h
   end
 

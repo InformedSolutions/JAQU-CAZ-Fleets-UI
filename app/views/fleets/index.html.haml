@@ -22,8 +22,9 @@
           %tr.govuk-table__row
             %th.govuk-table__header{scope: 'col'} Registration Number
             %th.govuk-table__header{scope: 'col'} Type
-            %th.govuk-table__header{scope: 'col'} Birmingham
-            %th.govuk-table__header{scope: 'col', colspan: 2} Leeds
+            - @zones.each_with_index do |zone, index|
+              %th.govuk-table__header{scope: 'col', colspan: zone_colspan(index)}
+                = zone.name
         %tbody.govuk-table__body
           - @fleet.vehicles.each do |vehicle|
             %tr.govuk-table__row
@@ -31,10 +32,9 @@
                 = vehicle.vrn
               %td.govuk-table__cell{scope: 'row'}
                 = vehicle.type
-              %td.govuk-table__cell{scope: 'row'}
-                = vehicle.formatted_charge('Birmingham')
-              %td.govuk-table__cell{scope: 'row'}
-                = vehicle.formatted_charge('Leeds')
+              - @zones.each do |zone|
+                %td.govuk-table__cell{scope: 'row'}
+                  = vehicle.formatted_charge(zone.name)
               %td.govuk-table__cell{scope: 'row'}
                 = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
       %p
