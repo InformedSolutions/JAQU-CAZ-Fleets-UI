@@ -19,7 +19,6 @@ gem 'logstash-logger'
 gem 'puma'
 gem 'redis'
 gem 'rubocop-rails'
-gem 'sass-rails'
 gem 'sdoc', require: false
 gem 'sqlite3'
 gem 'turbolinks'
