@@ -23,7 +23,7 @@
             %th.govuk-table__header{scope: 'col'} Registration Number
             %th.govuk-table__header{scope: 'col'} Type
             - @zones.each_with_index do |zone, index|
-              %th.govuk-table__header{scope: 'col', colspan: index == (@zones.size - 1) ? 2 : 1}
+              %th.govuk-table__header{scope: 'col', colspan: zone_colspan(index)}
                 = zone.name
         %tbody.govuk-table__body
           - @fleet.vehicles.each do |vehicle|
