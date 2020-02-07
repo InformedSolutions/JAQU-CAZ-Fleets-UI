@@ -5,11 +5,10 @@ require 'rails_helper'
 describe 'FleetsController - #index', type: :request do
   subject(:http_request) { get fleets_path }
 
+  before { sign_in create_user }
+
   context 'with empty fleet' do
-    before do
-      allow(Fleet).to receive(:new).and_return(create_empty_fleet)
-      sign_in create_user
-    end
+    before { mock_fleet(create_empty_fleet) }
 
     it 'redirects to  #submission_method' do
       http_request
@@ -19,13 +18,18 @@ describe 'FleetsController - #index', type: :request do
 
   context 'with vehicles in fleet' do
     before do
-      allow(Fleet).to receive(:new).and_return(create_fleet)
-      sign_in create_user
+      mock_fleet
+      mock_caz_list
     end
 
     it 'renders manage vehicles page' do
       http_request
       expect(response).to render_template('fleets/index')
+    end
+
+    it 'calls ComplianceCheckerApi.clean_air_zones' do
+      expect(ComplianceCheckerApi).to receive(:clean_air_zones)
+      http_request
     end
   end
 end

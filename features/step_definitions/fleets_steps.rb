@@ -31,6 +31,7 @@ Then('I should be on the upload page') do
 end
 
 When('I have vehicles in my fleet') do
+  mock_clean_air_zones
   mock_vehicles_in_fleet
 end
 

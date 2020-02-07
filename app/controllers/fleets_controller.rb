@@ -47,7 +47,9 @@ class FleetsController < ApplicationController
   #    :GET /fleets
   #
   def index
-    redirect_to submission_method_fleets_path if @fleet.vehicles.size.zero?
+    return redirect_to submission_method_fleets_path if @fleet.vehicles.size.zero?
+
+    @zones = CleanAirZone.all
   end
 
   ##
