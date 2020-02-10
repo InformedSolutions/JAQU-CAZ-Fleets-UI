@@ -1,0 +1,15 @@
+- active ||= false
+- form_class ||= nil
+= button_to fleets_path,
+            method: :get,
+            form_class: ['pagination-form', form_class],
+            class: ('active' if active),
+            id: "pagination-button-#{button_text}" do
+  = hidden_field_tag :page, page
+  - if button_text.is_a?(String)
+    = button_text
+    %span.govuk-visually-hidden page of results
+  - else
+    %span.govuk-visually-hidden results page
+    = button_text
+    

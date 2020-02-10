@@ -26,7 +26,7 @@
               %th.govuk-table__header{scope: 'col', colspan: zone_colspan(index)}
                 = zone.name
         %tbody.govuk-table__body
-          - @fleet.vehicles.each do |vehicle|
+          - @paginated_vehicles.each do |vehicle|
             %tr.govuk-table__row
               %td.govuk-table__cell{scope: 'row'}
                 = vehicle.vrn
@@ -37,6 +37,7 @@
                   = vehicle.formatted_charge(zone.name)
               %td.govuk-table__cell{scope: 'row'}
                 = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
+      = render 'pagination'
       %p
         A vehicle labelled with 'No charge' under a Clean Air Zone means that it will not be charged
         when driving within that Clean Air Zone.
