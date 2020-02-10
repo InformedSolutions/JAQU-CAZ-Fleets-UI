@@ -5,7 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.5'
 
-gem 'rails', '~> 6.0.2'
+gem 'rails', '~> 6.0.2.1'
 
 gem 'aws-sdk-s3'
 gem 'aws-sdk-sqs'
@@ -48,7 +48,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'show_me_the_cookies'
-  gem 'simplecov', require: false
+  gem 'simplecov', '~> 0.17.1', require: false
   gem 'webdrivers'
   gem 'webmock'
 end
