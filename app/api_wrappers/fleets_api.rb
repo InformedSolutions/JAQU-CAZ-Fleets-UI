@@ -44,8 +44,9 @@ class FleetsApi < AccountsApi
     def mock_upload_fleet
       return false unless $request
 
-      fleet = (1..5).map do |i|
-        mocked_new_vehicle(vrn: "CAS30#{i}", type: 'car')
+      max = ENV['REDIS_URL'] ? 50 : 5
+      fleet = (1..max).map do |i|
+        mocked_new_vehicle(vrn: "CAS3#{Kernel.format('%<number>02d', number: i)}", type: 'car')
       end
       $request.session['mocked_fleet'] = fleet
       log_action("Current fleet: #{fleet}")

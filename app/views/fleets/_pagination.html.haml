@@ -1,0 +1,11 @@
+.pagination
+  - unless @page == 1
+    = render 'pagination_button', button_text: 'first', page: 1, form_class: 'first'
+    = render 'pagination_button', button_text: 'previous', page: @page - 1, form_class: 'previous'
+
+  - (1..@total_pages).each do |i|
+    = render 'pagination_button', button_text: i, page: i, active: @page == i
+
+  - unless @page == @total_pages
+    = render 'pagination_button', button_text: 'next', page: @page + 1, form_class: 'next'
+    = render 'pagination_button', button_text: 'last', page: @total_pages, form_class: 'last'

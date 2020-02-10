@@ -23,6 +23,7 @@ gem 'sdoc', require: false
 gem 'sqlite3'
 gem 'turbolinks'
 gem 'webpacker'
+gem 'will_paginate', require: 'will_paginate/array'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

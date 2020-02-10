@@ -31,5 +31,15 @@ describe 'FleetsController - #index', type: :request do
       expect(ComplianceCheckerApi).to receive(:clean_air_zones)
       http_request
     end
+
+    it 'sets default page value to 1' do
+      http_request
+      expect(assigns(:page)).to eq(1)
+    end
+
+    it 'sets 10 paginated vehicles' do
+      http_request
+      expect(assigns(:paginated_vehicles).size).to eq(10)
+    end
   end
 end

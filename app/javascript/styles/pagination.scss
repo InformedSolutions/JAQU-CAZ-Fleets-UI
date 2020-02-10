@@ -1,0 +1,89 @@
+.pagination {
+  margin-bottom: 30px;
+  text-align: center;
+  // removes spaces between buttons
+  // https://css-tricks.com/fighting-the-space-between-inline-block-elements/#article-header-id-3
+  font-size: 0;
+
+  .pagination-form {
+    display: inline-block;
+
+    button {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-weight: 800;
+      background: inherit;
+      padding: 5px 10px;
+      vertical-align: middle;
+      color: govuk-colour($colour: 'blue');
+      cursor: pointer;
+
+      &:hover {
+        color: govuk-colour($colour: 'black');
+        background-color: govuk-colour($colour: 'yellow');
+      }
+
+      &.active {
+        background-color: govuk-colour($colour: 'blue');
+        border-color: govuk-colour($colour: 'blue');
+        color: govuk-colour($colour: 'white');
+
+        &:active {
+          color: govuk-colour($colour: 'blue');
+        }
+      }
+    }
+
+    &:last-child {
+      button {
+        border: 1px solid govuk-colour($colour: 'mid-grey');
+      }
+    }
+  }
+
+  .pagination-form.first {
+    button {
+      &:before {
+        content: "\00AB";
+        margin-right: 0.25em;
+      }
+    }
+  }
+
+  .pagination-form.previous {
+    button {
+      &:before {
+        content: "\2039";
+        margin-right: 0.25em;
+      }
+    }
+  }
+
+  .pagination-form.next {
+    button {
+      &:after {
+        content: "\203A";
+        margin-left: 0.25em;
+      }
+    }
+  }
+
+  .pagination-form.last {
+    button {
+      &:after {
+        content: "\00BB";
+        margin-left: 0.25em;
+      }
+    }
+  }
+}
+
+@media (min-width: 40.0625em) {
+  .pagination {
+    .pagination-form {
+      button {
+        line-height: 1.4285714286;
+      }
+    }
+  }
+}

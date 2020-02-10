@@ -50,3 +50,21 @@ end
 When('Fleet backend API is unavailable') do
   mock_unavailable_fleet
 end
+
+Then('I should see active {string} pagination button') do |text|
+  button = page.find("#pagination-button-#{text}")
+  expect(button[:class]).to eq('active')
+end
+
+Then('I should see inactive {string} pagination button') do |text|
+  button = page.find("#pagination-button-#{text}")
+  expect(button[:class]).to be_nil
+end
+
+Then('I should not see {string} pagination button') do |text|
+  expect(page).not_to have_selector("#pagination-button-#{text}")
+end
+
+When('I press {string} pagination button') do |text|
+  page.find("#pagination-button-#{text}").click
+end
