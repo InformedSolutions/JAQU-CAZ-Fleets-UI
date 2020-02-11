@@ -8,20 +8,15 @@ class Vehicle
   #
   # ==== Params
   # * +data+ - hash
-  #    * +vehcileId+ - UUID, ID of the vehicle
   #    * +vrn+ - string, vehicle registration number
-  #    * +type+ - string, type of the vehicle
-  #    * +charges+ - hash
-  #       * +leeds+ - float, charge for Leeds
-  #       * +birmingham+ - float, charge for Birmingham
+  #    * +vehicleType+ - string, type of the vehicle
+  #    * +complianceResults+ - array of hashes
+  #       * +cleanAirZoneId+ - UUID, ID of the CAZ
+  #       * +charge+ - float, charge for given CAZ
+  #       * +tariffCode+ - string, tariff that was used for calculations
   #
   def initialize(data)
     @data = data
-  end
-
-  # Returns vehicle's ID
-  def id
-    data['vehicleId']
   end
 
   # Returns vehicle's registration number
@@ -31,17 +26,24 @@ class Vehicle
 
   # Returns vehicle's type
   def type
-    (data['type'] || 'unrecognised').humanize
+    (data['vehicleType'] || 'unknown').humanize
   end
 
   # Returns the charge for given CAZ in float
-  def charge(caz)
-    (data['charges'][caz.downcase] || 0).to_f
+  def charge(caz_id)
+    compliance = data['complianceResults'].find { |res| res['cleanAirZoneId'] == caz_id }
+    return nil unless compliance
+
+    compliance['charge'] == 'null' ? nil : compliance['charge'].to_f
   end
 
-  # Returns the parsed charge for given CAZ eg. £12.50
-  def formatted_charge(caz)
-    charge = charge(caz)
+  # Returns the parsed charge for given CAZ eg. £12.50.
+  # Returns 'Unknown' if the charge is undefined.
+  # Returns 'No charge' if the charge equals zero
+  def formatted_charge(caz_id)
+    charge = charge(caz_id)
+    return 'Unknown' unless charge
+
     return 'No charge' if charge.zero?
 
     return "£#{charge.to_i}" if (charge % 1).zero?

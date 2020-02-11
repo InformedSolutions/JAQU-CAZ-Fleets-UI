@@ -7,27 +7,18 @@ describe Vehicle, type: :model do
 
   let(:data) do
     {
-      'vehicleId' => id,
       'vrn' => vrn,
-      'type' => type,
-      'charges' => {
-        'leeds' => leeds_charge,
-        'birmingham' => birmingham_charge
-      }
+      'vehicleType' => type,
+      'complianceResults' => [
+        { 'cleanAirZoneId' => caz_id, 'charge' => charge, 'tariffCode' => 'VAN-123' }
+      ]
     }
   end
 
-  let(:id) { SecureRandom.uuid }
+  let(:caz_id) { SecureRandom.uuid }
   let(:vrn) { 'CAS310' }
   let(:type) { 'type' }
-  let(:leeds_charge) { 12.5 }
-  let(:birmingham_charge) { 8 }
-
-  describe '.id' do
-    it 'returns ID' do
-      expect(vehicle.id).to eq(id)
-    end
-  end
+  let(:charge) { 12 }
 
   describe '.vrn' do
     it 'returns VRN' do
@@ -43,54 +34,68 @@ describe Vehicle, type: :model do
     context 'when there is no type' do
       let(:type) { nil }
 
-      it 'returns unrecognised' do
-        expect(vehicle.type).to eq('Unrecognised')
+      it 'returns unknown' do
+        expect(vehicle.type).to eq('Unknown')
       end
     end
   end
 
   describe '.charge' do
-    it 'returns charge value' do
-      expect(vehicle.charge('Leeds')).to eq(leeds_charge)
+    it 'returns charge value as float' do
+      expect(vehicle.charge(caz_id)).to eq(charge.to_f)
     end
 
     context 'when unknown CAZ given' do
-      it 'returns zero' do
-        expect(vehicle.charge('Random')).to eq(0)
+      it 'returns nil' do
+        expect(vehicle.charge('test')).to be_nil
+      end
+    end
+
+    context 'when charge is null' do
+      let(:charge) { 'null' }
+
+      it 'returns nil' do
+        expect(vehicle.charge(caz_id)).to be_nil
       end
     end
   end
 
   describe '.formatted_charge' do
     context 'when charge is in full pounds' do
-      let(:leeds_charge) { 8 }
+      let(:charge) { 8 }
 
       it 'returns formatted charge value without pence' do
-        expect(vehicle.formatted_charge('Leeds')).to eq('£8')
+        expect(vehicle.formatted_charge(caz_id)).to eq('£8')
       end
     end
 
     context 'when charge is not in full pounds' do
-      let(:leeds_charge) { 8.5 }
+      let(:charge) { 8.5 }
 
       it 'returns formatted charge value with pence' do
-        expect(vehicle.formatted_charge('Leeds')).to eq('£8.50')
+        expect(vehicle.formatted_charge(caz_id)).to eq('£8.50')
       end
     end
 
     context 'when charge is 0' do
-      let(:leeds_charge) { 0 }
+      let(:charge) { 0 }
 
       it "returns 'No charge'" do
-        expect(vehicle.formatted_charge('Leeds')).to eq('No charge')
+        expect(vehicle.formatted_charge(caz_id)).to eq('No charge')
       end
     end
 
-    context 'when charge is nil' do
-      let(:leeds_charge) { nil }
+    context 'when charge is null' do
+      let(:charge) { 'null' }
 
-      it "returns 'No charge'" do
-        expect(vehicle.formatted_charge('Leeds')).to eq('No charge')
+      it "returns 'Unknown'" do
+        expect(vehicle.formatted_charge(caz_id)).to eq('Unknown')
+      end
+    end
+
+    context 'when unknown CAZ given' do
+      it "returns 'Unknown'" do
+        expect(vehicle.formatted_charge('test')).to eq('Unknown')
       end
     end
   end

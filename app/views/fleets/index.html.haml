@@ -26,7 +26,7 @@
               %th.govuk-table__header{scope: 'col', colspan: zone_colspan(index)}
                 = zone.name
         %tbody.govuk-table__body
-          - @paginated_vehicles.each do |vehicle|
+          - @vehicles.vehicle_list.each do |vehicle|
             %tr.govuk-table__row
               %td.govuk-table__cell{scope: 'row'}
                 = vehicle.vrn
@@ -34,7 +34,7 @@
                 = vehicle.type
               - @zones.each do |zone|
                 %td.govuk-table__cell{scope: 'row'}
-                  = vehicle.formatted_charge(zone.name)
+                  = vehicle.formatted_charge(zone.id)
               %td.govuk-table__cell{scope: 'row'}
                 = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
       = render 'pagination'

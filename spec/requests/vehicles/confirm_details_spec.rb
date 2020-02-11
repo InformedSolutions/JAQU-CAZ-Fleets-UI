@@ -40,7 +40,7 @@ describe 'VehicleCheckersController - POST #confirm_details', type: :request do
         it 'adds the vehicle to the fleet' do
           expect(FleetsApi)
             .to receive(:add_vehicle_to_fleet)
-            .with(details: { vrn: @vrn }, _account_id: account_id)
+            .with(vrn: @vrn, _account_id: account_id)
           http_request
         end
 

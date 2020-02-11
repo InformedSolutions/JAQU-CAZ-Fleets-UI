@@ -1,74 +1,114 @@
-[
-  {
-    "vehicleId": 1,
-    "vrn": "CAS310",
-    "type": "Car",
-    "charges": { "leeds": 12.5, "birmingham": 8 }
+{
+  "1": {
+    "vehicles": [
+      {
+        "vrn": "CAZ101",
+        "vehicleType": "VAN",
+        "complianceResults": [
+          {"cleanAirZoneId": "5cd7441d-766f-48ff-b8ad-1809586fea37", "charge": 50, "tariffCode": "VAN-123"},
+          {"cleanAirZoneId": "39e54ed8-3ed2-441d-be3f-38fc9b70c8d3", "charge": 12.5, "tariffCode": "VAN-123"}
+        ]
+      },
+      {
+        "vrn": "CAZ102",
+        "vehicleType": "VAN",
+        "complianceResults": [
+          {"cleanAirZoneId": "5cd7441d-766f-48ff-b8ad-1809586fea37", "charge": 50, "tariffCode": "VAN-123"},
+          {"cleanAirZoneId": "39e54ed8-3ed2-441d-be3f-38fc9b70c8d3", "charge": 12.5, "tariffCode": "VAN-123"}
+        ]
+      },
+      {
+        "vrn": "CAZ103",
+        "vehicleType": "VAN",
+        "complianceResults": [
+          {"cleanAirZoneId": "5cd7441d-766f-48ff-b8ad-1809586fea37", "charge": 50, "tariffCode": "VAN-123"},
+          {"cleanAirZoneId": "39e54ed8-3ed2-441d-be3f-38fc9b70c8d3", "charge": 12.5, "tariffCode": "VAN-123"}
+        ]
+      },
+      {
+        "vrn": "CAZ104",
+        "vehicleType": "VAN",
+        "complianceResults": [
+          {"cleanAirZoneId": "5cd7441d-766f-48ff-b8ad-1809586fea37", "charge": 50, "tariffCode": "VAN-123"},
+          {"cleanAirZoneId": "39e54ed8-3ed2-441d-be3f-38fc9b70c8d3", "charge": 12.5, "tariffCode": "VAN-123"}
+        ]
+      },
+      {
+        "vrn": "CAZ105",
+        "vehicleType": "VAN",
+        "complianceResults": [
+          {"cleanAirZoneId": "5cd7441d-766f-48ff-b8ad-1809586fea37", "charge": 50, "tariffCode": "VAN-123"},
+          {"cleanAirZoneId": "39e54ed8-3ed2-441d-be3f-38fc9b70c8d3", "charge": 12.5, "tariffCode": "VAN-123"}
+        ]
+      },
+      {
+        "vrn": "CAZ106",
+        "vehicleType": "VAN",
+        "complianceResults": [
+          {"cleanAirZoneId": "5cd7441d-766f-48ff-b8ad-1809586fea37", "charge": 50, "tariffCode": "VAN-123"},
+          {"cleanAirZoneId": "39e54ed8-3ed2-441d-be3f-38fc9b70c8d3", "charge": 12.5, "tariffCode": "VAN-123"}
+        ]
+      },
+      {
+        "vrn": "CAZ107",
+        "vehicleType": "VAN",
+        "complianceResults": [
+          {"cleanAirZoneId": "5cd7441d-766f-48ff-b8ad-1809586fea37", "charge": 50, "tariffCode": "VAN-123"},
+          {"cleanAirZoneId": "39e54ed8-3ed2-441d-be3f-38fc9b70c8d3", "charge": 12.5, "tariffCode": "VAN-123"}
+        ]
+      },
+      {
+        "vrn": "CAZ108",
+        "vehicleType": "VAN",
+        "complianceResults": [
+          {"cleanAirZoneId": "5cd7441d-766f-48ff-b8ad-1809586fea37", "charge": 50, "tariffCode": "VAN-123"},
+          {"cleanAirZoneId": "39e54ed8-3ed2-441d-be3f-38fc9b70c8d3", "charge": 12.5, "tariffCode": "VAN-123"}
+        ]
+      },
+      {
+        "vrn": "CAZ109",
+        "vehicleType": "VAN",
+        "complianceResults": [
+          {"cleanAirZoneId": "5cd7441d-766f-48ff-b8ad-1809586fea37", "charge": 50, "tariffCode": "VAN-123"},
+          {"cleanAirZoneId": "39e54ed8-3ed2-441d-be3f-38fc9b70c8d3", "charge": 12.5, "tariffCode": "VAN-123"}
+        ]
+      },
+      {
+        "vrn": "CAZ110",
+        "vehicleType": "VAN",
+        "complianceResults": [
+          {"cleanAirZoneId": "5cd7441d-766f-48ff-b8ad-1809586fea37", "charge": 50, "tariffCode": "VAN-123"},
+          {"cleanAirZoneId": "39e54ed8-3ed2-441d-be3f-38fc9b70c8d3", "charge": 12.5, "tariffCode": "VAN-123"}
+        ]
+      }
+    ],
+    "perPage": 10,
+    "page": 1,
+    "pageCount": 2,
+    "totalVrnsCount": 12
   },
-  {
-    "vehicleId": 2,
-    "vrn": "CAS316",
-    "type": "Van",
-    "charges": { "leeds": 50, "birmingham": 50 }
-  },
-  {
-    "vehicleId": 3,
-    "vrn": "CAS010",
-    "type": "Car",
-    "charges": { "leeds": 12.5, "birmingham": 8 }
-  },
-  {
-    "vehicleId": 4,
-    "vrn": "CAS011",
-    "type": "Car",
-    "charges": { "leeds": 12.5, "birmingham": 8 }
-  },
-  {
-    "vehicleId": 5,
-    "vrn": "CAS012",
-    "type": "Car",
-    "charges": { "leeds": 12.5, "birmingham": 8 }
-  },
-  {
-    "vehicleId": 6,
-    "vrn": "CAS013",
-    "type": "Car",
-    "charges": { "leeds": 12.5, "birmingham": 8 }
-  },
-  {
-    "vehicleId": 7,
-    "vrn": "CAS014",
-    "type": "Car",
-    "charges": { "leeds": 12.5, "birmingham": 8 }
-  },
-  {
-    "vehicleId": 8,
-    "vrn": "CAS015",
-    "type": "Car",
-    "charges": { "leeds": 12.5, "birmingham": 8 }
-  },
-  {
-    "vehicleId": 9,
-    "vrn": "CAS016",
-    "type": "Car",
-    "charges": { "leeds": 12.5, "birmingham": 8 }
-  },
-  {
-    "vehicleId": 10,
-    "vrn": "CAS017",
-    "type": "Car",
-    "charges": { "leeds": 12.5, "birmingham": 8 }
-  },
-  {
-    "vehicleId": 11,
-    "vrn": "CAS018",
-    "type": "Car",
-    "charges": { "leeds": 12.5, "birmingham": 8 }
-  },
-  {
-    "vehicleId": 12,
-    "vrn": "CAS019",
-    "type": "Car",
-    "charges": { "leeds": 12.5, "birmingham": 8 }
+  "2": {
+    "vehicles": [
+      {
+        "vrn": "CAZ201",
+        "vehicleType": "VAN",
+        "complianceResults": [
+          {"cleanAirZoneId": "5cd7441d-766f-48ff-b8ad-1809586fea37", "charge": 50, "tariffCode": "VAN-123"},
+          {"cleanAirZoneId": "39e54ed8-3ed2-441d-be3f-38fc9b70c8d3", "charge": 12.5, "tariffCode": "VAN-123"}
+        ]
+      },
+      {
+        "vrn": "CAZ202",
+        "vehicleType": "CAR",
+        "complianceResults": [
+          {"cleanAirZoneId": "5cd7441d-766f-48ff-b8ad-1809586fea37", "charge": 8, "tariffCode": "CAR-123"},
+          {"cleanAirZoneId": "39e54ed8-3ed2-441d-be3f-38fc9b70c8d3", "charge": 0, "tariffCode": "CAR-123"}
+        ]
+      }
+    ],
+    "perPage": 10,
+    "page": 2,
+    "pageCount": 2,
+    "totalVrnsCount": 12
   }
-]
+}

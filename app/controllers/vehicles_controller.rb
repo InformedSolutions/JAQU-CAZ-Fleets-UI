@@ -147,7 +147,7 @@ class VehiclesController < ApplicationController
 
   # Add vehicle with given VRN to the user's fleet
   def add_vehicle_to_fleet
-    current_user.add_vehicle(vrn: vrn)
+    current_user.add_vehicle(vrn)
     session[:vrn] = nil
     redirect_to fleets_path
   end
