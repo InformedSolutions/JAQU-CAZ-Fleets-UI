@@ -33,7 +33,7 @@ steps:
   - name: build
     image: docker
     commands:
-    - docker build -f Dockerfile.test -t test-fleet-frontend:latest --build-arg secret_key_base=${DRONE_COMMIT} .
+    - docker build -f Dockerfile.test -t test-fleet-frontend:latest .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -255,7 +255,7 @@ steps:
   - name: build
     image: docker
     commands:
-    - docker build -f Dockerfile.test -t test-fleet-frontend:latest --build-arg secret_key_base=${DRONE_COMMIT} .
+    - docker build -f Dockerfile.test -t test-fleet-frontend:latest .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -500,7 +500,7 @@ steps:
   - name: build
     image: docker
     commands:
-    - docker build -f Dockerfile.test -t test-fleet-frontend:latest --build-arg secret_key_base=${DRONE_COMMIT} .
+    - docker build -f Dockerfile.test -t test-fleet-frontend:latest .
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
