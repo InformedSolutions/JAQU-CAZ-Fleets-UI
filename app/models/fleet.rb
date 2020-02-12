@@ -13,24 +13,26 @@ class Fleet
     @account_id = account_id
   end
 
-  # Returns an array of Vehicle instances associated with the account.
-  def vehicles
-    @vehicles ||= begin
-                 data = FleetsApi.fleet_vehicles(_account_id: account_id)
-                 data.map { |vehicle_data| Vehicle.new(vehicle_data) }
+  # Returns an OpenStruct with the paginated list of vehicles associated with the account.
+  # Includes data about page and total pages count.
+  def paginated_vehicles(page:)
+    @paginated_vehicles ||= begin
+                 data = FleetsApi.fleet_vehicles(account_id: account_id, page: page)
+                 OpenStruct.new(
+                   vehicle_list: vehicle_list(data),
+                   page: data['page'],
+                   total_pages: data['pageCount']
+                 )
                end
   end
 
   # Adds a new vehicle to the fleet.
   #
   # ==== Params
-  # * +vehicle_details+ - hash
-  #    * +vrn+ - string, vehicle registration number, required
-  #    * +type+ - string, type of the vehicle, optional
-  #    * +leeds_charge+ - float, charge in Leeds, optional
-  #    * +birmingham_charge+ - float, charge in Birmingham, optional
-  def add_vehicle(vehicle_details)
-    FleetsApi.add_vehicle_to_fleet(details: vehicle_details, _account_id: account_id)
+  # * +vrn+ - string, vehicle registration number, required
+  #
+  def add_vehicle(vrn)
+    FleetsApi.add_vehicle_to_fleet(vrn: vrn, _account_id: account_id)
   end
 
   # Removes a vehicle from the fleet.
@@ -42,8 +44,18 @@ class Fleet
     FleetsApi.remove_vehicle_from_fleet(vrn: vrn, _account_id: account_id)
   end
 
+  # Checks if there are any vehicles in the fleet. Returns boolean.
+  def empty?
+    FleetsApi.fleet_vehicles(account_id: account_id, page: 1, per_page: 1)['vehicles'].empty?
+  end
+
   private
 
   # Reader for Account ID from backend DB
   attr_reader :account_id
+
+  # Transforms data from fleet endpoint into an array of Vehicle instances
+  def vehicle_list(data)
+    data['vehicles'].map { |vehicle_data| Vehicle.new(vehicle_data) }
+  end
 end

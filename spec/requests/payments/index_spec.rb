@@ -19,7 +19,7 @@ describe 'PaymentsController - #index', type: :request do
 
   context 'with vehicles in fleet' do
     before do
-      allow(Fleet).to receive(:new).and_return(create_fleet)
+      mock_fleet
       sign_in create_user
     end
 

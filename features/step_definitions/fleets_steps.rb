@@ -65,6 +65,7 @@ Then('I should not see {string} pagination button') do |text|
   expect(page).not_to have_selector("#pagination-button-#{text}")
 end
 
-When('I press {string} pagination button') do |text|
-  page.find("#pagination-button-#{text}").click
+When('I press {int} pagination button') do |selected_page|
+  mock_vehicles_in_fleet(selected_page)
+  page.find("#pagination-button-#{selected_page}").click
 end

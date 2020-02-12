@@ -12,7 +12,7 @@ class UploadsController < ApplicationController
   #     GET /uploads
   #
   def index
-    @vehicles_present = current_user.vehicles.any?
+    @vehicles_present = !current_user.fleet.empty?
   end
 
   ##

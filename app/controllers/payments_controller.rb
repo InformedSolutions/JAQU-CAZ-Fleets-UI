@@ -15,7 +15,7 @@ class PaymentsController < ApplicationController
   #    :GET /payments
   #
   def index
-    redirect_to first_upload_fleets_path if @fleet.vehicles.size.zero?
+    redirect_to first_upload_fleets_path if @fleet.empty?
   end
 
   private

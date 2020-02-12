@@ -51,11 +51,11 @@ class FleetsController < ApplicationController
   # * +page+ - used to paginate vehicles list, defaults to 1, present in the query params
   #
   def index
-    return redirect_to submission_method_fleets_path if @fleet.vehicles.size.zero?
+    return redirect_to submission_method_fleets_path if @fleet.empty?
 
+    page = (params[:page] || 1).to_i
+    @vehicles = @fleet.paginated_vehicles(page: page)
     @zones = CleanAirZone.all
-    assign_pages
-    @paginated_vehicles = @fleet.vehicles.paginate(per_page: 10, page: @page)
   end
 
   ##
@@ -144,11 +144,6 @@ class FleetsController < ApplicationController
   # Creates instant variable with fleet object
   def assign_fleet
     @fleet = current_user.fleet
-  end
-
-  def assign_pages
-    @total_pages = (@fleet.vehicles.size / 10.0).ceil
-    @page = (params[:page] || 1).to_i
   end
 
   # Check if vrn is present in the session

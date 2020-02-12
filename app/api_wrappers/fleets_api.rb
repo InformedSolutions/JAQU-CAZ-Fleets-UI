@@ -8,23 +8,26 @@
 class FleetsApi < AccountsApi
   class << self
     #:nocov:
-    def fleet_vehicles(_account_id:)
+    def fleet_vehicles(account_id:, page:, per_page: 10)
       return [] unless $request
 
-      log_action('Getting the fleet')
+      log_action("Getting page #{page} of the fleet for account: #{account_id}")
       fleet = $request.session['mocked_fleet'] || []
-      log_action("Current fleet: #{fleet}")
-      fleet
+      {
+        'vehicles' => fleet.sort_by { |v| v['vrn'] }.paginate(per_page: 10, page: page),
+        'perPage' => per_page,
+        'page' => page,
+        'pageCount' => (fleet.size / per_page.to_f).ceil,
+        'totalVrnsCount' => fleet.size
+      }
     end
 
-    def add_vehicle_to_fleet(details:, _account_id:)
+    def add_vehicle_to_fleet(vrn:, _account_id:)
       return false unless $request
 
-      log_action("Adding #{details[:vrn]} to the fleet")
+      log_action("Adding #{vrn} to the fleet")
       fleet = $request.session['mocked_fleet'] || []
-      unless fleet.any? { |vehicle| vehicle['vrn'] == details[:vrn] }
-        fleet.push(mocked_new_vehicle(details))
-      end
+      fleet.push(mocked_new_vehicle(details)) unless fleet.any? { |vehicle| vehicle['vrn'] == vrn }
       $request.session['mocked_fleet'] = fleet
       log_action("Current fleet: #{fleet}")
       true
@@ -44,9 +47,11 @@ class FleetsApi < AccountsApi
     def mock_upload_fleet
       return false unless $request
 
-      max = ENV['REDIS_URL'] ? 50 : 5
-      fleet = (1..max).map do |i|
-        mocked_new_vehicle(vrn: "CAS3#{Kernel.format('%<number>02d', number: i)}", type: 'car')
+      zone_ids = CleanAirZone.all.map(&:id)
+      fleet = (1..(ENV['REDIS_URL'] ? 50 : 5)).map do |i|
+        mocked_new_vehicle(
+          { vrn: "CAS3#{Kernel.format('%<number>02d', number: i)}", type: 'car' }, zone_ids
+        )
       end
       $request.session['mocked_fleet'] = fleet
       log_action("Current fleet: #{fleet}")
@@ -55,21 +60,19 @@ class FleetsApi < AccountsApi
 
     private
 
-    def mocked_new_vehicle(details)
+    def mocked_new_vehicle(details, zone_ids = CleanAirZone.all.map(&:id))
       {
-        'vehicleId' => SecureRandom.uuid,
         'vrn' => details[:vrn],
-        'type' => details[:type] || type(details[:vrn]),
-        'charges' => {
-          'leeds' => details[:leeds_charge] || 12.5,
-          'birmingham' => details[:birmingham_charge] || 8
-        }
+        'vehicleType' => details[:type] || type(details[:vrn]),
+        'complianceResults' => zone_ids.map do |id|
+          { 'cleanAirZoneId' => id, 'charge' => [0, 8, 12.5, nil].sample }
+        end
       }
     end
 
     def type(vrn)
       type = ComplianceCheckerApi.vehicle_details(vrn)['type']
-      type == 'null' ? 'unrecognised' : type
+      type == 'null' ? 'unknown' : type
     end
     #:nocov:
   end
