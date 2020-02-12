@@ -7,6 +7,37 @@
 #
 class FleetsApi < AccountsApi
   class << self
+    ##
+    # Calls +/v1/accounts/register-csv-from-s3/jobs+ endpoint with +POST+ method
+    # and returns a job UUID
+    #
+    # ==== Attributes
+    #
+    # * +filename+ - Csv file name, eg. 'fleet_email@example.com_1579778166'
+    # * +correlation_id+ - Correlation id, eg '98faf123-d201-48cb-8fd5-4b30c1f80918'
+    #
+    # ==== Example
+    #
+    #    FleetsApi.register_job(
+    #     filename: 'CAZ-2020-01-08-AuthorityID',
+    #     correlation_id: '98faf123-d201-48cb-8fd5-4b30c1f80918'
+    #    )
+    #
+    # ==== Result
+    #
+    # Returns a UUID, eg. '2ad47f86-8365-47ee-863b-dae6dbf69b3e'.
+    #
+    def register_job(filename:, correlation_id:)
+      log_action("Registering job with filename: #{filename}")
+      response = request(:post, '/accounts/register-csv-from-s3/jobs',
+                         body: {
+                           'filename' => filename,
+                           's3Bucket' => ENV.fetch('S3_AWS_BUCKET', 'S3_AWS_BUCKET')
+                         }.to_json,
+                         headers: custom_headers(correlation_id))
+      response['jobName']
+    end
+
     #:nocov:
     def fleet_vehicles(account_id:, page:, per_page: 10)
       return [] unless $request
