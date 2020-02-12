@@ -9,6 +9,7 @@ When('I attach a file') do
   attach_file(:file, File.join('spec', 'fixtures', 'uploads', 'fleet.csv'))
 
   allow(UploadFile).to receive(:call).and_return('filename')
+  allow(FleetsApi).to receive(:register_job).and_return('job_name')
 end
 
 When('I press upload') do

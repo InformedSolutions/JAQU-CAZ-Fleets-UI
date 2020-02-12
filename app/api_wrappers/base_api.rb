@@ -59,6 +59,21 @@ class BaseApi
     private
 
     ##
+    # Add the correlation ID and JSON content type and accept to the header.
+    #
+    # ==== Attributes
+    #
+    # * +correlation_id+ - Correlation ID,  eg. '98faf123-d201-48cb-8fd5-4b30c1f80918'
+    #
+    def custom_headers(correlation_id)
+      {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json',
+        'X-Correlation-ID' => correlation_id
+      }
+    end
+
+    ##
     # Logs given message at +info+ level with a proper tag
     #
     # ==== Attributes

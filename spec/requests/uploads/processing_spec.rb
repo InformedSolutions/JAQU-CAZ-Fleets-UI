@@ -13,8 +13,16 @@ describe 'UploadsController - #processing' do
   end
 
   context 'with filename in the session' do
+    let(:filename) { 'filename' }
+    let(:job_name) { 'job_name' }
+    let(:correlation_id) { SecureRandom.uuid }
+
     before do
-      add_to_session(file_name: 'name')
+      add_to_session(job: {
+                       filename: filename,
+                       job_name: job_name,
+                       correlation_id: correlation_id
+                     })
       http_request
     end
 

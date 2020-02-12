@@ -79,7 +79,7 @@ class UploadFile < BaseService
   # Returns a boolean.
   def aws_call
     s3_object = AMAZON_S3_CLIENT.bucket(bucket_name).object(file_name)
-    s3_object.upload_file(file, metadata: { 'uploader-id': user.user_id })
+    s3_object.upload_file(file, metadata: metadata)
   end
 
   # AWS S3 Bucket Name.
@@ -87,6 +87,13 @@ class UploadFile < BaseService
   # Returns a string.
   def bucket_name
     ENV.fetch('S3_AWS_BUCKET', 'bucket_name')
+  end
+
+  def metadata
+    {
+      'account-user-id': user.user_id,
+      'account-id': user.account_id
+    }
   end
 
   # Attributes used internally to save values.
