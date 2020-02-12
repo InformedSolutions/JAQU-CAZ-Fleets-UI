@@ -225,7 +225,6 @@ steps:
     when:
       event:
         - push
-        - pull_request
 
    # Run end to end tests
   - name: run end to end tests
@@ -248,8 +247,6 @@ steps:
     when:
       event:
         - push
-        - pull_request
-
 
 
   ###########################################################################################################################
