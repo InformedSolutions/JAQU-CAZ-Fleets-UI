@@ -51,11 +51,11 @@ class UploadsController < ApplicationController
   def processing
     return redirect_to uploads_path unless job_data
 
-    status = FleetsApi.job_status(
+    job = FleetsApi.job_status(
       job_name: job_data[:job_name],
       correlation_id: job_data[:correlation_id]
     )
-    react_to_status(status.upcase)
+    react_to_status(job)
   end
 
   ##
@@ -92,19 +92,20 @@ class UploadsController < ApplicationController
     }
   end
 
-  # Handles controller reaction based on the given status.
+  # Handles controller reaction based on the given job status.
   # * 'RUNNING' - renders the page
   # * 'SUCCESS' - redirects to fleets index view
   # * 'FAILURE' = renders uploads index with errors
   #
-  def react_to_status(status)
+  def react_to_status(job)
+    status = job[:status].upcase
     return if status == 'RUNNING'
 
     session[:job] = nil
     if status == 'SUCCESS'
       redirect_to fleets_path
     else
-      @job_errors = ['Invalid VRN in line 3', 'Invalid VRN in line 5']
+      @job_errors = job[:errors]
       @vehicles_present = !current_user.fleet.empty?
       render :index
     end

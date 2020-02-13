@@ -38,7 +38,7 @@ Feature: Uploads
 
   Scenario: Failed upload
     When I am on the processing page
-      And My upload is failed
+      And My upload is failed with error: "Some error message"
       And I reload the page
     Then I should see "Upload your vehicle details"
-      And I should see "Invalid VRN in line 3"
+      And I should see "Some error message"

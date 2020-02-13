@@ -17,6 +17,7 @@ describe 'UploadsController - #processing' do
     let(:job_name) { 'job_name' }
     let(:correlation_id) { SecureRandom.uuid }
     let(:status) { 'success' }
+    let(:errors) { [] }
 
     before do
       add_to_session(job: {
@@ -24,7 +25,9 @@ describe 'UploadsController - #processing' do
                        job_name: job_name,
                        correlation_id: correlation_id
                      })
-      allow(FleetsApi).to receive(:job_status).and_return(status)
+      allow(FleetsApi)
+        .to receive(:job_status)
+        .and_return(status: status, errors: errors)
     end
 
     it 'calls FleetsApi.job_status with proper params' do
@@ -65,6 +68,7 @@ describe 'UploadsController - #processing' do
 
       describe 'failure' do
         let(:status) { 'failure' }
+        let(:errors) { ['Some error'] }
 
         it 'renders uploads index' do
           expect(response).to render_template('uploads/index')
@@ -72,6 +76,10 @@ describe 'UploadsController - #processing' do
 
         it 'clears job data' do
           expect(session[:job]).to be_nil
+        end
+
+        it 'assigns errors' do
+          expect(assigns[:job_errors]).to eq(errors)
         end
       end
     end

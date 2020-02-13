@@ -44,7 +44,7 @@ class FleetsApi < AccountsApi
 
     ##
     # Calls +/v1/accounts/register-csv-from-s3/jobs/:job_name+ endpoint with +GET+ method
-    # and returns a job status.
+    # and returns a job status and job errors.
     #
     # ==== Attributes
     #
@@ -60,7 +60,9 @@ class FleetsApi < AccountsApi
     #
     # ==== Result
     #
-    # Returns a job status, eg. 'SUCCESS'.
+    # Returns a hash
+    # * success - { status: 'SUCCESS', errors: [] }
+    # * failure - { status: 'FAILURE', errors: ['Invalid VRN'] }
     #
     def job_status(job_name:, correlation_id:)
       log_action("Getting job status with job name: #{job_name}")
@@ -68,7 +70,7 @@ class FleetsApi < AccountsApi
         :get,
         "/accounts/register-csv-from-s3/jobs/#{job_name}",
         headers: custom_headers(correlation_id)
-      )['status']
+      ).symbolize_keys
     end
 
     #:nocov:

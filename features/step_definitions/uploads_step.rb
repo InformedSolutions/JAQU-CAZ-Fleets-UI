@@ -13,7 +13,7 @@ When('I attach a file') do
 end
 
 When('I press upload') do
-  allow(FleetsApi).to receive(:job_status).and_return('running')
+  allow(FleetsApi).to receive(:job_status).and_return(status: 'running')
   click_button 'Upload'
 end
 
@@ -31,18 +31,20 @@ When('I am on the processing page') do
   page.set_rack_session(
     job: { job_name: SecureRandom.uuid, correlation_id: SecureRandom.uuid }
   )
-  allow(FleetsApi).to receive(:job_status).and_return('running')
+  allow(FleetsApi).to receive(:job_status).and_return(status: 'running')
   visit processing_uploads_path
 end
 
 When('My upload is successful') do
-  allow(FleetsApi).to receive(:job_status).and_return('success')
+  allow(FleetsApi).to receive(:job_status).and_return(status: 'success')
   mock_clean_air_zones
   mock_vehicles_in_fleet
 end
 
-When('My upload is failed') do
-  allow(FleetsApi).to receive(:job_status).and_return('failure')
+When('My upload is failed with error: {string}') do |error|
+  allow(FleetsApi)
+    .to receive(:job_status)
+    .and_return(status: 'failure', errors: [error])
   mock_clean_air_zones
   mock_empty_fleet
 end

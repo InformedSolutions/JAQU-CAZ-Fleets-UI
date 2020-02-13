@@ -8,11 +8,12 @@ describe 'FleetsApi.job_status' do
   let(:id) { SecureRandom.uuid }
   let(:job_name) { SecureRandom.uuid }
   let(:status) { 'SUCCESS' }
+  let(:errors) { ['Invalid VRN'] }
 
   context 'when the response status is 200' do
     before do
       stub_request(:get, url)
-        .to_return(status: 200, body: { 'status' => status }.to_json)
+        .to_return(status: 200, body: { 'status' => status, 'errors' => errors }.to_json)
     end
 
     it 'calls API with correlation ID in headers' do
@@ -23,7 +24,11 @@ describe 'FleetsApi.job_status' do
     end
 
     it 'returns job status' do
-      expect(call).to eq(status)
+      expect(call[:status]).to eq(status)
+    end
+
+    it 'returns job errors' do
+      expect(call[:errors]).to eq(errors)
     end
   end
 
