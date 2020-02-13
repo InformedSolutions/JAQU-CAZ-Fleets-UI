@@ -12,6 +12,8 @@ Feature: Uploads
     When I attach a file
       And I press upload
     Then I should be on the processing page
+    When I reload the page
+    Then I should be on the processing page
 
   Scenario: Uploading file with vehicles in the fleets
     When I have vehicles in my fleet
@@ -27,3 +29,16 @@ Feature: Uploads
     Then I should see "Download the CSV" link
     When  I press "Download the CSV" link
     Then I should download the template
+
+  Scenario: Successful upload
+    When I am on the processing page
+      And My upload is successful
+      And I reload the page
+    Then I should be on the manage vehicles page
+
+  Scenario: Failed upload
+    When I am on the processing page
+      And My upload is failed
+      And I reload the page
+    Then I should see "Upload your vehicle details"
+      And I should see "Invalid VRN in line 3"

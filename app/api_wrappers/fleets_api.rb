@@ -6,6 +6,8 @@
 # See {AccountsApi}[rdoc-ref:AccountsApi] for user related actions.
 #
 class FleetsApi < AccountsApi
+  base_uri 'http://localhost:3001/v1'
+
   class << self
     ##
     # Calls +/v1/accounts/register-csv-from-s3/jobs+ endpoint with +POST+ method
@@ -19,8 +21,8 @@ class FleetsApi < AccountsApi
     # ==== Example
     #
     #    FleetsApi.register_job(
-    #     filename: 'CAZ-2020-01-08-AuthorityID',
-    #     correlation_id: '98faf123-d201-48cb-8fd5-4b30c1f80918'
+    #       filename: 'fleet_email@example.com_1579778166',
+    #       correlation_id: '98faf123-d201-48cb-8fd5-4b30c1f80918'
     #    )
     #
     # ==== Result
@@ -29,13 +31,44 @@ class FleetsApi < AccountsApi
     #
     def register_job(filename:, correlation_id:)
       log_action("Registering job with filename: #{filename}")
-      response = request(:post, '/accounts/register-csv-from-s3/jobs',
-                         body: {
-                           'filename' => filename,
-                           's3Bucket' => ENV.fetch('S3_AWS_BUCKET', 'S3_AWS_BUCKET')
-                         }.to_json,
-                         headers: custom_headers(correlation_id))
-      response['jobName']
+      request(
+        :post,
+        '/accounts/register-csv-from-s3/jobs',
+        body: {
+          'filename' => filename,
+          's3Bucket' => ENV.fetch('S3_AWS_BUCKET', 'S3_AWS_BUCKET')
+        }.to_json,
+        headers: custom_headers(correlation_id)
+      )['jobName']
+    end
+
+    ##
+    # Calls +/v1/accounts/register-csv-from-s3/jobs/:job_name+ endpoint with +GET+ method
+    # and returns a job status.
+    #
+    # ==== Attributes
+    #
+    # * +job_name+ - Job name returned in register_job call, eg '2ad47f86-8365-47ee-863b-dae6dbf69b3e'
+    # * +correlation_id+ - Correlation id (same as in register_job call), eg '98faf123-d201-48cb-8fd5-4b30c1f80918'
+    #
+    # ==== Example
+    #
+    #    FleetsApi.job_status(
+    #       job_name: '2ad47f86-8365-47ee-863b-dae6dbf69b3e',
+    #       correlation_id: '98faf123-d201-48cb-8fd5-4b30c1f80918'
+    #    )
+    #
+    # ==== Result
+    #
+    # Returns a job status, eg. 'SUCCESS'.
+    #
+    def job_status(job_name:, correlation_id:)
+      log_action("Getting job status with job name: #{job_name}")
+      request(
+        :get,
+        "/accounts/register-csv-from-s3/jobs/#{job_name}",
+        headers: custom_headers(correlation_id)
+      )['status']
     end
 
     #:nocov:

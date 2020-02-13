@@ -11,6 +11,8 @@ require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 # Checks if all API calls are stubbed
 require 'webmock/cucumber'
+# Allows hijacking session values
+require 'rack_session_access/capybara'
 # add 'show_me_the_cookies' gem helpers to manipulate cookies.
 World(ShowMeTheCookies)
 

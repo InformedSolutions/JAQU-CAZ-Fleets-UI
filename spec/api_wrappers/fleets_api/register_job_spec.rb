@@ -7,7 +7,7 @@ describe 'FleetsApi.register_job' do
   let(:url) { %r{accounts/register-csv-from-s3/jobs} }
   let(:id) { SecureRandom.uuid }
   let(:filename) { 'filename' }
-  let(:job_name) { 'name' }
+  let(:job_name) { SecureRandom.uuid }
 
   context 'when the response status is 200' do
     before do
