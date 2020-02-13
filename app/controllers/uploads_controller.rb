@@ -49,7 +49,13 @@ class UploadsController < ApplicationController
   #    * +correlation_id+ - uuid, ID used to identify calls
   #
   def processing
-    redirect_to uploads_path unless session[:job]
+    return redirect_to uploads_path unless job_data
+
+    status = FleetsApi.job_status(
+      job_name: job_data[:job_name],
+      correlation_id: job_data[:correlation_id]
+    )
+    react_to_status(status.upcase)
   end
 
   ##
@@ -65,21 +71,6 @@ class UploadsController < ApplicationController
       filename: 'VehicleUploadTemplate.csv',
       type: 'text/csv'
     )
-  end
-
-  # Mocks successful upload - add vehicles to fleet and redirects to :index
-  def mock_successful_upload
-    session[:job] = nil
-    FleetsApi.mock_upload_fleet
-    redirect_to fleets_path
-  end
-
-  ## Mocks failed upload - sets errors and renders :index
-  def mock_failed_upload
-    session[:job] = nil
-    @job_errors = ['Invalid VRN in line 3', 'Invalid VRN in line 5']
-    @vehicles_present = current_user.vehicles.any?
-    render :index
   end
 
   private
@@ -99,5 +90,28 @@ class UploadsController < ApplicationController
       filename: filename,
       correlation_id: correlation_id
     }
+  end
+
+  # Handles controller reaction based on the given status.
+  # * 'RUNNING' - renders the page
+  # * 'SUCCESS' - redirects to fleets index view
+  # * 'FAILURE' = renders uploads index with errors
+  #
+  def react_to_status(status)
+    return if status == 'RUNNING'
+
+    session[:job] = nil
+    if status == 'SUCCESS'
+      redirect_to fleets_path
+    else
+      @job_errors = ['Invalid VRN in line 3', 'Invalid VRN in line 5']
+      @vehicles_present = !current_user.fleet.empty?
+      render :index
+    end
+  end
+
+  # Returns hash with the job data
+  def job_data
+    @job_data ||= session[:job]&.symbolize_keys
   end
 end

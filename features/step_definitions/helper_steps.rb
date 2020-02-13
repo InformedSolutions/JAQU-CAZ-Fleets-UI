@@ -60,3 +60,7 @@ end
 Then('I should see the Service Unavailable page') do
   expect(page).to have_title 'Sorry, the service is unavailable'
 end
+
+When('I reload the page') do
+  visit page.current_path
+end

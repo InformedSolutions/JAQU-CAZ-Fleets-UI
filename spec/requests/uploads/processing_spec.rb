@@ -16,6 +16,7 @@ describe 'UploadsController - #processing' do
     let(:filename) { 'filename' }
     let(:job_name) { 'job_name' }
     let(:correlation_id) { SecureRandom.uuid }
+    let(:status) { 'success' }
 
     before do
       add_to_session(job: {
@@ -23,15 +24,56 @@ describe 'UploadsController - #processing' do
                        job_name: job_name,
                        correlation_id: correlation_id
                      })
+      allow(FleetsApi).to receive(:job_status).and_return(status)
+    end
+
+    it 'calls FleetsApi.job_status with proper params' do
+      expect(FleetsApi)
+        .to receive(:job_status)
+        .with(job_name: job_name, correlation_id: correlation_id)
       http_request
     end
 
-    it 'is successful' do
-      expect(response).to have_http_status(:success)
-    end
+    describe 'job status' do
+      before { http_request }
 
-    it 'renders processing' do
-      expect(response).to render_template('uploads/processing')
+      describe 'success' do
+        it 'returns redirect to fleets_path' do
+          expect(response).to redirect_to(fleets_path)
+        end
+
+        it 'clears job data' do
+          expect(session[:job]).to be_nil
+        end
+      end
+
+      describe 'running' do
+        let(:status) { 'running' }
+
+        it 'is successful' do
+          expect(response).to have_http_status(:success)
+        end
+
+        it 'renders processing' do
+          expect(response).to render_template('uploads/processing')
+        end
+
+        it 'does not clear job data' do
+          expect(session[:job]).not_to be_nil
+        end
+      end
+
+      describe 'failure' do
+        let(:status) { 'failure' }
+
+        it 'renders uploads index' do
+          expect(response).to render_template('uploads/index')
+        end
+
+        it 'clears job data' do
+          expect(session[:job]).to be_nil
+        end
+      end
     end
   end
 end

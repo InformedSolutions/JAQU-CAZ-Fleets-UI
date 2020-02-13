@@ -5,17 +5,12 @@
     .govuk-grid-column-two-thirds
       %h1.govuk-heading-l Validating submission...
       %p
-        We are validating your CSV submission to National Taxi and PHV register.
+        We are validating your CSV submission to
+        = succeed('.') do
+          = service_name
         Please do not leave this page. It will automatically refresh to present your submission status.
 
       %p
         If the page does not refresh automatically in 30 seconds
         = succeed '.' do
           = link_to 'click here', processing_uploads_path
-
-      %p
-        For demonstration purposes
-      %p
-        = link_to('successful upload', mock_successful_upload_uploads_path)
-      %p
-        = link_to('failed upload', mock_failed_upload_uploads_path)
