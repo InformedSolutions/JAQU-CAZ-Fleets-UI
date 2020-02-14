@@ -53,12 +53,12 @@ end
 
 Then('I should see active {string} pagination button') do |text|
   button = page.find("#pagination-button-#{text}")
-  expect(button[:class]).to eq('active')
+  expect(button[:class]).to include('moj-pagination__item--active')
 end
 
 Then('I should see inactive {string} pagination button') do |text|
   button = page.find("#pagination-button-#{text}")
-  expect(button[:class]).to be_nil
+  expect(button[:class]).not_to include('moj-pagination__item--active')
 end
 
 Then('I should not see {string} pagination button') do |text|
@@ -67,5 +67,5 @@ end
 
 When('I press {int} pagination button') do |selected_page|
   mock_vehicles_in_fleet(selected_page)
-  page.find("#pagination-button-#{selected_page}").click
+  page.find("#pagination-button-#{selected_page}").first('a').click
 end

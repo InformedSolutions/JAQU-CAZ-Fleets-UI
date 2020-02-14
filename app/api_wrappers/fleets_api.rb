@@ -27,7 +27,9 @@ class FleetsApi < AccountsApi
 
       log_action("Adding #{vrn} to the fleet")
       fleet = $request.session['mocked_fleet'] || []
-      fleet.push(mocked_new_vehicle(details)) unless fleet.any? { |vehicle| vehicle['vrn'] == vrn }
+      unless fleet.any? { |vehicle| vehicle['vrn'] == vrn }
+        fleet.push(mocked_new_vehicle(vrn: vrn))
+      end
       $request.session['mocked_fleet'] = fleet
       log_action("Current fleet: #{fleet}")
       true

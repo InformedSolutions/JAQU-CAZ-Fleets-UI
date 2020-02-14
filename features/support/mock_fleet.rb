@@ -30,10 +30,14 @@ module MockFleet
   end
 
   def paginated_vehicles(vehicles, page)
-    OpenStruct.new(
+    instance_double(
+      PaginatedFleet,
       vehicle_list: vehicles,
       page: page,
-      total_pages: 2
+      total_pages: 2,
+      range_start: 1,
+      range_end: 10,
+      total_vehicles_count: 15
     )
   end
 end

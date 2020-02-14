@@ -25,8 +25,8 @@ describe Fleet, type: :model do
       vehicles
     end
 
-    it 'returns an OpenStruct' do
-      expect(vehicles).to be_a(OpenStruct)
+    it 'returns a PaginatedFleet' do
+      expect(vehicles).to be_a(PaginatedFleet)
     end
 
     describe '.vehicle_list' do
