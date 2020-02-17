@@ -1,15 +1,14 @@
 - active ||= false
 - form_class ||= nil
-= button_to fleets_path,
-            method: :get,
-            form_class: ['pagination-form', form_class],
-            class: ('active' if active),
-            id: "pagination-button-#{button_text}" do
-  = hidden_field_tag :page, page
-  - if button_text.is_a?(String)
+- id = "pagination-button-#{button_text.to_s.downcase}"
+
+- if active
+  %li.moj-pagination__item.moj-pagination__item--active{id: id}
     = button_text
-    %span.govuk-visually-hidden page of results
-  - else
-    %span.govuk-visually-hidden results page
-    = button_text
-    
+- else
+  %li.moj-pagination__item{id: id, class: ("moj-pagination__item--#{form_class}" if form_class)}
+    = link_to(fleets_path(page: page), class: 'moj-pagination__link') do
+      = button_text
+      - if button_text.is_a?(String)
+        %span.govuk-visually-hidden
+          set of pages

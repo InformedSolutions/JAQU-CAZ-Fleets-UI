@@ -18,11 +18,7 @@ class Fleet
   def paginated_vehicles(page:)
     @paginated_vehicles ||= begin
                  data = FleetsApi.fleet_vehicles(account_id: account_id, page: page)
-                 OpenStruct.new(
-                   vehicle_list: vehicle_list(data),
-                   page: data['page'],
-                   total_pages: data['pageCount']
-                 )
+                 PaginatedFleet.new(data)
                end
   end
 

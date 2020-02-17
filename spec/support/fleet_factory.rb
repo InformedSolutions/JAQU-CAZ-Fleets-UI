@@ -7,7 +7,7 @@ module FleetFactory
 
   def create_fleet(vehicles = mocked_vehicles)
     instance_double(Fleet,
-                    paginated_vehicles: paginated_vehicles(vehicles),
+                    paginated_vehicles: paginated_fleet(vehicles),
                     add_vehicle: true,
                     delete_vehicle: true,
                     empty?: vehicles.empty?)
@@ -24,11 +24,15 @@ module FleetFactory
     vehicles_data.map { |data| Vehicle.new(data) }
   end
 
-  def paginated_vehicles(vehicles)
-    OpenStruct.new(
+  def paginated_fleet(vehicles)
+    instance_double(
+      PaginatedFleet,
       vehicle_list: vehicles,
       page: 1,
-      total_pages: 5
+      total_pages: 5,
+      range_start: 1,
+      range_end: 5,
+      total_vehicles_count: 45
     )
   end
 end
