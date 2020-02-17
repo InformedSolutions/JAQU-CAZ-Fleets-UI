@@ -31,6 +31,16 @@ describe 'AccountsApi.create_account' do
       call
       expect(WebMock).to have_requested(:post, /accounts/).with(body: body).once
     end
+
+    context 'when email has uppercased signs' do
+      let(:email) { 'TEST@example.com' }
+
+      it 'calls API with proper body' do
+        body = { email: email.downcase, password: password, accountName: name }
+        call
+        expect(WebMock).to have_requested(:post, /accounts/).with(body: body).once
+      end
+    end
   end
 
   context 'when the response status is 422' do
