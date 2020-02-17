@@ -18,16 +18,22 @@ if Rails.env.production?
     policy.font_src(*defaults, :data)
     policy.img_src(*defaults)
     policy.object_src(:none)
-    policy.script_src(*defaults, *ga_urls, *cookie_control_url, :unsafe_inline)
-    policy.style_src(*defaults, :unsafe_inline)
+    policy.script_src("'sha256-d9c+dV7L1yNV9jTrn0dFU0w5wZTj02ZmtGQvaN8sHKg'",
+                      "'sha256-73apBKpD7j/5bd3FmbyTrw01EqeBg2g8rxWzYeiQMXc'",
+                      *defaults, *ga_urls, *cookie_control_url)
+    policy.style_src("'sha256-YyWKU7sbALoSEpoibbWe4AvlJf320C6BhPPCJa3RxDo'",
+                     "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU'",
+                     "'sha256-0lDvsX2XtY61lNg5AvqH36/zyCtX0kJp8iZ8SDYaD1M'",
+                     "'sha256-gvmjIxVcV84toBcOQoDyWM97YKhghJ5TKBOo76CCPFs'",
+                     *defaults)
     policy.connect_src(*defaults)
     policy.frame_ancestors(:none)
   end
 end
 
 # If you are using UJS then enable automatic nonce generation
-# Rails.application.config.content_security_policy_nonce_generator =
-#   ->(_request) { SecureRandom.base64(16) }
+Rails.application.config.content_security_policy_nonce_generator =
+  ->(_request) { SecureRandom.base64(16) }
 
 # Report CSP violations to a specified URI
 # For further information see the following documentation:
