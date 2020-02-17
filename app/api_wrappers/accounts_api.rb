@@ -43,7 +43,7 @@ class AccountsApi < BaseApi
     #
     def sign_in(email:, password:)
       log_action("Login user with email: #{email}")
-      body = { email: email, password: password }.to_json
+      body = { email: email.downcase, password: password }.to_json
       request(:post, '/auth/login', body: body)
     end
 
