@@ -8,6 +8,7 @@
 
 #:nocov:
 if Rails.env.production?
+  cookie_control_url = %w[https://cc.cdn.civiccomputing.com]
   ga_urls = %w[https://www.googletagmanager.com https://www.google-analytics.com]
   defaults = %i[self https]
   defaults.push(ENV['CLOUDFRONT_ENDPOINT']) if ENV['CLOUDFRONT_ENDPOINT']
@@ -17,7 +18,7 @@ if Rails.env.production?
     policy.font_src(*defaults, :data)
     policy.img_src(*defaults)
     policy.object_src(:none)
-    policy.script_src(*defaults, *ga_urls)
+    policy.script_src(*defaults, *ga_urls, *cookie_control_url)
     policy.style_src(*defaults)
     policy.connect_src(*defaults)
     policy.frame_ancestors(:none)
