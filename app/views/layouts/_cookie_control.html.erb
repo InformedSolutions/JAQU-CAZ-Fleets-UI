@@ -6,10 +6,23 @@
   var config = {
     apiKey: apiKey,
     product: product,
-    initialState: "notify",
+    position: 'left',
+    initialState: 'open',
+    rejectButton: true,
     text : {
       thirdPartyTitle : 'Warning: Some cookies require your attention',
       thirdPartyDescription : 'Consent for some third party cookies can not be automatically revoked. Please follow the link below if you want to opt out of them.'
+    },
+    branding: {
+      fontColor: '#333',
+      backgroundColor: '#f4f4f4',
+      alertBackground: '#555',
+      acceptText: '#fff',
+      acceptBackground: '#000',
+      toggleText: '#fff',
+      toggleColor: '#000',
+      toggleBackground: '#555',
+      removeAbout: true
     },
     optionalCookies: [
       {
