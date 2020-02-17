@@ -1,4 +1,4 @@
-<%= javascript_tag nonce: content_security_policy_nonce do -%>
+<%= javascript_tag do -%>
   var gaID = '<%= ENV['GOOGLE_ANALYTICS_ID'] %>';
   var apiKey = '<%= ENV.fetch('COOKIE_CONTROL_API_KEY', '592b99ebdf88c091dad9b556b6d8de236ac97687') %>';
   var product = '<%= ENV.fetch('COOKIE_CONTROL_PRODUCT', 'PRO_MULTISITE') %>';

@@ -1,6 +1,6 @@
-#ccc[dark] {
-  .ccc-notify-button {
-    color: #000;
-    border-color: #000;
-  }
+$cc-black: #000;
+
+.ccc-link {
+  color: $cc-black !important;
+  border-color: $cc-black !important ;
 }
