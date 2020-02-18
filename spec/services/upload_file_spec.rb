@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 describe UploadFile do
-  subject(:service_call) { described_class.call(file: file, user: create_user(email: email)) }
+  subject(:service_call) { described_class.call(file: file, user: create_user(user_id: id)) }
 
   let(:file) do
     fixture_file_upload(file_path)
   end
   let(:file_path) { File.join('spec', 'fixtures', 'uploads', 'fleet.csv') }
-  let(:email) { 'test@example.com' }
+  let(:id) { SecureRandom.uuid }
 
   describe '#call' do
     context 'with valid params' do
@@ -19,7 +19,7 @@ describe UploadFile do
 
       it 'returns the proper file name' do
         freeze_time do
-          expect(service_call).to eq("fleet_#{email}_#{Time.current.to_i}")
+          expect(service_call).to eq("fleet_#{id}_#{Time.current.to_i}")
         end
       end
     end

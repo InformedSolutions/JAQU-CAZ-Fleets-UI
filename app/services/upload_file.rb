@@ -15,7 +15,7 @@ class UploadFile < BaseService
   def initialize(file:, user:)
     @file = file
     @user = user
-    @file_name = "fleet_#{user.email}_#{Time.current.to_i}"
+    @file_name = "fleet_#{user.user_id}_#{Time.current.to_i}"
     @error = nil
   end
 
@@ -65,7 +65,7 @@ class UploadFile < BaseService
   #
   # Returns a boolean.
   def upload_to_s3
-    log_action "Uploading file to s3 by a user: #{user.email}"
+    log_action 'Uploading file to S3'
     return true if aws_call
 
     raise CsvUploadException, I18n.t('csv.errors.base')
