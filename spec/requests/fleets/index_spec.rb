@@ -34,7 +34,7 @@ describe 'FleetsController - #index', type: :request do
 
     it 'sets default page value to 1' do
       http_request
-      expect(assigns(:vehicles).page).to eq(1)
+      expect(assigns(:pagination).page).to eq(1)
     end
   end
 end

@@ -21,7 +21,8 @@ Feature: Fleets
     Then I should be on the enter details page
 
   Scenario: CSV Upload
-    When I visit the submission method page
+    When I have no vehicles in my fleet
+      And I visit the submission method page
       And I select CSV upload
       And I press the Continue
     Then I should be on the upload page

@@ -8,9 +8,9 @@ class Vehicle
   #
   # ==== Params
   # * +data+ - hash
-  #    * +vrn+ - string, vehicle registration number
+  #    * +registrationNumber+ - string, vehicle registration number
   #    * +vehicleType+ - string, type of the vehicle
-  #    * +complianceResults+ - array of hashes
+  #    * +complianceOutcomes+ - array of hashes
   #       * +cleanAirZoneId+ - UUID, ID of the CAZ
   #       * +charge+ - float, charge for given CAZ
   #       * +tariffCode+ - string, tariff that was used for calculations
@@ -21,17 +21,17 @@ class Vehicle
 
   # Returns vehicle's registration number
   def vrn
-    data['vrn']
+    data['registrationNumber']
   end
 
   # Returns vehicle's type
   def type
-    (data['vehicleType'] || 'unknown').humanize
+    (data['vehicleType'] || 'not found').humanize
   end
 
   # Returns the charge for given CAZ in float
   def charge(caz_id)
-    compliance = data['complianceResults'].find { |res| res['cleanAirZoneId'] == caz_id }
+    compliance = data['complianceOutcomes'].find { |res| res['cleanAirZoneId'] == caz_id }
     return nil unless compliance
 
     compliance['charge'] == 'null' ? nil : compliance['charge'].to_f
@@ -42,7 +42,7 @@ class Vehicle
   # Returns 'No charge' if the charge equals zero
   def formatted_charge(caz_id)
     charge = charge(caz_id)
-    return 'Unknown' unless charge
+    return 'N/A' unless charge
 
     return 'No charge' if charge.zero?
 

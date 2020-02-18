@@ -16,7 +16,7 @@ class PaginatedFleet
 
   # Returns current page value
   def page
-    data['page']
+    data['page'] + 1
   end
 
   # Returns the number of available pages
