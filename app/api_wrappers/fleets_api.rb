@@ -71,21 +71,40 @@ class FleetsApi < AccountsApi
       ).symbolize_keys
     end
 
-    #:nocov:
+    ##
+    # Calls +/v1/accounts/:account_id/vehicles+ endpoint with +GET+ method
+    # and returns paginated list of the fleet vehicles.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - ID of the account associated with the fleet
+    # * +page+ - requested page of the results
+    # * +per_page+ - number of vehicles per page, defaults to 10
+    #
+    # ==== Example
+    #
+    #    FleetApi.fleet_vehicles(account_id: '1f30838f-69ee-4486-95b4-7dfcd5c6c67c', page: 1)
+    #
+    # ==== Result
+    #
+    # Returned vehicles details will have the following fields:
+    # * +vrns+ - list of the vehicles' registration numbers
+    # * +pageCount+ - number of available pages
+    # * +totalVrnsCount+ - total number of vehicles in the fleet
+    #
+    # ==== Exceptions
+    #
+    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - invalid parameters
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
     def fleet_vehicles(account_id:, page:, per_page: 10)
-      return [] unless $request
-
-      log_action("Getting page #{page} of the fleet for account: #{account_id}")
-      fleet = $request.session['mocked_fleet'] || []
-      {
-        'vehicles' => fleet.sort_by { |v| v['vrn'] }.paginate(per_page: 10, page: page),
-        'perPage' => per_page,
-        'page' => page,
-        'pageCount' => (fleet.size / per_page.to_f).ceil,
-        'totalVrnsCount' => fleet.size
-      }
+      log_action("Getting vehicles for page: #{page}")
+      query = { 'pageNumber' => page - 1, 'pageSize' => per_page }
+      request(:get, "/accounts/#{account_id}/vehicles", query: query)
     end
 
+    #:nocov:
     def add_vehicle_to_fleet(vrn:, _account_id:)
       return false unless $request
 

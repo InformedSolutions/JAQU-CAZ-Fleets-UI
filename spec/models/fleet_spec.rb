@@ -7,20 +7,20 @@ describe Fleet, type: :model do
 
   let(:account_id) { SecureRandom.uuid }
 
-  describe '.paginated_vehicles' do
+  describe '.pagination' do
     let(:page) { 1 }
-    let(:vehicles) { fleet.paginated_vehicles(page: page) }
-    let(:vehicles_data) { read_response('fleet.json')[page.to_s] }
+    let(:vehicles) { fleet.pagination(page: page) }
+    let(:vehicles_data) { read_response('charges.json')[page.to_s] }
 
     before do
-      allow(FleetsApi)
-        .to receive(:fleet_vehicles)
+      allow(PaymentsApi)
+        .to receive(:charges)
         .and_return(vehicles_data)
     end
 
-    it 'calls AccountsApi.fleet_vehicles with proper params' do
-      expect(FleetsApi)
-        .to receive(:fleet_vehicles)
+    it 'calls FleetsApi.charges with proper params' do
+      expect(PaymentsApi)
+        .to receive(:charges)
         .with(account_id: account_id, page: page)
       vehicles
     end
@@ -36,8 +36,8 @@ describe Fleet, type: :model do
     end
 
     describe '.page' do
-      it 'returns the page value' do
-        expect(vehicles.page).to eq(vehicles_data['page'])
+      it 'returns the page value increased by 1' do
+        expect(vehicles.page).to eq(vehicles_data['page'] + 1)
       end
     end
 
@@ -64,7 +64,7 @@ describe Fleet, type: :model do
   end
 
   describe '.exists?' do
-    let(:vehicles_data) { read_response('fleet.json')['1'] }
+    let(:vehicles_data) { read_response('fleet.json') }
 
     before do
       allow(FleetsApi)
@@ -86,7 +86,7 @@ describe Fleet, type: :model do
     end
 
     context 'when no vehicles returned' do
-      let(:vehicles_data) { { 'vehicles' => [] } }
+      let(:vehicles_data) { { 'vrns' => [] } }
 
       it 'returns true' do
         expect(fleet.empty?).to be_truthy

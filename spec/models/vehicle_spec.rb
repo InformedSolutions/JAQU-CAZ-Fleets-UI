@@ -7,9 +7,9 @@ describe Vehicle, type: :model do
 
   let(:data) do
     {
-      'vrn' => vrn,
+      'registrationNumber' => vrn,
       'vehicleType' => type,
-      'complianceResults' => [
+      'complianceOutcomes' => [
         { 'cleanAirZoneId' => caz_id, 'charge' => charge, 'tariffCode' => 'VAN-123' }
       ]
     }
@@ -34,8 +34,8 @@ describe Vehicle, type: :model do
     context 'when there is no type' do
       let(:type) { nil }
 
-      it 'returns unknown' do
-        expect(vehicle.type).to eq('Unknown')
+      it 'returns N/A' do
+        expect(vehicle.type).to eq('Not found')
       end
     end
   end
@@ -88,14 +88,14 @@ describe Vehicle, type: :model do
     context 'when charge is null' do
       let(:charge) { 'null' }
 
-      it "returns 'Unknown'" do
-        expect(vehicle.formatted_charge(caz_id)).to eq('Unknown')
+      it "returns 'N/A'" do
+        expect(vehicle.formatted_charge(caz_id)).to eq('N/A')
       end
     end
 
     context 'when unknown CAZ given' do
-      it "returns 'Unknown'" do
-        expect(vehicle.formatted_charge('test')).to eq('Unknown')
+      it "returns 'N/A'" do
+        expect(vehicle.formatted_charge('test')).to eq('N/A')
       end
     end
   end

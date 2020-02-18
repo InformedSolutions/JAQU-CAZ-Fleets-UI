@@ -54,7 +54,7 @@ class FleetsController < ApplicationController
     return redirect_to submission_method_fleets_path if @fleet.empty?
 
     page = (params[:page] || 1).to_i
-    @vehicles = @fleet.paginated_vehicles(page: page)
+    @pagination = @fleet.pagination(page: page)
     @zones = CleanAirZone.all
   end
 

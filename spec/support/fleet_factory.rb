@@ -7,7 +7,7 @@ module FleetFactory
 
   def create_fleet(vehicles = mocked_vehicles)
     instance_double(Fleet,
-                    paginated_vehicles: paginated_fleet(vehicles),
+                    pagination: paginated_fleet(vehicles),
                     add_vehicle: true,
                     delete_vehicle: true,
                     empty?: vehicles.empty?)
@@ -20,7 +20,7 @@ module FleetFactory
   private
 
   def mocked_vehicles
-    vehicles_data = read_response('fleet.json')['1']['vehicles']
+    vehicles_data = read_response('charges.json')['1']['vehicles']
     vehicles_data.map { |data| Vehicle.new(data) }
   end
 

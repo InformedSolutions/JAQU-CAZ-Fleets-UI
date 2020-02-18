@@ -14,7 +14,7 @@ describe PaginatedFleet, type: :model do
     {
       'vehicles' => vehicles_data,
       'perPage' => per_page,
-      'page' => page,
+      'page' => page - 1,
       'pageCount' => (size / per_page.to_f).ceil,
       'totalVrnsCount' => size
     }

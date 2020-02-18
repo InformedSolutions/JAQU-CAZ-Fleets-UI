@@ -1,5 +1,5 @@
-- page = @vehicles.page
-- total_pages = @vehicles.total_pages
+- page = @pagination.page
+- total_pages = @pagination.total_pages
 
 %nav.moj-pagination#pagination-label
   %p.govuk-visually-hidden{'aria-labelledby': "pagination-label"}
@@ -18,12 +18,12 @@
     %p.moj-pagination__results
       Showing
       %b
-        = @vehicles.range_start
+        = @pagination.range_start
       to
       %b
-        = @vehicles.range_end
+        = @pagination.range_end
       of
       %b
-        = @vehicles.total_vehicles_count
+        = @pagination.total_vehicles_count
       results
 

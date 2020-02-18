@@ -10,7 +10,7 @@ module MockFleet
   end
 
   def vehicles
-    vehicles_data = read_response('fleet.json')['1']['vehicles']
+    vehicles_data = read_response('charges.json')['1']['vehicles']
     vehicles_data.map { |data| Vehicle.new(data) }
   end
 
@@ -22,7 +22,7 @@ module MockFleet
 
   def mock_fleet(vehicles = [], page = 1)
     @fleet = instance_double(Fleet,
-                             paginated_vehicles: paginated_vehicles(vehicles, page),
+                             pagination: paginated_vehicles(vehicles, page),
                              add_vehicle: true,
                              delete_vehicle: true,
                              empty?: vehicles.empty?)

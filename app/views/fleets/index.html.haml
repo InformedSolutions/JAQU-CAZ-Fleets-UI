@@ -26,7 +26,7 @@
               %th.govuk-table__header{scope: 'col', colspan: zone_colspan(index)}
                 = zone.name
         %tbody.govuk-table__body
-          - @vehicles.vehicle_list.each do |vehicle|
+          - @pagination.vehicle_list.each do |vehicle|
             %tr.govuk-table__row
               %td.govuk-table__cell{scope: 'row'}
                 = vehicle.vrn

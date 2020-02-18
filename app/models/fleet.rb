@@ -13,11 +13,11 @@ class Fleet
     @account_id = account_id
   end
 
-  # Returns an OpenStruct with the paginated list of vehicles associated with the account.
+  # Returns a PaginatedFleet with vehicles associated with the account.
   # Includes data about page and total pages count.
-  def paginated_vehicles(page:)
-    @paginated_vehicles ||= begin
-                 data = FleetsApi.fleet_vehicles(account_id: account_id, page: page)
+  def pagination(page:)
+    @pagination ||= begin
+                 data = PaymentsApi.charges(account_id: account_id, page: page)
                  PaginatedFleet.new(data)
                end
   end
@@ -42,7 +42,7 @@ class Fleet
 
   # Checks if there are any vehicles in the fleet. Returns boolean.
   def empty?
-    FleetsApi.fleet_vehicles(account_id: account_id, page: 1, per_page: 1)['vehicles'].empty?
+    FleetsApi.fleet_vehicles(account_id: account_id, page: 1, per_page: 1)['vrns'].empty?
   end
 
   private

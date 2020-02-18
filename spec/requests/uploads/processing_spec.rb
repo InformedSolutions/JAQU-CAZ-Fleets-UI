@@ -38,7 +38,10 @@ describe 'UploadsController - #processing' do
     end
 
     describe 'job status' do
-      before { http_request }
+      before do
+        mock_fleet(create_empty_fleet)
+        http_request
+      end
 
       describe 'success' do
         it 'returns redirect to fleets_path' do
