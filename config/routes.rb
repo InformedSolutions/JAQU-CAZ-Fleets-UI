@@ -65,21 +65,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope '/fleets/organisation-account', only: %i[] do
-    get 'add-users', to: 'users#new'
-    post 'add-users', to: 'users#create'
-    get 'delete-user', to: 'users#delete'
-    post 'another-user', to: 'users#another_user'
-
-    get 'dashboard', to: 'dashboard#index'
-    get 'manage-users', to: 'users#manage'
-    post 'manage-users', to: 'users#confirm_manage'
-  end
-
-  scope '/fleets/single-user', only: %i[] do
-    get 'email-invite', to: 'users#email_invite'
-  end
-
+  get :dashboard, to: 'dashboard#index'
   get :build_id, to: 'application#build_id'
   get :health, to: 'application#health'
 

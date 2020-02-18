@@ -18,7 +18,6 @@ Feature: Sign In
     Given I have authentication cookie that has not expired
     When I navigate to a Dashboard page
     Then I should see "Your fleet account"
-      And I should see "Account" link
 
   Scenario: View dashboard page with cookie that has expired
     Given I have authentication cookie that has expired

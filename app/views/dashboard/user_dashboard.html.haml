@@ -2,13 +2,11 @@
   .govuk-grid-row
     .govuk-grid-column-two-thirds
       %h1.govuk-heading-l Your fleet account
-
       = render 'common/draft_tag'
-      %p
+      %br
       %p On this page you can upload your vehicles and make a payment
       .govuk-inset-text
         You must upload your vehicle details before making a payment.
   .govuk-grid-row
     = render 'manage_vehicles'
     = render 'make_payment'
-    = render 'select_direct_debit'
