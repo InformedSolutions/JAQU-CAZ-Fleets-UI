@@ -6,8 +6,6 @@
 # See {AccountsApi}[rdoc-ref:AccountsApi] for user related actions.
 #
 class FleetsApi < AccountsApi
-  base_uri 'http://localhost:3001/v1'
-
   class << self
     ##
     # Calls +/v1/accounts/register-csv-from-s3/jobs+ endpoint with +POST+ method
@@ -30,7 +28,7 @@ class FleetsApi < AccountsApi
     # Returns a UUID, eg. '2ad47f86-8365-47ee-863b-dae6dbf69b3e'.
     #
     def register_job(filename:, correlation_id:)
-      log_action("Registering job with filename: #{filename}")
+      log_action('Registering a new upload job')
       request(
         :post,
         '/accounts/register-csv-from-s3/jobs',
