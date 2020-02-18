@@ -1,19 +1,13 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      %h1.govuk-heading-l Your company account
-
+      %h1.govuk-heading-l Your fleet account
       = render 'common/draft_tag'
       %p
-      %p
-        On this page you can upload your vehicles, add and remove users, make a payment and view the
-        payments you’ve already made.
+        This service works by you telling us which vehicles have driven in a zone.
+        The charge for each vehicle is calculated from your vehicle registration information.
       .govuk-inset-text
-        You must upload your vehicle details before making a payment.
+        You need to upload your number plates (registration details) before you can make a payment.
   .govuk-grid-row
     = render 'manage_vehicles'
-    = render 'manage_users'
-  .govuk-grid-row
     = render 'make_payment'
-    = render 'select_direct_debit'
-    = render 'payment_history'

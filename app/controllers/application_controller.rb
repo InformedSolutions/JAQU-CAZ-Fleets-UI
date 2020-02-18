@@ -21,14 +21,6 @@ class ApplicationController < ActionController::Base
   rescue_from UserAlreadyConfirmedException,
               with: :redirect_to_sign_in
 
-  # Verifies if current user is admin, if not redirects to root_path
-  def verify_admin
-    return if current_user.admin
-
-    Rails.logger.warn "User #{current_user.email} is not an administrator"
-    redirect_to root_path
-  end
-
   ##
   # Health endpoint
   #
