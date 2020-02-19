@@ -13,9 +13,9 @@ concurrency:
   limit: 1
 
 volumes:
-- name: docker_sock
-  host:
-    path: /var/run/docker.sock
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
 
 
 steps:
@@ -280,9 +280,9 @@ concurrency:
   limit: 1
 
 volumes:
-- name: docker_sock
-  host:
-    path: /var/run/docker.sock
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
 
 
 steps:
@@ -525,9 +525,9 @@ concurrency:
   limit: 1
 
 volumes:
-- name: docker_sock
-  host:
-    path: /var/run/docker.sock
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
 
 
 steps:
@@ -768,9 +768,9 @@ concurrency:
   limit: 1
 
 volumes:
-- name: docker_sock
-  host:
-    path: /var/run/docker.sock
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
 
 
 steps:
