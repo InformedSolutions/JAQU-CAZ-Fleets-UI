@@ -42,7 +42,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :payments, only: %i[index]
+  resources :payments, only: :index do
+    collection do
+      post :local_authority
+      get :matrix
+    end
+  end
 
   resources :vehicles, only: [] do
     collection do

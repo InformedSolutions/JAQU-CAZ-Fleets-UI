@@ -19,6 +19,7 @@ describe 'PaymentsController - #index', type: :request do
 
   context 'with vehicles in fleet' do
     before do
+      mock_caz_list
       mock_fleet
       sign_in create_user
     end
