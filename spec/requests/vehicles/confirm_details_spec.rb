@@ -40,13 +40,35 @@ describe 'VehicleCheckersController - POST #confirm_details', type: :request do
         it 'adds the vehicle to the fleet' do
           expect(FleetsApi)
             .to receive(:add_vehicle_to_fleet)
-            .with(vrn: @vrn, _account_id: account_id)
+            .with(vrn: @vrn, account_id: account_id)
           http_request
         end
 
         it 'removes vrn from session' do
           http_request
           expect(session[:vrn]).to be_nil
+        end
+
+        context 'when the call fails' do
+          let(:message) { 'Test exception message' }
+
+          before do
+            allow(FleetsApi)
+              .to receive(:add_vehicle_to_fleet)
+              .and_raise(
+                BaseApi::Error400Exception.new(400, '', message: message)
+              )
+          end
+
+          it 'renders enter_details' do
+            http_request
+            expect(response).to render_template(:enter_details)
+          end
+
+          it 'displays an error' do
+            http_request
+            expect(response.body).to include(message)
+          end
         end
       end
 

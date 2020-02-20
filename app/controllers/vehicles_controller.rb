@@ -5,8 +5,10 @@
 # It should use similar approach as VCCS UI
 #
 class VehiclesController < ApplicationController
-  # 404 HTTP status from API mean vehicle in not found in DLVA database. Redirects to the proper page.
+  # 404 HTTP status from API means vehicle in not found in DLVA database. Redirects to the proper page.
   rescue_from BaseApi::Error404Exception, with: :vehicle_not_found
+  # 400 HTTP status from API means invalid VRN or other validation error
+  rescue_from BaseApi::Error400Exception, with: :add_vehicle_exception
   # checks if VRN is present in the session
   before_action :check_vrn, only: %i[details confirm_details exempt incorrect_details not_found]
 
@@ -155,5 +157,10 @@ class VehiclesController < ApplicationController
   # Redirects to {vehicle not found}[rdoc-ref:VehiclesController.unrecognised_vehicle]
   def vehicle_not_found
     redirect_to not_found_vehicles_path
+  end
+
+  def add_vehicle_exception(exception)
+    @errors = { vrn: [exception.body_message] }
+    render :enter_details
   end
 end

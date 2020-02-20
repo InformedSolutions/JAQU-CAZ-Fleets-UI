@@ -28,7 +28,7 @@ class Fleet
   # * +vrn+ - string, vehicle registration number, required
   #
   def add_vehicle(vrn)
-    FleetsApi.add_vehicle_to_fleet(vrn: vrn, _account_id: account_id)
+    FleetsApi.add_vehicle_to_fleet(vrn: vrn, account_id: account_id)
   end
 
   # Removes a vehicle from the fleet.
