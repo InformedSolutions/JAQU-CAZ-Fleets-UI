@@ -133,48 +133,34 @@ class FleetsApi < AccountsApi
       true
     end
 
-    #:nocov:
-    def remove_vehicle_from_fleet(vrn:, _account_id:)
-      return false unless $request
-
-      log_action("Removing #{vrn} from the fleet")
-      fleet = $request.session['mocked_fleet'] || []
-      fleet.filter! { |vehicle| vehicle['vrn'] != vrn }
-      $request.session['mocked_fleet'] = fleet
-      log_action("Current fleet: #{fleet}")
+    ##
+    # Calls +/v1/accounts/:account_id/vehicles/:vrn+ endpoint with +DELETE+ method to remove the vehicle from the fleet.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - ID of the account associated with the fleet
+    # * +vrn+ - registration umber of the new vehicle
+    #
+    # ==== Example
+    #
+    #    FleetApi.remove_vehicle_from_fleet(
+    #       account_id: '1f30838f-69ee-4486-95b4-7dfcd5c6c67c',
+    #       vrn: 'CAS315'
+    #    )
+    #
+    # ==== Result
+    #
+    # Returns true.
+    #
+    # ==== Exceptions
+    #
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def remove_vehicle_from_fleet(vrn:, account_id:)
+      log_action('Removing vehicles from the fleet')
+      request(:delete, "/accounts/#{account_id}/vehicles/#{vrn}")
       true
     end
-
-    def mock_upload_fleet
-      return false unless $request
-
-      zone_ids = CleanAirZone.all.map(&:id)
-      fleet = (1..(ENV['REDIS_URL'] ? 50 : 5)).map do |i|
-        mocked_new_vehicle(
-          { vrn: "CAS3#{Kernel.format('%<number>02d', number: i)}", type: 'car' }, zone_ids
-        )
-      end
-      $request.session['mocked_fleet'] = fleet
-      log_action("Current fleet: #{fleet}")
-      true
-    end
-
-    private
-
-    def mocked_new_vehicle(details, zone_ids = CleanAirZone.all.map(&:id))
-      {
-        'vrn' => details[:vrn],
-        'vehicleType' => details[:type] || type(details[:vrn]),
-        'complianceResults' => zone_ids.map do |id|
-          { 'cleanAirZoneId' => id, 'charge' => [0, 8, 12.5, nil].sample }
-        end
-      }
-    end
-
-    def type(vrn)
-      type = ComplianceCheckerApi.vehicle_details(vrn)['type']
-      type == 'null' ? 'unknown' : type
-    end
-    #:nocov:
   end
 end

@@ -37,7 +37,7 @@ class Fleet
   # * +vrn+ - string, vehicle registration number, required
   #
   def delete_vehicle(vrn)
-    FleetsApi.remove_vehicle_from_fleet(vrn: vrn, _account_id: account_id)
+    FleetsApi.remove_vehicle_from_fleet(vrn: vrn, account_id: account_id)
   end
 
   # Checks if there are any vehicles in the fleet. Returns boolean.
@@ -49,9 +49,4 @@ class Fleet
 
   # Reader for Account ID from backend DB
   attr_reader :account_id
-
-  # Transforms data from fleet endpoint into an array of Vehicle instances
-  def vehicle_list(data)
-    data['vehicles'].map { |vehicle_data| Vehicle.new(vehicle_data) }
-  end
 end

@@ -93,4 +93,19 @@ describe Fleet, type: :model do
       end
     end
   end
+
+  describe '.delete_vehicle' do
+    before do
+      allow(FleetsApi)
+        .to receive(:remove_vehicle_from_fleet)
+        .and_return(true)
+    end
+
+    it 'calls FleetsApi.remove_vehicle_from_fleet with proper params' do
+      expect(FleetsApi)
+        .to receive(:remove_vehicle_from_fleet)
+        .with(account_id: account_id, vrn: @vrn)
+      fleet.delete_vehicle(@vrn)
+    end
+  end
 end

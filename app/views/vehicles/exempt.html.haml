@@ -15,8 +15,6 @@
                            class: 'caz-inline-link',
                            id: 'transport-for-london')
         if you need to drive in London.
-      %p
-        = link_to('Add another vehicle', enter_details_vehicles_path)
       = form_tag confirm_details_vehicles_path, method: :post do
         %input{name: 'confirm-vehicle', type: 'hidden', value: 'yes'}
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

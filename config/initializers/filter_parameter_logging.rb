@@ -10,4 +10,5 @@ Rails.application.config.filter_parameters += %i[
   account_id
   account_name
   login_ip
+  vrn
 ]
