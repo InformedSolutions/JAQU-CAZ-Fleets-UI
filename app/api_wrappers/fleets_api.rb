@@ -114,7 +114,7 @@ class FleetsApi < AccountsApi
     #
     # ==== Example
     #
-    #    FleetApi.dd_vehicle_to_fleet(account_id: '1f30838f-69ee-4486-95b4-7dfcd5c6c67c', vrn: 'CAS315')
+    #    FleetApi.add_vehicle_to_fleet(account_id: '1f30838f-69ee-4486-95b4-7dfcd5c6c67c', vrn: 'CAS315')
     #
     # ==== Result
     #
