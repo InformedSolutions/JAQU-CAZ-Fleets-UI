@@ -159,6 +159,7 @@ class VehiclesController < ApplicationController
     redirect_to not_found_vehicles_path
   end
 
+  # Extracts error form the exception and renders :enter_details
   def add_vehicle_exception(exception)
     @errors = { vrn: [exception.body_message] }
     render :enter_details
