@@ -13,6 +13,10 @@ class ApiException < StandardError
   attr_reader :status_message
 
   ##
+  # Message extracted from exception body
+  attr_reader :body_message
+
+  ##
   # Initializer method
   #
   # ==== Attributes
@@ -23,7 +27,7 @@ class ApiException < StandardError
   def initialize(status, status_message, body)
     @status         = status.to_i
     @status_message = status_message
-    @message        = body.is_a?(Hash) ? body['message'] : status_message
+    @body_message   = body.is_a?(Hash) ? body.symbolize_keys[:message] : status_message
     @body           = body
   end
 
@@ -34,7 +38,7 @@ class ApiException < StandardError
   #
   #    "Status: 404; Message: 'Vehicle was not found'"
   def message
-    "Error status: #{status}; Message: #{@message || 'not received'}"
+    "Error status: #{status}; Message: #{@body_message || 'not received'}"
   end
 
   ##

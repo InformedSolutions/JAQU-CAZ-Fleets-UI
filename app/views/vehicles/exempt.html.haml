@@ -3,10 +3,8 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      .govuk-panel.govuk-panel--confirmation
-        %h1.govuk-panel__title#exemption-title
-          This vehicle is exempt from charges in all Clean Air Zones
-      %br
+      %h1.govuk-heading-l
+        This vehicle is exempt from charges in all Clean Air Zones
       %p
         Vehicle registration
         = @vehicle_registration
@@ -18,4 +16,8 @@
                            id: 'transport-for-london')
         if you need to drive in London.
       %p
-        = link_to('Check another vehicle', enter_details_vehicles_path)
+        = link_to('Add another vehicle', enter_details_vehicles_path)
+      = form_tag confirm_details_vehicles_path, method: :post do
+        %input{name: 'confirm-vehicle', type: 'hidden', value: 'yes'}
+        = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
+

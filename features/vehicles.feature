@@ -22,6 +22,8 @@ Feature: Vehicles
       And I enter exempt vrn
       And I press the Continue
     Then I should be on the exempt page
+    When I press the Continue to add vehicle
+    Then I should be on the manage vehicles page
 
   Scenario: Adding the not found vehicle
     When I visit the enter details page

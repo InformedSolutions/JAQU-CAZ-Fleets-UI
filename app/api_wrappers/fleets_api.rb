@@ -104,20 +104,36 @@ class FleetsApi < AccountsApi
       request(:get, "/accounts/#{account_id}/vehicles", query: query)
     end
 
-    #:nocov:
-    def add_vehicle_to_fleet(vrn:, _account_id:)
-      return false unless $request
-
-      log_action("Adding #{vrn} to the fleet")
-      fleet = $request.session['mocked_fleet'] || []
-      unless fleet.any? { |vehicle| vehicle['vrn'] == vrn }
-        fleet.push(mocked_new_vehicle(vrn: vrn))
-      end
-      $request.session['mocked_fleet'] = fleet
-      log_action("Current fleet: #{fleet}")
+    ##
+    # Calls +/v1/accounts/:account_id/vehicles+ endpoint with +POST+ method to add the vehicle to the fleet.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - ID of the account associated with the fleet
+    # * +vrn+ - registration umber of the new vehicle
+    #
+    # ==== Example
+    #
+    #    FleetApi.add_vehicle_to_fleet(account_id: '1f30838f-69ee-4486-95b4-7dfcd5c6c67c', vrn: 'CAS315')
+    #
+    # ==== Result
+    #
+    # Returns true.
+    #
+    # ==== Exceptions
+    #
+    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - invalid parameters
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def add_vehicle_to_fleet(vrn:, account_id:)
+      log_action('Adding a new VRN to the fleet')
+      body = { vrn: vrn }.to_json
+      request(:post, "/accounts/#{account_id}/vehicles", body: body)
       true
     end
 
+    #:nocov:
     def remove_vehicle_from_fleet(vrn:, _account_id:)
       return false unless $request
 
