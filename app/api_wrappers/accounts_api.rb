@@ -105,13 +105,99 @@ class AccountsApi < BaseApi
     #
     # ==== Exceptions
     #
-    # * {400 Exception}[rdoc-ref:BaseApi::Error422Exception] - email already confirmed
+    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - email already confirmed
     # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - user not found
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def verify_user(account_id:, user_id:)
-      log_action("Verifying account with account_id: #{account_id} and user_id: #{user_id}")
+      log_action('Verifying the user account')
       request(:post, "/accounts/#{account_id}/users/#{user_id}/verify")
+    end
+
+    ##
+    # Calls +/v1/auth/password/reset+ endpoint with +POST+ method.
+    #
+    # ==== Attributes
+    #
+    # * +email+ - email, email address submitted by the user
+    #
+    # ==== Example
+    #
+    #    AccountsApi.initiate_password_reset(email: 'test@example.com')
+    #
+    # ==== Result
+    #
+    # Returns true if the call was successful
+    #
+    # ==== Exceptions
+    #
+    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - invalid email address
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def initiate_password_reset(email:)
+      log_action('Initiating password reset')
+      body = { email: email }.to_json
+      request(:post, '/auth/password/reset', body: body)
+      true
+    end
+
+    ##
+    # Calls +/v1/auth/password/reset/validation+ endpoint with +POST+ method.
+    #
+    # ==== Attributes
+    #
+    # * +token+ - uuid, token from reset password link
+    #
+    # ==== Example
+    #
+    #    AccountsApi.validate_password_reset(token:)
+    #
+    # ==== Result
+    #
+    # Returns true if the call was successful
+    #
+    # ==== Exceptions
+    #
+    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - invalid or expired token
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def validate_password_reset(token:)
+      log_action('Validating password reset token')
+      body = { token: token }.to_json
+      request(:post, '/auth/password/reset/validation', body: body)
+      true
+    end
+
+    ##
+    # Calls +/v1/auth/password/set/+ endpoint with +PUT+ method.
+    #
+    # ==== Attributes
+    #
+    # * +token+ - uuid, token from reset password link
+    # * +password+ - string, new password value submitted by the user
+    #
+    # ==== Example
+    #
+    #    AccountsApi.set_password(
+    #       token: '27978cac-44fa-4d2e-bc9b-54fd12e37c69',
+    #       password: 'Password1234!'
+    #    )
+    #
+    # ==== Result
+    #
+    # Returns true if the call was successful
+    #
+    # ==== Exceptions
+    #
+    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - invalid or expired token
+    # * {422 Exception}[rdoc-ref:BaseApi::Error422Exception] - invalid password
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def set_password(token:, password:)
+      log_action('Setting a new password')
+      body = { token: token, password: password }.to_json
+      request(:put, '/auth/password/set', body: body)
+      true
     end
   end
 end
