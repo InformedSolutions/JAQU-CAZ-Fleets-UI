@@ -8,10 +8,13 @@ Rails.application.routes.draw do
 
   get 'sign-out', to: 'sessions#sign_out'
 
-  resources :passwords, only: %i[] do
+  resources :passwords, only: %i[index create] do
     collection do
       get :reset
       post :reset, to: 'passwords#validate'
+      get :email_sent
+      get :invalid
+      get :success
     end
   end
 

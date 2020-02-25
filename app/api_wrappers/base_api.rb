@@ -7,6 +7,8 @@
 
 class BaseApi
   include HTTParty
+  # Uncomment for debug
+  # debug_output $stdout
 
   headers(
     'Content-Type' => 'application/json',
