@@ -1,0 +1,20 @@
+= link_to 'Back', root_path, class: 'govuk-back-link'
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+
+      - if @errors.present?
+        = render 'common/errors_summary', errors: @errors
+
+      %h1.govuk-heading-l Update your password
+      = render 'common/draft_tag'
+
+      %p Please enter your new password below
+      = form_for('passwords', url: passwords_path, method: :post,
+        html: {autocomplete: 'off', novalidate: 'novalidate'}) do |f|
+        = hidden_field_tag(:token, @token)
+        - %i[password password_confirmation].each do |field|
+          = render('passwords/password_input', form: f, field: field)
+        .govuk-form-group
+          = f.submit 'Update password', class: 'govuk-button', 'data-module': 'govuk-button'

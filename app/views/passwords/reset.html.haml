@@ -8,12 +8,13 @@
         = render 'common/errors_summary', errors: @errors
 
       %h1.govuk-heading-l Reset your password
+      = render 'common/draft_tag'
 
       = form_for('passwords', url: reset_passwords_path, method: :post,
         html: {autocomplete: 'off', novalidate: 'novalidate'}) do |f|
 
         .govuk-form-group{class: ('govuk-form-group--error' if @errors.present?)}
-          =f.label :email_address, 'Email address', class: 'govuk-label'
+          = f.label :email_address, 'Email address', class: 'govuk-label'
           %span.govuk-hint We'll send a reset link to the address you provide
           - if @errors.present?
             %span#email_address-error.govuk-error-message
@@ -23,5 +24,5 @@
                           maxlength: 45,
                           spellcheck: false,
                           class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if @errors.present?}"
-        %br
-        = f.submit 'Send email', class: 'govuk-button', 'data-module': 'govuk-button'
+        .govuk-form-group
+          = f.submit 'Send email', class: 'govuk-button', 'data-module': 'govuk-button'

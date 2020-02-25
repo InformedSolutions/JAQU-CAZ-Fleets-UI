@@ -34,6 +34,8 @@ en:
   password:
     errors:
       password_equality: '[TBA] Password and password confirmation must be the same'
+      password_required: '[TBA] Password is required'
+      confirmation_required: '[TBA] Password confirmation is required'
   email:
     errors:
       email_equality: '[TBA] Email address and email address confirmation must be the same'
@@ -48,3 +50,7 @@ en:
       base: '[TBA] The selected file could not be uploaded – try again'
       no_file: '[TBA] Select a CSV'
       invalid_ext: '[TBA] The selected file must be a CSV'
+  token_form:
+    token_missing: '[TBA] Authorisation token is missing'
+    token_invalid: '[TBA] Authorisation token is invalid or has expired'
+
