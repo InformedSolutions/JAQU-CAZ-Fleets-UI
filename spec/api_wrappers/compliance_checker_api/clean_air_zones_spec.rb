@@ -4,11 +4,12 @@ require 'rails_helper'
 
 describe 'ComplianceCheckerApi.clean_air_zones' do
   subject(:call) { ComplianceCheckerApi.clean_air_zones }
+  let(:url) { %r{v1/payments/clean-air-zones} }
 
   context 'when call returns 200' do
     before do
       caz_list_response = read_unparsed_response('caz_list.json')
-      stub_request(:get, /clean-air-zones/).to_return(
+      stub_request(:get, url).to_return(
         status: 200,
         body: caz_list_response,
         headers: { 'Content-Type' => 'application/json' }
@@ -25,7 +26,7 @@ describe 'ComplianceCheckerApi.clean_air_zones' do
 
     it 'calls API once' do
       call
-      expect(WebMock).to have_requested(:get, /clean-air-zones/).once
+      expect(WebMock).to have_requested(:get, url).once
     end
   end
 
