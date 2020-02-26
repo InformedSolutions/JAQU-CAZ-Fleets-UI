@@ -31,7 +31,7 @@ class PasswordsController < ApplicationController
   def validate
     form = ResetPasswordForm.new(email_address_params)
     if form.valid?
-      AccountsApi.initiate_password_reset(email: form.email_address)
+      AccountsApi.initiate_password_reset(email: form.email_address, reset_url: passwords_url)
       redirect_to email_sent_passwords_path
     else
       @errors = form.errors.messages

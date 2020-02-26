@@ -6,7 +6,10 @@ end
 
 When('I enter valid email address') do
   email = 'example@email.com'
-  allow(AccountsApi).to receive(:initiate_password_reset).with(email: email).and_return(true)
+  allow(AccountsApi)
+    .to receive(:initiate_password_reset)
+    .with(email: email, reset_url: passwords_url)
+    .and_return(true)
   fill_in('passwords[email_address]', with: email)
   click_button 'Send email'
 end
