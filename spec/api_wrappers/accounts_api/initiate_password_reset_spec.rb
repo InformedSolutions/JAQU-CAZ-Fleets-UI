@@ -3,10 +3,11 @@
 require 'rails_helper'
 
 describe 'AccountsApi.initiate_password_reset' do
-  subject(:call) { AccountsApi.initiate_password_reset(email: email) }
+  subject(:call) { AccountsApi.initiate_password_reset(email: email, reset_url: reset_url) }
 
   let(:email) { 'test@example.com' }
   let(:url) { %r{auth/password/reset} }
+  let(:reset_url) { 'http://wp.pl' }
 
   before do
     stub_request(:post, url).to_return(
@@ -19,7 +20,7 @@ describe 'AccountsApi.initiate_password_reset' do
     call
     expect(WebMock)
       .to have_requested(:post, url)
-      .with(body: { email: email })
+      .with(body: { email: email, resetUrl: reset_url })
       .once
   end
 

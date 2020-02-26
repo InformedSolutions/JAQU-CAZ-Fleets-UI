@@ -134,9 +134,9 @@ class AccountsApi < BaseApi
     # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - invalid email address
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
-    def initiate_password_reset(email:)
+    def initiate_password_reset(email:, reset_url:)
       log_action('Initiating password reset')
-      body = { email: email }.to_json
+      body = { email: email, resetUrl: reset_url }.to_json
       request(:post, '/auth/password/reset', body: body)
       true
     end

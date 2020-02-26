@@ -19,7 +19,9 @@ describe 'PasswordsController - POST #validate' do
     end
 
     it 'calls AccountsApi.initiate_password_reset' do
-      expect(AccountsApi).to receive(:initiate_password_reset).with(email: email_address)
+      expect(AccountsApi)
+        .to receive(:initiate_password_reset)
+        .with(email: email_address, reset_url: passwords_url)
       http_request
     end
   end
