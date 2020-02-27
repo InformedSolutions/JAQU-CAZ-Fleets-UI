@@ -27,4 +27,16 @@ describe 'AccountsApi.initiate_password_reset' do
   it 'returns true' do
     expect(call).to be_truthy
   end
+
+  context 'when email has uppercased letters' do
+    let(:email) { 'Test@Example.com' }
+
+    it 'calls API with downcased email' do
+      call
+      expect(WebMock)
+        .to have_requested(:post, url)
+        .with(body: { email: email.downcase, resetUrl: reset_url })
+        .once
+    end
+  end
 end
