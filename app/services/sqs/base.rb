@@ -33,9 +33,9 @@ module Sqs
     # All Aws::SQS::Errors are escaped and service will return false.
     #
     def call
-      log_action("Sending SQS message with attributes: #{attributes}")
+      log_action('Sending SQS message')
       id = send_message.message_id
-      log_action("SQS message with id: #{id} nad reference: #{reference} was sent")
+      log_action("SQS message with id: #{id} was sent")
       id
     rescue Aws::SQS::Errors::ServiceError => e
       log_error(e)
