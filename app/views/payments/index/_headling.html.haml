@@ -1,0 +1,11 @@
+%h1.govuk-heading-l
+  Which vehicles and days are you paying for?
+%p
+  %strong
+    This list only contains vehicles that are subject to a charge in
+    = succeed('.') do
+      = @zone.name
+%p
+  You can pay for the past 6 days and the next 7 days, which includes today.
+%p
+  A daily charge runs from midnight to midnight.

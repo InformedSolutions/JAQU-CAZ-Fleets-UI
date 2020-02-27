@@ -49,6 +49,8 @@ Rails.application.routes.draw do
     collection do
       post :local_authority
       get :matrix
+      post :matrix, to: 'payments#submit'
+      get :review
     end
   end
 

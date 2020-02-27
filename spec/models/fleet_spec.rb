@@ -48,6 +48,49 @@ describe Fleet, type: :model do
     end
   end
 
+  describe '.charges' do
+    subject(:charges) { fleet.charges(zone_id: zone_id) }
+
+    let(:zone_id) { SecureRandom.uuid }
+    let(:data) { read_response('chargeable_vehicles.json') }
+
+    before do
+      allow(PaymentsApi)
+        .to receive(:chargeable_vehicles)
+        .and_return(data)
+    end
+
+    it 'calls FleetsApi.chargeable_vehicles with proper params' do
+      expect(PaymentsApi)
+        .to receive(:chargeable_vehicles)
+        .with(account_id: account_id, zone_id: zone_id, direction: nil, vrn: nil)
+      charges
+    end
+
+    it 'returns a ChargeableFleet' do
+      expect(charges).to be_a(ChargeableFleet)
+    end
+
+    describe '.vehicle_list' do
+      it 'returns an list of vehicles' do
+        expect(charges.vehicle_list).to all(be_a(Vehicle))
+      end
+    end
+
+    context 'with vrn and direction' do
+      subject(:charges) { fleet.charges(zone_id: zone_id, vrn: @vrn, direction: direction) }
+
+      let(:direction) { 'next' }
+
+      it 'calls FleetsApi.chargeable_vehicles with proper params' do
+        expect(PaymentsApi)
+          .to receive(:chargeable_vehicles)
+          .with(account_id: account_id, zone_id: zone_id, direction: direction, vrn: @vrn)
+        charges
+      end
+    end
+  end
+
   describe '.add_vehicle' do
     before do
       allow(FleetsApi)

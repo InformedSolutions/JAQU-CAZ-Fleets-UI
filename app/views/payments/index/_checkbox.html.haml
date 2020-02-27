@@ -1,0 +1,14 @@
+- id ="#{vehicle.vrn}_#{date}"
+%td.govuk-table__cell
+  - if paid?(vehicle, date)
+    Paid
+  - else
+    .govuk-checkboxes__item
+      %input.govuk-checkboxes__input{name: "payment[vehicles][#{vehicle.vrn}][]",
+                                     value: date,
+                                     id: id,
+                                     type: 'checkbox',
+                                     checked: checked?(vehicle.vrn, date)}
+      %label.govuk-label.govuk-checkboxes__label{for: id}
+        %span.govuk-visually-hidden
+          = date

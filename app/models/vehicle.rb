@@ -8,12 +8,13 @@ class Vehicle
   #
   # ==== Params
   # * +data+ - hash
-  #    * +registrationNumber+ - string, vehicle registration number
+  #    * +registrationNumber+ or +vrn+ - string, vehicle registration number
   #    * +vehicleType+ - string, type of the vehicle
   #    * +complianceOutcomes+ - array of hashes
   #       * +cleanAirZoneId+ - UUID, ID of the CAZ
   #       * +charge+ - float, charge for given CAZ
   #       * +tariffCode+ - string, tariff that was used for calculations
+  #    * +paidDates+ - an array of dates that were already paid
   #
   def initialize(data)
     @data = data
@@ -21,7 +22,7 @@ class Vehicle
 
   # Returns vehicle's registration number
   def vrn
-    data['registrationNumber']
+    data['registrationNumber'] || data['vrn']
   end
 
   # Returns vehicle's type
@@ -49,6 +50,11 @@ class Vehicle
     return "£#{charge.to_i}" if (charge % 1).zero?
 
     "£#{format('%<pay>.2f', pay: charge)}"
+  end
+
+  # Returns an array of dates in '%Y-%m-%d' format
+  def paid_dates
+    data['paidDates'] || []
   end
 
   private

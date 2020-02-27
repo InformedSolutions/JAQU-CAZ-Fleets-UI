@@ -7,7 +7,7 @@ describe 'PaymentsController - #index', type: :request do
 
   context 'with empty fleet' do
     before do
-      allow(Fleet).to receive(:new).and_return(create_empty_fleet)
+      mock_fleet(create_empty_fleet)
       sign_in create_user
     end
 

@@ -14,7 +14,12 @@ Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f 
 
 RSpec.configure do |config|
   # add helpers to rspec classes
-  [RequestSpecHelper, StringCountHelper, AddToSession, FleetFactory, DebitFactory].each do |h|
+  [RequestSpecHelper,
+   StringCountHelper,
+   AddToSession,
+   FleetFactory,
+   DebitFactory,
+   ChargeableVehiclesFactory].each do |h|
     config.include h, type: :request
   end
   [StrongParams,

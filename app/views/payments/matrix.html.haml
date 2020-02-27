@@ -3,9 +3,18 @@
 %main.govuk-main-wrapper.govuk-main-wrapper--auto-spacing#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-full
-      %h1.govuk-heading-l
-        Which vehicles and days are you paying for?
-      %p
-        A daily charge runs from midnight to midnight.
-      %p
-        You can pay for the past 6 days and the next 7 days, which includes today.
+      = render 'payments/index/headling'
+      = render 'payments/index/details'
+      .govuk-form-group
+        %fieldset.govuk-fieldset
+          %legend.govuk-visually-hidden
+            Which vehicles and days are you paying for?
+          = form_for('payment', url: matrix_payments_path, method: :post) do |f|
+            = render 'payments/index/search', form: f
+            .govuk-tabs{'data-module': 'govuk-tabs'}
+              = render 'payments/index/tabs'
+              = render 'payments/index/past_week_tab', form: f
+              = render 'payments/index/next_week_tab', form: f
+              = render 'payments/index/pagination', form: f
+            .govuk-form-group
+              = f.submit 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

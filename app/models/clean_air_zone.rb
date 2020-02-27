@@ -45,6 +45,11 @@ class CleanAirZone
                         .sort_by(&:name)
   end
 
+  # Finds a zone by given ID
+  def self.find(id)
+    all.find { |caz| caz.id == id }
+  end
+
   private
 
   attr_reader :caz_data
