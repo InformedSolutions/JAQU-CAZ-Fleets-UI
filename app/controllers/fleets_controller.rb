@@ -131,12 +131,12 @@ class FleetsController < ApplicationController
   # * +confirm-delete+ - form confirmation, possible values: 'yes', 'no', nil
   #
   def confirm_delete
-    form = ConfirmationForm.new(params['confirm-delete'])
+    form = ConfirmationForm.new(confirm_delete_param)
     return redirect_to delete_fleets_path, alert: confirmation_error(form) unless form.valid?
 
     @fleet.delete_vehicle(vrn) if form.confirmed?
     session[:vrn] = nil
-    redirect_to fleets_path
+    redirect_to @fleet.empty? ? dashboard_path : fleets_path
   end
 
   private
@@ -157,5 +157,10 @@ class FleetsController < ApplicationController
   # Gets VRN from session. Returns string, eg 'CU1234'
   def vrn
     session[:vrn]
+  end
+
+  # Extract 'confirm-delete' from params
+  def confirm_delete_param
+    params['confirm-delete']
   end
 end
