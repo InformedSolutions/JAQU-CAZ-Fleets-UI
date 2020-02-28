@@ -136,7 +136,7 @@ class AccountsApi < BaseApi
     #
     def initiate_password_reset(email:, reset_url:)
       log_action('Initiating password reset')
-      body = { email: email, resetUrl: reset_url }.to_json
+      body = { email: email.downcase, resetUrl: reset_url }.to_json
       request(:post, '/auth/password/reset', body: body)
       true
     end
