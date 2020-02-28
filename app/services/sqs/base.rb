@@ -33,7 +33,7 @@ module Sqs
     # All Aws::SQS::Errors are escaped and service will return false.
     #
     def call
-      log_action('Sending SQS message')
+      log_action("Sending SQS message with personalisation: #{personalisation}")
       id = send_message.message_id
       log_action("SQS message with id: #{id} was sent")
       id
