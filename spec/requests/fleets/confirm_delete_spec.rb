@@ -41,6 +41,14 @@ describe 'FleetsController - #confirm_delete', type: :request do
           http_request
           expect(session[:vrn]).to eq(nil)
         end
+
+        context 'when it was the last vehicle' do
+          it 'redirects to fleets page' do
+            mock_fleet(create_empty_fleet)
+            http_request
+            expect(response).to redirect_to(dashboard_path)
+          end
+        end
       end
 
       context 'when user does not confirm details' do
