@@ -49,8 +49,8 @@ class PaymentsController < ApplicationController
   def matrix
     @zone = CleanAirZone.find(@zone_id)
     @dates = PaymentDates.call
-    @search = search
-    @charges = current_user.charges(zone_id: @zone_id, vrn: query_vrn, direction: direction)
+    @search = payment_query[:search]
+    @charges = charges
   end
 
   ##
@@ -114,19 +114,13 @@ class PaymentsController < ApplicationController
     session[:payment_query][:vrn] = params.dig(:payment, "#{direction}_vrn")
   end
 
-  # Digs for search value in the session
-  def search
-    payment_query[:search]
-  end
-
-  # Digs for direction value in the session
-  def direction
-    payment_query[:direction]
-  end
-
-  # Digs for vrn value in the session
-  def query_vrn
-    payment_query[:vrn]
+  # Fetches charges with params saved in the session
+  def charges
+    current_user.charges(
+      zone_id: @zone_id,
+      vrn: payment_query[:vrn],
+      direction: payment_query[:direction]
+    )
   end
 
   # Extracts :payment_query form the session
