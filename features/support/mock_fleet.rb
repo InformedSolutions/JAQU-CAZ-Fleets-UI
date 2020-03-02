@@ -25,7 +25,8 @@ module MockFleet
                              pagination: paginated_vehicles(vehicles, page),
                              add_vehicle: true,
                              delete_vehicle: true,
-                             empty?: vehicles.empty?)
+                             empty?: vehicles.empty?,
+                             charges: mocked_charges)
     allow(Fleet).to receive(:new).and_return(@fleet)
   end
 
@@ -39,6 +40,10 @@ module MockFleet
       range_end: 10,
       total_vehicles_count: 15
     )
+  end
+
+  def mocked_charges
+    ChargeableFleet.new(read_response('chargeable_vehicles.json'))
   end
 end
 

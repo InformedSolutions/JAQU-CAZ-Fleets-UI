@@ -13,6 +13,13 @@ class BaseService
     new(args).call
   end
 
+  ##
+  # Default initializer. May be overridden in each service
+  #
+  def initialize(_options = {}); end
+
+  private
+
   # Logs exception on +error+ level
   def log_error(exception)
     Rails.logger.error "[#{self.class.name}] #{exception.class} - #{exception}"

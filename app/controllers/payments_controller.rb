@@ -5,7 +5,7 @@
 #
 class PaymentsController < ApplicationController
   before_action :assign_fleet
-  before_action :check_la, only: :matrix
+  before_action :check_la, only: %i[matrix submit review]
 
   ##
   # Renders payment page.
@@ -44,10 +44,41 @@ class PaymentsController < ApplicationController
   #
   # ==== Path
   #
-  #    :GET /payments
+  #    :GET /payments/matrix
   #
   def matrix
-    # Renders matrix
+    @zone = CleanAirZone.find(@zone_id)
+    @dates = PaymentDates.call
+    @search = payment_query[:search]
+    @charges = charges
+  end
+
+  ##
+  # Saves payment and query details.
+  # If commit value equals 'Continue' redirects to :review,
+  # else redirects to matrix with new query data.
+  #
+  # ==== Path
+  #
+  #    :POST /payments/submit
+  #
+  def submit
+    save_payment_details
+    return redirect_to review_payments_path if params[:commit] == 'Continue'
+
+    save_query_details
+    redirect_to matrix_payments_path
+  end
+
+  ##
+  # Renders review payment page.
+  #
+  # ==== Path
+  #
+  #    :GET /payments/review
+  #
+  def review
+    @zone = CleanAirZone.find(@zone_id)
   end
 
   private
@@ -59,6 +90,41 @@ class PaymentsController < ApplicationController
 
   # Checks if the user selected LA
   def check_la
-    redirect_to payments_path unless helpers.new_payment_data[:la_id]
+    @zone_id = helpers.new_payment_data[:la_id]
+    redirect_to payments_path unless @zone_id
+  end
+
+  # Saves payment details in the session
+  def save_payment_details
+    session[:new_payment][:details] = params.dig(:payment, :vehicles)
+  end
+
+  # Creates :payment_query hash in the session and assigns attributes based on :commit
+  def save_query_details
+    session[:payment_query] = {}
+    search = params.dig(:payment, :vrn_search)
+    session[:payment_query][:search] = search if search
+    save_direction_and_vrn('next') if params[:commit] == 'Next'
+    save_direction_and_vrn('previous') if params[:commit] == 'Previous'
+  end
+
+  # Saves direction and vrn in the session
+  def save_direction_and_vrn(direction)
+    session[:payment_query][:direction] = direction
+    session[:payment_query][:vrn] = params.dig(:payment, "#{direction}_vrn")
+  end
+
+  # Fetches charges with params saved in the session
+  def charges
+    current_user.charges(
+      zone_id: @zone_id,
+      vrn: payment_query[:vrn],
+      direction: payment_query[:direction]
+    )
+  end
+
+  # Extracts :payment_query form the session
+  def payment_query
+    (session[:payment_query] || {}).symbolize_keys
   end
 end

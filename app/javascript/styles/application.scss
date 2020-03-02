@@ -5,6 +5,7 @@ $moj-assets-path: '/application/assets';
 @import '~govuk-frontend/govuk/all';
 @import '~@ministryofjustice/frontend/moj/all';
 @import 'cookie_control';
+@import 'custom_pagination';
 
 html {
   background-color: govuk-colour($colour: 'light-grey');

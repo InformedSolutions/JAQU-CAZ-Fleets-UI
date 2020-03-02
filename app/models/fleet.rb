@@ -22,6 +22,19 @@ class Fleet
                end
   end
 
+  # Returns a ChargeableFleet with vehicles associated with the account.
+  def charges(zone_id:, vrn: nil, direction: nil)
+    @charges ||= begin
+                   data = PaymentsApi.chargeable_vehicles(
+                     account_id: account_id,
+                     zone_id: zone_id,
+                     vrn: vrn,
+                     direction: direction
+                   )
+                   ChargeableFleet.new(data)
+                 end
+  end
+
   # Adds a new vehicle to the fleet.
   #
   # ==== Params

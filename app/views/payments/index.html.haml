@@ -1,3 +1,6 @@
+- title_and_header = 'Which Clean Air Zone do you need to pay for?'
+- content_for(:title, title_and_header)
+
 = link_to 'Back to dashboard', dashboard_path, class: 'govuk-back-link'
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
@@ -13,7 +16,7 @@
           %fieldset.govuk-fieldset
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
               %h1.govuk-fieldset__heading
-                Which Clean Air Zone do you need to pay for?
+                = title_and_header
             %p
               You need to pay separately for each Clean Air Zone you drive in.
             - if alert
