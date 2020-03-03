@@ -4,7 +4,6 @@
 # Controller used to pay for fleet
 #
 class PaymentsController < ApplicationController
-  before_action :assign_fleet
   before_action :check_la, only: %i[matrix submit review]
 
   ##
@@ -17,7 +16,7 @@ class PaymentsController < ApplicationController
   #    :GET /payments
   #
   def index
-    return redirect_to first_upload_fleets_path if @fleet.empty?
+    return redirect_to first_upload_fleets_path if current_user.fleet.empty?
 
     @zones = CleanAirZone.all
   end
@@ -32,7 +31,9 @@ class PaymentsController < ApplicationController
   def local_authority
     form = LocalAuthorityForm.new(authority: params['local-authority'])
     if form.valid?
-      session[:new_payment] = { la_id: form.authority }
+      SessionManipulation::AddLaId.call(
+        session: session, params: { 'local-authority' => form.authority }
+      )
       redirect_to matrix_payments_path
     else
       redirect_to payments_path, alert: confirmation_error(form, :authority)
@@ -49,7 +50,7 @@ class PaymentsController < ApplicationController
   def matrix
     @zone = CleanAirZone.find(@zone_id)
     @dates = PaymentDates.call
-    @search = payment_query[:search]
+    @search = helpers.payment_query_data[:search]
     @charges = charges
   end
 
@@ -63,10 +64,10 @@ class PaymentsController < ApplicationController
   #    :POST /payments/submit
   #
   def submit
-    save_payment_details
+    SessionManipulation::AddPaymentDetails.call(session: session, params: payment_params)
     return redirect_to review_payments_path if params[:commit] == 'Continue'
 
-    save_query_details
+    SessionManipulation::AddQueryDetails.call(session: session, params: payment_params)
     redirect_to matrix_payments_path
   end
 
@@ -83,48 +84,23 @@ class PaymentsController < ApplicationController
 
   private
 
-  # Creates instant variable with fleet object
-  def assign_fleet
-    @fleet = current_user.fleet
-  end
-
   # Checks if the user selected LA
   def check_la
     @zone_id = helpers.new_payment_data[:la_id]
     redirect_to payments_path unless @zone_id
   end
 
-  # Saves payment details in the session
-  def save_payment_details
-    session[:new_payment][:details] = params.dig(:payment, :vehicles)
-  end
-
-  # Creates :payment_query hash in the session and assigns attributes based on :commit
-  def save_query_details
-    session[:payment_query] = {}
-    search = params.dig(:payment, :vrn_search)
-    session[:payment_query][:search] = search if search
-    save_direction_and_vrn('next') if params[:commit] == 'Next'
-    save_direction_and_vrn('previous') if params[:commit] == 'Previous'
-  end
-
-  # Saves direction and vrn in the session
-  def save_direction_and_vrn(direction)
-    session[:payment_query][:direction] = direction
-    session[:payment_query][:vrn] = params.dig(:payment, "#{direction}_vrn")
-  end
-
   # Fetches charges with params saved in the session
   def charges
     current_user.charges(
       zone_id: @zone_id,
-      vrn: payment_query[:vrn],
-      direction: payment_query[:direction]
+      vrn: helpers.payment_query_data[:vrn],
+      direction: helpers.payment_query_data[:direction]
     )
   end
 
-  # Extracts :payment_query form the session
-  def payment_query
-    (session[:payment_query] || {}).symbolize_keys
+  # Permits all the form params
+  def payment_params
+    params.permit!
   end
 end
