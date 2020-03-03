@@ -1,3 +1,5 @@
+= javascript_pack_tag 'payment_matrix'
+
 = link_to 'Back', payments_path, class: 'govuk-back-link'
 
 %main.govuk-main-wrapper.govuk-main-wrapper--auto-spacing#main-content{role: 'main'}
@@ -9,8 +11,8 @@
         %fieldset.govuk-fieldset
           %legend.govuk-visually-hidden
             Which vehicles and days are you paying for?
-          = form_for('payment', url: matrix_payments_path, method: :post) do |f|
-            = render 'payments/index/search', form: f
+          = render 'payments/index/search'
+          = form_for('payment', url: matrix_payments_path, method: :post, html: { id: 'payment-form' }) do |f|
             .govuk-tabs{'data-module': 'govuk-tabs'}
               = render 'payments/index/tabs'
               = render 'payments/index/past_week_tab', form: f
