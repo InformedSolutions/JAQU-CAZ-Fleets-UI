@@ -64,10 +64,10 @@ class PaymentsController < ApplicationController
   #    :POST /payments/submit
   #
   def submit
-    SessionManipulation::AddPaymentDetails.call(session: session, params: payment_params)
+    SessionManipulation::AddPaymentDetails.call(session: session, params: vehicles_params)
     return redirect_to review_payments_path if params[:commit] == 'Continue'
 
-    SessionManipulation::AddQueryDetails.call(session: session, params: payment_params)
+    SessionManipulation::AddQueryDetails.call(session: session, params: search_params)
     redirect_to matrix_payments_path
   end
 
@@ -100,8 +100,12 @@ class PaymentsController < ApplicationController
   end
 
   # Permits all the form params
-  def payment_params
-    params.permit!
+  def vehicles_params
+    params.permit(payment: { vehicles: {} })
+  end
+
+  def search_params
+    params.permit(:commit, payment: %i[vrn_search next_vrn previous_vrn])
   end
 
   # Permits local-authority
