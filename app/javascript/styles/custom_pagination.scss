@@ -2,12 +2,13 @@
   text-align: center;
   margin-top: 10px;
 
-  .isDisabled {
+  .is-disabled {
     cursor: not-allowed;
     opacity: 0.5;
   }
-  .isDisabled > a {
-    display: inline-block;  /* For IE11/ MS Edge bug */
+
+  .is-disabled > a {
+    display: inline-block;  // For IE11/ MS Edge bug
     pointer-events: none;
     text-decoration: none;
   }

@@ -12,6 +12,6 @@ function disableButtons() {
         button.disabled = true;
     });
     document.querySelectorAll("li.moj-pagination__item").forEach(li => {
-        li.classList.add("isDisabled");
+        li.classList.add("is-disabled");
     })
 }
