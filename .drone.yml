@@ -372,7 +372,7 @@ steps:
       event:
         - push
 
-  - name: plan terraform updates in sit
+  - name: plan terraform updates in st
     image: hashicorp/terraform:0.12.3
     commands:
       - apk update && apk add bash
