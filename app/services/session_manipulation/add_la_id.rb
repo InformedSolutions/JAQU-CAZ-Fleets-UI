@@ -14,6 +14,7 @@ module SessionManipulation
     #
     def call
       la_id = params['local-authority']
+      session.delete(:payment_query)
       return if new_payment_data[:la_id] == la_id
 
       session[:new_payment] = { la_id: la_id }
