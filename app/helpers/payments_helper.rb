@@ -6,6 +6,11 @@ module PaymentsHelper
     (session[:new_payment] || {}).symbolize_keys
   end
 
+  # Extracts :payment_query form the session
+  def payment_query_data
+    (session[:payment_query] || {}).symbolize_keys
+  end
+
   # Checks if given date is checked for the given VRN
   def checked?(vrn, date)
     date.in?(new_payment_data.dig(:details, vrn) || [])
