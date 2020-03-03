@@ -12,4 +12,17 @@
         %td.govuk-table__cell
           = vehicle.vrn
         - @dates[direction].each do |date|
-          = render 'payments/index/checkbox', date: date[:value], vehicle: vehicle
+          - id ="#{vehicle.vrn}_#{date[:value]}"
+          %td.govuk-table__cell
+            - if paid?(vehicle, date[:value])
+              Paid
+            - else
+              .govuk-checkboxes__item
+                %input.govuk-checkboxes__input{name: "payment[vehicles][#{vehicle.vrn}][]",
+                                               value: date[:value],
+                                               id: id,
+                                               type: 'checkbox',
+                                               checked: checked?(vehicle.vrn, date[:value])}
+                %label.govuk-label.govuk-checkboxes__label{for: id}
+                  %span.govuk-visually-hidden
+                    = date[:value]

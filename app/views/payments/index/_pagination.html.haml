@@ -5,8 +5,14 @@
     - if @charges.previous_page?
       %li.moj-pagination__item.moj-pagination__item--prev
         = hidden_field_tag('payment[previous_vrn]', @charges.first_vrn)
-        = form.submit 'Previous', class: 'moj-pagination__link'
+        = link_to('#', class: 'moj-pagination__link', id: 'pagination-previous-link') do
+          Previous
+          %span.govuk-visually-hidden
+            set of pages
     - if @charges.next_page?
       %li.moj-pagination__item.moj-pagination__item--next
         = hidden_field_tag('payment[next_vrn]', @charges.last_vrn)
-        = form.submit 'Next', class: 'moj-pagination__link'
+        = link_to('#', class: 'moj-pagination__link', id: 'pagination-next-link') do
+          Next
+          %span.govuk-visually-hidden
+            set of pages

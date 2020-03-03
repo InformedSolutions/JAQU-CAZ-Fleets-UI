@@ -1,10 +1,12 @@
-.govuk-form-group
-  %label.govuk-label{for: 'vrn-search'}
-    Search for a number plate
-  = form.text_field :vrn_search,
-                    class: 'govuk-input govuk-input--width-10',
-                    id: 'vrn-search',
-                    value: @search
-  = form.submit 'Search',
-                class: 'govuk-button govuk-button--secondary',
-                'data-module': 'govuk-button'
+= form_for('payment', url: matrix_payments_path, method: :post, html: { id: 'search-form' } ) do |form|
+  .govuk-form-group
+    %label.govuk-label{for: 'vrn-search'}
+      Search for a number plate
+    = form.text_field :vrn_search,
+                      class: 'govuk-input govuk-input--width-10',
+                      id: 'vrn-search',
+                      value: @search
+    = form.submit 'Search',
+                  id: 'search-form-submit',
+                  class: 'govuk-button govuk-button--secondary',
+                  'data-module': 'govuk-button'
