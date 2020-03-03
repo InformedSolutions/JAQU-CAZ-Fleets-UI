@@ -29,10 +29,10 @@ class PaymentsController < ApplicationController
   #    :POST /payments
   #
   def local_authority
-    form = LocalAuthorityForm.new(authority: params['local-authority'])
+    form = LocalAuthorityForm.new(authority: la_params['local-authority'])
     if form.valid?
       SessionManipulation::AddLaId.call(
-        session: session, params: { 'local-authority' => form.authority }
+        session: session, params: la_params
       )
       redirect_to matrix_payments_path
     else
@@ -102,5 +102,10 @@ class PaymentsController < ApplicationController
   # Permits all the form params
   def payment_params
     params.permit!
+  end
+
+  # Permits local-authority
+  def la_params
+    params.permit('local-authority')
   end
 end

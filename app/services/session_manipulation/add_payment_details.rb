@@ -1,7 +1,14 @@
 # frozen_string_literal: true
 
 module SessionManipulation
+  ##
+  # Saves submitted vehicles details.
+  # It doesn't override details for vehicles from different pages.
+  #
   class AddPaymentDetails < BaseManipulator
+    ##
+    # Instance level +call+ method
+    #
     def call
       session[:new_payment] ||= {}
       session[:new_payment][:details] ||= {}
