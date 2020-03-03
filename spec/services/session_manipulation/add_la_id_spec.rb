@@ -37,4 +37,14 @@ describe SessionManipulation::AddLaId do
       expect(session[:new_payment]).to eq(payment_data)
     end
   end
+
+  context 'when query params are present' do
+    let(:session) do
+      { payment_query: { search: @vrn } }
+    end
+
+    it 'removes payment query' do
+      expect(session.keys).not_to include(:payment_query)
+    end
+  end
 end
