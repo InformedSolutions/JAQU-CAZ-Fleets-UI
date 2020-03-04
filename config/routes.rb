@@ -75,6 +75,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get :cookies, to: 'static_pages#cookies'
   get :dashboard, to: 'dashboard#index'
   get :build_id, to: 'application#build_id'
   get :health, to: 'application#health'

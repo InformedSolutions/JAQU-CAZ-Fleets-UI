@@ -100,4 +100,9 @@ class ApplicationController < ActionController::Base
 
     render template: 'errors/service_unavailable', status: :service_unavailable
   end
+
+  # Assign back button url
+  def assign_back_button_url
+    @back_button_url = request.referer || root_path
+  end
 end
