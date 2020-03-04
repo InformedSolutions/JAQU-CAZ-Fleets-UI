@@ -4,7 +4,7 @@
 # Base module for helpers, generated automatically during new application creation
 #
 module ApplicationHelper
-  # Returns name of service, eg. 'FleetsUI'.
+  # Returns name of service, eg. 'Fleets UI'.
   def service_name
     Rails.configuration.x.service_name
   end

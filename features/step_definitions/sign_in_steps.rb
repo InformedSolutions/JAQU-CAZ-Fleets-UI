@@ -13,12 +13,12 @@ Then('I should enter fleet admin credentials and press the Continue') do
 end
 
 When('I have no authentication cookie') do
-  cookie = get_me_the_cookie('_caz-fleets_session')
+  cookie = get_me_the_cookie('_caz_fleets_session')
   expect(cookie).to be_nil
 end
 
 And('Cookie is created for my session') do
-  cookie = get_me_the_cookie('_caz-fleets_session')
+  cookie = get_me_the_cookie('_caz_fleets_session')
   expect(cookie).to_not be_nil
 end
 
@@ -26,7 +26,7 @@ When('I have authentication cookie that has not expired') do
   visit new_user_session_path
   login_user
 
-  cookie = get_me_the_cookie('_caz-fleets_session')
+  cookie = get_me_the_cookie('_caz_fleets_session')
   expect(cookie).to_not be_nil
   expect(cookie[:expires] > Time.current).to be true
 end
@@ -69,7 +69,7 @@ Given('I have authentication cookie that has expired') do
     login_user
   end
 
-  cookie = get_me_the_cookie('_caz-fleets_session')
+  cookie = get_me_the_cookie('_caz_fleets_session')
   expect(cookie).to_not be_nil
   expect(cookie[:expires] < Time.current).to be true
 end
