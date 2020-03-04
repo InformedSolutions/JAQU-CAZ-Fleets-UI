@@ -19,5 +19,5 @@ class ResetPasswordForm < BaseForm
   validates :email_address, format: {
     with: EMAIL_FORMAT,
     message: I18n.t('input_form.errors.invalid_format')
-  }
+  }, allow_blank: true
 end

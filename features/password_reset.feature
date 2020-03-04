@@ -8,7 +8,7 @@ Feature: Password reset
       And I should see "Reset your password"
     When I enter invalid email address
       And I should see "There is a problem"
-      And I should see "[TBA] Email address is required, [TBA] Email address is in an invalid format"
+      And I should see "[TBA] Email address is required"
     When I enter valid email address
       And I should be on the email sent page
 
