@@ -13,13 +13,17 @@ describe PaymentsHelper do
     end
 
     context 'when date is in the session' do
-      before { session[:new_payment] = { details: { @vrn => [date, '2019-11-05'] } } }
+      before do
+        session[:new_payment] = { details: { @vrn => { dates: [date, '2019-11-05'] } } }
+      end
 
       it { is_expected.to be_truthy }
     end
 
     context 'when date is not in the session' do
-      before { session[:new_payment] = { details: { @vrn => %w[2019-11-04 2019-11-05] } } }
+      before do
+        session[:new_payment] = { details: { @vrn => { dates: %w[2019-11-04 2019-11-05] } } }
+      end
 
       it { is_expected.to be_falsey }
     end
@@ -28,7 +32,7 @@ describe PaymentsHelper do
   describe '.paid?' do
     subject(:method) { helper.paid?(vehicle, date) }
 
-    let(:vehicle) { instance_double(Vehicle, paid_dates: dates) }
+    let(:vehicle) { instance_double(ChargeableVehicle, paid_dates: dates) }
 
     context 'when there is no dates in the paid_dates' do
       let(:dates) { [] }

@@ -72,8 +72,8 @@ describe Fleet, type: :model do
     end
 
     describe '.vehicle_list' do
-      it 'returns an list of vehicles' do
-        expect(charges.vehicle_list).to all(be_a(Vehicle))
+      it 'returns an list of ChargeableVehicle instances' do
+        expect(charges.vehicle_list).to all(be_a(ChargeableVehicle))
       end
     end
 

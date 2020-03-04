@@ -12,7 +12,7 @@ class ChargeableFleet
   # Returns an array of Vehicle model instances
   def vehicle_list
     @vehicle_list ||= (data.dig('chargeableAccountVehicles', 'results') || [])
-                      .map { |vehicle_data| Vehicle.new(vehicle_data) }
+                      .map { |vehicle_data| ChargeableVehicle.new(vehicle_data) }
   end
 
   # Checks if the previous page is available

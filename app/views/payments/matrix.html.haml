@@ -5,18 +5,19 @@
 %main.govuk-main-wrapper.govuk-main-wrapper--auto-spacing#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-full
-      = render 'payments/index/headling'
-      = render 'payments/index/details'
+      = render 'payments/matrix/headling'
+      = render 'payments/matrix/details'
       .govuk-form-group
         %fieldset.govuk-fieldset
           %legend.govuk-visually-hidden
             Which vehicles and days are you paying for?
-          = render 'payments/index/search'
+          = render 'payments/matrix/search'
           = form_for('payment', url: matrix_payments_path, method: :post, html: { id: 'payment-form' }) do |f|
+            = hidden_field_tag('payment[vrn_list]', @charges.vehicle_list.map(&:vrn).join(','))
             .govuk-tabs{'data-module': 'govuk-tabs'}
-              = render 'payments/index/tabs'
-              = render 'payments/index/past_week_tab', form: f
-              = render 'payments/index/next_week_tab', form: f
-              = render 'payments/index/pagination', form: f
+              = render 'payments/matrix/tabs'
+              = render 'payments/matrix/past_week_tab', form: f
+              = render 'payments/matrix/next_week_tab', form: f
+              = render 'payments/matrix/pagination', form: f
             .govuk-form-group
               = f.submit 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

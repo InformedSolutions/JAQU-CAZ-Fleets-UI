@@ -20,8 +20,8 @@ describe ChargeableFleet, type: :model do
   end
 
   describe '.vehicle_list' do
-    it 'returns an array of Vehicle instances' do
-      expect(fleet.vehicle_list).to all(be_a(Vehicle))
+    it 'returns an array of ChargeableVehicle instances' do
+      expect(fleet.vehicle_list).to all(be_a(ChargeableVehicle))
     end
 
     it 'returns proper number of vehicles' do

@@ -12,7 +12,8 @@ describe 'PaymentsController - #submit', type: :request do
         vehicles: { @vrn => dates },
         vrn_search: search,
         next_vrn: next_vrn,
-        previous_vrn: prev_vrn
+        previous_vrn: prev_vrn,
+        vrn_list: @vrn
       }
     }
   end
@@ -29,8 +30,13 @@ describe 'PaymentsController - #submit', type: :request do
     expect(http_request).to redirect_to(payments_path)
   end
 
-  context 'with la_id in the session' do
-    before { add_to_session(new_payment: { la_id: SecureRandom.uuid }) }
+  context 'with la_id and vehicle details in the session' do
+    before do
+      add_to_session(new_payment: {
+                       la_id: SecureRandom.uuid,
+                       details: { @vrn => { dates: [] } }
+                     })
+    end
 
     context 'when commit is continue' do
       it 'redirects to :review' do
@@ -39,7 +45,7 @@ describe 'PaymentsController - #submit', type: :request do
 
       it 'saves new payment data' do
         http_request
-        expect(session[:new_payment][:details][@vrn]).to eq(dates)
+        expect(session[:new_payment]['details'][@vrn][:dates]).to eq(dates)
       end
     end
 

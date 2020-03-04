@@ -24,14 +24,6 @@ describe Vehicle, type: :model do
     it 'returns VRN' do
       expect(vehicle.vrn).to eq(vrn)
     end
-
-    context 'when vrn field in data' do
-      let(:data) { { 'vrn' => vrn } }
-
-      it 'returns VRN' do
-        expect(vehicle.vrn).to eq(vrn)
-      end
-    end
   end
 
   describe '.type' do
@@ -104,21 +96,6 @@ describe Vehicle, type: :model do
     context 'when unknown CAZ given' do
       it "returns 'N/A'" do
         expect(vehicle.formatted_charge('test')).to eq('N/A')
-      end
-    end
-  end
-
-  describe '.paid_dates' do
-    it 'returns an empty array' do
-      expect(vehicle.paid_dates).to eq([])
-    end
-
-    context 'with paidDates' do
-      let(:dates) { ['2020-02-21'] }
-      let(:data) { { 'paidDates' => dates } }
-
-      it 'returns dates' do
-        expect(vehicle.paid_dates).to eq(dates)
       end
     end
   end
