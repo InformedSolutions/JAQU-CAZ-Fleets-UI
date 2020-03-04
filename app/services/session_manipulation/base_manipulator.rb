@@ -4,7 +4,7 @@ module SessionManipulation
   class BaseManipulator < BaseService
     include PaymentsHelper
 
-    def initialize(session:, params:)
+    def initialize(session:, params: {})
       @session = session
       @params = params
     end

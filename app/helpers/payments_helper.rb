@@ -13,7 +13,7 @@ module PaymentsHelper
 
   # Checks if given date is checked for the given VRN
   def checked?(vrn, date)
-    date.in?(new_payment_data.dig(:details, vrn) || [])
+    date.in?(new_payment_data.dig(:details, vrn, :dates) || [])
   end
 
   # Checks if given date is already paid

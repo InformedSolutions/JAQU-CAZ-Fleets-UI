@@ -7,7 +7,7 @@ RSpec.shared_examples 'a non continue matrix commit' do
 
   it 'saves new payment data' do
     http_request
-    expect(session[:new_payment][:details][@vrn]).to eq(dates)
+    expect(session[:new_payment]['details'][@vrn][:dates]).to eq(dates)
   end
 
   it 'saves search data' do

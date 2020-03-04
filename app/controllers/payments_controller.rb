@@ -92,11 +92,13 @@ class PaymentsController < ApplicationController
 
   # Fetches charges with params saved in the session
   def charges
-    current_user.charges(
+    data = current_user.charges(
       zone_id: @zone_id,
       vrn: helpers.payment_query_data[:vrn],
       direction: helpers.payment_query_data[:direction]
     )
+    SessionManipulation::AddVehicleDetails.call(session: session, params: data.vehicle_list)
+    data
   end
 
   # Permits all the form params
@@ -104,7 +106,7 @@ class PaymentsController < ApplicationController
     params.permit(
       :authenticity_token,
       :commit,
-      payment: [:vrn_search, :next_vrn, :previous_vrn, vehicles: {}]
+      payment: [:vrn_search, :next_vrn, :previous_vrn, :vrn_list, vehicles: {}]
     )
   end
 
