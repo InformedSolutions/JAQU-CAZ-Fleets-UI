@@ -23,7 +23,7 @@ module SessionManipulation
       return unless vehicle_details
 
       vehicle_details.symbolize_keys!
-      vehicle_details[:dates] = new_data[vrn] || []
+      vehicle_details[:dates] = new_data.try(:[], vrn) || []
       new_payment_data[:details][vrn] = vehicle_details
     end
 
