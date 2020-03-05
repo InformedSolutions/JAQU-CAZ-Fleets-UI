@@ -1144,7 +1144,7 @@ get:
 kind: secret
 name: browserstack_auth_key
 get:
-  path: /secret/drone.globa
+  path: /secret/drone.global
   name: browserStackAuthKey
 
 ---
