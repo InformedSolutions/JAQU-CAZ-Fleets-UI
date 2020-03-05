@@ -1142,14 +1142,14 @@ get:
 
 ---
 kind: secret
-name: browserstack_auth_keyst
+name: browserstack_auth_key
 get:
-  path: /secret/drone.globast
-  name: browserStackAuthKeyst
+  path: /secret/drone.globa
+  name: browserStackAuthKey
 
 ---
 kind: secret
-name: browserstack_usernamest
+name: browserstack_username
 get:
   path: /secret/drone.global
   name: browserStackUsername
