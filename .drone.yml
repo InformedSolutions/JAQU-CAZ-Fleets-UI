@@ -389,7 +389,7 @@ steps:
       event:
         - push
 
-  - name: plan terraform updates in sit
+  - name: plan terraform updates in st
     image: hashicorp/terraform:0.12.3
     commands:
       - apk update && apk add bash
@@ -1142,14 +1142,14 @@ get:
 
 ---
 kind: secret
-name: browserstack_auth_key
+name: browserstack_auth_keyst
 get:
-  path: /secret/drone.global
-  name: browserStackAuthKey
+  path: /secret/drone.globast
+  name: browserStackAuthKeyst
 
 ---
 kind: secret
-name: browserstack_username
+name: browserstack_usernamest
 get:
   path: /secret/drone.global
   name: browserStackUsername
