@@ -96,7 +96,20 @@ class PaymentsController < ApplicationController
     @details = vrn_to_pay
   end
 
-  def initiate_payment; end
+  ##
+  # Makes a request to initiate payment on backend Payment-API.
+  #
+  # ==== Path
+  #
+  #    :POST /payments/initiate_payment
+  #
+  def initiate_payment
+    next_url = MakePayment.call(
+      payment_data: helpers.new_payment_data,
+      user_id: current_user.user_id
+    )
+    redirect_to next_url
+  end
 
   private
 
