@@ -25,4 +25,30 @@ module PaymentsHelper
   def paid?(vehicle, date)
     vehicle.paid_dates.include?(date)
   end
+
+  # Loads selected vrns to pay
+  def vrn_to_pay(details)
+    @vrn_to_pay ||= details.reject { |_k, vrn| vrn.symbolize_keys![:dates].empty? }
+  end
+
+  # Calculates total amount to pay
+  def total_to_pay(details)
+    vrn_to_pay(details).sum { |_k, vrn| vrn[:dates].length * vrn[:charge] }
+  end
+
+  # Collects all dates to pay
+  def days_to_pay(details)
+    vrn_to_pay(details).collect { |_k, vrn| vrn[:dates] }.flatten.count
+  end
+
+  # Parses date to expected format (e.g. "Tuesday 3rd March 2020")
+  def parse_date(date)
+    parsed_date = Date.parse(date)
+    parsed_date.strftime("%A #{parsed_date.day.ordinalize} %B %Y")
+  end
+
+  # Parses charge for single vehicle number
+  def single_vrn_parsed_charge(dates, charge)
+    "£#{dates.length * charge}"
+  end
 end

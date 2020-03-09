@@ -56,6 +56,7 @@ Rails.application.routes.draw do
       get :result
       get :success
       get :failure
+      get :post_payment_details
     end
   end
 

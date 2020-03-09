@@ -52,3 +52,7 @@ end
 When('I click Next 7 days tab') do
   click_link('Next 7 days')
 end
+
+Then('I should be on the Post Payment Details page') do
+  expect_path(post_payment_details_payments_path)
+end
