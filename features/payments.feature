@@ -32,9 +32,10 @@ Feature: Fleets
     When I click view details link
     Then I should be on the Charge details page
     When I press the Back link
-      And I want to request payments api
+      And I want to confirm my payment
       And I press the Continue
-    Then I should be on the initiate payment page
+    Then I should be on the success payment page
+      And I should see success message
 
   Scenario: Visiting the the matrix page when all dates are unpaid
     When I have vehicles in my fleet that are not paid
@@ -48,4 +49,3 @@ Feature: Fleets
     Then I click Next 7 days tab
       And I should see "Check a box for each vehicle and date it will drive in a Clean Air Zone."
       And I should not see "If you have already paid for a date, it will show as Paid."
-

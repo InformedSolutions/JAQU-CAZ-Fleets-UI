@@ -64,4 +64,9 @@ module ApplicationHelper
   def single_vehicle_payment_link
     Rails.configuration.x.payments_ui_url + '/vehicles/enter_details'
   end
+
+  # Returns parsed string, eg. '£10.00'
+  def parse_charge(value)
+    "£#{format('%<pay>.2f', pay: value.to_f)}"
+  end
 end

@@ -37,15 +37,16 @@ Then('I should be on the Charge details page') do
   expect_path(review_details_payments_path)
 end
 
-And('I want to request payments api') do
-  stub_request(:post, /payments/).to_return(
-    status: 200,
-    body: { 'paymentId' => SecureRandom.uuid, 'nextUrl' => '/' }.to_json
-  )
+And('I want to confirm my payment') do
+  mock_requests_to_payments_api_with(return_url: result_payments_path)
 end
 
-Then('I should be on the initiate payment page') do
-  expect_path('/')
+Then('I should be on the success payment page') do
+  expect_path(success_payments_path)
+end
+
+And('I should see success message') do
+  expect(page).to have_content('Payment complete')
 end
 
 When('I click Next 7 days tab') do
