@@ -35,7 +35,7 @@ describe ConfirmationForm, type: :model do
     end
 
     it 'has a proper error message' do
-      expect(form.errors.messages[:confirmation]).to include('[TBA] You must choose an answer')
+      expect(form.errors.messages[:confirmation]).to include('You must choose an answer')
     end
   end
 end

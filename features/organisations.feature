@@ -9,14 +9,14 @@ Feature: Organisations
       And I should see "Create an account"
       And I should see "Create account" link
     Then I press the Continue
-      And I should see "[TBA] Company name is required"
+      And I should see "Company name is required"
     Then I enter a company name
       And I press the Continue
       And I should see "Sign in details"
       And I should see "Create account" link
     Then I press the Continue
-      And I should see "[TBA] Email is required"
-      And I should see "[TBA] Password is required"
+      And I should see "Email is required"
+      And I should see "Password is required"
     Then I enter the account details
       And I press the Continue
     Then I should see "Verification email"
@@ -43,7 +43,7 @@ Feature: Organisations
       And I press the Continue
       And I enter the account details with not uniq email address
       And I press the Continue
-    Then I should see "[TBA] Email already exists"
+    Then I should see "Email already exists"
 
   Scenario: View email verified page
     Given I am on the root page

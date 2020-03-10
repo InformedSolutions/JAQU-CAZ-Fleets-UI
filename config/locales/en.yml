@@ -5,19 +5,19 @@ en:
       missing: 'is required'
       maximum_length: 'is too long (maximum is %{length} characters)'
   login_form:
-     email_missing: '[TBA] Enter your email address'
-     password_missing: '[TBA] Enter your password'
-     invalid_email: '[TBA] Enter your email address in a valid format'
-     incorrect: '[TBA] The email or password you entered is incorrect'
-     email_unconfirmed: '[TBA] Your email address is not confirmed'
+     email_missing: 'Enter your email address'
+     password_missing: 'Enter your password'
+     invalid_email: 'Enter your email address in a valid format'
+     incorrect: 'The email or password you entered is incorrect'
+     email_unconfirmed: 'Your email address is not confirmed'
   la_form:
-    la_missing: '[TBA] Selecting a Clean Air Zone is required'
+    la_missing: 'Selecting a Clean Air Zone is required'
   input_form:
     errors:
-      missing: '[TBA] %{attribute} is required'
-      invalid_format: '[TBA] %{attribute} is in an invalid format'
-      maximum_length: '[TBA] %{attribute} is too long (maximum is 45 characters)'
-      password_complexity: '[TBA] %{attribute} must be at least 8 characters long, include at least 1 upper case letter and a number'
+      missing: '%{attribute} is required'
+      invalid_format: '%{attribute} is in an invalid format'
+      maximum_length: '%{attribute} is too long (maximum is 45 characters)'
+      password_complexity: '%{attribute} must be at least 8 characters long, include at least 1 upper case letter and a number'
     labels:
       email: 'Enter your email address'
       email_confirmation: 'Confirm your email address'
@@ -33,24 +33,24 @@ en:
       vrn_too_short: 'The registration number of the vehicle is too short'
   password:
     errors:
-      password_equality: '[TBA] Password and password confirmation must be the same'
-      password_required: '[TBA] Password is required'
-      confirmation_required: '[TBA] Password confirmation is required'
+      password_equality: 'Password and password confirmation must be the same'
+      password_required: 'Password is required'
+      confirmation_required: 'Password confirmation is required'
   email:
     errors:
-      email_equality: '[TBA] Email address and email address confirmation must be the same'
-      exists: '[TBA] Email already exists'
+      email_equality: 'Email address and email address confirmation must be the same'
+      exists: 'Email already exists'
     sqs_error: 'There was an error while sending the email to SQS'
   verification_email:
     error: 'There was an error while sending Verification Email to SQS'
   confirmation_form:
-    answer_missing: '[TBA] You must choose an answer'
+    answer_missing: 'You must choose an answer'
   csv:
     errors:
-      base: '[TBA] The selected file could not be uploaded – try again'
-      no_file: '[TBA] Select a CSV'
-      invalid_ext: '[TBA] The selected file must be a CSV'
+      base: 'The selected file could not be uploaded – try again'
+      no_file: 'Select a CSV'
+      invalid_ext: 'The selected file must be a CSV'
   token_form:
-    token_missing: '[TBA] Authorisation token is missing'
-    token_invalid: '[TBA] Authorisation token is invalid or has expired'
+    token_missing: 'Authorisation token is missing'
+    token_invalid: 'Authorisation token is invalid or has expired'
 
