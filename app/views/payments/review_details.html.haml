@@ -1,0 +1,26 @@
+= link_to 'Back', review_payments_path, class: 'govuk-back-link'
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      %h1.govuk-heading-l
+        Charge details
+
+      %table.govuk-table
+        %thead.govuk-table__head
+          %tr.govuk-table__row
+            %th.govuk-table__header{scope: 'col'} Registration Number
+            %th.govuk-table__header{scope: 'col'} Dates
+            %th.govuk-table__header{scope: 'col'} Total
+        %tbody.govuk-table__body
+          - @details.each do |vrn, details|
+            %tr.govuk-table__row
+              %th.govuk-table__header{scope: 'row'}
+                = vrn
+              %td.govuk-table__cell{scope: 'row'}
+                - details[:dates].each do |date|
+                  - parsed_date = Date.parse(date)
+                  = parsed_date.strftime("%A #{parsed_date.day.ordinalize} %B %Y")
+                  %br
+              %td.govuk-table__cell{scope: 'row'}
+                = "£#{(details[:dates].length * details[:charge]).to_i}"

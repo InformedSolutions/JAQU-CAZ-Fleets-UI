@@ -51,6 +51,8 @@ Rails.application.routes.draw do
       get :matrix
       post :matrix, to: 'payments#submit'
       get :review
+      get :review_details
+      post :initiate_payment
     end
   end
 
