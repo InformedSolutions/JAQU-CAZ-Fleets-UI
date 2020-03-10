@@ -15,7 +15,7 @@
         html: {autocomplete: 'off', novalidate: 'novalidate'}) do |f|
         = hidden_field_tag(:token, @token)
 
-        .govuk-form-group{class: @errors.present? && @errors[:password].present? ? 'govuk-form-group--error': ''}
+        .govuk-form-group{class: @errors.present? && @errors[:password].present? ? 'govuk-form-group--error': nil}
           = f.label :password, t('labels.password'), class: 'govuk-label'
           %span.govuk-hint#password-hint
             = t('input_form.hints.password')
@@ -24,18 +24,18 @@
               %span.govuk-visually-hidden Error:
               = @errors[:password].first
           = f.password_field :password,
-                                class: 'govuk-input govuk-!-width-two-thirds',
-                                maxlength: 45
+                              class: 'govuk-input govuk-!-width-two-thirds',
+                              maxlength: 45
 
-        .govuk-form-group{class: @errors.present? && @errors[:password_confirmation].present? ? 'govuk-form-group--error': ''}
+        .govuk-form-group{class: @errors.present? && @errors[:password_confirmation].present? ? 'govuk-form-group--error': nil}
           = f.label :password_confirmation, t('labels.password_confirmation'), class: 'govuk-label'
           - if @errors.present? && @errors[:password_confirmation].present?
             %span.govuk-error-message{id: 'password_confirmation-error'}
               %span.govuk-visually-hidden Error:
               = @errors[:password_confirmation].first
           = f.password_field :password_confirmation,
-                                class: 'govuk-input govuk-!-width-two-thirds',
-                                maxlength: 45
+                              class: 'govuk-input govuk-!-width-two-thirds',
+                              maxlength: 45
 
         .govuk-form-group
           = f.submit 'Update password', class: 'govuk-button', 'data-module': 'govuk-button'
