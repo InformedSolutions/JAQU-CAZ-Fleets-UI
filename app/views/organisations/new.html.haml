@@ -8,10 +8,9 @@
       - if @error
         = render 'common/error_summary',
           error_msg_div: '#company_name-error',
-          error_msg: "[TBA] #{@error}"
+          error_msg: "#{@error}"
 
       %h1.govuk-heading-l Create an account
-      = render 'common/draft_tag'
       %p
       %span#create-account-hint.govuk-hint
         Upload and pay the charge for multiple vehicles.

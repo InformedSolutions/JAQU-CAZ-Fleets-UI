@@ -8,8 +8,7 @@
         = render 'common/errors_summary', errors: @errors
 
       %h1.govuk-heading-l Reset your password
-      = render 'common/draft_tag'
-
+      
       = form_for('passwords', url: reset_passwords_path, method: :post,
         html: {autocomplete: 'off', novalidate: 'novalidate'}) do |f|
 

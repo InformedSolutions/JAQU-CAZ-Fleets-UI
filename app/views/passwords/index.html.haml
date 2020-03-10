@@ -8,7 +8,6 @@
         = render 'common/errors_summary', errors: @errors
 
       %h1.govuk-heading-l Update your password
-      = render 'common/draft_tag'
 
       %p Please enter your new password below
       = form_for('passwords', url: passwords_path, method: :post,

@@ -31,15 +31,15 @@ Feature: Sign In
       And I should see "Create account" link
     When I enter invalid credentials
     Then I remain on the current page
-      And I should see "[TBA] The email or password you entered is incorrect"
-      And I should see "[TBA] Enter your email address"
-      And I should see "[TBA] Enter your password"
+      And I should see "The email or password you entered is incorrect"
+      And I should see "Enter your email address"
+      And I should see "Enter your password"
 
   Scenario: Sign in with unconfirmed email
     Given I am on the Sign in page
     When I enter unconfirmed email
     Then I remain on the current page
-      And I should see "[TBA] Your email address is not confirmed"
+      And I should see "Your email address is not confirmed"
 
   Scenario: Sign out
     Given I am signed in
@@ -56,5 +56,5 @@ Feature: Sign In
     Given I am on the Sign in page
     When I enter invalid email format
     Then I remain on the current page
-      And I should see "[TBA] Enter your email address in a valid format"
-      And I should see "[TBA] Enter your email address"
+      And I should see "Enter your email address in a valid format"
+      And I should see "Enter your email address"
