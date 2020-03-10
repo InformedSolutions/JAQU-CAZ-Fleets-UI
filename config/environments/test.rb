@@ -51,4 +51,6 @@ Rails.application.configure do
   # https://github.com/railsware/rack_session_access
   # Used to add eg VRN value to session in cucumber tests
   config.middleware.use RackSessionAccess::Middleware
+
+  config.x.payments_ui_url = 'test'
 end
