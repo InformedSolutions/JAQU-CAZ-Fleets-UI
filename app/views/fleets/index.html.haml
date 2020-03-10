@@ -24,7 +24,7 @@
       %p
         The charge still needs to be paid but must be done per individual vehicle.
         = link_to 'Pay a Clean Air Zone charge',
-                  Rails.configuration.x.payments_ui_url + '/vehicles/enter_details',
+                  single_vehicle_payment_link,
                   target: '_blank',
                   class: 'govuk-link',
                   id: 'pay_clean_air_zone_link'                  

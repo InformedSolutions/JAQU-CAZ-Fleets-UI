@@ -58,4 +58,10 @@ module ApplicationHelper
   def back_link_to_dashboard
     link_to 'Back to dashboard', dashboard_path, class: 'govuk-back-link'
   end
+
+  # Generates a unique link for presentation on the vehicle management page that navigates a user
+  # to the VRN entry page in IOD journey.
+  def single_vehicle_payment_link
+    Rails.configuration.x.payments_ui_url + '/vehicles/enter_details'
+  end
 end
