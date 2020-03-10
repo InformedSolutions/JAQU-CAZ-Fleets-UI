@@ -20,7 +20,7 @@
           %span.govuk-hint#password-hint
             = t('input_form.hints.password')
           - if @errors.present? && @errors[:password].present?
-            %span.govuk-error-message{id: "password-error"}
+            %span.govuk-error-message{id: 'password-error'}
               %span.govuk-visually-hidden Error:
               = @errors[:password].first
           = f.password_field :password,
@@ -30,7 +30,7 @@
         .govuk-form-group{class: @errors.present? && @errors[:password_confirmation].present? ? 'govuk-form-group--error': ''}
           = f.label :password_confirmation, t('labels.password_confirmation'), class: 'govuk-label'
           - if @errors.present? && @errors[:password_confirmation].present?
-            %span.govuk-error-message{id: "password_confirmation-error"}
+            %span.govuk-error-message{id: 'password_confirmation-error'}
               %span.govuk-visually-hidden Error:
               = @errors[:password_confirmation].first
           = f.password_field :password_confirmation,
