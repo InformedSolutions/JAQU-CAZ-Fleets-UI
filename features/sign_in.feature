@@ -10,19 +10,19 @@ Feature: Sign In
       And I should see "Sign In"
       And I should not see "Account" link
     Then I should enter valid credentials and press the Continue
-    When I should see "Your fleet account"
+    When I should see "Your account"
       And Cookie is created for my session
       And I should not see "Create account" link
 
   Scenario: View dashboard page with cookie that has not expired
     Given I have authentication cookie that has not expired
     When I navigate to a Dashboard page
-    Then I should see "Your fleet account"
+    Then I should see "Your account"
 
   Scenario: View dashboard page with cookie that has expired
     Given I have authentication cookie that has expired
     When I navigate to a Dashboard page
-      And I should not see "Your fleet account"
+      And I should not see "Your account"
     Then I am redirected to the unauthenticated root page
       And I should see "Sign In"
 
