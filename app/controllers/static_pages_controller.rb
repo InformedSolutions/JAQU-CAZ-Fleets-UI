@@ -6,7 +6,17 @@
 class StaticPagesController < ApplicationController
   skip_before_action :authenticate_user!
   # assign back button path
-  before_action :assign_back_button_url, only: %i[cookies]
+  before_action :assign_back_button_url, only: %i[accessibility_statement cookies]
+
+  ##
+  # Renders the accessibility statement page
+  #
+  # ==== Path
+  #    GET /accessibility_statement
+  #
+  def accessibility_statement
+    # renders static page
+  end
 
   ##
   # Renders the cookies page
