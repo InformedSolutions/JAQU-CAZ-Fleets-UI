@@ -23,7 +23,7 @@ module FleetsUI
     # feedback url
     config.x.feedback_url = ENV.fetch('FEEDBACK_URL', nil)
     # payments ui url
-    config.x.payments_ui_url = ENV.fetch('PAYMENTS_UI_URL', nil)
+    config.x.payments_ui_url = ENV.fetch('PAYMENTS_UI_URL', 'dev.paycleanairzonecharge.co.uk')
     # service name for whole app
     config.x.service_name = 'Pay a Clean Air Zone charge'
 
