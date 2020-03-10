@@ -16,3 +16,27 @@ end
 Then('I should be on the payment matrix page') do
   expect_path(matrix_payments_path)
 end
+
+When('I select any date for vrn on the payment matrix') do
+  page.find('.govuk-checkboxes__input', match: :first).click
+end
+
+Then('I should be on the confirm payment page') do
+  expect_path(review_payments_path)
+end
+
+And('I should see the payment details') do
+  expect(page).to have_content('Confirm your payment')
+end
+
+When('I click view details link') do
+  click_link('View details')
+end
+
+Then('I should be on the Charge details page') do
+  expect_path(review_details_payments_path)
+end
+
+Then('I should be on the initiate payment page') do
+  expect_path(initiate_payment_payments_path)
+end

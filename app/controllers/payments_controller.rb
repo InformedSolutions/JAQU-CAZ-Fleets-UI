@@ -80,7 +80,23 @@ class PaymentsController < ApplicationController
   #
   def review
     @zone = CleanAirZone.find(@zone_id)
+    @days_to_pay = days_to_pay
+    @total_to_pay = total_to_pay
   end
+
+  ##
+  # Renders reveiw details
+  #
+  # ==== Path
+  #
+  #    :GET /payments/review_details
+  #
+  def review_details
+    @zone = CleanAirZone.find(@zone_id)
+    @details = vrn_to_pay
+  end
+
+  def initiate_payment; end
 
   private
 
@@ -88,6 +104,25 @@ class PaymentsController < ApplicationController
   def check_la
     @zone_id = helpers.new_payment_data[:la_id]
     redirect_to payments_path unless @zone_id
+  end
+
+  # loads selected vrns to pay
+  def vrn_to_pay
+    @vrn_to_pay ||= helpers.new_payment_data[:details].reject do |_k, vrn|
+      vrn.symbolize_keys![:dates].empty?
+    end
+  end
+
+  # calculate total amount to pay
+  def total_to_pay
+    vrn_to_pay.sum do |_k, vrn|
+      vrn[:dates].length * vrn[:charge]
+    end
+  end
+
+  # collects all dates to pay
+  def days_to_pay
+    vrn_to_pay.collect { |_k, vrn| vrn[:dates] }.flatten.count
   end
 
   # Fetches charges with params saved in the session

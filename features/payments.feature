@@ -21,3 +21,12 @@ Feature: Fleets
     When I select Birmingham
       And I press the Continue
     Then I should be on the payment matrix page
+    When I select any date for vrn on the payment matrix
+      And I press the Continue
+    Then I should be on the confirm payment page
+      And I should see the payment details
+    When I click view details link
+    Then I should be on the Charge details page
+    When I press the Back link
+      And I press the Continue
+    Then I should be on the initiate payment page
