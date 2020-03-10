@@ -12,7 +12,10 @@ describe DashboardController, type: :request do
     end
 
     context 'when user is signed in' do
-      before { sign_in create_user }
+      before do
+        mock_fleet
+        sign_in create_user
+      end
 
       it 'returns http success' do
         http_request

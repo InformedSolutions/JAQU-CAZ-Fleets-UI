@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 When('I have no mandates') do
+  mock_vehicles_in_fleet
   mock_debit(create_empty_debit)
 end
 
@@ -14,10 +15,12 @@ Then('I should be on the add new mandate page') do
 end
 
 When('I have created mandates') do
+  mock_vehicles_in_fleet
   mock_debit(create_debit(zones: mocked_zones))
 end
 
 When('I have created all the possible mandates') do
+  mock_vehicles_in_fleet
   mock_debit(create_debit(zones: []))
 end
 

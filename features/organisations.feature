@@ -46,6 +46,6 @@ Feature: Organisations
     Then I should see "Email already exists"
 
   Scenario: View email verified page
-    Given I am on the root page
+    Given I navigate to a Dashboard page
     When I go to the email verified page
     Then I should see "Your account has been created"

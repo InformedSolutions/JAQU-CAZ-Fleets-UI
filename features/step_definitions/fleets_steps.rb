@@ -10,6 +10,7 @@ When('I visit the manage vehicles page') do
 end
 
 When('I visit the submission method page') do
+  mock_vehicles_in_fleet
   login_user
   visit submission_method_fleets_path
 end
