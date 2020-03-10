@@ -26,7 +26,7 @@ class Vehicle
 
   # Returns vehicle's type
   def type
-    (data['vehicleType'] || 'not found').humanize
+    (data['vehicleType'] || 'undetermined').humanize
   end
 
   # Returns the charge for given CAZ in float
@@ -42,7 +42,7 @@ class Vehicle
   # Returns 'No charge' if the charge equals zero
   def formatted_charge(caz_id)
     charge = charge(caz_id)
-    return 'N/A' unless charge
+    return 'Undetermined' unless charge
 
     return 'No charge' if charge.zero?
 

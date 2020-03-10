@@ -34,8 +34,8 @@ describe Vehicle, type: :model do
     context 'when there is no type' do
       let(:type) { nil }
 
-      it 'returns N/A' do
-        expect(vehicle.type).to eq('Not found')
+      it 'returns Undetermined' do
+        expect(vehicle.type).to eq('Undetermined')
       end
     end
   end
@@ -88,14 +88,14 @@ describe Vehicle, type: :model do
     context 'when charge is null' do
       let(:charge) { 'null' }
 
-      it "returns 'N/A'" do
-        expect(vehicle.formatted_charge(caz_id)).to eq('N/A')
+      it "returns 'Undetermined'" do
+        expect(vehicle.formatted_charge(caz_id)).to eq('Undetermined')
       end
     end
 
     context 'when unknown CAZ given' do
-      it "returns 'N/A'" do
-        expect(vehicle.formatted_charge('test')).to eq('N/A')
+      it "returns 'Undetermined'" do
+        expect(vehicle.formatted_charge('test')).to eq('Undetermined')
       end
     end
   end

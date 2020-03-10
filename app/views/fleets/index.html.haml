@@ -8,19 +8,31 @@
           error_msg_div: '#confirm-vehicle-creation-error',
           error_msg: alert
 
-      %h1.govuk-heading-l Manage your vehicles
+      %h1.govuk-heading-l Manage your vehicles and view charges
       %p
-        Use this page to add and remove vehicles from your account.
-        %br
-        You can then pay for these vehicles on the
-        = link_to('Make a payment', payments_path)
-        page.
-
+        Charge information for your vehicles in each Clean Air Zone.
+      %p
+        %strong No charge -
+        you don't have to pay the charge in that Clean Air Zone as your vehicle meets its emissions standards.
+      %p
+        %strong Undetermined -
+        we could not calculate a charge based on your registration information. Contact 
+        = external_link_to 'DVLA',
+                            'https://www.gov.uk/change-vehicle-details-registration-certificate',
+                            id: 'update_record_link'
+        to make sure it holds the correct information for you. 
+      %p
+        The charge still needs to be paid but must be done per individual vehicle.
+        = link_to 'Pay a Clean Air Zone charge',
+                  Rails.configuration.x.payments_ui_url + '/vehicles/enter_details',
+                  target: '_blank',
+                  class: 'govuk-link',
+                  id: 'pay_clean_air_zone_link'                  
       %table.govuk-table
         %caption.govuk-table__caption
         %thead.govuk-table__head
           %tr.govuk-table__row
-            %th.govuk-table__header{scope: 'col'} Registration Number
+            %th.govuk-table__header{scope: 'col'} Number plate
             %th.govuk-table__header{scope: 'col'} Type
             - @zones.each_with_index do |zone, index|
               %th.govuk-table__header{scope: 'col', colspan: zone_colspan(index)}
@@ -39,14 +51,20 @@
                 = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
       = render 'pagination'
       %p
-        A vehicle labelled with 'No charge' under a Clean Air Zone means that it will not be charged
-        when driving within that Clean Air Zone.
+        You can then pay for the vehicles with a charge on the
+        = link_to('Make a payment', payments_path)
+        page.
 
+      %h2.govuk-heading-m Add vehicles
+      %p 
+        You can add multiple vehicles by overriding this list with a 
+        = link_to('new list of vehicles', uploads_path, id: 'reupload', class: 'govuk-link')
+      %p
       = form_for fleets_path, method: :post do
         .govuk-form-group{class: ('govuk-form-group--error' if alert)}
           %fieldset.govuk-fieldset
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--s{for: 'confirm-vehicle-creation'}
-              Do you need to add another vehicle?
+              Do you need to add a single vehicle?
 
             - if alert
               %span#confirm-vehicle-creation-error.govuk-error-message
@@ -69,9 +87,3 @@
                   No
 
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
-
-      %p
-        If you need to add more vehicles you can override this list by uploading a new list.
-      %p
-        = link_to('Upload a new list of vehicles', uploads_path, id: 'reupload', class: 'govuk-link')
-
