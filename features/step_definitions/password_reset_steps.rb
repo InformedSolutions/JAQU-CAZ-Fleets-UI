@@ -14,8 +14,7 @@ When('I enter valid email address') do
   click_button 'Send email'
 end
 
-When('I enter invalid email address') do
-  fill_in('passwords[email_address]', with: '')
+When('I click Send email button') do
   click_button 'Send email'
 end
 

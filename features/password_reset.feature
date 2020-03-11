@@ -6,9 +6,10 @@ Feature: Password reset
     Given I am on the Sign in page
     Then I press "Forgotten your password?" link
       And I should see "Reset your password"
-    When I enter invalid email address
+    When I click Send email button
       And I should see "There is a problem"
       And I should see "Email address is required"
+      And I should not see "Email is in an invalid format"
     When I enter valid email address
       And I should be on the email sent page
 

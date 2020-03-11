@@ -6,6 +6,12 @@ class EmailAndPasswordForm < BaseForm
   # Attribute used internally
   attr_accessor :email, :email_confirmation, :password, :password_confirmation
 
+  # validates email format
+  validates :email, format: {
+    with: EMAIL_FORMAT,
+    message: I18n.t('input_form.errors.invalid_format')
+  }, allow_blank: true
+
   # validates attributes to presence
   validates :email, :email_confirmation, :password, :password_confirmation,
             presence: { message: I18n.t('input_form.errors.missing') }
@@ -16,12 +22,6 @@ class EmailAndPasswordForm < BaseForm
               maximum: 45,
               message: I18n.t('input_form.errors.maximum_length')
             }
-
-  # validates email format
-  validates :email, :email_confirmation, format: {
-    with: EMAIL_FORMAT,
-    message: I18n.t('input_form.errors.invalid_format')
-  }
 
   # validates +password+ and +password_confirmation+
   validate :correct_password_confirmation
