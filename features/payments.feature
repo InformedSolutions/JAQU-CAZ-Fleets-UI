@@ -28,5 +28,6 @@ Feature: Fleets
     When I click view details link
     Then I should be on the Charge details page
     When I press the Back link
+      And I want to request payments api
       And I press the Continue
     Then I should be on the initiate payment page

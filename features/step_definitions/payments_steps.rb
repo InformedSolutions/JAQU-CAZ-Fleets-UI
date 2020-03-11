@@ -37,6 +37,13 @@ Then('I should be on the Charge details page') do
   expect_path(review_details_payments_path)
 end
 
+And('I want to request payments api') do
+  stub_request(:post, /payments/).to_return(
+    status: 200,
+    body: { 'paymentId' => SecureRandom.uuid, 'nextUrl' => '/' }.to_json
+  )
+end
+
 Then('I should be on the initiate payment page') do
-  expect_path(initiate_payment_payments_path)
+  expect_path('/')
 end
