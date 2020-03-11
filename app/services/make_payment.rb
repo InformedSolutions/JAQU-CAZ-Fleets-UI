@@ -73,10 +73,15 @@ class MakePayment < BaseService
     payment_detail[:dates].map do |date|
       {
         vrn: payment_detail[:vrn],
-        charge: payment_detail[:charge],
+        charge: charge_in_pence(payment_detail[:charge]),
         travel_date: date,
         tariff_code: payment_detail[:tariff]
       }
     end
+  end
+
+  # convert charge in pence
+  def charge_in_pence(charge_in_pounds)
+    (charge_in_pounds.to_f * 100).to_i
   end
 end

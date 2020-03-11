@@ -6,6 +6,11 @@ module PaymentsHelper
     (session[:new_payment] || {}).symbolize_keys
   end
 
+  # Gets data about the current payment from the session
+  def initiated_payment_data
+    (session[:initiated_payment] || {}).symbolize_keys
+  end
+
   # Extracts :payment_query form the session
   def payment_query_data
     (session[:payment_query] || {}).symbolize_keys
