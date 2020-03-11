@@ -8,7 +8,6 @@
         = render 'common/errors_summary', errors: @errors
 
       %h1.govuk-heading-l Reset your password
-      
       = form_for('passwords', url: reset_passwords_path, method: :post,
         html: {autocomplete: 'off', novalidate: 'novalidate'}) do |f|
 
@@ -20,6 +19,7 @@
               %span.govuk-visually-hidden Error:
               = @errors[:email_address].join(', ')
           = f.text_field :email_address,
+                          value: params.dig(:passwords, :email_address),
                           maxlength: 45,
                           spellcheck: false,
                           class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if @errors.present?}"
