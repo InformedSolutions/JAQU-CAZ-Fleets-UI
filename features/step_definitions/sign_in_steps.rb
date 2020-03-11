@@ -4,10 +4,6 @@ Given('I am on the Sign in page') do
   visit new_user_session_path
 end
 
-Then('I should enter valid credentials and press the Continue') do
-  login_user
-end
-
 Then('I should enter fleet admin credentials and press the Continue') do
   login_admin
 end
@@ -23,6 +19,7 @@ And('Cookie is created for my session') do
 end
 
 When('I have authentication cookie that has not expired') do
+  mock_vehicles_in_fleet
   visit new_user_session_path
   login_user
 
@@ -66,6 +63,7 @@ Given('I have authentication cookie that has expired') do
   Rails.configuration.x.session_timeout = 15
 
   travel_to(20.minutes.ago) do
+    mock_vehicles_in_fleet
     login_user
   end
 
@@ -75,6 +73,7 @@ Given('I have authentication cookie that has expired') do
 end
 
 Given('I am signed in') do
+  mock_vehicles_in_fleet
   login_user
 end
 

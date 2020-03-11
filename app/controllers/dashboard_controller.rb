@@ -9,10 +9,6 @@ class DashboardController < ApplicationController
   #    :GET /fleets/organisation-account/dashboard
   #
   def index
-    if current_user.admin
-      render :admin_dashboard
-    else
-      render :user_dashboard
-    end
+    @vehicles_present = !current_user.fleet.empty?
   end
 end

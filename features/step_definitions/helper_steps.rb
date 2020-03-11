@@ -44,15 +44,6 @@ Then('I should not see {string} link') do |string|
   expect(page).not_to have_selector(:link_or_button, string)
 end
 
-Given('I am on the root page') do
-  visit '/'
-end
-
-When('I am on Dashboard page') do
-  login_admin
-  visit authenticated_root_path
-end
-
 Then('I choose {string}') do |string|
   choose(string)
 end

@@ -2,12 +2,14 @@
   .govuk-grid-row
     .govuk-grid-column-two-thirds
       %h1.govuk-heading-l Your account
-      %p  
+      %p
         This service works by you telling us which vehicles have driven in a zone.
-        Your number plates (registration details) determine if your vehicles meet emission standards in the Clean Air Zones. 
+        Your number plates (registration details) determine if your vehicles meet emission standards in the Clean Air Zones.
         If they don't, you can see what the charges are and pay them.
-      .govuk-inset-text
-        You need to upload all your number plates before making a payment.
+      - unless @vehicles_present
+        .govuk-inset-text
+          You need to upload all your number plates before making a payment.
   .govuk-grid-row
     = render 'manage_vehicles'
-    = render 'make_payment'
+    - if @vehicles_present
+      = render 'make_payment'
