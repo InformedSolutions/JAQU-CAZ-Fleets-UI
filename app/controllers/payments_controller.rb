@@ -108,6 +108,9 @@ class PaymentsController < ApplicationController
       payment_data: helpers.new_payment_data,
       user_id: current_user.user_id
     )
+
+    SessionManipulation::AddCurrentPayment.call(session: session)
+
     redirect_to next_url
   end
 

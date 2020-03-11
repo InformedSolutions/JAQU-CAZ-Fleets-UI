@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe MakePayment do
   subject(:call) { described_class.call(payment_data: payment_data, user_id: user_id) }
+  let(:charge_in_pounds) { 50.0 }
   let(:payment_data) do
     {
       la_id: caz_id,
@@ -11,7 +12,7 @@ describe MakePayment do
         'PAY015' => {
           vrn: 'PAY015',
           tariff: 'BCC01-HEAVY GOODS VEHICLE',
-          charge: 50.0,
+          charge: charge_in_pounds,
           dates: ['2020-03-04']
         }
       }
@@ -29,7 +30,7 @@ describe MakePayment do
       transactions: [
         {
           vrn: 'PAY015',
-          charge: 50.0,
+          charge: charge_in_pounds * 100, # charge in pence
           travel_date: '2020-03-04',
           tariff_code: 'BCC01-HEAVY GOODS VEHICLE'
         }
