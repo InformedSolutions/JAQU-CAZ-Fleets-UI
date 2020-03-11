@@ -47,3 +47,7 @@ end
 Then('I should be on the initiate payment page') do
   expect_path('/')
 end
+
+When('I click Next 7 days tab') do
+  click_link('Next 7 days')
+end

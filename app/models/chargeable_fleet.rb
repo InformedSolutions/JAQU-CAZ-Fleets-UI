@@ -35,7 +35,19 @@ class ChargeableFleet
     data['lastVrn']
   end
 
+  # Checks if all dates was already paid
+  def all_days_unpaid?
+    return false unless results
+
+    (results.map { |value| value['paidDates'] }).flatten.empty?
+  end
+
   private
 
   attr_reader :data
+
+  # Returns a hash with +results+ data
+  def results
+    data.dig('chargeableAccountVehicles', 'results')
+  end
 end

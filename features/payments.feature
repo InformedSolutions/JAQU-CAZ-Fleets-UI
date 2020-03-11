@@ -21,6 +21,10 @@ Feature: Fleets
     When I select Birmingham
       And I press the Continue
     Then I should be on the payment matrix page
+      And I should see "If you have already paid for a date, it will show as Paid."
+    Then I click Next 7 days tab
+      And I should see "Check a box for each vehicle and date it drove in a Clean Air Zone."
+      And I should see "If you have already paid for a date, it will show as Paid."
     When I select any date for vrn on the payment matrix
       And I press the Continue
     Then I should be on the confirm payment page
@@ -31,3 +35,17 @@ Feature: Fleets
       And I want to request payments api
       And I press the Continue
     Then I should be on the initiate payment page
+
+  Scenario: Visiting the the matrix page when all dates are unpaid
+    When I have vehicles in my fleet that are not paid
+      And I visit the make payment page
+      And I press the Continue
+    Then I select Birmingham
+      And I press the Continue
+    Then I should be on the payment matrix page
+      And I should see "Check a box for each vehicle and date it drove in a Clean Air Zone."
+      And I should not see "If you have already paid for a date, it will show as Paid."
+    Then I click Next 7 days tab
+      And I should see "Check a box for each vehicle and date it will drive in a Clean Air Zone."
+      And I should not see "If you have already paid for a date, it will show as Paid."
+
