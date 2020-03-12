@@ -735,7 +735,7 @@ steps:
     commands:
       - apk add --update bash python python-dev py-pip build-base
       - pip install awscli
-      - aws deploy create-deployment --application-name fleet-sit-service-sit --deployment-config-name CodeDeployDefault.ECSAllAtOnce --deployment-group-name fleet-codedeploy-service-sit --description "Deployment ECS" --s3-location bucket=jaqu-projects-lambda-bucket,bundleType=yaml,key=fleet/sit/appspec.yaml
+      - aws deploy create-deployment --application-name fleet-codedeploy-service-sit --deployment-config-name CodeDeployDefault.ECSAllAtOnce --deployment-group-name fleet-codedeploy-service-sit --description "Deployment ECS" --s3-location bucket=jaqu-projects-lambda-bucket,bundleType=yaml,key=fleet/sit/appspec.yaml
     environment:
       AWS_ACCESS_KEY_ID:
         from_secret: aws_access_key_id
@@ -795,7 +795,10 @@ steps:
   - name: plan terraform updates in preprod
     image: hashicorp/terraform:0.12.3
     commands:
-      - apk update && apk add bash
+      - apk add --update bash python python-dev py-pip build-base jq
+      - pip install awscli
+      - TASKDEF=`aws ecs describe-services --cluster fleet-cluster-sit --services fleet-sit-ecs-service | jq --raw-output '.services[0].taskDefinition'`
+      - export TF_VAR_build_number=`aws ecs describe-task-definition --task-definition $TASKDEF | jq --raw-output '.taskDefinition.containerDefinitions[0].image' | cut -f 2 -d ':'`
       - mkdir ~/.ssh
       - echo -n "$GIT_PRIVATE_SSH" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
@@ -820,7 +823,6 @@ steps:
       - tf workspace select preprod || tf workspace new preprod
       - tf plan -auto-approve
     environment:
-      TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
       TF_VAR_secret_key_base: ${DRONE_COMMIT}
       TF_VAR_google_analytics_id: UA-144774549-2
       TF_VAR_access_key:
@@ -832,6 +834,11 @@ steps:
       TF_VAR_enable_https_redirect: false
       GIT_PRIVATE_SSH:
         from_secret: github_private_key
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret_access_key
+      AWS_DEFAULT_REGION: eu-west-2
     when:
       event:
         - pull_request
@@ -860,7 +867,7 @@ steps:
       - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
       - git checkout preprod
-      - cd terraform/projets/payments/layers/01.networking
+      - cd terraform/projects/payments/layers/01.networking
       - PATH=$PATH:../../../../bin/
       - chmod +x ../../../../bin/tf
       - tf init
@@ -875,7 +882,6 @@ steps:
       - tf workspace select preprod || tf workspace new preprod
       - tf apply -auto-approve
     environment:
-      TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
       TF_VAR_secret_key_base: ${DRONE_COMMIT}
       TF_VAR_google_analytics_id: UA-144774549-2
       TF_VAR_access_key:
@@ -887,18 +893,6 @@ steps:
       TF_VAR_enable_https_redirect: false
       GIT_PRIVATE_SSH:
         from_secret: github_private_key
-    when:
-      event:
-        - push
-
-
-  - name: codedeploy ui preprod
-    image: golang:alpine
-    commands:
-      - apk add --update bash python python-dev py-pip build-base
-      - pip install awscli
-      - aws deploy create-deployment --application-name fleet-codedeploy-service-preprod --deployment-config-name CodeDeployDefault.ECSAllAtOnce --deployment-group-name fleet-codedeploy-service-preprod --description "Deployment ECS" --s3-location bucket=jaqu-projects-lambda-bucket,bundleType=yaml,key=fleet/preprod/appspec.yaml
-    environment:
       AWS_ACCESS_KEY_ID:
         from_secret: aws_access_key_id
       AWS_SECRET_ACCESS_KEY:
@@ -908,12 +902,35 @@ steps:
       event:
         - push
 
+
+  - name: codedeploy ui preprod
+    image: golang:alpine
+    commands:
+      - apk add --update bash python python-dev py-pip build-base jq
+      - pip install awscli
+      - aws s3 cp s3://$LAMBDA_BUCKET/$PROJECT/$DEPLOY_ENVIRONMENT/wait_deploy.sh .
+      - bash wait_deploy.sh $APPLICATION_NAME $DEPLOYMENT_GROUP
+      - aws deploy create-deployment --application-name $APPLICATION_NAME --deployment-config-name CodeDeployDefault.ECSAllAtOnce --deployment-group-name $DEPLOYMENT_GROUP --description "Deployment ECS" --s3-location bucket=jaqu-projects-lambda-bucket,bundleType=yaml,key=$PROJECT/$DEPLOY_ENVIRONMENT/appspec.yaml
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret_access_key
+      AWS_DEFAULT_REGION: eu-west-2
+      APPLICATION_NAME: fleet-codedeploy-service-preprod
+      DEPLOYMENT_GROUP: fleet-codedeploy-service-preprod
+      PROJECT: fleet
+      DEPLOY_ENVIRONMENT: preprod
+      LAMBDA_BUCKET: jaqu-projects-lambda-bucket
+    when:
+      event:
+        - push
+
   # Waits for rollout
   - name: await ecs rollout
     image: docker
     environment:
       build_id_url: https://preprod-fleet.paycleanairzonecharge.co.uk/build_id
-      build_id: ${DRONE_BUILD_NUMBER}
       AWS_ACCESS_KEY_ID:
         from_secret: aws_access_key_id
       AWS_SECRET_ACCESS_KEY:
@@ -960,7 +977,10 @@ steps:
   - name: plan terraform updates in prod
     image: hashicorp/terraform:0.12.3
     commands:
-      - apk update && apk add bash
+      - apk add --update bash python python-dev py-pip build-base jq
+      - pip install awscli
+      - TASKDEF=`aws ecs describe-services --cluster fleet-cluster-preprod --services fleet-preprod-ecs-service | jq --raw-output '.services[0].taskDefinition'`
+      - export TF_VAR_build_number=`aws ecs describe-task-definition --task-definition $TASKDEF | jq --raw-output '.taskDefinition.containerDefinitions[0].image' | cut -f 2 -d ':'`
       - mkdir ~/.ssh
       - echo -n "$GIT_PRIVATE_SSH" > ~/.ssh/id_rsa
       - chmod 600 ~/.ssh/id_rsa
@@ -985,7 +1005,6 @@ steps:
       - tf workspace select prod || tf workspace new prod
       - tf plan -auto-approve
     environment:
-      TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
       TF_VAR_secret_key_base: ${DRONE_COMMIT}
       TF_VAR_google_analytics_id: UA-150934733-8
       TF_VAR_access_key:
@@ -997,6 +1016,11 @@ steps:
       TF_VAR_enable_https_redirect: false
       GIT_PRIVATE_SSH:
         from_secret: github_private_key
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret_access_key
+      AWS_DEFAULT_REGION: eu-west-2
     when:
       event:
         - pull_request
@@ -1025,7 +1049,7 @@ steps:
       - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
       - git checkout master
-      - cd terraform/projets/payments/layers/01.networking
+      - cd terraform/projects/payments/layers/01.networking
       - PATH=$PATH:../../../../bin/
       - chmod +x ../../../../bin/tf
       - tf init
@@ -1040,7 +1064,6 @@ steps:
       - tf workspace select preprod || tf workspace new prod
       - tf apply -auto-approve
     environment:
-      TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
       TF_VAR_secret_key_base: ${DRONE_COMMIT}
       TF_VAR_google_analytics_id: UA-150934733-8
       TF_VAR_access_key:
@@ -1052,18 +1075,6 @@ steps:
       TF_VAR_enable_https_redirect: false
       GIT_PRIVATE_SSH:
         from_secret: github_private_key
-    when:
-      event:
-        - push
-
-
-  - name: codedeploy ui prod
-    image: golang:alpine
-    commands:
-      - apk add --update bash python python-dev py-pip build-base
-      - pip install awscli
-      - aws deploy create-deployment --application-name fleet-codedeploy-service-prod --deployment-config-name CodeDeployDefault.ECSAllAtOnce --deployment-group-name fleet-codedeploy-service-prod --description "Deployment ECS" --s3-location bucket=jaqu-projects-lambda-bucket,bundleType=yaml,key=fleet/prod/appspec.yaml
-    environment:
       AWS_ACCESS_KEY_ID:
         from_secret: aws_access_key_id
       AWS_SECRET_ACCESS_KEY:
@@ -1073,12 +1084,35 @@ steps:
       event:
         - push
 
+
+  - name: codedeploy ui prod
+    image: golang:alpine
+    commands:
+      - apk add --update bash python python-dev py-pip build-base jq
+      - pip install awscli
+      - aws s3 cp s3://$LAMBDA_BUCKET/$PROJECT/$DEPLOY_ENVIRONMENT/wait_deploy.sh .
+      - bash wait_deploy.sh $APPLICATION_NAME $DEPLOYMENT_GROUP
+      - aws deploy create-deployment --application-name $APPLICATION_NAME --deployment-config-name CodeDeployDefault.ECSAllAtOnce --deployment-group-name $DEPLOYMENT_GROUP --description "Deployment ECS" --s3-location bucket=jaqu-projects-lambda-bucket,bundleType=yaml,key=$PROJECT/$DEPLOY_ENVIRONMENT/appspec.yaml
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret_access_key
+      AWS_DEFAULT_REGION: eu-west-2
+      APPLICATION_NAME: fleet-codedeploy-service-prod
+      DEPLOYMENT_GROUP: fleet-codedeploy-service-prod
+      PROJECT: fleet
+      DEPLOY_ENVIRONMENT: prod
+      LAMBDA_BUCKET: jaqu-projects-lambda-bucket
+    when:
+      event:
+        - push
+
   # Waits for rollout
   - name: await ecs rollout
     image: docker
     environment:
-      build_id_url: https://prod-fleet.paycleanairzonecharge.co.uk/build_id
-      build_id: ${DRONE_BUILD_NUMBER}
+      build_id_url: https://accountpay.cleanairzone.defra.gov.uk/build_id
       AWS_ACCESS_KEY_ID:
         from_secret: aws_access_key_id
       AWS_SECRET_ACCESS_KEY:
