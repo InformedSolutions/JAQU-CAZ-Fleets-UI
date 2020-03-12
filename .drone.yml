@@ -407,15 +407,15 @@ steps:
       - chmod +x ../../../../bin/tf
       - tf init
       - tf workspace select st || tf workspace new st
-      - tf plan -auto-approve
+      - tf plan
       - cd ../02.backends
       - tf init
       - tf workspace select st || tf workspace new st
-      - tf plan -auto-approve
+      - tf plan
       - cd ../06.fleets-ui
       - tf init
       - tf workspace select st || tf workspace new st
-      - tf plan -auto-approve
+      - tf plan
     environment:
       TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
       TF_VAR_secret_key_base: ${DRONE_COMMIT}
@@ -652,15 +652,15 @@ steps:
       - chmod +x ../../../../bin/tf
       - tf init
       - tf workspace select sit || tf workspace new sit
-      - tf plan -auto-approve
+      - tf plan
       - cd ../02.backends
       - tf init
       - tf workspace select sit || tf workspace new sit
-      - tf plan -auto-approve
+      - tf plan
       - cd ../06.fleets-ui
       - tf init
       - tf workspace select sit || tf workspace new sit
-      - tf plan -auto-approve
+      - tf plan
     environment:
       TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
       TF_VAR_secret_key_base: ${DRONE_COMMIT}
