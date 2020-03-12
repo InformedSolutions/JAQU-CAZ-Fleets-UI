@@ -26,7 +26,7 @@
             - if @error
               %span#company_name-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
-                = "[TBA] #{@error}"
+                = "#{@error}"
             = f.text_field :company_name,
                             class: determinate_input_class(@error),
                             value: params.dig(:organisations, :company_name),
