@@ -867,7 +867,7 @@ steps:
       - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
       - git checkout preprod
-      - cd terraform/projets/payments/layers/01.networking
+      - cd terraform/projects/payments/layers/01.networking
       - PATH=$PATH:../../../../bin/
       - chmod +x ../../../../bin/tf
       - tf init
@@ -1049,7 +1049,7 @@ steps:
       - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
       - git checkout master
-      - cd terraform/projets/payments/layers/01.networking
+      - cd terraform/projects/payments/layers/01.networking
       - PATH=$PATH:../../../../bin/
       - chmod +x ../../../../bin/tf
       - tf init
