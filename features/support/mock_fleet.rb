@@ -9,6 +9,10 @@ module MockFleet
     mock_fleet(vehicles, page)
   end
 
+  def mock_unpaid_vehicles_in_fleet
+    mock_fleet(vehicles, 1, mocked_unpaid_charges)
+  end
+
   def vehicles
     vehicles_data = read_response('charges.json')['1']['vehicles']
     vehicles_data.map { |data| Vehicle.new(data) }
@@ -20,13 +24,13 @@ module MockFleet
 
   private
 
-  def mock_fleet(vehicles = [], page = 1)
+  def mock_fleet(vehicles = [], page = 1, charges = mocked_charges)
     @fleet = instance_double(Fleet,
                              pagination: paginated_vehicles(vehicles, page),
                              add_vehicle: true,
                              delete_vehicle: true,
                              empty?: vehicles.empty?,
-                             charges: mocked_charges)
+                             charges: charges)
     allow(Fleet).to receive(:new).and_return(@fleet)
   end
 
@@ -44,6 +48,10 @@ module MockFleet
 
   def mocked_charges
     ChargeableFleet.new(read_response('chargeable_vehicles.json'))
+  end
+
+  def mocked_unpaid_charges
+    ChargeableFleet.new(read_response('chargeable_vehicles_with_unpaid_dates.json'))
   end
 end
 

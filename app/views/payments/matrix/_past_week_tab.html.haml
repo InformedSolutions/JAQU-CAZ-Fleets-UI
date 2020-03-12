@@ -3,10 +3,11 @@
     Past 6 days
   %p
     %strong
-      Check a box for each vehicle and date it drove in a Clean Air Zone
+      Check a box for each vehicle and date it drove in a Clean Air Zone.
   %p
     %strong
       Select all that apply.
-  %p
-    If you have already paid for a date, it will show as Paid.
+  - unless @charges.all_days_unpaid?
+    %p
+      If you have already paid for a date, it will show as Paid.
   = render 'payments/matrix/table', direction: :past
