@@ -3,14 +3,12 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      %h1.govuk-heading-l Validating submission...
+      %h1.govuk-heading-l Uploading your vehicles
       %p
-        We are validating your CSV submission to
-        = succeed('.') do
-          = service_name
-        Please do not leave this page. It will automatically refresh to present your submission status.
-
+        We are processing your file which may take a few minutes.
       %p
-        If the page does not refresh automatically in 30 seconds
+        Do not leave this page.
+      %p
+        If the page does not automatically refresh in 30 seconds, you can
         = succeed '.' do
-          = link_to 'click here', processing_uploads_path
+          = link_to 'refresh it yourself', processing_uploads_path
