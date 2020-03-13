@@ -60,7 +60,7 @@ steps:
 
 
 
-  
+
   #################################################### DEV Steps ############################################################
 
 kind: pipeline
@@ -221,7 +221,8 @@ steps:
       - tf apply -auto-approve
     environment:
       TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
-      TF_VAR_secret_key_base: ${DRONE_COMMIT}
+      TF_VAR_secret_key_base:
+        from_secret: fleet_ruby_secret
       TF_VAR_google_analytics_id: UA-144774549-2
       TF_VAR_access_key:
         from_secret: aws_access_key_id
@@ -418,7 +419,8 @@ steps:
       - tf plan
     environment:
       TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
-      TF_VAR_secret_key_base: ${DRONE_COMMIT}
+      TF_VAR_secret_key_base:
+        from_secret: fleet_ruby_secret
       TF_VAR_google_analytics_id: UA-144774549-2
       TF_VAR_access_key:
         from_secret: aws_access_key_id
@@ -470,7 +472,8 @@ steps:
       - tf apply -auto-approve
     environment:
       TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
-      TF_VAR_secret_key_base: ${DRONE_COMMIT}
+      TF_VAR_secret_key_base:
+        from_secret: fleet_ruby_secret
       TF_VAR_google_analytics_id: UA-144774549-2
       TF_VAR_access_key:
         from_secret: aws_access_key_id
@@ -663,7 +666,8 @@ steps:
       - tf plan
     environment:
       TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
-      TF_VAR_secret_key_base: ${DRONE_COMMIT}
+      TF_VAR_secret_key_base:
+        from_secret: fleet_ruby_secret
       TF_VAR_google_analytics_id: UA-144774549-2
       TF_VAR_access_key:
         from_secret: aws_access_key_id
@@ -715,7 +719,8 @@ steps:
       - tf apply -auto-approve
     environment:
       TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
-      TF_VAR_secret_key_base: ${DRONE_COMMIT}
+      TF_VAR_secret_key_base:
+        from_secret: fleet_ruby_secret
       TF_VAR_google_analytics_id: UA-144774549-2
       TF_VAR_access_key:
         from_secret: aws_access_key_id
@@ -823,7 +828,8 @@ steps:
       - tf workspace select preprod || tf workspace new preprod
       - tf plan
     environment:
-      TF_VAR_secret_key_base: ${DRONE_COMMIT}
+      TF_VAR_secret_key_base:
+        from_secret: fleet_ruby_secret
       TF_VAR_google_analytics_id: UA-144774549-2
       TF_VAR_access_key:
         from_secret: aws_access_key_id
@@ -1005,7 +1011,8 @@ steps:
       - tf workspace select prod || tf workspace new prod
       - tf plan
     environment:
-      TF_VAR_secret_key_base: ${DRONE_COMMIT}
+      TF_VAR_secret_key_base:
+        from_secret: fleet_ruby_secret
       TF_VAR_google_analytics_id: UA-150934733-8
       TF_VAR_access_key:
         from_secret: aws_access_key_id
@@ -1064,7 +1071,8 @@ steps:
       - tf workspace select preprod || tf workspace new prod
       - tf apply -auto-approve
     environment:
-      TF_VAR_secret_key_base: ${DRONE_COMMIT}
+      TF_VAR_secret_key_base:
+        from_secret: fleet_ruby_secret
       TF_VAR_google_analytics_id: UA-150934733-8
       TF_VAR_access_key:
         from_secret: aws_access_key_id
@@ -1187,5 +1195,13 @@ name: browserstack_username
 get:
   path: /secret/drone.global
   name: browserStackUsername
+
+---
+kind: secret
+name: fleet_ruby_secret
+get:
+  path: /secret/drone.global
+  name: fleetRubySecret
+
 
   ################################################ End Secrets #########################################################
