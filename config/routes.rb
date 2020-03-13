@@ -53,6 +53,9 @@ Rails.application.routes.draw do
       get :review
       get :review_details
       post :initiate_payment
+      get :result
+      get :success
+      get :failure
     end
   end
 
