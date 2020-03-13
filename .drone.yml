@@ -1146,7 +1146,7 @@ steps:
 
   ################################################ Secrets #########################################################
 
-# Note the below values are pulled from AWS SecretswuvmLLj2ChZcTRp4EXHdnJsg7YCDV3zb Manager via the aws-secrets Drone plugin
+# Note the below values are pulled from AWS Secrets Manager via the aws-secrets Drone plugin
 ---
 kind: secret
 name: aws_access_key_id
