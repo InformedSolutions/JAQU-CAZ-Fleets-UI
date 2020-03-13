@@ -13,9 +13,10 @@ class MakePayment < BaseService
   #                    and payments information
   # * +user_id+ - ID of the user who pays.
   #
-  def initialize(payment_data:, user_id:)
+  def initialize(payment_data:, user_id:, return_url:)
     @payment_data = payment_data
     @user_id = user_id
+    @return_url = return_url
   end
 
   ##
@@ -24,34 +25,23 @@ class MakePayment < BaseService
   # request to Payments API.
   #
   def call
-    response = PaymentsApi.create_payment(
+    PaymentsApi.create_payment(
       caz_id: caz_id,
       return_url: return_url,
       user_id: user_id,
       transactions: transformed_transactions
     )
-
-    response['nextUrl']
   end
 
   private
 
-  attr_reader :payment_data, :user_id
+  attr_reader :payment_data, :user_id, :return_url
 
   ##
   # Method fetches +caz_id+ from provided +payment_data+.
   #
   def caz_id
     payment_data[:la_id]
-  end
-
-  ##
-  # Method that returns URL to which user will be redirected
-  # after performing the payment
-  #
-  def return_url
-    # TODO: Update in CAZ-2043
-    'http://example.com'
   end
 
   ##

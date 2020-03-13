@@ -150,8 +150,45 @@ class PaymentsApi < BaseApi
       request(:post, '/payments', body: body.to_json)
     end
 
+    # Calls +/v1/payments/:id+ endpoint with +PUT+ method which returns details of the payment.
+    #
+    # ==== Attributes
+    #
+    # * +payment_id+ - Payment ID returned by backend API during the payment creation
+    # * +caz_name+ - the name of the Clean Air Zone for which the payment is being made
+    #
+    # ==== Example
+    #
+    #    PaymentsApi.payment_status(payment_id: '86b64512-154c-4033-a64d-92e8ed19275f',
+    #                               caz_name: 'Leeds')
+    #
+    # ==== Result
+    #
+    # Returned payment details will have the following fields:
+    # * +referenceNumber+ - integer, central reference number of the payment
+    # * +externalPaymentId+ - string, external identifier for the payment
+    # * +status+ - string, status of the payment eg. "success"
+    # * +userEmail+ - email, email submitted by the user during the payment process
+    #
+    # ==== Serialization
+    #
+    # {PaymentStatus model}[rdoc-ref:PaymentStatus]
+    # can be used to create an instance referring to the returned data
+    #
+    # ==== Exceptions
+    #
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - payment not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def payment_status(payment_id:, caz_name:)
+      log_action "Getting a payment status for id: #{payment_id}, in CAZ: #{caz_name}"
+      request(:put, "/payments/#{payment_id}",
+              body: payment_status_body(caz_name))
+    end
+
     private
 
+    # Returns parsed to JSON hash of the payment creation parameters with proper keys
     def payment_creation_body(caz_id:, return_url:, user_id:, transactions:)
       {
         clean_air_zone_id: caz_id,
@@ -159,6 +196,13 @@ class PaymentsApi < BaseApi
         user_id: user_id,
         transactions: transactions
       }.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
+    end
+
+    # Returns parsed to JSON hash of the payment status reconciliation parameters with proper keys
+    def payment_status_body(caz_name)
+      {
+        cleanAirZoneName: caz_name
+      }.to_json
     end
   end
 end

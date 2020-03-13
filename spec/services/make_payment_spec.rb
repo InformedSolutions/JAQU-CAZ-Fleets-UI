@@ -3,7 +3,13 @@
 require 'rails_helper'
 
 describe MakePayment do
-  subject(:call) { described_class.call(payment_data: payment_data, user_id: user_id) }
+  subject(:call) do
+    described_class.call(
+      payment_data: payment_data,
+      user_id: user_id,
+      return_url: return_url
+    )
+  end
   let(:charge_in_pounds) { 50.0 }
   let(:payment_data) do
     {
@@ -19,13 +25,14 @@ describe MakePayment do
     }
   end
 
+  let(:return_url) { 'http://example.com' }
   let(:caz_id) { '2b01a50b-72c0-48cc-bce2-136baac42581' }
   let(:user_id) { 'cd319616-ae7d-43f8-87c9-e219252b589a' }
 
   let(:transformed_data) do
     {
       caz_id: caz_id,
-      return_url: 'http://example.com', # update in CAZ-2043
+      return_url: return_url,
       user_id: user_id,
       transactions: [
         {
@@ -42,7 +49,7 @@ describe MakePayment do
     before do
       allow(PaymentsApi).to receive(:create_payment)
         .with(transformed_data)
-        .and_return(nextUrl: 'www.wp.pl')
+        .and_return(nextUrl: 'http://example.com')
     end
 
     it 'calls PaymentsApi#create_payment with transformed parameters' do
