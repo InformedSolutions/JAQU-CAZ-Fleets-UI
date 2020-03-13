@@ -36,6 +36,10 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the success payment page
       And I should see success message
+    When I click view details link
+    Then I should be on the Post Payment Details page
+    When I press the Back link
+    Then I should be on the success payment page
 
   Scenario: Visiting the the matrix page when all dates are unpaid
     When I have vehicles in my fleet that are not paid

@@ -19,7 +19,7 @@ import initPrintLink from "../src/printLink/init";
 import cookieControl from "../src/cookieControl";
 
 document.body.classList.add('js-enabled');
-initPrintLink();
 
 initAll();
+initPrintLink();
 cookieControl();

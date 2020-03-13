@@ -40,7 +40,7 @@
           %dd.govuk-summary-list__value
             = parse_charge(@payment_details.total_charge)
           %dd.govuk-summary-list__actions
-            = link_to 'View details', '#'
+            = link_to 'View details', post_payment_details_payments_path
 
       %h2.govuk-heading-m Alternatives to paying the charge
       %ul.govuk-list.govuk-list--bullet

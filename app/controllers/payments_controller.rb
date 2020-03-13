@@ -78,8 +78,8 @@ class PaymentsController < ApplicationController
   #
   def review
     @zone = CleanAirZone.find(@zone_id)
-    @days_to_pay = days_to_pay(helpers.new_payment_data[:details])
-    @total_to_pay = total_to_pay(helpers.new_payment_data[:details])
+    @days_to_pay = helpers.days_to_pay(helpers.new_payment_data[:details])
+    @total_to_pay = helpers.total_to_pay(helpers.new_payment_data[:details])
   end
 
   ##
@@ -91,7 +91,7 @@ class PaymentsController < ApplicationController
   #
   def review_details
     @zone = CleanAirZone.find(@zone_id)
-    @details = vrn_to_pay(helpers.new_payment_data[:details])
+    @details = helpers.vrn_to_pay(helpers.new_payment_data[:details])
   end
 
   ##
@@ -141,10 +141,10 @@ class PaymentsController < ApplicationController
   # * +user_email+ - email of the user which performed the payment, required in the session
   # * +la_id+ - selected local authority ID
   def success
-    payment_data = helpers.initiated_payment_data
-    @payment_details = PaymentDetails.new(session_details: payment_data,
-                                          entries_paid: days_to_pay(payment_data[:details]),
-                                          total_charge: total_to_pay(payment_data[:details]))
+    payments = helpers.initiated_payment_data
+    @payment_details = PaymentDetails.new(session_details: payments,
+                                          entries_paid: helpers.days_to_pay(payments[:details]),
+                                          total_charge: helpers.total_to_pay(payments[:details]))
   end
 
   ##
@@ -159,8 +159,19 @@ class PaymentsController < ApplicationController
   def failure
     data = helpers.initiated_payment_data
     @payment_details = PaymentDetails.new(session_details: data,
-                                          entries_paid: days_to_pay(data[:details]),
-                                          total_charge: total_to_pay(data[:details]))
+                                          entries_paid: helpers.days_to_pay(data[:details]),
+                                          total_charge: helpers.total_to_pay(data[:details]))
+  end
+
+  ##
+  # Render page with payment details.
+  #
+  # ==== Path
+  #   GET /payments/post_payment_details
+  #
+  def post_payment_details
+    @zone = CleanAirZone.find(@zone_id)
+    @details = helpers.vrn_to_pay(helpers.initiated_payment_data[:details])
   end
 
   private
@@ -184,21 +195,6 @@ class PaymentsController < ApplicationController
   def check_la
     @zone_id = helpers.new_payment_data[:la_id]
     redirect_to payments_path unless @zone_id
-  end
-
-  # loads selected vrns to pay
-  def vrn_to_pay(details)
-    @vrn_to_pay ||= details.reject { |_k, vrn| vrn.symbolize_keys![:dates].empty? }
-  end
-
-  # calculate total amount to pay
-  def total_to_pay(details)
-    vrn_to_pay(details).sum { |_k, vrn| vrn[:dates].length * vrn[:charge] }
-  end
-
-  # collects all dates to pay
-  def days_to_pay(details)
-    vrn_to_pay(details).collect { |_k, vrn| vrn[:dates] }.flatten.count
   end
 
   # Fetches charges with params saved in the session
