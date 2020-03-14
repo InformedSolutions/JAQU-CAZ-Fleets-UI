@@ -43,9 +43,22 @@
             = link_to 'View details', post_payment_details_payments_path
 
       %h2.govuk-heading-m Alternatives to paying the charge
+      %p
+        If you own, lease or operate vehicles that do not meet the emissions standards,
+        you may qualify for financial help to modify, retrofit or replace you vehicles.
+
       %ul.govuk-list.govuk-list--bullet
-        %li
-          = link_to "Get support to upgrade or replace your vehicles in #{@payment_details.caz_name}", '#'
+        - if @payment_details.caz_name == 'Leeds'
+          %li
+            Find out about upgrades and retrofits for buses, coaches and HGVs by visiting
+            = charge_alternative_url_for(@payment_details.caz_name, 'fleet')
+          %li
+            Find out about upgrades and retrofits for taxis and Private Hire Vehicles by visiting
+            = charge_alternative_url_for(@payment_details.caz_name, 'non_fleet')
+        - if @payment_details.caz_name == 'Birmingham'
+          %li
+            Find out about upgrades and retrofits for your vehicles by visiting
+            = charge_alternative_url_for(@payment_details.caz_name, 'fleet')
 
       = render 'common/print_link'
 
