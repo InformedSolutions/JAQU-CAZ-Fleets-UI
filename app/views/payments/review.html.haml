@@ -33,7 +33,7 @@
               %dt.govuk-summary-list__key
                 Total charge
               %dd.govuk-summary-list__value
-                = "£#{@total_to_pay.to_i}"
+                = parse_charge(@total_to_pay)
               %dd.govuk-summary-list__actions
                 = link_to('View details', review_details_payments_path)
           = f.submit 'Continue', class: 'govuk-button'
