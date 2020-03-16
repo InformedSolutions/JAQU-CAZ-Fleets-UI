@@ -31,20 +31,21 @@
         %caption.govuk-table__caption
         %thead.govuk-table__head
           %tr.govuk-table__row
-            %th.govuk-table__header{scope: 'col', class: 'vrn-column'} Number plate
-            %th.govuk-table__header{scope: 'col'} Type
+            %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'} Number plate
+            %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'} Type
             - @zones.each_with_index do |zone, index|
-              %th.govuk-table__header{scope: 'col', colspan: zone_colspan(index)}
+              %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'}
                 = zone.name
+            %th.govuk-table__header{scope: 'col', class: 'visually-hidden-text'} Actions
         %tbody.govuk-table__body
           - @pagination.vehicle_list.each do |vehicle|
             %tr.govuk-table__row
-              %td.govuk-table__cell{scope: 'row', class: 'vrn-column'}
+              %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
                 = vehicle.vrn
-              %td.govuk-table__cell{scope: 'row'}
+              %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
                 = vehicle.type
               - @zones.each do |zone|
-                %td.govuk-table__cell{scope: 'row'}
+                %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
                   = vehicle.formatted_charge(zone.id)
               %td.govuk-table__cell{scope: 'row'}
                 = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
