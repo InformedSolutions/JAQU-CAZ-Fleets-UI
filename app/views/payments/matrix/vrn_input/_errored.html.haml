@@ -1,0 +1,11 @@
+%span#vrn-error.govuk-error-message
+  %span.govuk-visually-hidden Error:
+  = message
+%input.govuk-input.transform{'aria-labelledby': 'vrn',
+                             'aria-describedby': 'vrn-error',
+                             name: 'vrn_search',
+                             id: 'vrn-search',
+                             type: 'text',
+                             class: 'govuk-input--error govuk-input--width-10',
+                             maxlength: 15,
+                             value: @search}

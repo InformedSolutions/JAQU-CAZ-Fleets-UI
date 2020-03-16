@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PaymentsApi.charges' do
+describe 'PaymentsApi.chargeable_vehicles' do
   subject(:call) { PaymentsApi.chargeable_vehicles(account_id: id, zone_id: zone_id) }
 
   let(:id) { SecureRandom.uuid }

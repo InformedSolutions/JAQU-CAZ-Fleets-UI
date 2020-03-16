@@ -91,6 +91,37 @@ describe Fleet, type: :model do
     end
   end
 
+  describe '.charges_by_vrn' do
+    subject(:charges_by_vrn) { fleet.charges_by_vrn(zone_id: zone_id, vrn: vrn) }
+
+    let(:zone_id) { SecureRandom.uuid }
+    let(:vrn) { 'PAY001' }
+    let(:data) { read_response('chargeable_vehicle.json') }
+
+    before do
+      allow(PaymentsApi)
+        .to receive(:chargeable_vehicle)
+        .and_return(data)
+    end
+
+    it 'calls FleetsApi.chargeable_vehicles with proper params' do
+      expect(PaymentsApi)
+        .to receive(:chargeable_vehicle)
+        .with(account_id: account_id, zone_id: zone_id, vrn: vrn)
+      charges_by_vrn
+    end
+
+    it 'returns a ChargeableFleet' do
+      expect(charges_by_vrn).to be_a(ChargeableFleet)
+    end
+
+    describe '.vehicle_list' do
+      it 'returns an list of ChargeableVehicle instances' do
+        expect(charges_by_vrn.vehicle_list).to all(be_a(ChargeableVehicle))
+      end
+    end
+  end
+
   describe '.add_vehicle' do
     before do
       allow(FleetsApi)

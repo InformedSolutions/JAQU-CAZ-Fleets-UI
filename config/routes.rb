@@ -50,6 +50,7 @@ Rails.application.routes.draw do
       post :local_authority
       get :matrix
       post :matrix, to: 'payments#submit'
+      get :clear_search
       get :review
       get :review_details
       post :initiate_payment
