@@ -5,6 +5,7 @@
 %main.govuk-main-wrapper.govuk-main-wrapper--auto-spacing#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-full
+      = render 'payments/matrix/errors'
       = render 'payments/matrix/headling'
       = render 'payments/matrix/details'
       .govuk-form-group
@@ -15,9 +16,13 @@
           = form_for('payment', url: matrix_payments_path, method: :post, html: { id: 'payment-form' }) do |f|
             = hidden_field_tag('payment[vrn_list]', @charges.vehicle_list.map(&:vrn).join(','))
             .govuk-tabs{'data-module': 'govuk-tabs'}
-              = render 'payments/matrix/tabs'
-              = render 'payments/matrix/past_week_tab', form: f
-              = render 'payments/matrix/next_week_tab', form: f
-              = render 'payments/matrix/pagination', form: f
+              - if @search && !@charges.any_results?
+                = render 'payments/matrix/no_chnargeable_vehicles'
+              - else
+                = render 'payments/matrix/tabs'
+                = render 'payments/matrix/past_week_tab', form: f
+                = render 'payments/matrix/next_week_tab', form: f
+                = render 'payments/matrix/pagination', form: f
+
             .govuk-form-group
               = f.submit 'Continue', class: 'govuk-button', id: 'continue-matrix-button', 'data-module': 'govuk-button'

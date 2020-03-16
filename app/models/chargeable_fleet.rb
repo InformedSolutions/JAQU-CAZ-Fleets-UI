@@ -42,6 +42,11 @@ class ChargeableFleet
     (results.map { |value| value['paidDates'] }).flatten.empty?
   end
 
+  # Check if any results are present?
+  def any_results?
+    results.present?
+  end
+
   private
 
   attr_reader :data

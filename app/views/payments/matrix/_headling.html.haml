@@ -1,4 +1,7 @@
-- title_and_header = 'Which vehicles and days are you paying for?'
+- if @search.present?
+  - title_and_header = "You searched for #{@search}"
+- else
+  - title_and_header = 'Which vehicles and days are you paying for?'
 - content_for(:title, title_and_header)
 
 %h1.govuk-heading-l

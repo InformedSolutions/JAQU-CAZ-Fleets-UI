@@ -50,6 +50,47 @@ class PaymentsApi < BaseApi
     end
 
     ##
+    # Calls +/v1/accounts/:account_id/chargeable-vehicles/:vrn+ endpoint with +GET+ method
+    # and returns fleet vehicle with compliance result for provided vrn.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - ID of the account associated with the fleet
+    # * +vrn+ - registration number used to mark page start/end
+    #
+    # ==== Example
+    #
+    #    PaymentsApi.chargeable_vehicle(
+    #       account_id: '1f30838f-69ee-4486-95b4-7dfcd5c6c67c',
+    #       vrn: 'PAY001'
+    #    )
+    #
+    # ==== Result
+    #
+    # Returned vehicle details will have the following fields:
+    # * +chargeableAccountVehicles+ - list of the vehicles
+    # * +firstVrn+ - VRN used to fetch the previous page
+    # * +lastVrn+ - VRN used to fetch the next page
+    #
+    # ==== Serialization
+    #
+    # {ChargeableFleet model}[rdoc-ref:ChargeableFleet]
+    # can be used to create an instance referring to the returned data
+    #
+    # ==== Exceptions
+    #
+    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - invalid parameters
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - vehicle not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def chargeable_vehicle(account_id:, zone_id:, vrn:)
+      log_action('Getting chargeable vehicle by vrn')
+      query = { 'cleanAirZoneId' => zone_id }
+      request(:get, "/accounts/#{account_id}/chargeable-vehicles/#{vrn}", query: query)
+    end
+
+    ##
     # Calls +/v1/accounts/:account_id/charges+ endpoint with +GET+ method
     # and returns paginated list of the fleet vehicles with compliance results.
     #

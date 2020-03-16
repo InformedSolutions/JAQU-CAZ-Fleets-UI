@@ -19,7 +19,7 @@ class User
   attr_accessor :email, :admin, :user_id, :account_id, :account_name, :login_ip
 
   # Delegates fleet methods to fleet
-  delegate :vehicles, :add_vehicle, :remove_vehicle, :charges, to: :fleet
+  delegate :vehicles, :add_vehicle, :remove_vehicle, :charges, :charges_by_vrn, to: :fleet
 
   # Delegates debit methods to payment_method
   delegate :mandates, :add_mandate, :zones_without_mandate, to: :direct_debit

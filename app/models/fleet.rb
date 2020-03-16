@@ -35,6 +35,20 @@ class Fleet
                  end
   end
 
+  # Returns a ChargeableFleet with vehicles associated with the account for provided vrn.
+  def charges_by_vrn(zone_id:, vrn:)
+    @charges_by_vrn ||= begin
+                   data = PaymentsApi.chargeable_vehicle(
+                     account_id: account_id,
+                     zone_id: zone_id,
+                     vrn: vrn
+                   )
+                   ChargeableFleet.new(data)
+                 end
+  rescue BaseApi::Error404Exception
+    ChargeableFleet.new({})
+  end
+
   # Adds a new vehicle to the fleet.
   #
   # ==== Params

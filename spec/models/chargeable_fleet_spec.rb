@@ -5,8 +5,8 @@ require 'rails_helper'
 describe ChargeableFleet, type: :model do
   subject(:fleet) { described_class.new(data) }
 
-  let(:first_vrn) { vehicles_data.first['vrn'] }
-  let(:last_vrn) { vehicles_data.last['vrn'] }
+  let(:first_vrn) { vehicles_data.first.try(:[], 'vrn') }
+  let(:last_vrn) { vehicles_data.last.try(:[], 'vrn') }
   let(:vehicles_data) do
     read_response('chargeable_vehicles.json')['chargeableAccountVehicles']['results']
   end
@@ -73,6 +73,16 @@ describe ChargeableFleet, type: :model do
       it 'returns true' do
         expect(fleet.all_days_unpaid?).to be_truthy
       end
+    end
+  end
+
+  describe '.any_results?' do
+    it { expect(fleet.any_results?).to be_truthy }
+
+    context 'without any results' do
+      let(:vehicles_data) { [] }
+
+      it { expect(fleet.any_results?).to be_falsey }
     end
   end
 end

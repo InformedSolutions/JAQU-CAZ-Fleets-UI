@@ -3,7 +3,7 @@
 ##
 # Controller used to pay for fleet
 #
-class PaymentsController < ApplicationController
+class PaymentsController < ApplicationController # rubocop:disable Metrics/ClassLength
   before_action :check_la, only: %i[matrix submit review]
 
   ##
@@ -49,7 +49,8 @@ class PaymentsController < ApplicationController
     @zone = CleanAirZone.find(@zone_id)
     @dates = PaymentDates.call
     @search = helpers.payment_query_data[:search]
-    @charges = charges
+    @errors = validate_search_params if @search.present?
+    @charges = @errors || @search.blank? ? charges : charges_by_vrn
   end
 
   ##
@@ -66,6 +67,19 @@ class PaymentsController < ApplicationController
     return redirect_to review_payments_path if params[:commit] == 'Continue'
 
     SessionManipulation::AddQueryDetails.call(session: session, params: payment_params)
+    redirect_to matrix_payments_path
+  end
+
+  ##
+  # Clears search form on payment matrix.
+  #
+  # ==== Path
+  #
+  #    :GET /payments/clear_serach
+  #
+  def clear_search
+    SessionManipulation::ClearVrnSearch.call(session: session)
+
     redirect_to matrix_payments_path
   end
 
@@ -197,11 +211,30 @@ class PaymentsController < ApplicationController
     redirect_to payments_path unless @zone_id
   end
 
+  # Check if provided VRN in search is valid
+  def validate_search_params
+    form = VrnForm.new(@search)
+    return if form.valid?
+
+    SessionManipulation::ClearVrnSearch.call(session: session)
+    form.errors.messages[:vrn]
+  end
+
   # Fetches charges with params saved in the session
   def charges
     query_data = helpers.payment_query_data
     data = current_user.charges(zone_id: @zone_id, vrn: query_data[:vrn],
                                 direction: query_data[:direction])
+    SessionManipulation::AddVehicleDetails.call(session: session, params: data.vehicle_list)
+    data
+  end
+
+  # Fetches charges with vrn saved in session
+  def charges_by_vrn
+    data = current_user.charges_by_vrn(
+      zone_id: @zone_id,
+      vrn: helpers.payment_query_data[:search]
+    )
     SessionManipulation::AddVehicleDetails.call(session: session, params: data.vehicle_list)
     data
   end
