@@ -48,7 +48,7 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
   def matrix
     @zone = CleanAirZone.find(@zone_id)
     @dates = PaymentDates.call
-    @search = helpers.payment_query_data[:search]
+    @search = helpers.payment_query_data[:search].upcase
     @errors = validate_search_params if @search.present?
     @charges = @errors || @search.blank? ? charges : charges_by_vrn
   end
@@ -233,7 +233,7 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
   def charges_by_vrn
     data = current_user.charges_by_vrn(
       zone_id: @zone_id,
-      vrn: helpers.payment_query_data[:search]
+      vrn: helpers.payment_query_data[:search].upcase
     )
     SessionManipulation::AddVehicleDetails.call(session: session, params: data.vehicle_list)
     data
