@@ -49,7 +49,7 @@ module PaymentsHelper
 
   # Parses charge for single vehicle number
   def single_vrn_parsed_charge(dates, charge)
-    "£#{dates.length * charge}"
+    parse_charge(dates.length * charge)
   end
 
   # Returns proper URL based on provided parameters
