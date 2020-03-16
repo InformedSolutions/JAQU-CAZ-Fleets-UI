@@ -87,7 +87,7 @@ class PaymentsApi < BaseApi
     def chargeable_vehicle(account_id:, zone_id:, vrn:)
       log_action('Getting chargeable vehicle by vrn')
       query = { 'cleanAirZoneId' => zone_id }
-      request(:get, "/accounts/#{account_id}/chargeable-vehicles/#{vrn}", query: query)
+      request(:get, "/accounts/#{account_id}/chargeable-vehicles/#{vrn.upcase}", query: query)
     end
 
     ##
