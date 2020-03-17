@@ -11,6 +11,6 @@
         %fieldset.govuk-fieldset
           %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
             %h1.govuk-fieldset__heading
-              Enter the registration number of the vehicle
+              Enter the number plate of the vehicle
           = render @errors.present? ? 'vehicles/vrn_input/errored' : 'vehicles/vrn_input/normal'
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

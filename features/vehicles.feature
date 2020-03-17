@@ -15,7 +15,7 @@ Feature: Vehicles
   Scenario: Submitting empty vrn
     When I visit the enter details page
       And I press the Continue
-    Then I should see "Enter the registration number of the vehicle" 3 times
+    Then I should see "Enter the number plate of the vehicle" 3 times
 
   Scenario: Adding the exempt vehicle
     When I visit the enter details page
