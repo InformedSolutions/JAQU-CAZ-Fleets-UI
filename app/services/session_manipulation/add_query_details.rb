@@ -11,8 +11,8 @@ module SessionManipulation
     def call
       session[:payment_query] = {}
       session[:payment_query][:search] = search if search
-      save_direction_and_vrn('next') if commit == 'Next'
-      save_direction_and_vrn('previous') if commit == 'Previous'
+      save_direction_and_vrn('next') if commit.upcase == 'NEXT'
+      save_direction_and_vrn('previous') if commit.upcase == 'PREVIOUS'
     end
 
     private
