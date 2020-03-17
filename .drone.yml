@@ -140,7 +140,7 @@ steps:
     commands:
       - bundle audit check --update
       # to exclude id from audit(e.g. 961) just add `--exclude 961`
-      - yarn run improved-yarn-audit --exclude 1488, 1179 
+      - yarn run improved-yarn-audit --exclude 1488 --exclude 1179 
       - brakeman
     volumes:
       - name: docker_sock
@@ -362,7 +362,7 @@ steps:
     commands:
       - bundle audit check --update
       # to exclude id from audit(e.g. 961) just add `--exclude 961`
-      - yarn run improved-yarn-audit --exclude 1488, 1179
+      - yarn run improved-yarn-audit --exclude 1488 --exclude 1179
       - brakeman
     volumes:
       - name: docker_sock
@@ -609,7 +609,7 @@ steps:
     commands:
       - bundle audit check --update
       # to exclude id from audit(e.g. 961) just add `--exclude 961`
-      - yarn run improved-yarn-audit --exclude 1488, 1179
+      - yarn run improved-yarn-audit --exclude 1488 --exclude 1179
       - brakeman
     volumes:
       - name: docker_sock
