@@ -27,10 +27,10 @@ en:
       password: 'Must be at least 8 characters long, include at least 1 upper case letter and a number'
   vrn_form:
     errors:
-      vrn_missing: 'Enter the registration number of the vehicle'
-      vrn_invalid: 'Enter the registration number of the vehicle in a valid format'
-      vrn_too_long: 'The registration number of the vehicle is too long'
-      vrn_too_short: 'The registration number of the vehicle is too short'
+      vrn_missing: 'Enter the number plate of the vehicle'
+      vrn_invalid: 'Enter the number plate of the vehicle in a valid format'
+      vrn_too_long: 'The number plate of the vehicle is too long'
+      vrn_too_short: 'The number plate of the vehicle is too short'
   password:
     errors:
       password_equality: 'Password and password confirmation must be the same'
