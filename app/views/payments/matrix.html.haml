@@ -7,7 +7,8 @@
     .govuk-grid-column-full
       = render 'payments/matrix/errors'
       = render 'payments/matrix/headling'
-      = render 'payments/matrix/details'
+      - if @charges.any_results?
+        = render 'payments/matrix/details'
       .govuk-form-group
         %fieldset.govuk-fieldset
           %legend.govuk-visually-hidden
@@ -23,6 +24,6 @@
                 = render 'payments/matrix/past_week_tab', form: f
                 = render 'payments/matrix/next_week_tab', form: f
                 = render 'payments/matrix/pagination', form: f
-
-            .govuk-form-group
-              = f.submit 'Continue', class: 'govuk-button', id: 'continue-matrix-button', 'data-module': 'govuk-button'
+            - if @charges.any_results?
+              .govuk-form-group
+                = f.submit 'Continue', class: 'govuk-button', id: 'continue-matrix-button', 'data-module': 'govuk-button'
