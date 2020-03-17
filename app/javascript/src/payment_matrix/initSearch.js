@@ -12,10 +12,12 @@ export default function () {
         submitForm(paymentForm);
     });
 
-    initClearButton.addEventListener("click", (event) => {
-      event.preventDefault();
-      paymentForm.appendChild(createHiddenInput("commit", "Clear search"));
-      document.getElementById("vrn-search").value = "";
-      submitForm(paymentForm);
-    });
+    if (initClearButton != null) {
+      initClearButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        paymentForm.appendChild(createHiddenInput("commit", "Clear search"));
+        document.getElementById("vrn-search").value = "";
+        submitForm(paymentForm);
+      });
+    }
 }
