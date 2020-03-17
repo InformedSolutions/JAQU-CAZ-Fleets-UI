@@ -10,6 +10,6 @@
                   id: 'search-form-submit',
                   class: 'govuk-button govuk-button--secondary',
                   'data-module': 'govuk-button'
-  - if @search
+  - if @search.present?
     %p
       = link_to "Reset search", clear_search_payments_path, id: 'clear-search-link', class: 'govuk-link'

@@ -16,7 +16,9 @@ function recalculateContinueButtonDisability() {
   var selectedCheckboxesCount = countCheckedCheckboxes(allCheckboxes);
   var continueButton = document.getElementById('continue-matrix-button');
 
-  continueButton.disabled = selectedCheckboxesCount === 0;
+  if (continueButton != null) {
+    continueButton.disabled = selectedCheckboxesCount === 0;
+  }
 }
 
 function countCheckedCheckboxes(checkboxes) {
