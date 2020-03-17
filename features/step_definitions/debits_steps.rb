@@ -34,7 +34,7 @@ When('I visit the add new mandate page') do
 end
 
 When('I select Birmingham') do
-  choose('Birmingham')
+  choose('Birmingham', visible: false)
 end
 
 Then('I should have a new mandate added') do

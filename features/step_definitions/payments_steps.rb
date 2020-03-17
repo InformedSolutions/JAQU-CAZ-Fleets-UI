@@ -56,3 +56,12 @@ end
 Then('I should be on the Post Payment Details page') do
   expect_path(post_payment_details_payments_path)
 end
+
+When('I enter invalid vrn to search') do
+  fill_in('vrn_search', with: 'NO')
+  click_button 'Search'
+end
+
+Then('I see invalid vrn error message') do
+  expect(page).to have_content('There is a problem')
+end

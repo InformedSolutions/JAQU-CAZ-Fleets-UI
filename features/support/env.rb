@@ -5,7 +5,7 @@
 # newer version of cucumber-rails. Consider adding your own code to a new file
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
-
+require 'selenium/webdriver'
 require 'cucumber/rails'
 # Allows mocking like in RSpec
 require 'cucumber/rspec/doubles'
@@ -64,4 +64,17 @@ World(ShowMeTheCookies)
 # Possible values are :truncation and :transaction
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
-# Cucumber::Rails::Database.javascript_strategy = :truncation
+Cucumber::Rails::Database.javascript_strategy = :truncation
+
+WebMock.disable_net_connect!(allow_localhost: true)
+
+chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+chrome_opts = chrome_bin ? { "chromeOptions" => { "binary" => chrome_bin } } : { chromeOptions: { args: ['headless', 'disable-gpu', '--enable-features=NetworkService,NetworkServiceInProcess'] } }
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(
+     app,
+     browser: :chrome,
+     desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(chrome_opts)
+  )
+end
+Capybara.javascript_driver = :chrome

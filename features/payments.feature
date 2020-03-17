@@ -53,3 +53,15 @@ Feature: Fleets
     Then I click Next 7 days tab
       And I should see "Check a box for each vehicle and date it will drive in a Clean Air Zone."
       And I should not see "If you have already paid for a date, it will show as Paid."
+
+  @javascript
+  Scenario: Visiting the the matrix page to serach by vrn
+    When I have vehicles in my fleet
+      And I visit the make payment page
+    Then I should be on the make a payment page
+      And I should see "Which Clean Air Zone do you need to pay for?"
+    When I select Birmingham
+      And I press the Continue
+    Then I should be on the payment matrix page
+    When I enter invalid vrn to search
+    Then I see invalid vrn error message

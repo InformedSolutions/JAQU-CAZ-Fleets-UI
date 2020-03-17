@@ -131,6 +131,7 @@ GEM
       railties (>= 4.2, < 7)
     cucumber-tag_expressions (1.1.1)
     cucumber-wire (0.0.1)
+    database_cleaner (1.8.3)
     debug_inspector (0.0.3)
     devise (4.7.1)
       bcrypt (~> 3.0)
@@ -374,6 +375,7 @@ DEPENDENCIES
   byebug
   capybara
   cucumber-rails
+  database_cleaner
   devise
   dotenv-rails
   haml
@@ -407,4 +409,4 @@ RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   2.0.2
+   2.1.4
