@@ -21,6 +21,11 @@ module PaymentsHelper
     date.in?(new_payment_data.dig(:details, vrn, :dates) || [])
   end
 
+  # Number of selected dates
+  def naw_payment_selected_dates_count
+    new_payment_data[:details].sum { |_k, vrn| vrn[:dates].length }
+  end
+
   # Checks if given date is already paid
   def paid?(vehicle, date)
     vehicle.paid_dates.include?(date)
