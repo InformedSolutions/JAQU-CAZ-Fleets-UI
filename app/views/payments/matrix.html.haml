@@ -16,6 +16,7 @@
           = render 'payments/matrix/search'
           = form_for('payment', url: matrix_payments_path, method: :post, html: { id: 'payment-form' }) do |f|
             = hidden_field_tag('payment[vrn_list]', @charges.vehicle_list.map(&:vrn).join(','))
+            = hidden_field_tag('allSelectedCheckboxesCount', naw_payment_selected_dates_count)
             .govuk-tabs{'data-module': 'govuk-tabs'}
               - if @search && !@charges.any_results?
                 = render 'payments/matrix/no_chnargeable_vehicles'
