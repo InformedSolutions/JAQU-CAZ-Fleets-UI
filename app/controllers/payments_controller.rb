@@ -4,7 +4,9 @@
 # Controller used to pay for fleet
 #
 class PaymentsController < ApplicationController # rubocop:disable Metrics/ClassLength
-  before_action :check_la, only: %i[matrix submit review]
+  before_action :check_la, only: %i[matrix submit review select_payment_method
+                                    submit_payment_method]
+  before_action :assign_back_button_url, only: %i[index select_payment_method]
 
   ##
   # Renders payment page.
@@ -75,7 +77,7 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
   #
   # ==== Path
   #
-  #    :GET /payments/clear_serach
+  #    :GET /payments/clear_search
   #
   def clear_search
     SessionManipulation::ClearVrnSearch.call(session: session)
@@ -93,7 +95,7 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
   def review
     @zone = CleanAirZone.find(@zone_id)
     @days_to_pay = helpers.days_to_pay(helpers.new_payment_data[:details])
-    @total_to_pay = helpers.total_to_pay(helpers.new_payment_data[:details])
+    @total_to_pay = total_to_pay_from_session
   end
 
   ##
@@ -109,18 +111,50 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
   end
 
   ##
+  # Renders the select payment method page
+  #
+  # ==== Path
+  #
+  #    :GET /payments/select_payment_method
+  #
+  def select_payment_method; end
+
+  ##
+  # Validate submit payment method and depending on the type, redirects to:
+  #  {rdoc-ref:DirectDebitsController.confirm_direct_debit} if +direct_debit_method+ value is true
+  #  or call {rdoc-ref:PaymentsController.initiate_card_payment} method if +direct_debit_method+ value is false
+  #  or render errors if +direct_debit_method+ value is null
+  #
+  # ==== Path
+  #
+  #    :POST /payments/confirm_payment_method
+  #
+  # ==== Params
+  # * +la_id+ - id of the selected CAZ, required in the session
+  def confirm_payment_method
+    if params['payment_method'] == 'true'
+      redirect_to confirm_direct_debit_payments_path
+    elsif params['payment_method'] == 'false'
+      initiate_card_payment
+    else
+      @errors = 'Choose Direct Debit or Card payment'
+      render :select_payment_method
+    end
+  end
+
+  ##
   # Makes a request to initiate payment on backend Payment-API.
   #
   # ==== Path
   #
-  #    :POST /payments/initiate_payment
+  #    :POST /payments/initiate_card_payment
   #
-  def initiate_payment
-    response = MakePayment.call(payment_data: helpers.new_payment_data,
-                                user_id: current_user.user_id,
-                                return_url: result_payments_url)
-    store_payment_data_in_session(response)
-    redirect_to response['nextUrl']
+  def initiate_card_payment
+    service_response = MakePayment.call(payment_data: helpers.new_payment_data,
+                                        user_id: current_user.user_id,
+                                        return_url: result_payments_url)
+    store_payment_data_in_session(service_response)
+    redirect_to service_response['nextUrl']
   end
 
   ##
@@ -203,12 +237,6 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
                                                 email: payment.user_email,
                                                 payment_reference: payment.payment_reference,
                                                 external_id: payment.external_id)
-  end
-
-  # Checks if the user selected LA
-  def check_la
-    @zone_id = helpers.new_payment_data[:la_id]
-    redirect_to payments_path unless @zone_id
   end
 
   # Check if provided VRN in search is valid

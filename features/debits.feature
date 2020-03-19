@@ -34,4 +34,3 @@ Feature: Debits
       And I select Birmingham
       And I press the Continue
     Then I should have a new mandate added
-

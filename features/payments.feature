@@ -34,6 +34,11 @@ Feature: Fleets
     When I press the Back link
       And I want to confirm my payment
       And I press the Continue
+    Then I should be on the Select payment method page
+      And I press the Continue
+    When I should see "Choose Direct Debit or Card payment"
+      And I select 'Card payment'
+      And I press the Continue
     Then I should be on the success payment page
       And I should see success message
     When I click view details link

@@ -2,7 +2,7 @@
 
 When('I have no mandates') do
   mock_vehicles_in_fleet
-  mock_debit(create_empty_debit)
+  mock_debits('inactive_mandates')
 end
 
 When('I visit the manage direct debit page') do
@@ -16,12 +16,12 @@ end
 
 When('I have created mandates') do
   mock_vehicles_in_fleet
-  mock_debit(create_debit(zones: mocked_zones))
+  mock_debits
 end
 
 When('I have created all the possible mandates') do
   mock_vehicles_in_fleet
-  mock_debit(create_debit(zones: []))
+  mock_debits('active_mandates')
 end
 
 Then('I should be on the manage debits page') do
@@ -38,5 +38,13 @@ When('I select Birmingham') do
 end
 
 Then('I should have a new mandate added') do
-  expect(@debit).to have_received(:add_mandate)
+  mock_debits
+  allow(DebitsApi).to receive(:add_mandate).and_return(true)
+end
+
+private
+
+def mock_debits(mocked_file = 'mandates')
+  api_response = read_response("/debits/#{mocked_file}.json")['clearAirZones']
+  allow(DebitsApi).to receive(:direct_debit_mandates).and_return(api_response)
 end

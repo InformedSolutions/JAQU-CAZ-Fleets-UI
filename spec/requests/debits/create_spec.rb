@@ -4,45 +4,46 @@ require 'rails_helper'
 
 describe 'DebitsController - POST #create' do
   subject(:http_request) do
-    post debits_path, params: { 'local-authority' => la }
+    post debits_path, params: { 'local-authority' => zone_id }
   end
 
-  let(:la) { SecureRandom.uuid }
-  let(:debit) { create_empty_debit }
+  let(:zone_id) { SecureRandom.uuid }
+  let(:user) { create_user }
 
-  before do
-    sign_in create_user
-    mock_debit(debit)
-  end
+  before { sign_in user }
 
   context 'when user selects the LA' do
+    before { mock_debits }
+
     it 'redirects to index' do
       http_request
       expect(response).to redirect_to(debits_path)
     end
 
     it 'adds a new mandate' do
-      expect(debit).to receive(:add_mandate).with(la)
+      expect(DebitsApi).to receive(:add_mandate).with(
+        account_id: user.account_id,
+        zone_id: zone_id
+      )
       http_request
     end
   end
 
   context 'when the user does not select option' do
-    let(:la) { nil }
+    let(:zone_id) { nil }
+
+    before { http_request }
 
     it 'redirects to new' do
-      http_request
       expect(response).to redirect_to(new_debit_path)
     end
 
     it 'sets alert message' do
-      http_request
       expect(flash[:alert]).to eq(I18n.t('la_form.la_missing'))
     end
 
     it 'does not add a new mandate' do
-      expect(debit).not_to receive(:add_mandate)
-      http_request
+      expect(DebitsApi).not_to receive(:add_mandate)
     end
   end
 end
