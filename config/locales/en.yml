@@ -31,6 +31,12 @@ en:
       vrn_invalid: 'Enter the number plate of the vehicle in a valid format'
       vrn_too_long: 'The number plate of the vehicle is too long'
       vrn_too_short: 'The number plate of the vehicle is too short'
+  search_vrn_form:
+    errors:
+      vrn_missing: 'Enter a number plate'
+      vrn_invalid: 'Enter the number plate in a valid format'
+      vrn_too_long: 'The number plate is too long'
+      vrn_too_short: 'The number plate is too short'
   password:
     errors:
       password_equality: 'Password and password confirmation must be the same'
