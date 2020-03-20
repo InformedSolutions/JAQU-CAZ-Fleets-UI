@@ -49,8 +49,8 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
     @zone = CleanAirZone.find(@zone_id)
     @dates = PaymentDates.call
     @search = helpers.payment_query_data[:search]
-    @errors = validate_search_params if @search.present?
-    @charges = @errors || @search.blank? ? charges : charges_by_vrn
+    @errors = validate_search_params unless @search.nil?
+    @charges = @errors || @search.nil? ? charges : charges_by_vrn
   end
 
   ##
@@ -213,7 +213,7 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
 
   # Check if provided VRN in search is valid
   def validate_search_params
-    form = VrnForm.new(@search)
+    form = SearchVrnForm.new(@search)
     return if form.valid?
 
     SessionManipulation::ClearVrnSearch.call(session: session)
@@ -241,7 +241,7 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
 
   # Permits all the form params
   def payment_params
-    params.permit(:authenticity_token, :commit,
+    params.permit(:authenticity_token, :commit, :allSelectedCheckboxesCount,
                   payment: [:vrn_search, :next_vrn, :previous_vrn, :vrn_list, vehicles: {}])
   end
 

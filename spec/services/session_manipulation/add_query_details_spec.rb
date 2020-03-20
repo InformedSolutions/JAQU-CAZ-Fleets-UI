@@ -26,20 +26,22 @@ describe SessionManipulation::AddQueryDetails do
     expect(session[:payment_query]).to eq({ search: search })
   end
 
-  context 'with empty search value' do
-    let(:search) { nil }
+  context 'when commit is Search' do
+    let(:commit) { 'Search' }
 
-    it 'creates an empty hash' do
-      expect(session[:payment_query]).to eq({})
+    it 'saves the search value' do
+      expect(session[:payment_query]).to eq(
+        { search: search }
+      )
     end
   end
 
   context 'when commit is Next' do
     let(:commit) { 'Next' }
 
-    it 'saves the search, next VRN and direction value' do
+    it 'saves next VRN and direction value' do
       expect(session[:payment_query]).to eq(
-        { search: search, vrn: vrn1, direction: 'next' }
+        { vrn: vrn1, direction: 'next' }
       )
     end
   end
@@ -47,9 +49,9 @@ describe SessionManipulation::AddQueryDetails do
   context 'when commit is Previous' do
     let(:commit) { 'Previous' }
 
-    it 'saves the search, next VRN and direction value' do
+    it 'saves next VRN and direction value' do
       expect(session[:payment_query]).to eq(
-        { search: search, vrn: vrn2, direction: 'previous' }
+        { vrn: vrn2, direction: 'previous' }
       )
     end
   end
