@@ -42,9 +42,20 @@ Then('I should have a new mandate added') do
   allow(DebitsApi).to receive(:add_mandate).and_return(true)
 end
 
+When('I have vehicles and want to pay via direct debit') do
+  mock_clean_air_zones
+  mock_vehicles_in_fleet
+  mock_debits('inactive_mandates')
+end
+
 private
+
+def add_mandate(mocked_file)
+  api_response = read_response("/debits/#{mocked_file}.json")['clearAirZones']
+  allow(DebitsApi).to receive(:mandates).and_return(api_response)
+end
 
 def mock_debits(mocked_file = 'mandates')
   api_response = read_response("/debits/#{mocked_file}.json")['clearAirZones']
-  allow(DebitsApi).to receive(:direct_debit_mandates).and_return(api_response)
+  allow(DebitsApi).to receive(:mandates).and_return(api_response)
 end

@@ -15,7 +15,7 @@ describe DirectDebit, type: :model do
     subject { debit.mandates }
 
     it 'calls DebitsApi.account_mandates with proper params' do
-      expect(DebitsApi).to receive(:direct_debit_mandates).with(account_id: account_id)
+      expect(DebitsApi).to receive(:mandates).with(account_id: account_id)
       subject
     end
 
@@ -57,19 +57,6 @@ describe DirectDebit, type: :model do
 
     it 'returns only inactive mandate' do
       expect(subject.size).to eq(1)
-    end
-  end
-
-  describe '.add_mandate' do
-    before do
-      allow(DebitsApi).to receive(:add_mandate).and_return(true)
-    end
-
-    let(:zone_id) { SecureRandom.uuid }
-
-    it 'calls DebitsApi.add_mandate with proper params' do
-      expect(DebitsApi).to receive(:add_mandate).with(zone_id: zone_id, account_id: account_id)
-      debit.add_mandate(zone_id)
     end
   end
 end

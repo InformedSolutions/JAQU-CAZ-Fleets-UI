@@ -133,48 +133,13 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
   # * +la_id+ - id of the selected CAZ, required in the session
   def confirm_payment_method
     if params['payment_method'] == 'true'
-      redirect_to confirm_direct_debit_payments_path
+      redirect_to confirm_debits_path
     elsif params['payment_method'] == 'false'
       initiate_card_payment
     else
       @errors = 'Choose Direct Debit or Card payment'
       render :select_payment_method
     end
-  end
-
-  ##
-  # Makes a request to initiate payment on backend Payment-API.
-  #
-  # ==== Path
-  #
-  #    :POST /payments/initiate_card_payment
-  #
-  def initiate_card_payment
-    service_response = MakePayment.call(payment_data: helpers.new_payment_data,
-                                        user_id: current_user.user_id,
-                                        return_url: result_payments_url)
-    store_payment_data_in_session(service_response)
-    redirect_to service_response['nextUrl']
-  end
-
-  ##
-  # The page used as a landing point after the GOV.UK payment process.
-  #
-  # Calls +/payments/:id+ backed endpoint to get payment status
-  #
-  # Redirects to either success or failure payments path
-  #
-  # ==== Path
-  #     GET /payments/result
-  #
-  # ==== Params
-  # * +payment_id+ - id of the created payment, required in the session
-  # * +la_id+ - id of the selected CAZ, required in the session
-  def result
-    payment_data = helpers.initiated_payment_data
-    payment = PaymentStatus.new(payment_data[:payment_id], payment_data[:la_id])
-    save_payment_details(payment)
-    payment.success? ? redirect_to(success_payments_path) : redirect_to(failure_payments_path)
   end
 
   ##
@@ -231,14 +196,6 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
     SessionManipulation::AddCurrentPayment.call(session: session)
   end
 
-  # Saves payment details using SessionManipulation::SetPaymentDetails
-  def save_payment_details(payment)
-    SessionManipulation::SetPaymentDetails.call(session: session,
-                                                email: payment.user_email,
-                                                payment_reference: payment.payment_reference,
-                                                external_id: payment.external_id)
-  end
-
   # Check if provided VRN in search is valid
   def validate_search_params
     form = SearchVrnForm.new(@search)
@@ -276,5 +233,15 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
   # Permits local-authority
   def la_params
     params.permit('local-authority', :authenticity_token, :commit)
+  end
+
+  # Makes a request to initiate card payment
+  # Redirects to response url
+  def initiate_card_payment
+    service_response = MakeCardPayment.call(payment_data: helpers.new_payment_data,
+                                            user_id: current_user.user_id,
+                                            return_url: result_payments_url)
+    store_payment_data_in_session(service_response)
+    redirect_to service_response['nextUrl']
   end
 end

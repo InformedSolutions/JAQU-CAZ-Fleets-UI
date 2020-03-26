@@ -13,11 +13,11 @@ class DirectDebit
     @account_id = account_id
   end
 
-  # It calls {rdoc-ref:DebitsApi.direct_debit_mandates} to fetch data.
+  # It calls {rdoc-ref:DebitsApi.mandates} to fetch data.
   # Modify `api_response` hash to keep a mandate only in `active` or `pending` status
   def mandates
     @mandates ||= begin
-                api_response = DebitsApi.direct_debit_mandates(account_id: account_id)
+                api_response = DebitsApi.mandates(account_id: account_id)
                 result = api_response.each do |obj|
                   active = obj['mandates'].find do |mandate|
                     select_active_statuses(mandate['status'])
@@ -50,17 +50,8 @@ class DirectDebit
   # * +account_id+ - ID of the account associated with the fleet
   # * +zone_id+ - uuid, ID of the CAZ
   #
-  def caz_mandates
+  def caz_mandates(zone_id)
     @caz_mandates ||= DebitsApi.caz_mandates(account_id: account_id, zone_id: zone_id)
-  end
-
-  # Adds a new mandate to the account.
-  #
-  # ==== Params
-  # * +zone_id+ - uuid, ID of the CAZ
-  #
-  def add_mandate(zone_id)
-    DebitsApi.add_mandate(account_id: account_id, zone_id: zone_id)
   end
 
   private

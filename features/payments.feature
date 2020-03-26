@@ -11,7 +11,7 @@ Feature: Fleets
     When I press the Continue
       And I should see "Choose how to add vehicles to your account"
 
-  Scenario: Visiting the make a payment page with vehicles in fleet
+  Scenario: Making a card payment with vehicles in fleet
     When I have vehicles in my fleet
       And I visit the make payment page
     Then I should be on the make a payment page

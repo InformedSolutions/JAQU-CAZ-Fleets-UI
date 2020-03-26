@@ -8,6 +8,6 @@ module MockedResponses
 
   def mock_debits(mocked_file = 'mandates')
     api_response = read_response("/debits/#{mocked_file}.json")['clearAirZones']
-    allow(DebitsApi).to receive(:direct_debit_mandates).and_return(api_response)
+    allow(DebitsApi).to receive(:mandates).and_return(api_response)
   end
 end

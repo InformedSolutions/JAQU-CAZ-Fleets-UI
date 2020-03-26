@@ -8,7 +8,7 @@
     .govuk-grid-column-two-thirds
       %h1.govuk-heading-l Confirm your payment
 
-      = form_tag initiate_direct_debit_payments_path, method: :post do
+      = form_tag initiate_debits_path, method: :post do
         %table.govuk-table
           %tbody.govuk-table__body
             %tr.govuk-table__row
@@ -23,7 +23,7 @@
         = submit_tag 'Confirm payment', class: 'govuk-button', 'data-module': 'govuk-button'
 
       %p
-        = link_to 'Cancel payment', cancel_payment_payments_path, id: 'cancel_payment'
+        = link_to 'Cancel payment', cancel_payments_path, id: 'cancel_payment'
 
     .govuk-grid-column-one-third.payment-summary
       %h2.govuk-heading-m

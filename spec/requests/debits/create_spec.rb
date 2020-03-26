@@ -9,11 +9,16 @@ describe 'DebitsController - POST #create' do
 
   let(:zone_id) { SecureRandom.uuid }
   let(:user) { create_user }
+  let(:return_url) { debits_path }
 
   before { sign_in user }
 
   context 'when user selects the LA' do
-    before { mock_debits }
+    before do
+      api_response = read_response('/debits/add_mandate.json')
+      allow(DebitsApi).to receive(:add_mandate).and_return(api_response)
+      mock_debits
+    end
 
     it 'redirects to index' do
       http_request
@@ -23,7 +28,8 @@ describe 'DebitsController - POST #create' do
     it 'adds a new mandate' do
       expect(DebitsApi).to receive(:add_mandate).with(
         account_id: user.account_id,
-        zone_id: zone_id
+        zone_id: zone_id,
+        return_url: return_url
       )
       http_request
     end
