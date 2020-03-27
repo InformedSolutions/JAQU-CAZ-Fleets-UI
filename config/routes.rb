@@ -53,11 +53,22 @@ Rails.application.routes.draw do
       get :clear_search
       get :review
       get :review_details
-      post :initiate_payment
-      get :result
+      get :select_payment_method
+      post :select_payment_method, to: 'payments#confirm_payment_method'
+      get :initiate, to: 'credit_cards#initiate'
+      get :result, to: 'credit_cards#result'
       get :success
       get :failure
       get :post_payment_details
+      get :cancel
+
+      resources :debits, only: %i[index new create] do
+        collection do
+          get :first_mandate
+          get :confirm
+          post :initiate
+        end
+      end
     end
   end
 
@@ -72,8 +83,6 @@ Rails.application.routes.draw do
       get :not_found
     end
   end
-
-  resources :debits, only: %i[index new create]
 
   resources :uploads, only: %i[index create] do
     collection do

@@ -11,7 +11,7 @@ Feature: Fleets
     When I press the Continue
       And I should see "Choose how to add vehicles to your account"
 
-  Scenario: Visiting the make a payment page with vehicles in fleet
+  Scenario: Making a card payment with vehicles in fleet
     When I have vehicles in my fleet
       And I visit the make payment page
     Then I should be on the make a payment page
@@ -33,6 +33,11 @@ Feature: Fleets
     Then I should be on the Charge details page
     When I press the Back link
       And I want to confirm my payment
+      And I press the Continue
+    Then I should be on the Select payment method page
+      And I press the Continue
+    When I should see "Choose Direct Debit or Card payment"
+      And I select 'Card payment'
       And I press the Continue
     Then I should be on the success payment page
       And I should see success message

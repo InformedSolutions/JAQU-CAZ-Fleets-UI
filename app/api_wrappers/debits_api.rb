@@ -8,27 +8,54 @@
 class DebitsApi < AccountsApi
   class << self
     #:nocov:
-    def account_mandates(account_id:)
+    # rubocop:disable Lint/UnusedMethodArgument
+    def caz_mandates(account_id:, zone_id:)
+      log_action("Getting CAZ mandates for account_id #{account_id} and zone_id: #{zone_id}")
+      return [] unless $request.session[session_key]
+
+      mocked_response('caz_mandates.json')['mandates']
+
+      # query = { 'cleanAirZoneId' => zone_id }
+      # request(:get, "/accounts/#{account_id}/caz_mandates", query: query)['mandates']
+    end
+
+    def create_payment(caz_id:, user_id:, transactions:)
+      log_action("Creating direct debit payment for user with id: #{user_id}")
+
+      mocked_response('create_payment.json')
+
+      # body = payment_creation_body(
+      #   caz_id: caz_id,
+      #   return_url: return_url,
+      #   user_id: user_id,
+      #   transactions: transactions
+      # )
+      # request(:post, '/direct-debit_payments', body: body.to_json)
+    end
+
+    def mandates(account_id:)
       log_action("Getting mandates for account with id: #{account_id}")
-      return [] unless $request
 
-      mandates = $request.session[session_key] || []
-      log_action("Current mandates: #{mandates}")
-      mandates
-    end
-
-    def add_mandate(zone_id:, account_id:)
-      log_action("Adding a mandate for account with id: #{account_id} and zone id: #{zone_id}")
-      return false unless $request
-
-      mandates = $request.session[session_key] || []
-      unless mandates.any? { |mandate| mandate['zoneId'] == zone_id }
-        mandates.push(mocked_new_mandate(zone_id))
+      if $request.session[session_key]
+        mocked_response('active_mandates.json')['clearAirZones']
+      else
+        mocked_response('mandates.json')['clearAirZones']
       end
-      $request.session[session_key] = mandates
-      log_action("Current mandates: #{mandates}")
-      true
+
+      # query = { 'cleanAirZoneId' => zone_id }
+      # request(:get, "/accounts/#{account_id}/direct-debit-mandates", query: query)['clearAirZones']
     end
+
+    def add_mandate(account_id:, zone_id:, return_url:)
+      log_action("Adding a mandate for account with id: #{account_id} and zone id: #{zone_id}")
+
+      $request.session[session_key] = true
+      {
+        'directDebitMandateId' => '5cd7441d-766f-48ff-b8ad-1809586fea37',
+        'nextUrl' => return_url
+      }
+    end
+    # rubocop:enable Lint/UnusedMethodArgument
 
     private
 
@@ -36,15 +63,8 @@ class DebitsApi < AccountsApi
       'mocked_mandates'
     end
 
-    def mocked_new_mandate(zone_id)
-      {
-        'zoneId' => zone_id,
-        'zoneName' => ComplianceCheckerApi.clean_air_zones.find do |zone|
-          zone['cleanAirZoneId'] == zone_id
-        end['name'] || 'no name',
-        'mandateId' => SecureRandom.uuid,
-        'status' => 'pending'
-      }
+    def mocked_response(filename)
+      JSON.parse(File.read("spec/fixtures/responses/debits/#{filename}"))
     end
   end
 end

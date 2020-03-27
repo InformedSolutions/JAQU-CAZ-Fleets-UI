@@ -56,3 +56,11 @@ end
 Then('I should be on the Post Payment Details page') do
   expect_path(post_payment_details_payments_path)
 end
+
+Then('I should be on the Select payment method page') do
+  expect_path(select_payment_method_payments_path)
+end
+
+Then('I select {string}') do |string|
+  choose(string)
+end

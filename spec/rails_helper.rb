@@ -18,7 +18,6 @@ RSpec.configure do |config|
    StringCountHelper,
    AddToSession,
    FleetFactory,
-   DebitFactory,
    ChargeableVehiclesFactory].each do |h|
     config.include h, type: :request
   end
@@ -26,7 +25,7 @@ RSpec.configure do |config|
    UserFactory,
    ActiveSupport::Testing::TimeHelpers,
    FixturesHelpers,
-   MockCazList].each do |h|
+   MockedResponses].each do |h|
     config.include h
   end
 

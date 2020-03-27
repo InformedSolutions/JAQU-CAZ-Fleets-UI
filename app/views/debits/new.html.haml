@@ -1,4 +1,4 @@
-= link_to 'Back', @mandates.size.zero? ? dashboard_path : debits_path, class: 'govuk-back-link'
+= link_to 'Back', @back_button_url, class: 'govuk-back-link'
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
@@ -30,13 +30,13 @@
                   If you can only see one option then you have already created mandates for the other Clean Air Zones.
             .govuk-form-group
               .govuk-radios
-                - @zones.each do |zone|
+                - @zones.each do |mandate|
                   .govuk-radios__item
                     %input.govuk-radios__input{name: 'local-authority',
                                                type: 'radio',
-                                               value: zone.id,
-                                               id: zone.name.downcase}
-                    %label.govuk-label.govuk-radios__label{for: zone.name.downcase}
-                      = zone.name
+                                               value: mandate.zone_id,
+                                               id: mandate.zone_name.downcase}
+                    %label.govuk-label.govuk-radios__label{for: mandate.zone_name.downcase}
+                      = mandate.zone_name
 
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

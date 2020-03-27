@@ -61,11 +61,6 @@ class User
     @fleet ||= Fleet.new(account_id)
   end
 
-  # Returns associated payment method object
-  def direct_debit
-    @direct_debit = DirectDebit.new(account_id)
-  end
-
   # Serializes User based on data from API
   def self.serialize_from_api(user_attributes)
     User.new(

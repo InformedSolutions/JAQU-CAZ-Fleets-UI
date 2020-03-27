@@ -3,8 +3,10 @@
 ##
 # Controller used to pay for fleet
 #
-class PaymentsController < ApplicationController # rubocop:disable Metrics/ClassLength
-  before_action :check_la, only: %i[matrix submit review]
+class PaymentsController < ApplicationController
+  before_action :check_la, only: %i[matrix submit review select_payment_method
+                                    submit_payment_method]
+  before_action :assign_back_button_url, only: %i[index select_payment_method]
 
   ##
   # Renders payment page.
@@ -75,7 +77,7 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
   #
   # ==== Path
   #
-  #    :GET /payments/clear_serach
+  #    :GET /payments/clear_search
   #
   def clear_search
     SessionManipulation::ClearVrnSearch.call(session: session)
@@ -93,7 +95,7 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
   def review
     @zone = CleanAirZone.find(@zone_id)
     @days_to_pay = helpers.days_to_pay(helpers.new_payment_data[:details])
-    @total_to_pay = helpers.total_to_pay(helpers.new_payment_data[:details])
+    @total_to_pay = total_to_pay_from_session
   end
 
   ##
@@ -109,38 +111,35 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
   end
 
   ##
-  # Makes a request to initiate payment on backend Payment-API.
+  # Renders the select payment method page
   #
   # ==== Path
   #
-  #    :POST /payments/initiate_payment
+  #    :GET /payments/select_payment_method
   #
-  def initiate_payment
-    response = MakePayment.call(payment_data: helpers.new_payment_data,
-                                user_id: current_user.user_id,
-                                return_url: result_payments_url)
-    store_payment_data_in_session(response)
-    redirect_to response['nextUrl']
-  end
+  def select_payment_method; end
 
   ##
-  # The page used as a landing point after the GOV.UK payment process.
-  #
-  # Calls +/payments/:id+ backed endpoint to get payment status
-  #
-  # Redirects to either success or failure payments path
+  # Validate submit payment method and depending on the type, redirects to:
+  #  {rdoc-ref:DirectDebitsController.confirm_direct_debit} if +direct_debit_method+ value is true
+  #  or call {rdoc-ref:PaymentsController.initiate_card_payment} method if +direct_debit_method+ value is false
+  #  or render errors if +direct_debit_method+ value is null
   #
   # ==== Path
-  #     GET /payments/result
+  #
+  #    :POST /payments/confirm_payment_method
   #
   # ==== Params
-  # * +payment_id+ - id of the created payment, required in the session
   # * +la_id+ - id of the selected CAZ, required in the session
-  def result
-    payment_data = helpers.initiated_payment_data
-    payment = PaymentStatus.new(payment_data[:payment_id], payment_data[:la_id])
-    save_payment_details(payment)
-    payment.success? ? redirect_to(success_payments_path) : redirect_to(failure_payments_path)
+  def confirm_payment_method
+    if params['payment_method'] == 'true'
+      redirect_to confirm_debits_path
+    elsif params['payment_method'] == 'false'
+      redirect_to initiate_payments_path
+    else
+      @errors = 'Choose Direct Debit or Card payment'
+      render :select_payment_method
+    end
   end
 
   ##
@@ -189,27 +188,6 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
   end
 
   private
-
-  # Moves stored data to another key in session and stores new payment id
-  def store_payment_data_in_session(response)
-    store_params = { payment_id: response['paymentId'] }
-    SessionManipulation::SetPaymentId.call(session: session, params: store_params)
-    SessionManipulation::AddCurrentPayment.call(session: session)
-  end
-
-  # Saves payment details using SessionManipulation::SetPaymentDetails
-  def save_payment_details(payment)
-    SessionManipulation::SetPaymentDetails.call(session: session,
-                                                email: payment.user_email,
-                                                payment_reference: payment.payment_reference,
-                                                external_id: payment.external_id)
-  end
-
-  # Checks if the user selected LA
-  def check_la
-    @zone_id = helpers.new_payment_data[:la_id]
-    redirect_to payments_path unless @zone_id
-  end
 
   # Check if provided VRN in search is valid
   def validate_search_params

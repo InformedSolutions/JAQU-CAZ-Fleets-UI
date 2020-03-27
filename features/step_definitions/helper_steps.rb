@@ -32,6 +32,10 @@ Then('I press the Confirm') do
   click_button 'Confirm'
 end
 
+Then('I press {string} button') do |string|
+  click_button string
+end
+
 Then('I press the Back link') do
   click_link('Back')
 end

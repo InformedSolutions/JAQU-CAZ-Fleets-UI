@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe MakePayment do
+describe MakeCardPayment do
   subject(:call) do
     described_class.call(
       payment_data: payment_data,
