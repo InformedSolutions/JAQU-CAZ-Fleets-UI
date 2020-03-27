@@ -7,13 +7,14 @@
 #
 class DebitsApi < AccountsApi
   class << self
+    include DebitsApiResponses
     #:nocov:
     # rubocop:disable Lint/UnusedMethodArgument
     def caz_mandates(account_id:, zone_id:)
       log_action("Getting CAZ mandates for account_id #{account_id} and zone_id: #{zone_id}")
       return [] unless $request.session[session_key]
 
-      mocked_response('caz_mandates.json')['mandates']
+      caz_mandates_response['mandates']
 
       # query = { 'cleanAirZoneId' => zone_id }
       # request(:get, "/accounts/#{account_id}/caz_mandates", query: query)['mandates']
@@ -22,7 +23,7 @@ class DebitsApi < AccountsApi
     def create_payment(caz_id:, user_id:, transactions:)
       log_action("Creating direct debit payment for user with id: #{user_id}")
 
-      mocked_response('create_payment.json')
+      create_payment_response
 
       # body = payment_creation_body(
       #   caz_id: caz_id,
@@ -37,9 +38,9 @@ class DebitsApi < AccountsApi
       log_action("Getting mandates for account with id: #{account_id}")
 
       if $request.session[session_key]
-        mocked_response('active_mandates.json')['clearAirZones']
+        active_mandates_response['clearAirZones']
       else
-        mocked_response('mandates.json')['clearAirZones']
+        mandates_response['clearAirZones']
       end
 
       # query = { 'cleanAirZoneId' => zone_id }
@@ -61,10 +62,6 @@ class DebitsApi < AccountsApi
 
     def session_key
       'mocked_mandates'
-    end
-
-    def mocked_response(filename)
-      JSON.parse(File.read("spec/fixtures/responses/debits/#{filename}"))
     end
   end
 end
