@@ -4,9 +4,10 @@
 # Controller used to manage and pay direct debits
 #
 class DebitsController < ApplicationController
-  before_action :check_la, only: %i[confirm]
+  before_action :check_la, only: %i[first_mandate]
   before_action :assign_debit, only: %i[confirm index new]
-  before_action :assign_back_button_url, only: %i[confirm index new]
+  before_action :assign_back_button_url, only: %i[confirm index new first_mandate]
+  # TODO: Remove after proper API integration
   # saves reference to the request for mocks
   before_action :save_request_for_mocks
 
@@ -20,8 +21,8 @@ class DebitsController < ApplicationController
   #    :GET /payments/debits/confirm
   #
   def confirm
-    @mandates = @debit.caz_mandates(@zone_id)
-    redirect_to first_mandate_debits_path if @debit.active_mandates.empty?
+    caz_mandates = @debit.caz_mandates(@zone_id)
+    redirect_to first_mandate_debits_path if caz_mandates.empty?
 
     @total_to_pay = total_to_pay_from_session
   end

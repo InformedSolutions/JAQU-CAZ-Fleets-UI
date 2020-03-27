@@ -42,13 +42,23 @@ Then('I should have a new mandate added') do
   allow(DebitsApi).to receive(:add_mandate).and_return(true)
 end
 
-When('I have vehicles and want to pay via direct debit') do
-  mock_clean_air_zones
-  mock_vehicles_in_fleet
-  mock_debits('mandates')
+When('I have active mandates for selected CAZ') do
+  mock_api_endpoints
+end
+
+When('I have only inactive mandates for selected CAZ') do
+  mock_api_endpoints('inactive_caz_mandates')
 end
 
 private
+
+def mock_api_endpoints(caz_mandates = 'caz_mandates')
+  mock_clean_air_zones
+  mock_vehicles_in_fleet
+  mock_debits('mandates')
+  mock_caz_mandates(caz_mandates)
+  mock_create_payment
+end
 
 def add_mandate(mocked_file)
   api_response = read_response("/debits/#{mocked_file}.json")['clearAirZones']
@@ -58,4 +68,14 @@ end
 def mock_debits(mocked_file = 'mandates')
   api_response = read_response("/debits/#{mocked_file}.json")['clearAirZones']
   allow(DebitsApi).to receive(:mandates).and_return(api_response)
+end
+
+def mock_caz_mandates(mocked_file)
+  api_response = read_response("/debits/#{mocked_file}.json")['mandates']
+  allow(DebitsApi).to receive(:caz_mandates).and_return(api_response)
+end
+
+def mock_create_payment
+  api_response = read_response('/debits/create_payment.json')
+  allow(DebitsApi).to receive(:create_payment).and_return(api_response)
 end

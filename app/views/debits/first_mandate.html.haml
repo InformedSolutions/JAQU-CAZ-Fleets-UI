@@ -12,4 +12,6 @@
         You must create a direct debit mandate before you can complete any payments by direct debit.
         If you wish to pay by card instead please click the back button.
 
-      = link_to 'Continue', '', class: 'govuk-button'
+      = form_for('payment', url: debits_path, method: :post) do |f|
+        = hidden_field_tag('local-authority', @zone_id)
+        = f.submit 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
