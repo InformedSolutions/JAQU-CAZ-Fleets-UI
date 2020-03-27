@@ -21,7 +21,7 @@ class DebitsController < ApplicationController
   #
   def confirm
     @mandates = @debit.caz_mandates(@zone_id)
-    redirect_to first_mandate_payments_path if @debit.active_mandates.empty?
+    redirect_to first_mandate_debits_path if @debit.active_mandates.empty?
 
     @total_to_pay = total_to_pay_from_session
   end
@@ -42,6 +42,13 @@ class DebitsController < ApplicationController
     redirect_to success_payments_path
   end
 
+  ##
+  # Renders the first create a direct debit mandate
+  #
+  # ==== Path
+  #
+  #    :GET /payments/debits/first_mandate
+  #
   def first_mandate; end
 
   ##
@@ -83,7 +90,7 @@ class DebitsController < ApplicationController
   def create
     form = LocalAuthorityForm.new(authority: params['local-authority'])
     if form.valid?
-      initiate_debit_payment(form.authority)
+      create_debit_mandate(form.authority)
     else
       redirect_to new_debit_path, alert: confirmation_error(form, :authority)
     end
@@ -105,9 +112,8 @@ class DebitsController < ApplicationController
                                                 external_id: details.external_id)
   end
 
-  # Makes a request to initiate direct debit payment
-  # Redirects to response url
-  def initiate_debit_payment(zone_id)
+  # Creates a direct debit mandate and redirects to response url
+  def create_debit_mandate(zone_id)
     service_response = DebitsApi.add_mandate(
       account_id: current_user.account_id,
       zone_id: zone_id,

@@ -19,7 +19,7 @@ class DebitsApi < AccountsApi
       # request(:get, "/accounts/#{account_id}/caz_mandates", query: query)
     end
 
-    def create_payment(caz_id:, return_url:, user_id:, transactions:)
+    def create_payment(caz_id:, user_id:, transactions:)
       log_action("Creating direct debit payment for user with id: #{user_id}")
 
       mocked_response('create_payment.json')

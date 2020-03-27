@@ -21,8 +21,8 @@ describe 'PaymentsController - #select_payment_method', type: :request do
   end
 
   context 'when user selects the Card payment method' do
-    it 'redirects to results payment page' do
-      expect(response).to redirect_to(result_payments_path)
+    it 'redirects to initiate payment path' do
+      expect(response).to redirect_to(initiate_payments_path)
     end
   end
 

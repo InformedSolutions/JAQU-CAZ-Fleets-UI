@@ -3,7 +3,7 @@
 ##
 # Controller used to pay for fleet
 #
-class PaymentsController < ApplicationController # rubocop:disable Metrics/ClassLength
+class PaymentsController < ApplicationController
   before_action :check_la, only: %i[matrix submit review select_payment_method
                                     submit_payment_method]
   before_action :assign_back_button_url, only: %i[index select_payment_method]
@@ -135,7 +135,7 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
     if params['payment_method'] == 'true'
       redirect_to confirm_debits_path
     elsif params['payment_method'] == 'false'
-      initiate_card_payment
+      redirect_to initiate_payments_path
     else
       @errors = 'Choose Direct Debit or Card payment'
       render :select_payment_method
@@ -189,13 +189,6 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
 
   private
 
-  # Moves stored data to another key in session and stores new payment id
-  def store_payment_data_in_session(response)
-    store_params = { payment_id: response['paymentId'] }
-    SessionManipulation::SetPaymentId.call(session: session, params: store_params)
-    SessionManipulation::AddCurrentPayment.call(session: session)
-  end
-
   # Check if provided VRN in search is valid
   def validate_search_params
     form = SearchVrnForm.new(@search)
@@ -233,15 +226,5 @@ class PaymentsController < ApplicationController # rubocop:disable Metrics/Class
   # Permits local-authority
   def la_params
     params.permit('local-authority', :authenticity_token, :commit)
-  end
-
-  # Makes a request to initiate card payment
-  # Redirects to response url
-  def initiate_card_payment
-    service_response = MakeCardPayment.call(payment_data: helpers.new_payment_data,
-                                            user_id: current_user.user_id,
-                                            return_url: result_payments_url)
-    store_payment_data_in_session(service_response)
-    redirect_to service_response['nextUrl']
   end
 end

@@ -3,7 +3,7 @@ Feature: Debits
   As a user
   I want to manage my direct debits mandates
 
-  Scenario: Making a direct debit payment with vehicles in fleet
+  Scenario: Making a direct debit payment with active mandate
     When I have vehicles and want to pay via direct debit
       And I visit the make payment page
       And I press the Continue
@@ -16,7 +16,9 @@ Feature: Debits
       And I press the Continue
     Then I select 'Direct Debit'
       And I press the Continue
-      And I should see success message
+    Then I should see 'Confirm your payment'
+      And I press 'Confirm payment' button
+    Then I should see success message
 
   Scenario: Visiting the manage direct debit page with no mandates
     When I have no mandates

@@ -55,6 +55,7 @@ Rails.application.routes.draw do
       get :review_details
       get :select_payment_method
       post :select_payment_method, to: 'payments#confirm_payment_method'
+      get :initiate, to: 'credit_cards#initiate'
       get :result, to: 'credit_cards#result'
       get :success
       get :failure

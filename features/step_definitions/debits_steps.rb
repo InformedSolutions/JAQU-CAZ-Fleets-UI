@@ -45,7 +45,7 @@ end
 When('I have vehicles and want to pay via direct debit') do
   mock_clean_air_zones
   mock_vehicles_in_fleet
-  mock_debits('inactive_mandates')
+  mock_debits('mandates')
 end
 
 private

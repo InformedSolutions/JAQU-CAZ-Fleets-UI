@@ -25,7 +25,6 @@ class MakeDebitPayment < BasePayment
   def call
     DebitsApi.create_payment(
       caz_id: caz_id,
-      return_url: return_url,
       user_id: user_id,
       transactions: transformed_transactions
     )
