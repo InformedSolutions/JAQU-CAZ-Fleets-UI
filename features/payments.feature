@@ -18,7 +18,7 @@ Feature: Fleets
       And I should see "Which Clean Air Zone do you need to pay for?"
     When I press the Continue
     Then I should see "Selecting a Clean Air Zone is required"
-    When I select Birmingham
+    When I select 'Birmingham'
       And I press the Continue
     Then I should be on the payment matrix page
       And I should see "If you have already paid for a date, it will show as Paid."
@@ -50,7 +50,7 @@ Feature: Fleets
     When I have vehicles in my fleet that are not paid
       And I visit the make payment page
       And I press the Continue
-    Then I select Birmingham
+    Then I select 'Birmingham'
       And I press the Continue
     Then I should be on the payment matrix page
       And I should see "Check a box for each vehicle and date it drove in a Clean Air Zone."

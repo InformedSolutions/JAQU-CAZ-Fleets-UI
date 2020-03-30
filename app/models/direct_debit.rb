@@ -45,7 +45,7 @@ class DirectDebit
   end
 
   # Calls {rdoc-ref:DebitsApi.caz_mandates} to fetch data.
-  # Selecting the mandates only in 'active' or 'pending' statuses
+  # Selecting the mandates only in 'active' status
   #
   # ==== Params
   # * +account_id+ - ID of the account associated with the fleet
@@ -55,7 +55,7 @@ class DirectDebit
     @caz_mandates ||= DebitsApi.caz_mandates(
       account_id: account_id,
       zone_id: zone_id
-    ).select { |mandate| select_active_statuses(mandate['status']) }
+    ).select { |mandate| select_active_status(mandate['status']) }
   end
 
   private
@@ -68,5 +68,12 @@ class DirectDebit
     return false unless status
 
     status.downcase == 'active' || status.downcase == 'pending'
+  end
+
+  # Returns true if status 'active'
+  def select_active_status(status)
+    return false unless status
+
+    status.downcase == 'active'
   end
 end

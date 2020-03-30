@@ -10,4 +10,9 @@ module MockedResponses
     api_response = read_response("/debits/#{mocked_file}.json")['clearAirZones']
     allow(DebitsApi).to receive(:mandates).and_return(api_response)
   end
+
+  def mock_caz_mandates(mocked_file)
+    api_response = read_response("/debits/#{mocked_file}.json")['mandates']
+    allow(DebitsApi).to receive(:caz_mandates).and_return(api_response)
+  end
 end

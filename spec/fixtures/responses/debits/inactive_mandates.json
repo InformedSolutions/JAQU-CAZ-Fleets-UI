@@ -6,7 +6,6 @@
        "mandates": [
          {
            "id": "5cd7441d-766f-48ff-b8ad-1809586fea37",
-           "reference": "1",
            "status": "cancelled"
          }
        ]
@@ -17,12 +16,10 @@
        "mandates": [
          {
            "id": "09b72307-e56a-4b61-802a-03eee58748ba",
-           "reference": "1627",
            "status": "failed"
          },
          {
            "id": "45725067-ae01-4c68-9884-8aac0f5c320b",
-           "reference": "1628",
            "status": "cancelled"
          }
        ]

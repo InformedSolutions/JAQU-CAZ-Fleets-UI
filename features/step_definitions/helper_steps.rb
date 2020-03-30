@@ -18,6 +18,10 @@ Then('I should not see {string}') do |string|
   expect(page).not_to have_content(string)
 end
 
+Then('I select {string}') do |string|
+  choose(string)
+end
+
 # links interactions
 
 Then('I press {string} link') do |string|

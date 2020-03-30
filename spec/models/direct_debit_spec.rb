@@ -28,6 +28,27 @@ describe DirectDebit, type: :model do
     end
   end
 
+  describe '.caz_mandates' do
+    subject { debit.caz_mandates(zone_id) }
+
+    let(:zone_id) { SecureRandom.uuid }
+
+    before { mock_caz_mandates('caz_mandates') }
+
+    it 'calls DebitsApi.caz_mandates with proper params' do
+      expect(DebitsApi).to receive(:caz_mandates).with(account_id: account_id, zone_id: zone_id)
+      subject
+    end
+
+    it 'returns an array of mandates' do
+      expect(subject).to be_a(Array)
+    end
+
+    it 'returns only active mandate' do
+      expect(subject.size).to eq(1)
+    end
+  end
+
   describe '.active_mandates' do
     subject { debit.active_mandates }
 

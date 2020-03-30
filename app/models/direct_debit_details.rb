@@ -9,13 +9,6 @@ class DirectDebitDetails
     @data = data
   end
 
-  # Returns the payment status.
-  #
-  # Eg. 'SUCCESS'
-  def status
-    data['status']&.upcase
-  end
-
   # Returns an email that was submitted by the user during the payment process.
   def user_email
     data['userEmail']

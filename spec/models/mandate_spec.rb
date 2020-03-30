@@ -45,12 +45,6 @@ describe Mandate, type: :model do
     end
   end
 
-  describe '.reference' do
-    it 'returns reference' do
-      expect(mandate.reference).to eq(reference)
-    end
-  end
-
   describe '.status' do
     it 'returns humanized status' do
       expect(mandate.status).to eq('Pending')
