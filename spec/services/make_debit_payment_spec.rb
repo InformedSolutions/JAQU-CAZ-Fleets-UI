@@ -6,7 +6,8 @@ describe MakeDebitPayment do
   subject(:call) do
     described_class.call(
       payment_data: payment_data,
-      user_id: user_id
+      user_id: user_id,
+      mandate_id: mandate_id
     )
   end
   let(:charge_in_pounds) { 50.0 }
@@ -26,11 +27,13 @@ describe MakeDebitPayment do
 
   let(:caz_id) { '2b01a50b-72c0-48cc-bce2-136baac42581' }
   let(:user_id) { 'cd319616-ae7d-43f8-87c9-e219252b589a' }
+  let(:mandate_id) { '5cd7441d-766f-48ff-b8ad-1809586fea37' }
 
   let(:transformed_data) do
     {
       caz_id: caz_id,
       user_id: user_id,
+      mandate_id: mandate_id,
       transactions: [
         {
           vrn: 'PAY015',

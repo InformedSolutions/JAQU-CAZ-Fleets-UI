@@ -45,17 +45,20 @@ class DirectDebit
   end
 
   # Calls {rdoc-ref:DebitsApi.caz_mandates} to fetch data.
-  # Selecting the mandates only in 'active' status
+  # Find the mandate in 'active' status
   #
   # ==== Params
   # * +account_id+ - ID of the account associated with the fleet
   # * +zone_id+ - uuid, ID of the CAZ
   #
   def caz_mandates(zone_id)
-    @caz_mandates ||= DebitsApi.caz_mandates(
-      account_id: account_id,
-      zone_id: zone_id
-    ).select { |mandate| select_active_status(mandate['status']) }
+    @caz_mandates ||= begin
+                        api_response ||= DebitsApi.caz_mandates(
+                          account_id: account_id,
+                          zone_id: zone_id
+                        )
+                        api_response&.find { |mandate| select_active_status(mandate['status']) }
+                      end
   end
 
   private

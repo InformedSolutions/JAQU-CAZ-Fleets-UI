@@ -4,10 +4,10 @@ require 'rails_helper'
 
 describe 'DebitsController - POST #create' do
   subject(:http_request) do
-    post debits_path, params: { 'local-authority' => zone_id }
+    post debits_path, params: { 'local-authority' => caz_id }
   end
 
-  let(:zone_id) { SecureRandom.uuid }
+  let(:caz_id) { SecureRandom.uuid }
   let(:user) { create_user }
   let(:return_url) { debits_path }
 
@@ -28,7 +28,7 @@ describe 'DebitsController - POST #create' do
     it 'adds a new mandate' do
       expect(DebitsApi).to receive(:create_mandate).with(
         account_id: user.account_id,
-        zone_id: zone_id,
+        caz_id: caz_id,
         return_url: return_url
       )
       http_request
@@ -36,7 +36,7 @@ describe 'DebitsController - POST #create' do
   end
 
   context 'when the user does not select option' do
-    let(:zone_id) { nil }
+    let(:caz_id) { nil }
 
     before { http_request }
 

@@ -67,6 +67,7 @@ Rails.application.routes.draw do
           get :first_mandate
           get :confirm
           post :initiate
+          get :success
         end
       end
     end

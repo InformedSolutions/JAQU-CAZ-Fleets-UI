@@ -1,17 +1,12 @@
 # frozen_string_literal: true
 
 ##
-# Class used to serialize data from PUT /payments/:id backend API endpoint.
+# Class used to serialize data from DebitsApi.caz_mandates
 # Calls PaymentsApi.payment_status
 #
 class DirectDebitDetails
   def initialize(data)
     @data = data
-  end
-
-  # Returns an email that was submitted by the user during the payment process.
-  def user_email
-    data['userEmail']
   end
 
   # Returns the central reference number of the payment.

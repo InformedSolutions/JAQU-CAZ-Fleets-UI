@@ -62,6 +62,7 @@ def mock_api_endpoints(caz_mandates = 'caz_mandates')
   mock_vehicles_in_fleet
   mock_debits('mandates')
   mock_caz_mandates(caz_mandates)
+  mock_create_mandate
   mock_create_payment
 end
 
@@ -83,4 +84,9 @@ end
 def mock_create_payment
   api_response = read_response('/debits/create_payment.json')
   allow(DebitsApi).to receive(:create_payment).and_return(api_response)
+end
+
+def mock_create_mandate
+  api_response = read_response('/debits/create_mandate.json')
+  allow(DebitsApi).to receive(:create_mandate).and_return(api_response)
 end

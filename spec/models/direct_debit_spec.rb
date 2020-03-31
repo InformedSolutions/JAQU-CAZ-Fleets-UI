@@ -40,12 +40,12 @@ describe DirectDebit, type: :model do
       subject
     end
 
-    it 'returns an array of mandates' do
-      expect(subject).to be_a(Array)
+    it 'returns a hash' do
+      expect(subject).to be_a(Hash)
     end
 
-    it 'returns only active mandate' do
-      expect(subject.size).to eq(1)
+    it 'returns the active mandate' do
+      expect(subject['status']).to eq('active')
     end
   end
 

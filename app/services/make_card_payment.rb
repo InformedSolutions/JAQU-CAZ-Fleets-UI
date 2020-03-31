@@ -10,7 +10,8 @@ class MakeCardPayment < BasePayment
   #
   # ==== Attributes
   # * +payment_data+ - hash, data coming from session storing CAZ id and payments information
-  # * +user_id+ - ID of the user who pays.
+  # * +user_id+ - ID of the user who pays
+  # * +return_url+ - URL where GOV.UK Pay should redirect after the payment is done
   #
   def initialize(payment_data:, user_id:, return_url:)
     @payment_data = payment_data
@@ -31,4 +32,8 @@ class MakeCardPayment < BasePayment
       transactions: transformed_transactions
     )
   end
+
+  private
+
+  attr_reader :return_url
 end
