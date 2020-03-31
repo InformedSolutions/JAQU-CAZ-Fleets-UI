@@ -15,8 +15,8 @@ describe 'DebitsController - POST #create' do
 
   context 'when user selects the LA' do
     before do
-      api_response = read_response('/debits/add_mandate.json')
-      allow(DebitsApi).to receive(:add_mandate).and_return(api_response)
+      api_response = read_response('debits/create_mandate.json')
+      allow(DebitsApi).to receive(:create_mandate).and_return(api_response)
       mock_debits
     end
 
@@ -26,7 +26,7 @@ describe 'DebitsController - POST #create' do
     end
 
     it 'adds a new mandate' do
-      expect(DebitsApi).to receive(:add_mandate).with(
+      expect(DebitsApi).to receive(:create_mandate).with(
         account_id: user.account_id,
         zone_id: zone_id,
         return_url: return_url
@@ -49,7 +49,7 @@ describe 'DebitsController - POST #create' do
     end
 
     it 'does not add a new mandate' do
-      expect(DebitsApi).not_to receive(:add_mandate)
+      expect(DebitsApi).not_to receive(:create_mandate)
     end
   end
 end

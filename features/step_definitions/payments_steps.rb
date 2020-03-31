@@ -60,7 +60,3 @@ end
 Then('I should be on the Select payment method page') do
   expect_path(select_payment_method_payments_path)
 end
-
-Then('I select {string}') do |string|
-  choose(string)
-end

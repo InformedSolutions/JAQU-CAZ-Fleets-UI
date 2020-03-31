@@ -7,7 +7,7 @@ Feature: Debits
     When I have active mandates for selected CAZ
       And I visit the make payment page
       And I press the Continue
-    Then I select Birmingham
+    Then I select 'Birmingham'
       And I press the Continue
     Then I click Next 7 days tab
       And I select any date for vrn on the payment matrix
@@ -24,7 +24,7 @@ Feature: Debits
     When I have only inactive mandates for selected CAZ
       And I visit the make payment page
       And I press the Continue
-    Then I select Birmingham
+    Then I select 'Birmingham'
       And I press the Continue
     Then I click Next 7 days tab
       And I select any date for vrn on the payment matrix
@@ -48,6 +48,8 @@ Feature: Debits
     Then I should be on the manage debits page
       And I should see 'Set up new direct debit' link
       And I should not see 'You have created a mandate for each CAZ'
+    Then I press `Set up new direct debit` button
+       And I should see 'Which Clean Air Zone do you need to set up a direct debit with?'
 
   Scenario: Visiting the manage direct debit page with all mandates
     When I have created all the possible mandates
@@ -61,5 +63,5 @@ Feature: Debits
       And I visit the add new mandate page
       And I press the Continue
       And I should see 'Selecting a Clean Air Zone is required' 2 times
-    When I select Birmingham
+    When I select 'Birmingham'
     Then I should have a new mandate added

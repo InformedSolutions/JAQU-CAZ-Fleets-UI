@@ -229,7 +229,7 @@ class PaymentsApi < BaseApi
 
     private
 
-    # Returns parsed to JSON hash of the payment creation parameters with proper keys
+    # Returns parsed JSON of the payment creation parameters with proper keys
     def payment_creation_body(caz_id:, return_url:, user_id:, transactions:)
       {
         clean_air_zone_id: caz_id,
@@ -239,7 +239,7 @@ class PaymentsApi < BaseApi
       }.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
     end
 
-    # Returns parsed to JSON hash of the payment status reconciliation parameters with proper keys
+    # Returns parsed JSON of the payment status reconciliation parameters with proper keys
     def payment_status_body(caz_name)
       {
         cleanAirZoneName: caz_name

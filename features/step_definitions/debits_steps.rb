@@ -10,6 +10,10 @@ When('I visit the manage direct debit page') do
   visit debits_path
 end
 
+Then('I visit the payment method page') do
+  visit select_payment_method_payments_path
+end
+
 Then('I should be on the add new mandate page') do
   expect_path(new_debit_path)
 end
@@ -33,13 +37,14 @@ When('I visit the add new mandate page') do
   visit new_debit_path
 end
 
-When('I select Birmingham') do
-  choose('Birmingham')
+Then('I press `Set up new direct debit` button') do
+  mock_debits('inactive_mandates')
+  click_button 'Set up new direct debit'
 end
 
 Then('I should have a new mandate added') do
   mock_debits
-  allow(DebitsApi).to receive(:add_mandate).and_return(true)
+  allow(DebitsApi).to receive(:create_mandate).and_return(true)
 end
 
 When('I have active mandates for selected CAZ') do

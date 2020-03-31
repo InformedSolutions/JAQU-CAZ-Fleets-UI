@@ -36,13 +36,6 @@ class Mandate
     data.dig('mandates', 'id')
   end
 
-  # Returns mandate reference
-  def reference
-    return nil if data['mandates'].empty?
-
-    data.dig('mandates', 'reference')
-  end
-
   # Returns mandate status
   def status
     return nil if data['mandates'].empty?
