@@ -66,13 +66,8 @@ def mock_api_endpoints(caz_mandates = 'caz_mandates')
   mock_create_payment
 end
 
-def add_mandate(mocked_file)
-  api_response = read_response("/debits/#{mocked_file}.json")['clearAirZones']
-  allow(DebitsApi).to receive(:mandates).and_return(api_response)
-end
-
 def mock_debits(mocked_file = 'mandates')
-  api_response = read_response("/debits/#{mocked_file}.json")['clearAirZones']
+  api_response = read_response("/debits/#{mocked_file}.json")['cleanAirZones']
   allow(DebitsApi).to receive(:mandates).and_return(api_response)
 end
 

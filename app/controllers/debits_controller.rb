@@ -36,6 +36,7 @@ class DebitsController < ApplicationController
   #
   def initiate
     service_response = MakeDebitPayment.call(payment_data: helpers.new_payment_data,
+                                             account_id: current_user.account_id,
                                              user_id: current_user.user_id,
                                              mandate_id: params['mandate_id'])
     details = DirectDebitDetails.new(service_response)
@@ -125,7 +126,7 @@ class DebitsController < ApplicationController
     service_response = DebitsApi.create_mandate(
       account_id: current_user.account_id,
       caz_id: caz_id,
-      return_url: debits_path
+      return_url: debits_url
     )
     redirect_to service_response['nextUrl']
   end

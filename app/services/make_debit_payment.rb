@@ -10,11 +10,13 @@ class MakeDebitPayment < BasePayment
   #
   # ==== Attributes
   # * +payment_data+ - hash, data coming from session storing CAZ id and payments information
+  # * +account_id+ - ID of the account associated with the fleet
   # * +user_id+ - ID of the user who pays
   # * +mandate_id+ - ID of the mandate
   #
-  def initialize(payment_data:, user_id:, mandate_id:)
+  def initialize(payment_data:, account_id:, user_id:, mandate_id:)
     @payment_data = payment_data
+    @account_id = account_id
     @user_id = user_id
     @mandate_id = mandate_id
   end
@@ -26,6 +28,7 @@ class MakeDebitPayment < BasePayment
   #
   def call
     DebitsApi.create_payment(
+      account_id: account_id,
       caz_id: caz_id,
       user_id: user_id,
       mandate_id: mandate_id,
@@ -35,5 +38,5 @@ class MakeDebitPayment < BasePayment
 
   private
 
-  attr_reader :mandate_id
+  attr_reader :mandate_id, :account_id
 end

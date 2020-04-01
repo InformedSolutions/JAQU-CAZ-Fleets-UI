@@ -41,6 +41,7 @@ class DebitsApi < BaseApi
     # ==== Attributes
     #
     # * +caz_id+ - ID of the selected CAZ
+    # * +account_id+ - ID of the account associated with the fleet
     # * +user_id+ - ID of the users account from which the payment is being done.
     # * +mandate_id+ - ID of active mandate
     # * +transactions+ - array of objects
@@ -56,17 +57,26 @@ class DebitsApi < BaseApi
     # * +referenceNumber+ - integer, central reference number of the payment
     # * +externalPaymentId+ - string, external identifier for the payment
     #
-    def create_payment(caz_id:, user_id:, mandate_id:, transactions:)
+    # rubocop:disable Lint/UnusedMethodArgument
+    def create_payment(caz_id:, account_id:, user_id:, mandate_id:, transactions:)
       log_action("Creating direct debit payment for user with id: #{user_id}")
 
-      body = payment_creation_body(
-        caz_id: caz_id,
-        user_id: user_id,
-        mandate_id: mandate_id,
-        transactions: transactions
-      )
-      request(:post, '/payments/direct-debit-payments', body: body.to_json)
+      {
+        'paymentId' => '5cd7441d-766f-48ff-b8ad-1809586fea37',
+        'referenceNumber' => 'WYP3HNDP',
+        'externalPaymentId' => '4d8e677d-6ea7-4a0b-97ad-5bb0f8604367'
+      }
+
+      # body = payment_creation_body(
+      #   account_id: account_id,
+      #   caz_id: caz_id,
+      #   user_id: user_id,
+      #   mandate_id: mandate_id,
+      #   transactions: transactions
+      # )
+      # request(:post, '/direct-debit-payments', body: body.to_json)
     end
+    # rubocop:enable Lint/UnusedMethodArgument
 
     ##
     # Calls +/v1/payments/accounts/:account_id/direct-debit-mandates+ endpoint with +GET+ method
@@ -89,7 +99,7 @@ class DebitsApi < BaseApi
     def mandates(account_id:)
       log_action("Getting mandates for account with id: #{account_id}")
 
-      request(:get, "/payments/accounts/#{account_id}/direct-debit-mandates")['clearAirZones']
+      request(:get, "/payments/accounts/#{account_id}/direct-debit-mandates")['cleanAirZones']
     end
 
     ##
@@ -121,8 +131,9 @@ class DebitsApi < BaseApi
     private
 
     # Returns parsed JSON of the payment creation parameters with proper keys
-    def payment_creation_body(caz_id:, user_id:, mandate_id:, transactions:)
+    def payment_creation_body(account_id:, caz_id:, user_id:, mandate_id:, transactions:)
       {
+        account_id: account_id,
         clean_air_zone_id: caz_id,
         user_id: user_id,
         mandate_id: mandate_id,

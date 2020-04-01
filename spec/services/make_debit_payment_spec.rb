@@ -6,6 +6,7 @@ describe MakeDebitPayment do
   subject(:call) do
     described_class.call(
       payment_data: payment_data,
+      account_id: account_id,
       user_id: user_id,
       mandate_id: mandate_id
     )
@@ -26,12 +27,14 @@ describe MakeDebitPayment do
   end
 
   let(:caz_id) { '2b01a50b-72c0-48cc-bce2-136baac42581' }
+  let(:account_id) { '1f30838f-69ee-4486-95b4-7dfcd5c6c67c' }
   let(:user_id) { 'cd319616-ae7d-43f8-87c9-e219252b589a' }
   let(:mandate_id) { '5cd7441d-766f-48ff-b8ad-1809586fea37' }
 
   let(:transformed_data) do
     {
       caz_id: caz_id,
+      account_id: account_id,
       user_id: user_id,
       mandate_id: mandate_id,
       transactions: [

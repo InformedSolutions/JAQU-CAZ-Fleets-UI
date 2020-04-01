@@ -9,7 +9,7 @@ describe 'DebitsController - POST #create' do
 
   let(:caz_id) { SecureRandom.uuid }
   let(:user) { create_user }
-  let(:return_url) { debits_path }
+  let(:return_url) { debits_url }
 
   before { sign_in user }
 
