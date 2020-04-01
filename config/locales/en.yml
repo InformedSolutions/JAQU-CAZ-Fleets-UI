@@ -59,4 +59,3 @@ en:
   token_form:
     token_missing: 'Authorisation token is missing'
     token_invalid: 'Authorisation token is invalid or has expired'
-

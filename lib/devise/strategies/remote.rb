@@ -60,8 +60,8 @@ module Devise
       def add_unauthorized_errors
         # Sets errors with base error to display in the error summary
         errors.add(:base, I18n.t('login_form.incorrect'))
-        errors.add(:email, I18n.t('login_form.email_missing'))
-        errors.add(:password, I18n.t('login_form.password_missing'))
+        errors.add(:email, nil)
+        errors.add(:password, nil)
         fail!(:invalid)
       end
 

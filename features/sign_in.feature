@@ -32,8 +32,8 @@ Feature: Sign In
     When I enter invalid credentials
     Then I remain on the current page
       And I should see "The email or password you entered is incorrect"
-      And I should see "Enter your email address"
-      And I should see "Enter your password"
+      And I should not see "Enter your email address"
+      And I should not see "Enter your password"
 
   Scenario: Sign in with unconfirmed email
     Given I am on the Sign in page
