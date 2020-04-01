@@ -5,13 +5,14 @@
 #
 class DebitsController < ApplicationController
   before_action :check_la, only: %i[confirm first_mandate]
-  before_action :assign_debit, only: %i[confirm index new]
+  before_action :assign_debit, only: %i[confirm index new first_mandate]
+  before_action :check_active_caz_mandates, only: %i[first_mandate]
   before_action :assign_back_button_url, only: %i[confirm index new first_mandate]
 
   ##
   # Renders the confirm direct debit page
   # Check if any active mandates present for chosen local authority
-  # Redirect to {rdoc-ref:MandatesController.first} if no active mandates
+  # Redirect to {rdoc-ref:DebitsController.first} if no active mandates
   #
   # ==== Path
   #
@@ -129,5 +130,10 @@ class DebitsController < ApplicationController
       return_url: debits_url
     )
     redirect_to service_response['nextUrl']
+  end
+
+  # Redirect to {rdoc-ref:DebitsController.index} if active mandates are present
+  def check_active_caz_mandates
+    redirect_to debits_path if @debit.caz_mandates(@zone_id).present?
   end
 end
