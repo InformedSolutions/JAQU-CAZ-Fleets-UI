@@ -6,7 +6,8 @@
 class BasePayment < BaseService
   private
 
-  attr_reader :payment_data, :user_id, :return_url
+  # Attributes used internally
+  attr_reader :payment_data, :user_id
 
   ##
   # Method fetches +caz_id+ from provided +payment_data+.

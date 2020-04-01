@@ -4,12 +4,9 @@
 # Controller used to manage and pay direct debits
 #
 class DebitsController < ApplicationController
-  before_action :check_la, only: %i[first_mandate]
+  before_action :check_la, only: %i[confirm first_mandate]
   before_action :assign_debit, only: %i[confirm index new]
   before_action :assign_back_button_url, only: %i[confirm index new first_mandate]
-  # TODO: Remove after proper API integration
-  # saves reference to the request for mocks
-  before_action :save_request_for_mocks
 
   ##
   # Renders the confirm direct debit page
@@ -22,9 +19,12 @@ class DebitsController < ApplicationController
   #
   def confirm
     caz_mandates = @debit.caz_mandates(@zone_id)
-    redirect_to first_mandate_debits_path if caz_mandates.empty?
-
-    @total_to_pay = total_to_pay_from_session
+    if caz_mandates.present?
+      @mandate_id = caz_mandates['id']
+      @total_to_pay = total_to_pay_from_session
+    else
+      redirect_to first_mandate_debits_path
+    end
   end
 
   ##
@@ -36,10 +36,19 @@ class DebitsController < ApplicationController
   #
   def initiate
     service_response = MakeDebitPayment.call(payment_data: helpers.new_payment_data,
-                                             user_id: current_user.user_id)
+                                             account_id: current_user.account_id,
+                                             user_id: current_user.user_id,
+                                             mandate_id: params['mandate_id'])
     details = DirectDebitDetails.new(service_response)
     payment_details_to_session(details)
-    redirect_to success_payments_path
+    redirect_to success_debits_path
+  end
+
+  def success
+    payments = helpers.initiated_payment_data
+    @payment_details = PaymentDetails.new(session_details: payments,
+                                          entries_paid: helpers.days_to_pay(payments[:details]),
+                                          total_charge: helpers.total_to_pay(payments[:details]))
   end
 
   ##
@@ -107,25 +116,18 @@ class DebitsController < ApplicationController
   def payment_details_to_session(details)
     SessionManipulation::AddCurrentPayment.call(session: session)
     SessionManipulation::SetPaymentDetails.call(session: session,
-                                                email: details.user_email,
+                                                email: current_user.email,
                                                 payment_reference: details.payment_reference,
                                                 external_id: details.external_id)
   end
 
   # Creates a direct debit mandate and redirects to response url
-  def create_debit_mandate(zone_id)
+  def create_debit_mandate(caz_id)
     service_response = DebitsApi.create_mandate(
       account_id: current_user.account_id,
-      zone_id: zone_id,
-      return_url: debits_path
+      caz_id: caz_id,
+      return_url: debits_url
     )
     redirect_to service_response['nextUrl']
-  end
-
-  # It assigns current request to the global variable
-  # It is used for the mocks to have access to the session
-  # TODO: Remove after proper API integration
-  def save_request_for_mocks
-    $request = request
   end
 end

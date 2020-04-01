@@ -4,6 +4,19 @@
 # Controller used to pay by credit card
 #
 class CreditCardsController < ApplicationController
+  # Makes a request to initiate card payment and redirects to response url
+  #
+  # ==== Path
+  #     GET /payments/initiate
+  #
+  def initiate
+    service_response = MakeCardPayment.call(payment_data: helpers.new_payment_data,
+                                            user_id: current_user.user_id,
+                                            return_url: result_payments_url)
+    store_payment_data_in_session(service_response)
+    redirect_to service_response['nextUrl']
+  end
+
   ##
   # The page used as a landing point after the GOV.UK payment process.
   #
@@ -22,16 +35,6 @@ class CreditCardsController < ApplicationController
     payment = PaymentStatus.new(payment_data[:payment_id], payment_data[:la_id])
     save_payment_details(payment)
     payment.success? ? redirect_to(success_payments_path) : redirect_to(failure_payments_path)
-  end
-
-  # Makes a request to initiate card payment
-  # Redirects to response url
-  def initiate
-    service_response = MakeCardPayment.call(payment_data: helpers.new_payment_data,
-                                            user_id: current_user.user_id,
-                                            return_url: result_payments_url)
-    store_payment_data_in_session(service_response)
-    redirect_to service_response['nextUrl']
   end
 
   private

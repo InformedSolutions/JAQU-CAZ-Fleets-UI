@@ -17,6 +17,6 @@ describe 'DebitsController - POST #initiate' do
 
   it 'redirects to the success payment page' do
     http_request
-    expect(response).to redirect_to(success_payments_path)
+    expect(response).to redirect_to(success_debits_path)
   end
 end

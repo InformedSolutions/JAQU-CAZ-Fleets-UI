@@ -7,21 +7,13 @@ RSpec.describe DirectDebitDetails, type: :model do
 
   let(:data) do
     {
-      'userEmail' => email,
       'referenceNumber' => payment_reference,
       'externalPaymentId' => external_id
     }
   end
 
-  let(:email) { 'test@example.com' }
   let(:payment_reference) { 'WYP3HNDP' }
   let(:external_id) { SecureRandom.uuid }
-
-  describe '.user_email' do
-    it 'returns the email' do
-      expect(subject.user_email).to eq(email)
-    end
-  end
 
   describe '.payment_reference' do
     it 'returns payment reference' do

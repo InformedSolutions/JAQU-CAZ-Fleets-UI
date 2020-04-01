@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ##
-# Class used to serialize data from DebitsApi.account_mandates
+# Class used to serialize data from DebitsApi.mandates
 #
 class Mandate
   # Initializer method. Assigns :data
@@ -12,8 +12,7 @@ class Mandate
   # * +cazName+ - string, name of the CAZ
   # * +mandates+ - hash
   #   * +id+ - uuid, mandate ID
-  #   * +reference+ - string, mandate reference, eg. '1626'
-  #   * +status+ -string, status of the mandate eg. 'active'
+  #   * +status+ - string, status of the mandate eg. 'active'
   #
   def initialize(data)
     @data = data

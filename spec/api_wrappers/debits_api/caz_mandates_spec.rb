@@ -9,7 +9,7 @@ describe 'PaymentsApi.caz_mandates' do
   let(:zone_id) { SecureRandom.uuid }
   let(:base_url) { "payments/accounts/#{account_id}/direct-debit-mandates/#{zone_id}" }
 
-  skip context 'when the response status is 200' do
+  context 'when the response status is 200' do
     before do
       stub_request(:get, /#{base_url}/).to_return(
         status: 200,
@@ -26,7 +26,7 @@ describe 'PaymentsApi.caz_mandates' do
     end
   end
 
-  skip context 'when the response status is 404' do
+  context 'when the response status is 404' do
     before do
       stub_request(:get, /#{base_url}/).to_return(
         status: 404,
@@ -39,7 +39,7 @@ describe 'PaymentsApi.caz_mandates' do
     end
   end
 
-  skip context 'when the response status is 500' do
+  context 'when the response status is 500' do
     before do
       stub_request(:get, /#{base_url}/).to_return(
         status: 500,

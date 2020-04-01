@@ -8,7 +8,8 @@
     .govuk-grid-column-two-thirds
       %h1.govuk-heading-l Confirm your payment
 
-      = form_tag initiate_debits_path, method: :post do
+      = form_for('confirm', url: initiate_debits_path, method: :post) do |f|
+        = hidden_field_tag('mandate_id', @mandate_id)
         %table.govuk-table
           %tbody.govuk-table__body
             %tr.govuk-table__row
@@ -19,8 +20,7 @@
                   Change
                   %span.govuk-visually-hidden
                     Change payment method link
-
-        = submit_tag 'Confirm payment', class: 'govuk-button', 'data-module': 'govuk-button'
+        = f.submit 'Confirm payment', class: 'govuk-button', 'data-module': 'govuk-button'
 
       %p
         = link_to 'Cancel payment', cancel_payments_path, id: 'cancel_payment'

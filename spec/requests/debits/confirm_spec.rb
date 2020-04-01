@@ -20,7 +20,7 @@ describe 'DebitsController - GET #confirm' do
   end
 
   context 'when zone does not have any active mandates' do
-    before { allow(DebitsApi).to receive(:caz_mandates).and_return({ 'mandates': [] }) }
+    before { allow(DebitsApi).to receive(:caz_mandates).and_return([]) }
 
     it 'redirects to the create a first mandate page' do
       http_request
