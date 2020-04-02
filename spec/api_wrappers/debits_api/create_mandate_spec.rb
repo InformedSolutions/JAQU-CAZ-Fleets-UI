@@ -2,33 +2,44 @@
 
 require 'rails_helper'
 
-describe 'DebitsApi.caz_mandates' do
-  subject(:call) { DebitsApi.caz_mandates(account_id: account_id, zone_id: zone_id) }
+describe 'DebitsApi.create_mandate' do
+  subject(:call) do
+    DebitsApi.create_mandate(
+      account_id: account_id,
+      caz_id: caz_id,
+      return_url: return_url
+    )
+  end
 
   let(:account_id) { SecureRandom.uuid }
-  let(:zone_id) { SecureRandom.uuid }
-  let(:base_url) { "payments/accounts/#{account_id}/direct-debit-mandates/#{zone_id}" }
+  let(:caz_id) { SecureRandom.uuid }
+  let(:return_url) { 'http://example.com' }
+  let(:base_url) { "/payments/accounts/#{account_id}/direct-debit-mandates" }
 
-  context 'when the response status is 200' do
+  context 'when the response status is 201' do
     before do
-      stub_request(:get, /#{base_url}/).to_return(
-        status: 200,
-        body: read_unparsed_response('debits/caz_mandates.json')
+      stub_request(:post, /#{base_url}/).to_return(
+        status: 201,
+        body: read_unparsed_response('debits/create_mandate.json')
       )
     end
 
     it 'calls API with proper query data' do
       call
       expect(WebMock).to have_requested(
-        :get,
+        :post,
         /#{base_url}/
       )
+    end
+
+    it 'returns proper attributes' do
+      expect(call.keys).to contain_exactly('nextUrl', 'cleanAirZoneId')
     end
   end
 
   context 'when the response status is 404' do
     before do
-      stub_request(:get, /#{base_url}/).to_return(
+      stub_request(:post, /#{base_url}/).to_return(
         status: 404,
         body: { 'message' => 'Account id not found' }.to_json
       )
@@ -41,7 +52,7 @@ describe 'DebitsApi.caz_mandates' do
 
   context 'when the response status is 500' do
     before do
-      stub_request(:get, /#{base_url}/).to_return(
+      stub_request(:post, /#{base_url}/).to_return(
         status: 500,
         body: { 'message' => 'Something went wrong' }.to_json
       )
