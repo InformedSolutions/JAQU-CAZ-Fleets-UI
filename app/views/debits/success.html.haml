@@ -13,6 +13,10 @@
             %strong
               = @payment_details.reference
           %br
+          Payment ID
+          %br
+            %strong
+              = @payment_details.external_id
       %p
         A receipt will be sent to
         = succeed '.' do
