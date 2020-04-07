@@ -5,9 +5,7 @@
 # Wraps methods regarding direct debits management.
 # See {PaymentsApi}[rdoc-ref:PaymentsApi] for user related actions.
 #
-class DebitsApi < BaseApi
-  base_uri ENV.fetch('PAYMENTS_API_URL', 'localhost:3001') + '/v1'
-
+class DebitsApi < PaymentsApi
   class << self
     ##
     # Calls +/v1/payments/accounts/:account_id/direct-debit-mandates/:zone_id+ endpoint with +GET+ method
@@ -57,26 +55,18 @@ class DebitsApi < BaseApi
     # * +referenceNumber+ - integer, central reference number of the payment
     # * +externalPaymentId+ - string, external identifier for the payment
     #
-    # rubocop:disable Lint/UnusedMethodArgument
     def create_payment(caz_id:, account_id:, user_id:, mandate_id:, transactions:)
       log_action("Creating direct debit payment for user with id: #{user_id}")
 
-      {
-        'paymentId' => '5cd7441d-766f-48ff-b8ad-1809586fea37',
-        'referenceNumber' => 'WYP3HNDP',
-        'externalPaymentId' => '4d8e677d-6ea7-4a0b-97ad-5bb0f8604367'
-      }
-
-      # body = payment_creation_body(
-      #   account_id: account_id,
-      #   caz_id: caz_id,
-      #   user_id: user_id,
-      #   mandate_id: mandate_id,
-      #   transactions: transactions
-      # )
-      # request(:post, '/direct-debit-payments', body: body.to_json)
+      body = payment_creation_body(
+        caz_id: caz_id,
+        account_id: account_id,
+        user_id: user_id,
+        mandate_id: mandate_id,
+        transactions: transactions
+      )
+      request(:post, '/direct-debit-payments', body: body.to_json)
     end
-    # rubocop:enable Lint/UnusedMethodArgument
 
     ##
     # Calls +/v1/payments/accounts/:account_id/direct-debit-mandates+ endpoint with +GET+ method
