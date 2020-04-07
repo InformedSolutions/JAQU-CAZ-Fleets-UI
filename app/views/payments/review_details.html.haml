@@ -4,3 +4,6 @@
 = link_to 'Back', review_payments_path, class: 'govuk-back-link'
 
 = render partial: 'payment_details', locals: { title: title_and_header }
+
+%p
+  = link_to 'Return to confirm your payment', review_payments_path
