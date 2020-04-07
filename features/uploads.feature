@@ -8,7 +8,7 @@ Feature: Uploads
       And I visit the upload page
     Then I should see "Upload multiple vehicles"
     When I press upload
-    Then I should see "Select a CSV" 2 times
+    Then I should see "Select a file" 2 times
     When I attach a file
       And I press upload
     Then I should be on the processing page
