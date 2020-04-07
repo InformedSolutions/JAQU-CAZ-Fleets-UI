@@ -11,7 +11,7 @@ en:
      incorrect: 'The email or password you entered is incorrect'
      email_unconfirmed: 'Your email address is not confirmed'
   la_form:
-    la_missing: 'Selecting a Clean Air Zone is required'
+    la_missing: 'You must choose one Clean Air Zone'
   input_form:
     errors:
       missing: '%{attribute} is required'
