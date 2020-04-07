@@ -23,8 +23,8 @@ When('I select manual entry') do
   choose('Manual entry')
 end
 
-When('I select CSV upload') do
-  choose('CSV upload')
+When('I select Bulk upload') do
+  choose('Bulk upload')
 end
 
 Then('I should be on the upload page') do
