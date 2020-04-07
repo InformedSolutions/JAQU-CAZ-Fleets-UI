@@ -17,7 +17,7 @@ Feature: Fleets
     Then I should be on the make a payment page
       And I should see "Which Clean Air Zone do you need to pay for?"
     When I press the Continue
-    Then I should see "Selecting a Clean Air Zone is required"
+    Then I should see "You must choose one Clean Air Zone"
     When I select 'Birmingham'
       And I press the Continue
     Then I should be on the payment matrix page
