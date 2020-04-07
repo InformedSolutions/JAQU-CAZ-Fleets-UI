@@ -15,6 +15,12 @@ Style/HashTransformKeys:
 Style/HashTransformValues:
   Enabled: true
 
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
 Layout/LineLength:
   Max: 99
   IgnoredPatterns: ['(\A|\s)#']
