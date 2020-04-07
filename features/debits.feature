@@ -62,6 +62,6 @@ Feature: Debits
     When I have no mandates
       And I visit the add new mandate page
       And I press the Continue
-      And I should see 'Selecting a Clean Air Zone is required' 2 times
+      And I should see 'You must choose one Clean Air Zone' 2 times
     When I select 'Birmingham'
     Then I should have a new mandate added
