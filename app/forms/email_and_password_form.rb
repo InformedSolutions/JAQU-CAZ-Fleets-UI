@@ -7,7 +7,7 @@ class EmailAndPasswordForm < BaseForm
   attr_accessor :email, :email_confirmation, :password, :password_confirmation
 
   # validates email format
-  validates :email, format: {
+  validates :email, :email_confirmation, format: {
     with: EMAIL_FORMAT,
     message: I18n.t('input_form.errors.invalid_format')
   }, allow_blank: true
@@ -24,10 +24,14 @@ class EmailAndPasswordForm < BaseForm
             }
 
   # validates +password+ and +password_confirmation+
-  validate :correct_password_confirmation
+  validate :correct_password_confirmation, if: lambda {
+    password.present? && password_confirmation.present?
+  }
 
   # validates +email+ and +email_confirmation+
-  validate :correct_email_confirmation
+  validate :correct_email_confirmation, if: lambda {
+    email.present? && email_confirmation.present?
+  }
 
   # Checks if +password+ and +password_confirmation+ are same.
   # If not, add error message to +password+. and +password_confirmation+
