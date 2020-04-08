@@ -12,6 +12,10 @@ Feature: Organisations
       And I should see "Company name is required"
     Then I enter a company name
       And I press the Continue
+    Then I press 'Back' link
+      And I should see 'Create an account'
+      And I should see 'Company name' as 'organisations_company_name' value
+    Then I press the Continue
       And I should see "Sign in details"
       And I should see "Create account" link
     Then I press the Continue
