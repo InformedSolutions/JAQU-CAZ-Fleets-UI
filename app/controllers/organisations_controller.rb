@@ -35,7 +35,7 @@ class OrganisationsController < ApplicationController
   #
   def set_name
     form = CompanyNameForm.new(company_name_params)
-    session[:new_account] = { company_name: form.company_name }
+    session[:new_account] = { 'company_name' => form.company_name }
     if form.valid?
       redirect_to new_credentials_organisations_path
     else
@@ -175,14 +175,15 @@ class OrganisationsController < ApplicationController
   # Checks if new account details is present in the session.
   # If not, redirects to root path.
   def check_account_details
+    Rails.logger.warn('Checking credentials from the session')
     redirect_to root_path if (
-      %w[company_name email admin user_id account_id account_name login_ip] -
-      session[:new_account].keys
+      %i[company_name email admin user_id account_id account_name login_ip] - new_account.keys
     ).present?
   end
 
   # Add a new company credentials to the session
   def add_credentials_to_session
+    Rails.logger.warn('Adding credentials to the session')
     new_account.merge!(
       'email' => organisations_params['email'],
       'email_confirmation' => organisations_params['email_confirmation']
