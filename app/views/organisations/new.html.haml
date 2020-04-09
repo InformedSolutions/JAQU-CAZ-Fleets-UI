@@ -27,7 +27,7 @@
                 = "#{@error}"
             = f.text_field :company_name,
                             class: determinate_input_class(@error),
-                            value: session.dig('new_account', 'company_name'),
+                            value: session.dig(:new_account, 'company_name'),
                             maxlength: 100
 
           = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

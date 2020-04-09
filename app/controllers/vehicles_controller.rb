@@ -11,6 +11,7 @@ class VehiclesController < ApplicationController
   rescue_from BaseApi::Error400Exception, with: :add_vehicle_exception
   # checks if VRN is present in the session
   before_action :check_vrn, only: %i[details confirm_details exempt incorrect_details not_found]
+  before_action :assign_back_button_url, only: %i[enter_details]
 
   ##
   # Renders the first step of checking the vehicle compliance.
@@ -20,7 +21,7 @@ class VehiclesController < ApplicationController
   #    GET /vehicles/enter_details
   #
   def enter_details
-    session[:vrn] = nil
+    session[:submission_method] = nil
   end
 
   ##
@@ -36,13 +37,9 @@ class VehiclesController < ApplicationController
   #
   def submit_details
     form = VrnForm.new(params[:vrn])
-    unless form.valid?
-      @errors = form.errors.messages
-      return render enter_details_vehicles_path
-    end
-
+    session[:confirm_vehicle_creation] = nil
     session[:vrn] = form.vrn
-    redirect_to details_vehicles_path
+    determinate_next_step(form)
   end
 
   ##
@@ -163,5 +160,16 @@ class VehiclesController < ApplicationController
   def add_vehicle_exception(exception)
     @errors = { vrn: [exception.body_message] }
     render :enter_details
+  end
+
+  # If +vrn+ is valid, redirects to {confirm details}[rdoc-ref:VehiclesController.details]
+  # If not, renders {enter details}[rdoc-ref:VehiclesController.enter_details] with errors
+  def determinate_next_step(form)
+    if form.valid?
+      redirect_to details_vehicles_path
+    else
+      @errors = form.errors.messages
+      render enter_details_vehicles_path
+    end
   end
 end

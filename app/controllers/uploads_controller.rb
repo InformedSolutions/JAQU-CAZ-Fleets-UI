@@ -14,6 +14,7 @@ class UploadsController < ApplicationController
   #     GET /uploads
   #
   def index
+    session[:submission_method] = nil
     @vehicles_present = !current_user.fleet.empty?
   end
 

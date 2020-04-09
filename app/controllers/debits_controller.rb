@@ -8,6 +8,7 @@ class DebitsController < ApplicationController
   before_action :assign_debit, only: %i[confirm index new first_mandate]
   before_action :check_active_caz_mandates, only: %i[first_mandate]
   before_action :assign_back_button_url, only: %i[confirm index new first_mandate]
+  before_action :clear_payment_method, only: %i[first_mandate initiate]
 
   ##
   # Renders the confirm direct debit page
@@ -135,5 +136,10 @@ class DebitsController < ApplicationController
   # Redirect to {rdoc-ref:DebitsController.index} if active mandates are present
   def check_active_caz_mandates
     redirect_to debits_path if @debit.caz_mandates(@zone_id).present?
+  end
+
+  # clear +payment_method+ from the session
+  def clear_payment_method
+    session[:payment_method] = nil
   end
 end

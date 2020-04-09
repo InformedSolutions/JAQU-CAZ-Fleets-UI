@@ -22,7 +22,7 @@ describe 'OrganisationsController - POST #create' do
   context 'with company name in the session' do
     before do
       allow(CreateAccount).to receive(:call).and_return(user)
-      add_to_session('new_account': { 'company_name': company_name })
+      add_to_session(new_account: { 'company_name': company_name })
     end
 
     context 'with valid params' do
