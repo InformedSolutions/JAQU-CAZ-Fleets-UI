@@ -1,3 +1,6 @@
+- title_and_header = 'Which Clean Air Zone do you need to set up a direct debit with?'
+- content_for(:title, title_and_header)
+
 = link_to 'Back', @back_button_url, class: 'govuk-back-link'
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
@@ -13,7 +16,7 @@
           %fieldset.govuk-fieldset{'aria-describedby': 'caz-hint'}
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
               %h1.govuk-fieldset__heading
-                Which Clean Air Zone do you need to set up a direct debit with?
+                = title_and_header
             - if alert
               %span#caz-selection-error.govuk-error-message
                 %span.govuk-visually-hidden Error:

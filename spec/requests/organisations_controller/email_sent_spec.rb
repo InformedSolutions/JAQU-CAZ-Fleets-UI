@@ -6,7 +6,7 @@ describe 'OrganisationsController - GET #email_sent' do
   subject { get email_sent_organisations_path }
 
   let(:session_data) do
-    { 'new_account': create_user.serializable_hash.merge(company_name: 'Company name') }
+    { new_account: create_user.serializable_hash.merge(company_name: 'Company name') }
   end
 
   before do
@@ -19,7 +19,7 @@ describe 'OrganisationsController - GET #email_sent' do
   end
 
   context 'without new_account data in the session' do
-    let(:session_data) { { 'new_account': { 'company_name': 'Company name' } } }
+    let(:session_data) { { new_account: { 'company_name': 'Company name' } } }
 
     it 'returns a redirect' do
       expect(response).to redirect_to(root_path)

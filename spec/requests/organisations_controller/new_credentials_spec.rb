@@ -6,7 +6,7 @@ describe 'OrganisationsController - GET #new_credentials' do
   subject { get new_credentials_organisations_url }
 
   before do
-    add_to_session('new_account': { 'company_name': 'Company name' })
+    add_to_session(new_account: { 'company_name': 'Company name' })
     subject
   end
 

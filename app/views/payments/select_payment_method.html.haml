@@ -29,7 +29,8 @@
                 %input.govuk-radios__input{name: 'payment_method',
                                            type: 'radio',
                                            value: 'true',
-                                           id: 'direct_debit'}
+                                           id: 'direct_debit',
+                                           checked: session[:payment_method] == 'true'}
                 %label.govuk-label.govuk-radios__label{for: 'direct_debit'}
                   Direct Debit
 

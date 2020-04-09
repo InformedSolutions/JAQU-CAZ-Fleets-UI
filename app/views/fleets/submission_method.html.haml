@@ -1,16 +1,23 @@
+- title_and_header = 'Choose how to add vehicles to your account'
+- content_for(:title, title_and_header)
+
+= link_to 'Back', @back_button_url, class: 'govuk-back-link'
+
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
+
       - if @errors.present?
         = render 'common/error_summary',
           error_msg_div: '#submission-method-error',
           error_msg: @errors[:submission_method].first
+
       = form_tag submission_method_fleets_path do
         .govuk-form-group{class: @errors.present? ? 'govuk-form-group--error': ''}
           %fieldset.govuk-fieldset{'aria-describedby': 'submission-method-hint'}
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--xl
               %h1.govuk-fieldset__heading
-                Choose how to add vehicles to your account
+                = title_and_header
             %span#submission-method-hint.govuk-hint
               Choose how you would like to add vehicles to your account.
             - if @errors.present?
@@ -22,7 +29,8 @@
               .govuk-radios__item
                 %input#method-1.govuk-radios__input{name: 'submission-method',
                                                     type: 'radio',
-                                                    value: 'upload'}
+                                                    value: 'upload',
+                                                    checked: session[:submission_method] == 'upload'}
                 %label.govuk-label.govuk-radios__label.govuk-label--s{for: 'method-1'}
                   Bulk upload
                 %span.govuk-hint.govuk-radios__hint
@@ -30,7 +38,8 @@
               .govuk-radios__item
                 %input#method-2.govuk-radios__input{name: 'submission-method',
                                                     type: 'radio',
-                                                    value: 'manual'}
+                                                    value: 'manual',
+                                                    checked: session[:submission_method] == 'manual'}
                 %label.govuk-label.govuk-radios__label.govuk-label--s{for: 'method-2'}
                   Manual entry
                 %span.govuk-hint.govuk-radios__hint
