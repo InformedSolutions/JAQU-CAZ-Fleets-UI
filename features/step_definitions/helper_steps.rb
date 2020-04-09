@@ -63,3 +63,7 @@ end
 When('I reload the page') do
   visit page.current_path
 end
+
+Then('I should see {string} as {string} value') do |string, field|
+  expect(page).to have_field(field, with: string)
+end
