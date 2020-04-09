@@ -132,6 +132,7 @@ class PaymentsController < ApplicationController
   # ==== Params
   # * +la_id+ - id of the selected CAZ, required in the session
   def confirm_payment_method
+    session[:payment_method] = params['payment_method']
     if params['payment_method'] == 'true'
       redirect_to confirm_debits_path
     elsif params['payment_method'] == 'false'

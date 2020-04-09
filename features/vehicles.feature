@@ -7,6 +7,9 @@ Feature: Vehicles
     When I visit the enter details page
       And I enter vrn
       And I press the Continue
+    Then I press the Back link
+      And I should see 'CU57ABC' as 'vrn' value
+      And I press the Continue
     Then I should be on the details page
     When I choose that the details are correct
       And I press the Confirm

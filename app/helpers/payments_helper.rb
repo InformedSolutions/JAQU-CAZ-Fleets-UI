@@ -22,8 +22,8 @@ module PaymentsHelper
   end
 
   # Number of selected dates
-  def naw_payment_selected_dates_count
-    new_payment_data[:details].sum { |_k, vrn| vrn[:dates].length }
+  def selected_dates_count
+    session.dig('new_payment', :details)&.sum { |_k, vrn| vrn[:dates].length }
   end
 
   # Checks if given date is already paid
