@@ -34,7 +34,9 @@ RSpec.describe ResetPasswordForm, type: :model do
   end
 
   context 'when invalid email format' do
-    %w[user.example.com test@informed..com test.@informed.com].each do |value|
+    %w[
+      user.example.com test@informed..com test.@informed.com test@@informed.com test@info@rmed.com
+    ].each do |value|
       let(:email_address) { value }
 
       it 'is not valid' do
