@@ -6,7 +6,7 @@
       = errors[:email].join(', ')
   = form.text_field :email,
                     class: determinate_input_class(errors[:email]),
-                    value: session.dig(:new_account, :email),
+                    value: session.dig('new_account', 'email'),
                     maxlength: 45
 
 .govuk-form-group{class: ('govuk-form-group--error' if errors[:email_confirmation].present?)}
@@ -17,7 +17,7 @@
       = errors[:email_confirmation].join(', ')
   = form.text_field :email_confirmation,
                     class: determinate_input_class(errors[:email_confirmation]),
-                    value: session.dig(:new_account, :email_confirmation),
+                    value: session.dig('new_account', 'email_confirmation'),
                     maxlength: 45
 
 .govuk-form-group{class: ('govuk-form-group--error' if errors[:password].present?)}
