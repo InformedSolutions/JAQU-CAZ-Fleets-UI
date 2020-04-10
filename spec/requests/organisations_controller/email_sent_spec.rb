@@ -19,7 +19,7 @@ describe 'OrganisationsController - GET #email_sent' do
   end
 
   context 'without new_account data in the session' do
-    let(:session_data) { { new_account: { 'company_name': 'Company name' } } }
+    let(:session_data) { { new_account: { 'account_id': SecureRandom.uuid } } }
 
     it 'returns a redirect' do
       expect(response).to redirect_to(root_path)

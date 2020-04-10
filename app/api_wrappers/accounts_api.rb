@@ -88,6 +88,46 @@ class AccountsApi < BaseApi
     end
 
     ##
+    # Calls +/v1/accounts/:accountId/users+ endpoint with +POST+ method and returns details of the created user
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - uuid, ID of the account on backend DB
+    # * +email+ - submitted email address
+    # * +password+ - submitted password
+    #
+    # ==== Example
+    #
+    #     user_attributes = AccountsApi.users(
+    #       company_name: 'Test Inc.', email: 'test@example.com', password: 'test'
+    #     )
+    #     user = User.serialize_from_api(user_attributes)
+    #
+    # ==== Result
+    #
+    # Returned vehicles details will have the following fields:
+    # * +accountId+ - uuid, ID of the account on backend DB
+    # * +accountName+ - string, name of the account
+    # * +accountUserId+ - uuid, ID of the accountUser on backend DB
+    # * +admin+ - boolean, determines if the user is admin
+    # * +email+ = email, email of the accountUser
+    #
+    # ==== Serialization
+    #
+    # {User model}[rdoc-ref:User] can be used to create an instance referring to the returned data
+    #
+    # ==== Exceptions
+    #
+    # * {422 Exception}[rdoc-ref:BaseApi::Error422Exception] - parameters are invalid (details in the exception body)
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def create_user(account_id:, email:, password:)
+      log_action 'Creating a user account'
+      body = { email: email.downcase, password: password }.to_json
+      request(:post, "/accounts/#{account_id}/users", body: body)
+    end
+
+    ##
     # Calls +/v1/accounts/:accountId/users/:accountUserId/verify+ endpoint with +POST+ method.
     #
     # ==== Attributes
