@@ -4,16 +4,14 @@ require 'rails_helper'
 
 describe 'AccountsApi.create_account' do
   subject(:call) do
-    AccountsApi.create_account(email: email, password: password, company_name: name)
+    AccountsApi.create_account(company_name: name)
   end
 
-  let(:email) { 'test@example.com' }
-  let(:password) { 'password' }
   let(:name) { 'Awesome Inc.' }
 
   context 'when the response status is 201' do
     before do
-      user_details = read_unparsed_response('create_user.json')
+      user_details = read_unparsed_response('create_account.json')
       stub_request(:post, /accounts/).to_return(
         status: 201,
         body: user_details
@@ -21,25 +19,13 @@ describe 'AccountsApi.create_account' do
     end
 
     it 'returns proper fields' do
-      expect(call.keys).to contain_exactly(
-        'accountId', 'accountName', 'accountUserId', 'admin', 'email'
-      )
+      expect(call.keys).to contain_exactly('accountId')
     end
 
     it 'calls API with proper body' do
-      body = { email: email, password: password, accountName: name }
+      body = { accountName: name }
       call
       expect(WebMock).to have_requested(:post, /accounts/).with(body: body).once
-    end
-
-    context 'when email has uppercased signs' do
-      let(:email) { 'TEST@example.com' }
-
-      it 'calls API with proper body' do
-        body = { email: email.downcase, password: password, accountName: name }
-        call
-        expect(WebMock).to have_requested(:post, /accounts/).with(body: body).once
-      end
     end
   end
 

@@ -4,6 +4,7 @@ en:
     errors:
       missing: 'is required'
       maximum_length: 'is too long (maximum is %{length} characters)'
+      invalid_format: 'has invalid format'
   login_form:
      email_missing: 'Enter your email address'
      password_missing: 'Enter your password'
@@ -47,6 +48,11 @@ en:
       email_equality: 'Email address and email address confirmation must be the same'
       exists: 'Email already exists'
     sqs_error: 'There was an error while sending the email to SQS'
+  company_name:
+    errors:
+      duplicate: Company with provided name already exists
+      profanity: Profane words are not allowed
+      abuse: Abusive words are not allowed
   verification_email:
     error: 'There was an error while sending Verification Email to SQS'
   confirmation_form:

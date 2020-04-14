@@ -21,6 +21,12 @@ Given('I visit the verification link second time') do
 end
 
 Then('I enter a company name') do
+  stub_request(:post, /accounts/).to_return(
+    status: 201,
+    body: {
+      'accountId': 'ccb37077-c4b8-4cc2-b34f-4931de0774f9'
+    }.to_json
+  )
   fill_in('organisations_company_name', with: 'Company name')
 end
 
