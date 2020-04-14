@@ -7,7 +7,7 @@ describe 'OrganisationsController - GET #resend_email' do
 
   let(:user) { create_user }
   let(:session_data) do
-    { new_account: create_user.serializable_hash.merge(company_name: 'Company name') }
+    { new_account: create_user.serializable_hash.merge(account_id: SecureRandom.uuid) }
   end
 
   before do
@@ -29,7 +29,7 @@ describe 'OrganisationsController - GET #resend_email' do
   end
 
   context 'without new_account data in the session' do
-    let(:session_data) { { new_account: { 'company_name': 'Company name' } } }
+    let(:session_data) { { new_account: { 'account_id': SecureRandom.uuid } } }
 
     it 'returns a redirect to root_path' do
       subject
