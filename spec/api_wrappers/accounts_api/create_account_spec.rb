@@ -13,7 +13,7 @@ describe 'AccountsApi.create_account' do
 
   context 'when the response status is 201' do
     before do
-      user_details = read_unparsed_response('user.json')
+      user_details = read_unparsed_response('create_user.json')
       stub_request(:post, /accounts/).to_return(
         status: 201,
         body: user_details

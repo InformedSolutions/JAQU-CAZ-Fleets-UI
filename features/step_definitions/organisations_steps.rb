@@ -25,12 +25,12 @@ Then('I enter a company name') do
 end
 
 And('I enter the account details') do
-  allow(AccountsApi).to receive(:create_account).and_return(read_response('create_account.json'))
+  allow(AccountsApi).to receive(:create_user).and_return(read_response('create_user.json'))
   fill_account_details
 end
 
 And('I enter the account details with not uniq email address') do
-  stub_request(:post, /accounts/).to_return(
+  stub_request(:post, /users/).to_return(
     status: 422,
     body: {
       'message': 'Submitted parameters are invalid',

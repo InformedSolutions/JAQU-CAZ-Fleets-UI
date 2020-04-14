@@ -3,7 +3,7 @@
 class OrganisationsController < ApplicationController
   skip_before_action :authenticate_user!
   # checks if company name is present in session
-  before_action :check_company_name, only: %i[new_credentials create email_sent]
+  before_action :check_account_id, only: %i[new_credentials create email_sent]
   # checks if new account details is present in session
   before_action :check_account_details, only: %i[email_sent resend_email]
   # add data to session to render it in the text fields after using `Back` link
@@ -35,7 +35,7 @@ class OrganisationsController < ApplicationController
   #
   def set_name
     form = CompanyNameForm.new(company_name_params)
-    session['new_account'] = { 'company_name' => form.company_name }
+    session['new_account'] = { 'account_id' => '494cbf74-5ec8-11ea-bb6b-73521585dd11' }
     if form.valid?
       redirect_to new_credentials_organisations_path
     else
@@ -72,9 +72,9 @@ class OrganisationsController < ApplicationController
   # * +company_name+ - string, account name stored in the session e.g. 'Company name'
   #
   def create
-    user = CreateAccount.call(
+    user = CreateUserAccount.call(
       organisations_params: organisations_params,
-      company_name: new_account['company_name'],
+      account_id: new_account['account_id'],
       host: root_url
     )
     new_account.merge!(user.serializable_hash.stringify_keys)
@@ -163,12 +163,12 @@ class OrganisationsController < ApplicationController
     params.require(:organisations).permit(:company_name)
   end
 
-  # Checks if company name is present in the session.
+  # Checks if account_id is present in the session.
   # If not, redirects to root path.
-  def check_company_name
-    return if new_account['company_name']
+  def check_account_id
+    return if new_account['account_id']
 
-    Rails.logger.warn('Company name is missing in the session. Redirecting to :root_path')
+    Rails.logger.warn('Account id is missing in the session. Redirecting to :root_path')
     redirect_to root_path
   end
 
@@ -177,7 +177,7 @@ class OrganisationsController < ApplicationController
   def check_account_details
     Rails.logger.warn('Checking credentials from the session')
     redirect_to root_path if (
-      %w[company_name email admin user_id account_id account_name login_ip] - new_account.keys
+      %w[email admin user_id account_id account_name login_ip] - new_account.keys
     ).present?
   end
 

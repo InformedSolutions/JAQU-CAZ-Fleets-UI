@@ -2,17 +2,20 @@
 
 require 'rails_helper'
 
-describe 'AccountsApi.sign_in' do
-  subject(:call) { AccountsApi.sign_in(email: email, password: password) }
+describe 'AccountsApi.create_account' do
+  subject(:call) do
+    AccountsApi.create_user(account_id: account_id, email: email, password: password)
+  end
 
+  let(:account_id) { '3fa85f64-5717-4562-b3fc-2c963f66afa6' }
   let(:email) { 'test@example.com' }
   let(:password) { 'password' }
 
-  context 'when the response status is 200' do
+  context 'when the response status is 201' do
     before do
       user_details = read_unparsed_response('create_user.json')
-      stub_request(:post, %r{auth/login}).to_return(
-        status: 200,
+      stub_request(:post, /users/).to_return(
+        status: 201,
         body: user_details
       )
     end
@@ -26,7 +29,7 @@ describe 'AccountsApi.sign_in' do
     it 'calls API with proper body' do
       body = { email: email, password: password }
       call
-      expect(WebMock).to have_requested(:post, %r{auth/login}).with(body: body).once
+      expect(WebMock).to have_requested(:post, /users/).with(body: body).once
     end
 
     context 'when email has uppercased signs' do
@@ -35,29 +38,19 @@ describe 'AccountsApi.sign_in' do
       it 'calls API with proper body' do
         body = { email: email.downcase, password: password }
         call
-        expect(WebMock).to have_requested(:post, %r{auth/login}).with(body: body).once
+        expect(WebMock).to have_requested(:post, /users/).with(body: body).once
       end
-    end
-  end
-
-  context 'when the response status is 401' do
-    before do
-      stub_request(:post, %r{auth/login}).to_return(
-        status: 401,
-        body: { 'message' => 'Unauthorised' }.to_json
-      )
-    end
-
-    it 'raises Error401Exception' do
-      expect { call }.to raise_exception(BaseApi::Error401Exception)
     end
   end
 
   context 'when the response status is 422' do
     before do
-      stub_request(:post, %r{auth/login}).to_return(
+      stub_request(:post, /users/).to_return(
         status: 422,
-        body: { 'message' => 'Email unconfirmed' }.to_json
+        body: {
+          'message' => 'Creation failed',
+          'details' => %w[emailNotUnique passwordNotValid]
+        }.to_json
       )
     end
 
