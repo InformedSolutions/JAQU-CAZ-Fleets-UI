@@ -1,0 +1,4 @@
+# This file contain a list of advisory exclusions for `improved-yarn-audit` library
+#
+# Prototype Pollution - https://www.npmjs.com/advisories/1179
+1179
