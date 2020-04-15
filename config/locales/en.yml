@@ -50,9 +50,9 @@ en:
     sqs_error: 'There was an error while sending the email to SQS'
   company_name:
     errors:
-      duplicate: Company with provided name already exists
-      profanity: Profane words are not allowed
-      abuse: Abusive words are not allowed
+      duplicate: The company name already exists.
+      profanity: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.
+      abuse: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.
   verification_email:
     error: 'There was an error while sending Verification Email to SQS'
   confirmation_form:
