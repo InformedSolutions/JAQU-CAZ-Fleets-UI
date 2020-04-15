@@ -34,14 +34,12 @@ class OrganisationsController < ApplicationController
   # * +company_name+ - string, account name e.g. 'Company name'
   #
   def set_name
-    form = CompanyNameForm.new(company_name_params)
-    session['new_account'] = { 'account_id' => '494cbf74-5ec8-11ea-bb6b-73521585dd11' }
-    if form.valid?
-      redirect_to new_credentials_organisations_path
-    else
-      @error = form.errors.full_messages.join(',')
-      render 'organisations/new'
-    end
+    account_id = CreateAccount.call(company_name: company_name_params[:company_name])
+    session['new_account'] = { 'account_id' => account_id }
+    redirect_to new_credentials_organisations_path
+  rescue InvalidCompanyNameException => e
+    @error = e.message
+    render 'organisations/new'
   end
 
   ##
