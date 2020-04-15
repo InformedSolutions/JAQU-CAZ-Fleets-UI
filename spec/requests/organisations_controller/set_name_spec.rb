@@ -9,16 +9,25 @@ describe 'OrganisationsController - POST #set_name' do
 
   let(:company_name) { 'Company Name' }
 
-  before { subject }
-
   context 'with valid params' do
+    before do
+      allow(CreateAccount).to receive(:call).and_return(SecureRandom.uuid)
+      subject
+    end
+
     it 'returns a success response' do
       expect(response).to have_http_status(:found)
     end
   end
 
   context 'with invalid params' do
-    let(:company_name) { '' }
+    let(:errors) { { company_name: 'Sample Error' } }
+
+    before do
+      allow(CreateAccount).to(receive(:call)
+        .and_raise(InvalidCompanyNameException, errors))
+      subject
+    end
 
     it 'renders create company name view' do
       expect(response).to render_template('organisations/new')

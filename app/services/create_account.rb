@@ -1,58 +1,45 @@
 # frozen_string_literal: true
 
 ##
-# Service used to validates user params and performs call to API
+# Service used to validate company name and perform request to API which creates the Company.
 #
 class CreateAccount < BaseService
   ##
   # Initializer method.
   #
   # ==== Attributes
-  # * +organisations_params+ - hash, email and password submitted by the user
   # * +company_name+ - string, the company name submitted by the user
-  # * +host+ - URL, the current host of an app
   #
-  def initialize(organisations_params:, company_name:, host:)
-    @organisations_params = organisations_params
+  def initialize(company_name:)
     @company_name = company_name
-    @host = host
   end
 
+  ##
   # The caller method for the service.
-  # It invokes validating,
-  # performs call to API if validation not raises exception and
-  # sends verification email.
+  # Invokes validation for company name format and performs a request to API.
+  # When response is other than :created (201) then throws an exception.
   def call
-    validate_user_params
-    user = User.serialize_from_api(perform_api_call)
-    send_verification_email(user)
-    user
+    validate_params
+    created_account_data = perform_api_call
+
+    created_account_data['accountId']
   end
 
   private
 
-  # Attribute used internally
-  attr_reader :organisations_params, :company_name, :user, :host
+  attr_reader :company_name
 
-  # Validate user params.
-  # Raises `NewPasswordException` exception if validation failed.
-  def validate_user_params
-    form = EmailAndPasswordForm.new(organisations_params)
+  def validate_params
+    form = CompanyNameForm.new(company_name: company_name)
     return if form.valid?
 
-    log_invalid_params(form.errors.full_messages)
-    raise NewPasswordException, form.errors.messages
+    error_message = form.errors.full_messages.first
+    log_invalid_params(error_message)
+    raise InvalidCompanyNameException, error_message
   end
 
-  # Performs the API call to create a new account.
-  #
-  # It returns a new User class instance.
   def perform_api_call
-    AccountsApi.create_account(
-      email: organisations_params[:email],
-      password: organisations_params[:password],
-      company_name: company_name
-    )
+    AccountsApi.create_account(company_name: company_name)
   rescue BaseApi::Error422Exception => e
     parse_422_error(e.body['errorCode'])
   end
@@ -60,33 +47,15 @@ class CreateAccount < BaseService
   # Check if api returns 422 errors. If yes assign error messages to error object and
   # raise `NewPasswordException` exception
   def parse_422_error(enum)
-    errors = {}
+    error = if enum.eql?('duplicate')
+              I18n.t('company_name.errors.duplicate')
+            elsif enum.eql?('profanity')
+              I18n.t('company_name.errors.profanity')
+            elsif enum.eql?('abuse')
+              I18n.t('company_name.errors.abuse')
+            end
 
-    check_email_uniq(enum, errors)
-    check_password_complexity(enum, errors)
-
-    raise(NewPasswordException, errors)
-  end
-
-  # add error to +errors+ object if `emailNotUnique` enum is present
-  def check_email_uniq(enum, errors)
-    errors[:email] = [I18n.t('email.errors.exists')] if enum.eql?('emailNotUnique')
-  end
-
-  # add error to +errors+ object if `passwordNotValid` enum is present
-  def check_password_complexity(enum, errors)
-    return unless enum.eql?('passwordNotValid')
-
-    errors[:password] = [I18n.t(
-      'input_form.errors.password_complexity',
-      attribute: 'Password'
-    )]
-  end
-
-  # It sends the verification email to the user via SQS.
-  #
-  # It raises BaseApi::Error500Exception if it fails.
-  def send_verification_email(user)
-    Sqs::VerificationEmail.call(user: user, host: host)
+    log_invalid_params(error)
+    raise InvalidCompanyNameException, error
   end
 end

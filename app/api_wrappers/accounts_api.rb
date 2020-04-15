@@ -81,9 +81,9 @@ class AccountsApi < BaseApi
     # * {422 Exception}[rdoc-ref:BaseApi::Error422Exception] - parameters are invalid (details in the exception body)
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
-    def create_account(email:, password:, company_name:)
+    def create_account(company_name:)
       log_action("Creating account with company_name: #{company_name}")
-      body = { accountName: company_name, email: email.downcase, password: password }.to_json
+      body = { accountName: company_name }.to_json
       request(:post, '/accounts', body: body)
     end
 
