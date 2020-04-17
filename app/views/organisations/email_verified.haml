@@ -1,7 +1,11 @@
+- title_and_header = 'Your account has been created'
+- content_for(:title, title_and_header)
+
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      %h1.govuk-heading-xl Your account has been created
+      %h1.govuk-heading-xl
+        = title_and_header
       %p
         Your email address has been verified and your account has been activated.
       %p

@@ -1,3 +1,6 @@
+- title_and_header = "Are these the vehicle's details?"
+- content_for(:title, title_and_header)
+
 = link_to 'Back', enter_details_vehicles_path, class: 'govuk-back-link', id: 'back-link'
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
@@ -8,7 +11,8 @@
           error_msg_div: '#confirm-vehicle-details-error',
           error_msg: alert
 
-      %h1.govuk-heading-xl Are these the vehicle's details?
+      %h1.govuk-heading-xl
+        = title_and_header
       %table.govuk-table
         %thead.govuk-table__head
           %td.govuk-table__header{colspan: 2, id: 'table-header'}

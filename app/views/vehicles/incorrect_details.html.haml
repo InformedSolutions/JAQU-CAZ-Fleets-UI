@@ -1,9 +1,13 @@
+- title_and_header = 'Incorrect vehicle details'
+- content_for(:title, title_and_header)
+
 = link_to 'Back', details_vehicles_path, class: 'govuk-back-link'
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      %h1.govuk-heading-l Incorrect vehicle details
+      %h1.govuk-heading-l
+        = title_and_header
       %p
         If your vehicle details are incorrect, you may need to
         = external_link_to 'update them', 'https://www.gov.uk/change-vehicle-details-registration-certificate'
