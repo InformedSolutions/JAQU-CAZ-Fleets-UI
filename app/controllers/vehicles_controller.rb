@@ -20,9 +20,7 @@ class VehiclesController < ApplicationController
   # ==== Path
   #    GET /vehicles/enter_details
   #
-  def enter_details
-    session[:submission_method] = nil
-  end
+  def enter_details; end
 
   ##
   # Validates +vrn+ submitted by the user.
