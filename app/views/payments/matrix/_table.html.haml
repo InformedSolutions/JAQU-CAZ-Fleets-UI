@@ -19,10 +19,10 @@
             - else
               .govuk-checkboxes__item
                 %input.govuk-checkboxes__input{name: "payment[vehicles][#{vehicle.vrn}][]",
-                                               value: date[:value],
+                                               value: formatted_date_string(date[:value]),
                                                id: id,
                                                type: 'checkbox',
-                                               checked: checked?(vehicle.vrn, date[:value])}
+                                               checked: checked?(vehicle.vrn, formatted_date_string(date[:value]))}
                 %label.govuk-label.govuk-checkboxes__label{for: id}
                   %span.govuk-visually-hidden
                     = date[:value]

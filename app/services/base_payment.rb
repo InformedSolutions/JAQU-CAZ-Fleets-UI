@@ -36,7 +36,7 @@ class BasePayment < BaseService
       {
         vrn: payment_detail[:vrn],
         charge: charge_in_pence(payment_detail[:charge]),
-        travel_date: date,
+        travel_date: Date.parse(date).to_s,
         tariff_code: payment_detail[:tariff]
       }
     end
