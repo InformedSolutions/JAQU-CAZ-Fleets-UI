@@ -67,4 +67,9 @@ module PaymentsHelper
   def external_urls
     YAML.load_file('additional_urls.yaml')
   end
+
+  # Transforms a date into more user friendly string such as '25 March 2020'.
+  def formatted_date_string(date)
+    Date.parse(date).strftime('%d %B %Y')
+  end
 end
