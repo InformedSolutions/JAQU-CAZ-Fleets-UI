@@ -1,0 +1,3 @@
+- [:success, :warning].each do |banner_type|
+  - if flash[banner_type.to_sym]
+    = render "common/#{banner_type}_banner", message: flash[banner_type.to_sym]

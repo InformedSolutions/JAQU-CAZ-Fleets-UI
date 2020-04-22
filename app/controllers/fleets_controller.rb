@@ -128,9 +128,10 @@ class FleetsController < ApplicationController
     form = ConfirmationForm.new(confirm_delete_param)
     return redirect_to delete_fleets_path, alert: confirmation_error(form) unless form.valid?
 
+    set_successful_removal_flash_message
     @fleet.delete_vehicle(vrn) if form.confirmed?
     session[:vrn] = nil
-    redirect_to @fleet.empty? ? dashboard_path : fleets_path
+    redirect_to after_removal_redirect_path(@fleet)
   end
 
   private
@@ -168,5 +169,18 @@ class FleetsController < ApplicationController
     else
       redirect_to fleets_path, alert: form.errors.messages[:confirmation].first
     end
+  end
+
+  # Sets successful flash message after vehicle removal from fleet
+  def set_successful_removal_flash_message
+    flash[:success] = I18n.t(
+      'vrn_form.messages.single_vrn_removed',
+      vrn: session[:vrn]
+    )
+  end
+
+  # Returns redirect path after successful removal of vehicle from the fleet
+  def after_removal_redirect_path(fleet)
+    fleet.empty? ? dashboard_path : fleets_path
   end
 end

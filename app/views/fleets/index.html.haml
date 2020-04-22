@@ -11,6 +11,8 @@
           error_msg_div: '#confirm-vehicle-creation-error',
           error_msg: alert
 
+      = render 'common/banners'
+
       %h1.govuk-heading-l
         = title_and_header
       %p
@@ -24,7 +26,7 @@
         = external_link_to 'DVLA',
                             'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
                             id: 'update_record_link'
-        to make sure it holds the correct information for you. The charge still needs to be paid but must be done per individual vehicle. 
+        to make sure it holds the correct information for you. The charge still needs to be paid but must be done per individual vehicle.
         Use the
         = link_to 'Pay a Clean Air Zone Charge service for an individual vehicle (opens in new window)',
                   single_vehicle_payment_link,

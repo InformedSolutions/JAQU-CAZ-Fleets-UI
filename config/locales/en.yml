@@ -6,11 +6,11 @@ en:
       maximum_length: 'is too long (maximum is %{length} characters)'
       invalid_format: 'has invalid format'
   login_form:
-     email_missing: 'Enter your email address'
-     password_missing: 'Enter your password'
-     invalid_email: 'Enter your email address in a valid format'
-     incorrect: 'The email or password you entered is incorrect'
-     email_unconfirmed: 'Your email address is not confirmed'
+    email_missing: 'Enter your email address'
+    password_missing: 'Enter your password'
+    invalid_email: 'Enter your email address in a valid format'
+    incorrect: 'The email or password you entered is incorrect'
+    email_unconfirmed: 'Your email address is not confirmed'
   la_form:
     la_missing: 'You must choose one Clean Air Zone'
   input_form:
@@ -32,6 +32,11 @@ en:
       vrn_invalid: 'Enter the number plate of the vehicle in a valid format'
       vrn_too_long: 'The number plate of the vehicle is too long'
       vrn_too_short: 'The number plate of the vehicle is too short'
+    messages:
+      multiple_vrns_added: 'You have successfully uploaded %{vrns_count} to your vehicle list.'
+      single_vrn_added: 'You have successfully added %{vrn} to your vehicle list.'
+      single_vrn_removed: 'You have successfully removed %{vrn} from your vehicle list.'
+      vrn_already_exists: '%{vrn} already exists in your vehicle list.'
   search_vrn_form:
     errors:
       vrn_missing: 'Enter a number plate'

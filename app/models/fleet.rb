@@ -49,13 +49,15 @@ class Fleet
     ChargeableFleet.new({})
   end
 
-  # Adds a new vehicle to the fleet.
+  # Adds a new vehicle to the fleet. Returns boolean.
   #
   # ==== Params
   # * +vrn+ - string, vehicle registration number, required
   #
   def add_vehicle(vrn)
     FleetsApi.add_vehicle_to_fleet(vrn: vrn, account_id: account_id)
+  rescue BaseApi::Error422Exception
+    false
   end
 
   # Removes a vehicle from the fleet.
@@ -70,6 +72,11 @@ class Fleet
   # Checks if there are any vehicles in the fleet. Returns boolean.
   def empty?
     FleetsApi.fleet_vehicles(account_id: account_id, page: 1, per_page: 1)['vrns'].empty?
+  end
+
+  # Checks what is total count of stored vehicles.
+  def total_vehicles_count
+    FleetsApi.fleet_vehicles(account_id: account_id, page: 1, per_page: 1)['totalVrnsCount']
   end
 
   private

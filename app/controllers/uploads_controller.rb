@@ -103,12 +103,24 @@ class UploadsController < ApplicationController
 
     session[:job] = nil
     if status == 'SUCCESS'
-      redirect_to fleets_path
+      handle_successful_processing
     else
-      @job_errors = job[:errors]
-      @vehicles_present = !current_user.fleet.empty?
-      render :index
+      handle_failed_processing(job)
     end
+  end
+
+  # Handles successful scenario after CSV processing
+  def handle_successful_processing
+    vrns_count = current_user.fleet.total_vehicles_count
+    flash[:success] = I18n.t('vrn_form.messages.multiple_vrns_added', vrns_count: vrns_count)
+    redirect_to fleets_path
+  end
+
+  # Handles failed scenario after CSV processing
+  def handle_failed_processing(job)
+    @job_errors = job[:errors]
+    @vehicles_present = !current_user.fleet.empty?
+    render :index
   end
 
   # Returns hash with the job data

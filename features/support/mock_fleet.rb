@@ -30,7 +30,8 @@ module MockFleet
                              add_vehicle: true,
                              delete_vehicle: true,
                              empty?: vehicles.empty?,
-                             charges: charges)
+                             charges: charges,
+                             total_vehicles_count: 15)
     allow(Fleet).to receive(:new).and_return(@fleet)
   end
 
