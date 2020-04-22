@@ -15,7 +15,7 @@ class CompanyNameForm < BaseForm
   # validates max length
   validates :company_name, length: {
     maximum: MAX_COMPANY_NAME_LENGTH,
-    message: I18n.t('form.errors.maximum_length', length: MAX_COMPANY_NAME_LENGTH)
+    too_long: I18n.t('form.errors.maximum_length', length: MAX_COMPANY_NAME_LENGTH)
   }
 
   # validates format
