@@ -47,6 +47,12 @@ Feature: Organisations
       And I press the Continue
     Then I should see "Email already exists"
 
+  Scenario: User wants to create a company with a name over 180 characters
+    Given I go to the create account page
+    Then I enter a long company name
+      And I press the Continue
+    Then I should see "Company name is too long"
+
   Scenario: View email verified page
     Given I navigate to a Dashboard page
     When I go to the email verified page

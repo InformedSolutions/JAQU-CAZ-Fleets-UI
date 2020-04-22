@@ -30,6 +30,10 @@ Then('I enter a company name') do
   fill_in('organisations_company_name', with: 'Company name')
 end
 
+Then('I enter a long company name') do
+  fill_in('organisations_company_name', with: ('a' * 181))
+end
+
 And('I enter the account details') do
   allow(AccountsApi).to receive(:create_user).and_return(read_response('create_user.json'))
   fill_account_details
