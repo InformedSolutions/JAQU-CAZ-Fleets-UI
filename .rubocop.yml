@@ -21,6 +21,12 @@ Lint/RaiseException:
 Lint/StructNewOverride:
   Enabled: true
 
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+
 Layout/LineLength:
   Max: 99
   IgnoredPatterns: ['(\A|\s)#']
@@ -36,8 +42,3 @@ Style/AndOr:
 
 Style/AsciiComments:
   Enabled: false
-
-# TODO: Remove after proper API integration
-Style/GlobalVars:
-  AllowedVariables:
-    - $request
