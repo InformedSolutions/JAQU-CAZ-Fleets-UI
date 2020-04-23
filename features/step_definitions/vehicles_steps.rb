@@ -2,6 +2,7 @@
 
 When('I visit the enter details page') do
   mock_vehicles_in_fleet
+  mock_debits
   login_user
   visit enter_details_vehicles_path
 end
