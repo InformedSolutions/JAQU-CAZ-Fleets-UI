@@ -22,11 +22,11 @@ Then('I should be on the submission method page') do
 end
 
 When('I select manual entry') do
-  choose('Manual entry')
+  choose('Individual')
 end
 
 When('I select Bulk upload') do
-  choose('Bulk upload')
+  choose('File upload')
 end
 
 Then('I should be on the upload page') do
