@@ -14,6 +14,7 @@ describe DashboardController, type: :request do
     context 'when user is signed in' do
       before do
         mock_fleet
+        mock_debits
         sign_in create_user
       end
 
