@@ -30,7 +30,7 @@
                   single_vehicle_payment_link,
                   target: '_blank',
                   class: 'govuk-link',
-                  id: 'pay_clean_air_zone_link'                  
+                  id: 'pay_clean_air_zone_link'
       %table.govuk-table
         %caption.govuk-table__caption
         %thead.govuk-table__head
@@ -60,8 +60,8 @@
         page.
 
       %h2.govuk-heading-m Add vehicles
-      %p 
-        You can add multiple vehicles by overriding this list with a 
+      %p
+        You can add multiple vehicles by overriding this list with a
         = link_to('new list of vehicles', uploads_path, id: 'reupload', class: 'govuk-link')
       %p
       = form_for fleets_path, method: :post do

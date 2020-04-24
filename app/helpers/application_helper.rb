@@ -69,4 +69,9 @@ module ApplicationHelper
   def parse_charge(value)
     "£#{format('%<pay>.2f', pay: value.to_f)}"
   end
+
+  # Transforms text to match id format, eg. 'Test String' => 'test-string'
+  def transform_to_id(text)
+    text.to_s.downcase.split(' ').join('-')
+  end
 end
