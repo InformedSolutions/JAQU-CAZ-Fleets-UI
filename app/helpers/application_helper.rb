@@ -51,7 +51,7 @@ module ApplicationHelper
       rel: 'noopener',
       'aria-label': "#{html_options[:'aria-label'] || text} - #{I18n.t('external_link')}"
     )
-    link_to text, url, html_options
+    link_to "#{text} (opens in a new window, external website)", url, html_options
   end
 
   # Creates a back button with link to the dashboard
