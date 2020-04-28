@@ -47,9 +47,6 @@
               %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
                 = vehicle.vrn
               %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
-                if vehicle.type == "Null"? 
-                = "Undetermined"
-                else
                 = vehicle.type
               - @zones.each do |zone|
                 %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
