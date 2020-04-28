@@ -26,10 +26,6 @@ Then('I should be on the confirm payment page') do
   expect_path(review_payments_path)
 end
 
-And('I should see the payment details') do
-  expect(page).to have_content('Confirm your payment')
-end
-
 When('I click view details link') do
   click_link('View details')
 end
