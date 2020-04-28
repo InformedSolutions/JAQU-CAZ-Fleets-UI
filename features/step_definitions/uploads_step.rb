@@ -28,6 +28,7 @@ end
 
 When('I am on the processing page') do
   mock_vehicles_in_fleet
+  mock_debits
   login_user
   page.set_rack_session(
     job: { job_name: SecureRandom.uuid, correlation_id: SecureRandom.uuid }

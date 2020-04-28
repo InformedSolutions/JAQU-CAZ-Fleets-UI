@@ -6,7 +6,7 @@ Feature: Uploads
   Scenario: Uploading file with no vehicles in the fleet
     When I have no vehicles in my fleet
       And I visit the upload page
-    Then I should see "Upload multiple vehicles"
+    Then I should see "Upload your vehicle list"
     When I press upload
     Then I should see "Select a file" 2 times
     When I attach a file
@@ -40,5 +40,5 @@ Feature: Uploads
     When I am on the processing page
       And My upload is failed with error: "Some error message"
       And I reload the page
-    Then I should see "Upload multiple vehicles"
+    Then I should see "Upload your vehicle list"
       And I should see "Some error message"

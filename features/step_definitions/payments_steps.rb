@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 When('I visit the make payment page') do
+  mock_debits
   login_user
   visit payments_path
 end
@@ -25,10 +26,6 @@ Then('I should be on the confirm payment page') do
   expect_path(review_payments_path)
 end
 
-And('I should see the payment details') do
-  expect(page).to have_content('Confirm your payment')
-end
-
 When('I click view details link') do
   click_link('View details')
 end
@@ -38,6 +35,7 @@ Then('I should be on the Charge details page') do
 end
 
 And('I want to confirm my payment') do
+  mock_debits
   mock_requests_to_payments_api_with(return_url: result_payments_path)
 end
 

@@ -33,7 +33,7 @@ Feature: Fleets
     Then I should be on the manage vehicles page
     Then I press the Continue
     Then I should see "You must choose an answer"
-    
+
   Scenario: Removing vehicle from the fleet
     When I have vehicles in my fleet
       And I visit the manage vehicles page
@@ -45,7 +45,7 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the manage vehicles page
       And I should have deleted the vehicle
-    
+
   Scenario: Backend API is unavailable
     When Fleet backend API is unavailable
       And I visit the manage vehicles page
@@ -57,10 +57,10 @@ Feature: Fleets
       And I visit the manage vehicles page
     Then I should see active "1" pagination button
       And I should see inactive "2" pagination button
-      And I should see inactive "next" pagination button
-      And I should not see "previous" pagination button
+      And I should see inactive "next-page" pagination button
+      And I should not see "previous-page" pagination button
     When I press 2 pagination button
     Then I should see active "2" pagination button
       And I should see inactive "1" pagination button
-      And I should see inactive "previous" pagination button
-      And I should not see "next" pagination button
+      And I should see inactive "previous-page" pagination button
+      And I should not see "next-page" pagination button

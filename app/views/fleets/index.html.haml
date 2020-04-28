@@ -26,11 +26,11 @@
                             id: 'update_record_link'
         to make sure it holds the correct information for you. The charge still needs to be paid but must be done per individual vehicle. 
         Use the
-        = link_to 'Pay a Clean Air Zone Charge service for an individual vehicle',
+        = link_to 'Pay a Clean Air Zone Charge service for an individual vehicle (opens in new window)',
                   single_vehicle_payment_link,
                   target: '_blank',
                   class: 'govuk-link',
-                  id: 'pay_clean_air_zone_link'                  
+                  id: 'pay_clean_air_zone_link'
       %table.govuk-table
         %caption.govuk-table__caption
         %thead.govuk-table__head
@@ -60,8 +60,8 @@
         page.
 
       %h2.govuk-heading-m Add vehicles
-      %p 
-        You can add multiple vehicles by overriding this list with a 
+      %p
+        You can add multiple vehicles by overriding this list with a
         = link_to('new list of vehicles', uploads_path, id: 'reupload', class: 'govuk-link')
       %p
       = form_for fleets_path, method: :post do

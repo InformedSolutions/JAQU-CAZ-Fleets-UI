@@ -20,6 +20,7 @@ end
 
 When('I have authentication cookie that has not expired') do
   mock_vehicles_in_fleet
+  mock_debits
   visit new_user_session_path
   login_user
 
@@ -64,6 +65,7 @@ Given('I have authentication cookie that has expired') do
 
   travel_to(20.minutes.ago) do
     mock_vehicles_in_fleet
+    mock_debits
     login_user
   end
 
@@ -74,6 +76,7 @@ end
 
 Given('I am signed in') do
   mock_vehicles_in_fleet
+  mock_debits
   login_user
 end
 

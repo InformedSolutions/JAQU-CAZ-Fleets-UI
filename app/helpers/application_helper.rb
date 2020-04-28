@@ -51,7 +51,7 @@ module ApplicationHelper
       rel: 'noopener',
       'aria-label': "#{html_options[:'aria-label'] || text} - #{I18n.t('external_link')}"
     )
-    link_to text, url, html_options
+    link_to "#{text} (opens in a new window, external website)", url, html_options
   end
 
   # Creates a back button with link to the dashboard
@@ -68,5 +68,10 @@ module ApplicationHelper
   # Returns parsed string, eg. '£10.00'
   def parse_charge(value)
     "£#{format('%<pay>.2f', pay: value.to_f)}"
+  end
+
+  # Transforms text to match id format, eg. 'Test String' => 'test-string'
+  def transform_to_id(text)
+    text.to_s.downcase.split(' ').join('-')
   end
 end

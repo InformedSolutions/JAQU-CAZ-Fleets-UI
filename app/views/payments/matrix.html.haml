@@ -19,7 +19,7 @@
             = hidden_field_tag('allSelectedCheckboxesCount', selected_dates_count)
             .govuk-tabs{'data-module': 'govuk-tabs'}
               - if @search && !@charges.any_results?
-                = render 'payments/matrix/no_chnargeable_vehicles'
+                = render 'payments/matrix/no_chargeable_vehicles'
               - else
                 = render 'payments/matrix/tabs'
                 = render 'payments/matrix/past_week_tab', form: f

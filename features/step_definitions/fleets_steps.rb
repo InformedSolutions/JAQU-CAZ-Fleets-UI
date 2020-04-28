@@ -2,6 +2,7 @@
 
 When('I have no vehicles in my fleet') do
   mock_empty_fleet
+  mock_debits
 end
 
 When('I visit the manage vehicles page') do
@@ -11,6 +12,7 @@ end
 
 When('I visit the submission method page') do
   mock_vehicles_in_fleet
+  mock_debits
   login_user
   visit submission_method_fleets_path
 end
@@ -20,11 +22,11 @@ Then('I should be on the submission method page') do
 end
 
 When('I select manual entry') do
-  choose('Manual entry')
+  choose('Individual')
 end
 
 When('I select Bulk upload') do
-  choose('Bulk upload')
+  choose('File upload')
 end
 
 Then('I should be on the upload page') do
@@ -32,6 +34,7 @@ Then('I should be on the upload page') do
 end
 
 When('I have vehicles in my fleet') do
+  mock_debits
   mock_clean_air_zones
   mock_vehicles_in_fleet
 end

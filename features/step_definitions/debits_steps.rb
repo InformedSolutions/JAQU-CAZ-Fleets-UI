@@ -2,7 +2,7 @@
 
 When('I have no mandates') do
   mock_vehicles_in_fleet
-  mock_debits('inactive_mandates')
+  mock_debits_api_call('inactive_mandates')
 end
 
 When('I visit the manage direct debit page') do
@@ -20,12 +20,12 @@ end
 
 When('I have created mandates') do
   mock_vehicles_in_fleet
-  mock_debits
+  mock_debits_api_call
 end
 
 When('I have created all the possible mandates') do
   mock_vehicles_in_fleet
-  mock_debits('active_mandates')
+  mock_debits_api_call('active_mandates')
 end
 
 Then('I should be on the manage debits page') do
@@ -38,12 +38,12 @@ When('I visit the add new mandate page') do
 end
 
 Then('I press `Set up new direct debit` button') do
-  mock_debits('inactive_mandates')
+  mock_debits_api_call('inactive_mandates')
   click_button 'Set up new direct debit'
 end
 
 Then('I should have a new mandate added') do
-  mock_debits
+  mock_debits_api_call
   allow(DebitsApi).to receive(:create_mandate).and_return(true)
 end
 
@@ -53,35 +53,4 @@ end
 
 When('I have only inactive mandates for selected CAZ') do
   mock_api_endpoints('inactive_caz_mandates')
-end
-
-private
-
-def mock_api_endpoints(caz_mandates = 'caz_mandates')
-  mock_clean_air_zones
-  mock_vehicles_in_fleet
-  mock_debits('mandates')
-  mock_caz_mandates(caz_mandates)
-  mock_create_mandate
-  mock_create_payment
-end
-
-def mock_debits(mocked_file = 'mandates')
-  api_response = read_response("/debits/#{mocked_file}.json")['cleanAirZones']
-  allow(DebitsApi).to receive(:mandates).and_return(api_response)
-end
-
-def mock_caz_mandates(mocked_file = 'caz_mandates')
-  api_response = read_response("/debits/#{mocked_file}.json")['mandates']
-  allow(DebitsApi).to receive(:caz_mandates).and_return(api_response)
-end
-
-def mock_create_payment
-  api_response = read_response('/debits/create_payment.json')
-  allow(DebitsApi).to receive(:create_payment).and_return(api_response)
-end
-
-def mock_create_mandate
-  api_response = read_response('/debits/create_mandate.json')
-  allow(DebitsApi).to receive(:create_mandate).and_return(api_response)
 end

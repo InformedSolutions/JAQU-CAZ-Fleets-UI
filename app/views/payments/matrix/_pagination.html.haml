@@ -6,13 +6,13 @@
       %li.moj-pagination__item.moj-pagination__item--prev
         = hidden_field_tag('payment[previous_vrn]', @charges.first_vrn)
         = link_to('#', class: 'moj-pagination__link', id: 'pagination-previous-link') do
-          Previous
+          Previous vehicles page
           %span.govuk-visually-hidden
             set of pages
     - if @charges.next_page?
       %li.moj-pagination__item.moj-pagination__item--next
         = hidden_field_tag('payment[next_vrn]', @charges.last_vrn)
         = link_to('#', class: 'moj-pagination__link', id: 'pagination-next-link') do
-          Next
+          Next vehicles page
           %span.govuk-visually-hidden
             set of pages
