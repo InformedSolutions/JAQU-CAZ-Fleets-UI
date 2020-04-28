@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ##
-# Controller used to manage and pay direct debits
+# Controller used to manage and pay Direct Debits
 #
 class DebitsController < ApplicationController
   before_action :check_la, only: %i[confirm first_mandate]
@@ -11,7 +11,7 @@ class DebitsController < ApplicationController
   before_action :clear_payment_method, only: %i[first_mandate initiate]
 
   ##
-  # Renders the confirm direct debit page
+  # Renders the confirm Direct Debit page
   # Check if any active mandates present for chosen local authority
   # Redirect to {rdoc-ref:DebitsController.first} if no active mandates
   #
@@ -30,7 +30,7 @@ class DebitsController < ApplicationController
   end
 
   ##
-  # Makes a request to initiate direct debit payment
+  # Makes a request to initiate Direct Debit payment
   #
   # ==== Path
   #
@@ -54,7 +54,7 @@ class DebitsController < ApplicationController
   end
 
   ##
-  # Renders the first create a direct debit mandate
+  # Renders the first create a Direct Debit mandate
   #
   # ==== Path
   #
@@ -63,7 +63,7 @@ class DebitsController < ApplicationController
   def first_mandate; end
 
   ##
-  # Renders active direct debit mandates
+  # Renders active Direct Debit mandates
   # Redirect to #new if there is no mandate assigned to the account.
   #
   # ==== Path
@@ -114,7 +114,7 @@ class DebitsController < ApplicationController
     @debit = DirectDebit.new(current_user.account_id)
   end
 
-  # Saves initiated direct debit payment details to the session
+  # Saves initiated Direct Debit payment details to the session
   def payment_details_to_session(details)
     SessionManipulation::AddCurrentPayment.call(session: session)
     SessionManipulation::SetPaymentDetails.call(session: session,
@@ -123,7 +123,7 @@ class DebitsController < ApplicationController
                                                 external_id: details.external_id)
   end
 
-  # Creates a direct debit mandate and redirects to response url
+  # Creates a Direct Debit mandate and redirects to response url
   def create_debit_mandate(caz_id)
     service_response = DebitsApi.create_mandate(
       account_id: current_user.account_id,
