@@ -48,6 +48,10 @@ Then('I should be on the vehicle not found page') do
   expect(page).to have_current_path(not_found_vehicles_path)
 end
 
+And('I choose I confirm registration') do
+  check('I confirm the number plate is correct and I want to add it to my account.')
+end
+
 Then('I should be on the incorrect details page') do
   expect(page).to have_current_path(incorrect_details_vehicles_path)
 end

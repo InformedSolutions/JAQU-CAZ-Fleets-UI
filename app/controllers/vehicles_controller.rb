@@ -122,6 +122,21 @@ class VehiclesController < ApplicationController
     @vehicle_registration = vrn
   end
 
+  ##
+  # Validates user has confirmed VRN not found is correct.
+  # If it is valid, redirects to  {manage vehicles page}[rdoc-ref:FleetsController.index]
+  # If not, renders {not found}[rdoc-ref:VehiclesController.not_found] with errors
+  #
+  # ==== Path
+  #    POST /vehicles/not_found
+  #
+  def confirm_not_found
+    form = ConfirmationForm.new(params['confirm-registration'])
+    return redirect_to not_found_vehicles_path, alert: confirmation_error(form) unless form.valid?
+
+    add_vehicle_to_fleet
+  end
+
   private
 
   # Check if vrn is present in the session

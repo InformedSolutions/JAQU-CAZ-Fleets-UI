@@ -82,6 +82,7 @@ Rails.application.routes.draw do
       get :exempt
       get :incorrect_details
       get :not_found
+      post :confirm_not_found
     end
   end
 
