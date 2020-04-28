@@ -5,7 +5,7 @@
       - if alert
         = render 'common/error_summary',
           error_msg_div: '#unrecognised-vehicle-error',
-          error_msg: I18n.t('confirmation_alert')
+          error_msg: I18n.t('vehicle_not_found.errors.confirmation_alert')
 
       %h1.govuk-heading-xl Vehicle details could not be found
       %p
@@ -39,12 +39,12 @@
         .govuk-form-group{class: ('govuk-form-group--error' if alert)}
           %fieldset.govuk-fieldset
             %legend.govuk-visually-hidden
-              = I18n.t('confirmation_alert')
+              = I18n.t('vehicle_not_found.errors.confirmation_alert')
 
             - if alert
               %span#unrecognised-vehicle-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
-                = I18n.t('confirmation_alert')
+                = I18n.t('vehicle_not_found.errors.confirmation_alert')
 
             .govuk-checkboxes
               .govuk-checkboxes__item

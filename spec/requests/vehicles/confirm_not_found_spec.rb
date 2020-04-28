@@ -17,10 +17,11 @@ RSpec.describe 'VehiclesController - POST #confirm_not_found', type: :request do
   end
 
   context 'when user is signed in' do
-    before { sign_in create_user(account_id: account_id) }
     before do
+      sign_in create_user(account_id: account_id)
       allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true)
       add_to_session(vrn: @vrn)
+      http_request
     end
 
     context 'when registration confirmed' do

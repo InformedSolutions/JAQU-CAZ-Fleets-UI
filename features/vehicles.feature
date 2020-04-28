@@ -38,7 +38,7 @@ Feature: Vehicles
     Then I should see "Confirm the number plate is correct"
       And I should see "There is a problem"
       And I should be on the vehicle not found page
-    Then I choose I confirm registration
+      And I check "I confirm the number plate is correct and I want to add it to my account."
     When I press the Continue to add vehicle
     Then I should be on the manage vehicles page
 
