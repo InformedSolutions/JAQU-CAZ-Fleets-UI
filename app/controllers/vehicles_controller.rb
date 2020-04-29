@@ -159,7 +159,12 @@ class VehiclesController < ApplicationController
 
   # Add vehicle with given VRN to the user's fleet
   def add_vehicle_to_fleet
-    current_user.add_vehicle(vrn)
+    if current_user.add_vehicle(vrn)
+      flash[:success] = I18n.t('vrn_form.messages.single_vrn_added', vrn: vrn)
+    else
+      flash[:warning] = I18n.t('vrn_form.messages.vrn_already_exists', vrn: vrn)
+    end
+
     session[:vrn] = nil
     redirect_to fleets_path
   end

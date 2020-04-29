@@ -28,6 +28,7 @@ describe 'UploadsController - #processing' do
       allow(FleetsApi)
         .to receive(:job_status)
         .and_return(status: status, errors: errors)
+      mock_fleet(create_empty_fleet)
     end
 
     it 'calls FleetsApi.job_status with proper params' do
@@ -50,6 +51,11 @@ describe 'UploadsController - #processing' do
 
         it 'clears job data' do
           expect(session[:job]).to be_nil
+        end
+
+        it 'sets :success flash message' do
+          expect(flash[:success])
+            .to eq('You have successfully uploaded 45 to your vehicle list.')
         end
       end
 

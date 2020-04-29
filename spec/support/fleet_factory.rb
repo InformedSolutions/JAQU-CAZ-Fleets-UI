@@ -10,7 +10,8 @@ module FleetFactory
                     pagination: paginated_fleet(vehicles),
                     add_vehicle: true,
                     delete_vehicle: true,
-                    empty?: vehicles.empty?)
+                    empty?: vehicles.empty?,
+                    total_vehicles_count: 45)
   end
 
   def mock_fleet(fleet_instance = create_fleet)
