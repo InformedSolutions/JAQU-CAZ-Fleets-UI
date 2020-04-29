@@ -67,3 +67,7 @@ end
 Then('I should see {string} as {string} value') do |string, field|
   expect(page).to have_field(field, with: string)
 end
+
+And('I check {string}') do |string|
+  check(string)
+end

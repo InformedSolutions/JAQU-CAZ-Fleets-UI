@@ -33,6 +33,14 @@ Feature: Vehicles
       And I enter not found vrn
       And I press the Continue
     Then I should be on the vehicle not found page
+    Then I should see "Vehicle details could not be found"
+      And I press the Continue
+    Then I should see "Confirm the number plate is correct"
+      And I should see "There is a problem"
+      And I should be on the vehicle not found page
+      And I check "I confirm the number plate is correct and I want to add it to my account."
+    When I press the Continue to add vehicle
+    Then I should be on the manage vehicles page
 
   Scenario: Adding a vehicle with incorrect details
     When I visit the enter details page
