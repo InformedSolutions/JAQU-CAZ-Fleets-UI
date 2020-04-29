@@ -1,4 +1,4 @@
-- title_and_header = 'Which Clean Air Zone do you need to set up a direct debit with?'
+- title_and_header = 'Which Clean Air Zone do you need to set up a Direct Debit with?'
 - content_for(:title, title_and_header)
 
 = link_to 'Back', @back_button_url, class: 'govuk-back-link'
@@ -22,14 +22,14 @@
                 %span.govuk-visually-hidden Error:
                 = alert
             %p#caz-hint
-              You need to have a separate direct debit with each Clean Air zone that you wish to pay for.
+              You need to have a separate Direct Debit with each Clean Air zone that you wish to pay for.
             - if @zones.size == 1
               %details.govuk-details{'data-module': 'govuk-details'}
                 %summary.govuk-details__summary
                   %span.govuk-details__summary-text
                     Why can I only select one Clean Air Zone?
                 .govuk-details__text
-                  You can only create one direct debit mandate per Clean Air Zone.
+                  You can only create one Direct Debit mandate per Clean Air Zone.
                   If you can only see one option then you have already created mandates for the other Clean Air Zones.
             .govuk-form-group
               .govuk-radios

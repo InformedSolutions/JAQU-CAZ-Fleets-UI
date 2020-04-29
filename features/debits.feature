@@ -1,9 +1,9 @@
 Feature: Debits
   In order to pay the charge
   As a user
-  I want to manage my direct debits mandates
+  I want to manage my Direct Debits mandates
 
-  Scenario: Making a direct debit payment with active mandate
+  Scenario: Making a Direct Debit payment with active mandate
     When I have active mandates for selected CAZ
       And I visit the make payment page
       And I press the Continue
@@ -20,7 +20,7 @@ Feature: Debits
       And I press 'Confirm payment' button
     Then I should see success message
 
-  Scenario: Making a direct debit payment with no active mandate
+  Scenario: Making a Direct Debit payment with no active mandate
     When I have only inactive mandates for selected CAZ
       And I visit the make payment page
       And I press the Continue
@@ -33,29 +33,29 @@ Feature: Debits
       And I press the Continue
     Then I select 'Direct Debit'
       And I press the Continue
-    Then I should see 'First create a direct debit mandate'
+    Then I should see 'First create a Direct Debit mandate'
       And I press the Continue
-    Then I should see 'Your direct debits'
+    Then I should see 'Your Direct Debits'
 
-  Scenario: Visiting the manage direct debit page with no mandates
+  Scenario: Visiting the manage Direct Debit page with no mandates
     When I have no mandates
-      And I visit the manage direct debit page
+      And I visit the manage Direct Debit page
     Then I should be on the add new mandate page
 
-  Scenario: Visiting the manage direct debit page with mandates
+  Scenario: Visiting the manage Direct Debit page with mandates
     When I have created mandates
-      And I visit the manage direct debit page
+      And I visit the manage Direct Debit page
     Then I should be on the manage debits page
-      And I should see 'Set up new direct debit' link
+      And I should see 'Set up new Direct Debit' link
       And I should not see 'You have created a mandate for each CAZ'
-    Then I press `Set up new direct debit` button
-      And I should see 'Which Clean Air Zone do you need to set up a direct debit with?'
+    Then I press `Set up new Direct Debit` button
+      And I should see 'Which Clean Air Zone do you need to set up a Direct Debit with?'
 
-  Scenario: Visiting the manage direct debit page with all mandates
+  Scenario: Visiting the manage Direct Debit page with all mandates
     When I have created all the possible mandates
-      And I visit the manage direct debit page
+      And I visit the manage Direct Debit page
     Then I should be on the manage debits page
-      And I should not see 'Set up new direct debit' link
+      And I should not see 'Set up new Direct Debit' link
       And I should see 'You have created a mandate for each CAZ'
 
   Scenario: Adding a new mandate

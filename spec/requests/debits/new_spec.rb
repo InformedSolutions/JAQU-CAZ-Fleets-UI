@@ -19,7 +19,7 @@ describe 'DebitsController - GET #new' do
   context 'when all zones have the active mandates' do
     before { mock_debits('active_mandates') }
 
-    it 'redirects to the list of direct debits' do
+    it 'redirects to the list of Direct Debits' do
       http_request
       expect(response).to redirect_to(debits_path)
     end

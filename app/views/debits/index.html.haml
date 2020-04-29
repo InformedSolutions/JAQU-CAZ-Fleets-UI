@@ -1,4 +1,4 @@
-- title_and_header = 'Your direct debits'
+- title_and_header = 'Your Direct Debits'
 - content_for(:title, title_and_header)
 
 = link_to 'Back', @back_button_url, class: 'govuk-back-link'
@@ -11,12 +11,12 @@
       %details.govuk-details{'data-module': 'govuk-details'}
         %summary.govuk-details__summary
           %span.govuk-details__summary-text
-            Help with changing or cancelling a direct debit
+            Help with changing or cancelling a Direct Debit
         .govuk-details__text
-          You can only cancel direct debits with your bank.
+          You can only cancel Direct Debits with your bank.
           To change which bank account will be billed,
-          cancel the direct debit on your old account
-          and then create a new direct debit with your new account details.
+          cancel the Direct Debit on your old account
+          and then create a new Direct Debit with your new account details.
       %table.govuk-table
         %thead.govuk-table__head
           %tr.govuk-table__row
@@ -33,7 +33,7 @@
               %td.govuk-table__cell
                 = mandate.status
       - if @zones_without_mandate.present? && @mandates.present?
-        = button_to('Set up new direct debit', new_debit_path, method: :get, class: 'govuk-button')
+        = button_to('Set up new Direct Debit', new_debit_path, method: :get, class: 'govuk-button')
       - else
         %p
           You have created a mandate for each CAZ.

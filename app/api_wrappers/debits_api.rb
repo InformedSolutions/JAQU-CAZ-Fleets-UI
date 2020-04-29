@@ -2,14 +2,14 @@
 
 ##
 # API wrapper for connecting to Payments API.
-# Wraps methods regarding direct debits management.
+# Wraps methods regarding Direct Debits management.
 # See {PaymentsApi}[rdoc-ref:PaymentsApi] for user related actions.
 #
 class DebitsApi < PaymentsApi
   class << self
     ##
     # Calls +/v1/payments/accounts/:account_id/direct-debit-mandates/:zone_id+ endpoint with +GET+ method
-    # and returns a list of account's direct debit mandates assigned to selected Clean Air Zone.
+    # and returns a list of account's Direct Debit mandates assigned to selected Clean Air Zone.
     #
     # ==== Attributes
     #
@@ -56,7 +56,7 @@ class DebitsApi < PaymentsApi
     # * +externalPaymentId+ - string, external identifier for the payment
     #
     def create_payment(caz_id:, account_id:, user_id:, mandate_id:, transactions:)
-      log_action("Creating direct debit payment for user with id: #{user_id}")
+      log_action("Creating Direct Debit payment for user with id: #{user_id}")
 
       body = payment_creation_body(
         caz_id: caz_id,
@@ -70,7 +70,7 @@ class DebitsApi < PaymentsApi
 
     ##
     # Calls +/v1/payments/accounts/:account_id/direct-debit-mandates+ endpoint with +GET+ method
-    # and returns a list of clean air zones with the associated direct debit mandates.
+    # and returns a list of clean air zones with the associated Direct Debit mandates.
     #
     # ==== Attributes
     #
@@ -94,7 +94,7 @@ class DebitsApi < PaymentsApi
 
     ##
     # Calls +/v1/payments/accounts/:account_id/direct-debit-mandates+ endpoint with +POST+ method
-    # which triggers the direct debit creation and returns hash with +nextUrl+.
+    # which triggers the Direct Debit creation and returns hash with +nextUrl+.
     #
     # ==== Attributes
     #

@@ -5,7 +5,7 @@ When('I have no mandates') do
   mock_debits_api_call('inactive_mandates')
 end
 
-When('I visit the manage direct debit page') do
+When('I visit the manage Direct Debit page') do
   login_user
   visit debits_path
 end
@@ -37,9 +37,9 @@ When('I visit the add new mandate page') do
   visit new_debit_path
 end
 
-Then('I press `Set up new direct debit` button') do
+Then('I press `Set up new Direct Debit` button') do
   mock_debits_api_call('inactive_mandates')
-  click_button 'Set up new direct debit'
+  click_button 'Set up new Direct Debit'
 end
 
 Then('I should have a new mandate added') do
