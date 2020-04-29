@@ -109,11 +109,6 @@ class DebitsController < ApplicationController
 
   private
 
-  # Creates an instance of DirectDebit class and assign it to +@debit+ variable
-  def assign_debit
-    @debit = DirectDebit.new(current_user.account_id)
-  end
-
   # Saves initiated Direct Debit payment details to the session
   def payment_details_to_session(details)
     SessionManipulation::AddCurrentPayment.call(session: session)

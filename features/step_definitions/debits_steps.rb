@@ -50,7 +50,3 @@ end
 When('I have active mandates for selected CAZ') do
   mock_api_endpoints
 end
-
-When('I have only inactive mandates for selected CAZ') do
-  mock_api_endpoints('inactive_caz_mandates')
-end

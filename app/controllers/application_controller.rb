@@ -107,4 +107,9 @@ class ApplicationController < ActionController::Base
     @zone_id = helpers.new_payment_data[:la_id]
     redirect_to payments_path unless @zone_id
   end
+
+  # Creates an instance of DirectDebit class and assign it to +@debit+ variable
+  def assign_debit
+    @debit = DirectDebit.new(current_user.account_id)
+  end
 end
