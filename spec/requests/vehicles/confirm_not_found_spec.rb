@@ -26,12 +26,10 @@ RSpec.describe 'VehiclesController - POST #confirm_not_found', type: :request do
 
     context 'when registration confirmed' do
       it 'returns a found response' do
-        http_request
         expect(response).to have_http_status(:found)
       end
 
       it 'redirects to manage vehicles page' do
-        http_request
         expect(response).to redirect_to(fleets_path)
       end
     end
@@ -40,12 +38,10 @@ RSpec.describe 'VehiclesController - POST #confirm_not_found', type: :request do
       let(:confirmation) { nil }
 
       it 'returns a found response' do
-        http_request
         expect(response).to have_http_status(:found)
       end
 
       it 'redirects to not_found page' do
-        http_request
         expect(response).to redirect_to(not_found_vehicles_path)
       end
     end
