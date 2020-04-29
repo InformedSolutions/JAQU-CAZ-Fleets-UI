@@ -65,3 +65,6 @@ en:
   token_form:
     token_missing: 'Authorisation token is missing'
     token_invalid: 'Authorisation token is invalid or has expired'
+  vehicle_not_found:
+    errors:
+      confirmation_alert: Confirm the number plate is correct

@@ -10,6 +10,7 @@ Feature: Dashboard
       And I should see "Manage your vehicles" link
       And I should see "Make a payment" link
       And I should not see "You need to upload all your number plates before making a payment."
+      And I should see "Your Direct Debits" link
 
   Scenario: View dashboard page with empty fleets
     Given I navigate to a Dashboard page with empty fleets
@@ -18,6 +19,7 @@ Feature: Dashboard
       And I should see "Manage your vehicles" link
       And I should not see "Make a payment" link
       And I should see "You need to upload all your number plates before making a payment."
+      And I should see "Create a Direct Debit mandate" link
 
   Scenario: Admin wants to view dashboard with different IP address
     Given I navigate to a Dashboard page

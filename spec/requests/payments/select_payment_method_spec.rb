@@ -29,7 +29,7 @@ describe 'PaymentsController - #select_payment_method', type: :request do
   context 'when user selects the Direct Debit method' do
     let(:payment_method) { 'true' }
 
-    it 'redirects to confirm direct debit payment page' do
+    it 'redirects to confirm Direct Debit payment page' do
       expect(response).to redirect_to(confirm_debits_path)
     end
   end

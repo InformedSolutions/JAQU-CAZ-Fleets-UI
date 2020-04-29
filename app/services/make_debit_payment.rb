@@ -2,7 +2,7 @@
 
 ##
 # Service used to prepare parameters and make a call to service responsible
-# for direct debit payment creation.
+# for Direct Debit payment creation.
 #
 class MakeDebitPayment < BasePayment
   ##

@@ -1,4 +1,4 @@
-- title_and_header = 'First create a direct debit mandate'
+- title_and_header = 'First create a Direct Debit mandate'
 - content_for(:title, title_and_header)
 
 = link_to 'Back', @back_button_url, class: 'govuk-back-link'
@@ -9,7 +9,7 @@
       %h1.govuk-heading-l
         = title_and_header
       %p
-        You must create a direct debit mandate before you can complete any payments by direct debit.
+        You must create a Direct Debit mandate before you can complete any payments by Direct Debit.
         If you wish to pay by card instead please click the back button.
 
       = form_for('payment', url: debits_path, method: :post) do |f|
