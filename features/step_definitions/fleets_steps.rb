@@ -37,6 +37,7 @@ When('I have vehicles in my fleet') do
   mock_debits
   mock_clean_air_zones
   mock_vehicles_in_fleet
+  mock_caz_mandates
 end
 
 When('I have vehicles in my fleet that are not paid') do

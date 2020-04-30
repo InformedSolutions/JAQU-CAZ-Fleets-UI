@@ -14,7 +14,7 @@ describe 'PaymentsController - GET #select_payment_method', type: :request do
 
   context 'when user do not have a Direct Debit set up' do
     before do
-      mock_debits('empty_mandates')
+      mock_caz_mandates('inactive_caz_mandates')
       http_request
     end
 
@@ -25,7 +25,7 @@ describe 'PaymentsController - GET #select_payment_method', type: :request do
 
   context 'when user have a Direct Debit set up' do
     before do
-      mock_debits
+      mock_caz_mandates
       http_request
     end
 

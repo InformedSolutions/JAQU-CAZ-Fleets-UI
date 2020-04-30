@@ -114,14 +114,14 @@ class PaymentsController < ApplicationController
 
   ##
   # Renders the select payment method page
-  # If no active mandates are present redirects to the initiate card payment page
+  # If no caz active mandates are present redirects to the initiate card payment page
   #
   # ==== Path
   #
   #    :GET /payments/select_payment_method
   #
   def select_payment_method
-    redirect_to initiate_payments_path if @debit.active_mandates.empty?
+    redirect_to initiate_payments_path if @debit.caz_mandates(@zone_id).nil?
   end
 
   ##
