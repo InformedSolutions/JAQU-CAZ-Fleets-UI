@@ -23,6 +23,7 @@ class DebitsController < ApplicationController
     caz_mandates = @debit.caz_mandates(@zone_id)
     if caz_mandates.present?
       @mandate_id = caz_mandates['id']
+      @created_at = caz_mandates['created']
       @total_to_pay = total_to_pay_from_session
     else
       redirect_to first_mandate_debits_path

@@ -74,4 +74,10 @@ module ApplicationHelper
   def transform_to_id(text)
     text.to_s.downcase.split(' ').join('-')
   end
+
+  # Returns formatted date, e.g. '30th April 2020'
+  def formatted_timestamp(date)
+    parsed_date = DateTime.parse(date)
+    parsed_date.strftime("#{parsed_date.day.ordinalize} %B %Y")
+  end
 end
