@@ -3,9 +3,10 @@
     %p.govuk-body{class: 'govuk-!-font-size-16 govuk-!-margin-top-9'}
       %strong
         = link_to('Your Direct Debits', debits_path, id: 'direct-debit')
-    %p.govuk-body View the Direct Debits you’ve created with each zone
+    %p.govuk-body View the Direct Debits you’ve created with each zone.
   - else
     %p.govuk-body{class: 'govuk-!-font-size-16 govuk-!-margin-top-9'}
       %strong
-        = link_to('Create a Direct Debit mandate', debits_path, id: 'direct-debit')
-    %p.govuk-body Create a Direct Debit mandate to allow BACS payments
+        = link_to('Set up a Direct Debit', debits_path, id: 'direct-debit')
+    %p.govuk-body
+      Instruct your bank to take one-off payments by Direct Debit.
