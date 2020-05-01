@@ -27,11 +27,6 @@ describe 'FleetsController - #index', type: :request do
       expect(response).to render_template('fleets/index')
     end
 
-    it 'calls ComplianceCheckerApi.clean_air_zones' do
-      expect(ComplianceCheckerApi).to receive(:clean_air_zones)
-      http_request
-    end
-
     it 'sets default page value to 1' do
       http_request
       expect(assigns(:pagination).page).to eq(1)

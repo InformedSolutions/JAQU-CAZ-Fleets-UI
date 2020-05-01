@@ -6,7 +6,8 @@ describe 'DebitsController - GET #confirm' do
   subject(:http_request) { get confirm_debits_path }
 
   before do
-    add_to_session(new_payment: { la_id: SecureRandom.uuid, details: {} })
+    add_to_session(new_payment: { la_id: '5cd7441d-766f-48ff-b8ad-1809586fea37', details: {} })
+    mock_clean_air_zones
     sign_in create_user
   end
 
