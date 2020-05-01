@@ -35,7 +35,12 @@ Then('I should be on the Charge details page') do
 end
 
 And('I want to confirm my payment') do
-  mock_debits
+  mock_debits('active_mandates')
+  mock_requests_to_payments_api_with(return_url: result_payments_path)
+end
+
+And('I want to confirm my payment without any active Direct Debit mandate') do
+  mock_caz_mandates('inactive_caz_mandates')
   mock_requests_to_payments_api_with(return_url: result_payments_path)
 end
 

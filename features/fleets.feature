@@ -45,6 +45,7 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the manage vehicles page
       And I should have deleted the vehicle
+      And I should see "You have successfully removed"
 
   Scenario: Backend API is unavailable
     When Fleet backend API is unavailable

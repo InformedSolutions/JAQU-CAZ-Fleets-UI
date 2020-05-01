@@ -4,6 +4,9 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
+
+      = render 'common/banners'
+
       %h1.govuk-heading-l
         = title_and_header
       %p
@@ -15,6 +18,6 @@
           You need to upload all your number plates before making a payment.
   .govuk-grid-row
     = render 'manage_vehicles'
+    = render 'direct_debit'
     - if @vehicles_present
       = render 'make_payment'
-    = render 'direct_debit'

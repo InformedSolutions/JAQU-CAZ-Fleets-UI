@@ -22,7 +22,9 @@ class DebitsController < ApplicationController
   def confirm
     caz_mandates = @debit.caz_mandates(@zone_id)
     if caz_mandates.present?
+      @zone_name = CleanAirZone.find(@zone_id)&.name
       @mandate_id = caz_mandates['id']
+      @created_at = caz_mandates['created']
       @total_to_pay = total_to_pay_from_session
     else
       redirect_to first_mandate_debits_path
@@ -108,11 +110,6 @@ class DebitsController < ApplicationController
   end
 
   private
-
-  # Creates an instance of DirectDebit class and assign it to +@debit+ variable
-  def assign_debit
-    @debit = DirectDebit.new(current_user.account_id)
-  end
 
   # Saves initiated Direct Debit payment details to the session
   def payment_details_to_session(details)

@@ -13,13 +13,20 @@
         %table.govuk-table
           %tbody.govuk-table__body
             %tr.govuk-table__row
-              %td.govuk-table__cell Payment method:
+              %td.govuk-table__cell Payment method
               %th.govuk-table__header{scope: 'row'} Direct Debit
-              %td.govuk-table__cell
-                = link_to select_payment_method_payments_path, class: 'govuk-link' do
-                  Change
-                  %span.govuk-visually-hidden
-                    Change payment method link
+            %tr.govuk-table__row
+              %td.govuk-table__cell Clean Air Zone
+              %th.govuk-table__header{scope: 'row'}
+                = @zone_name
+            %tr.govuk-table__row
+              %td.govuk-table__cell Mandate ID
+              %th.govuk-table__header{scope: 'row'}
+                = @mandate_id
+            %tr.govuk-table__row
+              %td.govuk-table__cell Date created
+              %th.govuk-table__header{scope: 'row'}
+                = formatted_timestamp(@created_at)
         = f.submit 'Confirm payment', class: 'govuk-button', 'data-module': 'govuk-button'
 
       %p

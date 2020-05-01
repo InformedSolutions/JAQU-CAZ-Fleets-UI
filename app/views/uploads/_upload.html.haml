@@ -1,5 +1,5 @@
 %h1.govuk-heading-l Upload your vehicle list
 %p
-  To add vehicles to your account, you can either use your own spreadsheet or download a
-  = link_to('template', download_template_uploads_path)
-  (CSV, 1KB).
+  To add vehicles to your account, you can either use your own spreadsheet or
+  = succeed('.') do
+    = link_to('download a template (CSV, 1KB)', download_template_uploads_path)

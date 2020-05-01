@@ -10,7 +10,7 @@ class CreditCardsController < ApplicationController
   #     GET /payments/initiate
   #
   def initiate
-    service_response = MakeCardPayment.call(payment_data: helpers.new_payment_data,
+    service_response = MakeCardPayment.call(payment_data: payment_data,
                                             user_id: current_user.user_id,
                                             return_url: result_payments_url)
     store_payment_data_in_session(service_response)
@@ -52,5 +52,10 @@ class CreditCardsController < ApplicationController
     store_params = { payment_id: response['paymentId'] }
     SessionManipulation::SetPaymentId.call(session: session, params: store_params)
     SessionManipulation::AddCurrentPayment.call(session: session)
+  end
+
+  # Checks if +new_payment_data+ present if not returns +initiated_payment_data+
+  def payment_data
+    helpers.new_payment_data.present? ? helpers.new_payment_data : helpers.initiated_payment_data
   end
 end

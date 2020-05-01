@@ -42,6 +42,12 @@ describe 'FleetsController - #confirm_delete', type: :request do
           expect(session[:vrn]).to eq(nil)
         end
 
+        it 'sets :success notification in flash' do
+          http_request
+          expect(flash[:success])
+            .to eq('You have successfully removed ABC123 from your vehicle list.')
+        end
+
         context 'when it was the last vehicle' do
           before { mock_fleet(create_empty_fleet) }
 

@@ -137,7 +137,7 @@ describe Fleet, type: :model do
     end
   end
 
-  describe '.exists?' do
+  describe '.empty?' do
     let(:vehicles_data) { read_response('fleet.json') }
 
     before do
@@ -180,6 +180,29 @@ describe Fleet, type: :model do
         .to receive(:remove_vehicle_from_fleet)
         .with(account_id: account_id, vrn: @vrn)
       fleet.delete_vehicle(@vrn)
+    end
+  end
+
+  describe '.total_vehicles_count' do
+    let(:vehicles_data) { read_response('fleet.json') }
+
+    before do
+      allow(FleetsApi)
+        .to receive(:fleet_vehicles)
+        .and_return(vehicles_data)
+    end
+
+    it 'calls AccountsApi.fleet_vehicles with proper params' do
+      expect(FleetsApi)
+        .to receive(:fleet_vehicles)
+        .with(account_id: account_id, page: 1, per_page: 1)
+      fleet.total_vehicles_count
+    end
+
+    context 'when some vehicles returned' do
+      it 'returns vehicles count' do
+        expect(fleet.total_vehicles_count).to eq(23)
+      end
     end
   end
 end

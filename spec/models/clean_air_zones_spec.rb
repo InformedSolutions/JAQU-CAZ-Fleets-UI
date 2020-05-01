@@ -53,10 +53,5 @@ describe CleanAirZone, type: :model do
     it 'returns an array of CleanAirZone instances' do
       expect(zones).to all(be_a(CleanAirZone))
     end
-
-    it 'calls ComplianceCheckerApi.clean_air_zones' do
-      expect(ComplianceCheckerApi).to receive(:clean_air_zones)
-      zones
-    end
   end
 end

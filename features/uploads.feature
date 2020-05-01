@@ -35,6 +35,7 @@ Feature: Uploads
       And My upload is successful
       And I reload the page
     Then I should be on the manage vehicles page
+      And I should see 'You have successfully uploaded'
 
   Scenario: Failed upload
     When I am on the processing page

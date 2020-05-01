@@ -3,10 +3,12 @@
 ##
 # Controller used to pay for fleet
 #
+# rubocop:disable Metrics/ClassLength
 class PaymentsController < ApplicationController
   before_action :check_la, only: %i[matrix submit review select_payment_method
                                     submit_payment_method]
   before_action :assign_back_button_url, only: %i[index select_payment_method]
+  before_action :assign_debit, only: %i[select_payment_method]
 
   ##
   # Renders payment page.
@@ -112,12 +114,15 @@ class PaymentsController < ApplicationController
 
   ##
   # Renders the select payment method page
+  # If no caz active mandates are present redirects to the initiate card payment page
   #
   # ==== Path
   #
   #    :GET /payments/select_payment_method
   #
-  def select_payment_method; end
+  def select_payment_method
+    redirect_to initiate_payments_path if @debit.caz_mandates(@zone_id).nil?
+  end
 
   ##
   # Validate submit payment method and depending on the type, redirects to:
@@ -229,3 +234,4 @@ class PaymentsController < ApplicationController
     params.permit('local-authority', :authenticity_token, :commit)
   end
 end
+# rubocop:enable Metrics/ClassLength

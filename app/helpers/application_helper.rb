@@ -56,7 +56,7 @@ module ApplicationHelper
 
   # Creates a back button with link to the dashboard
   def back_link_to_dashboard
-    link_to 'Back to dashboard', dashboard_path, class: 'govuk-back-link'
+    link_to 'Back', dashboard_path, class: 'govuk-back-link'
   end
 
   # Generates a unique link for presentation on the vehicle management page that navigates a user
@@ -73,5 +73,11 @@ module ApplicationHelper
   # Transforms text to match id format, eg. 'Test String' => 'test-string'
   def transform_to_id(text)
     text.to_s.downcase.split(' ').join('-')
+  end
+
+  # Returns formatted date, e.g. 'Thursday 30 April 2020'
+  def formatted_timestamp(date)
+    parsed_date = DateTime.parse(date)
+    parsed_date.strftime('%A %d %B %Y')
   end
 end

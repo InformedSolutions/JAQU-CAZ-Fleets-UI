@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   ##
   # Health endpoint
   #
-  # Used as a healthcheck - returns 200 HTTP status
+  # Used as a health check - returns 200 HTTP status
   #
   # ==== Path
   #
@@ -104,7 +104,12 @@ class ApplicationController < ActionController::Base
 
   # Checks if the user selected LA
   def check_la
-    @zone_id = helpers.new_payment_data[:la_id]
+    @zone_id = helpers.new_payment_data[:la_id] || helpers.initiated_payment_data[:la_id]
     redirect_to payments_path unless @zone_id
+  end
+
+  # Creates an instance of DirectDebit class and assign it to +@debit+ variable
+  def assign_debit
+    @debit = DirectDebit.new(current_user.account_id)
   end
 end

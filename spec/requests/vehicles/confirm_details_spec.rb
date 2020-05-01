@@ -49,6 +49,30 @@ describe 'VehicleCheckersController - POST #confirm_details', type: :request do
           expect(session[:vrn]).to be_nil
         end
 
+        it 'sets :success flash message' do
+          http_request
+          expect(flash[:success])
+            .to eq("You have successfully added #{@vrn} to your vehicle list.")
+        end
+
+        context 'when the vehicle already exists in the fleet' do
+          let(:message) { 'AccountVehicle already exists' }
+
+          before do
+            allow(FleetsApi)
+              .to receive(:add_vehicle_to_fleet)
+              .and_raise(
+                BaseApi::Error422Exception.new(422, '', message: message)
+              )
+          end
+
+          it 'sets :warning flash message' do
+            http_request
+            expect(flash[:warning])
+              .to eq("#{@vrn} already exists in your vehicle list.")
+          end
+        end
+
         context 'when the call fails' do
           let(:message) { 'Test exception message' }
 
