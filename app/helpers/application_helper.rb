@@ -56,7 +56,7 @@ module ApplicationHelper
 
   # Creates a back button with link to the dashboard
   def back_link_to_dashboard
-    link_to 'Back to dashboard', dashboard_path, class: 'govuk-back-link'
+    link_to 'Back', dashboard_path, class: 'govuk-back-link'
   end
 
   # Generates a unique link for presentation on the vehicle management page that navigates a user
