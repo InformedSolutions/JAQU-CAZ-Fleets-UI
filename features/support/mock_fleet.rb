@@ -5,12 +5,16 @@ module MockFleet
     mock_fleet
   end
 
+  def mock_one_vehicle_fleet
+    mock_fleet(vehicles, page, mocked_charges, 1)
+  end
+
   def mock_vehicles_in_fleet(page = 1)
-    mock_fleet(vehicles, page)
+    mock_fleet(vehicles, page, mocked_charges, 15)
   end
 
   def mock_unpaid_vehicles_in_fleet
-    mock_fleet(vehicles, 1, mocked_unpaid_charges)
+    mock_fleet(vehicles, 1, mocked_unpaid_charges, 15)
   end
 
   def vehicles
@@ -24,14 +28,14 @@ module MockFleet
 
   private
 
-  def mock_fleet(vehicles = [], page = 1, charges = mocked_charges)
+  def mock_fleet(vehicles = [], page = 1, charges = mocked_charges, total_vehicles_count = 0)
     @fleet = instance_double(Fleet,
                              pagination: paginated_vehicles(vehicles, page),
                              add_vehicle: true,
                              delete_vehicle: true,
                              empty?: vehicles.empty?,
                              charges: charges,
-                             total_vehicles_count: 15)
+                             total_vehicles_count: total_vehicles_count)
     allow(Fleet).to receive(:new).and_return(@fleet)
   end
 

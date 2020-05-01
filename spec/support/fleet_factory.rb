@@ -2,16 +2,16 @@
 
 module FleetFactory
   def create_empty_fleet
-    create_fleet([])
+    create_fleet([], 0)
   end
 
-  def create_fleet(vehicles = mocked_vehicles)
+  def create_fleet(vehicles = mocked_vehicles, total_vehicles_count = 45)
     instance_double(Fleet,
                     pagination: paginated_fleet(vehicles),
                     add_vehicle: true,
                     delete_vehicle: true,
                     empty?: vehicles.empty?,
-                    total_vehicles_count: 45)
+                    total_vehicles_count: total_vehicles_count)
   end
 
   def mock_fleet(fleet_instance = create_fleet)

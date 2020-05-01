@@ -13,11 +13,14 @@
         This service works by you telling us which vehicles have driven in a zone.
         Your number plates (registration details) determine if your vehicles meet emission standards in the Clean Air Zones.
         If they don't, you can see what the charges are and pay them.
-      - unless @vehicles_present
+      - if @vehicles_count == 0
         .govuk-inset-text
           You need to upload all your number plates before making a payment.
+      - elsif @vehicles_count == 1
+        .govuk-inset-text
+          You need to add at least one more vehicle before making a payment.
   .govuk-grid-row
     = render 'manage_vehicles'
     = render 'direct_debit'
-    - if @vehicles_present
+    - if @vehicles_count >= 2
       = render 'make_payment'

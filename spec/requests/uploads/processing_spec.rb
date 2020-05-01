@@ -40,7 +40,7 @@ describe 'UploadsController - #processing' do
 
     describe 'job status' do
       before do
-        mock_fleet(create_empty_fleet)
+        mock_fleet(create_fleet)
         http_request
       end
 
