@@ -5,6 +5,11 @@ When('I have no vehicles in my fleet') do
   mock_debits
 end
 
+When('I have one vehicle in my fleet') do
+  mock_one_vehicle_fleet
+  mock_debits
+end
+
 When('I visit the manage vehicles page') do
   login_user
   visit fleets_path

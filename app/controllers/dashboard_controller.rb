@@ -12,7 +12,7 @@ class DashboardController < ApplicationController
   #
   def index
     clear_input_history
-    @vehicles_present = !current_user.fleet.empty?
+    @vehicles_count = current_user.fleet.total_vehicles_count
     @mandates_present = @debit.active_mandates.any?
   end
 
