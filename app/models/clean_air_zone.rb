@@ -40,9 +40,9 @@ class CleanAirZone
 
   # Fetches all available CAZs from ComplianceCheckerApi.clean_air_zones endpoint
   def self.all
-    ComplianceCheckerApi.clean_air_zones
-                        .map { |caz_data| new(caz_data) }
-                        .sort_by(&:name)
+    @all ||= ComplianceCheckerApi.clean_air_zones
+                                 .map { |caz_data| new(caz_data) }
+                                 .sort_by(&:name)
   end
 
   # Finds a zone by given ID

@@ -15,4 +15,9 @@ module MockedResponses
     api_response = read_response("/debits/#{mocked_file}.json")['mandates']
     allow(DebitsApi).to receive(:caz_mandates).and_return(api_response)
   end
+
+  def mock_clean_air_zones
+    caz_list = read_response('caz_list.json')['cleanAirZones']
+    allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(caz_list)
+  end
 end
