@@ -46,10 +46,10 @@ module PaymentsHelper
     vrn_to_pay(details).collect { |_k, vrn| vrn[:dates] }.flatten.count
   end
 
-  # Parses date to expected format (e.g. "Tuesday 3rd March 2020")
+  # Parses date to expected format (e.g. 'Tuesday 3 March 2020')
   def parse_date(date)
     parsed_date = Date.parse(date)
-    parsed_date.strftime("%A #{parsed_date.day.ordinalize} %B %Y")
+    parsed_date.strftime('%A %d %B %Y')
   end
 
   # Parses charge for single vehicle number
