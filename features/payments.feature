@@ -31,7 +31,7 @@ Feature: Fleets
       And I should see 'Review your payment' title
     When I click view details link
     Then I should be on the Charge details page
-    When I press 'Return to confirm your payment' link
+    When I press 'Return to review your payment' link
       And I want to confirm my payment
       And I press the Continue
     Then I should be on the Select payment method page
