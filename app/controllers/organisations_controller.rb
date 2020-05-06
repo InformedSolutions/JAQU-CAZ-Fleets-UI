@@ -17,7 +17,8 @@ class OrganisationsController < ApplicationController
   #    :GET /organisations
   #
   def new
-    # Renders static page
+    @error = alert
+    @company_name = new_account['company_name']
   end
 
   ##
@@ -34,13 +35,53 @@ class OrganisationsController < ApplicationController
   # * +company_name+ - string, account name e.g. 'Company name'
   #
   def set_name
-    account_id = CreateAccount.call(company_name: company_name_params[:company_name])
-    session['new_account'] = { 'account_id' => account_id }
-    redirect_to new_credentials_organisations_path
+    CheckCompanyName.call(company_name: company_params[:company_name])
+    SessionManipulation::SetCompanyName.call(session: session, params: company_params)
+    redirect_to fleet_check_organisations_path
   rescue InvalidCompanyNameException => e
     @error = e.message
     render 'organisations/new'
   end
+
+  ##
+  # Renders page to check if fleet have more than 2 vehicles.
+  #
+  # ==== Path
+  #
+  #    GET /organisations/fleet_check
+  #
+  def fleet_check
+    # render static page
+  end
+
+  ##
+  # Creates Account based on provided details.
+  # Validates if account will have more than two vehicles in the fleet.
+  #
+  # ==== Path
+  #
+  #    POST /organisations/fleet_check
+  #
+  def create_account
+    create_new_account
+    redirect_to new_credentials_organisations_path
+  rescue InvalidCompanyCreateException => e
+    @error = e.message
+    render 'organisations/fleet_check'
+  rescue UnableToCreateAccountException => e
+    redirect_to organisations_path, alert: e.message
+  rescue AccountForMultipleVehiclesException
+    redirect_to cannot_create_organisations_path
+  end
+
+  ##
+  # Renders page to inform that user cannot create account fot less than two vehicles.
+  #
+  # ==== Path
+  #
+  #    GET /organisations/cannot_create
+  #
+  def cannot_create; end
 
   ##
   # Renders the new email and password page.
@@ -52,9 +93,7 @@ class OrganisationsController < ApplicationController
   # ==== Params
   # * +company_name+ - string, account name stored in the session e.g. 'Company name'
   #
-  def new_credentials
-    # Renders static page
-  end
+  def new_credentials; end
 
   ##
   # Validates submitted email and password.
@@ -146,19 +185,22 @@ class OrganisationsController < ApplicationController
 
   private
 
-  # Returns the list of permitted params
-  def organisations_params
-    params.require(:organisations).permit(
-      :email,
-      :email_confirmation,
-      :password,
-      :password_confirmation
-    )
+  # creates account and returns created account id
+  def create_new_account
+    account_id = CreateAccount.call(company_name: new_account['company_name'],
+                                    confirm_fleet_check: company_params[:confirm_fleet_check])
+    session['new_account'] = { 'account_id' => account_id }
   end
 
   # Returns the list of permitted params
-  def company_name_params
-    params.require(:organisations).permit(:company_name)
+  def organisations_params
+    params.require(:organisations).permit(:email, :email_confirmation, :password,
+                                          :password_confirmation)
+  end
+
+  # Returns the list of permitted params
+  def company_params
+    params.require(:organisations).permit(:company_name, :confirm_fleet_check)
   end
 
   # Checks if account_id is present in the session.

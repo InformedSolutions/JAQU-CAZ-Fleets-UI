@@ -12,6 +12,9 @@ Feature: Organisations
       And I should see "Company name is required"
     Then I enter a company name
       And I press the Continue
+    Then I should see "How many vehicles do you manage or own?"
+      And I choose "Two or more"
+      And I press the Continue
     Then I should see "Sign in details"
       And I should see "Create account" link
     Then I press the Continue
@@ -26,6 +29,21 @@ Feature: Organisations
     Then I press "resend the email" link
       And I should see "Verification email"
       And I should receive verification email again
+
+  Scenario: User wants to create a company for fleet with one vehicle
+    Given I go to the create account page
+      And I should see "Create an account"
+      And I should see "Create account" link
+    Then I press the Continue
+      And I should see "Company name is required"
+    Then I enter a company name
+      And I press the Continue
+    Then I should see "How many vehicles do you manage or own?"
+      And I choose "Less than two"
+      And I press the Continue
+    Then I should see "Accounts are for multiple vehicles"
+      And I press the Back link
+    Then I should see "How many vehicles do you manage or own?"
 
   Scenario: User wants to verify account with valid token
     Given I visit the verification link with a valid token
@@ -43,7 +61,10 @@ Feature: Organisations
     Given I go to the create account page
     Then I enter a company name
       And I press the Continue
-      And I enter the account details with not uniq email address
+    Then I should see "How many vehicles do you manage or own?"
+      And I choose "Two or more"
+      And I press the Continue
+    Then I enter the account details with not uniq email address
       And I press the Continue
     Then I should see "Email already exists"
 

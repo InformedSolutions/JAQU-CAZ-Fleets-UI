@@ -22,6 +22,9 @@ Rails.application.routes.draw do
     collection do
       get :new
       post :new, to: 'organisations#set_name'
+      get :fleet_check
+      post :fleet_check, to: 'organisations#create_account'
+      get :cannot_create
       get :new_credentials
       post :new_credentials, to: 'organisations#create'
 
