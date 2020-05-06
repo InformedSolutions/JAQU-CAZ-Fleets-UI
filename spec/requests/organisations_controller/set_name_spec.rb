@@ -11,12 +11,16 @@ describe 'OrganisationsController - POST #set_name' do
 
   context 'with valid params' do
     before do
-      allow(CreateAccount).to receive(:call).and_return(SecureRandom.uuid)
+      allow(CheckCompanyName).to receive(:call).and_return(SecureRandom.uuid)
       subject
     end
 
     it 'returns a success response' do
       expect(response).to have_http_status(:found)
+    end
+
+    it 'returns a success response' do
+      expect(response).to redirect_to(fleet_check_organisations_path)
     end
   end
 
@@ -24,7 +28,7 @@ describe 'OrganisationsController - POST #set_name' do
     let(:errors) { { company_name: 'Sample Error' } }
 
     before do
-      allow(CreateAccount).to(receive(:call)
+      allow(CheckCompanyName).to(receive(:call)
         .and_raise(InvalidCompanyNameException, errors))
       subject
     end

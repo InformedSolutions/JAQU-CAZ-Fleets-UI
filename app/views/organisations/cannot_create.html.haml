@@ -1,0 +1,14 @@
+- title_and_header = 'Accounts are for multiple vehicles'
+- content_for(:title, title_and_header)
+
+= link_to 'Back', fleet_check_organisations_path, class: 'govuk-back-link'
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      %h1.govuk-heading-l
+        = title_and_header
+      %p
+        = succeed '.' do
+          If your only paying for 1 vehicle, the easiest and quickest option is to go to
+          = link_to 'Pay a charge for a single vehicle', Rails.configuration.x.payments_ui_url
