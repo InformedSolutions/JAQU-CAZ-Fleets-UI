@@ -46,7 +46,7 @@ describe CreateAccount do
         .and_return(instance_double(CreateAccountForm, valid?: valid, errors: errors))
     end
 
-    context 'when confirm_fleet_check is "less_than_two"' do
+    context 'when confirm_fleet_check is `less_than_two`' do
       let(:confirm_fleet_check) { 'less_than_two' }
 
       it 'raises `AccountForMultipleVehiclesException` exception with proper errors object' do

@@ -4,10 +4,10 @@ require 'rails_helper'
 
 describe 'OrganisationsController - POST #create_account' do
   subject do
-    post fleet_check_organisations_path, params: params
+    post fleet_check_organisations_path, params: {
+      organisations: { confirm_fleet_check: 'less_than_two' }
+    }
   end
-  let(:params) { { organisations: { confirm_fleet_check: confirm_fleet_check } } }
-  let(:confirm_fleet_check) { 'less_than_two' }
 
   context 'with valid params' do
     before do

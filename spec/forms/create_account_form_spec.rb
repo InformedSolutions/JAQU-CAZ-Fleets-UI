@@ -3,11 +3,13 @@
 require 'rails_helper'
 
 describe CreateAccountForm, type: :model do
-  subject(:form) { described_class.new(create_account_params) }
-
-  let(:create_account_params) do
-    { company_name: company_name, confirm_fleet_check: confirm_fleet_check }
+  subject(:form) do
+    described_class.new(
+      company_name: company_name,
+      confirm_fleet_check: confirm_fleet_check
+    )
   end
+
   let(:company_name) { 'Company name' }
   let(:confirm_fleet_check) { 'less_than_two' }
 

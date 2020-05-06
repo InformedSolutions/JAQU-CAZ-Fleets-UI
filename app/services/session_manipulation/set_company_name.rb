@@ -5,7 +5,7 @@
 #
 module SessionManipulation
   ##
-  # Service used to set payment ID returned by the Payments API.
+  # Service used to set Company Name provided by user in the first step of sign up.
   #
   class SetCompanyName < BaseManipulator
     # Adds the +company_name+ to the session. Used by the class level method +.call+

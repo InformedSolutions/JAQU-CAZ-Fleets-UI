@@ -18,7 +18,6 @@ class OrganisationsController < ApplicationController
   #
   def new
     @error = alert
-    @company_name = new_account['company_name']
   end
 
   ##
@@ -50,9 +49,7 @@ class OrganisationsController < ApplicationController
   #
   #    GET /organisations/fleet_check
   #
-  def fleet_check
-    # render static page
-  end
+  def fleet_check; end
 
   ##
   # Creates Account based on provided details.
