@@ -184,8 +184,9 @@ class OrganisationsController < ApplicationController
 
   # creates account and returns created account id
   def create_new_account
+    SessionManipulation::SetFleetCheck.call(session: session, params: company_params)
     account_id = CreateAccount.call(company_name: new_account['company_name'],
-                                    confirm_fleet_check: company_params[:confirm_fleet_check])
+                                    confirm_fleet_check: new_account['confirm_fleet_check'])
     session['new_account'] = { 'account_id' => account_id }
   end
 
@@ -197,6 +198,8 @@ class OrganisationsController < ApplicationController
 
   # Returns the list of permitted params
   def company_params
+    return {} unless params[:organisations].present?
+
     params.require(:organisations).permit(:company_name, :confirm_fleet_check)
   end
 
