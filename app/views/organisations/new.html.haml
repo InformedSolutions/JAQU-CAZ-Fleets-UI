@@ -28,7 +28,8 @@
             - if @error
               %span#company_name-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
-                = "#{@error}"
+                = (@error.include? 'exists') ? @error.chomp('reset your password') : @error
+                = link_to 'reset your password', reset_passwords_path if @error.include? 'exists'
             = f.text_field :company_name,
                             class: determinate_input_class(@error),
                             value: session.dig('new_account', 'company_name')
