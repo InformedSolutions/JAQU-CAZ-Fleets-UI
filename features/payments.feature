@@ -72,3 +72,11 @@ Feature: Fleets
     Then I click Next 7 days tab
       And I should see 'Check a box for each vehicle and date it will drive in a Clean Air Zone.'
       And I should not see 'If you have already paid for a date, it will show as Paid.'
+
+  Scenario: Trying to pay in CAZ without chargeable vehicles
+    When I have no chargeable vehicles in my fleet
+      And I visit the make payment page
+    Then I select 'Birmingham'
+      And I press the Continue
+    Then I should be on the no chargeable vehicles page
+      And I should see 'No chargeable vehicles in the Birmingham'

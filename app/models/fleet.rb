@@ -79,6 +79,12 @@ class Fleet
     FleetsApi.fleet_vehicles(account_id: account_id, page: 1, per_page: 1)['totalVrnsCount']
   end
 
+  # Checks if there are any chargeable vehicles in the provided clean air zone.
+  # Return boolean.
+  def any_chargeable_vehicles_in_caz?(zone_id)
+    charges(zone_id: zone_id).any_results?
+  end
+
   private
 
   # Reader for Account ID from backend DB

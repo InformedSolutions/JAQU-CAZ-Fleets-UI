@@ -48,6 +48,40 @@ describe Fleet, type: :model do
     end
   end
 
+  describe '.any_chargeable_vehicles_in_caz?' do
+    subject(:any_chargeable_vehicles) { fleet.any_chargeable_vehicles_in_caz?(zone_id) }
+
+    let(:zone_id) { SecureRandom.uuid }
+    let(:data) { read_response('chargeable_vehicles.json') }
+
+    before do
+      allow(PaymentsApi)
+        .to receive(:chargeable_vehicles)
+        .and_return(data)
+    end
+
+    it 'calls FleetsApi.chargeable_vehicles with proper params' do
+      expect(PaymentsApi)
+        .to receive(:chargeable_vehicles)
+        .with(account_id: account_id, zone_id: zone_id, direction: nil, vrn: nil)
+      any_chargeable_vehicles
+    end
+
+    context 'when response is not empty' do
+      it 'returns true' do
+        expect(any_chargeable_vehicles).to be_truthy
+      end
+    end
+
+    context 'when response is empty' do
+      let(:data) { {} }
+
+      it 'returns false' do
+        expect(any_chargeable_vehicles).to be_falsey
+      end
+    end
+  end
+
   describe '.charges' do
     subject(:charges) { fleet.charges(zone_id: zone_id) }
 

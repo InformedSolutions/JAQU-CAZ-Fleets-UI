@@ -18,6 +18,10 @@ Then('I should be on the payment matrix page') do
   expect_path(matrix_payments_path)
 end
 
+Then('I should be on the no chargeable vehicles page') do
+  expect_path(no_chargeable_vehicles_payments_path)
+end
+
 When('I select any date for vrn on the payment matrix') do
   page.find('.govuk-checkboxes__input', match: :first).click
 end

@@ -51,6 +51,7 @@ Rails.application.routes.draw do
   resources :payments, only: :index do
     collection do
       post :local_authority
+      get :no_chargeable_vehicles
       get :matrix
       post :matrix, to: 'payments#submit'
       get :clear_search
