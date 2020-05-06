@@ -55,7 +55,7 @@ en:
     sqs_error: 'There was an error while sending the email to SQS'
   company_name:
     errors:
-      duplicate: The company name already exists.
+      duplicate: The company name already exists. If you have forgotten your sign in details you can reset your password
       profanity: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.
       abuse: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.
   verification_email:
