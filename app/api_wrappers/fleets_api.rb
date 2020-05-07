@@ -63,7 +63,7 @@ class FleetsApi < AccountsApi
     # * failure - { status: 'FAILURE', errors: ['Invalid VRN'] }
     #
     def job_status(job_name:, correlation_id:)
-      log_action("Getting job status with job name: #{job_name}")
+      log_action('Getting job status')
       request(
         :get,
         "/accounts/register-csv-from-s3/jobs/#{job_name}",
