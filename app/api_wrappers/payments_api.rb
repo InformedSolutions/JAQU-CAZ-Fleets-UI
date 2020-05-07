@@ -181,7 +181,7 @@ class PaymentsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def create_payment(caz_id:, return_url:, user_id:, transactions:)
-      log_action("Creating payment for user with id = #{user_id}")
+      log_action('Creating payment')
       body = payment_creation_body(
         caz_id: caz_id,
         return_url: return_url,
@@ -222,7 +222,7 @@ class PaymentsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def payment_status(payment_id:, caz_name:)
-      log_action "Getting a payment status for id: #{payment_id}, in CAZ: #{caz_name}"
+      log_action('Getting a payment status')
       request(:put, "/payments/#{payment_id}",
               body: payment_status_body(caz_name))
     end
@@ -235,7 +235,8 @@ class PaymentsApi < BaseApi
         clean_air_zone_id: caz_id,
         return_url: return_url,
         user_id: user_id,
-        transactions: transactions
+        transactions: transactions,
+        telephone_payment: false
       }.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
     end
 

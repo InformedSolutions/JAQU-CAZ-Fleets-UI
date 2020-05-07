@@ -44,6 +44,18 @@ describe 'PaymentsApi.create_payment' do
     it 'returns proper attributes' do
       expect(call.keys).to contain_exactly('paymentId', 'nextUrl')
     end
+
+    it 'calls API with right params' do
+      expect(call)
+        .to have_requested(:post, /#{mock_path}/)
+        .with(body: {
+                'cleanAirZoneId' => caz_id,
+                'returnUrl' => return_url,
+                'userId' => user_id,
+                'transactions' => transactions,
+                'telephonePayment' => false
+              })
+    end
   end
 
   context 'when the response status is :internal_server_error (500)' do
