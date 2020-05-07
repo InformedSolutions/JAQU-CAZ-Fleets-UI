@@ -50,6 +50,11 @@ When('I have vehicles in my fleet that are not paid') do
   mock_unpaid_vehicles_in_fleet
 end
 
+When('I have no chargeable vehicles in my fleet') do
+  mock_clean_air_zones
+  mock_unchargeable_vehicles
+end
+
 Then('I should be on the manage vehicles page') do
   expect(page).to have_current_path(fleets_path)
 end

@@ -6,7 +6,7 @@
 # rubocop:disable Metrics/ClassLength
 class PaymentsController < ApplicationController
   before_action :check_la, only: %i[matrix submit review select_payment_method
-                                    submit_payment_method]
+                                    submit_payment_method no_chargeable_vehicles]
   before_action :assign_back_button_url, only: %i[index select_payment_method]
   before_action :assign_debit, only: %i[select_payment_method]
 
@@ -36,7 +36,7 @@ class PaymentsController < ApplicationController
     form = LocalAuthorityForm.new(authority: la_params['local-authority'])
     if form.valid?
       SessionManipulation::AddLaId.call(session: session, params: la_params)
-      redirect_to matrix_payments_path
+      redirect_to determine_post_local_authority_redirect_path(form.authority)
     else
       redirect_to payments_path, alert: confirmation_error(form, :authority)
     end
@@ -55,6 +55,19 @@ class PaymentsController < ApplicationController
     @search = helpers.payment_query_data[:search]
     @errors = validate_search_params unless @search.nil?
     @charges = @errors || @search.nil? ? charges : charges_by_vrn
+  end
+
+  ##
+  # Renders page informing users that they have no chargeable vehicles in the selected zone
+  #
+  # ==== Path
+  #
+  #    :GET /payments/no_chargeable_vehicles
+  #
+  # ==== Params
+  # * +la_id+ - id of the selected CAZ, required in the session
+  def no_chargeable_vehicles
+    @clean_air_zone_name = CleanAirZone.find(@zone_id).name
   end
 
   ##
@@ -232,6 +245,13 @@ class PaymentsController < ApplicationController
   # Permits local-authority
   def la_params
     params.permit('local-authority', :authenticity_token, :commit)
+  end
+
+  # After selecting Clean Air Zone method checks if user has any chargeable
+  # vehicles and redirects him accordingly.
+  def determine_post_local_authority_redirect_path(zone_id)
+    charges_exists = current_user.fleet.any_chargeable_vehicles_in_caz?(zone_id)
+    charges_exists ? matrix_payments_path : no_chargeable_vehicles_payments_path
   end
 end
 # rubocop:enable Metrics/ClassLength

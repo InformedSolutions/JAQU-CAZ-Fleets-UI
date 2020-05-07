@@ -8,15 +8,30 @@ describe 'PaymentsController - #index', type: :request do
   end
 
   let(:la) { SecureRandom.uuid }
+  let(:chargeable_vehicles_exists) { true }
 
   before do
+    fleet_mock = instance_double('Fleet',
+                                 any_chargeable_vehicles_in_caz?: chargeable_vehicles_exists)
+    allow(Fleet).to receive(:new).and_return(fleet_mock)
+
     sign_in create_user
     http_request
   end
 
   context 'when user selects the LA' do
-    it 'redirects to matrix' do
-      expect(response).to redirect_to(matrix_payments_path)
+    context 'when user has chargeable vehicles in the selected CAZ' do
+      it 'redirects to matrix' do
+        expect(response).to redirect_to(matrix_payments_path)
+      end
+    end
+
+    context 'when user has no chargeable vehicles in the selected CAZ' do
+      let(:chargeable_vehicles_exists) { false }
+
+      it 'redirects to no chargeable vehicles page' do
+        expect(response).to redirect_to(no_chargeable_vehicles_payments_path)
+      end
     end
 
     it 'saves la in the session' do
