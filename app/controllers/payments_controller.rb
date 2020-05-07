@@ -67,8 +67,7 @@ class PaymentsController < ApplicationController
   # ==== Params
   # * +la_id+ - id of the selected CAZ, required in the session
   def no_chargeable_vehicles
-    clean_air_zone = CleanAirZone.find(@zone_id)
-    @clean_air_zone_name = clean_air_zone.name
+    @clean_air_zone_name = CleanAirZone.find(@zone_id).name
   end
 
   ##
