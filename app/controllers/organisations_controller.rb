@@ -34,10 +34,11 @@ class OrganisationsController < ApplicationController
   # * +company_name+ - string, account name e.g. 'Company name'
   #
   def set_name
-    CheckCompanyName.call(company_name: company_params[:company_name])
     SessionManipulation::SetCompanyName.call(session: session, params: company_params)
+    account_id = CreateAccount.call(company_name: new_account['company_name'])
+    session['new_account'] = { 'account_id' => account_id }
     redirect_to fleet_check_organisations_path
-  rescue InvalidCompanyNameException => e
+  rescue InvalidCompanyNameException, UnableToCreateAccountException => e
     @error = e.message
     render 'organisations/new'
   end
@@ -59,14 +60,13 @@ class OrganisationsController < ApplicationController
   #
   #    POST /organisations/fleet_check
   #
-  def create_account
-    create_new_account
+  def submit_fleet_check
+    SessionManipulation::SetFleetCheck.call(session: session, params: company_params)
+    ValidateFleetCheck.call(confirm_fleet_check: company_params[:confirm_fleet_check])
     redirect_to new_credentials_organisations_path
-  rescue InvalidCompanyCreateException => e
+  rescue InvalidFleetCheckException => e
     @error = e.message
     render 'organisations/fleet_check'
-  rescue UnableToCreateAccountException => e
-    redirect_to organisations_path, alert: e.message
   rescue AccountForMultipleVehiclesException
     redirect_to cannot_create_organisations_path
   end
@@ -181,14 +181,6 @@ class OrganisationsController < ApplicationController
   end
 
   private
-
-  # creates account and returns created account id
-  def create_new_account
-    SessionManipulation::SetFleetCheck.call(session: session, params: company_params)
-    account_id = CreateAccount.call(company_name: new_account['company_name'],
-                                    confirm_fleet_check: new_account['confirm_fleet_check'])
-    session['new_account'] = { 'account_id' => account_id }
-  end
 
   # Returns the list of permitted params
   def organisations_params

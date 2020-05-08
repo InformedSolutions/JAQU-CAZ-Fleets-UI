@@ -9,11 +9,9 @@ class CreateAccount < BaseService
   #
   # ==== Attributes
   # * +company_name+ - string, the company name submitted by the user
-  # * +confirm_fleet_check+ - string, fleet_check choosen by user
   #
-  def initialize(company_name:, confirm_fleet_check:)
+  def initialize(company_name:)
     @company_name = company_name
-    @confirm_fleet_check = confirm_fleet_check
   end
 
   ##
@@ -22,9 +20,7 @@ class CreateAccount < BaseService
   # When response is other than :created (201) then throws an exception.
   def call
     validate_params
-    fleet_check
     created_account_data = perform_api_call
-
     created_account_data['accountId']
   end
 
@@ -33,17 +29,12 @@ class CreateAccount < BaseService
   attr_reader :company_name, :confirm_fleet_check
 
   def validate_params
-    form = CreateAccountForm.new(company_name: company_name,
-                                 confirm_fleet_check: confirm_fleet_check)
+    form = CompanyNameForm.new(company_name: company_name)
     return if form.valid?
 
     error_message = form.errors.full_messages.first
     log_invalid_params(error_message)
-    raise InvalidCompanyCreateException, error_message
-  end
-
-  def fleet_check
-    raise AccountForMultipleVehiclesException if confirm_fleet_check == 'less_than_two'
+    raise InvalidCompanyNameException, error_message
   end
 
   def perform_api_call

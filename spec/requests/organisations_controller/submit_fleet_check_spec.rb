@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'OrganisationsController - POST #create_account' do
+describe 'OrganisationsController - POST #submit_fleet_check' do
   subject do
     post fleet_check_organisations_path, params: {
       organisations: { confirm_fleet_check: 'less_than_two' }
@@ -11,7 +11,7 @@ describe 'OrganisationsController - POST #create_account' do
 
   context 'with valid params' do
     before do
-      allow(CreateAccount).to receive(:call).and_return(SecureRandom.uuid)
+      allow(ValidateFleetCheck).to receive(:call).and_return(SecureRandom.uuid)
       subject
     end
 
@@ -24,8 +24,8 @@ describe 'OrganisationsController - POST #create_account' do
     let(:errors) { { company_name: 'Sample Error' } }
 
     before do
-      allow(CreateAccount).to(receive(:call)
-        .and_raise(InvalidCompanyCreateException, errors))
+      allow(ValidateFleetCheck).to(receive(:call)
+        .and_raise(InvalidFleetCheckException, errors))
       subject
     end
 
@@ -38,27 +38,13 @@ describe 'OrganisationsController - POST #create_account' do
     let(:errors) { { company_name: 'Sample Error' } }
 
     before do
-      allow(CreateAccount).to(receive(:call)
+      allow(ValidateFleetCheck).to(receive(:call)
         .and_raise(AccountForMultipleVehiclesException, errors))
       subject
     end
 
     it 'renders create company name view' do
       expect(response).to redirect_to(cannot_create_organisations_path)
-    end
-  end
-
-  context 'when service throw AccountForMultipleVehiclesException exception' do
-    let(:errors) { { company_name: 'Sample Error' } }
-
-    before do
-      allow(CreateAccount).to(receive(:call)
-        .and_raise(UnableToCreateAccountException, errors))
-      subject
-    end
-
-    it 'renders create company name view' do
-      expect(response).to redirect_to(organisations_path)
     end
   end
 end

@@ -2,7 +2,7 @@
 
 ##
 # This class is used to validate user data filled in
-class CreateAccountForm < CompanyNameForm
+class FleetCheckForm < BaseForm
   # Attribute used internally
   attr_accessor :confirm_fleet_check
 

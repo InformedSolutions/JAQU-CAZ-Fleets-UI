@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 ##
-# Raises exception if params are invalid during company creation.
+# Raises exception if fleet check params does not meet requirements.
 #
-class InvalidCompanyCreateException < ApplicationException
-  ##
+class InvalidFleetCheckException < ApplicationException
+  # Attribute used internally
+  attr_reader :errors_object
+  #
   # Initializer method for the class. Calls +super+ method on parent class (ApplicationException).
   #
   # ==== Attributes
