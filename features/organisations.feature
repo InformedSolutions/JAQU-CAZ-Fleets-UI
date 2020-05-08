@@ -30,6 +30,23 @@ Feature: Organisations
       And I should see "Verification email"
       And I should receive verification email again
 
+  Scenario: User tries to create invalid company
+    Given I go to the create account page
+      And I should see "Create an account"
+      And I should see "Create account" link
+    Then I enter invalid company name
+      And I press the Continue
+      And I should see "Company name has invalid format"
+    Then I enter api invalid company: "duplicate"
+      And I press the Continue
+      And I should see "The company name already exists."
+    Then I enter api invalid company: "profanity"
+      And I press the Continue
+      And I should see "You have submitted a name containing language we don’t allow"
+    Then I enter api invalid company: "abuse"
+      And I press the Continue
+      And I should see "You have submitted a name containing language we don’t allow"
+
   Scenario: User wants to create a company for fleet with one vehicle
     Given I go to the create account page
       And I should see "Create an account"

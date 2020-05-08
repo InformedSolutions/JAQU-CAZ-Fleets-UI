@@ -30,6 +30,21 @@ Then('I enter a company name') do
   fill_in('organisations_company_name', with: 'Company name')
 end
 
+Then('I enter invalid company name') do
+  fill_in('organisations_company_name', with: '@test')
+end
+
+Then('I enter api invalid company: {string}') do |string|
+  stub_request(:post, /accounts/).to_return(
+    status: 422,
+    body: {
+      'message': 'The company name already exists.',
+      'errorCode': string
+    }.to_json
+  )
+  fill_in('organisations_company_name', with: 'Company name')
+end
+
 Then('I enter a long company name') do
   fill_in('organisations_company_name', with: ('a' * 181))
 end

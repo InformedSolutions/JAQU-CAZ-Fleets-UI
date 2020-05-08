@@ -8,6 +8,6 @@ module FleetsHelper
   # returns true if selected confirm_fleet_check in session equals provided value
   # method used in Fleet Check step during Sign up
   def checked_fleet_checked?(value)
-    session.dig('new_account', 'confirm_fleet_check').to_s == value
+    new_account_data[:confirm_fleet_check].to_s == value
   end
 end

@@ -4,19 +4,18 @@ require 'rails_helper'
 
 describe CreateAccount do
   subject(:service) do
-    described_class.call(company_name: company_name, confirm_fleet_check: confirm_fleet_check)
+    described_class.call(company_name: company_name)
   end
 
   let(:company_name) { 'Mikusek Software' }
-  let(:confirm_fleet_check) { 'two_or_more' }
   let(:valid) { true }
   let(:errors) { [] }
 
   context 'when api returns correct response' do
     before do
-      allow(CreateAccountForm)
+      allow(CompanyNameForm)
         .to receive(:new)
-        .and_return(instance_double(CreateAccountForm, valid?: valid))
+        .and_return(instance_double(CompanyNameForm, valid?: valid))
       response = read_response('create_account.json')
       allow(AccountsApi).to receive(:create_account).and_return(response)
     end
@@ -25,9 +24,8 @@ describe CreateAccount do
       expect(service.class).to eq(String)
     end
 
-    it 'calls CreateAccountForm with proper params' do
-      expect(CreateAccountForm).to receive(:new).with(company_name: company_name,
-                                                      confirm_fleet_check: confirm_fleet_check)
+    it 'calls CompanyNameForm with proper params' do
+      expect(CompanyNameForm).to receive(:new).with(company_name: company_name)
       service
     end
 
@@ -41,28 +39,18 @@ describe CreateAccount do
 
   context 'when api throws exception' do
     before do
-      allow(CreateAccountForm)
+      allow(CompanyNameForm)
         .to receive(:new)
-        .and_return(instance_double(CreateAccountForm, valid?: valid, errors: errors))
-    end
-
-    context 'when confirm_fleet_check is `less_than_two`' do
-      let(:confirm_fleet_check) { 'less_than_two' }
-
-      it 'raises `AccountForMultipleVehiclesException` exception with proper errors object' do
-        expect { service }.to raise_error(
-          AccountForMultipleVehiclesException
-        )
-      end
+        .and_return(instance_double(CompanyNameForm, valid?: valid, errors: errors))
     end
 
     context 'when params are not valid' do
       let(:valid) { false }
       let(:errors) { ActiveModel::Errors.new(['Some error']) }
 
-      it 'raises `InvalidCompanyCreateException` exception with proper errors object' do
+      it 'raises `InvalidCompanyNameException` exception with proper errors object' do
         expect { service }.to raise_error(
-          InvalidCompanyCreateException
+          InvalidCompanyNameException
         )
       end
     end
@@ -72,9 +60,9 @@ describe CreateAccount do
     let(:error_code) { 'duplicate' }
 
     before do
-      allow(CreateAccountForm)
+      allow(CompanyNameForm)
         .to receive(:new)
-        .and_return(instance_double(CreateAccountForm, valid?: valid))
+        .and_return(instance_double(CompanyNameForm, valid?: valid))
 
       stub_request(:post, /accounts/).to_return(
         status: 422,
