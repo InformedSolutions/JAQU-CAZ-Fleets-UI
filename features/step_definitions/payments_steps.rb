@@ -26,6 +26,10 @@ When('I select any date for vrn on the payment matrix') do
   page.find('.govuk-checkboxes__input', match: :first).click
 end
 
+And('I confirm that my vehicles are not exempt from payment') do
+  page.find('#confirm-not-exemption').click
+end
+
 Then('I should be on the confirm payment page') do
   expect_path(review_payments_path)
 end

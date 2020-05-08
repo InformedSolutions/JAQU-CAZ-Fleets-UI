@@ -30,7 +30,7 @@ RSpec.describe 'VehiclesController - POST #confirm_not_found', type: :request do
       end
 
       it 'redirects to manage vehicles page' do
-        expect(response).to redirect_to(fleets_path)
+        expect(response).to redirect_to(local_exemptions_vehicles_path)
       end
     end
 

@@ -13,6 +13,8 @@ Feature: Vehicles
     Then I should be on the details page
     When I choose that the details are correct
       And I press the Confirm
+    Then I should be on the local vehicles exemptions page
+    When I press "Continue" link
     Then I should be on the manage vehicles page
 
   Scenario: Submitting empty vrn
@@ -26,6 +28,8 @@ Feature: Vehicles
       And I press the Continue
     Then I should be on the exempt page
     When I press the Continue to add vehicle
+    Then I should be on the local vehicles exemptions page
+    When I press "Continue" link
     Then I should be on the manage vehicles page
 
   Scenario: Adding the not found vehicle
@@ -40,6 +44,8 @@ Feature: Vehicles
       And I should be on the vehicle not found page
       And I check "I confirm the number plate is correct and I want to add it to my account."
     When I press the Continue to add vehicle
+    Then I should be on the local vehicles exemptions page
+    When I press "Continue" link
     Then I should be on the manage vehicles page
 
   Scenario: Adding a vehicle with incorrect details

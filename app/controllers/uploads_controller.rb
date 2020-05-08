@@ -31,7 +31,7 @@ class UploadsController < ApplicationController
   def create
     file_name = UploadFile.call(file: params[:file], user: current_user)
     register_job(file_name)
-    redirect_to processing_uploads_path
+    redirect_to local_exemptions_vehicles_path(continue_path: processing_uploads_path)
   end
 
   ##

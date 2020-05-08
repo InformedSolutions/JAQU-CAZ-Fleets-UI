@@ -56,6 +56,7 @@ Rails.application.routes.draw do
       post :matrix, to: 'payments#submit'
       get :clear_search
       get :review
+      post :confirm_review
       get :review_details
       get :select_payment_method
       post :select_payment_method, to: 'payments#confirm_payment_method'
@@ -87,6 +88,7 @@ Rails.application.routes.draw do
       get :incorrect_details
       get :not_found
       post :confirm_not_found
+      get :local_exemptions
     end
   end
 

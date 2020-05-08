@@ -5,7 +5,9 @@ require 'rails_helper'
 describe CleanAirZone, type: :model do
   subject(:caz) { described_class.new(data) }
 
-  let(:data) { { 'name' => name, 'cleanAirZoneId' => id, 'boundaryUrl' => url } }
+  let(:data) do
+    { 'name' => name, 'cleanAirZoneId' => id, 'boundaryUrl' => url, 'exemptionUrl' => url }
+  end
   let(:name) { 'Birmingham' }
   let(:id) { 'a49afb83-d1b3-48b6-b08b-5db8142045dc' }
   let(:url) { 'www.example.com' }
@@ -25,6 +27,12 @@ describe CleanAirZone, type: :model do
   describe '.boundary_url' do
     it 'returns a proper url' do
       expect(caz.boundary_url).to eq(url)
+    end
+  end
+
+  describe '.exemption_url' do
+    it 'returns a proper url' do
+      expect(caz.exemption_url).to eq(url)
     end
   end
 

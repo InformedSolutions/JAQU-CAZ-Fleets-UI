@@ -57,3 +57,7 @@ When('I press the Continue to add vehicle') do
   mock_vehicles_in_fleet
   click_on 'Continue'
 end
+
+Then('I should be on the local vehicles exemptions page') do
+  expect_path(local_exemptions_vehicles_path)
+end

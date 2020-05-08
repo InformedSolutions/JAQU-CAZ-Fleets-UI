@@ -33,6 +33,7 @@ Feature: Fleets
     Then I should be on the Charge details page
     When I press 'Return to review your payment' link
       And I want to confirm my payment
+      And I confirm that my vehicles are not exempt from payment
       And I press the Continue
     Then I should be on the Select payment method page
       And I press the Continue
@@ -56,6 +57,7 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the confirm payment page
       And I want to confirm my payment without any active Direct Debit mandate
+      And I confirm that my vehicles are not exempt from payment
       And I press the Continue
     Then I should be on the success payment page
       And I should see success message

@@ -11,6 +11,8 @@ Feature: Uploads
     Then I should see "Select a file" 2 times
     When I attach a file
       And I press upload
+    Then I should be on the local vehicles exemptions page with continue_path redirecting to processing page
+    When I press "Continue" link
     Then I should be on the processing page
     When I reload the page
     Then I should be on the processing page
@@ -21,6 +23,8 @@ Feature: Uploads
     Then I should see "Replace and upload a new list of vehicles"
     When I attach a file
       And I press upload
+    Then I should be on the local vehicles exemptions page with continue_path redirecting to processing page
+    When I press "Continue" link
     Then I should be on the processing page
 
   Scenario: Download template

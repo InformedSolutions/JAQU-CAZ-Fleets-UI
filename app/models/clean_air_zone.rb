@@ -32,6 +32,11 @@ class CleanAirZone
     caz_data[:boundary_url]
   end
 
+  # Returns a string, eg. 'www.example.com'.
+  def exemption_url
+    caz_data[:exemption_url]
+  end
+
   # Checks if zones was already checked by user before.
   # Returns a boolean.
   def checked?(checked_zones)

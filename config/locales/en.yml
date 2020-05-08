@@ -73,3 +73,6 @@ en:
   vehicle_not_found:
     errors:
       confirmation_alert: Confirm the number plate is correct
+  payment_review:
+    errors:
+      confirmation_alert: Confirm you have checked if you are eligible for an exemption
