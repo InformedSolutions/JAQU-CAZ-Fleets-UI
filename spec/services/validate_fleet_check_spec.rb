@@ -3,9 +3,7 @@
 require 'rails_helper'
 
 describe ValidateFleetCheck do
-  subject(:service) do
-    described_class.call(confirm_fleet_check: confirm_fleet_check)
-  end
+  subject(:service) { described_class.call(confirm_fleet_check: confirm_fleet_check) }
 
   let(:confirm_fleet_check) { 'two_or_more' }
   let(:valid) { true }
@@ -46,7 +44,7 @@ describe ValidateFleetCheck do
   context 'when confirm_fleet_check is `less_than_two`' do
     let(:confirm_fleet_check) { 'less_than_two' }
 
-    it 'raises `AccountForMultipleVehiclesException` exception with proper errors object' do
+    it 'raises `InvalidFleetCheckException` exception' do
       expect { service }.to raise_error(
         AccountForMultipleVehiclesException
       )

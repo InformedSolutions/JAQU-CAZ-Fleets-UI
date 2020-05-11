@@ -3,9 +3,7 @@
 require 'rails_helper'
 
 describe CreateAccount do
-  subject(:service) do
-    described_class.call(company_name: company_name)
-  end
+  subject(:service) { described_class.call(company_name: company_name) }
 
   let(:company_name) { 'Mikusek Software' }
   let(:valid) { true }
@@ -48,7 +46,7 @@ describe CreateAccount do
       let(:valid) { false }
       let(:errors) { ActiveModel::Errors.new(['Some error']) }
 
-      it 'raises `InvalidCompanyNameException` exception with proper errors object' do
+      it 'raises `InvalidCompanyNameException` exception' do
         expect { service }.to raise_error(
           InvalidCompanyNameException
         )
@@ -74,7 +72,7 @@ describe CreateAccount do
     end
 
     context 'when company name is not unique' do
-      it 'raises `UnableToCreateAccountException` exception with proper errors object' do
+      it 'raises `UnableToCreateAccountException` exception' do
         expect { service }.to raise_error(
           UnableToCreateAccountException, I18n.t('company_name.errors.duplicate')
         )
@@ -84,7 +82,7 @@ describe CreateAccount do
     context 'when company name has abusive term' do
       let(:error_code) { 'abuse' }
 
-      it 'raises `UnableToCreateAccountException` exception with proper errors object' do
+      it 'raises `UnableToCreateAccountException` exception' do
         expect { service }.to raise_error(
           UnableToCreateAccountException, I18n.t('company_name.errors.abuse')
         )
