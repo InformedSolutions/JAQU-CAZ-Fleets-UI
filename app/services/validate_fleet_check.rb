@@ -23,6 +23,11 @@ class ValidateFleetCheck < BaseService
     fleet_check
   end
 
+  private
+
+  attr_reader :confirm_fleet_check
+
+  # validate provided params.
   def validate_params
     form = FleetCheckForm.new(confirm_fleet_check: confirm_fleet_check)
     return if form.valid?
@@ -31,10 +36,6 @@ class ValidateFleetCheck < BaseService
     log_invalid_params(error_message)
     raise InvalidFleetCheckException, error_message
   end
-
-  private
-
-  attr_reader :confirm_fleet_check
 
   # Used to check if account confirmed two or more vehicle in the fleet.
   def fleet_check
