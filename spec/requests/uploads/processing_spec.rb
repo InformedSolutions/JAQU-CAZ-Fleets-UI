@@ -45,8 +45,8 @@ describe 'UploadsController - #processing' do
       end
 
       describe 'success' do
-        it 'returns redirect to fleets_path' do
-          expect(response).to redirect_to(fleets_path)
+        it 'returns redirect to local_exemptions_vehicles_path' do
+          expect(response).to redirect_to(local_exemptions_vehicles_path)
         end
 
         it 'clears job data' do

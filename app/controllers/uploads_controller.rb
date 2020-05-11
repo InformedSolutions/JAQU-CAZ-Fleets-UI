@@ -31,7 +31,7 @@ class UploadsController < ApplicationController
   def create
     file_name = UploadFile.call(file: params[:file], user: current_user)
     register_job(file_name)
-    redirect_to local_exemptions_vehicles_path(continue_path: processing_uploads_path)
+    redirect_to processing_uploads_path
   end
 
   ##
@@ -113,7 +113,7 @@ class UploadsController < ApplicationController
   def handle_successful_processing
     vrns_count = current_user.fleet.total_vehicles_count
     flash[:success] = I18n.t('vrn_form.messages.multiple_vrns_added', vrns_count: vrns_count)
-    redirect_to fleets_path
+    redirect_to local_exemptions_vehicles_path
   end
 
   # Handles failed scenario after CSV processing

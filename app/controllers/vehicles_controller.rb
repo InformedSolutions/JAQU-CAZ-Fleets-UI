@@ -143,9 +143,7 @@ class VehiclesController < ApplicationController
   # ==== Path
   #    GET /vehicles/local_exemptions
   #
-  def local_exemptions
-    @continue_path = local_exemptions_params[:continue_path] || fleets_path
-  end
+  def local_exemptions; end
 
   private
 

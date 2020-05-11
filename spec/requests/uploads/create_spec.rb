@@ -23,8 +23,7 @@ describe 'UploadsController - #index' do
 
   it 'redirects to #processing' do
     http_request
-    continue_path = local_exemptions_vehicles_path(continue_path: processing_uploads_path)
-    expect(response).to redirect_to(continue_path)
+    expect(response).to redirect_to(processing_uploads_path)
   end
 
   it 'sets filename in the session' do
