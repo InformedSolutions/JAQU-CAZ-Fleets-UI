@@ -8,7 +8,7 @@ class InvalidFleetCheckException < ApplicationException
   # Initializer method for the class. Calls +super+ method on parent class (ApplicationException).
   #
   # ==== Attributes
-  # * +errors_object+ - hash - messaged passed to parent exception
+  # * +msg+ - message passed to parent exception
   def initialize(msg = nil)
     super(msg)
   end
