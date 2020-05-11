@@ -123,9 +123,12 @@ class PaymentsController < ApplicationController
   #
   def confirm_review
     form = ConfirmationForm.new(params['confirm-not-exemption'])
-    return redirect_to review_payments_path, alert: confirmation_error(form) unless form.valid?
 
-    redirect_to select_payment_method_payments_path
+    if form.valid?
+      redirect_to select_payment_method_payments_path
+    else
+      redirect_to review_payments_path, alert: confirmation_error(form)
+    end
   end
 
   ##
