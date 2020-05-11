@@ -57,7 +57,7 @@
                                           id: 'confirm-not-exemption'}
                 %label.govuk-label.govuk-checkboxes__label{for: 'confirm-not-exemption'}
                   I confirm my vehicles are not exempt from paying the #{@zone.name} Clean Air Zone Charge.
-                  (Find out more about exemptions in #{link_to @zone.name + ' City Council', @zone.exemption_url})
+                  (Find out more about exemptions in #{exemption_url_for(@zone)})
         
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
 

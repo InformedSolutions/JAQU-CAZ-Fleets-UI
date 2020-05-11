@@ -72,4 +72,10 @@ module PaymentsHelper
   def formatted_date_string(date)
     Date.parse(date).strftime('%d %B %Y')
   end
+
+  # Returns exemption URL with proper title for given CAZ
+  def exemption_url_for(caz)
+    url_title = caz.name + ' City Council'
+    link_to(url_title, caz.exemption_url)
+  end
 end
