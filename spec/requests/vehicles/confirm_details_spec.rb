@@ -32,9 +32,9 @@ describe 'VehicleCheckersController - POST #confirm_details', type: :request do
       end
 
       context 'when user confirms details' do
-        it 'redirects to fleets' do
+        it 'redirects to local vehicle exemptions' do
           http_request
-          expect(response).to redirect_to(fleets_path)
+          expect(response).to redirect_to(local_exemptions_vehicles_path)
         end
 
         it 'adds the vehicle to the fleet' do

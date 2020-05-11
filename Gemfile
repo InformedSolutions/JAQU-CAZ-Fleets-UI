@@ -24,9 +24,11 @@ gem 'turbolinks'
 gem 'webpacker'
 
 group :development, :test do
-  gem 'byebug'
   gem 'dotenv-rails'
   gem 'haml-rails'
+  gem 'jazz_fingers'
+  gem 'pry'
+  gem 'pry-rails'
   gem 'rspec-rails'
   gem 'scss_lint-govuk', require: false
 end

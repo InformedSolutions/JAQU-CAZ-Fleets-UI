@@ -114,6 +114,24 @@ class PaymentsController < ApplicationController
   end
 
   ##
+  # Validates user has confirmed review payment.
+  # If it is valid, redirects to {select payment method page}[rdoc-ref:PaymentsController.select_payment_method]
+  # If not, renders {not found}[rdoc-ref:PaymentsController.review] with errors
+  #
+  # ==== Path
+  #    POST /payments/confirm_review
+  #
+  def confirm_review
+    form = ConfirmationForm.new(params['confirm-not-exemption'])
+
+    if form.valid?
+      redirect_to select_payment_method_payments_path
+    else
+      redirect_to review_payments_path, alert: confirmation_error(form)
+    end
+  end
+
+  ##
   # Renders review details
   #
   # ==== Path

@@ -14,6 +14,12 @@ Feature: Uploads
     Then I should be on the processing page
     When I reload the page
     Then I should be on the processing page
+      And My upload is successful
+      And I reload the page
+    Then I should be on the local vehicles exemptions page
+      And I press "Continue" link
+    Then I should be on the manage vehicles page
+      And I should see 'You have successfully uploaded'
 
   Scenario: Uploading file with vehicles in the fleets
     When I have vehicles in my fleet
@@ -22,6 +28,10 @@ Feature: Uploads
     When I attach a file
       And I press upload
     Then I should be on the processing page
+      And My upload is successful
+      And I reload the page
+    Then I should be on the local vehicles exemptions page
+      And I press "Continue" link
 
   Scenario: Download template
     When I have no vehicles in my fleet
@@ -34,6 +44,8 @@ Feature: Uploads
     When I am on the processing page
       And My upload is successful
       And I reload the page
+    Then I should be on the local vehicles exemptions page
+      And I press "Continue" link
     Then I should be on the manage vehicles page
       And I should see 'You have successfully uploaded'
 
