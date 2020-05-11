@@ -38,7 +38,7 @@ Then('I enter api invalid company: {string}') do |string|
   stub_request(:post, /accounts/).to_return(
     status: 422,
     body: {
-      'message': 'The company name already exists.',
+      'message': "Invalid company name: #{string}",
       'errorCode': string
     }.to_json
   )

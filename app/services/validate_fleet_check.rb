@@ -32,11 +32,12 @@ class ValidateFleetCheck < BaseService
     raise InvalidFleetCheckException, error_message
   end
 
-  def fleet_check
-    raise AccountForMultipleVehiclesException if confirm_fleet_check == 'less_than_two'
-  end
-
   private
 
   attr_reader :confirm_fleet_check
+
+  # Used to check if account confirmed two or more vehicle in the fleet.
+  def fleet_check
+    raise AccountForMultipleVehiclesException if confirm_fleet_check == 'less_than_two'
+  end
 end

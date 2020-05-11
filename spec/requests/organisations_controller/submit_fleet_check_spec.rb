@@ -24,8 +24,7 @@ describe 'OrganisationsController - POST #submit_fleet_check' do
     let(:errors) { { company_name: 'Sample Error' } }
 
     before do
-      allow(ValidateFleetCheck).to(receive(:call)
-        .and_raise(InvalidFleetCheckException, errors))
+      allow(ValidateFleetCheck).to(receive(:call).and_raise(InvalidFleetCheckException, errors))
       subject
     end
 
