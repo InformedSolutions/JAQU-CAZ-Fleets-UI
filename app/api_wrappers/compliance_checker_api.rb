@@ -48,7 +48,7 @@ class ComplianceCheckerApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def vehicle_details(vrn)
-      log_action "Getting vehicle details, vrn: #{vrn}"
+      log_action 'Getting vehicle details'
       request(:get, "/vehicles/#{vrn}/details")
     end
 
