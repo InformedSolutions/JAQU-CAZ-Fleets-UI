@@ -9,12 +9,12 @@
     "@rails/webpacker": "^5.1.1",
     "core-js": "^3.6.4",
     "govuk-frontend": "^3.6.0",
-    "improved-yarn-audit": "^2.0.0",
+    "improved-yarn-audit": "^2.1.0",
     "rails-erb-loader": "^5.5.2",
     "regenerator-runtime": "^0.13.5"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.11.0"
   }
 }
