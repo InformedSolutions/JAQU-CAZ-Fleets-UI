@@ -56,10 +56,12 @@
               %td.govuk-table__cell{scope: 'row'}
                 = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
       = render 'pagination'
-      %p
-        You can then pay for the vehicles with a charge on the
-        = link_to('Make a payment', payments_path)
-        page.
+
+      - if @pagination.total_vehicles_count >= 2
+        %p
+          You can then pay for the vehicles with a charge on the
+          = link_to('Make a payment', payments_path)
+          page.
 
       %h2.govuk-heading-m Add vehicles
       %p
