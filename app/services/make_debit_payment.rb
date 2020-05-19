@@ -14,10 +14,11 @@ class MakeDebitPayment < BasePayment
   # * +user_id+ - ID of the user who pays
   # * +mandate_id+ - ID of the mandate
   #
-  def initialize(payment_data:, account_id:, user_id:, mandate_id:)
+  def initialize(payment_data:, account_id:, user_id:, user_email:, mandate_id:)
     @payment_data = payment_data
     @account_id = account_id
     @user_id = user_id
+    @user_email = user_email
     @mandate_id = mandate_id
   end
 
@@ -31,6 +32,7 @@ class MakeDebitPayment < BasePayment
       account_id: account_id,
       caz_id: caz_id,
       user_id: user_id,
+      user_email: user_email,
       mandate_id: mandate_id,
       transactions: transformed_transactions
     )
@@ -38,5 +40,5 @@ class MakeDebitPayment < BasePayment
 
   private
 
-  attr_reader :mandate_id, :account_id
+  attr_reader :mandate_id, :account_id, :user_email
 end

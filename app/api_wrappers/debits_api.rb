@@ -5,6 +5,7 @@
 # Wraps methods regarding Direct Debits management.
 # See {PaymentsApi}[rdoc-ref:PaymentsApi] for user related actions.
 #
+# rubocop:disable Metrics/ParameterLists
 class DebitsApi < PaymentsApi
   class << self
     ##
@@ -42,6 +43,7 @@ class DebitsApi < PaymentsApi
     # * +account_id+ - ID of the account associated with the fleet
     # * +user_id+ - ID of the users account from which the payment is being done.
     # * +mandate_id+ - ID of active mandate
+    # * +user_email+ - Email of the user who is makeing the payment.
     # * +transactions+ - array of objects
     #   * +vrn+ - Vehicle registration number
     #   * +travel_date+ - Date of the single transaction
@@ -55,14 +57,15 @@ class DebitsApi < PaymentsApi
     # * +referenceNumber+ - integer, central reference number of the payment
     # * +externalPaymentId+ - string, external identifier for the payment
     #
-    def create_payment(caz_id:, account_id:, user_id:, mandate_id:, transactions:)
+    def create_payment(caz_id:, account_id:, user_id:, mandate_id:, user_email:, transactions:)
       log_action("Creating Direct Debit payment for user with id: #{user_id}")
 
       body = payment_creation_body(
         caz_id: caz_id,
         account_id: account_id,
-        user_id: user_id,
         mandate_id: mandate_id,
+        user_id: user_id,
+        user_email: user_email,
         transactions: transactions
       )
       request(:post, '/direct-debit-payments', body: body.to_json)
@@ -121,14 +124,17 @@ class DebitsApi < PaymentsApi
     private
 
     # Returns parsed JSON of the payment creation parameters with proper keys
-    def payment_creation_body(account_id:, caz_id:, user_id:, mandate_id:, transactions:)
+    def payment_creation_body(account_id:, caz_id:, user_id:, user_email:, mandate_id:,
+                              transactions:)
       {
         account_id: account_id,
         clean_air_zone_id: caz_id,
         user_id: user_id,
+        user_email: user_email,
         mandate_id: mandate_id,
         transactions: transactions
       }.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
     end
   end
 end
+# rubocop:enable Metrics/ParameterLists
