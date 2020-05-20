@@ -1,5 +1,5 @@
 en:
-  external_link: "Opens in new window - External website"
+  external_link: 'opens in a new window'
   form:
     errors:
       missing: 'is required'

@@ -10,7 +10,10 @@
         = title_and_header
       %p
         If your vehicle details are incorrect, you can update them with the 
-        = link_to 'DVLA', 'https://www.gov.uk/change-vehicle-details-registration-certificate'
+        = succeed '.' do
+          = external_link_to('DVLA', 
+                             'https://www.gov.uk/change-vehicle-details-registration-certificate',
+                             id: 'dvla-link')
       %p
         You still need to pay a charge if you have driven, or are planning to drive, in the zone.
       %p

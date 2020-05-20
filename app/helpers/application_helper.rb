@@ -49,9 +49,10 @@ module ApplicationHelper
       target: '_blank',
       class: 'govuk-link',
       rel: 'noopener',
-      'aria-label': "#{html_options[:'aria-label'] || text} - #{I18n.t('external_link')}"
+      'aria-label': "#{html_options[:'aria-label'] || text} (#{I18n.t('external_link')})"
     )
-    link_to "#{text} (opens in a new window, external website)", url, html_options
+
+    link_to "#{text} (#{I18n.t('external_link')})", url, html_options
   end
 
   # Creates a back button with link to the dashboard
