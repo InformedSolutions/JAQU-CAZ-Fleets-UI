@@ -1,5 +1,5 @@
 - title_content = 'Manage your vehicles and view charges'
-- title_and_header = flash[:success].nil? ? title_content : "Upload successful - " + title_content
+- title_and_header = flash[:success] ? "Upload successful - #{title_content}" : title_content
 - content_for(:title, title_and_header)
 
 = back_link_to_dashboard
