@@ -43,7 +43,7 @@ class DebitsApi < PaymentsApi
     # * +account_id+ - ID of the account associated with the fleet
     # * +user_id+ - ID of the users account from which the payment is being done.
     # * +mandate_id+ - ID of active mandate
-    # * +user_email+ - Email of the user who is makeing the payment.
+    # * +user_email+ - Email of the user who is making the payment.
     # * +transactions+ - array of objects
     #   * +vrn+ - Vehicle registration number
     #   * +travel_date+ - Date of the single transaction
