@@ -1,6 +1,6 @@
 %section.govuk-tabs__panel{id: 'past-week'}
   %h2.govuk-heading-l
-    Past 6 days
+    = "Past #{pluralize(@dates[:past].count, 'day')}"
   %p
     %strong
       Check a box for each vehicle and date it drove in a Clean Air Zone.

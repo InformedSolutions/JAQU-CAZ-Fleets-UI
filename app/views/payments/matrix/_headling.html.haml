@@ -14,6 +14,9 @@
       = succeed('.') do
         = @zone.name
   %p
-    You can pay for the past 6 days and the next 7 days, which includes today.
+    You can pay for
+    - if @dates[:past].present?
+      = "the past #{pluralize(@dates[:past].count, 'day')} and"
+    the next 7 days, which includes today.
   %p
     A daily charge runs from midnight to midnight.

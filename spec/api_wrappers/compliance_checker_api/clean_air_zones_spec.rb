@@ -21,7 +21,9 @@ describe 'ComplianceCheckerApi.clean_air_zones' do
     end
 
     it 'returns proper fields' do
-      expect(call.first.keys).to contain_exactly('cleanAirZoneId', 'name', 'boundaryUrl')
+      expect(call.first.keys).to(
+        contain_exactly('cleanAirZoneId', 'name', 'boundaryUrl', 'activeChargeStartDate')
+      )
     end
 
     it 'calls API once' do

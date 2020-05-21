@@ -37,6 +37,11 @@ class CleanAirZone
     caz_data[:exemption_url]
   end
 
+  # Returns date when CAZ started charging, eg. '2020-05-01'
+  def active_charge_start_date
+    Date.parse(caz_data[:active_charge_start_date])
+  end
+
   # Checks if zones was already checked by user before.
   # Returns a boolean.
   def checked?(checked_zones)

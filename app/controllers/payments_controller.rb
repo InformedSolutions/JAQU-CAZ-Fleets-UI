@@ -51,7 +51,7 @@ class PaymentsController < ApplicationController
   #
   def matrix
     @zone = CleanAirZone.find(@zone_id)
-    @dates = PaymentDates.call
+    @dates = PaymentDates.call(charge_start_date: @zone.active_charge_start_date)
     @search = helpers.payment_query_data[:search]
     @errors = validate_search_params unless @search.nil?
     @charges = @errors || @search.nil? ? charges : charges_by_vrn

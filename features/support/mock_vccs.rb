@@ -21,6 +21,7 @@ module MockVccs
   end
 
   def mock_clean_air_zones(caz_list = nil)
+    CleanAirZone.remove_instance_variable :@all if CleanAirZone.instance_variable_defined? :@all
     caz_list ||= read_response('caz_list.json')['cleanAirZones']
     allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(caz_list)
   end
