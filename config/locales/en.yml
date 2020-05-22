@@ -52,14 +52,11 @@ en:
     errors:
       email_equality: 'Email address and email address confirmation must be the same'
       exists: 'Email already exists'
-    sqs_error: 'There was an error while sending the email to SQS'
   company_name:
     errors:
       duplicate: The company name already exists. If you have forgotten your sign in details you can reset your password
       profanity: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.
       abuse: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.
-  verification_email:
-    error: 'There was an error while sending Verification Email to SQS'
   confirmation_form:
     answer_missing: 'You must choose an answer'
   csv:

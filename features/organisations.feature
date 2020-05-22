@@ -24,11 +24,7 @@ Feature: Organisations
       And I should not see "Email confirmation is in an invalid format"
     Then I enter the account details
       And I press the Continue
-    Then I should see "Verification email"
-      And I should receive verification email
-    Then I press "resend the email" link
       And I should see "Verification email"
-      And I should receive verification email again
 
   Scenario: User tries to create invalid company
     Given I go to the create account page

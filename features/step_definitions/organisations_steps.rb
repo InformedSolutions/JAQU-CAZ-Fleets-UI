@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Given('I go to the create account page') do
-  mock_verification_email
   visit organisations_path
 end
 
@@ -67,14 +66,6 @@ end
 
 When('I go to the email verified page') do
   visit email_verified_organisations_path
-end
-
-Then('I should receive verification email') do
-  expect(Sqs::VerificationEmail).to have_received(:call)
-end
-
-Then('I should receive verification email again') do
-  expect(Sqs::VerificationEmail).to have_received(:call).twice
 end
 
 def fill_account_details

@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       post :new_credentials, to: 'organisations#create'
 
       get :email_sent
-      get :resend_email
+      get :resend_email # TODO: missing endpoint for backend to send an email
       get :email_verified
       get :email_verification
       get :verification_failed

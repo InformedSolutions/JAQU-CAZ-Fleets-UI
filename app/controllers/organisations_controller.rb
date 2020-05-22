@@ -130,8 +130,8 @@ class OrganisationsController < ApplicationController
   end
 
   def resend_email
-    user = User.new(new_account)
-    Sqs::VerificationEmail.call(user: user, host: root_url)
+    # TODO: Missing endpoint for back-end to resend an email
+    # user = User.new(new_account)
     redirect_to email_sent_organisations_path
   end
 
