@@ -22,7 +22,8 @@
                 = render 'payments/matrix/no_chargeable_vehicles'
               - else
                 = render 'payments/matrix/tabs'
-                = render 'payments/matrix/past_week_tab', form: f
+                - if @dates[:past].present?
+                  = render 'payments/matrix/past_week_tab', form: f
                 = render 'payments/matrix/next_week_tab', form: f
                 = render 'payments/matrix/pagination', form: f
             - if @charges.any_results?

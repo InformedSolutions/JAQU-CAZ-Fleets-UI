@@ -45,6 +45,18 @@ When('I have vehicles in my fleet') do
   mock_caz_mandates
 end
 
+When('I want to pay for CAZ which started charging {int} days ago') do |start_days_ago|
+  active_charge_start_date = Date.today - start_days_ago.days
+  caz_list = [{
+    'cleanAirZoneId' => '5cd7441d-766f-48ff-b8ad-1809586fea37',
+    'name' => 'Birmingham',
+    'boundaryUrl' => 'https://www.birmingham.gov.uk/info/20076/pollution/1763/a_clean_air_zone_for_birmingham/3',
+    'activeChargeStartDate' => active_charge_start_date.to_s
+  }]
+  mock_clean_air_zones(caz_list)
+  mock_unpaid_vehicles_in_fleet
+end
+
 When('I have vehicles in my fleet that are not paid') do
   mock_clean_air_zones
   mock_unpaid_vehicles_in_fleet

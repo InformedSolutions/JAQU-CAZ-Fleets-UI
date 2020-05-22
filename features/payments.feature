@@ -82,3 +82,14 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the no chargeable vehicles page
       And I should see 'No chargeable vehicles in the Birmingham'
+
+  Scenario: Visiting the the matrix for caz which stared chargin today
+    When I want to pay for CAZ which started charging 0 days ago
+      And I visit the make payment page
+      And I press the Continue
+    Then I select 'Birmingham'
+      And I press the Continue
+    Then I should be on the payment matrix page
+      And I should see 'Next 7 days'
+      And I should not see 'Past'
+
