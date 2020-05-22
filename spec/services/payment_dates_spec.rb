@@ -7,6 +7,7 @@ describe PaymentDates do
 
   context 'when charge_start_date was before 6 days ago' do
     let(:charge_start_date) { Date.today - 10.days }
+
     it 'returns next and past dates' do
       expect(service_call.keys).to contain_exactly(:next, :past)
     end
@@ -32,6 +33,7 @@ describe PaymentDates do
 
   context 'when charge_start_date was before 3 days ago' do
     let(:charge_start_date) { Date.today - 3.days }
+
     it 'returns next and past dates' do
       expect(service_call.keys).to contain_exactly(:next, :past)
     end
@@ -57,6 +59,7 @@ describe PaymentDates do
 
   context 'when charge_start_date was before today ago' do
     let(:charge_start_date) { Date.today }
+
     it 'returns next and past dates' do
       expect(service_call.keys).to contain_exactly(:next, :past)
     end

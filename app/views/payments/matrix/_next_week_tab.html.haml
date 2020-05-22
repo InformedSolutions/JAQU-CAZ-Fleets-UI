@@ -10,4 +10,7 @@
   - unless @charges.all_days_unpaid?
     %p
       If you have already paid for a date, it will show as Paid.
+  - if @zone.active_charge_start_date == Date.today
+    %p
+      = "The Clean Air Zone came into operation on #{formatted_date(@zone.active_charge_start_date)}."
   = render 'payments/matrix/table', direction: :next
