@@ -29,7 +29,6 @@ describe CreateUserAccount do
         .and_return(instance_double(EmailAndPasswordForm, valid?: valid))
       response = read_response('create_user.json')
       allow(AccountsApi).to receive(:create_user).and_return(response)
-      allow(Sqs::VerificationEmail).to receive(:call).and_return(SecureRandom.uuid)
     end
 
     it 'returns the User class' do

@@ -24,7 +24,6 @@ class CreateUserAccount < BaseService
   def call
     validate_user_params
     user = User.serialize_from_api(perform_api_call)
-    send_verification_email(user)
     user
   end
 
@@ -80,12 +79,5 @@ class CreateUserAccount < BaseService
       'input_form.errors.password_complexity',
       attribute: 'Password'
     )]
-  end
-
-  # It sends the verification email to the user via SQS.
-  #
-  # It raises BaseApi::Error500Exception if it fails.
-  def send_verification_email(user)
-    Sqs::VerificationEmail.call(user: user, host: host)
   end
 end
