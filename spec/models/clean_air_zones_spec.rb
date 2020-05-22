@@ -74,5 +74,31 @@ describe CleanAirZone, type: :model do
     it 'returns an array of CleanAirZone instances' do
       expect(zones).to all(be_a(CleanAirZone))
     end
+
+    it 'returns only active CleanAirZone' do
+      expect(zones.count).to eq(2)
+    end
+  end
+
+  describe '.active' do
+    subject(:zones) { described_class.active }
+
+    before do
+      caz_list = read_response('caz_list_active.json')['cleanAirZones']
+      allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(caz_list)
+      CleanAirZone.remove_instance_variable :@all if CleanAirZone.instance_variable_defined? :@all
+    end
+
+    after do
+      CleanAirZone.remove_instance_variable :@all if CleanAirZone.instance_variable_defined? :@all
+    end
+
+    it 'returns an array of CleanAirZone instances' do
+      expect(zones).to all(be_a(CleanAirZone))
+    end
+
+    it 'returns only active CleanAirZone' do
+      expect(zones.count).to eq(1)
+    end
   end
 end

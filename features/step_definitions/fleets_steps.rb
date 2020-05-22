@@ -57,6 +57,12 @@ When('I want to pay for CAZ which started charging {int} days ago') do |start_da
   mock_unpaid_vehicles_in_fleet
 end
 
+When('I want to pay for active for charging CAZ') do
+  caz_list = read_response('caz_list_active.json')['cleanAirZones']
+  mock_clean_air_zones(caz_list)
+  mock_unpaid_vehicles_in_fleet
+end
+
 When('I have vehicles in my fleet that are not paid') do
   mock_clean_air_zones
   mock_unpaid_vehicles_in_fleet

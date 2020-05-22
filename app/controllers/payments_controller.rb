@@ -22,7 +22,7 @@ class PaymentsController < ApplicationController
   def index
     return redirect_to first_upload_fleets_path if current_user.fleet.total_vehicles_count < 2
 
-    @zones = CleanAirZone.all
+    @zones = CleanAirZone.active
   end
 
   ##

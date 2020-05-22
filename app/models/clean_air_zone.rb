@@ -55,6 +55,11 @@ class CleanAirZone
                                  .sort_by(&:name)
   end
 
+  # Fetches active for charging CAZs from ComplianceCheckerApi.clean_air_zones endpoint
+  def self.active
+    all.reject { |caz| caz.active_charge_start_date.future? }
+  end
+
   # Finds a zone by given ID
   def self.find(id)
     all.find { |caz| caz.id == id }

@@ -93,3 +93,12 @@ Feature: Fleets
       And I should see 'Next 7 days'
       And I should not see 'Past'
 
+  Scenario: Checking selectable only active for charging CAZ list during payment.
+    When I want to pay for active for charging CAZ
+      And I visit the make payment page
+      And I press the Continue
+    Then I should be on the make a payment page
+      And I should see 'Which Clean Air Zone do you need to pay for?'
+      And I should see 'Birmingham'
+      And I should not see 'Leeds'
+
