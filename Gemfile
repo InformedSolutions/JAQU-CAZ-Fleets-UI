@@ -14,7 +14,7 @@ gem 'bundler-audit'
 gem 'devise'
 gem 'haml'
 gem 'httparty'
-gem 'puma'
+gem 'puma', '>= 4.3.5'
 gem 'redis'
 gem 'rubocop-rails'
 gem 'sdoc', require: false
