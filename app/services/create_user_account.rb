@@ -10,12 +10,12 @@ class CreateUserAccount < BaseService
   # ==== Attributes
   # * +organisations_params+ - hash, email and password submitted by the user
   # * +account_id+ - uuid, ID of the account on backend DB
-  # * +host+ - URL, the current host of an app
+  # * +verification_url+ - URL, the current verification_url of an app
   #
-  def initialize(organisations_params:, account_id:, host:)
+  def initialize(organisations_params:, account_id:, verification_url:)
     @organisations_params = organisations_params
     @account_id = account_id
-    @host = host
+    @verification_url = verification_url
   end
 
   # The caller method for the service.
@@ -30,7 +30,7 @@ class CreateUserAccount < BaseService
   private
 
   # Attribute used internally
-  attr_reader :organisations_params, :account_id, :user, :host
+  attr_reader :organisations_params, :account_id, :user, :verification_url
 
   # Validate user params.
   # Raises `NewPasswordException` exception if validation failed.
@@ -49,7 +49,8 @@ class CreateUserAccount < BaseService
     AccountsApi.create_user(
       account_id: account_id,
       email: organisations_params[:email],
-      password: organisations_params[:password]
+      password: organisations_params[:password],
+      verification_url: verification_url
     )
   rescue BaseApi::Error422Exception => e
     parse_422_error(e.body['errorCode'])

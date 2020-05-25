@@ -95,11 +95,15 @@ class AccountsApi < BaseApi
     # * +account_id+ - uuid, ID of the account on backend DB
     # * +email+ - submitted email address
     # * +password+ - submitted password
+    # * +verification_url+ - url to verify account.
     #
     # ==== Example
     #
     #     user_attributes = AccountsApi.users(
-    #       company_name: 'Test Inc.', email: 'test@example.com', password: 'test'
+    #       company_name: 'Test Inc.', e
+    #       mail: 'test@example.com',
+    #       password: 'test',
+    #       verification_url: 'http://exmaple.url'
     #     )
     #     user = User.serialize_from_api(user_attributes)
     #
@@ -121,9 +125,9 @@ class AccountsApi < BaseApi
     # * {422 Exception}[rdoc-ref:BaseApi::Error422Exception] - parameters are invalid (details in the exception body)
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
-    def create_user(account_id:, email:, password:)
+    def create_user(account_id:, email:, password:, verification_url:)
       log_action 'Creating a user account'
-      body = { email: email.downcase, password: password }.to_json
+      body = create_account_user_body(email, password, verification_url)
       request(:post, "/accounts/#{account_id}/users", body: body)
     end
 
@@ -238,6 +242,17 @@ class AccountsApi < BaseApi
       body = { token: token, password: password }.to_json
       request(:put, '/auth/password/set', body: body)
       true
+    end
+
+    private
+
+    # prepares create user for account request body.
+    def create_account_user_body(email, password, verification_url)
+      {
+        email: email.downcase,
+        password: password,
+        verificationUrl: verification_url
+      }.to_json
     end
   end
 end

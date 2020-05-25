@@ -37,7 +37,7 @@ describe 'OrganisationsController - POST #create' do
           .with(
             organisations_params: strong_params(organization_params),
             account_id: account_id,
-            host: root_url
+            verification_url: email_verification_organisations_url
           )
         subject
       end

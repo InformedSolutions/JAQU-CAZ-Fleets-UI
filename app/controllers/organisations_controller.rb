@@ -109,7 +109,7 @@ class OrganisationsController < ApplicationController
     user = CreateUserAccount.call(
       organisations_params: organisations_params,
       account_id: new_account['account_id'],
-      host: root_url
+      verification_url: email_verification_organisations_url
     )
     new_account.merge!(user.serializable_hash.stringify_keys)
     redirect_to email_sent_organisations_path
