@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 class OrganisationsController < ApplicationController
   skip_before_action :authenticate_user!
   # checks if company name is present in session
@@ -34,9 +35,7 @@ class OrganisationsController < ApplicationController
   # * +company_name+ - string, account name e.g. 'Company name'
   #
   def set_name
-    SessionManipulation::SetCompanyName.call(session: session, params: company_params)
-    account_id = CreateAccount.call(company_name: new_account['company_name'])
-    session['new_account'] = { 'account_id' => account_id }
+    create_new_account if account_not_created_or_name_changed?
     redirect_to fleet_check_organisations_path
   rescue InvalidCompanyNameException, UnableToCreateAccountException => e
     @error = e.message
@@ -173,9 +172,7 @@ class OrganisationsController < ApplicationController
   #
   #    :GET /organisations/verification_failed
   #
-  def verification_failed
-    # Renders static page
-  end
+  def verification_failed; end
 
   ##
   # Renders the verification expired page.
@@ -184,9 +181,7 @@ class OrganisationsController < ApplicationController
   #
   #    :GET /organisations/verification_expired
   #
-  def verification_expired
-    # Renders static page
-  end
+  def verification_expired; end
 
   private
 
@@ -197,6 +192,20 @@ class OrganisationsController < ApplicationController
       expired: verification_expired_organisations_path,
       success: email_verified_organisations_path
     }
+  end
+
+  # Check if account already created or name changed.
+  def account_not_created_or_name_changed?
+    new_account['account_id'].blank? ||
+      new_account['company_name'] != company_params['company_name']
+  end
+
+  # Creates Account and store details in session
+  def create_new_account
+    SessionManipulation::SetCompanyName.call(session: session, params: company_params)
+    account_id = CreateAccount.call(company_name: new_account['company_name'])
+    SessionManipulation::SetAccountId.call(session: session,
+                                           params: { 'account_id' => account_id })
   end
 
   # Returns the list of permitted params
@@ -244,3 +253,4 @@ class OrganisationsController < ApplicationController
     (session['new_account'] || {}).stringify_keys!
   end
 end
+# rubocop:enable Metrics/ClassLength

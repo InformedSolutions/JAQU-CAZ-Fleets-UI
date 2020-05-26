@@ -13,6 +13,10 @@ Feature: Organisations
     Then I enter a company name
       And I press the Continue
     Then I should see "How many vehicles do you manage or own?"
+      And I press the Back link
+    Then I should see "Create an account"
+      And I press the Continue
+    Then I should see "How many vehicles do you manage or own?"
       And I choose "Two or more"
       And I press the Continue
     Then I should see "Sign in details"
