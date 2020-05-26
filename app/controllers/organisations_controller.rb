@@ -149,11 +149,8 @@ class OrganisationsController < ApplicationController
   # * +token+ - string, encrypted token with verification data
   #
   def email_verification
-    path = if VerifyAccount.call(token: params[:token])
-             email_verified_organisations_path
-           else
-             verification_failed_organisations_path
-           end
+    verification_status = VerifyAccount.call(token: params[:token])
+    path = verification_paths[verification_status]
     session['new_account'] = nil
     redirect_to path
   end
@@ -174,13 +171,33 @@ class OrganisationsController < ApplicationController
   #
   # ==== Path
   #
-  #    :GET /fleets/organisation-account/verification-failed
+  #    :GET /organisations/verification_failed
   #
   def verification_failed
     # Renders static page
   end
 
+  ##
+  # Renders the verification expired page.
+  #
+  # ==== Path
+  #
+  #    :GET /organisations/verification_expired
+  #
+  def verification_expired
+    # Renders static page
+  end
+
   private
+
+  # Defines redirect for verification status
+  def verification_paths
+    {
+      invalid: verification_failed_organisations_path,
+      expired: verification_expired_organisations_path,
+      success: email_verified_organisations_path
+    }
+  end
 
   # Returns the list of permitted params
   def organisations_params

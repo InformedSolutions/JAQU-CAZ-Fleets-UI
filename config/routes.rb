@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       get :email_verified
       get :email_verification
       get :verification_failed
+      get :verification_expired
     end
   end
 

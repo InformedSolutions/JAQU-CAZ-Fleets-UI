@@ -7,7 +7,7 @@ describe 'OrganisationsController - GET #email_verification' do
 
   let(:token) { 'token' }
 
-  before { allow(VerifyAccount).to receive(:call).and_return(true) }
+  before { allow(VerifyAccount).to receive(:call).and_return(:success) }
 
   it 'returns a redirect to :email_verified' do
     subject
@@ -19,12 +19,21 @@ describe 'OrganisationsController - GET #email_verification' do
     subject
   end
 
-  context 'when verification is unsuccessful' do
-    before { allow(VerifyAccount).to receive(:call).and_return(false) }
+  context 'when verification is invalid' do
+    before { allow(VerifyAccount).to receive(:call).and_return(:invalid) }
 
     it 'returns a redirect to :verification_failed' do
       subject
       expect(response).to redirect_to(verification_failed_organisations_path)
+    end
+  end
+
+  context 'when verification is expired' do
+    before { allow(VerifyAccount).to receive(:call).and_return(:expired) }
+
+    it 'returns a redirect to :verification_expired' do
+      subject
+      expect(response).to redirect_to(verification_expired_organisations_path)
     end
   end
 end
