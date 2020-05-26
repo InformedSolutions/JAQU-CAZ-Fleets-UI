@@ -12,11 +12,62 @@ describe 'OrganisationsController - POST #set_name' do
   context 'with valid params' do
     before do
       allow(CreateAccount).to receive(:call).and_return(SecureRandom.uuid)
-      subject
     end
 
-    it 'returns a success response' do
-      expect(response).to have_http_status(:found)
+    context 'when account_id not present in session' do
+      it 'returns a found response' do
+        subject
+        expect(response).to have_http_status(:found)
+      end
+
+      it 'calls CreateAccount service response' do
+        subject
+        expect(CreateAccount).to have_received(:call)
+      end
+    end
+
+    context 'when account_id present in session but name has been changed' do
+      before do
+        add_to_session(new_account: new_account_session)
+        subject
+      end
+
+      let(:new_account_session) do
+        {
+          'account_id' => '76155935-33cb-4bb8-991a-e014621697be',
+          'company_name' => 'Other Company Name'
+        }
+      end
+
+      it 'returns a found response' do
+        expect(response).to have_http_status(:found)
+      end
+
+      it 'calls CreateAccount service response' do
+        expect(CreateAccount).to have_received(:call)
+      end
+    end
+
+    context 'when account_id present in session and name has not been changed' do
+      before do
+        add_to_session(new_account: new_account_session)
+        subject
+      end
+
+      let(:new_account_session) do
+        {
+          'account_id' => '76155935-33cb-4bb8-991a-e014621697be',
+          'company_name' => company_name
+        }
+      end
+
+      it 'returns a found response' do
+        expect(response).to have_http_status(:found)
+      end
+
+      it 'does not call CreateAccount service response' do
+        expect(CreateAccount).not_to have_received(:call)
+      end
     end
   end
 
