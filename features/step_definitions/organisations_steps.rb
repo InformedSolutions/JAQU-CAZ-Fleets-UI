@@ -4,13 +4,8 @@ Given('I go to the create account page') do
   visit organisations_path
 end
 
-Given('I visit the verification link with a valid token') do
-  allow(VerifyAccount).to receive(:call).and_return(true)
-  visit email_verification_organisations_path(token: SecureRandom.uuid)
-end
-
-Given('I visit the verification link with an invalid token') do
-  allow(VerifyAccount).to receive(:call).and_return(false)
+Given('I visit the verification link with a token status {string}') do |string|
+  allow(VerifyAccount).to receive(:call).and_return(string.to_sym)
   visit email_verification_organisations_path(token: SecureRandom.uuid)
 end
 

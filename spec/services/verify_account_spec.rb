@@ -5,50 +5,15 @@ require 'rails_helper'
 describe VerifyAccount do
   subject(:service) { described_class.call(token: token) }
 
-  let(:token) do
-    Encryption::Encrypt.call(
-      value: {
-        user_id: user_id,
-        account_id: account_id,
-        created_at: Time.current.iso8601,
-        salt: SecureRandom.uuid
-      }
-    )
-  end
-  let(:user_id) { SecureRandom.uuid }
-  let(:account_id) { SecureRandom.uuid }
+  let(:token) { 'd9ffd832-c22e-49e7-9261-b6c6619e9d97' }
 
   before { allow(AccountsApi).to receive(:verify_user).and_return(true) }
 
-  it { is_expected.to be_truthy }
+  it { is_expected.to eq :success }
 
   it 'calls AccountsApi.verify_user with proper params' do
-    expect(AccountsApi)
-      .to receive(:verify_user)
-      .with(user_id: user_id, account_id: account_id)
+    expect(AccountsApi).to receive(:verify_user).with(token: token)
     service
-  end
-
-  context 'when token is nil' do
-    let(:token) { nil }
-
-    it { is_expected.to be_falsey }
-
-    it 'does not call AccountsApi.verify_user' do
-      expect(AccountsApi).not_to receive(:verify_user)
-      service
-    end
-  end
-
-  context 'when token is invalid' do
-    let(:token) { 'aaaaa' }
-
-    it { is_expected.to be_falsey }
-
-    it 'does not call AccountsApi.verify_user' do
-      expect(AccountsApi).not_to receive(:verify_user)
-      service
-    end
   end
 
   context 'when API responds with an error' do
@@ -58,18 +23,39 @@ describe VerifyAccount do
         .and_raise(BaseApi::Error404Exception.new(404, 'User not found', {}))
     end
 
-    it { is_expected.to be_falsey }
+    it { is_expected.to eq :invalid }
   end
 
-  context 'when API responds with 404 error' do
+  context 'when API responds with 422 error' do
     before do
       allow(AccountsApi)
         .to receive(:verify_user)
-        .and_raise(BaseApi::Error400Exception.new(400, 'User already confirmed', {}))
+        .and_raise(BaseApi::Error422Exception.new(422, 'User already confirmed',
+                                                  'errorCode' => error_code))
     end
 
-    it 'raises UserAlreadyConfirmedException' do
-      expect { service }.to raise_error(UserAlreadyConfirmedException)
+    context 'when user is already confirmed' do
+      let(:error_code) { 'emailAlreadyVerified' }
+
+      it 'raises UserAlreadyConfirmedException' do
+        expect { service }.to raise_error(UserAlreadyConfirmedException)
+      end
+    end
+
+    context 'when verification token is expired' do
+      let(:error_code) { 'expired' }
+
+      it 'raises UserAlreadyConfirmedException' do
+        expect(service).to eq(:expired)
+      end
+    end
+
+    context 'when verification token is invalid' do
+      let(:error_code) { 'invalid' }
+
+      it 'raises UserAlreadyConfirmedException' do
+        expect(service).to eq(:invalid)
+      end
     end
   end
 end

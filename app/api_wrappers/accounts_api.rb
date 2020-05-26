@@ -153,9 +153,10 @@ class AccountsApi < BaseApi
     # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - user not found
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
-    def verify_user(account_id:, user_id:)
+    def verify_user(token:)
       log_action('Verifying the user account')
-      request(:post, "/accounts/#{account_id}/users/#{user_id}/verify")
+      body = { token: token }.to_json
+      request(:post, '/accounts/verify', body: body)
     end
 
     ##
