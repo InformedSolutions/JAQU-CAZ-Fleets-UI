@@ -3,11 +3,10 @@
 require 'rails_helper'
 
 describe 'AccountsApi.verify_user' do
-  subject(:call) { AccountsApi.verify_user(account_id: account_id, user_id: user_id) }
+  subject(:call) { AccountsApi.verify_user(token: token) }
 
-  let(:account_id) { SecureRandom.uuid }
-  let(:user_id) { SecureRandom.uuid }
-  let(:url) { %r{/accounts/#{account_id}/users/#{user_id}/verify} }
+  let(:token) { '80a367e3-6dc0-4430-97e3-36eb1549cac3' }
+  let(:url) { %r{/accounts/verify} }
 
   context 'when the response status is 200' do
     before do
@@ -15,8 +14,9 @@ describe 'AccountsApi.verify_user' do
     end
 
     it 'calls API with no body' do
+      body = { token: token }.to_json
       call
-      expect(WebMock).to have_requested(:post, url).with(body: nil).once
+      expect(WebMock).to have_requested(:post, url).with(body: body).once
     end
   end
 
