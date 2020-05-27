@@ -102,6 +102,7 @@ Rails.application.routes.draw do
 
   get :cookies, to: 'static_pages#cookies'
   get :accessibility_statement, to: 'static_pages#accessibility_statement'
+  get :privacy_notice, to: 'static_pages#privacy_notice'
   get :dashboard, to: 'dashboard#index'
   get :build_id, to: 'application#build_id'
   get :health, to: 'application#health'
