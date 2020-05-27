@@ -113,6 +113,7 @@ class UploadsController < ApplicationController
   def handle_successful_processing
     vrns_count = current_user.fleet.total_vehicles_count
     flash[:success] = I18n.t('vrn_form.messages.multiple_vrns_added', vrns_count: vrns_count)
+    session[:fleet_csv_uploading_process] = true
     redirect_to local_exemptions_vehicles_path
   end
 

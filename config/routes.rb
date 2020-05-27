@@ -89,6 +89,7 @@ Rails.application.routes.draw do
       get :not_found
       post :confirm_not_found
       get :local_exemptions
+      post :add_to_fleet
     end
   end
 

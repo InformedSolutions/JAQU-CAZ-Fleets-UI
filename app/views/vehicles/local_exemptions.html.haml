@@ -13,4 +13,8 @@
       %p
         It is your responsibility to check if your vehicles are eligible for an exemption from the local authority in the Clean Air Zone you are driving in.
 
-      = link_to 'Continue', fleets_path, class: 'govuk-button'
+      - if @show_continue_link.present?
+        = link_to 'Continue', fleets_path, class: 'govuk-button'
+      - else
+        = form_tag add_to_fleet_vehicles_path, method: :post do
+          = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
