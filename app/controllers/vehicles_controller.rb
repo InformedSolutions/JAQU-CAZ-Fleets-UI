@@ -144,7 +144,7 @@ class VehiclesController < ApplicationController
   #    GET /vehicles/local_exemptions
   #
   def local_exemptions
-    @show_continue_link = session[:fleet_csv_uploading_process]
+    @show_continue_link = session[:show_continue_button]
   end
 
   # Add vehicle with given VRN to the user's fleet
@@ -158,18 +158,12 @@ class VehiclesController < ApplicationController
     else
       flash[:warning] = I18n.t('vrn_form.messages.vrn_already_exists', vrn: vrn)
     end
-
-    session[:vrn] = nil
-    session[:fleet_csv_uploading_process] = nil
+    clear_session
 
     redirect_to fleets_path
   end
 
   private
-
-  def local_exemptions_params
-    params.permit(:skip_submit)
-  end
 
   # Check if vrn is present in the session
   def check_vrn
@@ -209,5 +203,11 @@ class VehiclesController < ApplicationController
       @errors = form.errors.messages
       render enter_details_vehicles_path
     end
+  end
+
+  # Clear session from data needed for adding new vehicle to fleet
+  def clear_session
+    session[:vrn] = nil
+    session[:show_continue_button] = nil
   end
 end
