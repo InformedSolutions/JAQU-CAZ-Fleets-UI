@@ -77,7 +77,7 @@ class VehiclesController < ApplicationController
 
     return redirect_to incorrect_details_vehicles_path unless form.confirmed?
 
-    add_vehicle_to_fleet
+    redirect_to local_exemptions_vehicles_path
   end
 
   ##
@@ -134,7 +134,7 @@ class VehiclesController < ApplicationController
     form = ConfirmationForm.new(params['confirm-registration'])
     return redirect_to not_found_vehicles_path, alert: confirmation_error(form) unless form.valid?
 
-    add_vehicle_to_fleet
+    redirect_to local_exemptions_vehicles_path
   end
 
   ##
@@ -143,13 +143,27 @@ class VehiclesController < ApplicationController
   # ==== Path
   #    GET /vehicles/local_exemptions
   #
-  def local_exemptions; end
+  def local_exemptions
+    @show_continue_link = session[:show_continue_button]
+  end
+
+  # Add vehicle with given VRN to the user's fleet
+  #
+  # ==== Path
+  #    POST /vehicles/add_to_fleet
+  #
+  def add_to_fleet
+    if current_user.add_vehicle(vrn)
+      flash[:success] = I18n.t('vrn_form.messages.single_vrn_added', vrn: vrn)
+    else
+      flash[:warning] = I18n.t('vrn_form.messages.vrn_already_exists', vrn: vrn)
+    end
+    clear_session
+
+    redirect_to fleets_path
+  end
 
   private
-
-  def local_exemptions_params
-    params.permit(:continue_path)
-  end
 
   # Check if vrn is present in the session
   def check_vrn
@@ -167,18 +181,6 @@ class VehiclesController < ApplicationController
   # Returns user's form confirmation from the query params, values: 'yes', 'no', nil
   def confirmation
     params['confirm-vehicle']
-  end
-
-  # Add vehicle with given VRN to the user's fleet
-  def add_vehicle_to_fleet
-    if current_user.add_vehicle(vrn)
-      flash[:success] = I18n.t('vrn_form.messages.single_vrn_added', vrn: vrn)
-    else
-      flash[:warning] = I18n.t('vrn_form.messages.vrn_already_exists', vrn: vrn)
-    end
-
-    session[:vrn] = nil
-    redirect_to local_exemptions_vehicles_path
   end
 
   # Redirects to {vehicle not found}[rdoc-ref:VehiclesController.unrecognised_vehicle]
@@ -201,5 +203,11 @@ class VehiclesController < ApplicationController
       @errors = form.errors.messages
       render enter_details_vehicles_path
     end
+  end
+
+  # Clear session from data needed for adding new vehicle to fleet
+  def clear_session
+    session[:vrn] = nil
+    session[:show_continue_button] = nil
   end
 end
