@@ -147,7 +147,6 @@ class VehiclesController < ApplicationController
     @show_continue_link = session[:fleet_csv_uploading_process]
   end
 
-
   # Add vehicle with given VRN to the user's fleet
   #
   # ==== Path

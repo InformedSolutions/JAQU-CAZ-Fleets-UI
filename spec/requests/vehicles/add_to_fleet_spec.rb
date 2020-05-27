@@ -13,14 +13,15 @@ describe 'VehicleController - POST #add_to_fleet', type: :request do
   end
 
   context 'when user is signed in' do
+    let(:account_id) { SecureRandom.uuid }
+    let(:user) { create_user(account_id: account_id) }
+
     before do
-      account_id = SecureRandom.uuid
-      sign_in create_user(account_id: account_id)
+      sign_in user
     end
 
     context 'without VRN previously added' do
       before do
-        binding.pry
         allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true)
         add_to_session(vrn: @vrn)
       end
@@ -59,7 +60,7 @@ describe 'VehicleController - POST #add_to_fleet', type: :request do
             BaseApi::Error422Exception.new(422, '', message: message)
           )
         add_to_session(vrn: @vrn)
-        current_user.add_vehicle(vrn)
+        user.add_vehicle(@vrn)
       end
 
       it 'removes vrn from session' do
