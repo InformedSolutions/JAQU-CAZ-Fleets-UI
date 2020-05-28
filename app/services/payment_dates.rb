@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class PaymentDates < BaseService
+  # Attribute accessor used in {matrix}[rdoc-ref:PaymentsController.matrix]
+  attr_accessor :d_day_notice
+
   # date format used to display on the UI, eg. 'Fri 11 Oct'
   DISPLAY_DATE_FORMAT = '%a %d %b'
   # date format used to communicate with backend API, eg. '2019-05-14'
@@ -16,7 +19,10 @@ class PaymentDates < BaseService
     @charge_start_date = charge_start_date
   end
 
-  def call
+  # Build the list of dates and return them, e.g.
+  # {:past=>[{:name=>"Wed 27 May", :value=>"2020-05-27", :today=>false}],
+  # :next=>[{:name=>"Fri 29 May", :value=>"2020-05-29", :today=>true}, ]}
+  def chargeable_dates
     {
       past: past_dates,
       next: (Date.today..(Date.today + 6.days)).map { |date| parse(date) }
@@ -44,10 +50,16 @@ class PaymentDates < BaseService
     (past_start_date..past_end_date).map { |date| parse(date) }
   end
 
-  # set past dates start date
+  # set past dates start date and assigns +d_day_notice+
   def past_start_date
     past_start_date = Date.today - 6.days
-    past_start_date < charge_start_date ? charge_start_date : past_start_date
+    if charge_start_date > past_start_date
+      @d_day_notice = true
+      charge_start_date
+    else
+      @d_day_notice = false
+      past_start_date
+    end
   end
 
   # set past dates end date

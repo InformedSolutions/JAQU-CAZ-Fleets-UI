@@ -32,8 +32,13 @@ module MockFleet
 
   private
 
-  def mock_fleet(vehicles = [], page = 1, charges = mocked_charges, total_vehicles_count = 0,
-                 chargeable_vehicles_in_caz = true)
+  def mock_fleet(
+    vehicles = [],
+    page = 1,
+    charges = mocked_charges,
+    total_vehicles_count = 0,
+    chargeable_vehicles_in_caz = true
+  )
     @fleet = instance_double(Fleet,
                              pagination: paginated_vehicles(vehicles, page),
                              add_vehicle: true,

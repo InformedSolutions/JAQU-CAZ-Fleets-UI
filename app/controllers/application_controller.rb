@@ -74,7 +74,6 @@ class ApplicationController < ActionController::Base
     remote_ip = request.remote_ip
     return if current_user.login_ip == remote_ip
 
-    Rails.logger.warn "User with ip #{remote_ip} tried to access the page as #{current_user.email}"
     sign_out current_user
     redirect_to new_user_session_path
   end

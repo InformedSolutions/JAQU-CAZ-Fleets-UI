@@ -9,11 +9,11 @@ class PaymentsController < ApplicationController
                                     submit_payment_method no_chargeable_vehicles]
   before_action :assign_back_button_url, only: %i[index select_payment_method]
   before_action :assign_debit, only: %i[select_payment_method]
+  before_action :assign_zone_and_dates, only: %i[matrix]
 
   ##
   # Renders payment page.
-  # If the fleet is empty, redirects to {rdoc-ref:FleetsController.first_upload}
-  # [rdoc-ref:FleetsController.first_upload]
+  # If the fleet is empty, redirects to {first_upload}[rdoc-ref:FleetsController.first_upload]
   #
   # ==== Path
   #
@@ -50,8 +50,6 @@ class PaymentsController < ApplicationController
   #    :GET /payments/matrix
   #
   def matrix
-    @zone = CleanAirZone.find(@zone_id)
-    @dates = PaymentDates.call(charge_start_date: @zone.active_charge_start_date)
     @search = helpers.payment_query_data[:search]
     @errors = validate_search_params unless @search.nil?
     @charges = @errors || @search.nil? ? charges : charges_by_vrn
@@ -270,6 +268,14 @@ class PaymentsController < ApplicationController
   def determine_post_local_authority_redirect_path(zone_id)
     charges_exists = current_user.fleet.any_chargeable_vehicles_in_caz?(zone_id)
     charges_exists ? matrix_payments_path : no_chargeable_vehicles_payments_path
+  end
+
+  # Assigns +zone+, +dates+ and +d_day_notice+
+  def assign_zone_and_dates
+    @zone = CleanAirZone.find(@zone_id)
+    service = PaymentDates.new(charge_start_date: @zone.active_charge_start_date)
+    @dates = service.chargeable_dates
+    @d_day_notice = service.d_day_notice
   end
 end
 # rubocop:enable Metrics/ClassLength
