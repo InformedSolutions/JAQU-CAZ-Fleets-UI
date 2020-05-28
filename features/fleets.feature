@@ -47,6 +47,17 @@ Feature: Fleets
       And I should have deleted the vehicle
       And I should see "You have successfully removed"
 
+  Scenario: Abandoning removing vehicle from fleet
+    When I have vehicles in my fleet
+      And I visit the manage vehicles page
+      And I press "Remove" link
+    Then I should be on the delete vehicle page
+      And I choose "No"
+      And I press the Continue
+    Then I should be on the manage vehicles page
+      And I should not have deleted the vehicle
+      And I should not see "You have successfully removed"
+
   Scenario: Backend API is unavailable
     When Fleet backend API is unavailable
       And I visit the manage vehicles page
