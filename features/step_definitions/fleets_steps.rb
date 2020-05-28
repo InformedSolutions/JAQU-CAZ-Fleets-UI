@@ -85,6 +85,10 @@ Then('I should have deleted the vehicle') do
   expect(@fleet).to have_received(:delete_vehicle)
 end
 
+Then('I should not have deleted the vehicle') do
+  expect(@fleet.total_vehicles_count).to eq(15)
+end
+
 When('Fleet backend API is unavailable') do
   mock_unavailable_fleet
 end
