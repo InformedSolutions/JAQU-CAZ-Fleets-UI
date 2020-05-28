@@ -59,6 +59,14 @@ And('I enter the account details with not uniq email address') do
   fill_account_details
 end
 
+Then('I want to resend email verification') do
+  allow(AccountsApi).to receive(:resend_verification).and_return(true)
+end
+
+And('I receive verification email') do
+  expect(AccountsApi).to have_received(:resend_verification)
+end
+
 When('I go to the email verified page') do
   visit email_verified_organisations_path
 end

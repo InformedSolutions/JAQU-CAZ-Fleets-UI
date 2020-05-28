@@ -3,7 +3,7 @@
 # rubocop:disable Metrics/ClassLength
 class OrganisationsController < ApplicationController
   skip_before_action :authenticate_user!
-  # checks if company name is present in session
+  # checks if new_company account_id is present in session
   before_action :check_account_id, only: %i[new_credentials create email_sent]
   # checks if new account details is present in session
   before_action :check_account_details, only: %i[email_sent resend_email]
@@ -129,8 +129,11 @@ class OrganisationsController < ApplicationController
   end
 
   def resend_email
-    # TODO: Missing endpoint for back-end to resend an email
-    # user = User.new(new_account)
+    AccountsApi.resend_verification(
+      account_id: new_account['account_id'],
+      user_id: new_account['user_id'],
+      verification_url: email_verification_organisations_url
+    )
     redirect_to email_sent_organisations_path
   end
 

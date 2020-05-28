@@ -132,6 +132,40 @@ class AccountsApi < BaseApi
     end
 
     ##
+    # Calls +/v1/accounts/:accountId/users/:accountUserId/verifications+ endpoint with +POST+ method.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - uuid, ID of the account on backend DB
+    # * +user_id+ - uuid, ID of the accountUser on backend DB
+    # * +verification_url+ - url to verify account.
+    #
+    # ==== Example
+    #
+    #     AccountsApi.resend_verification(
+    #       account_id: user.account_id,
+    #       user_id: user.user_id
+    #       verification_url: 'http://exmaple.url'
+    #     )
+    #
+    # ==== Result
+    #
+    # Returns an empty body
+    #
+    # ==== Exceptions
+    #
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - user not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def resend_verification(account_id:, user_id:, verification_url:)
+      log_action 'Resend verification email of user account'
+      # body = { verificationUrl: verification_url }.to_json
+      # request(:post, "/accounts/#{account_id}/users/#{user_id}/verifications", body: body)
+      "Mock success request (account_id: #{account_id}, user_id: #{user_id},
+       verification_url: #{verification_url})"
+    end
+
+    ##
     # Calls +/v1/accounts/:accountId/users/:accountUserId/verify+ endpoint with +POST+ method.
     #
     # ==== Attributes
