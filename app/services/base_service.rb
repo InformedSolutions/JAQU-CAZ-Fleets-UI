@@ -29,13 +29,4 @@ class BaseService
   def log_action(msg)
     Rails.logger.info "[#{self.class.name}] #{msg}"
   end
-
-  # Logs invalid form message on +error+ level
-  #
-  # ==== Attributes
-  # * +msg+ - Invalid form details message. May include information which field is invalid
-  #
-  def log_invalid_params(msg)
-    Rails.logger.error "[#{self.class.name}] Invalid form params - #{msg}"
-  end
 end

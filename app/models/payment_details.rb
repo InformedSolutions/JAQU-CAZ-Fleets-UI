@@ -9,6 +9,7 @@
 #
 class PaymentDetails
   attr_reader :entries_paid, :total_charge
+
   ##
   # Initializer method
   #

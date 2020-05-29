@@ -33,7 +33,6 @@ class ValidateFleetCheck < BaseService
     return if form.valid?
 
     error_message = form.errors.full_messages.first
-    log_invalid_params(error_message)
     raise InvalidFleetCheckException, error_message
   end
 
