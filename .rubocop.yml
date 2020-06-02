@@ -24,9 +24,15 @@ Lint/StructNewOverride:
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
 
-Style/ExponentialNotation:
+Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: true
 
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+  
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: true
 
