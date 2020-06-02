@@ -153,7 +153,11 @@
         this service. We will only retain IP addresses for a period of 30 days.
       %p
         You can raise any queries about the information provided by the
-        Drive in a Clean Air Zone service by using the web form at https://contact.dvla.gov.uk/caz/
+        Drive in a Clean Air Zone service by using the web form at
+        - link = 'https://contact.dvla.gov.uk/caz/'
+        = succeed '.' do
+          = link_to(link, link, id: 'contact-form-link')
+
       %p
         Along with your query, you will need to give your name and email address,
         which will be used to respond to you. The information you provide will
