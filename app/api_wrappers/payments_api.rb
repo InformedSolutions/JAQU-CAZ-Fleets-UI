@@ -43,7 +43,7 @@ class PaymentsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def charges(account_id:, page:, per_page: 10, zones: [])
-      log_action("Getting charges for page: #{page}")
+      log_action('Getting charges')
       query = { 'pageNumber' => page - 1, 'pageSize' => per_page }
       query['zones'] = zones.join(',') if zones.any?
       request(:get, "/accounts/#{account_id}/charges", query: query)
@@ -85,7 +85,7 @@ class PaymentsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def chargeable_vehicle(account_id:, zone_id:, vrn:)
-      log_action('Getting chargeable vehicle by vrn')
+      log_action('Getting chargeable vehicle')
       query = { 'cleanAirZoneId' => zone_id }
       request(:get, "/accounts/#{account_id}/chargeable-vehicles/#{vrn.upcase}", query: query)
     end
@@ -129,7 +129,7 @@ class PaymentsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def chargeable_vehicles(account_id:, zone_id:, vrn: nil, direction: nil)
-      log_action('Getting chargeable vehicles')
+      log_action('Getting the list of chargeable vehicles')
       query = { 'cleanAirZoneId' => zone_id, 'pageSize' => 10 }
       if vrn.present? && direction.present?
         query['vrn'] = vrn
@@ -222,7 +222,7 @@ class PaymentsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def payment_status(payment_id:, caz_name:)
-      log_action('Getting a payment status')
+      log_action("Getting a payment status with id: #{payment_id}")
       request(:put, "/payments/#{payment_id}",
               body: payment_status_body(caz_name))
     end

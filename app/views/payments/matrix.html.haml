@@ -5,10 +5,11 @@
 %main.govuk-main-wrapper.govuk-main-wrapper--auto-spacing#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-full
+
       = render 'payments/matrix/errors'
       = render 'payments/matrix/headling'
-      - if @charges.any_results?
-        = render 'payments/matrix/details'
+      = render 'payments/matrix/details' if @charges.any_results? && @d_day_notice
+
       .govuk-form-group
         %fieldset.govuk-fieldset
           %legend.govuk-visually-hidden

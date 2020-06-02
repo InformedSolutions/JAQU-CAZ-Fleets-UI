@@ -16,7 +16,7 @@ describe CreateUserAccount do
       password_confirmation: password
     )
   end
-  let(:user) { create_admin(email: email) }
+  let(:user) { create_owner(email: email) }
   let(:email) { 'email@example.com' }
   let(:password) { '8NAOTpMkx2%9' }
   let(:account_id) { SecureRandom.uuid }

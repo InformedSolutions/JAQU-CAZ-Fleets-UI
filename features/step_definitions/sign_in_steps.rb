@@ -4,8 +4,8 @@ Given('I am on the Sign in page') do
   visit new_user_session_path
 end
 
-Then('I should enter fleet admin credentials and press the Continue') do
-  login_admin
+Then('I should enter fleet owner credentials and press the Continue') do
+  login_owner
 end
 
 When('I have no authentication cookie') do

@@ -3,6 +3,8 @@
 class ApplicationController < ActionController::Base
   # protects applications against CSRF
   protect_from_forgery prepend: true
+  # permits additional parameters before sign in
+  before_action :configure_permitted_parameters, if: :devise_controller?
   # checks if a user is logged in
   before_action :authenticate_user!, except: %i[health build_id]
 
@@ -49,6 +51,11 @@ class ApplicationController < ActionController::Base
 
   private
 
+  # Permits additional parameters before sign in
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_in, keys: [:login_ip])
+  end
+
   # Overwriting the sign_out redirect path method
   def after_sign_out_path_for(_resource_or_scope)
     sign_out_path
@@ -74,7 +81,6 @@ class ApplicationController < ActionController::Base
     remote_ip = request.remote_ip
     return if current_user.login_ip == remote_ip
 
-    Rails.logger.warn "User with ip #{remote_ip} tried to access the page as #{current_user.email}"
     sign_out current_user
     redirect_to new_user_session_path
   end

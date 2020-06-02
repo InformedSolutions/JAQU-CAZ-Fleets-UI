@@ -33,7 +33,6 @@ class CreateAccount < BaseService
     return if form.valid?
 
     error_message = form.errors.full_messages.first
-    log_invalid_params(error_message)
     raise InvalidCompanyNameException, error_message
   end
 
@@ -54,7 +53,6 @@ class CreateAccount < BaseService
               I18n.t('company_name.errors.abuse')
             end
 
-    log_invalid_params(error)
     raise UnableToCreateAccountException, error
   end
 end

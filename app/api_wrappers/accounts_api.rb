@@ -28,7 +28,7 @@ class AccountsApi < BaseApi
     # * +accountId+ - uuid, ID of the account on backend DB
     # * +accountName+ - string, name of the account
     # * +accountUserId+ - uuid, ID of the accountUser on backend DB
-    # * +admin+ - boolean, determines if the user is admin
+    # * +owner+ - boolean, determines if the user is owner
     # * +email+ = email, email of the accountUser
     #
     # ==== Serialization
@@ -69,7 +69,7 @@ class AccountsApi < BaseApi
     # * +accountId+ - uuid, ID of the account on backend DB
     # * +accountName+ - string, name of the account
     # * +accountUserId+ - uuid, ID of the accountUser on backend DB
-    # * +admin+ - boolean, determines if the user is admin
+    # * +owner+ - boolean, determines if the user is owner
     # * +email+ = email, email of the accountUser
     #
     # ==== Serialization
@@ -82,7 +82,7 @@ class AccountsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def create_account(company_name:)
-      log_action("Creating account with company_name: #{company_name}")
+      log_action('Creating account company name')
       body = { accountName: company_name }.to_json
       request(:post, '/accounts', body: body)
     end
@@ -113,7 +113,7 @@ class AccountsApi < BaseApi
     # * +accountId+ - uuid, ID of the account on backend DB
     # * +accountName+ - string, name of the account
     # * +accountUserId+ - uuid, ID of the accountUser on backend DB
-    # * +admin+ - boolean, determines if the user is admin
+    # * +owner+ - boolean, determines if the user is owner
     # * +email+ = email, email of the accountUser
     #
     # ==== Serialization
