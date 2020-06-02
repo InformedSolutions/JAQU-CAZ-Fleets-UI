@@ -10,7 +10,7 @@ describe 'FleetsController - POST #create' do
   let(:confirmation) { 'yes' }
 
   before do
-    sign_in create_admin
+    sign_in create_owner
     http_request
   end
 

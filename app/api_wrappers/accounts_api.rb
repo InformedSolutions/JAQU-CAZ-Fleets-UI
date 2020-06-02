@@ -28,7 +28,7 @@ class AccountsApi < BaseApi
     # * +accountId+ - uuid, ID of the account on backend DB
     # * +accountName+ - string, name of the account
     # * +accountUserId+ - uuid, ID of the accountUser on backend DB
-    # * +admin+ - boolean, determines if the user is admin
+    # * +owner+ - boolean, determines if the user is owner
     # * +email+ = email, email of the accountUser
     #
     # ==== Serialization
@@ -69,7 +69,7 @@ class AccountsApi < BaseApi
     # * +accountId+ - uuid, ID of the account on backend DB
     # * +accountName+ - string, name of the account
     # * +accountUserId+ - uuid, ID of the accountUser on backend DB
-    # * +admin+ - boolean, determines if the user is admin
+    # * +owner+ - boolean, determines if the user is owner
     # * +email+ = email, email of the accountUser
     #
     # ==== Serialization
@@ -113,7 +113,7 @@ class AccountsApi < BaseApi
     # * +accountId+ - uuid, ID of the account on backend DB
     # * +accountName+ - string, name of the account
     # * +accountUserId+ - uuid, ID of the accountUser on backend DB
-    # * +admin+ - boolean, determines if the user is admin
+    # * +owner+ - boolean, determines if the user is owner
     # * +email+ = email, email of the accountUser
     #
     # ==== Serialization

@@ -24,7 +24,7 @@ describe 'AccountsApi.create_account' do
 
     it 'returns proper fields' do
       expect(call.keys).to contain_exactly(
-        'accountId', 'accountName', 'accountUserId', 'admin', 'email'
+        'accountId', 'accountName', 'accountUserId', 'owner', 'email'
       )
     end
 
