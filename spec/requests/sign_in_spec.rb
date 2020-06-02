@@ -17,7 +17,7 @@ describe 'User signing in', type: :request do
         'accountUserId' => SecureRandom.uuid,
         'accountId' => SecureRandom.uuid,
         'accountName' => 'Royal Mail',
-        'admin' => false
+        'owner' => false
       )
   end
 
