@@ -3,6 +3,8 @@
 class ApplicationController < ActionController::Base
   # protects applications against CSRF
   protect_from_forgery prepend: true
+  # permits additional parameters before sign in
+  before_action :configure_permitted_parameters, if: :devise_controller?
   # checks if a user is logged in
   before_action :authenticate_user!, except: %i[health build_id]
 
@@ -48,6 +50,11 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  # Permits additional parameters before sign in
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_in, keys: [:login_ip])
+  end
 
   # Overwriting the sign_out redirect path method
   def after_sign_out_path_for(_resource_or_scope)
