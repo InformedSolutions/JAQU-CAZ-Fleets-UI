@@ -77,10 +77,7 @@ class ComplianceCheckerApi < BaseApi
     #
     def clean_air_zones
       log_action 'Getting clean air zones'
-      response = request(:get, '/clean-air-zones')['cleanAirZones']
-      # TO DO: Remove after testing cache issue
-      log_action(response)
-      response
+      request(:get, '/clean-air-zones')['cleanAirZones']
     end
   end
 end
