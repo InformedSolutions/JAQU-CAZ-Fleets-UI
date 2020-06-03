@@ -36,3 +36,20 @@ html {
 .visually-hidden-text {
   color: transparent;
 }
+
+@media (max-width: 40.0525em) {
+  .scrollable-table {
+    overflow: scroll;
+    margin-bottom: 20px;
+  }
+}
+
+.matrix-table-past {
+  .govuk-table__cell {
+    width: 14%;
+  }
+
+  .govuk-table__cell.vrn {
+    width: 16%;
+  }
+}

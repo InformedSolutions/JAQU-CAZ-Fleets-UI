@@ -4,12 +4,14 @@ require 'rails_helper'
 
 describe 'AccountsApi.create_account' do
   subject(:call) do
-    AccountsApi.create_user(account_id: account_id, email: email, password: password)
+    AccountsApi.create_user(account_id: account_id, email: email, password: password,
+                            verification_url: verification_url)
   end
 
   let(:account_id) { '3fa85f64-5717-4562-b3fc-2c963f66afa6' }
   let(:email) { 'test@example.com' }
   let(:password) { 'password' }
+  let(:verification_url) { 'http://example.url' }
 
   context 'when the response status is 201' do
     before do
@@ -22,12 +24,12 @@ describe 'AccountsApi.create_account' do
 
     it 'returns proper fields' do
       expect(call.keys).to contain_exactly(
-        'accountId', 'accountName', 'accountUserId', 'admin', 'email'
+        'accountId', 'accountName', 'accountUserId', 'owner', 'email'
       )
     end
 
     it 'calls API with proper body' do
-      body = { email: email, password: password }
+      body = { email: email, password: password, verificationUrl: verification_url }
       call
       expect(WebMock).to have_requested(:post, /users/).with(body: body).once
     end
@@ -36,7 +38,7 @@ describe 'AccountsApi.create_account' do
       let(:email) { 'TEST@example.com' }
 
       it 'calls API with proper body' do
-        body = { email: email.downcase, password: password }
+        body = { email: email.downcase, password: password, verificationUrl: verification_url }
         call
         expect(WebMock).to have_requested(:post, /users/).with(body: body).once
       end

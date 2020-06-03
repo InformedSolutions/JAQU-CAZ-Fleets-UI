@@ -5,10 +5,11 @@
 %main.govuk-main-wrapper.govuk-main-wrapper--auto-spacing#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-full
+
       = render 'payments/matrix/errors'
-      = render 'payments/matrix/headling'
-      - if @charges.any_results?
-        = render 'payments/matrix/details'
+      = render 'payments/matrix/heading'
+      = render 'payments/matrix/details' if @charges.any_results? && @d_day_notice
+
       .govuk-form-group
         %fieldset.govuk-fieldset
           %legend.govuk-visually-hidden
@@ -22,7 +23,8 @@
                 = render 'payments/matrix/no_chargeable_vehicles'
               - else
                 = render 'payments/matrix/tabs'
-                = render 'payments/matrix/past_week_tab', form: f
+                - if @dates[:past].present?
+                  = render 'payments/matrix/past_week_tab', form: f
                 = render 'payments/matrix/next_week_tab', form: f
                 = render 'payments/matrix/pagination', form: f
             - if @charges.any_results?

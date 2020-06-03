@@ -6,7 +6,7 @@ describe 'Sign out', type: :request do
   subject { delete destroy_user_session_url }
 
   before do
-    sign_in create_admin
+    sign_in create_owner
     subject
   end
 

@@ -13,6 +13,10 @@ Feature: Organisations
     Then I enter a company name
       And I press the Continue
     Then I should see "How many vehicles do you manage or own?"
+      And I press the Back link
+    Then I should see "Create an account"
+      And I press the Continue
+    Then I should see "How many vehicles do you manage or own?"
       And I choose "Two or more"
       And I press the Continue
     Then I should see "Sign in details"
@@ -24,11 +28,11 @@ Feature: Organisations
       And I should not see "Email confirmation is in an invalid format"
     Then I enter the account details
       And I press the Continue
-    Then I should see "Verification email"
-      And I should receive verification email
-    Then I press "resend the email" link
       And I should see "Verification email"
-      And I should receive verification email again
+    Then I want to resend email verification
+      And I press "resend the email" link
+      And I receive verification email
+      And I should see "Verification email"
 
   Scenario: User tries to create invalid company
     Given I go to the create account page
@@ -65,12 +69,16 @@ Feature: Organisations
     Then I should see "How many vehicles do you manage or own?"
 
   Scenario: User wants to verify account with valid token
-    Given I visit the verification link with a valid token
+    Given I visit the verification link with a token status 'success'
     Then I should see "Your email address has been verified and your account has been activated."
 
   Scenario: User wants to verify account with invalid token
-    Given I visit the verification link with an invalid token
+    Given I visit the verification link with a token status 'invalid'
     Then I should see "Your account verification failed"
+
+  Scenario: User wants to verify account with expired token
+    Given I visit the verification link with a token status 'expired'
+    Then I should see "The link in your verification email has expired"
 
   Scenario: User wants to verify account second time
     Given I visit the verification link second time

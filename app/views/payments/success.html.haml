@@ -55,7 +55,7 @@
           %li
             Find out about upgrades and retrofits for taxis and Private Hire Vehicles by visiting
             = charge_alternative_url_for(@payment_details.caz_name, 'non_fleet')
-        - if @payment_details.caz_name == 'Birmingham'
+        - else
           %li
             Find out about upgrades and retrofits for your vehicles by visiting
             = charge_alternative_url_for(@payment_details.caz_name, 'fleet')

@@ -4,7 +4,8 @@ require 'rails_helper'
 
 describe CreateUserAccount do
   subject(:service) do
-    described_class.call(organisations_params: params, account_id: account_id, host: host)
+    described_class.call(organisations_params: params, account_id: account_id,
+                         verification_url: verification_url)
   end
 
   let(:params) do
@@ -15,11 +16,11 @@ describe CreateUserAccount do
       password_confirmation: password
     )
   end
-  let(:user) { create_admin(email: email) }
+  let(:user) { create_owner(email: email) }
   let(:email) { 'email@example.com' }
   let(:password) { '8NAOTpMkx2%9' }
   let(:account_id) { SecureRandom.uuid }
-  let(:host) { 'www.example.com' }
+  let(:verification_url) { 'www.example.com' }
   let(:valid) { true }
 
   context 'when api returns correct response' do
@@ -29,7 +30,6 @@ describe CreateUserAccount do
         .and_return(instance_double(EmailAndPasswordForm, valid?: valid))
       response = read_response('create_user.json')
       allow(AccountsApi).to receive(:create_user).and_return(response)
-      allow(Sqs::VerificationEmail).to receive(:call).and_return(SecureRandom.uuid)
     end
 
     it 'returns the User class' do
@@ -47,7 +47,8 @@ describe CreateUserAccount do
         .with(
           account_id: account_id,
           email: email,
-          password: password
+          password: password,
+          verification_url: verification_url
         )
       service
     end

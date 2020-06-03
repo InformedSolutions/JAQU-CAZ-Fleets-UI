@@ -13,7 +13,7 @@ class VerifyAccount < BaseService
   # * +token+ - string, encrypted token containing user related information like +user_id+
   #
   def initialize(token:)
-    @encrypted_token = token
+    @token = token
   end
 
   # Execution method used by class level +.call+ method.
@@ -23,33 +23,29 @@ class VerifyAccount < BaseService
   #
   def call
     perform_api_call
-  rescue ActiveSupport::MessageEncryptor::InvalidMessage
-    Rails.logger.error "[#{self.class.name}] Invalid token - #{encrypted_token}"
-    false
   rescue ApiException => e
     log_error(e)
-    false
+    :invalid
   end
 
   private
 
+  attr_reader :token
+
   # Performs the API call to verification endpoint.
   # raise `UserAlreadyConfirmedException` exception if user already confirmed
   def perform_api_call
-    AccountsApi.verify_user(
-      account_id: decrypted_token[:account_id],
-      user_id: decrypted_token[:user_id]
-    )
-    true
-  rescue BaseApi::Error400Exception
-    raise UserAlreadyConfirmedException
+    AccountsApi.verify_user(token: token)
+    :success
+  rescue BaseApi::Error422Exception => e
+    error_code = e.body['errorCode']
+    handle_422_error(error_code)
   end
 
-  # Decrypts the token
-  def decrypted_token
-    @decrypted_token ||= Encryption::Decrypt.call(value: encrypted_token)
+  # Returns proper status which will be used in controller to redirect.
+  def handle_422_error(error_code)
+    raise UserAlreadyConfirmedException if error_code == 'emailAlreadyVerified'
+    return :invalid if error_code == 'invalid'
+    return :expired if error_code == 'expired'
   end
-
-  # Reader function for encrypted token
-  attr_reader :encrypted_token
 end

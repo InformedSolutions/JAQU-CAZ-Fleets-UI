@@ -11,8 +11,13 @@ describe 'OrganisationsController - GET #resend_email' do
   end
 
   before do
-    allow(Sqs::VerificationEmail).to receive(:call).and_return(SecureRandom.uuid)
     add_to_session(session_data)
+    allow(AccountsApi).to receive(:resend_verification).and_return(true)
+  end
+
+  it 'calls AccountApi to resend the email' do
+    subject
+    expect(AccountsApi).to have_received(:resend_verification)
   end
 
   it 'returns a redirect to email_sent' do
@@ -20,16 +25,13 @@ describe 'OrganisationsController - GET #resend_email' do
     expect(response).to redirect_to(email_sent_organisations_path)
   end
 
-  it 'calls Sqs::VerificationEmail with proper data' do
-    # This is not the same instance of user as it was serialized
-    expect(Sqs::VerificationEmail)
-      .to receive(:call)
-      .with(user: instance_of(User), host: root_url)
-    subject
-  end
-
   context 'without new_account data in the session' do
     let(:session_data) { { new_account: { 'account_id': SecureRandom.uuid } } }
+
+    it 'does not call AccountApi to resend the email' do
+      subject
+      expect(AccountsApi).not_to have_received(:resend_verification)
+    end
 
     it 'returns a redirect to root_path' do
       subject

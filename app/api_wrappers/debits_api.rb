@@ -25,7 +25,7 @@ class DebitsApi < PaymentsApi
     #   * +status+ - string, status of the mandate eg. 'active'
     #
     def caz_mandates(account_id:, zone_id:)
-      log_action("Getting CAZ mandates for account_id #{account_id} and zone_id: #{zone_id}")
+      log_action('Getting clean air zone mandates')
 
       request(
         :get,
@@ -58,7 +58,7 @@ class DebitsApi < PaymentsApi
     # * +externalPaymentId+ - string, external identifier for the payment
     #
     def create_payment(caz_id:, account_id:, user_id:, mandate_id:, user_email:, transactions:)
-      log_action("Creating Direct Debit payment for user with id: #{user_id}")
+      log_action('Creating Direct Debit payment')
 
       body = payment_creation_body(
         caz_id: caz_id,
@@ -90,8 +90,7 @@ class DebitsApi < PaymentsApi
     #     * +status+ - string, status of the mandate eg. 'active'
     #
     def mandates(account_id:)
-      log_action("Getting mandates for account with id: #{account_id}")
-
+      log_action('Getting mandates')
       request(:get, "/payments/accounts/#{account_id}/direct-debit-mandates")['cleanAirZones']
     end
 
@@ -111,7 +110,7 @@ class DebitsApi < PaymentsApi
     # * +nextUrl+ - string, path where user should be redirected
     #
     def create_mandate(account_id:, caz_id:, return_url:)
-      log_action("Adding a mandate for account with id: #{account_id} and zone id: #{caz_id}")
+      log_action('Adding a mandate to account')
 
       body = {
         cleanAirZoneId: caz_id,

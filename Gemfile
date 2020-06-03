@@ -8,14 +8,13 @@ ruby '2.6.5'
 gem 'rails', '~> 6.0.3.1'
 
 gem 'aws-sdk-s3'
-gem 'aws-sdk-sqs'
 gem 'bootsnap', require: false
 gem 'brakeman'
 gem 'bundler-audit'
 gem 'devise'
 gem 'haml'
 gem 'httparty'
-gem 'puma'
+gem 'puma', '>= 4.3.5'
 gem 'redis'
 gem 'rubocop-rails'
 gem 'sdoc', require: false

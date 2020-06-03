@@ -99,7 +99,7 @@ class FleetsApi < AccountsApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def fleet_vehicles(account_id:, page:, per_page: 10)
-      log_action("Getting vehicles for page: #{page}")
+      log_action('Getting fleet vehicles')
       query = { 'pageNumber' => page - 1, 'pageSize' => per_page }
       request(:get, "/accounts/#{account_id}/vehicles", query: query)
     end

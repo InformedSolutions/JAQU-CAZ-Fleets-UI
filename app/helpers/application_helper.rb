@@ -81,4 +81,9 @@ module ApplicationHelper
     parsed_date = DateTime.parse(date)
     parsed_date.strftime('%A %d %B %Y')
   end
+
+  # Returns formatted date, e.g. 'Thursday 30 April 2020'
+  def formatted_date(date)
+    date.strftime('%A %d %B %Y')
+  end
 end

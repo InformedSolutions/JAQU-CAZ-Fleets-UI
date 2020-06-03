@@ -81,6 +81,6 @@ module PaymentsHelper
   # Returns exemption URL with proper title for given CAZ
   def exemption_url_for(caz)
     url_title = caz.name + ' City Council'
-    link_to(url_title, caz.exemption_url)
+    external_link_to(url_title, caz.exemption_url)
   end
 end

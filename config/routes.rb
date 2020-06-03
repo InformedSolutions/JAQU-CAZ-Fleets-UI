@@ -29,10 +29,11 @@ Rails.application.routes.draw do
       post :new_credentials, to: 'organisations#create'
 
       get :email_sent
-      get :resend_email
+      get :resend_email # TODO: missing endpoint for backend to send an email
       get :email_verified
       get :email_verification
       get :verification_failed
+      get :verification_expired
     end
   end
 
@@ -89,6 +90,7 @@ Rails.application.routes.draw do
       get :not_found
       post :confirm_not_found
       get :local_exemptions
+      post :add_to_fleet
     end
   end
 
@@ -101,6 +103,7 @@ Rails.application.routes.draw do
 
   get :cookies, to: 'static_pages#cookies'
   get :accessibility_statement, to: 'static_pages#accessibility_statement'
+  get :privacy_notice, to: 'static_pages#privacy_notice'
   get :dashboard, to: 'dashboard#index'
   get :build_id, to: 'application#build_id'
   get :health, to: 'application#health'

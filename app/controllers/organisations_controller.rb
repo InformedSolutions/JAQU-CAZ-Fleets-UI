@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 class OrganisationsController < ApplicationController
   skip_before_action :authenticate_user!
-  # checks if company name is present in session
+  # checks if new_company account_id is present in session
   before_action :check_account_id, only: %i[new_credentials create email_sent]
   # checks if new account details is present in session
   before_action :check_account_details, only: %i[email_sent resend_email]
@@ -34,9 +35,7 @@ class OrganisationsController < ApplicationController
   # * +company_name+ - string, account name e.g. 'Company name'
   #
   def set_name
-    SessionManipulation::SetCompanyName.call(session: session, params: company_params)
-    account_id = CreateAccount.call(company_name: new_account['company_name'])
-    session['new_account'] = { 'account_id' => account_id }
+    create_new_account if account_not_created_or_name_changed?
     redirect_to fleet_check_organisations_path
   rescue InvalidCompanyNameException, UnableToCreateAccountException => e
     @error = e.message
@@ -109,7 +108,7 @@ class OrganisationsController < ApplicationController
     user = CreateUserAccount.call(
       organisations_params: organisations_params,
       account_id: new_account['account_id'],
-      host: root_url
+      verification_url: email_verification_organisations_url
     )
     new_account.merge!(user.serializable_hash.stringify_keys)
     redirect_to email_sent_organisations_path
@@ -130,8 +129,11 @@ class OrganisationsController < ApplicationController
   end
 
   def resend_email
-    user = User.new(new_account)
-    Sqs::VerificationEmail.call(user: user, host: root_url)
+    AccountsApi.resend_verification(
+      account_id: new_account['account_id'],
+      user_id: new_account['user_id'],
+      verification_url: email_verification_organisations_url
+    )
     redirect_to email_sent_organisations_path
   end
 
@@ -149,11 +151,8 @@ class OrganisationsController < ApplicationController
   # * +token+ - string, encrypted token with verification data
   #
   def email_verification
-    path = if VerifyAccount.call(token: params[:token])
-             email_verified_organisations_path
-           else
-             verification_failed_organisations_path
-           end
+    verification_status = VerifyAccount.call(token: params[:token])
+    path = verification_paths[verification_status]
     session['new_account'] = nil
     redirect_to path
   end
@@ -174,13 +173,43 @@ class OrganisationsController < ApplicationController
   #
   # ==== Path
   #
-  #    :GET /fleets/organisation-account/verification-failed
+  #    :GET /organisations/verification_failed
   #
-  def verification_failed
-    # Renders static page
-  end
+  def verification_failed; end
+
+  ##
+  # Renders the verification expired page.
+  #
+  # ==== Path
+  #
+  #    :GET /organisations/verification_expired
+  #
+  def verification_expired; end
 
   private
+
+  # Defines redirect for verification status
+  def verification_paths
+    {
+      invalid: verification_failed_organisations_path,
+      expired: verification_expired_organisations_path,
+      success: email_verified_organisations_path
+    }
+  end
+
+  # Check if account already created or name changed.
+  def account_not_created_or_name_changed?
+    new_account['account_id'].blank? ||
+      new_account['company_name'] != company_params['company_name']
+  end
+
+  # Creates Account and store details in session
+  def create_new_account
+    SessionManipulation::SetCompanyName.call(session: session, params: company_params)
+    account_id = CreateAccount.call(company_name: new_account['company_name'])
+    SessionManipulation::SetAccountId.call(session: session,
+                                           params: { 'account_id' => account_id })
+  end
 
   # Returns the list of permitted params
   def organisations_params
@@ -209,7 +238,7 @@ class OrganisationsController < ApplicationController
   def check_account_details
     Rails.logger.warn('Checking credentials from the session')
     redirect_to root_path if (
-      %w[email admin user_id account_id account_name login_ip] - new_account.keys
+      %w[email owner user_id account_id account_name login_ip] - new_account.keys
     ).present?
   end
 
@@ -227,3 +256,4 @@ class OrganisationsController < ApplicationController
     (session['new_account'] || {}).stringify_keys!
   end
 end
+# rubocop:enable Metrics/ClassLength

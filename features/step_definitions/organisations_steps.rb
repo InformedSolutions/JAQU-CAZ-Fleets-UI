@@ -1,17 +1,11 @@
 # frozen_string_literal: true
 
 Given('I go to the create account page') do
-  mock_verification_email
   visit organisations_path
 end
 
-Given('I visit the verification link with a valid token') do
-  allow(VerifyAccount).to receive(:call).and_return(true)
-  visit email_verification_organisations_path(token: SecureRandom.uuid)
-end
-
-Given('I visit the verification link with an invalid token') do
-  allow(VerifyAccount).to receive(:call).and_return(false)
+Given('I visit the verification link with a token status {string}') do |string|
+  allow(VerifyAccount).to receive(:call).and_return(string.to_sym)
   visit email_verification_organisations_path(token: SecureRandom.uuid)
 end
 
@@ -65,16 +59,16 @@ And('I enter the account details with not uniq email address') do
   fill_account_details
 end
 
+Then('I want to resend email verification') do
+  allow(AccountsApi).to receive(:resend_verification).and_return(true)
+end
+
+And('I receive verification email') do
+  expect(AccountsApi).to have_received(:resend_verification)
+end
+
 When('I go to the email verified page') do
   visit email_verified_organisations_path
-end
-
-Then('I should receive verification email') do
-  expect(Sqs::VerificationEmail).to have_received(:call)
-end
-
-Then('I should receive verification email again') do
-  expect(Sqs::VerificationEmail).to have_received(:call).twice
 end
 
 def fill_account_details
