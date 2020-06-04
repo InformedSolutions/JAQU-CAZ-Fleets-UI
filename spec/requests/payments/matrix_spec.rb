@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'PaymentsController - #matrix', type: :request do
-  subject(:http_request) { get matrix_payments_path }
+  subject { get matrix_payments_path }
 
   let(:la_id) { '5cd7441d-766f-48ff-b8ad-1809586fea37' }
   let(:fleet) { create_chargeable_vehicles }
@@ -18,13 +18,18 @@ describe 'PaymentsController - #matrix', type: :request do
     end
 
     it 'is successful' do
-      http_request
+      subject
       expect(response).to have_http_status(:success)
     end
 
     it 'calls charges with right params' do
       expect(fleet).to receive(:charges).with(zone_id: la_id, direction: nil, vrn: nil)
-      http_request
+      subject
+    end
+
+    it 'assigns the @d_day_notice' do
+      subject
+      expect(assigns(:d_day_notice)).to eq(false)
     end
 
     context 'with search data' do
@@ -33,7 +38,7 @@ describe 'PaymentsController - #matrix', type: :request do
       before { add_to_session(payment_query: { search: search }) }
 
       it 'assigns search value' do
-        http_request
+        subject
         expect(assigns(:search)).to eq(search)
       end
     end
@@ -45,14 +50,14 @@ describe 'PaymentsController - #matrix', type: :request do
 
       it 'calls charges with right params' do
         expect(fleet).to receive(:charges).with(zone_id: la_id, direction: direction, vrn: @vrn)
-        http_request
+        subject
       end
     end
   end
 
   context 'without la in the session' do
     it 'redirects to index' do
-      http_request
+      subject
       expect(response).to redirect_to(payments_path)
     end
   end

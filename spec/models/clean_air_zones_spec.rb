@@ -86,11 +86,6 @@ describe CleanAirZone, type: :model do
     before do
       caz_list = read_response('caz_list_active.json')['cleanAirZones']
       allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(caz_list)
-      CleanAirZone.remove_instance_variable :@all if CleanAirZone.instance_variable_defined? :@all
-    end
-
-    after do
-      CleanAirZone.remove_instance_variable :@all if CleanAirZone.instance_variable_defined? :@all
     end
 
     it 'returns an array of CleanAirZone instances' do

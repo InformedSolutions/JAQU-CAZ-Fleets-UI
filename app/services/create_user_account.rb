@@ -38,7 +38,6 @@ class CreateUserAccount < BaseService
     form = EmailAndPasswordForm.new(organisations_params)
     return if form.valid?
 
-    log_invalid_params(form.errors.full_messages)
     raise NewPasswordException, form.errors.messages
   end
 

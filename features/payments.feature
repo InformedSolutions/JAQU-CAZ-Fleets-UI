@@ -22,6 +22,7 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the payment matrix page
       And I should see 'If you have already paid for a date, it will show as Paid.'
+      And I should not see "Why can't I see my date?"
     Then I click Next 7 days tab
       And I should see 'Check a box for each vehicle and date it drove in a Clean Air Zone.'
       And I should see 'If you have already paid for a date, it will show as Paid.'
@@ -83,7 +84,7 @@ Feature: Fleets
     Then I should be on the no chargeable vehicles page
       And I should see 'No chargeable vehicles in the Birmingham'
 
-  Scenario: Visiting the the matrix for caz which stared chargin today
+  Scenario: Visiting the the matrix for caz which stared charging today
     When I want to pay for CAZ which started charging 0 days ago
       And I visit the make payment page
       And I press the Continue
@@ -92,6 +93,23 @@ Feature: Fleets
     Then I should be on the payment matrix page
       And I should see 'Next 7 days'
       And I should not see 'Past'
+      And I should not see "Why can't I see my date?"
+
+  Scenario: Visiting the the matrix for caz which stared charging five days ago
+    When I want to pay for CAZ which started charging 5 days ago
+      And I visit the make payment page
+      And I press the Continue
+    Then I select 'Birmingham'
+      And I press the Continue
+      And I should see "Why can't I see my date?"
+
+  Scenario: Visiting the the matrix for caz which stared charging six days ago
+    When I want to pay for CAZ which started charging 6 days ago
+      And I visit the make payment page
+      And I press the Continue
+    Then I select 'Birmingham'
+      And I press the Continue
+      And I should not see "Why can't I see my date?"
 
   Scenario: Checking selectable only active for charging CAZ list during payment.
     When I want to pay for active for charging CAZ

@@ -10,6 +10,7 @@ class Vehicle
   # * +data+ - hash
   #    * +registrationNumber+ - string, vehicle registration number
   #    * +vehicleType+ - string, type of the vehicle
+  #    * +isExempt+ - boolean, set if vehicle is exempt
   #    * +complianceOutcomes+ - array of hashes
   #       * +cleanAirZoneId+ - UUID, ID of the CAZ
   #       * +charge+ - float, charge for given CAZ
@@ -29,6 +30,11 @@ class Vehicle
     (data['vehicleType'] || 'undetermined').humanize
   end
 
+  # Returns if vehicle is exempt
+  def exempt
+    data['isExempt']
+  end
+
   # Returns the charge for given CAZ in float
   def charge(caz_id)
     compliance = data['complianceOutcomes'].find { |res| res['cleanAirZoneId'] == caz_id }
@@ -41,6 +47,8 @@ class Vehicle
   # Returns 'Unknown' if the charge is undefined.
   # Returns 'No charge' if the charge equals zero
   def formatted_charge(caz_id)
+    return 'Exempt' if exempt
+
     charge = charge(caz_id)
     return 'Undetermined' unless charge
 

@@ -12,6 +12,12 @@ describe 'OrganisationsController - GET #resend_email' do
 
   before do
     add_to_session(session_data)
+    allow(AccountsApi).to receive(:resend_verification).and_return(true)
+  end
+
+  it 'calls AccountApi to resend the email' do
+    subject
+    expect(AccountsApi).to have_received(:resend_verification)
   end
 
   it 'returns a redirect to email_sent' do
@@ -21,6 +27,11 @@ describe 'OrganisationsController - GET #resend_email' do
 
   context 'without new_account data in the session' do
     let(:session_data) { { new_account: { 'account_id': SecureRandom.uuid } } }
+
+    it 'does not call AccountApi to resend the email' do
+      subject
+      expect(AccountsApi).not_to have_received(:resend_verification)
+    end
 
     it 'returns a redirect to root_path' do
       subject

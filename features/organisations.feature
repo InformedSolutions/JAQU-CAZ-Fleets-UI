@@ -29,6 +29,10 @@ Feature: Organisations
     Then I enter the account details
       And I press the Continue
       And I should see "Verification email"
+    Then I want to resend email verification
+      And I press "resend the email" link
+      And I receive verification email
+      And I should see "Verification email"
 
   Scenario: User tries to create invalid company
     Given I go to the create account page

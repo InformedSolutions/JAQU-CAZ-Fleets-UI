@@ -9,7 +9,7 @@ Feature: Sign In
     Then I am redirected to the unauthenticated root page
       And I should see "Sign In"
       And I should not see "Account" link
-    Then I should enter fleet admin credentials and press the Continue
+    Then I should enter fleet owner credentials and press the Continue
     When I should see "Your account"
       And Cookie is created for my session
       And I should not see "Create account" link
