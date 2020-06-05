@@ -153,10 +153,10 @@
         this service. We will only retain IP addresses for a period of 30 days.
       %p
         You can raise any queries about the information provided by the
-        Drive in a Clean Air Zone service by using the web form at
+        Drive in a Clean Air Zone service by using the
         - link = 'https://contact.dvla.gov.uk/caz/'
         = succeed '.' do
-          = link_to(link, link, id: 'contact-form-link')
+          = link_to('web form', link, id: 'contact-form-link')
 
       %p
         Along with your query, you will need to give your name and email address,
@@ -213,28 +213,13 @@
         = link_to('DfT', dtf_link, id: 'dtf-link')
 
       %p
-        If you want to know about the Privacy Notice specific to DVLA or the CAZ and Local Authority you are using, please use these links: 
-      %p
-        DVLA
+        If you want to know about the Privacy Notice specific to DVLA or the CAZ and Local Authority you are using, please use these links:
       %p
         - dvla_link = 'https://www.gov.uk/government/publications/dvla-privacy-policy/dvla-privacy-policy'
-        = succeed '.' do
-          = link_to(dvla_link,
-                    dvla_link,
-                    id: 'dvla-link')
-      %p
-        Birmingham
+        = link_to('DVLA', dvla_link, id: 'dvla-link')
       %p
         - birmingham_link = 'https://www.birmingham.gov.uk/info/20076/pollution/1763/a_clean_air_zone_for_birmingham'
-        = succeed '.' do
-          = link_to(birmingham_link,
-                    birmingham_link,
-                    id: 'birmingham-link')
-      %p
-        Leeds
+        = link_to('Birmingham', birmingham_link, id: 'birmingham-link')
       %p
         - leeds_link = 'https://www.leeds.gov.uk/business/environmental-health-for-business/air-quality'
-        = succeed '.' do
-          = link_to(leeds_link,
-                    leeds_link,
-                    id: 'leeds-link')
+        = link_to('Leeds', leeds_link, id: 'leeds-link')
