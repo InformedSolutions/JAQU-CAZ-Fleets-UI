@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'AccountsApi.create_account', skip: 'MOCKED REQUEST' do
+describe 'AccountsApi.create_account' do
   subject(:call) do
     AccountsApi.resend_verification(
       account_id: account_id,

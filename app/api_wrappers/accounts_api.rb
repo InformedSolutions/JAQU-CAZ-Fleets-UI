@@ -159,10 +159,8 @@ class AccountsApi < BaseApi
     #
     def resend_verification(account_id:, user_id:, verification_url:)
       log_action 'Resend verification email of user account'
-      # body = { verificationUrl: verification_url }.to_json
-      # request(:post, "/accounts/#{account_id}/users/#{user_id}/verifications", body: body)
-      "Mock success request (account_id: #{account_id}, user_id: #{user_id},
-       verification_url: #{verification_url})"
+      body = { verificationUrl: verification_url }.to_json
+      request(:post, "/accounts/#{account_id}/users/#{user_id}/verifications", body: body)
     end
 
     ##
