@@ -29,7 +29,7 @@ var config = {
         "${BASE_URL}/accessibility_statement",
         "${BASE_URL}/fleets",
         "${BASE_URL}/uploads",
-        "${BASE_URL}payments/debits"
+        "${BASE_URL}/payments/debits"
         
     ]
 };
