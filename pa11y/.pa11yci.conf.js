@@ -19,12 +19,9 @@ var config = {
                 "wait for element #ccc-dismiss-button to be visible",
                 "click element #ccc-dismiss-button ",
                 "wait for element #user_email to be visible",
-                "screen capture screenshots/1.png",
                 "set field #user_email to tester@informed.com",
                 "set field #user_password to Tester123..",
-                "screen capture screenshots/2.png",
                 "click element [name='commit']",
-                "screen capture screenshots/3.png",
             ]
         },
         "${BASE_URL}/cookies",
