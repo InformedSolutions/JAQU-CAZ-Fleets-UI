@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class PaymentDates < BaseService
-  # Attribute accessor used in {matrix}[rdoc-ref:PaymentsController.matrix]
-  attr_accessor :d_day_notice
-
   # date format used to display on the UI, eg. 'Fri 11 Oct'
   DISPLAY_DATE_FORMAT = '%a %d %b'
   # date format used to communicate with backend API, eg. '2019-05-14'
@@ -29,6 +26,11 @@ class PaymentDates < BaseService
     }
   end
 
+  # Checks if D-Day notice should be shown
+  def d_day_notice
+    charge_start_date >= past_start_date
+  end
+
   private
 
   attr_reader :charge_start_date
@@ -50,16 +52,10 @@ class PaymentDates < BaseService
     (past_start_date..past_end_date).map { |date| parse(date) }
   end
 
-  # set past dates start date and assigns +d_day_notice+
+  # set past dates start date
   def past_start_date
     past_start_date = Date.today - 6.days
-    if charge_start_date > past_start_date
-      @d_day_notice = true
-      charge_start_date
-    else
-      @d_day_notice = false
-      past_start_date
-    end
+    past_start_date < charge_start_date ? charge_start_date : past_start_date
   end
 
   # set past dates end date

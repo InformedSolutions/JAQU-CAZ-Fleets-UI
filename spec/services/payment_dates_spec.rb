@@ -92,29 +92,29 @@ describe PaymentDates do
       context 'when #charge_start_date is tomorrow' do
         let(:charge_start_date) { Date.current.tomorrow }
 
-        it 'returns nil' do
-          expect(service.d_day_notice).to be_nil
+        it 'returns true' do
+          expect(service.d_day_notice).to be_truthy
         end
       end
 
       context 'and #charge_start_date is today' do
         let(:charge_start_date) { Date.current }
 
-        it 'returns nil' do
-          expect(service.d_day_notice).to be_nil
+        it 'returns true' do
+          expect(service.d_day_notice).to be_truthy
         end
       end
 
       context 'and #charge_start_date is more than a week in the future' do
         let(:charge_start_date) { 1.day.from_now }
 
-        it 'returns nil' do
-          expect(service.d_day_notice).to be_nil
+        it 'returns true' do
+          expect(service.d_day_notice).to be_truthy
         end
       end
 
       context 'when #charge_start_date is not considered' do
-        let(:charge_start_date) { Date.today - 6.days }
+        let(:charge_start_date) { Date.today - 7.days }
 
         it 'returns false' do
           expect(service.d_day_notice).to be_falsey
