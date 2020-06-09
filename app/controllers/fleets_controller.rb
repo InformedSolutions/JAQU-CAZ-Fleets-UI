@@ -55,6 +55,8 @@ class FleetsController < ApplicationController
     page = (params[:page] || 1).to_i
     @pagination = @fleet.pagination(page: page)
     @zones = CleanAirZone.all
+  rescue BaseApi::Error400Exception
+    return redirect_to fleets_path unless page == 1
   end
 
   ##
