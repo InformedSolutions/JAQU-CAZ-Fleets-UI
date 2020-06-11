@@ -3,7 +3,7 @@
 
 kind: pipeline
 type: docker
-name: fleet-web-dev
+name: accounts-web-dev
 trigger:
   branch:
     - iac-restructure-baseline
@@ -191,8 +191,8 @@ steps:
         from_secret: jaqu_lower_aws_secret_access_key
       AWS_ACCOUNT_ROLE: arn:aws:iam::311075478274:role/jaqu-lowerServiceRole
       AWS_DEFAULT_REGION: eu-west-2
-      APPLICATION_NAME: fleet-codedeploy-service-dev
-      DEPLOYMENT_GROUP: fleet-codedeploy-service-dev
+      APPLICATION_NAME: accounts-codedeploy-service-dev
+      DEPLOYMENT_GROUP: accounts-codedeploy-service-dev
       PROJECT: fleet
       LAMBDA_BUCKET: jaqu-shared-project-lambda-bucket
     when:
@@ -222,7 +222,7 @@ steps:
 
 kind: pipeline
 type: docker
-name: fleet-web-st
+name: accounts-web-st
 trigger:
   branch:
     - iac-restructure-controlled-st
@@ -454,8 +454,8 @@ steps:
         from_secret: jaqu_controlled_aws_secret_access_key
       AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
       AWS_DEFAULT_REGION: eu-west-2
-      APPLICATION_NAME: fleet-codedeploy-service-st
-      DEPLOYMENT_GROUP: fleet-codedeploy-service-st
+      APPLICATION_NAME: accounts-codedeploy-service-st
+      DEPLOYMENT_GROUP: accounts-codedeploy-service-st
       PROJECT: fleet
       LAMBDA_BUCKET: jaqu-shared-project-lambda-bucket
     when:
