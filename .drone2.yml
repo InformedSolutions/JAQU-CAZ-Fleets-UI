@@ -193,7 +193,7 @@ steps:
       AWS_DEFAULT_REGION: eu-west-2
       APPLICATION_NAME: accounts-codedeploy-service-dev
       DEPLOYMENT_GROUP: accounts-codedeploy-service-dev
-      PROJECT: fleet
+      PROJECT: accounts
       LAMBDA_BUCKET: jaqu-shared-project-lambda-bucket
     when:
       event:
@@ -456,7 +456,7 @@ steps:
       AWS_DEFAULT_REGION: eu-west-2
       APPLICATION_NAME: accounts-codedeploy-service-st
       DEPLOYMENT_GROUP: accounts-codedeploy-service-st
-      PROJECT: fleet
+      PROJECT: accounts
       LAMBDA_BUCKET: jaqu-shared-project-lambda-bucket
     when:
       event:
