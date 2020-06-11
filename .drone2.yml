@@ -145,7 +145,7 @@ steps:
       - tf init
       - tf workspace select dev || tf workspace new dev
       - tf apply -auto-approve
-      - cd ../06.fleets-ui
+      - cd ../06.accounts-ui
       - tf init
       - tf workspace select dev || tf workspace new dev
       - tf apply -auto-approve
@@ -347,7 +347,7 @@ steps:
       - tf init
       - tf workspace select st || tf workspace new st
       - tf plan
-      - cd ../06.fleets-ui
+      - cd ../06.accounts-ui
       - tf init
       - tf workspace select st || tf workspace new st
       - tf plan
@@ -408,7 +408,7 @@ steps:
       - tf init
       - tf workspace select st || tf workspace new st
       - tf apply -auto-approve
-      - cd ../06.fleets-ui
+      - cd ../06.accounts-ui
       - tf init
       - tf workspace select st || tf workspace new st
       - tf apply -auto-approve
@@ -439,7 +439,7 @@ steps:
       event:
         - push
 
-  - name: codedeploy ui dev
+  - name: codedeploy ui st
     image: golang:alpine
     commands:
       - apk add --update bash python python-dev py-pip build-base jq
