@@ -99,7 +99,6 @@ class VehiclesController < ApplicationController
   def confirm_and_add_exempt_vehicle_to_fleet
     form = ConfirmationForm.new(confirmation)
     return redirect_to details_vehicles_path, alert: confirmation_error(form) unless form.valid?
-
     return redirect_to incorrect_details_vehicles_path unless form.confirmed?
 
     add_to_current_users_fleet

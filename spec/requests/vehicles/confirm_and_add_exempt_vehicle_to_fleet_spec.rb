@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'VehicleController - POST #confirm_and_add_exempt_vehicle_to_fleet', type: :request do
-  subject(:http_request) do
+  subject do
     post confirm_and_add_exempt_vehicle_to_fleet_vehicles_path,
          params: { 'confirm-vehicle' => confirmation }
   end
@@ -13,7 +13,7 @@ describe 'VehicleController - POST #confirm_and_add_exempt_vehicle_to_fleet', ty
   let(:user) { create_user(account_id: account_id) }
 
   it 'returns redirect to the login page' do
-    http_request
+    subject
     expect(response).to redirect_to(new_user_session_path)
   end
 
@@ -22,7 +22,7 @@ describe 'VehicleController - POST #confirm_and_add_exempt_vehicle_to_fleet', ty
 
     context 'without VRN in the session' do
       it 'returns redirect to vehicles#enter_details' do
-        http_request
+        subject
         expect(response).to redirect_to(enter_details_vehicles_path)
       end
     end
@@ -37,7 +37,7 @@ describe 'VehicleController - POST #confirm_and_add_exempt_vehicle_to_fleet', ty
         let(:confirmation) { 'no' }
 
         it 'redirects to incorrect details page' do
-          http_request
+          subject
           expect(response).to redirect_to(incorrect_details_vehicles_path)
         end
       end
@@ -46,7 +46,7 @@ describe 'VehicleController - POST #confirm_and_add_exempt_vehicle_to_fleet', ty
         let(:confirmation) { '' }
 
         it 'redirects to confirm details page' do
-          http_request
+          subject
           expect(response).to redirect_to(details_vehicles_path)
         end
       end
@@ -56,31 +56,27 @@ describe 'VehicleController - POST #confirm_and_add_exempt_vehicle_to_fleet', ty
           before do
             allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true)
             add_to_session(vrn: @vrn)
+            subject
           end
 
           it 'adds the vehicle to the fleet' do
-            expect(FleetsApi).to receive(:add_vehicle_to_fleet)
+            expect(FleetsApi).to have_received(:add_vehicle_to_fleet)
               .with(vrn: @vrn, account_id: account_id)
-            subject
           end
 
           it 'removes vrn from session' do
-            subject
             expect(session[:vrn]).to be_nil
           end
 
           it 'removes show_continue_button from session' do
-            subject
             expect(session[:show_continue_button]).to be_nil
           end
 
           it 'sets :success flash message' do
-            subject
             expect(flash[:success]).to eq("You have successfully added #{@vrn} to your vehicle list.")
           end
 
           it 'redirects to local vehicle exemptions' do
-            http_request
             expect(response).to redirect_to(fleets_path)
           end
         end
