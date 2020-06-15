@@ -405,6 +405,7 @@ steps:
       - touch ~/.ssh/known_hosts
       - chmod 600 ~/.ssh/known_hosts
       - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
+      - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
       - git checkout iac_restructure_controlled
       - cd terraform-iac/projects/payments/layers/01.networking
@@ -498,7 +499,7 @@ steps:
 
 
 ---
-  #################################################### ST Steps ############################################################
+  #################################################### SIT Steps ############################################################
 
 kind: pipeline
 type: docker
@@ -676,6 +677,7 @@ steps:
       - touch ~/.ssh/known_hosts
       - chmod 600 ~/.ssh/known_hosts
       - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
+      - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
       - git checkout iac_restructure_controlled
       - cd terraform-iac/projects/payments/layers/01.networking
@@ -758,7 +760,7 @@ steps:
       event:
         - push
 
-  #################################################### End of ST steps #######################################################################
+  #################################################### End of SIT steps #######################################################################
 
 
 
