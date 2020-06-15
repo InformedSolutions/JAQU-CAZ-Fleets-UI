@@ -10,7 +10,8 @@ class VehiclesController < ApplicationController
   # 400 HTTP status from API means invalid VRN or other validation error
   rescue_from BaseApi::Error400Exception, with: :add_vehicle_exception
   # checks if VRN is present in the session
-  before_action :check_vrn, only: %i[details confirm_details exempt incorrect_details not_found]
+  before_action :check_vrn, only: %i[details confirm_details exempt incorrect_details not_found
+                                     confirm_and_add_exempt_vehicle_to_fleet]
   before_action :assign_back_button_url, only: %i[enter_details local_exemptions]
 
   ##
@@ -78,6 +79,33 @@ class VehiclesController < ApplicationController
     return redirect_to incorrect_details_vehicles_path unless form.confirmed?
 
     redirect_to local_exemptions_vehicles_path
+  end
+
+  ##
+  # Method for use for nationally exempted vehicles. When users has displayed exemption page,
+  # in the current action his confirmation is verified, and the vehicle is added to his fleet.
+  #
+  # ==== Path
+  #    POST /vehicles/confirm_and_add_exempt_vehicle_to_fleet
+  #
+  # ==== Params
+  # * +vrn+ - vehicle registration number, required in the session
+  # * +confirm-vehicle+ - user confirmation of vehicle details, 'yes' or 'no', required in the query
+  #
+  # ==== Validations
+  # * +vrn+ - lack of VRN redirects to {enter_details}[rdoc-ref:VehiclesController.enter_details]
+  # * +confirm-vehicle+ - lack of it redirects to {incorrect details}[rdoc-ref:VehiclesController.incorrect_details]
+  #
+  def confirm_and_add_exempt_vehicle_to_fleet
+    form = ConfirmationForm.new(confirmation)
+    return redirect_to details_vehicles_path, alert: confirmation_error(form) unless form.valid?
+
+    return redirect_to incorrect_details_vehicles_path unless form.confirmed?
+
+    add_to_current_users_fleet
+    clear_session
+
+    redirect_to fleets_path
   end
 
   ##
@@ -153,17 +181,22 @@ class VehiclesController < ApplicationController
   #    POST /vehicles/add_to_fleet
   #
   def add_to_fleet
-    if current_user.add_vehicle(vrn)
-      flash[:success] = I18n.t('vrn_form.messages.single_vrn_added', vrn: vrn)
-    else
-      flash[:warning] = I18n.t('vrn_form.messages.vrn_already_exists', vrn: vrn)
-    end
+    add_to_current_users_fleet
     clear_session
 
     redirect_to fleets_path
   end
 
   private
+
+  # Adds vehicle with vrn found in session to users fleet and sets flash accordingly
+  def add_to_current_users_fleet
+    if current_user.add_vehicle(vrn)
+      flash[:success] = I18n.t('vrn_form.messages.single_vrn_added', vrn: vrn)
+    else
+      flash[:warning] = I18n.t('vrn_form.messages.vrn_already_exists', vrn: vrn)
+    end
+  end
 
   # Check if vrn is present in the session
   def check_vrn
