@@ -18,6 +18,7 @@
                            class: 'caz-inline-link',
                            id: 'transport-for-london')
         if you need to drive in London.
-      = form_tag confirm_details_vehicles_path, method: :post do
+
+      = form_tag confirm_and_add_exempt_vehicle_to_fleet_vehicles_path, method: :post do
         %input{name: 'confirm-vehicle', type: 'hidden', value: 'yes'}
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

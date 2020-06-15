@@ -91,6 +91,7 @@ Rails.application.routes.draw do
       post :confirm_not_found
       get :local_exemptions
       post :add_to_fleet
+      post :confirm_and_add_exempt_vehicle_to_fleet
     end
   end
 
