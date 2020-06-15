@@ -3,7 +3,7 @@
 
 kind: pipeline
 type: docker
-name: fleet-web-dev
+name: accounts-web-dev
 trigger:
   branch:
     - iac-restructure-baseline
@@ -145,7 +145,7 @@ steps:
       - tf init
       - tf workspace select dev || tf workspace new dev
       - tf apply -auto-approve
-      - cd ../06.fleets-ui
+      - cd ../06.accounts-ui
       - tf init
       - tf workspace select dev || tf workspace new dev
       - tf apply -auto-approve
@@ -191,9 +191,9 @@ steps:
         from_secret: jaqu_lower_aws_secret_access_key
       AWS_ACCOUNT_ROLE: arn:aws:iam::311075478274:role/jaqu-lowerServiceRole
       AWS_DEFAULT_REGION: eu-west-2
-      APPLICATION_NAME: fleet-codedeploy-service-dev
-      DEPLOYMENT_GROUP: fleet-codedeploy-service-dev
-      PROJECT: fleet
+      APPLICATION_NAME: accounts-codedeploy-service-dev
+      DEPLOYMENT_GROUP: accounts-codedeploy-service-dev
+      PROJECT: accounts
       LAMBDA_BUCKET: jaqu-shared-project-lambda-bucket
     when:
       event:
@@ -222,7 +222,7 @@ steps:
 
 kind: pipeline
 type: docker
-name: fleet-web-st
+name: accounts-web-st
 trigger:
   branch:
     - iac-restructure-controlled-st
@@ -347,7 +347,7 @@ steps:
       - tf init
       - tf workspace select st || tf workspace new st
       - tf plan
-      - cd ../06.fleets-ui
+      - cd ../06.accounts-ui
       - tf init
       - tf workspace select st || tf workspace new st
       - tf plan
@@ -408,7 +408,7 @@ steps:
       - tf init
       - tf workspace select st || tf workspace new st
       - tf apply -auto-approve
-      - cd ../06.fleets-ui
+      - cd ../06.accounts-ui
       - tf init
       - tf workspace select st || tf workspace new st
       - tf apply -auto-approve
@@ -439,7 +439,7 @@ steps:
       event:
         - push
 
-  - name: codedeploy ui dev
+  - name: codedeploy ui st
     image: golang:alpine
     commands:
       - apk add --update bash python python-dev py-pip build-base jq
@@ -454,9 +454,9 @@ steps:
         from_secret: jaqu_controlled_aws_secret_access_key
       AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
       AWS_DEFAULT_REGION: eu-west-2
-      APPLICATION_NAME: fleet-codedeploy-service-st
-      DEPLOYMENT_GROUP: fleet-codedeploy-service-st
-      PROJECT: fleet
+      APPLICATION_NAME: accounts-codedeploy-service-st
+      DEPLOYMENT_GROUP: accounts-codedeploy-service-st
+      PROJECT: accounts
       LAMBDA_BUCKET: jaqu-shared-project-lambda-bucket
     when:
       event:
