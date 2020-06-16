@@ -46,7 +46,7 @@ Feature: Sign In
     When I request to sign out
       And  I am redirected to the Sign out page
       And I should see "Sign out successful"
-      And I should see "Pay a Clean Air Zone charge" link
+      And I should see "Drive in a Clean Air Zone" link
       And I should see "Log in to your account" link
     When I navigate to a Dashboard page
     Then I am redirected to the unauthenticated root page
