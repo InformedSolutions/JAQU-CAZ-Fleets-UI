@@ -1,9 +1,6 @@
+<% url_attribute = "#{ENV['GTM_ID']}#{ENV['GTM_URL_OVERRIDES']}" %>
 
-<% if ENV['GTM_ID'] %>
-  <% url_attribute = "#{ENV['GTM_ID']}#{ENV['GTM_URL_OVERRIDES']}" %>
-
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= url_attribute %>%"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
-<% end %>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= url_attribute %>%"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
