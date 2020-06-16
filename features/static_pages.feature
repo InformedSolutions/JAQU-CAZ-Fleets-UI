@@ -12,7 +12,7 @@ Feature: Static Pages
   Scenario: User sees accessibility statement page
     Given I am on the Sign in page
     When I press footer link 'Accessibility statement'
-    Then I should see "Accessibility statement for Pay a Clean Air Zone Charge"
+    Then I should see "Accessibility statement for Drive in a Clean Air Zone"
 
   Scenario: User sees privacy notice page
     Given I am on the Sign in page
