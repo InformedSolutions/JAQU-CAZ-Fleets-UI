@@ -46,7 +46,7 @@ When('I have vehicles in my fleet') do
 end
 
 When('I want to pay for CAZ which started charging {int} days ago') do |start_days_ago|
-  active_charge_start_date = Date.today - start_days_ago.days
+  active_charge_start_date = Time.zone.today - start_days_ago.days
   caz_list = [{
     'cleanAirZoneId' => '5cd7441d-766f-48ff-b8ad-1809586fea37',
     'name' => 'Birmingham',

@@ -67,7 +67,7 @@ class UploadsController < ApplicationController
   #
   def download_template
     send_file(
-      "#{Rails.root}/public/template.csv",
+      Rails.root.join('public/template.csv'),
       filename: 'VehicleUploadTemplate.csv',
       type: 'text/csv'
     )
