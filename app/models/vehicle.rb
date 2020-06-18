@@ -43,7 +43,7 @@ class Vehicle
     compliance['charge'] == 'null' ? nil : compliance['charge'].to_f
   end
 
-  # Returns the parsed charge for given CAZ eg. £12.50.
+  # Returns the parsed charge for given CAZ
   # Returns 'Unknown' if the charge is undefined.
   # Returns 'No charge' if the charge equals zero
   def formatted_charge(caz_id)

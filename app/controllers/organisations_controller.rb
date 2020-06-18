@@ -219,7 +219,7 @@ class OrganisationsController < ApplicationController
 
   # Returns the list of permitted params
   def company_params
-    return {} unless params[:organisations].present?
+    return {} if params[:organisations].blank?
 
     params.require(:organisations).permit(:company_name, :confirm_fleet_check)
   end

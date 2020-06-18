@@ -5,8 +5,7 @@
 #
 # rubocop:disable Metrics/ClassLength
 class PaymentsController < ApplicationController
-  before_action :check_la, only: %i[matrix submit review select_payment_method
-                                    submit_payment_method no_chargeable_vehicles]
+  before_action :check_la, only: %i[matrix submit review select_payment_method no_chargeable_vehicles]
   before_action :assign_back_button_url, only: %i[index select_payment_method]
   before_action :assign_debit, only: %i[select_payment_method]
   before_action :assign_zone_and_dates, only: %i[matrix]

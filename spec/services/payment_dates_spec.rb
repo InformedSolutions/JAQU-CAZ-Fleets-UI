@@ -5,7 +5,7 @@ require 'rails_helper'
 describe PaymentDates do
   subject(:service) { described_class.new(charge_start_date: charge_start_date) }
 
-  let(:charge_start_date) { Date.today }
+  let(:charge_start_date) { Time.zone.today }
 
   describe '.chargeable_dates' do
     subject { service.chargeable_dates }
@@ -37,7 +37,7 @@ describe PaymentDates do
     end
 
     context 'when charge_start_date was before 3 days ago' do
-      let(:charge_start_date) { Date.today - 3.days }
+      let(:charge_start_date) { Time.zone.today - 3.days }
 
       it 'returns next and past dates' do
         expect(subject.keys).to contain_exactly(:next, :past)
@@ -114,7 +114,7 @@ describe PaymentDates do
       end
 
       context 'when #charge_start_date is not considered' do
-        let(:charge_start_date) { Date.today - 7.days }
+        let(:charge_start_date) { Time.zone.today - 7.days }
 
         it 'returns false' do
           expect(service.d_day_notice).to be_falsey
@@ -122,7 +122,7 @@ describe PaymentDates do
       end
 
       context 'when #charge_start_date is considered' do
-        let(:charge_start_date) { Date.today - 4.days }
+        let(:charge_start_date) { Time.zone.today - 4.days }
 
         it 'returns true' do
           expect(service.d_day_notice).to be_truthy
