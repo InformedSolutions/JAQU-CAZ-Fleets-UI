@@ -8,10 +8,10 @@
     %strong
       Select all that apply.
 
-  - if @charges.any_results? && @d_day_notice
+  - if @d_day_notice
     %p
       %strong
-        = "The Clean Air Zone came into operation on #{formatted_date(@zone.active_charge_start_date)}."
+        The Clean Air Zone came into operation on #{formatted_date(@zone.active_charge_start_date)}.
 
   - unless @charges.all_days_unpaid?
     %p
