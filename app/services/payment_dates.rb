@@ -28,7 +28,7 @@ class PaymentDates < BaseService
 
   # Checks if D-Day notice should be shown
   def d_day_notice
-    charge_start_date >= past_start_date
+    charge_start_date.between?(Time.zone.today, Time.zone.today + 5.days)
   end
 
   private
