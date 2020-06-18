@@ -66,7 +66,9 @@ module ApplicationHelper
     Rails.configuration.x.payments_ui_url + '/vehicles/enter_details'
   end
 
+  # rubocop:disable Style/AsciiComments
   # Returns parsed string, eg. '£10.00'
+  # rubocop:enable Style/AsciiComments
   def parse_charge(value)
     "£#{format('%<pay>.2f', pay: value.to_f)}"
   end
