@@ -22,13 +22,13 @@ class PaymentDates < BaseService
   def chargeable_dates
     {
       past: past_dates,
-      next: (Date.today..(Date.today + 6.days)).map { |date| parse(date) }
+      next: (Time.zone.today..(Time.zone.today + 6.days)).map { |date| parse(date) }
     }
   end
 
   # Checks if D-Day notice should be shown
   def d_day_notice
-    charge_start_date >= past_start_date
+    charge_start_date.between?(Time.zone.today - 5.days, Time.zone.today)
   end
 
   private
@@ -47,20 +47,20 @@ class PaymentDates < BaseService
 
   # generates past dates to pay
   def past_dates
-    return [] if charge_start_date >= Date.today
+    return [] if charge_start_date >= Time.zone.today
 
     (past_start_date..past_end_date).map { |date| parse(date) }
   end
 
   # set past dates start date
   def past_start_date
-    past_start_date = Date.today - 6.days
+    past_start_date = Time.zone.today - 6.days
     past_start_date < charge_start_date ? charge_start_date : past_start_date
   end
 
   # set past dates end date
   def past_end_date
-    past_end_date = Date.today - 1.day
+    past_end_date = Time.zone.today - 1.day
     past_end_date < charge_start_date ? charge_start_date : past_end_date
   end
 end
