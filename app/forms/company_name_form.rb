@@ -6,7 +6,7 @@ class CompanyNameForm < BaseForm
   # Attribute used internally
   attr_accessor :company_name
 
-  COMPANY_NAME_REGEX = %r{(^$|^[[:alpha:][0-9] /'\-&.]+)$}u.freeze
+  COMPANY_NAME_REGEX = %r{(^$|^[[:alpha:][0-9] /'\-&.]+)$}u.freeze # rubocop:disable Style/RedundantRegexpEscape
   MAX_COMPANY_NAME_LENGTH = 180
 
   # validates attributes to presence

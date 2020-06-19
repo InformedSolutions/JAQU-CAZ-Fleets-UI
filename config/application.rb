@@ -25,7 +25,7 @@ module FleetsUI
     # payments ui url
     config.x.payments_ui_url = ENV.fetch('PAYMENTS_UI_URL', 'dev.paycleanairzonecharge.co.uk')
     # service name for whole app
-    config.x.service_name = 'Pay a Clean Air Zone charge'
+    config.x.service_name = 'Drive in a Clean Air Zone'
 
     # timeout the user session without activity.
     config.x.session_timeout_in_min = ENV.fetch('SESSION_TIMEOUT', 15).to_i
