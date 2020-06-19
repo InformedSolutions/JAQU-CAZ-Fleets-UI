@@ -92,21 +92,13 @@ describe PaymentDates do
       context 'when #charge_start_date is tomorrow' do
         let(:charge_start_date) { Date.current.tomorrow }
 
-        it 'returns true' do
-          expect(service.d_day_notice).to be_truthy
+        it 'returns false' do
+          expect(service.d_day_notice).to be_falsey
         end
       end
 
       context 'and #charge_start_date is today' do
         let(:charge_start_date) { Date.current }
-
-        it 'returns true' do
-          expect(service.d_day_notice).to be_truthy
-        end
-      end
-
-      context 'and #charge_start_date is within date range' do
-        let(:charge_start_date) { Time.zone.today + 5.days }
 
         it 'returns true' do
           expect(service.d_day_notice).to be_truthy
