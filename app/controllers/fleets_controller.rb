@@ -6,6 +6,7 @@
 class FleetsController < ApplicationController
   before_action :assign_fleet
   before_action :check_vrn, only: %i[delete confirm_delete]
+  before_action :clear_show_continue_button, only: %i[index]
 
   ##
   # Renders submission method selection page
@@ -184,5 +185,10 @@ class FleetsController < ApplicationController
   # Returns redirect path after successful removal of vehicle from the fleet
   def after_removal_redirect_path(fleet)
     fleet.empty? ? dashboard_path : fleets_path
+  end
+
+  # Clears show_continue_button from session when user lands on fleets page after end of CSV import
+  def clear_show_continue_button
+    session[:show_continue_button] = nil if session.dig(:show_continue_button) == true
   end
 end
