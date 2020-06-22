@@ -73,3 +73,4 @@ en:
   payment_review:
     errors:
       confirmation_alert: Confirm you have checked if you are eligible for an exemption
+  inactivity_logout: You have been logged out due to inactivity

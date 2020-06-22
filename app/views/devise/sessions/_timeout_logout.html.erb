@@ -1,0 +1,10 @@
+<%= javascript_tag do -%>
+  var timeOffset = 1000 * 60; // 1 minute
+
+  setTimeout(function() {
+    var signOutPath = '<%= timedout_user_path %>';
+
+    window.location.replace(signOutPath);
+  }, timeOffset);
+
+<% end %>
