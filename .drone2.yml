@@ -999,11 +999,8 @@ steps:
       event:
         - push
 
-<<<<<<< HEAD
-  - name: codedeploy ui st
-=======
+
   - name: codedeploy ui preprod
->>>>>>> iac-restructure-controlled-st
     image: alpine:3.11.6
     commands:
       - apk add --update bash python python-dev py-pip build-base jq
