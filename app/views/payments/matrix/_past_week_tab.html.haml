@@ -8,11 +8,6 @@
     %strong
       Select all that apply.
 
-  - if @d_day_notice
-    %p
-      %strong
-        The Clean Air Zone came into operation on #{formatted_date(@zone.active_charge_start_date)}.
-
   - unless @charges.all_days_unpaid?
     %p
       If you have already paid for a date, it will show as Paid.
