@@ -21,7 +21,9 @@ class VehiclesController < ApplicationController
   # ==== Path
   #    GET /vehicles/enter_details
   #
-  def enter_details; end
+  def enter_details
+    # renders static page
+  end
 
   ##
   # Validates +vrn+ submitted by the user.

@@ -14,6 +14,10 @@ class DashboardController < ApplicationController
     clear_input_history
     @vehicles_count = current_user.fleet.total_vehicles_count
     @mandates_present = @debit.active_mandates.any?
+    # Check user permissions
+    @allow_managing_users = true
+    # API call to get list of users
+    @users_present = true
   end
 
   private

@@ -24,3 +24,4 @@
     = render 'direct_debit'
     - if @vehicles_count >= 2
       = render 'make_payment'
+    = render 'manage_users' if @allow_managing_users

@@ -97,6 +97,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :users, only: %w[index new create] do
+    # will be added
+  end
+
   resources :uploads, only: %i[index create] do
     collection do
       get :processing

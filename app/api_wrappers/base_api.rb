@@ -10,9 +10,11 @@ class BaseApi
   # Uncomment for debug
   # debug_output $stdout
 
+  CONTENT_TYPE = 'application/json'
+
   headers(
-    'Content-Type' => 'application/json',
-    'Accept' => 'application/json',
+    'Content-Type' => CONTENT_TYPE,
+    'Accept' => CONTENT_TYPE,
     'X-Correlation-ID' => -> { SecureRandom.uuid }
   )
 
@@ -69,8 +71,8 @@ class BaseApi
     #
     def custom_headers(correlation_id)
       {
-        'Content-Type' => 'application/json',
-        'Accept' => 'application/json',
+        'Content-Type' => CONTENT_TYPE,
+        'Accept' => CONTENT_TYPE,
         'X-Correlation-ID' => correlation_id
       }
     end

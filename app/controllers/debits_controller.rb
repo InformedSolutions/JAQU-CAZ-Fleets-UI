@@ -59,7 +59,9 @@ class DebitsController < ApplicationController
   #
   #    :GET /payments/debits/first_mandate
   #
-  def first_mandate; end
+  def first_mandate
+    # renders static page
+  end
 
   ##
   # Renders active Direct Debit mandates

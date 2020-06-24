@@ -58,3 +58,6 @@ Style/RedundantRegexpEscape:
 
 Rails/HelperInstanceVariable:
   Enabled: false
+
+Style/RedundantFetchBlock:
+  Enabled: true
