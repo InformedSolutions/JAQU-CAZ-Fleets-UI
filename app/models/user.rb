@@ -16,7 +16,7 @@ class User
   devise :timeoutable
 
   # User attributes
-  attr_accessor :email, :owner, :user_id, :account_id, :account_name, :login_ip
+  attr_accessor :email, :owner, :permissions, :user_id, :account_id, :account_name, :login_ip
 
   # Delegates fleet methods to fleet
   delegate :vehicles, :add_vehicle, :remove_vehicle, :charges, :charges_by_vrn, to: :fleet
@@ -49,6 +49,7 @@ class User
     {
       email: email,
       owner: owner,
+      permissions: permissions,
       user_id: user_id,
       account_id: account_id,
       account_name: account_name,
@@ -68,7 +69,8 @@ class User
       user_id: user_attributes['accountUserId'],
       account_id: user_attributes['accountId'],
       account_name: user_attributes['accountName'],
-      owner: user_attributes['owner']
+      owner: user_attributes['owner'],
+      permissions: user_attributes['permissions']
     )
   end
 end

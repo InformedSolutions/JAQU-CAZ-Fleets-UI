@@ -3,7 +3,7 @@
 ##
 # Controller used to pay by credit card
 #
-class CreditCardsController < ApplicationController
+class CreditCardsController < BaseController
   # Makes a request to initiate card payment and redirects to response url
   #
   # ==== Path

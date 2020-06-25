@@ -248,7 +248,7 @@ class OrganisationsController < ApplicationController
   def check_account_details
     Rails.logger.warn('Checking credentials from the session')
     redirect_to root_path if (
-      %w[email owner user_id account_id account_name login_ip] - new_account.keys
+      %w[email owner user_id account_id account_name permissions login_ip] - new_account.keys
     ).present?
   end
 

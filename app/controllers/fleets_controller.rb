@@ -3,7 +3,7 @@
 ##
 # Controller used to manage fleet
 #
-class FleetsController < ApplicationController
+class FleetsController < BaseController
   before_action :assign_fleet
   before_action :check_vrn, only: %i[delete confirm_delete]
   before_action :clear_show_continue_button, only: %i[index]

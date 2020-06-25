@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 When('I visit the upload page') do
-  login_user
+  mock_debits
+  mock_users
+  login_owner
   visit uploads_path
 end
 
@@ -27,9 +29,8 @@ Then('I should download the template') do
 end
 
 When('I am on the processing page') do
-  mock_vehicles_in_fleet
-  mock_debits
-  login_user
+  mock_api_responses
+  login_owner
   page.set_rack_session(
     job: { job_name: SecureRandom.uuid, correlation_id: SecureRandom.uuid }
   )

@@ -15,6 +15,7 @@ describe DashboardController, type: :request do
       before do
         mock_fleet
         mock_debits
+        mock_users
         sign_in create_user
       end
 

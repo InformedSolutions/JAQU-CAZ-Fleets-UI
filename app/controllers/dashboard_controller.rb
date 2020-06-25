@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-class DashboardController < ApplicationController
-  before_action :assign_debit, only: :index
-
+class DashboardController < BaseController
   ##
   # Renders the dashboard page.
   #
@@ -13,11 +11,8 @@ class DashboardController < ApplicationController
   def index
     clear_input_history
     @vehicles_count = current_user.fleet.total_vehicles_count
-    @mandates_present = @debit.active_mandates.any?
-    # Check user permissions
-    @allow_managing_users = true
-    # API call to get list of users
-    @users_present = true
+    @mandates_present = DirectDebit.new(current_user.account_id).active_mandates.any?
+    @users_present = AccountsApi.users(account_id: current_user.account_id).any?
   end
 
   private
@@ -29,10 +24,5 @@ class DashboardController < ApplicationController
     session[:payment_method] = nil
     session[:submission_method] = nil
     session[:new_payment] = nil
-  end
-
-  # Creates an instance of DirectDebit class and assign it to +@debit+ variable
-  def assign_debit
-    @debit = DirectDebit.new(current_user.account_id)
   end
 end

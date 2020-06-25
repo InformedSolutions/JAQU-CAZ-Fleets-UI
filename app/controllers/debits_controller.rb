@@ -3,7 +3,7 @@
 ##
 # Controller used to manage and pay Direct Debits
 #
-class DebitsController < ApplicationController
+class DebitsController < BaseController
   before_action :check_la, only: %i[confirm first_mandate]
   before_action :assign_debit, only: %i[confirm index new first_mandate]
   before_action :check_active_caz_mandates, only: %i[first_mandate]

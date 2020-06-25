@@ -4,7 +4,7 @@
 # Controller used to manage adding vehicles to the fleet manually.
 # It should use similar approach as VCCS UI
 #
-class VehiclesController < ApplicationController
+class VehiclesController < BaseController
   # 404 HTTP status from API means vehicle in not found in DLVA database. Redirects to the proper page.
   rescue_from BaseApi::Error404Exception, with: :vehicle_not_found
   # 400 HTTP status from API means invalid VRN or other validation error

@@ -12,6 +12,7 @@ Feature: Dashboard
       And I should not see 'You need to upload all your number plates before making a payment.'
       And I should not see 'You need to add at least one more vehicle before making a payment.'
       And I should see 'Your Direct Debits' link
+      And I should see 'Manage users' link
 
   Scenario: View dashboard page with empty fleets
     Given I navigate to a Dashboard page with empty fleets

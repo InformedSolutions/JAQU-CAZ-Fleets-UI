@@ -120,7 +120,6 @@ class BaseApi
     # Parses response body and returns a hash.
     # +JSON::ParserError+ is treated as 500.
     def parse_body(body)
-      log_action('Parsing response body')
       JSON.parse(body.presence || '{}')
     rescue JSON::ParserError
       exception = Error500Exception.new(500, 'Response body parsing failed', body)
