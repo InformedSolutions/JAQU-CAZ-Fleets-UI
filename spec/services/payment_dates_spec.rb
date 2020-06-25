@@ -89,8 +89,8 @@ describe PaymentDates do
     describe '.d_day_notice' do
       before { subject }
 
-      context 'when #charge_start_date is tomorrow' do
-        let(:charge_start_date) { Date.current.tomorrow }
+      context 'when #charge_start_date is yesterday' do
+        let(:charge_start_date) { Time.zone.yesterday }
 
         it 'returns true' do
           expect(service.d_day_notice).to be_truthy
@@ -105,27 +105,19 @@ describe PaymentDates do
         end
       end
 
-      context 'and #charge_start_date is more than a week in the future' do
-        let(:charge_start_date) { 1.day.from_now }
-
-        it 'returns true' do
-          expect(service.d_day_notice).to be_truthy
-        end
-      end
-
-      context 'when #charge_start_date is not considered' do
-        let(:charge_start_date) { Time.zone.today - 7.days }
+      context 'when #charge_start_date is tomorrow' do
+        let(:charge_start_date) { Date.current.tomorrow }
 
         it 'returns false' do
           expect(service.d_day_notice).to be_falsey
         end
       end
 
-      context 'when #charge_start_date is considered' do
-        let(:charge_start_date) { Time.zone.today - 4.days }
+      context 'when #charge_start_date is not considered' do
+        let(:charge_start_date) { Time.zone.today - 6.days }
 
-        it 'returns true' do
-          expect(service.d_day_notice).to be_truthy
+        it 'returns false' do
+          expect(service.d_day_notice).to be_falsey
         end
       end
     end
