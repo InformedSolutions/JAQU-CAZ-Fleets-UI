@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  prepend_before_action :skip_timeout, only: :logout_notice
   skip_before_action :authenticate_user!
   before_action :assign_back_button_url, only: :logout_notice
 

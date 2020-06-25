@@ -85,12 +85,6 @@ class ApplicationController < ActionController::Base
     redirect_to new_user_session_path
   end
 
-  # Method allows to perform request without reseting timestamp in user session
-  # which indicates when user should be timed out.
-  def skip_timeout
-    request.env['devise.skip_trackable'] = true
-  end
-
   # Returns a single error message from confirmation form
   def confirmation_error(form, field = :confirmation)
     form.errors.messages[field].first

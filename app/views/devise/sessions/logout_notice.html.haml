@@ -13,4 +13,5 @@
 
       = link_to 'Continue', @back_button_url, class: 'govuk-button'
 
-      = render 'devise/sessions/timeout_logout'
+      #timeout_logout_data{timedout_user_path: timedout_user_path}
+      = javascript_pack_tag 'timeout_logout'
