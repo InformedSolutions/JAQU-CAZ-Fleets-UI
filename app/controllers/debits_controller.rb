@@ -4,6 +4,8 @@
 # Controller used to manage and pay Direct Debits
 #
 class DebitsController < ApplicationController
+  include CheckPermissions
+
   before_action :check_la, only: %i[confirm first_mandate]
   before_action :assign_debit, only: %i[confirm index new first_mandate]
   before_action :check_active_caz_mandates, only: %i[first_mandate]
@@ -59,7 +61,9 @@ class DebitsController < ApplicationController
   #
   #    :GET /payments/debits/first_mandate
   #
-  def first_mandate; end
+  def first_mandate
+    # renders static page
+  end
 
   ##
   # Renders active Direct Debit mandates

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module MockedResponses
-  def mock_caz_list(caz_list = nil)
-    caz_list ||= read_response('caz_list.json')['cleanAirZones']
-    allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(caz_list)
+  def mock_caz_list
+    api_response = read_response('caz_list.json')['cleanAirZones']
+    allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(api_response)
   end
 
   def mock_debits(mocked_file = 'mandates')
@@ -17,7 +17,12 @@ module MockedResponses
   end
 
   def mock_clean_air_zones
-    caz_list = read_response('caz_list.json')['cleanAirZones']
-    allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(caz_list)
+    api_response = read_response('caz_list.json')['cleanAirZones']
+    allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(api_response)
+  end
+
+  def mock_users
+    api_response = read_response('/manage_users/users.json')['users']
+    allow(AccountsApi).to receive(:users).and_return(api_response)
   end
 end

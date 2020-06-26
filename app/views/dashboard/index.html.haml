@@ -19,8 +19,10 @@
       - elsif @vehicles_count == 1
         .govuk-inset-text
           You need to add at least one more vehicle before making a payment.
+
   .govuk-grid-row
-    = render 'manage_vehicles'
-    = render 'direct_debit'
+    = render 'manage_vehicles' if allow_manage_vehicles?
+    = render 'direct_debit' if allow_manage_mandates?
     - if @vehicles_count >= 2
-      = render 'make_payment'
+      = render 'make_payment' if allow_make_payments?
+    = render 'manage_users' if allow_manage_users?

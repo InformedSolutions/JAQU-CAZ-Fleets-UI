@@ -97,6 +97,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :users, only: %w[index new create] do
+    # will be added
+  end
+
   resources :uploads, only: %i[index create] do
     collection do
       get :processing
@@ -111,7 +115,9 @@ Rails.application.routes.draw do
   get :build_id, to: 'application#build_id'
   get :health, to: 'application#health'
 
+  get :not_found, to: 'errors#not_found'
   get :service_unavailable, to: 'errors#server_unavailable'
+
   match '/404', to: 'errors#not_found', via: :all
   # There is no 422 error page in design systems
   match '/422', to: 'errors#internal_server_error', via: :all

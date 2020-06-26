@@ -22,8 +22,6 @@ Then('I select {string}') do |string|
   choose(string)
 end
 
-# links interactions
-
 Then('I press {string} link') do |string|
   first(:link, string).click
 end
@@ -70,4 +68,10 @@ end
 
 And('I check {string}') do |string|
   check(string)
+end
+
+def mock_api_responses
+  mock_vehicles_in_fleet
+  mock_debits
+  mock_users
 end
