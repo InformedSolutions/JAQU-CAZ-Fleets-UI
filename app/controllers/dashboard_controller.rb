@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class DashboardController < BaseController
+class DashboardController < ApplicationController
+  include CheckPermissions
+
   ##
   # Renders the dashboard page.
   #

@@ -3,7 +3,9 @@
 ##
 # Controller used to manage users
 #
-class UsersController < BaseController
+class UsersController < ApplicationController
+  include CheckPermissions
+
   before_action -> { check_permissions(allow_manage_users?) }
   ##
   # Renders manage users page

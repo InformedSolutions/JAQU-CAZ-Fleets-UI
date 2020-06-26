@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-class BaseController < ApplicationController
-  helper_method %i[allow_manage_vehicles? allow_manage_users? allow_manage_mandates? allow_make_payments?]
+# Module used to check user permissions in controllers
+module CheckPermissions
+  extend ActiveSupport::Concern
 
   # Checks if user has a proper permissions
   # If not redirects to the not found page
