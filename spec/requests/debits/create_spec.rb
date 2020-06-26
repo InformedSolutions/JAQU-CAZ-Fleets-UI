@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'DebitsController - POST #create' do
-  subject(:http_request) do
+  subject do
     post debits_path, params: { 'local-authority' => caz_id }
   end
 
@@ -21,7 +21,7 @@ describe 'DebitsController - POST #create' do
     end
 
     it 'redirects to index' do
-      http_request
+      subject
       expect(response).to redirect_to(debits_path)
     end
 
@@ -31,14 +31,14 @@ describe 'DebitsController - POST #create' do
         caz_id: caz_id,
         return_url: return_url
       )
-      http_request
+      subject
     end
   end
 
   context 'when the user does not select option' do
     let(:caz_id) { nil }
 
-    before { http_request }
+    before { subject }
 
     it 'redirects to new' do
       expect(response).to redirect_to(new_debit_path)

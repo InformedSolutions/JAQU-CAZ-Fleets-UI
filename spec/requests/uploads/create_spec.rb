@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'UploadsController - #index' do
-  subject(:http_request) { post uploads_path, params: { file: file } }
+  subject { post uploads_path, params: { file: file } }
 
   let(:file_path) do
     File.join('spec', 'fixtures', 'uploads', 'fleet.csv')
@@ -22,22 +22,22 @@ describe 'UploadsController - #index' do
   end
 
   it 'redirects to #processing' do
-    http_request
+    subject
     expect(response).to redirect_to(processing_uploads_path)
   end
 
   it 'sets filename in the session' do
-    http_request
+    subject
     expect(session[:job][:filename]).to eq(file_name)
   end
 
   it 'sets job name in the session' do
-    http_request
+    subject
     expect(session[:job][:job_name]).to eq(job_name)
   end
 
   it 'sets correlation_id in the session' do
-    http_request
+    subject
     expect(session[:job][:correlation_id]).to eq(correlation_id)
   end
 
@@ -45,14 +45,14 @@ describe 'UploadsController - #index' do
     expect(UploadFile)
       .to receive(:call)
       .with(file: an_instance_of(ActionDispatch::Http::UploadedFile), user: user)
-    http_request
+    subject
   end
 
   it 'triggers job the right params' do
     expect(FleetsApi)
       .to receive(:register_job)
       .with(filename: file_name, correlation_id: correlation_id)
-    http_request
+    subject
   end
 
   context 'when the upload fails' do
@@ -63,18 +63,18 @@ describe 'UploadsController - #index' do
     let(:alert) { 'alert message' }
 
     it 'redirects to #index' do
-      http_request
+      subject
       expect(response).to redirect_to(uploads_path)
     end
 
     it 'sets the alert' do
-      http_request
+      subject
       expect(flash[:alert]).to eq(alert)
     end
 
     it 'does not trigger job' do
       expect(FleetsApi).not_to receive(:register_job)
-      http_request
+      subject
     end
   end
 end

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'CreditCardsController - POST #initiate' do
-  subject(:http_request) do
+  subject do
     get initiate_payments_path
   end
 
@@ -12,11 +12,11 @@ describe 'CreditCardsController - POST #initiate' do
     response = { 'paymentId' => SecureRandom.uuid, 'nextUrl' => '/payments/result' }
     allow(MakeCardPayment).to receive(:call).and_return(response)
     sign_in create_user
-    http_request
+    subject
   end
 
   it 'redirects to the result payment page' do
-    http_request
+    subject
     expect(response).to redirect_to(result_payments_path)
   end
 end

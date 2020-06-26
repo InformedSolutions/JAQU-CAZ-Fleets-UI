@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'VehiclesController - #not_found', type: :request do
-  subject(:http_request) { get not_found_vehicles_path }
+  subject { get not_found_vehicles_path }
 
   let(:no_vrn_path) { enter_details_vehicles_path }
 

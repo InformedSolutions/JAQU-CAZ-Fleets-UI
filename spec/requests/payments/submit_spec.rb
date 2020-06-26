@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'PaymentsController - #submit', type: :request do
-  subject(:http_request) { post matrix_payments_path, params: params }
+  subject { post matrix_payments_path, params: params }
 
   let(:params) do
     {
@@ -27,7 +27,7 @@ describe 'PaymentsController - #submit', type: :request do
   before { sign_in create_user }
 
   it 'redirects to :index' do
-    expect(http_request).to redirect_to(payments_path)
+    expect(subject).to redirect_to(payments_path)
   end
 
   context 'with la_id and vehicle details in the session' do
@@ -40,11 +40,11 @@ describe 'PaymentsController - #submit', type: :request do
 
     context 'when commit is continue' do
       it 'redirects to :review' do
-        expect(http_request).to redirect_to(review_payments_path)
+        expect(subject).to redirect_to(review_payments_path)
       end
 
       it 'saves new payment data' do
-        http_request
+        subject
         expect(session[:new_payment]['details'][@vrn][:dates]).to eq(dates)
       end
     end
@@ -55,7 +55,7 @@ describe 'PaymentsController - #submit', type: :request do
       it_behaves_like 'a non continue matrix commit'
 
       it 'saves only search' do
-        http_request
+        subject
         expect(session[:payment_query].keys).to contain_exactly(:search)
       end
     end
@@ -66,12 +66,12 @@ describe 'PaymentsController - #submit', type: :request do
       it_behaves_like 'a non continue matrix commit'
 
       it 'saves next vrn' do
-        http_request
+        subject
         expect(session[:payment_query][:vrn]).to eq(next_vrn)
       end
 
       it 'saves direction' do
-        http_request
+        subject
         expect(session[:payment_query][:direction]).to eq('next')
       end
     end
@@ -82,12 +82,12 @@ describe 'PaymentsController - #submit', type: :request do
       it_behaves_like 'a non continue matrix commit'
 
       it 'saves previous vrn' do
-        http_request
+        subject
         expect(session[:payment_query][:vrn]).to eq(prev_vrn)
       end
 
       it 'saves direction' do
-        http_request
+        subject
         expect(session[:payment_query][:direction]).to eq('previous')
       end
     end

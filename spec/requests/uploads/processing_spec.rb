@@ -3,12 +3,12 @@
 require 'rails_helper'
 
 describe 'UploadsController - #processing' do
-  subject(:http_request) { get processing_uploads_path }
+  subject { get processing_uploads_path }
 
   before { sign_in create_user }
 
   it 'redirects to uploads' do
-    http_request
+    subject
     expect(response).to redirect_to(uploads_path)
   end
 
@@ -35,13 +35,13 @@ describe 'UploadsController - #processing' do
       expect(FleetsApi)
         .to receive(:job_status)
         .with(job_name: job_name, correlation_id: correlation_id)
-      http_request
+      subject
     end
 
     describe 'job status' do
       before do
         mock_fleet(create_fleet)
-        http_request
+        subject
       end
 
       describe 'success' do

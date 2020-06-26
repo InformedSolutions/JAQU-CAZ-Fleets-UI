@@ -3,19 +3,19 @@
 require 'rails_helper'
 
 describe 'FleetsController - #assign_delete', type: :request do
-  subject(:http_request) { get assign_delete_fleets_path(vrn: vrn) }
+  subject { get assign_delete_fleets_path(vrn: vrn) }
 
   let(:vrn) { 'ABC123' }
 
   it 'returns redirect to the login page' do
-    http_request
+    subject
     expect(response).to redirect_to(new_user_session_path)
   end
 
   context 'when user is logged in' do
     before do
       sign_in create_user
-      http_request
+      subject
     end
 
     context 'when vrn is given' do

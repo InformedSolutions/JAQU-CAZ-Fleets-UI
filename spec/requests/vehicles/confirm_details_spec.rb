@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'VehicleController - POST #confirm_details', type: :request do
-  subject(:http_request) do
+  subject do
     post confirm_details_vehicles_path, params: { 'confirm-vehicle' => confirmation }
   end
 
@@ -11,7 +11,7 @@ describe 'VehicleController - POST #confirm_details', type: :request do
   let(:account_id) { SecureRandom.uuid }
 
   it 'returns redirect to the login page' do
-    http_request
+    subject
     expect(response).to redirect_to(new_user_session_path)
   end
 
@@ -20,7 +20,7 @@ describe 'VehicleController - POST #confirm_details', type: :request do
 
     context 'without VRN in the session' do
       it 'returns redirect to vehicles#enter_details' do
-        http_request
+        subject
         expect(response).to redirect_to(enter_details_vehicles_path)
       end
     end
@@ -33,7 +33,7 @@ describe 'VehicleController - POST #confirm_details', type: :request do
 
       context 'when user confirms details' do
         it 'redirects to local vehicle exemptions' do
-          http_request
+          subject
           expect(response).to redirect_to(local_exemptions_vehicles_path)
         end
       end
@@ -42,7 +42,7 @@ describe 'VehicleController - POST #confirm_details', type: :request do
         let(:confirmation) { 'no' }
 
         it 'redirects to incorrect details page' do
-          http_request
+          subject
           expect(response).to redirect_to(incorrect_details_vehicles_path)
         end
       end
@@ -51,7 +51,7 @@ describe 'VehicleController - POST #confirm_details', type: :request do
         let(:confirmation) { '' }
 
         it 'redirects to confirm details page' do
-          http_request
+          subject
           expect(response).to redirect_to(details_vehicles_path)
         end
       end

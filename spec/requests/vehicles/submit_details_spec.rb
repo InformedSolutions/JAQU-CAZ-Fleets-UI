@@ -3,21 +3,21 @@
 require 'rails_helper'
 
 describe 'VehiclesController - #submit_details', type: :request do
-  subject(:http_request) do
+  subject do
     post enter_details_vehicles_path, params: { vrn: vrn }
   end
 
   let(:vrn) { 'ABC123' }
 
   it 'returns redirect to the login page' do
-    http_request
+    subject
     expect(response).to redirect_to(new_user_session_path)
   end
 
   context 'when user is logged in' do
     before do
       sign_in create_user
-      http_request
+      subject
     end
 
     context 'when VrnForm is valid' do

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'PasswordsController - GET #index', type: :request do
-  subject(:http_request) { get passwords_path(token: token) }
+  subject { get passwords_path(token: token) }
 
   let(:token) { SecureRandom.uuid }
 
@@ -12,30 +12,30 @@ describe 'PasswordsController - GET #index', type: :request do
   end
 
   it 'returns an ok response' do
-    http_request
+    subject
     expect(response).to have_http_status(:ok)
   end
 
   it 'assigns token' do
-    http_request
+    subject
     expect(assigns(:token)).to eq(token)
   end
 
   it 'saves the token in the session' do
-    http_request
+    subject
     expect(session[:reset_password_token]).to eq(token)
   end
 
   it 'calls AccountsApi.validate_password_reset' do
     expect(AccountsApi).to receive(:validate_password_reset).with(token: token)
-    http_request
+    subject
   end
 
   context 'without the token' do
     let(:token) { nil }
 
     it 'redirects to invalid page' do
-      expect(http_request).to redirect_to(invalid_passwords_path)
+      expect(subject).to redirect_to(invalid_passwords_path)
     end
   end
 
@@ -49,7 +49,7 @@ describe 'PasswordsController - GET #index', type: :request do
     end
 
     it 'redirects to invalid page' do
-      expect(http_request).to redirect_to(invalid_passwords_path)
+      expect(subject).to redirect_to(invalid_passwords_path)
     end
   end
 end

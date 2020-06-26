@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'FleetsController - #index', type: :request do
-  subject(:http_request) { get fleets_path }
+  subject { get fleets_path }
 
   before { sign_in create_user }
 
@@ -11,7 +11,7 @@ describe 'FleetsController - #index', type: :request do
     before { mock_fleet(create_empty_fleet) }
 
     it 'redirects to  #submission_method' do
-      http_request
+      subject
       expect(response).to redirect_to submission_method_fleets_path
     end
   end
@@ -23,12 +23,12 @@ describe 'FleetsController - #index', type: :request do
     end
 
     it 'renders manage vehicles page' do
-      http_request
+      subject
       expect(response).to render_template('fleets/index')
     end
 
     it 'sets default page value to 1' do
-      http_request
+      subject
       expect(assigns(:pagination).page).to eq(1)
     end
   end

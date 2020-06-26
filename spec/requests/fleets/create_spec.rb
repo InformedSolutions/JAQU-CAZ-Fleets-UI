@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'FleetsController - POST #create' do
-  subject(:http_request) do
+  subject do
     post fleets_path, params: { 'confirm-vehicle-creation' => confirmation }
   end
 
@@ -11,7 +11,7 @@ describe 'FleetsController - POST #create' do
 
   before do
     sign_in create_owner
-    http_request
+    subject
   end
 
   context 'when user confirms form' do

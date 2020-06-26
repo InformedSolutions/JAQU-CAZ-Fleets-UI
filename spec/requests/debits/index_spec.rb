@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'DebitsController - GET #index' do
-  subject(:http_request) { get debits_path }
+  subject { get debits_path }
 
   before { sign_in create_user }
 
@@ -11,7 +11,7 @@ describe 'DebitsController - GET #index' do
     before { mock_debits }
 
     it 'returns 200' do
-      http_request
+      subject
       expect(response).to have_http_status(:success)
     end
   end
@@ -20,7 +20,7 @@ describe 'DebitsController - GET #index' do
     before { mock_debits('empty_mandates') }
 
     it 'redirects to create debits page' do
-      http_request
+      subject
       expect(response).to redirect_to(new_debit_path)
     end
   end
