@@ -18,12 +18,12 @@ class Mandate
     @data = data
   end
 
-  # Returns the ID od associated CAZ
+  # Returns the ID of associated CAZ
   def zone_id
     data['cazId']
   end
 
-  # Returns the name od associated CAZ
+  # Returns the name of associated CAZ
   def zone_name
     data['cazName']&.humanize
   end

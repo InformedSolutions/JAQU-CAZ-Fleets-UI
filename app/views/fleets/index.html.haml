@@ -40,10 +40,11 @@
           %tr.govuk-table__row
             %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'} Number plate
             %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'} Type
-            - @zones.each_with_index do |zone, index|
+            - @zones.each do |zone|
               %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'}
                 = zone.name
-            %th.govuk-table__header{scope: 'col', class: 'visually-hidden-text'} Actions
+            %th.govuk-table__header{scope: 'col'}
+              .govuk-visually-hidden Actions
         %tbody.govuk-table__body
           - @pagination.vehicle_list.each do |vehicle|
             %tr.govuk-table__row

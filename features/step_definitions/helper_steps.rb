@@ -50,6 +50,14 @@ Then('I should not see {string} link') do |string|
   expect(page).not_to have_selector(:link_or_button, string)
 end
 
+Then('I should see {string} button') do |string|
+  expect(page).to have_selector(:link_or_button, string)
+end
+
+Then('I should not see {string} button') do |string|
+  expect(page).not_to have_selector(:link_or_button, string)
+end
+
 Then('I choose {string}') do |string|
   choose(string)
 end

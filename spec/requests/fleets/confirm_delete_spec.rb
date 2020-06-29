@@ -3,12 +3,12 @@
 require 'rails_helper'
 
 describe 'FleetsController - #confirm_delete', type: :request do
-  subject(:http_request) { post delete_fleets_path, params: { 'confirm-delete' => confirmation } }
+  subject { post delete_fleets_path, params: { 'confirm-delete' => confirmation } }
   let(:confirmation) { 'yes' }
   let(:fleet) { create_fleet }
 
   it 'returns redirect to the login page' do
-    http_request
+    subject
     expect(response).to redirect_to(new_user_session_path)
   end
 
@@ -19,7 +19,7 @@ describe 'FleetsController - #confirm_delete', type: :request do
     end
 
     it 'returns redirect to fleets' do
-      http_request
+      subject
       expect(response).to redirect_to(fleets_path)
     end
 
@@ -28,22 +28,22 @@ describe 'FleetsController - #confirm_delete', type: :request do
 
       context 'when user confirms form' do
         it 'redirects to fleets page' do
-          http_request
+          subject
           expect(response).to redirect_to(fleets_path)
         end
 
         it 'calls Fleet#delete_vehicle' do
           expect(fleet).to receive(:delete_vehicle).with(@vrn)
-          http_request
+          subject
         end
 
         it 'clears vrn in the session' do
-          http_request
+          subject
           expect(session[:vrn]).to eq(nil)
         end
 
         it 'sets :success notification in flash' do
-          http_request
+          subject
           expect(flash[:success])
             .to eq('You have successfully removed ABC123 from your vehicle list.')
         end
@@ -52,7 +52,7 @@ describe 'FleetsController - #confirm_delete', type: :request do
           before { mock_fleet(create_empty_fleet) }
 
           it 'redirects to dashboard' do
-            http_request
+            subject
             expect(response).to redirect_to(dashboard_path)
           end
         end
@@ -62,13 +62,13 @@ describe 'FleetsController - #confirm_delete', type: :request do
         let(:confirmation) { 'no' }
 
         it 'redirects to fleets page' do
-          http_request
+          subject
           expect(response).to redirect_to(fleets_path)
         end
 
         it 'does not call Fleet#delete_vehicle' do
           expect(fleet).not_to receive(:delete_vehicle)
-          http_request
+          subject
         end
       end
 
@@ -76,12 +76,12 @@ describe 'FleetsController - #confirm_delete', type: :request do
         let(:confirmation) { '' }
 
         it 'redirects to delete' do
-          http_request
+          subject
           expect(response).to redirect_to(delete_fleets_path)
         end
 
         it 'flashes a right alert' do
-          http_request
+          subject
           expect(flash[:alert]).to eq(I18n.t('confirmation_form.answer_missing'))
         end
       end

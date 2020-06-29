@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'User signing in', type: :request do
-  subject(:http_request) { post user_session_path(params) }
+  subject { post user_session_path(params) }
 
   let(:email) { 'user@example.com' }
   let(:password) { '12345678' }
@@ -26,16 +26,16 @@ describe 'User signing in', type: :request do
       expect(AccountsApi)
         .to receive(:sign_in)
         .with(email: email, password: password)
-      http_request
+      subject
     end
 
     it 'redirects to root path' do
-      http_request
+      subject
       expect(response).to redirect_to(authenticated_root_path)
     end
 
     it 'sets login IP' do
-      http_request
+      subject
       expect(controller.current_user.login_ip).to eq(@remote_ip)
     end
   end
@@ -48,21 +48,21 @@ describe 'User signing in', type: :request do
     end
 
     it 'renders login view' do
-      expect(http_request).to render_template('devise/sessions/new')
+      expect(subject).to render_template('devise/sessions/new')
     end
 
     it 'shows base error message once' do
-      http_request
+      subject
       expect(body_scan(I18n.t('login_form.incorrect'))).to eq(1)
     end
 
     it 'shows email error message once' do
-      http_request
+      subject
       expect(body_scan(I18n.t('login_form.email_missing'))).to eq(0)
     end
 
     it 'shows password error message once' do
-      http_request
+      subject
       expect(body_scan(I18n.t('login_form.password_missing'))).to eq(0)
     end
   end
@@ -75,11 +75,11 @@ describe 'User signing in', type: :request do
     end
 
     it 'renders login view' do
-      expect(http_request).to render_template('devise/sessions/new')
+      expect(subject).to render_template('devise/sessions/new')
     end
 
     it 'shows email error message twice' do
-      http_request
+      subject
       expect(body_scan(I18n.t('login_form.email_unconfirmed'))).to eq(2)
     end
   end
@@ -90,7 +90,7 @@ describe 'User signing in', type: :request do
     it_behaves_like 'an invalid login param'
 
     it 'shows email error message twice' do
-      http_request
+      subject
       expect(body_scan(I18n.t('login_form.email_missing'))).to eq(2)
     end
   end
@@ -101,7 +101,7 @@ describe 'User signing in', type: :request do
     it_behaves_like 'an invalid login param'
 
     it 'shows email error message twice' do
-      http_request
+      subject
       expect(body_scan(I18n.t('login_form.invalid_email'))).to eq(2)
     end
   end
@@ -112,7 +112,7 @@ describe 'User signing in', type: :request do
     it_behaves_like 'an invalid login param'
 
     it 'shows password error message twice' do
-      http_request
+      subject
       expect(body_scan(I18n.t('login_form.password_missing'))).to eq(2)
     end
   end

@@ -97,7 +97,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, only: %w[index new create] do
+  resources :users, only: %w[index new create edit update] do
     # will be added
   end
 

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'VehiclesController - POST #confirm_not_found', type: :request do
-  subject(:http_request) do
+  subject do
     post confirm_not_found_vehicles_path,
          params: { 'confirm-registration': confirmation }
   end
@@ -12,7 +12,7 @@ RSpec.describe 'VehiclesController - POST #confirm_not_found', type: :request do
   let(:account_id) { SecureRandom.uuid }
 
   it 'returns redirect to the login page' do
-    http_request
+    subject
     expect(response).to redirect_to(new_user_session_path)
   end
 
@@ -21,7 +21,7 @@ RSpec.describe 'VehiclesController - POST #confirm_not_found', type: :request do
       sign_in create_user(account_id: account_id)
       allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true)
       add_to_session(vrn: @vrn)
-      http_request
+      subject
     end
 
     context 'when registration confirmed' do

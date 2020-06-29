@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'DebitsController - POST #initiate' do
-  subject(:http_request) do
+  subject do
     post initiate_debits_path
   end
 
@@ -12,11 +12,11 @@ describe 'DebitsController - POST #initiate' do
     response = read_response('/debits/create_payment.json')
     allow(MakeDebitPayment).to receive(:call).and_return(response)
     sign_in create_user
-    http_request
+    subject
   end
 
   it 'redirects to the success payment page' do
-    http_request
+    subject
     expect(response).to redirect_to(success_debits_path)
   end
 end

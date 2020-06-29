@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'PaymentsController - #index', type: :request do
-  subject(:http_request) { get payments_path }
+  subject { get payments_path }
 
   context 'with empty fleet' do
     before do
@@ -12,7 +12,7 @@ describe 'PaymentsController - #index', type: :request do
     end
 
     it 'redirects to #first_upload' do
-      http_request
+      subject
       expect(response).to redirect_to first_upload_fleets_path
     end
   end
@@ -25,7 +25,7 @@ describe 'PaymentsController - #index', type: :request do
     end
 
     it 'renders payments page' do
-      http_request
+      subject
       expect(response).to render_template('payments/index')
     end
   end

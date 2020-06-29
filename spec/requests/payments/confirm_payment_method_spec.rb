@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'PaymentsController - POST #confirm_payment_method', type: :request do
-  subject(:http_request) do
+  subject do
     post select_payment_method_payments_path, params: { payment_method: payment_method }
   end
 
@@ -17,7 +17,7 @@ describe 'PaymentsController - POST #confirm_payment_method', type: :request do
       'nextUrl' => result_payments_path
     )
     sign_in create_user
-    http_request
+    subject
   end
 
   context 'when user selects the Card payment method' do

@@ -15,7 +15,8 @@ class UsersController < ApplicationController
   #    GET /users
   #
   def index
-    # API Call
+    api_response = AccountsApi.users(account_id: current_user.account_id)
+    @users = api_response.map { |user_data| ManageUsers::User.new(user_data) }
   end
 
   ##
