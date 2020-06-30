@@ -27,7 +27,11 @@ class UsersController < ApplicationController
   #    GET /users/new
   #
   def new
-    # Renders add a user page
+    @return_url = if AccountsApi.users(account_id: current_user.account_id).any?
+                    users_path
+                  else
+                    root_path
+                  end
   end
 
   ##
