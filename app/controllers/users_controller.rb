@@ -60,7 +60,7 @@ class UsersController < ApplicationController
   #    GET /users/add-permissions
   #
   def add_permissions
-    @company_name = session.dig(:new_user, 'name')
+    @new_user_name = session.dig(:new_user, 'name')
   end
 
   private
