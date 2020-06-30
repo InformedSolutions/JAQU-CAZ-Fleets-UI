@@ -27,6 +27,45 @@ class UsersController < ApplicationController
   #    GET /users/new
   #
   def new
-    # API Call
+    @return_url = if AccountsApi.users(account_id: current_user.account_id).any?
+                    users_path
+                  else
+                    root_path
+                  end
+  end
+
+  ##
+  # Process create user request
+  #
+  # ==== Path
+  #
+  #    POST /users/create
+  #
+  def create
+    form = NewUserForm.new(current_user.account_id, new_user_params)
+    SessionManipulation::SetNewUser.call(session: session, params: new_user_params)
+    if form.valid?
+      redirect_to add_permissions_users_path
+    else
+      @errors = form.errors.messages
+      render :new
+    end
+  end
+
+  ##
+  # Renders add permission for user page
+  #
+  # ==== Path
+  #
+  #    GET /users/add-permissions
+  #
+  def add_permissions
+    @new_user_name = session.dig(:new_user, 'name')
+  end
+
+  private
+
+  def new_user_params
+    params.require(:new_user).permit(:name, :email)
   end
 end

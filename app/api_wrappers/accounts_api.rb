@@ -218,6 +218,34 @@ class AccountsApi < BaseApi
     end
 
     ##
+    # Calls +/v1/accounts/:accountId/user-validations+ endpoint with +POST+ method.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - uuid, ID of the account on backend DB
+    # * +email+ - string, email to validate
+    # * +name+ - name, name to validate
+    #
+    # ==== Example
+    #
+    #    AccountsApi.user_validations(account_id, user.acount_id, email: email, name: name)
+    #
+    # ==== Result
+    #
+    # Returns an empty body
+    #
+    # ==== Exceptions
+    #
+    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - email already exists
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def user_validations(account_id:, email:, name:)
+      log_action('Validate the user account')
+      body = { email: email, name: name }.to_json
+      request(:post, "/accounts/#{account_id}/user-validations", body: body)
+    end
+
+    ##
     # Calls +/v1/auth/password/reset+ endpoint with +POST+ method.
     #
     # ==== Attributes
