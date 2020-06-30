@@ -98,7 +98,9 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: %w[index new create edit update] do
-    # will be added
+    collection do
+      get :add_permissions
+    end
   end
 
   resources :uploads, only: %i[index create] do

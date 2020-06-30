@@ -74,3 +74,13 @@ en:
     errors:
       confirmation_alert: Confirm you have checked if you are eligible for an exemption
   inactivity_logout: You have been logged out due to inactivity
+  add_user_form:
+    labels:
+      name: Name
+      email: Enter their email address
+    hints:
+      email: This will be used to send an invite to create an account.
+    errors:
+      name_missing: Enter a User name
+      email_missing: Enter a User email
+      email_duplicated: Email address already exists

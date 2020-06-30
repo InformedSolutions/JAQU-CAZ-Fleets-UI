@@ -1,0 +1,16 @@
+- title_and_header = 'Which permissions do you want John Doe to have?'
+- content_for(:title, title_and_header)
+
+= link_to 'Back', new_user_path, class: 'govuk-back-link'
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      = form_for('new_user', url: '#', method: :post) do |f|
+        .govuk-form-group{class: ('govuk-form-group--error' if @errors)}
+          %fieldset.govuk-fieldset
+            %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
+              %h1.govuk-fieldset__heading
+                = title_and_header
+
+        = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
