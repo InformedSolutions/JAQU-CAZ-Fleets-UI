@@ -3,7 +3,6 @@
 ##
 # This class is used to validate user data filled in +app/views/users/new.html.haml+.
 class NewUserForm < BaseForm
-
   # validates email format
   validates :email, format: {
     with: EMAIL_FORMAT,
@@ -17,7 +16,7 @@ class NewUserForm < BaseForm
   validates :email, presence: { message: I18n.t('add_user_form.errors.email_missing') }
 
   # validates +email+ and +email_confirmation+
-  validate :email_not_duplicated, if: lambda { email.present? }
+  validate :email_not_duplicated, if: -> { email.present? }
 
   ##
   # Initializes the form

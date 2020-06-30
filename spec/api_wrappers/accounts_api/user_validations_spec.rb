@@ -16,7 +16,7 @@ describe 'AccountsApi.user_validations' do
     end
 
     it 'calls API with proper body' do
-      body = { name: name, email: email }.to_json
+      body = { email: email, name: name }.to_json
       subject
       expect(WebMock).to have_requested(:post, /#{url}/).with(body: body).once
     end

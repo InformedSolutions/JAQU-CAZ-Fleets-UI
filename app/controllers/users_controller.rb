@@ -59,7 +59,7 @@ class UsersController < ApplicationController
     # Renders add permissions for user page
   end
 
-  private 
+  private
 
   def new_user_params
     params.require(:new_user).permit(:name, :email)
