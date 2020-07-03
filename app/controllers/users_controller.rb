@@ -7,6 +7,8 @@ class UsersController < ApplicationController
   include CheckPermissions
 
   before_action -> { check_permissions(allow_manage_users?) }
+  before_action :check_new_user, only: %i[add_permissions confirm_permissions]
+
   ##
   # Renders manage users page
   #
@@ -15,6 +17,7 @@ class UsersController < ApplicationController
   #    GET /users
   #
   def index
+    clear_new_user if request.referer&.include?(confirmation_users_path)
     api_response = AccountsApi.users(account_id: current_user.account_id)
     @users = api_response.map { |user_data| ManageUsers::User.new(user_data) }
   end
@@ -39,11 +42,11 @@ class UsersController < ApplicationController
   #
   # ==== Path
   #
-  #    POST /users/create
+  #    POST /users
   #
   def create
-    form = NewUserForm.new(current_user.account_id, new_user_params)
     SessionManipulation::SetNewUser.call(session: session, params: new_user_params)
+    form = AddNewUserForm.new(account_id: current_user.account_id, new_user: new_user_data)
     if form.valid?
       redirect_to add_permissions_users_path
     else
@@ -63,9 +66,97 @@ class UsersController < ApplicationController
     @new_user_name = session.dig(:new_user, 'name')
   end
 
+  ##
+  # Process confirm user permissions request
+  #
+  # ==== Path
+  #
+  #    POST /users/confirm-permissions
+  #
+  def confirm_permissions
+    SessionManipulation::SetNewUserPermissions.call(session: session, params: new_user_permissions_params)
+    handle_permissions_form
+    return redirect_to @redirection_url if @redirection_url
+
+    render :add_permissions
+  end
+
+  ##
+  # Renders confirmation user page
+  #
+  # ==== Path
+  #
+  #    GET /users/confirmation
+  #
+  def confirmation
+    @new_user_email = session.dig(:new_user, 'email')
+  end
+
+  ##
+  # Renders set up mockup page
+  #
+  # ==== Path
+  #
+  #    GET /users/set_up
+  #
+  def set_up
+    # Renders a mockup page
+  end
+
   private
 
+  # Returns new user params
   def new_user_params
     params.require(:new_user).permit(:name, :email)
+  end
+
+  # Returns new user permissions params
+  def new_user_permissions_params
+    return {} unless params[:new_user]
+
+    params.require(:new_user).permit(permissions: [])
+  end
+
+  # Returns new user data from session
+  def new_user_data
+    session.dig(:new_user)
+  end
+
+  # Returns new user name from session
+  def new_user_name
+    new_user_data&.dig('name')
+  end
+
+  # Returns new user email from session
+  def new_user_email
+    new_user_data&.dig('email')
+  end
+
+  # Checks new user data in session, redirect to add new user if data missing
+  def check_new_user
+    return if new_user_name && new_user_email
+
+    Rails.logger.warn 'New user data is missing in the session. Redirecting to new_user_path'
+    redirect_to new_user_path
+  end
+
+  # Handle add pemissions form for new user
+  def handle_permissions_form
+    form = AddNewUserPermissionsForm.new(current_user: current_user, new_user: new_user_data,
+                                         verification_url: set_up_users_path)
+    if form.valid?
+      form.submit
+      @redirection_url = confirmation_users_path
+    elsif form.email_duplicated
+      flash[:errors] = { email: [I18n.t('add_new_user_form.errors.email_duplicated')] }
+      @redirection_url = new_user_path
+    end
+
+    @errors = form.errors.messages.to_h
+  end
+
+  # Clears new user data in session
+  def clear_new_user
+    session.delete(:new_user)
   end
 end
