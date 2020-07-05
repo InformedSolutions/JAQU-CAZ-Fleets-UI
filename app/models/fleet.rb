@@ -53,9 +53,10 @@ class Fleet
   #
   # ==== Params
   # * +vrn+ - string, vehicle registration number, required
+  # * +vehicle_type+ - string, caz vehicle type, required
   #
-  def add_vehicle(vrn)
-    FleetsApi.add_vehicle_to_fleet(vrn: vrn, account_id: account_id)
+  def add_vehicle(vrn, vehicle_type)
+    FleetsApi.add_vehicle_to_fleet(vrn: vrn, vehicle_type: vehicle_type, account_id: account_id)
   rescue BaseApi::Error422Exception
     false
   end

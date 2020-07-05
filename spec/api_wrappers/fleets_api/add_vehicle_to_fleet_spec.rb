@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'FleetsApi.add_vehicle_to_fleet' do
-  subject(:call) { FleetsApi.add_vehicle_to_fleet(account_id: id, vrn: @vrn) }
+  subject(:call) { FleetsApi.add_vehicle_to_fleet(account_id: id, vehicle_type: @vehicle_type, vrn: @vrn) }
   let(:id) { SecureRandom.uuid }
   let(:url) { %r{accounts/#{id}/vehicles} }
 
@@ -18,7 +18,7 @@ describe 'FleetsApi.add_vehicle_to_fleet' do
     call
     expect(WebMock)
       .to have_requested(:post, url)
-      .with(body: { vrn: @vrn })
+      .with(body: { vrn: @vrn, cazVehicleType: @vehicle_type })
   end
 
   it 'returns true' do

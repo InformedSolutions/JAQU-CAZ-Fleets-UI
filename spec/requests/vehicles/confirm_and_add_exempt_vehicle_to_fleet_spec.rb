@@ -61,7 +61,7 @@ describe 'VehicleController - POST #confirm_and_add_exempt_vehicle_to_fleet', ty
 
           it 'adds the vehicle to the fleet' do
             expect(FleetsApi).to have_received(:add_vehicle_to_fleet)
-              .with(vrn: @vrn, account_id: account_id)
+              .with(vrn: @vrn, vehicle_type: @vehicle_type, account_id: account_id)
           end
 
           it 'removes vrn from session' do
@@ -89,7 +89,7 @@ describe 'VehicleController - POST #confirm_and_add_exempt_vehicle_to_fleet', ty
               BaseApi::Error422Exception.new(422, '', message: message)
             )
             add_to_session(vrn: @vrn)
-            user.add_vehicle(@vrn)
+            user.add_vehicle(@vrn, @cazVehicleType)
             subject
           end
 
