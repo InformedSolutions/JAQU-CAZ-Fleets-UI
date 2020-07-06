@@ -100,6 +100,9 @@ Rails.application.routes.draw do
   resources :users, only: %w[index new create edit update] do
     collection do
       get :add_permissions
+      post :confirm_permissions
+      get :confirmation
+      get :set_up
     end
   end
 

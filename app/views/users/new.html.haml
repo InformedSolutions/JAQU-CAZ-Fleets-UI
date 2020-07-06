@@ -1,43 +1,29 @@
 - title_and_header = 'Add a user'
 - content_for(:title, title_and_header)
+- errors = flash[:errors]
 
 = link_to 'Back', @return_url, class: 'govuk-back-link'
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      - if @errors
-        .govuk-error-summary{'aria-labelledby': 'error-summary-title',
-                             'data-module': 'govuk-error-summary',
-                             role: 'alert',
-                             tabindex: '-1'}
-          %h2#error-summary-title.govuk-error-summary__title
-            There is a problem
-          .govuk-error-summary__body
-            %ul.govuk-list.govuk-error-summary__list
-              %li
-                - remove_duplicated_messages(@errors).each_with_index do |error, index|
-                  %li.custom-csv-error
-                    = link_to(error.first, "##{error.second}-error", id: "#{error.second}-#{index}")
+      - if errors.present?
+        = render 'common/errors_summary', errors: errors
 
       = form_for('new_user', url: users_path, method: :post) do |f|
-        .govuk-form-group{class: ('govuk-form-group--error' if @errors)}
+        .govuk-form-group{class: ('govuk-form-group--error' if errors.present?)}
           %fieldset.govuk-fieldset
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
               %h1.govuk-fieldset__heading
                 = title_and_header
-            - if alert
-              %span#add-user-error.govuk-error-message
-                %span.govuk-visually-hidden Error:
-                = alert
             %p
               Invite team members to help manage your company account.
             %p
               Once set up you can choose whether they can invite other user to use the
               accounts, make payments, set up Direct Debits and manage vehicles.
             
-            - if @errors.present?
-              = render 'users/new_user_form_input/errored', f: f, errors: @errors
+            - if errors.present?
+              = render 'users/new_user_form_input/errored', f: f, errors: errors
             - else
               = render 'users/new_user_form_input/normal', f: f
 
