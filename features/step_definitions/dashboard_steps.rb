@@ -22,21 +22,21 @@ When('I navigate to a Dashboard page with all permissions assigned') do
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_users
-  login_user(%w[MANAGE_VEHICLES MANAGE_MANDATES MANAGE_USERS MAKE_PAYMENTS])
+  login_owner
 end
 
 Given('I visit Dashboard page without any users yet') do
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_empty_users_list
-  login_user(['MANAGE_USERS'])
+  login_owner
 end
 
 Given('I visit Dashboard page with few users already added') do
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_users
-  login_user(['MANAGE_USERS'])
+  login_owner
 end
 
 When('I navigate to a Dashboard page with empty fleets') do

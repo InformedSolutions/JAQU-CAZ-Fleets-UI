@@ -102,7 +102,6 @@ When('I checked permissions correctly') do
   allow(AddNewUserPermissionsForm).to receive(:new).and_return(stub)
 
   check('manage-vehicles-permission')
-
   click_button 'Continue'
 end
 

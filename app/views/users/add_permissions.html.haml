@@ -9,7 +9,7 @@
     .govuk-grid-column-two-thirds
       - if errors && errors[:permissions]
         = render 'common/error_summary',
-                 error_msg_div: '#nationality-error',
+                 error_msg_div: '#permissions-error',
                  error_msg: errors[:permissions].first
       = form_for('new_user', url: confirm_permissions_users_path, method: :post) do |f|
         .govuk-form-group{class: ('govuk-form-group--error' if errors)}
@@ -21,7 +21,7 @@
               Select all that apply.
             
             - if errors && errors['permissions']
-              %span#nationality-error.govuk-error-message
+              %span#permissions-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
                 = errors['permissions'].first
 

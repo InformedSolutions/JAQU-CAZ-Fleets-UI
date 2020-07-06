@@ -78,9 +78,6 @@ class UsersController < ApplicationController
     form = AddNewUserPermissionsForm.new(current_user: current_user, new_user: new_user_data,
                                          verification_url: set_up_users_path)
     handle_permissions_form(form)
-    return redirect_to @redirection_url if @redirection_url
-
-    redirect_to add_permissions_users_path
   end
 
   ##
@@ -146,12 +143,13 @@ class UsersController < ApplicationController
   def handle_permissions_form(form) # rubocop:disable Metrics/AbcSize
     if form.valid?
       form.submit
-      @redirection_url = confirmation_users_path
+      redirect_to confirmation_users_path
     elsif form.errors.messages[:email].present?
       flash[:errors] = { email: form.errors.messages[:email] }
-      @redirection_url = new_user_path
+      redirect_to new_user_path
     else
       flash[:errors] = { permissions: form.errors.messages[:permissions] }
+      redirect_to add_permissions_users_path
     end
   end
 
