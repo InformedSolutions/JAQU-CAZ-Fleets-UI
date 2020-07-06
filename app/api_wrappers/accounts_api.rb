@@ -256,7 +256,7 @@ class AccountsApi < BaseApi
     #
     # ==== Example
     #    new_user_data = { name: name, email: email, verification_url: verification_url, permissions: ['MANAGE_VEHICLES']}
-    #    AccountsApi.user_invitations(account_id, user.acount_id, user_id: user.user_id, new_user_data: new_user_data)
+    #    AccountsApi.user_invitations(account_id, user.account_id, user_id: user.user_id, new_user_data: new_user_data)
     #
     # ==== Result
     #

@@ -44,14 +44,14 @@ class UsersController < ApplicationController
   #
   #    POST /users
   #
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     SessionManipulation::SetNewUser.call(session: session, params: new_user_params)
     form = AddNewUserForm.new(account_id: current_user.account_id, new_user: new_user_data)
     if form.valid?
       redirect_to add_permissions_users_path
     else
-      @errors = form.errors.messages
-      render :new
+      flash[:errors] = form.errors.messages
+      redirect_to new_user_path
     end
   end
 
@@ -71,14 +71,16 @@ class UsersController < ApplicationController
   #
   # ==== Path
   #
-  #    POST /users/confirm-permissions
+  #    POST /users/confirm_permissions
   #
   def confirm_permissions
     SessionManipulation::SetNewUserPermissions.call(session: session, params: new_user_permissions_params)
-    handle_permissions_form
+    form = AddNewUserPermissionsForm.new(current_user: current_user, new_user: new_user_data,
+                                         verification_url: set_up_users_path)
+    handle_permissions_form(form)
     return redirect_to @redirection_url if @redirection_url
 
-    render :add_permissions
+    redirect_to add_permissions_users_path
   end
 
   ##
@@ -124,12 +126,12 @@ class UsersController < ApplicationController
 
   # Returns new user name from session
   def new_user_name
-    new_user_data&.dig('name')
+    session.dig(:new_user, 'name')
   end
 
   # Returns new user email from session
   def new_user_email
-    new_user_data&.dig('email')
+    session.dig(:new_user, 'email')
   end
 
   # Checks new user data in session, redirect to add new user if data missing
@@ -140,19 +142,17 @@ class UsersController < ApplicationController
     redirect_to new_user_path
   end
 
-  # Handle add pemissions form for new user
-  def handle_permissions_form
-    form = AddNewUserPermissionsForm.new(current_user: current_user, new_user: new_user_data,
-                                         verification_url: set_up_users_path)
+  # Handle add permissions form for new user
+  def handle_permissions_form(form) # rubocop:disable Metrics/AbcSize
     if form.valid?
       form.submit
       @redirection_url = confirmation_users_path
-    elsif form.email_duplicated
-      flash[:errors] = { email: [I18n.t('add_new_user_form.errors.email_duplicated')] }
+    elsif form.errors.messages[:email].present?
+      flash[:errors] = { email: form.errors.messages[:email] }
       @redirection_url = new_user_path
+    else
+      flash[:errors] = { permissions: form.errors.messages[:permissions] }
     end
-
-    @errors = form.errors.messages.to_h
   end
 
   # Clears new user data in session

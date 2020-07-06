@@ -7,8 +7,6 @@ class NewUserBaseForm < BaseForm
   # validates +email+ against duplication
   validate :email_not_duplicated, if: -> { email.present? }
 
-  attr_reader :email_duplicated
-
   private
 
   attr_reader :account_id, :name, :email
@@ -18,7 +16,6 @@ class NewUserBaseForm < BaseForm
   def email_not_duplicated
     return if email_unique?
 
-    @email_duplicated = true
     error_message = I18n.t('add_new_user_form.errors.email_duplicated')
     errors.add(:email, :invalid, message: error_message)
   end
@@ -30,10 +27,5 @@ class NewUserBaseForm < BaseForm
   rescue ApiException => e
     log_error(e)
     false
-  end
-
-  # Logs exception on +error+ level
-  def log_error(exception)
-    Rails.logger.error "[#{self.class.name}] #{exception.class} - #{exception}"
   end
 end

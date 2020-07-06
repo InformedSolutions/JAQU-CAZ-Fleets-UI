@@ -39,3 +39,18 @@ Feature: Dashboard
     Then I change my IP
       And I navigate to a Dashboard page
     Then I am redirected to the unauthenticated root page
+    
+  Scenario: Owner wants to add new user when previously don't have any
+    Given I visit Dashboard page without any users yet
+      And I should see 'Add a user' link
+      And I press 'Add a user' link
+    Then I should be on the Add user page
+
+  Scenario: Owner wants to add new user when previously have few
+    Given I visit Dashboard page with few users already added
+      And I should see 'Manage users' link
+      And I press 'Manage users' link
+    Then I should be on the manage users page
+      And I should see 'Add another user' button
+      And I press 'Add another user' link
+    Then I should be on the Add user page

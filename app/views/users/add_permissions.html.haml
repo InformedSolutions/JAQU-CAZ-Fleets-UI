@@ -1,18 +1,18 @@
-- title_and_header = "Which permissions do you want #{@new_user_name} to have?"
+- title_and_header = "Which permissions do you want #{session.dig(:new_user, 'name')} to have?"
 - content_for(:title, title_and_header)
-- @errors ||= flash[:errors]
+- errors = flash[:errors]
 
 = link_to 'Back', new_user_path, class: 'govuk-back-link'
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      - if @errors && @errors[:permissions]
+      - if errors && errors[:permissions]
         = render 'common/error_summary',
-          error_msg_div: '#nationality-error',
-          error_msg: @errors[:permissions].first
+                 error_msg_div: '#nationality-error',
+                 error_msg: errors[:permissions].first
       = form_for('new_user', url: confirm_permissions_users_path, method: :post) do |f|
-        .govuk-form-group{class: ('govuk-form-group--error' if @errors)}
+        .govuk-form-group{class: ('govuk-form-group--error' if errors)}
           %fieldset.govuk-fieldset
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
               %h1.govuk-fieldset__heading
@@ -20,10 +20,10 @@
             %span#permissions-hint.govuk-hint
               Select all that apply.
             
-            - if @errors && @errors[:permissions]
+            - if errors && errors['permissions']
               %span#nationality-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
-                = @errors[:permissions].first
+                = errors['permissions'].first
 
             .govuk-checkboxes
               .govuk-checkboxes__item
