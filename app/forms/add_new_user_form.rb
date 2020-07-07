@@ -12,7 +12,7 @@ class AddNewUserForm < NewUserBaseForm
   # validates email format
   validates :email, format: {
     with: EMAIL_FORMAT,
-    message: I18n.t('input_form.errors.invalid_format')
+    message: I18n.t('add_new_user_form.errors.email_invalid_format')
   }, allow_blank: true
 
   # validates +email+ against duplication

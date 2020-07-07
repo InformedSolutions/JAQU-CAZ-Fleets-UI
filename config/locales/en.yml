@@ -100,7 +100,8 @@ en:
     hints:
       email: This will be used to send an invite to create an account.
     errors:
-      name_missing: Enter a User name
-      email_missing: Enter a User email
+      name_missing: Enter the user's name
+      email_missing: Enter the user's email address
       email_duplicated: Email address already exists
       permissions_missing: Select at least one permission type to continue
+      email_invalid_format: Enter the user’s email address in a valid format
