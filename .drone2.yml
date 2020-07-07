@@ -974,7 +974,7 @@ type: docker
 name: accounts-web-uat
 trigger:
   branch:
-    - iac-restructure-controlled-uat
+    - iac-restructure-staging-uat
   event:
     - pull_request
     - push
