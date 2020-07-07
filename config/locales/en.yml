@@ -14,6 +14,9 @@ en:
     email_confirmation_missing: Confirm your email address
     password_missing: Enter your password
     password_confirmation_missing: Confirm your password
+  reset_password_form:
+    email_missing: Enter your email address
+    email_invalid_format: Enter your email address in a valid format
   login_form:
     email_missing: 'Enter your email address'
     password_missing: 'Enter your password'

@@ -8,8 +8,8 @@ Feature: Password reset
       And I should see "Reset your password"
     When I click Send email button
       And I should see "There is a problem"
-      And I should see "Email address is required"
-      And I should not see "Email is in an invalid format"
+      And I should see "Enter your email address"
+      And I should not see "Enter your email address in a valid format"
     When I enter valid email address
       And I should be on the email sent page
 
