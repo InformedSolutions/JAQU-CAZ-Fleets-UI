@@ -3,6 +3,9 @@
 ##
 # This class is used to validate user data filled in +app/views/users/new.html.haml+.
 class AddNewUserPermissionsForm < NewUserBaseForm
+  # validates +email+ against duplication
+  validate :email_not_duplicated, if: -> { email.present? }
+
   # validates name attribute to presence
   validates :permissions, presence: { message: I18n.t('add_new_user_form.errors.permissions_missing') }
 
