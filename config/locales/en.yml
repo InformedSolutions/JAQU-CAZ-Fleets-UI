@@ -75,7 +75,7 @@ en:
   csv:
     errors:
       base: 'The selected file could not be uploaded – try again'
-      no_file: 'Select a file'
+      no_file: 'Select a CSV file to upload'
       invalid_ext: 'The selected file must be in a .CSV format'
   token_form:
     token_missing: 'Authorisation token is missing'
