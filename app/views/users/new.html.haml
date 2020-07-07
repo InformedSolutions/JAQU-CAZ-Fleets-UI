@@ -1,6 +1,6 @@
 - title_and_header = 'Add a user'
 - content_for(:title, title_and_header)
-- errors = flash[:errors]
+- errors = flash[:errors]&.symbolize_keys
 
 = link_to 'Back', @return_url, class: 'govuk-back-link'
 
@@ -8,7 +8,21 @@
   .govuk-grid-row
     .govuk-grid-column-two-thirds
       - if errors.present?
-        = render 'common/errors_summary', errors: errors
+        .govuk-error-summary{'aria-labelledby': 'error-summary-title',
+                             'data-module': 'govuk-error-summary',
+                             role: 'alert',
+                             tabindex: '-1'}
+          %h2#error-summary-title.govuk-error-summary__title
+            There is a problem
+          .govuk-error-summary__body
+            %ul.govuk-list.govuk-error-summary__list
+              %li
+                - if errors[:name].present?
+                  %li.custom-csv-error
+                    = link_to(errors[:name].first, "#name-error", id: "name-error-summary")
+                - if errors[:email].present?
+                  %li.custom-csv-error
+                    = link_to(errors[:email].first, "#email-error", id: "email-error-summary")
 
       = form_for('new_user', url: users_path, method: :post) do |f|
         .govuk-form-group{class: ('govuk-form-group--error' if errors.present?)}
