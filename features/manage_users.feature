@@ -34,12 +34,10 @@ Feature: Manage users
       And I should see "Add a user"
       And I should see "Continue" button
     When I press "Continue" button
-    Then I should be on the Add user page
-      And I should see "Enter a User name"
+    Then I should see "Enter a User name"
       And I should see "Enter a User email"
     When I fill new user form with allready used email
-    Then I should be on the Add user page
-      And I should see "Email address already exists"
+    Then I should see "Email address already exists"
     When I fill new user form with correct data
     Then I should be on the Add user permissions page
     When I press "Back" link
@@ -49,8 +47,7 @@ Feature: Manage users
       And I press "Continue" button
     Then I should be on the Add user permissions page
     When I press "Continue" button and new user email is still unique
-    Then I should be on the Add user permissions page
-      And I should see "Select at least one permission type to continue"
+    Then I should see "Select at least one permission type to continue"
     When I checked permissions correctly
     Then I should be on the User confirmation page
       And I should not see "Back" link
@@ -64,6 +61,5 @@ Feature: Manage users
       And I should see "Continue" button
     When I fill new user form with correct data
     Then I should be on the Add user permissions page
-    When I press "Continue" button and new user with email was added in the meantime
-    Then I should be on the Add user page
-      And I should see "Email address already exists"
+    When I press "Continue" button and new user with email was added in the meantime  
+    Then I should see "Email address already exists"
