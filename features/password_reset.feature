@@ -22,15 +22,15 @@ Feature: Password reset
     Given I visit passwords
     Then I should see "Please enter your new password below"
     When I enter only password
-    Then I should see "Password confirmation is required" 2 times
+    Then I should see "Confirm your new password" 2 times
     When I enter not matching password and confirmation
-    Then I should see "Password and password confirmation must be the same" 3 times
+    Then I should see "Enter a password and password confirmation that are the same" 3 times
     When I enter valid password and confirmation
     Then I should be on the success page
 
   Scenario: Not enough complex password
     Given I visit passwords
     When I enter too easy password and confirmation
-    Then I should see "Password must be at least 8 characters long, include at least 1 upper case letter and a number" 2 times
+    Then I should see "Enter a password at least 8 characters long, including 1 uppercase letter and 1 number" 2 times
     When I enter valid password and confirmation
     Then I should be on the success page

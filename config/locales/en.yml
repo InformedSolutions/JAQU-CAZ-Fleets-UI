@@ -55,11 +55,12 @@ en:
       vrn_invalid: 'Enter the number plate in a valid format'
       vrn_too_long: 'The number plate is too long'
       vrn_too_short: 'The number plate is too short'
-  password:
+  new_password_form:
     errors:
-      password_equality: 'Password and password confirmation must be the same'
-      password_required: 'Password is required'
-      confirmation_required: 'Password confirmation is required'
+      password_not_equal: Enter a password and password confirmation that are the same
+      password_missing: Enter your new password
+      password_confirmation_missing: Confirm your new password
+      password_complexity: Enter a password at least 8 characters long, including 1 uppercase letter and 1 number
   email:
     errors:
       email_equality: 'Email address and email address confirmation must be the same'

@@ -92,9 +92,7 @@ describe 'PasswordsController - POST #create' do
 
       it 'assigns a proper error message' do
         subject
-        expect(assigns(:errors)[:password]).to include(
-          I18n.t('input_form.errors.password_complexity', attribute: 'Password')
-        )
+        expect(assigns(:errors)[:password]).to include(I18n.t('new_password_form.errors.password_complexity'))
       end
     end
 
