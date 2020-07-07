@@ -19,7 +19,7 @@ module MockUsers
   def mock_user_on_list
     user = new_user
     api_response = {
-      accountUserId: user.account_id,
+      accountUserId: user.user_id,
       name: 'Mary Smith',
       email: 'user@example.com'
     }.stringify_keys

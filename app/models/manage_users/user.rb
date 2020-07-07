@@ -21,8 +21,8 @@ module ManageUsers
       data[:email]
     end
 
-    # user account_id
-    def account_id
+    # user user_id:
+    def user_id
       data[:account_user_id]
     end
 
