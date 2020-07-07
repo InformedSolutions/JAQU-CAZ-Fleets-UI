@@ -13,8 +13,12 @@ class EmailAndPasswordForm < BaseForm
   }, allow_blank: true
 
   # validates attributes to presence
-  validates :email, :email_confirmation, :password, :password_confirmation,
-            presence: { message: I18n.t('input_form.errors.missing') }
+  validates :email, presence: { message: I18n.t('email_and_password_form.email_missing') }
+  validates :email_confirmation,
+            presence: { message: I18n.t('email_and_password_form.email_confirmation_missing') }
+  validates :password, presence: { message: I18n.t('email_and_password_form.password_missing') }
+  validates :password_confirmation,
+            presence: { message: I18n.t('email_and_password_form.password_confirmation_missing') }
 
   # validates max length
   validates :email, :email_confirmation, :password, :password_confirmation,

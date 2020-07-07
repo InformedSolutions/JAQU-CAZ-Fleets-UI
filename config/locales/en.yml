@@ -9,6 +9,11 @@ en:
     comapny_name_missing: Enter your company name
     maximum_length: '%{attribute} is too long (maximum is %{length} characters)'
     invalid_format: '%{attribute} has invalid format'
+  email_and_password_form:
+    email_missing: Enter your email address
+    email_confirmation_missing: Confirm your email address
+    password_missing: Enter your password
+    password_confirmation_missing: Confirm your password
   login_form:
     email_missing: 'Enter your email address'
     password_missing: 'Enter your password'

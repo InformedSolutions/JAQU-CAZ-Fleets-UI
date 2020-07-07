@@ -22,8 +22,8 @@ Feature: Organisations
     Then I should see "Sign in details"
       And I should see "Create account" link
     Then I press the Continue
-      And I should see "Email is required"
-      And I should see "Password is required"
+      And I should see "Enter your email address"
+      And I should see "Enter your password"
       And I should not see "Email is in an invalid format"
       And I should not see "Email confirmation is in an invalid format"
     Then I enter the account details
