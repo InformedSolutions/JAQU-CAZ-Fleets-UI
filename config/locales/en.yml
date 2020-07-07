@@ -61,6 +61,9 @@ en:
       password_missing: Enter your new password
       password_confirmation_missing: Confirm your new password
       password_complexity: Enter a password at least 8 characters long, including 1 uppercase letter and 1 number
+  submission_method_form:
+    errors:
+      submission_method_missing: Choose how to add vehicles to your account
   email:
     errors:
       email_equality: 'Email address and email address confirmation must be the same'

@@ -6,7 +6,7 @@ describe SubmissionMethodForm do
   subject(:form) { described_class.new(submission_method: submission_method) }
 
   let(:submission_method) { 'upload' }
-  let(:error) { I18n.t('input_form.errors.missing', attribute: 'Submission method') }
+  let(:error) { I18n.t('submission_method_form.errors.submission_method_missing') }
 
   it { is_expected.to be_valid }
 
