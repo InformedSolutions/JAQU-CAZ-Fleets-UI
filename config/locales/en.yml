@@ -64,6 +64,9 @@ en:
   submission_method_form:
     errors:
       submission_method_missing: Choose how to add vehicles to your account
+  fleet_check_form:
+    errors:
+      confirm_fleet_check: You must choose an answer
   email:
     errors:
       email_equality: 'Email address and email address confirmation must be the same'

@@ -32,7 +32,7 @@ class ValidateFleetCheck < BaseService
     form = FleetCheckForm.new(confirm_fleet_check: confirm_fleet_check)
     return if form.valid?
 
-    error_message = form.errors.full_messages.first
+    error_message = form.errors.messages.values.flatten.first
     raise InvalidFleetCheckException, error_message
   end
 

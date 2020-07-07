@@ -61,7 +61,7 @@ Feature: Organisations
       And I press the Continue
     Then I should see "How many vehicles do you manage or own?"
       And I press the Continue
-    Then I should see "Confirm fleet check is required"
+    Then I should see "You must choose an answer"
       And I choose "Less than two"
       And I press the Continue
     Then I should see "Accounts are for multiple vehicles"
