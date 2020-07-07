@@ -5,6 +5,10 @@ en:
       missing: 'is required'
       maximum_length: 'is too long (maximum is %{length} characters)'
       invalid_format: 'has invalid format'
+  company_name_form:
+    comapny_name_missing: Enter your company name
+    maximum_length: '%{attribute} is too long (maximum is %{length} characters)'
+    invalid_format: '%{attribute} has invalid format'
   login_form:
     email_missing: 'Enter your email address'
     password_missing: 'Enter your password'

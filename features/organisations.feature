@@ -9,7 +9,7 @@ Feature: Organisations
       And I should see "Create an account"
       And I should see "Create account" link
     Then I press the Continue
-      And I should see "Company name is required"
+      And I should see "Enter your company name"
     Then I enter a company name
       And I press the Continue
     Then I should see "How many vehicles do you manage or own?"
@@ -56,7 +56,7 @@ Feature: Organisations
       And I should see "Create an account"
       And I should see "Create account" link
     Then I press the Continue
-      And I should see "Company name is required"
+      And I should see "Enter your company name"
     Then I enter a company name
       And I press the Continue
     Then I should see "How many vehicles do you manage or own?"

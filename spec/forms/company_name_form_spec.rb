@@ -17,7 +17,9 @@ describe CompanyNameForm, type: :model do
 
     it 'has a proper error message' do
       form.valid?
-      expect(form.errors.messages[:company_name]).to include(I18n.t('form.errors.missing'))
+      expect(form.errors.messages[:company_name]).to(
+        include(I18n.t('company_name_form.comapny_name_missing'))
+      )
     end
   end
 
@@ -29,7 +31,7 @@ describe CompanyNameForm, type: :model do
     it 'has a proper error message' do
       form.valid?
       expect(form.errors.messages[:company_name]).to include(
-        I18n.t('form.errors.maximum_length', length: 180)
+        I18n.t('company_name_form.maximum_length', attribute: 'Company name', length: 180)
       )
     end
   end
@@ -62,7 +64,7 @@ describe CompanyNameForm, type: :model do
       it 'has proper error message' do
         form.valid?
         expect(form.errors.messages[:company_name]).to include(
-          I18n.t('form.errors.invalid_format')
+          I18n.t('company_name_form.invalid_format', attribute: 'Company name')
         )
       end
     end
