@@ -6,14 +6,17 @@ class AddNewUserForm < NewUserBaseForm
   # validates name attribute to presence
   validates :name, presence: { message: I18n.t('add_new_user_form.errors.name_missing') }
 
+  # validates email attribute to presence
+  validates :email, presence: { message: I18n.t('add_new_user_form.errors.email_missing') }
+
   # validates email format
   validates :email, format: {
     with: EMAIL_FORMAT,
     message: I18n.t('input_form.errors.invalid_format')
   }, allow_blank: true
 
-  # validates email attribute to presence
-  validates :email, presence: { message: I18n.t('add_new_user_form.errors.email_missing') }
+  # validates +email+ against duplication
+  validate :email_not_duplicated, if: -> { email.present? }
 
   ##
   # Initializes the form

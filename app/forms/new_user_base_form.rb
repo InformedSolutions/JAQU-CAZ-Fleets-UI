@@ -4,9 +4,6 @@
 # This class is used to validate user data filled in
 # +app/views/users/new.html.haml+ and +app/views/users/add_permissions.html.haml+.
 class NewUserBaseForm < BaseForm
-  # validates +email+ against duplication
-  validate :email_not_duplicated, if: -> { email.present? }
-
   private
 
   attr_reader :account_id, :name, :email
