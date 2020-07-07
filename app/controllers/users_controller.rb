@@ -50,8 +50,8 @@ class UsersController < ApplicationController
     if form.valid?
       redirect_to add_permissions_users_path
     else
-      flash[:errors] = form.errors.messages
-      redirect_to new_user_path
+      flash.now[:errors] = form.errors.messages
+      render :new
     end
   end
 
@@ -63,7 +63,7 @@ class UsersController < ApplicationController
   #    GET /users/add-permissions
   #
   def add_permissions
-    @new_user_name = session.dig(:new_user, 'name')
+    # Renders add user permissions page
   end
 
   ##
@@ -148,8 +148,8 @@ class UsersController < ApplicationController
       flash[:errors] = { email: form.errors.messages[:email] }
       redirect_to new_user_path
     else
-      flash[:errors] = { permissions: form.errors.messages[:permissions] }
-      redirect_to add_permissions_users_path
+      flash.now[:errors] = { permissions: form.errors.messages[:permissions] }
+      render :add_permissions
     end
   end
 
