@@ -50,7 +50,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'show_me_the_cookies'
-  gem 'simplecov', '~> 0.17.1', require: false
+  gem 'simplecov', '~> 0.18.5', require: false
   gem 'webdrivers'
   gem 'webmock'
 end
