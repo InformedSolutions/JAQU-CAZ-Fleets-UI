@@ -15,6 +15,7 @@ describe 'VehicleController - POST #add_to_fleet', type: :request do
   context 'when user is signed in' do
     let(:account_id) { SecureRandom.uuid }
     let(:user) { create_user(account_id: account_id) }
+    let(:vehicle_type) { 'Car' }
 
     before { sign_in user }
 
@@ -22,11 +23,12 @@ describe 'VehicleController - POST #add_to_fleet', type: :request do
       before do
         allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true)
         add_to_session(vrn: @vrn)
+        add_to_session(vehicle_type: vehicle_type)
       end
 
       it 'adds the vehicle to the fleet' do
         expect(FleetsApi).to receive(:add_vehicle_to_fleet)
-          .with(vrn: @vrn, vehicle_type: @vehicle_type, account_id: account_id)
+          .with(vrn: @vrn, vehicle_type: vehicle_type, account_id: account_id)
         subject
       end
 

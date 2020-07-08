@@ -164,10 +164,10 @@ describe Fleet, type: :model do
     end
 
     it 'calls AccountsApi.fleet_vehicles with proper params' do
-      expect(FleetsApi)
-        .to receive(:add_vehicle_to_fleet)
-        .with(vrn: @vrn, vehicle_type: @vehicle_type, account_id: account_id)
-      fleet.add_vehicle(@vrn, @cazVehicleType)
+      vehicle_type = 'car'
+      expect(FleetsApi).to receive(:add_vehicle_to_fleet)
+          .with(vrn: @vrn, vehicle_type: vehicle_type, account_id:account_id)
+      fleet.add_vehicle(@vrn, vehicle_type)
     end
   end
 
