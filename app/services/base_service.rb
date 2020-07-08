@@ -29,4 +29,9 @@ class BaseService
   def log_action(msg)
     Rails.logger.info "[#{self.class.name}] #{msg}"
   end
+
+  # returns first error message from the errors collection.
+  def first_error_message(errors)
+    errors.messages.values.flatten.first
+  end
 end
