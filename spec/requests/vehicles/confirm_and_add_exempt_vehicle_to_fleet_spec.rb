@@ -95,7 +95,7 @@ describe 'VehicleController - POST #confirm_and_add_exempt_vehicle_to_fleet', ty
               BaseApi::Error422Exception.new(422, '', message: message)
             )
             add_to_session(vrn: @vrn)
-            user.add_vehicle(@vrn, @cazVehicleType)
+            user.add_vehicle(@vrn, vehicle_type)
             subject
           end
 

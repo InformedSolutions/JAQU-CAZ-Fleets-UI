@@ -56,7 +56,7 @@ describe 'VehicleController - POST #add_to_fleet', type: :request do
           BaseApi::Error422Exception.new(422, '', message: message)
         )
         add_to_session(vrn: @vrn)
-        user.add_vehicle(@vrn, @vehicle_type)
+        user.add_vehicle(@vrn, vehicle_type)
         subject
       end
 
