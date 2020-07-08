@@ -25,11 +25,14 @@ describe ValidateFleetCheck do
   context 'when invalid params' do
     let(:valid) { false }
     let(:errors) { ActiveModel::Errors.new(['Some error']) }
+    let(:fleet_check_form_instance) do
+      instance_double(FleetCheckForm, valid?: valid, errors: errors, first_error_message: 'test')
+    end
 
     before do
       allow(FleetCheckForm)
         .to receive(:new)
-        .and_return(instance_double(FleetCheckForm, valid?: valid, errors: errors))
+        .and_return(fleet_check_form_instance)
     end
 
     context 'when confirm_fleet_check is invalid' do
