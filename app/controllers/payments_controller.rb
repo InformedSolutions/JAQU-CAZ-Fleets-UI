@@ -6,7 +6,7 @@
 # rubocop:disable Metrics/ClassLength
 class PaymentsController < ApplicationController
   include CheckPermissions
-
+  before_action -> { check_permissions(allow_make_payments?) }
   before_action :check_la, only: %i[matrix submit review select_payment_method no_chargeable_vehicles]
   before_action :assign_back_button_url, only: %i[index select_payment_method]
   before_action :assign_debit, only: %i[select_payment_method]
@@ -227,7 +227,7 @@ class PaymentsController < ApplicationController
 
   # Check if provided VRN in search is valid
   def validate_search_params
-    form = SearchVrnForm.new(@search)
+    form = VrnForm.new(@search)
     return if form.valid?
 
     SessionManipulation::ClearVrnSearch.call(session: session)

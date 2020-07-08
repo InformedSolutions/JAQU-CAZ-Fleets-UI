@@ -8,14 +8,14 @@
     "@rails/ujs": "^6.0.3",
     "@rails/webpacker": "^5.1.1",
     "core-js": "^3.6.4",
-    "govuk-frontend": "^3.6.0",
+    "govuk-frontend": "^3.7.0",
     "improved-yarn-audit": "^2.2.1",
     "rails-erb-loader": "^5.5.2",
     "regenerator-runtime": "^0.13.5"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "webpack-dev-server": "^3.11.0",
-    "pa11y": "^5.3.0"
+    "pa11y": "^5.3.0",
+    "webpack-dev-server": "^3.11.0"
   }
 }

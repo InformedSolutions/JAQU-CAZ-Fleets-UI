@@ -5,7 +5,7 @@
 #
 class DebitsController < ApplicationController
   include CheckPermissions
-
+  before_action -> { check_permissions(allow_manage_mandates?) }
   before_action :check_la, only: %i[confirm first_mandate]
   before_action :assign_debit, only: %i[confirm index new first_mandate]
   before_action :check_active_caz_mandates, only: %i[first_mandate]
@@ -108,6 +108,17 @@ class DebitsController < ApplicationController
     else
       redirect_to new_debit_path, alert: confirmation_error(form, :authority)
     end
+  end
+
+  ##
+  # Renders the cancel payment page
+  #
+  # ==== Path
+  #
+  #    GET /payments/cancel
+  #
+  def cancel
+    # renders static page
   end
 
   private
