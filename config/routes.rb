@@ -68,7 +68,7 @@ Rails.application.routes.draw do
       get :success
       get :failure
       get :post_payment_details
-      get :cancel
+      get :cancel, to: 'debits#cancel'
 
       resources :debits, only: %i[index new create] do
         collection do

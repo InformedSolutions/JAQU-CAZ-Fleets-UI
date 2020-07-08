@@ -5,7 +5,6 @@
 #
 class UsersController < ApplicationController
   include CheckPermissions
-
   before_action -> { check_permissions(allow_manage_users?) }
   before_action :check_new_user, only: %i[add_permissions confirm_permissions]
 

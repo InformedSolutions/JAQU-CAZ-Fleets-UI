@@ -32,4 +32,17 @@ describe 'FleetsController - #index', type: :request do
       expect(assigns(:pagination).page).to eq(1)
     end
   end
+
+  context 'with invalid page' do
+    before do
+      allow(FleetsApi).to receive(:fleet_vehicles).and_raise(
+        BaseApi::Error400Exception.new(422, '', {})
+      )
+      subject
+    end
+
+    it 'redirects to fleets page' do
+      expect(response).to redirect_to fleets_path
+    end
+  end
 end
