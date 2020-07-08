@@ -7,7 +7,7 @@ describe 'DebitsController - #cancel', type: :request do
 
   context 'correct permissions' do
     before do
-      add_to_session(new_payment: { la_id: SecureRandom.uuid, details: {} })
+      add_to_session(new_payment: { la_id: @uuid, details: {} })
       mock_caz_mandates('caz_mandates')
       sign_in create_user
       subject

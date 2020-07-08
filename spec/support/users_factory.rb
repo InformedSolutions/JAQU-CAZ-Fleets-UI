@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
-module UserFactory
+module UsersFactory
+  def make_payments_user
+    create_user({ permissions: ['MAKE_PAYMENTS'] })
+  end
+
+  def manage_mandates_user
+    create_user({ permissions: ['MANAGE_MANDATES'] })
+  end
+
   def create_owner(options = {})
     create_user(options.merge(owner: true))
   end

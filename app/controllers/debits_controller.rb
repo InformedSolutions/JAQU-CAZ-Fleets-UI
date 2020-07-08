@@ -5,7 +5,8 @@
 #
 class DebitsController < ApplicationController
   include CheckPermissions
-  before_action -> { check_permissions(allow_manage_mandates?) }
+  before_action -> { check_permissions(allow_manage_mandates?) }, only: %i[index new create]
+  before_action -> { check_permissions(allow_make_payments?) }, except: %i[index new create]
   before_action :check_la, only: %i[confirm first_mandate]
   before_action :assign_debit, only: %i[confirm index new first_mandate]
   before_action :check_active_caz_mandates, only: %i[first_mandate]
@@ -15,7 +16,7 @@ class DebitsController < ApplicationController
   ##
   # Renders the confirm Direct Debit page
   # Check if any active mandates present for chosen local authority
-  # Redirect to {rdoc-ref:DebitsController.first} if no active mandates
+  # Redirect to {rdoc-ref.first_mandate} if no active mandates
   #
   # ==== Path
   #
@@ -47,6 +48,13 @@ class DebitsController < ApplicationController
     redirect_to success_debits_path
   end
 
+  ##
+  # Renders page after successful Direct Debit payment
+  #
+  # ==== Path
+  #
+  #    :GET /payments/debits/success
+  #
   def success
     payments = helpers.initiated_payment_data
     @payment_details = PaymentDetails.new(session_details: payments,
@@ -151,7 +159,7 @@ class DebitsController < ApplicationController
     redirect_to service_response['nextUrl']
   end
 
-  # Redirect to {rdoc-ref:DebitsController.index} if active mandates are present
+  # Redirect to {rdoc-ref:index} if active mandates are present
   def check_active_caz_mandates
     redirect_to debits_path if @debit.caz_mandates(@zone_id).present?
   end

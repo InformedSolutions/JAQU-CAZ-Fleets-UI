@@ -3,20 +3,20 @@
 require 'rails_helper'
 
 describe 'DebitsController - POST #initiate' do
-  subject do
-    post initiate_debits_path
+  subject { post initiate_debits_path }
+
+  context 'correct permissions' do
+    before do
+      add_to_session(new_payment: { la_id: SecureRandom.uuid })
+      allow(MakeDebitPayment).to receive(:call).and_return(read_response('/debits/create_payment.json'))
+      sign_in make_payments_user
+      subject
+    end
+
+    it 'redirects to the success payment page' do
+      expect(response).to redirect_to(success_debits_path)
+    end
   end
 
-  before do
-    add_to_session(new_payment: { la_id: SecureRandom.uuid })
-    response = read_response('/debits/create_payment.json')
-    allow(MakeDebitPayment).to receive(:call).and_return(response)
-    sign_in create_user
-    subject
-  end
-
-  it 'redirects to the success payment page' do
-    subject
-    expect(response).to redirect_to(success_debits_path)
-  end
+  it_behaves_like 'incorrect permissions'
 end
