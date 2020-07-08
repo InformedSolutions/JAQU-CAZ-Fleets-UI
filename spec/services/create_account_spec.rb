@@ -36,10 +36,14 @@ describe CreateAccount do
   end
 
   context 'when api throws exception' do
+    let(:company_name_form_instance) do
+      instance_double(CompanyNameForm, valid?: valid, errors: errors, first_error_message: 'test')
+    end
+
     before do
       allow(CompanyNameForm)
         .to receive(:new)
-        .and_return(instance_double(CompanyNameForm, valid?: valid, errors: errors))
+        .and_return(company_name_form_instance)
     end
 
     context 'when params are not valid' do

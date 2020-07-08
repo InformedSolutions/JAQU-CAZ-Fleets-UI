@@ -32,8 +32,7 @@ class CreateAccount < BaseService
     form = CompanyNameForm.new(company_name: company_name)
     return if form.valid?
 
-    error_message = form.errors.full_messages.first
-    raise InvalidCompanyNameException, error_message
+    raise InvalidCompanyNameException, form.first_error_message
   end
 
   def perform_api_call

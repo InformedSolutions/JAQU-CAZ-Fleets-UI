@@ -14,7 +14,7 @@ Feature: Fleets
     When I visit the submission method page
       And I press the Continue
     Then I should be on the submission method page
-      And I should see 'Submission method is required'
+      And I should see 'Choose how to add vehicles to your account'
 
   Scenario: Manual entry
     When I visit the submission method page

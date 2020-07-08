@@ -25,7 +25,7 @@ describe NewPasswordForm, type: :model do
 
     it 'has a proper password message' do
       expect(form.errors[:password])
-        .to include(I18n.t('password.errors.password_required'))
+        .to include(I18n.t('new_password_form.errors.password_missing'))
     end
   end
 
@@ -38,7 +38,7 @@ describe NewPasswordForm, type: :model do
 
     it 'has a proper password confirmation message' do
       expect(form.errors[:password_confirmation])
-        .to include(I18n.t('password.errors.confirmation_required'))
+        .to include(I18n.t('new_password_form.errors.password_confirmation_missing'))
     end
   end
 
@@ -51,12 +51,12 @@ describe NewPasswordForm, type: :model do
 
     it 'has a proper password message' do
       expect(form.errors[:password])
-        .to include(I18n.t('password.errors.password_equality'))
+        .to include(I18n.t('new_password_form.errors.password_not_equal'))
     end
 
     it 'has a proper password confirmation message' do
       expect(form.errors[:password_confirmation])
-        .to include(I18n.t('password.errors.password_equality'))
+        .to include(I18n.t('new_password_form.errors.password_not_equal'))
     end
   end
 end
