@@ -8,7 +8,7 @@
     .govuk-grid-column-two-thirds
 
       - if @errors.present?
-        = render 'common/error_summary',
+        = render 'shared/error_summary',
           error_msg_div: '#vrn-error',
           error_msg: @errors[:vrn].first
 

@@ -4,7 +4,7 @@
   .govuk-grid-row
     .govuk-grid-column-two-thirds
       - if alert
-        = render 'common/error_summary',
+        = render 'shared/error_summary',
           error_msg_div: '#confirm-delete-error',
           error_msg: alert
       = form_tag delete_fleets_path, method: :post do

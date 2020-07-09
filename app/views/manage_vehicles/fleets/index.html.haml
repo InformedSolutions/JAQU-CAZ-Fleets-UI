@@ -8,11 +8,11 @@
   .govuk-grid-row
     .govuk-grid-column-full
       - if alert
-        = render 'common/error_summary',
+        = render 'shared/error_summary',
           error_msg_div: '#confirm-vehicle-creation-error',
           error_msg: alert
 
-      = render 'common/banners'
+      = render 'shared/banners'
 
       %h1.govuk-heading-l
         = title_content

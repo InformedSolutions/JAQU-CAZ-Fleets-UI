@@ -8,7 +8,7 @@
     .govuk-grid-column-two-thirds
 
       - if @errors
-        = render 'common/error_summary',
+        = render 'shared/error_summary',
           error_msg_div: '#payment_method_error',
           error_msg: @errors
 

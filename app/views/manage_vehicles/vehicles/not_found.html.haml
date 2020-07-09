@@ -3,7 +3,7 @@
   .govuk-grid-row
     .govuk-grid-column-two-thirds
       - if alert
-        = render 'common/error_summary',
+        = render 'shared/error_summary',
           error_msg_div: '#unrecognised-vehicle-error',
           error_msg: I18n.t('vehicle_not_found.errors.confirmation_alert')
 

@@ -8,7 +8,7 @@
     .govuk-grid-column-two-thirds
 
       - if @errors.present?
-        = render 'common/errors_summary', errors: @errors
+        = render 'shared/errors_summary', errors: @errors
 
       %h1.govuk-heading-l
         = title_and_header

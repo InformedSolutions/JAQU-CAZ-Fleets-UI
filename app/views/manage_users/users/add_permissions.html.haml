@@ -8,7 +8,7 @@
   .govuk-grid-row
     .govuk-grid-column-two-thirds
       - if errors && errors[:permissions]
-        = render 'common/error_summary',
+        = render 'shared/error_summary',
                  error_msg_div: '#permissions-error',
                  error_msg: errors[:permissions].first
       = form_for('new_user', url: confirm_permissions_users_path, method: :post) do |f|
