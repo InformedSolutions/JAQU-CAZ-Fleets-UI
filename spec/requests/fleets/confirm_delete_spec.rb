@@ -32,7 +32,7 @@ describe 'FleetsController - #confirm_delete', type: :request do
           expect(response).to redirect_to(fleets_path)
         end
 
-        it 'calls Fleet#delete_vehicle' do
+        it 'calls ManageVehicles::Fleet#delete_vehicle' do
           expect(fleet).to receive(:delete_vehicle).with(@vrn)
           subject
         end
@@ -66,7 +66,7 @@ describe 'FleetsController - #confirm_delete', type: :request do
           expect(response).to redirect_to(fleets_path)
         end
 
-        it 'does not call Fleet#delete_vehicle' do
+        it 'does not call ManageVehicles::Fleet#delete_vehicle' do
           expect(fleet).not_to receive(:delete_vehicle)
           subject
         end

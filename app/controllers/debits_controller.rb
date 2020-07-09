@@ -43,7 +43,7 @@ class DebitsController < ApplicationController
   #
   def initiate
     service_response = create_direct_debit_payment
-    details = DirectDebitDetails.new(service_response)
+    details = DirectDebits::Details.new(service_response)
     payment_details_to_session(details)
     redirect_to success_debits_path
   end
@@ -57,9 +57,9 @@ class DebitsController < ApplicationController
   #
   def success
     payments = helpers.initiated_payment_data
-    @payment_details = PaymentDetails.new(session_details: payments,
-                                          entries_paid: helpers.days_to_pay(payments[:details]),
-                                          total_charge: helpers.total_to_pay(payments[:details]))
+    @payment_details = Payments::Details.new(session_details: payments,
+                                             entries_paid: helpers.days_to_pay(payments[:details]),
+                                             total_charge: helpers.total_to_pay(payments[:details]))
   end
 
   ##

@@ -2,14 +2,12 @@
 
 require 'rails_helper'
 
-describe DirectDebit, type: :model do
+describe DirectDebits::Debit, type: :model do
   subject(:debit) { described_class.new(account_id) }
 
   let(:account_id) { SecureRandom.uuid }
 
-  before do
-    mock_debits
-  end
+  before { mock_debits }
 
   describe '.mandates' do
     subject { debit.mandates }
@@ -19,8 +17,8 @@ describe DirectDebit, type: :model do
       subject
     end
 
-    it 'returns an array of Mandate instances' do
-      expect(subject).to all(be_a(Mandate))
+    it 'returns an array of DirectDebits::Mandate instances' do
+      expect(subject).to all(be_a(DirectDebits::Mandate))
     end
 
     it 'assigns data to mandates' do
@@ -52,8 +50,8 @@ describe DirectDebit, type: :model do
   describe '.active_mandates' do
     subject { debit.active_mandates }
 
-    it 'returns an array of Mandate instances' do
-      expect(subject).to all(be_a(Mandate))
+    it 'returns an array of DirectDebits::Mandate instances' do
+      expect(subject).to all(be_a(DirectDebits::Mandate))
     end
 
     it 'returns only active mandate' do
@@ -64,8 +62,8 @@ describe DirectDebit, type: :model do
   describe '.inactive_mandates' do
     subject { debit.inactive_mandates }
 
-    it 'returns an array of Mandate instances' do
-      expect(subject).to all(be_a(Mandate))
+    it 'returns an array of DirectDebits::Mandate instances' do
+      expect(subject).to all(be_a(DirectDebits::Mandate))
     end
 
     it 'returns only zone_id' do

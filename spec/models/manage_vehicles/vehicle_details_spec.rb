@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe VehicleDetails, type: :model do
+describe ManageVehicles::VehicleDetails, type: :model do
   subject(:compliance) { described_class.new(vrn) }
 
   let(:vrn) { 'CU57ABC' }

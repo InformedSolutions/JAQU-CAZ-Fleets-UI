@@ -56,7 +56,7 @@ class VehiclesController < ApplicationController
   # * +vrn+ - vehicle registration number, required in the session
   #
   def details
-    @vehicle_details = VehicleDetails.new(vrn)
+    @vehicle_details = ManageVehicles::VehicleDetails.new(vrn)
     redirect_to exempt_vehicles_path if @vehicle_details.exempt?
   end
 

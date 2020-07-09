@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DirectDebitDetails, type: :model do
+RSpec.describe DirectDebits::Details, type: :model do
   subject { described_class.new(data) }
 
   let(:data) do

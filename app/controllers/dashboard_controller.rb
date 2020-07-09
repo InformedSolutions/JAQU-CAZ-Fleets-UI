@@ -13,7 +13,7 @@ class DashboardController < ApplicationController
   def index
     clear_input_history
     @vehicles_count = current_user.fleet.total_vehicles_count
-    @mandates_present = DirectDebit.new(current_user.account_id).active_mandates.any?
+    @mandates_present = DirectDebits::Debit.new(current_user.account_id).active_mandates.any?
     @users_present = AccountsApi.users(account_id: current_user.account_id).any?
   end
 

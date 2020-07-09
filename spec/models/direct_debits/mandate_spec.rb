@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Mandate, type: :model do
+describe DirectDebits::Mandate, type: :model do
   subject(:mandate) { described_class.new(data) }
 
   let(:data) do

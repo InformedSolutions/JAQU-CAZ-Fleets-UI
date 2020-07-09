@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe PaymentDetails, type: :model do
+RSpec.describe Payments::Details, type: :model do
   subject(:details) do
     described_class.new(
       session_details: session_details,

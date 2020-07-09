@@ -38,7 +38,7 @@ class ComplianceCheckerApi < BaseApi
     #
     # ==== Serialization
     #
-    # {Vehicle details model}[rdoc-ref:VehicleDetails]
+    # {Vehicle details model}[rdoc-ref:ManageVehicles::VehicleDetails]
     # can be used to create an instance referring to the returned data
     #
     # ==== Exceptions

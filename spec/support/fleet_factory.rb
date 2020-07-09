@@ -6,7 +6,7 @@ module FleetFactory
   end
 
   def create_fleet(vehicles = mocked_vehicles, total_vehicles_count = 45)
-    instance_double(Fleet,
+    instance_double(ManageVehicles::Fleet,
                     pagination: paginated_fleet(vehicles),
                     add_vehicle: true,
                     delete_vehicle: true,
@@ -15,19 +15,19 @@ module FleetFactory
   end
 
   def mock_fleet(fleet_instance = create_fleet)
-    allow(Fleet).to receive(:new).and_return(fleet_instance)
+    allow(ManageVehicles::Fleet).to receive(:new).and_return(fleet_instance)
   end
 
   private
 
   def mocked_vehicles
     vehicles_data = read_response('charges.json')['1']['vehicles']
-    vehicles_data.map { |data| Vehicle.new(data) }
+    vehicles_data.map { |data| ManageVehicles::Vehicle.new(data) }
   end
 
   def paginated_fleet(vehicles)
     instance_double(
-      PaginatedFleet,
+      ManageVehicles::PaginatedFleet,
       vehicle_list: vehicles,
       page: 1,
       total_pages: 5,

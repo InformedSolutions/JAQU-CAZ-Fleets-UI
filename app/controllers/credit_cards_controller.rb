@@ -34,7 +34,7 @@ class CreditCardsController < ApplicationController
   # * +la_id+ - id of the selected CAZ, required in the session
   def result
     payment_data = helpers.initiated_payment_data
-    payment = PaymentStatus.new(payment_data[:payment_id], payment_data[:la_id])
+    payment = Payments::Status.new(payment_data[:payment_id], payment_data[:la_id])
     save_payment_details(payment)
     payment.success? ? redirect_to(success_payments_path) : redirect_to(failure_payments_path)
   end

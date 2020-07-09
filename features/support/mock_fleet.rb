@@ -19,11 +19,11 @@ module MockFleet
 
   def vehicles
     vehicles_data = read_response('charges.json')['1']['vehicles']
-    vehicles_data.map { |data| Vehicle.new(data) }
+    vehicles_data.map { |data| ManageVehicles::Vehicle.new(data) }
   end
 
   def mock_unavailable_fleet
-    allow(Fleet).to receive(:new).and_raise(BaseApi::Error500Exception.new(503, '', {}))
+    allow(ManageVehicles::Fleet).to receive(:new).and_raise(BaseApi::Error500Exception.new(503, '', {}))
   end
 
   def mock_unchargeable_vehicles
@@ -39,7 +39,7 @@ module MockFleet
     total_vehicles_count = 0,
     chargeable_vehicles_in_caz = true
   )
-    @fleet = instance_double(Fleet,
+    @fleet = instance_double(ManageVehicles::Fleet,
                              pagination: paginated_vehicles(vehicles, page),
                              add_vehicle: true,
                              delete_vehicle: true,
@@ -47,12 +47,12 @@ module MockFleet
                              charges: charges,
                              total_vehicles_count: total_vehicles_count,
                              any_chargeable_vehicles_in_caz?: chargeable_vehicles_in_caz)
-    allow(Fleet).to receive(:new).and_return(@fleet)
+    allow(ManageVehicles::Fleet).to receive(:new).and_return(@fleet)
   end
 
   def paginated_vehicles(vehicles, page)
     instance_double(
-      PaginatedFleet,
+      ManageVehicles::PaginatedFleet,
       vehicle_list: vehicles,
       page: page,
       total_pages: 2,
@@ -63,11 +63,11 @@ module MockFleet
   end
 
   def mocked_charges
-    ChargeableFleet.new(read_response('chargeable_vehicles.json'))
+    ManageVehicles::ChargeableFleet.new(read_response('chargeable_vehicles.json'))
   end
 
   def mocked_unpaid_charges
-    ChargeableFleet.new(read_response('chargeable_vehicles_with_unpaid_dates.json'))
+    ManageVehicles::ChargeableFleet.new(read_response('chargeable_vehicles_with_unpaid_dates.json'))
   end
 end
 

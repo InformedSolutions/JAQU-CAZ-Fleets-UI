@@ -33,7 +33,7 @@ class PaymentsApi < BaseApi
     #
     # ==== Serialization
     #
-    # {PaginatedFleet model}[rdoc-ref:PaginatedFleet]
+    # {ManageVehicles::PaginatedFleet model}[rdoc-ref:ManageVehicles::PaginatedFleet]
     # can be used to create an instance referring to the returned data
     #
     # ==== Exceptions
@@ -74,7 +74,7 @@ class PaymentsApi < BaseApi
     #
     # ==== Serialization
     #
-    # {ChargeableFleet model}[rdoc-ref:ChargeableFleet]
+    # {ManageVehicles::ChargeableFleet model}[rdoc-ref:ManageVehicles::ChargeableFleet]
     # can be used to create an instance referring to the returned data
     #
     # ==== Exceptions
@@ -119,7 +119,7 @@ class PaymentsApi < BaseApi
     #
     # ==== Serialization
     #
-    # {ChargeableFleet model}[rdoc-ref:ChargeableFleet]
+    # {ManageVehicles::ChargeableFleet model}[rdoc-ref:ManageVehicles::ChargeableFleet]
     # can be used to create an instance referring to the returned data
     #
     # ==== Exceptions
@@ -213,7 +213,7 @@ class PaymentsApi < BaseApi
     #
     # ==== Serialization
     #
-    # {PaymentStatus model}[rdoc-ref:PaymentStatus]
+    # {Payments::Status model}[rdoc-ref:Payments::Status]
     # can be used to create an instance referring to the returned data
     #
     # ==== Exceptions

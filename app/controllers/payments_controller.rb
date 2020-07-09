@@ -191,9 +191,9 @@ class PaymentsController < ApplicationController
   # * +la_id+ - selected local authority ID
   def success
     payments = helpers.initiated_payment_data
-    @payment_details = PaymentDetails.new(session_details: payments,
-                                          entries_paid: helpers.days_to_pay(payments[:details]),
-                                          total_charge: helpers.total_to_pay(payments[:details]))
+    @payment_details = Payments::Details.new(session_details: payments,
+                                             entries_paid: helpers.days_to_pay(payments[:details]),
+                                             total_charge: helpers.total_to_pay(payments[:details]))
   end
 
   ##
@@ -207,9 +207,9 @@ class PaymentsController < ApplicationController
   # * +external_id+ - external payment id, required in the session
   def failure
     data = helpers.initiated_payment_data
-    @payment_details = PaymentDetails.new(session_details: data,
-                                          entries_paid: helpers.days_to_pay(data[:details]),
-                                          total_charge: helpers.total_to_pay(data[:details]))
+    @payment_details = Payments::Details.new(session_details: data,
+                                             entries_paid: helpers.days_to_pay(data[:details]),
+                                             total_charge: helpers.total_to_pay(data[:details]))
   end
 
   ##
