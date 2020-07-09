@@ -10,9 +10,11 @@ class BaseApi
   # Uncomment for debug
   # debug_output $stdout
 
+  CONTENT_TYPE = 'application/json'
+
   headers(
-    'Content-Type' => 'application/json',
-    'Accept' => 'application/json',
+    'Content-Type' => CONTENT_TYPE,
+    'Accept' => CONTENT_TYPE,
     'X-Correlation-ID' => -> { SecureRandom.uuid }
   )
 
@@ -69,8 +71,8 @@ class BaseApi
     #
     def custom_headers(correlation_id)
       {
-        'Content-Type' => 'application/json',
-        'Accept' => 'application/json',
+        'Content-Type' => CONTENT_TYPE,
+        'Accept' => CONTENT_TYPE,
         'X-Correlation-ID' => correlation_id
       }
     end
@@ -118,7 +120,6 @@ class BaseApi
     # Parses response body and returns a hash.
     # +JSON::ParserError+ is treated as 500.
     def parse_body(body)
-      log_action('Parsing response body')
       JSON.parse(body.presence || '{}')
     rescue JSON::ParserError
       exception = Error500Exception.new(500, 'Response body parsing failed', body)

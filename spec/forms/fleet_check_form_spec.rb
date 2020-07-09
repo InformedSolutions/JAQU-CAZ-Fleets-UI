@@ -16,7 +16,9 @@ describe FleetCheckForm, type: :model do
 
     it 'has a proper error message' do
       form.valid?
-      expect(form.errors.messages[:confirm_fleet_check]).to include(I18n.t('form.errors.missing'))
+      expect(form.errors.messages[:confirm_fleet_check]).to(
+        include(I18n.t('fleet_check_form.errors.confirm_fleet_check'))
+      )
     end
   end
 end

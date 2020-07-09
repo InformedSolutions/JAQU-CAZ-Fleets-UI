@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module SignInHelper
-  def login_user
-    user = new_user
+  def login_user(permissions)
+    user = new_user(permissions: permissions)
     allow_any_instance_of(User).to receive(:authentication).and_return(user)
 
     fill_sign_in_form
@@ -40,8 +40,13 @@ module SignInHelper
     {
       user_id: options[:user_id] || SecureRandom.uuid,
       account_id: options[:account_id] || SecureRandom.uuid,
-      account_name: options[:account_name] || 'Royal Mail'
+      account_name: options[:account_name] || 'Royal Mail',
+      permissions: options[:permissions] || account_permissions
     }
+  end
+
+  def account_permissions
+    %w[MANAGE_VEHICLES MANAGE_MANDATES MAKE_PAYMENTS MANAGE_USERS]
   end
 
   def remote_ip

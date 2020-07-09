@@ -27,9 +27,10 @@ class AccountsApi < BaseApi
     # Returned vehicles details will have the following fields:
     # * +accountId+ - uuid, ID of the account on backend DB
     # * +accountName+ - string, name of the account
-    # * +accountUserId+ - uuid, ID of the accountUser on backend DB
+    # * +accountUserId+ - uuid, ID of the user
     # * +owner+ - boolean, determines if the user is owner
-    # * +email+ = email, email of the accountUser
+    # * +email+ - email, email of the account
+    # * +permissions+ - permission names of the user
     #
     # ==== Serialization
     #
@@ -68,9 +69,9 @@ class AccountsApi < BaseApi
     # Returned vehicles details will have the following fields:
     # * +accountId+ - uuid, ID of the account on backend DB
     # * +accountName+ - string, name of the account
-    # * +accountUserId+ - uuid, ID of the accountUser on backend DB
+    # * +accountUserId+ - uuid, ID of the user
     # * +owner+ - boolean, determines if the user is owner
-    # * +email+ = email, email of the accountUser
+    # * +email+ - email, email of the account
     #
     # ==== Serialization
     #
@@ -112,9 +113,9 @@ class AccountsApi < BaseApi
     # Returned vehicles details will have the following fields:
     # * +accountId+ - uuid, ID of the account on backend DB
     # * +accountName+ - string, name of the account
-    # * +accountUserId+ - uuid, ID of the accountUser on backend DB
+    # * +accountUserId+ - uuid, ID of the user
     # * +owner+ - boolean, determines if the user is owner
-    # * +email+ = email, email of the accountUser
+    # * +email+ - email, email of the account
     #
     # ==== Serialization
     #
@@ -132,12 +133,37 @@ class AccountsApi < BaseApi
     end
 
     ##
+    # Calls +/v1/accounts/:accountId/users+ endpoint with +GET+ method and returns non owner users for current user
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - uuid, id of the account
+    #
+    # ==== Result
+    #
+    # Returned vehicles details will have the following fields:
+    # * +users+ - array of user objects
+    #   * +accountId+ - uuid, id of the user
+    #   * +email+ - email, email of the user
+    #   * +name+ - string, name of the user
+    #
+    # ==== Exceptions
+    #
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def users(account_id:)
+      log_action 'Getting non owner users for specified account'
+      request(:get, "/accounts/#{account_id}/users")['users']
+    end
+
+    ##
     # Calls +/v1/accounts/:accountId/users/:accountUserId/verifications+ endpoint with +POST+ method.
     #
     # ==== Attributes
     #
     # * +account_id+ - uuid, ID of the account on backend DB
-    # * +user_id+ - uuid, ID of the accountUser on backend DB
+    # * +user_id+ - uuid, ID of the user
     # * +verification_url+ - url to verify account.
     #
     # ==== Example
@@ -169,7 +195,7 @@ class AccountsApi < BaseApi
     # ==== Attributes
     #
     # * +account_id+ - uuid, ID of the account on backend DB
-    # * +user_id+ - uuid, ID of the accountUser on backend DB
+    # * +user_id+ - uuid, ID of the user
     #
     # ==== Example
     #
@@ -189,6 +215,68 @@ class AccountsApi < BaseApi
       log_action('Verifying the user account')
       body = { token: token }.to_json
       request(:post, '/accounts/verify', body: body)
+    end
+
+    ##
+    # Calls +/v1/accounts/:accountId/user-validations+ endpoint with +POST+ method.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - uuid, ID of the account on backend DB
+    # * +email+ - string, email to validate
+    # * +name+ - name, name to validate
+    #
+    # ==== Example
+    #
+    #    AccountsApi.user_validations(account_id, user.acount_id, email: email, name: name)
+    #
+    # ==== Result
+    #
+    # Returns an empty body
+    #
+    # ==== Exceptions
+    #
+    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - email already exists
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def user_validations(account_id:, email:, name:)
+      log_action('Validate the user account')
+      body = { email: email, name: name }.to_json
+      request(:post, "/accounts/#{account_id}/user-validations", body: body)
+    end
+
+    ##
+    # Calls +/v1/accounts/:accountId/user-invitations+ endpoint with +POST+ method.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - uuid, ID of the account on backend DB
+    # * +user_id+ - uuid, ID of the user which will managed new user
+    # * +new_user_data+ - hash, with new user data such as: email, name, verification_url and permissions
+    #
+    # ==== Example
+    #    new_user_data = { name: name, email: email, verification_url: verification_url, permissions: ['MANAGE_VEHICLES']}
+    #    AccountsApi.user_invitations(account_id, user.account_id, user_id: user.user_id, new_user_data: new_user_data)
+    #
+    # ==== Result
+    #
+    # Returns an empty body
+    #
+    # ==== Exceptions
+    #
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - invalid user id
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def user_invitations(account_id:, user_id:, new_user_data:)
+      log_action('Create user invitation')
+      body = {
+        isAdministeredBy: user_id,
+        email: new_user_data[:email],
+        name: new_user_data[:name],
+        verificationUrl: new_user_data[:verification_url],
+        permissions: new_user_data[:permissions]
+      }.to_json
+      request(:post, "/accounts/#{account_id}/user-invitations", body: body)
     end
 
     ##

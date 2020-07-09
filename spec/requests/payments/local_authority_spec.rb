@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'PaymentsController - #index', type: :request do
-  subject(:http_request) do
+  subject do
     post local_authority_payments_path, params: { 'local-authority' => la }
   end
 
@@ -16,7 +16,7 @@ describe 'PaymentsController - #index', type: :request do
     allow(Fleet).to receive(:new).and_return(fleet_mock)
 
     sign_in create_user
-    http_request
+    subject
   end
 
   context 'when user selects the LA' do

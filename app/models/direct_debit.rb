@@ -26,7 +26,7 @@ class DirectDebit
                   obj['mandates'] = (active || [])
                 end
 
-                result.map { |mandate_data| Mandate.new(mandate_data) }
+                result.map { |mandate_data| Mandate.new(mandate_data) }.sort_by(&:zone_name)
               end
   end
 

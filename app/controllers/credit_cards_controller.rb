@@ -4,6 +4,8 @@
 # Controller used to pay by credit card
 #
 class CreditCardsController < ApplicationController
+  include CheckPermissions
+
   # Makes a request to initiate card payment and redirects to response url
   #
   # ==== Path

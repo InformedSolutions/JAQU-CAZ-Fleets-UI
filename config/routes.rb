@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   authenticated(:user) { root 'dashboard#index', as: :authenticated_root }
   devise_scope(:user) { root to: 'devise/sessions#new' }
 
-  get 'sign-out', to: 'sessions#sign_out'
+  get 'sign-out', to: 'sessions#sign_out_page'
+  get 'logout_notice', to: 'sessions#logout_notice'
+  get 'timedout-user', to: 'sessions#timedout_user'
 
   resources :passwords, only: %i[index create] do
     collection do
@@ -95,6 +97,15 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :users, only: %w[index new create edit update] do
+    collection do
+      get :add_permissions
+      post :confirm_permissions
+      get :confirmation
+      get :set_up
+    end
+  end
+
   resources :uploads, only: %i[index create] do
     collection do
       get :processing
@@ -109,7 +120,9 @@ Rails.application.routes.draw do
   get :build_id, to: 'application#build_id'
   get :health, to: 'application#health'
 
+  get :not_found, to: 'errors#not_found'
   get :service_unavailable, to: 'errors#server_unavailable'
+
   match '/404', to: 'errors#not_found', via: :all
   # There is no 422 error page in design systems
   match '/422', to: 'errors#internal_server_error', via: :all

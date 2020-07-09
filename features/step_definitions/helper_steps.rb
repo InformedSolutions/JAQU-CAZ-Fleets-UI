@@ -22,8 +22,6 @@ Then('I select {string}') do |string|
   choose(string)
 end
 
-# links interactions
-
 Then('I press {string} link') do |string|
   first(:link, string).click
 end
@@ -52,6 +50,14 @@ Then('I should not see {string} link') do |string|
   expect(page).not_to have_selector(:link_or_button, string)
 end
 
+Then('I should see {string} button') do |string|
+  expect(page).to have_selector(:link_or_button, string)
+end
+
+Then('I should not see {string} button') do |string|
+  expect(page).not_to have_selector(:link_or_button, string)
+end
+
 Then('I choose {string}') do |string|
   choose(string)
 end
@@ -70,4 +76,10 @@ end
 
 And('I check {string}') do |string|
   check(string)
+end
+
+def mock_api_responses
+  mock_vehicles_in_fleet
+  mock_debits
+  mock_users
 end

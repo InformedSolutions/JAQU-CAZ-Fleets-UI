@@ -19,7 +19,7 @@ describe 'AccountsApi.sign_in' do
 
     it 'returns proper fields' do
       expect(call.keys).to contain_exactly(
-        'accountId', 'accountName', 'accountUserId', 'owner', 'email'
+        'accountId', 'accountName', 'accountUserId', 'owner', 'permissions', 'email'
       )
     end
 

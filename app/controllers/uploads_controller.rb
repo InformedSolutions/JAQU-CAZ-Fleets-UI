@@ -4,6 +4,8 @@
 # Controller used to manage fleet upload by CSV file
 #
 class UploadsController < ApplicationController
+  include CheckPermissions
+
   rescue_from CsvUploadException, with: :render_upload_error
 
   ##

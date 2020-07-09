@@ -9,6 +9,10 @@
 
       = form_for(@user ||= User.new, as: @user, url: session_path(@user)) do |f|
         = render 'shared/sign_in/error_summary'
+
+        %p
+          = flash[:notice]
+
         %fieldset.govuk-fieldset
           %legend.govuk-visually-hidden
             Submit your login credentials

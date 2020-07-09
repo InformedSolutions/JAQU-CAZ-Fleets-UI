@@ -49,7 +49,9 @@ class OrganisationsController < ApplicationController
   #
   #    GET /organisations/fleet_check
   #
-  def fleet_check; end
+  def fleet_check
+    # renders static page
+  end
 
   ##
   # Creates Account based on provided details.
@@ -77,7 +79,9 @@ class OrganisationsController < ApplicationController
   #
   #    GET /organisations/cannot_create
   #
-  def cannot_create; end
+  def cannot_create
+    # renders static page
+  end
 
   ##
   # Renders the new email and password page.
@@ -89,7 +93,9 @@ class OrganisationsController < ApplicationController
   # ==== Params
   # * +company_name+ - string, account name stored in the session e.g. 'Company name'
   #
-  def new_credentials; end
+  def new_credentials
+    # renders static page
+  end
 
   ##
   # Validates submitted email and password.
@@ -175,7 +181,9 @@ class OrganisationsController < ApplicationController
   #
   #    :GET /organisations/verification_failed
   #
-  def verification_failed; end
+  def verification_failed
+    # renders static page
+  end
 
   ##
   # Renders the verification expired page.
@@ -184,7 +192,9 @@ class OrganisationsController < ApplicationController
   #
   #    :GET /organisations/verification_expired
   #
-  def verification_expired; end
+  def verification_expired
+    # renders static page
+  end
 
   private
 
@@ -238,7 +248,7 @@ class OrganisationsController < ApplicationController
   def check_account_details
     Rails.logger.warn('Checking credentials from the session')
     redirect_to root_path if (
-      %w[email owner user_id account_id account_name login_ip] - new_account.keys
+      %w[email owner user_id account_id account_name permissions login_ip] - new_account.keys
     ).present?
   end
 

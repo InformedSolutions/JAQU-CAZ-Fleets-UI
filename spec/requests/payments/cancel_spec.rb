@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 describe 'PaymentsController - #cancel', type: :request do
-  subject(:http_request) { get cancel_payments_path }
+  subject { get cancel_payments_path }
 
   before do
     add_to_session(new_payment: { la_id: SecureRandom.uuid, details: {} })
     mock_caz_mandates('caz_mandates')
     sign_in create_user
-    http_request
+    subject
   end
 
   it 'returns 200' do

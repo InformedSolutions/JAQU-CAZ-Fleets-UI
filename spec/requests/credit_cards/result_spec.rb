@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'DebitsController - GET #result' do
-  subject(:http_request) { get result_payments_path }
+  subject { get result_payments_path }
 
   let(:id) { SecureRandom.uuid }
   let(:details) do
@@ -25,11 +25,11 @@ describe 'DebitsController - GET #result' do
         'paymentId' => id, 'status' => 'success', 'userEmail' => 'test@example.com'
       )
     sign_in create_user
-    http_request
+    subject
   end
 
   it 'redirects to the success page' do
-    http_request
+    subject
     expect(response).to redirect_to(success_payments_path)
   end
 end

@@ -4,6 +4,8 @@
 # Controller used to manage fleet
 #
 class FleetsController < ApplicationController
+  include CheckPermissions
+
   before_action :assign_fleet
   before_action :check_vrn, only: %i[delete confirm_delete]
   before_action :clear_show_continue_button, only: %i[index]
@@ -15,7 +17,9 @@ class FleetsController < ApplicationController
   #
   #    :GET /fleets/submission_method
   #
-  def submission_method; end
+  def submission_method
+    # renders static page
+  end
 
   ##
   # Validates the submission method form and redirects to selected method screen.
@@ -83,7 +87,9 @@ class FleetsController < ApplicationController
   #
   #    :GET /fleets/first_upload
   #
-  def first_upload; end
+  def first_upload
+    # renders static page
+  end
 
   ##
   # Assigns VRN to remove. Redirects to {delete view}[rdoc-ref:FleetsController.delete]

@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 describe 'UploadsController - #download template' do
-  subject(:http_request) { get download_template_uploads_path }
+  subject { get download_template_uploads_path }
 
   before do
     sign_in create_user
-    http_request
+    subject
   end
 
   it 'returns a proper file' do
