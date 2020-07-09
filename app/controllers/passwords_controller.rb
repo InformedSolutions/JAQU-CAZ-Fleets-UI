@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+##
+# Controller class for the password change
+#
 class PasswordsController < ApplicationController
   skip_before_action :authenticate_user!
   before_action :validate_token, only: :create

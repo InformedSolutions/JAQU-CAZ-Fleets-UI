@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ManageUsers::User, type: :model do
+describe UsersManagement::User, type: :model do
   subject { described_class.new(data) }
 
   let(:data) do

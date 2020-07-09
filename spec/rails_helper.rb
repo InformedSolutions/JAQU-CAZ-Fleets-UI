@@ -22,7 +22,7 @@ RSpec.configure do |config|
     config.include h, type: :request
   end
   [StrongParams,
-   UserFactory,
+   UsersFactory,
    ActiveSupport::Testing::TimeHelpers,
    FixturesHelpers,
    MockedResponses].each do |h|

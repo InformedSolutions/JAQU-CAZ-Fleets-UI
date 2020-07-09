@@ -2,12 +2,12 @@
 
 module ChargeableVehiclesFactory
   def create_chargeable_vehicles(vehicles = mocked_chargeable_vehicles)
-    instance_double(Fleet, charges: vehicles)
+    instance_double(VehiclesManagement::Fleet, charges: vehicles)
   end
 
   private
 
   def mocked_chargeable_vehicles
-    ChargeableFleet.new(read_response('chargeable_vehicles.json'))
+    VehiclesManagement::ChargeableFleet.new(read_response('chargeable_vehicles.json'))
   end
 end
