@@ -2,7 +2,7 @@
 
 ##
 # Module used for manage vehicles flow
-module ManageVehicles
+module VehiclesManagement
   ##
   # Controller used to manage adding vehicles to the fleet manually.
   # It should use similar approach as VCCS UI
@@ -59,7 +59,7 @@ module ManageVehicles
     # * +vrn+ - vehicle registration number, required in the session
     #
     def details
-      @vehicle_details = ManageVehicles::VehicleDetails.new(vrn)
+      @vehicle_details = VehiclesManagement::VehicleDetails.new(vrn)
       redirect_to exempt_vehicles_path if @vehicle_details.exempt?
     end
 

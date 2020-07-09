@@ -2,7 +2,7 @@
 
 ##
 # Module used for manage users flow
-module ManageUsers
+module UsersManagement
   ##
   # Represents the virtual model of the user, used in +app/views/users/index.html.haml+.
   #

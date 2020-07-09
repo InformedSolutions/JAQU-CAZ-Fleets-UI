@@ -2,7 +2,7 @@
 
 ##
 # Module used for manage vehicles flow
-module ManageVehicles
+module VehiclesManagement
   ##
   # This class represents data returned by {CAZ API endpoint}[rdoc-ref:ComplianceCheckerApi.vehicle_details]
   # and is used to display data in +app/views/vehicles/details.html.haml+.

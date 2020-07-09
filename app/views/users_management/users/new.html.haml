@@ -23,8 +23,8 @@
               accounts, make payments, set up Direct Debits and manage vehicles.
             
             - if errors.present?
-              = render 'manage_users/users/new_user_form_input/errored', f: f, errors: errors
+              = render 'users_management/users/new_user_form_input/errored', f: f, errors: errors
             - else
-              = render 'manage_users/users/new_user_form_input/normal', f: f
+              = render 'users_management/users/new_user_form_input/normal', f: f
 
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

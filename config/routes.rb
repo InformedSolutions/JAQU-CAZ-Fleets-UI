@@ -39,7 +39,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'manage_vehicles', path: '/' do
+  scope module: 'vehicles_management', path: '/' do
     resources :fleets, only: %i[index create] do
       collection do
         get :submission_method
@@ -110,7 +110,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'manage_users', path: '/' do
+  scope module: 'users_management', path: '/' do
     resources :users, only: %w[index new create edit update] do
       collection do
         get :add_permissions

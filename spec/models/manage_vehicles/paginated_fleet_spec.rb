@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ManageVehicles::PaginatedFleet, type: :model do
+describe VehiclesManagement::PaginatedFleet, type: :model do
   subject(:fleet) { described_class.new(data) }
 
   let(:size) { 51 }

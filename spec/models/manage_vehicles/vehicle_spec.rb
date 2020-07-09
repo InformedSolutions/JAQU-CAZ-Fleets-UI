@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ManageVehicles::Vehicle, type: :model do
+describe VehiclesManagement::Vehicle, type: :model do
   subject(:vehicle) { described_class.new(data) }
 
   let(:data) do

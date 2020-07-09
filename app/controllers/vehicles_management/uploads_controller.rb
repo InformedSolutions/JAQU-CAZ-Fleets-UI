@@ -2,7 +2,7 @@
 
 ##
 # Module used for manage vehicles flow
-module ManageVehicles
+module VehiclesManagement
   ##
   # Controller used to manage fleet upload by CSV file
   #

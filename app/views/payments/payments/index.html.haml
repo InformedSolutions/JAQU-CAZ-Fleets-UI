@@ -8,8 +8,8 @@
     .govuk-grid-column-two-thirds
       - if alert
         = render 'shared/error_summary',
-          error_msg_div: '#local-authority-error',
-          error_msg: alert
+                  error_msg_div: '#local-authority-error',
+                  error_msg: alert
 
       = form_tag local_authority_payments_path, method: :post do
         .govuk-form-group{class: ('govuk-form-group--error' if alert)}

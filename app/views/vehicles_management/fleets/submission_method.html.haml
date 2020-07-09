@@ -9,8 +9,8 @@
 
       - if @errors.present?
         = render 'shared/error_summary',
-          error_msg_div: '#submission-method-error',
-          error_msg: @errors[:submission_method].first
+                  error_msg_div: '#submission-method-error',
+                  error_msg: @errors[:submission_method].first
 
       = form_tag submission_method_fleets_path do
         .govuk-form-group{class: @errors.present? ? 'govuk-form-group--error': ''}

@@ -9,13 +9,13 @@
 
       - if @errors.present?
         = render 'shared/error_summary',
-          error_msg_div: '#vrn-error',
-          error_msg: @errors[:vrn].first
+                  error_msg_div: '#vrn-error',
+                  error_msg: @errors[:vrn].first
 
       = form_tag enter_details_vehicles_path, method: :post do
         %fieldset.govuk-fieldset
           %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
             %h1.govuk-fieldset__heading
               = title_and_header
-          = render @errors.present? ? 'manage_vehicles/vehicles/vrn_input/errored' : 'manage_vehicles/vehicles/vrn_input/normal'
+          = render @errors.present? ? 'vehicles_management/vehicles/vrn_input/errored' : 'vehicles_management/vehicles/vrn_input/normal'
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

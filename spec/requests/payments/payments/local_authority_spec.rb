@@ -11,9 +11,9 @@ describe 'PaymentsController - #index', type: :request do
     let(:chargeable_vehicles_exists) { true }
 
     before do
-      fleet_mock = instance_double('ManageVehicles::Fleet',
+      fleet_mock = instance_double('VehiclesManagement::Fleet',
                                    any_chargeable_vehicles_in_caz?: chargeable_vehicles_exists)
-      allow(ManageVehicles::Fleet).to receive(:new).and_return(fleet_mock)
+      allow(VehiclesManagement::Fleet).to receive(:new).and_return(fleet_mock)
       sign_in create_user
       subject
     end

@@ -2,7 +2,7 @@
 
 ##
 # Module used for manage vehicles flow
-module ManageVehicles
+module VehiclesManagement
   ##
   # Represents the virtual model of the vehicle.
   #

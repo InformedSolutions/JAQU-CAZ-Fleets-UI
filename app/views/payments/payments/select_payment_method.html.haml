@@ -9,8 +9,8 @@
 
       - if @errors
         = render 'shared/error_summary',
-          error_msg_div: '#payment_method_error',
-          error_msg: @errors
+                  error_msg_div: '#payment_method_error',
+                  error_msg: @errors
 
       = form_tag select_payment_method_payments_path, method: :post do
         .govuk-form-group{class: ('govuk-form-group--error' if @errors)}

@@ -2,7 +2,7 @@
 
 ##
 # Module used for manage vehicles flow
-module ManageVehicles
+module VehiclesManagement
   ##
   # Class used to serialize data from PaymentsApi.chargeable_vehicles
   #
@@ -12,10 +12,10 @@ module ManageVehicles
       @data = data
     end
 
-    # Returns an array of ManageVehicles::Vehicle model instances
+    # Returns an array of VehiclesManagement::Vehicle model instances
     def vehicle_list
       @vehicle_list ||= (data.dig('chargeableAccountVehicles', 'results') || [])
-                        .map { |vehicle_data| ManageVehicles::ChargeableVehicle.new(vehicle_data) }
+                        .map { |vehicle_data| VehiclesManagement::ChargeableVehicle.new(vehicle_data) }
     end
 
     # Checks if the previous page is available

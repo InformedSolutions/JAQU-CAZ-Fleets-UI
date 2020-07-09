@@ -2,7 +2,7 @@
 
 ##
 # Module used for manage vehicles flow
-module ManageVehicles
+module VehiclesManagement
   ##
   # Class used to display fleet on the manage vehicles page
   #
@@ -12,9 +12,9 @@ module ManageVehicles
       @data = data
     end
 
-    # Returns an array of ManageVehicles::Vehicle model instances
+    # Returns an array of VehiclesManagement::Vehicle model instances
     def vehicle_list
-      @vehicle_list ||= data['vehicles'].map { |vehicle_data| ManageVehicles::Vehicle.new(vehicle_data) }
+      @vehicle_list ||= data['vehicles'].map { |vehicle_data| VehiclesManagement::Vehicle.new(vehicle_data) }
     end
 
     # Returns current page value

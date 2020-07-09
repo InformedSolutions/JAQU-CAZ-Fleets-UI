@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ManageUsers::UsersController, type: :request do
+describe UsersManagement::UsersController, type: :request do
   describe 'GET #set_up' do
     subject { get set_up_users_path }
 

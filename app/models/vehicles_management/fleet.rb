@@ -2,7 +2,7 @@
 
 ##
 # Module used for manage vehicles flow
-module ManageVehicles
+module VehiclesManagement
   ##
   # Represents the virtual model of the fleet.
   #
@@ -16,16 +16,16 @@ module ManageVehicles
       @account_id = account_id
     end
 
-    # Returns a ManageVehicles::PaginatedFleet with vehicles associated with the account.
+    # Returns a VehiclesManagement::PaginatedFleet with vehicles associated with the account.
     # Includes data about page and total pages count.
     def pagination(page:)
       @pagination ||= begin
                    data = PaymentsApi.charges(account_id: account_id, page: page)
-                   ManageVehicles::PaginatedFleet.new(data)
+                   VehiclesManagement::PaginatedFleet.new(data)
                  end
     end
 
-    # Returns a ManageVehicles::ChargeableFleet with vehicles associated with the account.
+    # Returns a VehiclesManagement::ChargeableFleet with vehicles associated with the account.
     def charges(zone_id:, vrn: nil, direction: nil)
       @charges ||= begin
                      data = PaymentsApi.chargeable_vehicles(
@@ -34,11 +34,11 @@ module ManageVehicles
                        vrn: vrn,
                        direction: direction
                      )
-                     ManageVehicles::ChargeableFleet.new(data)
+                     VehiclesManagement::ChargeableFleet.new(data)
                    end
     end
 
-    # Returns a ManageVehicles::ChargeableFleet with vehicles associated with the account for provided vrn.
+    # Returns a VehiclesManagement::ChargeableFleet with vehicles associated with the account for provided vrn.
     def charges_by_vrn(zone_id:, vrn:)
       @charges_by_vrn ||= begin
                      data = PaymentsApi.chargeable_vehicle(
@@ -46,10 +46,10 @@ module ManageVehicles
                        zone_id: zone_id,
                        vrn: vrn
                      )
-                     ManageVehicles::ChargeableFleet.new(data)
+                     VehiclesManagement::ChargeableFleet.new(data)
                    end
     rescue BaseApi::Error404Exception
-      ManageVehicles::ChargeableFleet.new({})
+      VehiclesManagement::ChargeableFleet.new({})
     end
 
     # Adds a new vehicle to the fleet. Returns boolean.

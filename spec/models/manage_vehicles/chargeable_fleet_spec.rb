@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ManageVehicles::ChargeableFleet, type: :model do
+describe VehiclesManagement::ChargeableFleet, type: :model do
   subject(:fleet) { described_class.new(data) }
 
   let(:first_vrn) { vehicles_data.first.try(:[], 'vrn') }
@@ -20,8 +20,8 @@ describe ManageVehicles::ChargeableFleet, type: :model do
   end
 
   describe '.vehicle_list' do
-    it 'returns an array of ManageVehicles::ChargeableVehicle instances' do
-      expect(fleet.vehicle_list).to all(be_a(ManageVehicles::ChargeableVehicle))
+    it 'returns an array of VehiclesManagement::ChargeableVehicle instances' do
+      expect(fleet.vehicle_list).to all(be_a(VehiclesManagement::ChargeableVehicle))
     end
 
     it 'returns proper number of vehicles' do

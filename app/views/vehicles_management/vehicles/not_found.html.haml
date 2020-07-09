@@ -4,8 +4,8 @@
     .govuk-grid-column-two-thirds
       - if alert
         = render 'shared/error_summary',
-          error_msg_div: '#unrecognised-vehicle-error',
-          error_msg: I18n.t('vehicle_not_found.errors.confirmation_alert')
+                  error_msg_div: '#unrecognised-vehicle-error',
+                  error_msg: I18n.t('vehicle_not_found.errors.confirmation_alert')
 
       %h1.govuk-heading-xl Vehicle details could not be found
       %p

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ManageUsers::UsersController, type: :request do
+describe UsersManagement::UsersController, type: :request do
   describe 'GET #confirmation' do
     subject { get confirmation_users_path }
 

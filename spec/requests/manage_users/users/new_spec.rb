@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ManageUsers::UsersController, type: :request do
+describe UsersManagement::UsersController, type: :request do
   describe 'GET #new' do
     subject { get new_user_path }
 

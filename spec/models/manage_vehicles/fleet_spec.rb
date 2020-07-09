@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ManageVehicles::Fleet, type: :model do
+describe VehiclesManagement::Fleet, type: :model do
   subject(:fleet) { described_class.new(account_id) }
 
   let(:account_id) { SecureRandom.uuid }
@@ -25,13 +25,13 @@ describe ManageVehicles::Fleet, type: :model do
       vehicles
     end
 
-    it 'returns a ManageVehicles::PaginatedFleet' do
-      expect(vehicles).to be_a(ManageVehicles::PaginatedFleet)
+    it 'returns a VehiclesManagement::PaginatedFleet' do
+      expect(vehicles).to be_a(VehiclesManagement::PaginatedFleet)
     end
 
     describe '.vehicle_list' do
       it 'returns an list of vehicles' do
-        expect(vehicles.vehicle_list).to all(be_a(ManageVehicles::Vehicle))
+        expect(vehicles.vehicle_list).to all(be_a(VehiclesManagement::Vehicle))
       end
     end
 
@@ -101,13 +101,13 @@ describe ManageVehicles::Fleet, type: :model do
       charges
     end
 
-    it 'returns a ManageVehicles::ChargeableFleet' do
-      expect(charges).to be_a(ManageVehicles::ChargeableFleet)
+    it 'returns a VehiclesManagement::ChargeableFleet' do
+      expect(charges).to be_a(VehiclesManagement::ChargeableFleet)
     end
 
     describe '.vehicle_list' do
-      it 'returns an list of ManageVehicles::ChargeableVehicle instances' do
-        expect(charges.vehicle_list).to all(be_a(ManageVehicles::ChargeableVehicle))
+      it 'returns an list of VehiclesManagement::ChargeableVehicle instances' do
+        expect(charges.vehicle_list).to all(be_a(VehiclesManagement::ChargeableVehicle))
       end
     end
 
@@ -145,13 +145,13 @@ describe ManageVehicles::Fleet, type: :model do
       charges_by_vrn
     end
 
-    it 'returns a ManageVehicles::ChargeableFleet' do
-      expect(charges_by_vrn).to be_a(ManageVehicles::ChargeableFleet)
+    it 'returns a VehiclesManagement::ChargeableFleet' do
+      expect(charges_by_vrn).to be_a(VehiclesManagement::ChargeableFleet)
     end
 
     describe '.vehicle_list' do
-      it 'returns an list of ManageVehicles::ChargeableVehicle instances' do
-        expect(charges_by_vrn.vehicle_list).to all(be_a(ManageVehicles::ChargeableVehicle))
+      it 'returns an list of VehiclesManagement::ChargeableVehicle instances' do
+        expect(charges_by_vrn.vehicle_list).to all(be_a(VehiclesManagement::ChargeableVehicle))
       end
     end
   end

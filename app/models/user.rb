@@ -59,7 +59,7 @@ class User
 
   # Returns associated fleet object
   def fleet
-    @fleet ||= ManageVehicles::Fleet.new(account_id)
+    @fleet ||= VehiclesManagement::Fleet.new(account_id)
   end
 
   # Serializes User based on data from API

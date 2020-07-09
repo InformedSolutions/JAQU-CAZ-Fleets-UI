@@ -2,7 +2,7 @@
 
 ##
 # Module used for manage users flow
-module ManageUsers
+module UsersManagement
   ##
   # Controller used to manage users
   #
@@ -21,7 +21,7 @@ module ManageUsers
     def index
       clear_new_user if request.referer&.include?(confirmation_users_path)
       api_response = AccountsApi.users(account_id: current_user.account_id)
-      @users = api_response.map { |user_data| ManageUsers::User.new(user_data) }
+      @users = api_response.map { |user_data| UsersManagement::User.new(user_data) }
     end
 
     ##
