@@ -2,9 +2,14 @@
 
 require 'rails_helper'
 
-describe 'UploadsController - #index' do
+describe 'UploadsController - GET #index' do
   subject { get uploads_path }
 
-  before { mock_fleet }
-  it_behaves_like 'a login required'
+  context 'correct permissions' do
+    before { mock_fleet }
+
+    it_behaves_like 'a login required'
+  end
+
+  it_behaves_like 'incorrect permissions'
 end

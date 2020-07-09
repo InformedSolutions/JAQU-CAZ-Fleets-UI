@@ -2,8 +2,12 @@
 
 require 'rails_helper'
 
-describe 'VehiclesController - #enter_details', type: :request do
+describe 'VehiclesController - GET #enter_details', type: :request do
   subject { get enter_details_vehicles_path }
 
-  it_behaves_like 'a login required'
+  context 'correct permissions' do
+    it_behaves_like 'a login required'
+  end
+
+  it_behaves_like 'incorrect permissions'
 end

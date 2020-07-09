@@ -3,58 +3,61 @@
 require 'rails_helper'
 
 describe 'VehicleController - POST #confirm_details', type: :request do
-  subject do
-    post confirm_details_vehicles_path, params: { 'confirm-vehicle' => confirmation }
-  end
+  subject { post confirm_details_vehicles_path, params: { 'confirm-vehicle' => confirmation } }
 
   let(:confirmation) { 'yes' }
-  let(:account_id) { SecureRandom.uuid }
 
-  it 'returns redirect to the login page' do
-    subject
-    expect(response).to redirect_to(new_user_session_path)
-  end
+  context 'correct permissions' do
+    let(:account_id) { SecureRandom.uuid }
 
-  context 'when user is signed in' do
-    before { sign_in create_user(account_id: account_id) }
-
-    context 'without VRN in the session' do
-      it 'returns redirect to vehicles#enter_details' do
-        subject
-        expect(response).to redirect_to(enter_details_vehicles_path)
-      end
+    it 'returns redirect to the login page' do
+      subject
+      expect(response).to redirect_to(new_user_session_path)
     end
 
-    context 'with VRN in the session' do
-      before do
-        allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true)
-        add_to_session(vrn: @vrn)
-      end
+    context 'when user is signed in' do
+      before { sign_in manage_vehicles_user(account_id: account_id) }
 
-      context 'when user confirms details' do
-        it 'redirects to local vehicle exemptions' do
+      context 'without VRN in the session' do
+        it 'returns redirect to vehicles#enter_details' do
           subject
-          expect(response).to redirect_to(local_exemptions_vehicles_path)
+          expect(response).to redirect_to(enter_details_vehicles_path)
         end
       end
 
-      context 'when user does not confirm details' do
-        let(:confirmation) { 'no' }
-
-        it 'redirects to incorrect details page' do
-          subject
-          expect(response).to redirect_to(incorrect_details_vehicles_path)
+      context 'with VRN in the session' do
+        before do
+          allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true)
+          add_to_session(vrn: @vrn)
         end
-      end
 
-      context 'when confirmation is empty' do
-        let(:confirmation) { '' }
+        context 'when user confirms details' do
+          it 'redirects to local vehicle exemptions' do
+            subject
+            expect(response).to redirect_to(local_exemptions_vehicles_path)
+          end
+        end
 
-        it 'redirects to confirm details page' do
-          subject
-          expect(response).to redirect_to(details_vehicles_path)
+        context 'when user does not confirm details' do
+          let(:confirmation) { 'no' }
+
+          it 'redirects to incorrect details page' do
+            subject
+            expect(response).to redirect_to(incorrect_details_vehicles_path)
+          end
+        end
+
+        context 'when confirmation is empty' do
+          let(:confirmation) { '' }
+
+          it 'redirects to confirm details page' do
+            subject
+            expect(response).to redirect_to(details_vehicles_path)
+          end
         end
       end
     end
   end
+
+  it_behaves_like 'incorrect permissions'
 end

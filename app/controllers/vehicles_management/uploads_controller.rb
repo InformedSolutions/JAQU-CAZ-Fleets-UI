@@ -8,7 +8,7 @@ module VehiclesManagement
   #
   class UploadsController < ApplicationController
     include CheckPermissions
-
+    before_action -> { check_permissions(allow_manage_vehicles?) }
     rescue_from CsvUploadException, with: :render_upload_error
 
     ##

@@ -2,8 +2,12 @@
 
 require 'rails_helper'
 
-describe 'FleetsController - #submission_method', type: :request do
+describe 'FleetsController - GET #submission_method', type: :request do
   subject { get submission_method_fleets_path }
 
-  it_behaves_like 'a login required'
+  context 'correct permissions' do
+    it_behaves_like 'a login required'
+  end
+
+  it_behaves_like 'incorrect permissions'
 end

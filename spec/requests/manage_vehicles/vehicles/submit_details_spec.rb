@@ -2,48 +2,50 @@
 
 require 'rails_helper'
 
-describe 'VehiclesController - #submit_details', type: :request do
-  subject do
-    post enter_details_vehicles_path, params: { vrn: vrn }
-  end
+describe 'VehiclesController - POST #submit_details', type: :request do
+  subject { post enter_details_vehicles_path, params: { vrn: vrn } }
 
-  let(:vrn) { 'ABC123' }
+  let(:vrn) { @vrn }
 
-  it 'returns redirect to the login page' do
-    subject
-    expect(response).to redirect_to(new_user_session_path)
-  end
-
-  context 'when user is logged in' do
-    before do
-      sign_in create_user
+  context 'correct permissions' do
+    it 'returns redirect to the login page' do
       subject
+      expect(response).to redirect_to(new_user_session_path)
     end
 
-    context 'when VrnForm is valid' do
-      it 'redirects to #details' do
-        expect(response).to redirect_to(details_vehicles_path)
+    context 'when user is logged in' do
+      before do
+        sign_in manage_vehicles_user
+        subject
       end
 
-      it 'sets vrn in the session' do
-        expect(session[:vrn]).to eq(vrn)
-      end
-    end
+      context 'when VrnForm is valid' do
+        it 'redirects to #details' do
+          expect(response).to redirect_to(details_vehicles_path)
+        end
 
-    context 'when VrnForm is NOT valid' do
-      let(:vrn) { nil }
-
-      it 'redirects to #confirm_details' do
-        expect(response).to render_template(:enter_details)
+        it 'sets vrn in the session' do
+          expect(session[:vrn]).to eq(vrn)
+        end
       end
 
-      it 'assigns @errors' do
-        expect(assigns(:errors)).not_to be_nil
-      end
+      context 'when VrnForm is NOT valid' do
+        let(:vrn) { nil }
 
-      it 'does not set vrn in the session' do
-        expect(session[:vrn]).to be_nil
+        it 'redirects to #confirm_details' do
+          expect(response).to render_template(:enter_details)
+        end
+
+        it 'assigns @errors' do
+          expect(assigns(:errors)).not_to be_nil
+        end
+
+        it 'does not set vrn in the session' do
+          expect(session[:vrn]).to be_nil
+        end
       end
     end
   end
+
+  it_behaves_like 'incorrect permissions'
 end
