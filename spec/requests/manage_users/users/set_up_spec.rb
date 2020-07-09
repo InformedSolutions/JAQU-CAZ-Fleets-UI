@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-describe UsersController, type: :request do
-  describe 'GET #confirmation' do
-    subject { get confirmation_users_path }
+describe ManageUsers::UsersController, type: :request do
+  describe 'GET #set_up' do
+    subject { get set_up_users_path }
 
     it_behaves_like 'incorrect permissions'
 

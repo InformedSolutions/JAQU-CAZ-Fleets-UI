@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe UsersController, type: :request do
+describe ManageUsers::UsersController, type: :request do
   describe 'GET #add_permissions' do
     subject { get add_permissions_users_path }
 

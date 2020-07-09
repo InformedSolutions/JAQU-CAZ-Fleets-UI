@@ -18,7 +18,7 @@ describe 'DebitsController - #cancel', type: :request do
     end
 
     it 'renders the cancel page' do
-      expect(response).to render_template('debits/cancel')
+      expect(response).to render_template('direct_debits/debits/cancel')
     end
   end
 
