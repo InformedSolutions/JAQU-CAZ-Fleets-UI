@@ -32,7 +32,7 @@ describe PaymentsHelper do
   describe '.paid?' do
     subject(:method) { helper.paid?(vehicle, date) }
 
-    let(:vehicle) { instance_double(ChargeableVehicle, paid_dates: dates) }
+    let(:vehicle) { instance_double(VehiclesManagement::ChargeableVehicle, paid_dates: dates) }
 
     context 'when there is no dates in the paid_dates' do
       let(:dates) { [] }

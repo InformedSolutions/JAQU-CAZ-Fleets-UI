@@ -2,24 +2,24 @@
 
 require 'rails_helper'
 
-describe ManageUsers::User, type: :model do
+describe UsersManagement::User, type: :model do
   subject { described_class.new(data) }
 
   let(:data) do
     {
-      'accountUserId' => account_id,
+      'accountUserId' => user_id,
       'name' => name,
       'email' => email
     }
   end
 
-  let(:account_id) { SecureRandom.uuid }
+  let(:user_id) { SecureRandom.uuid }
   let(:name) { 'John Doe' }
   let(:email) { 'test@example.com' }
 
-  describe '.account_id' do
-    it 'returns account_id' do
-      expect(subject.account_id).to eq(account_id)
+  describe '.user_id' do
+    it 'returns user_id' do
+      expect(subject.user_id).to eq(user_id)
     end
   end
 

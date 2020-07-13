@@ -9,11 +9,11 @@ describe User, type: :model do
 
   describe '.fleet' do
     it 'returns a fleet object' do
-      expect(user.fleet).to be_a(Fleet)
+      expect(user.fleet).to be_a(VehiclesManagement::Fleet)
     end
 
-    it 'calls Fleet.new with proper params' do
-      expect(Fleet).to receive(:new).with(account_id)
+    it 'calls VehiclesManagement::Fleet.new with proper params' do
+      expect(VehiclesManagement::Fleet).to receive(:new).with(account_id)
       user.fleet
     end
   end

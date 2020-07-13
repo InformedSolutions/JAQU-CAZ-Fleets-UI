@@ -53,3 +53,7 @@ end
 When('I have active mandates for selected CAZ') do
   mock_api_endpoints
 end
+
+Then('I should be on the cancel payment page') do
+  expect_path(cancel_payments_path)
+end

@@ -5,6 +5,18 @@ en:
       missing: 'is required'
       maximum_length: 'is too long (maximum is %{length} characters)'
       invalid_format: 'has invalid format'
+  company_name_form:
+    comapny_name_missing: Enter your company name
+    maximum_length: '%{attribute} is too long (maximum is %{length} characters)'
+    invalid_format: '%{attribute} has invalid format'
+  email_and_password_form:
+    email_missing: Enter your email address
+    email_confirmation_missing: Confirm your email address
+    password_missing: Enter your password
+    password_confirmation_missing: Confirm your password
+  reset_password_form:
+    email_missing: Enter your email address
+    email_invalid_format: Enter your email address in a valid format
   login_form:
     email_missing: 'Enter your email address'
     password_missing: 'Enter your password'
@@ -43,11 +55,18 @@ en:
       vrn_invalid: 'Enter the number plate in a valid format'
       vrn_too_long: 'The number plate is too long'
       vrn_too_short: 'The number plate is too short'
-  password:
+  new_password_form:
     errors:
-      password_equality: 'Password and password confirmation must be the same'
-      password_required: 'Password is required'
-      confirmation_required: 'Password confirmation is required'
+      password_not_equal: Enter a password and password confirmation that are the same
+      password_missing: Enter your new password
+      password_confirmation_missing: Confirm your new password
+      password_complexity: Enter a password at least 8 characters long, including 1 uppercase letter and 1 number
+  submission_method_form:
+    errors:
+      submission_method_missing: Choose how to add vehicles to your account
+  fleet_check_form:
+    errors:
+      confirm_fleet_check: You must choose an answer
   email:
     errors:
       email_equality: 'Email address and email address confirmation must be the same'
@@ -62,7 +81,7 @@ en:
   csv:
     errors:
       base: 'The selected file could not be uploaded – try again'
-      no_file: 'Select a file'
+      no_file: 'Select a CSV file to upload'
       invalid_ext: 'The selected file must be in a .CSV format'
   token_form:
     token_missing: 'Authorisation token is missing'
@@ -74,13 +93,15 @@ en:
     errors:
       confirmation_alert: Confirm you have checked if you are eligible for an exemption
   inactivity_logout: You have been logged out due to inactivity
-  add_user_form:
+  add_new_user_form:
     labels:
       name: Name
       email: Enter their email address
     hints:
       email: This will be used to send an invite to create an account.
     errors:
-      name_missing: Enter a User name
-      email_missing: Enter a User email
+      name_missing: Enter the user's name
+      email_missing: Enter the user's email address
       email_duplicated: Email address already exists
+      permissions_missing: Select at least one permission type to continue
+      email_invalid_format: Enter the user’s email address in a valid format

@@ -32,8 +32,7 @@ class ValidateFleetCheck < BaseService
     form = FleetCheckForm.new(confirm_fleet_check: confirm_fleet_check)
     return if form.valid?
 
-    error_message = form.errors.full_messages.first
-    raise InvalidFleetCheckException, error_message
+    raise InvalidFleetCheckException, form.first_error_message
   end
 
   # Used to check if account confirmed two or more vehicle in the fleet.

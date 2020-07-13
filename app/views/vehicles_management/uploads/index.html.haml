@@ -1,0 +1,13 @@
+= link_to 'Back', @vehicles_present ? fleets_path : submission_method_fleets_path, class: 'govuk-back-link'
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      - if @job_errors
+        = render 'job_errors'
+      - elsif alert
+        = render 'shared/error_summary',
+          error_msg_div: '#govuk-error-message',
+          error_msg: alert
+      = render @vehicles_present ? 'reupload' : 'upload'
+      = render 'description'

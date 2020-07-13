@@ -23,8 +23,7 @@ class CreateUserAccount < BaseService
   # sends verification email.
   def call
     validate_user_params
-    user = User.serialize_from_api(perform_api_call)
-    user
+    User.serialize_from_api(perform_api_call)
   end
 
   private

@@ -246,6 +246,40 @@ class AccountsApi < BaseApi
     end
 
     ##
+    # Calls +/v1/accounts/:accountId/user-invitations+ endpoint with +POST+ method.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - uuid, ID of the account on backend DB
+    # * +user_id+ - uuid, ID of the user which will managed new user
+    # * +new_user_data+ - hash, with new user data such as: email, name, verification_url and permissions
+    #
+    # ==== Example
+    #    new_user_data = { name: name, email: email, verification_url: verification_url, permissions: ['MANAGE_VEHICLES']}
+    #    AccountsApi.user_invitations(account_id, user.account_id, user_id: user.user_id, new_user_data: new_user_data)
+    #
+    # ==== Result
+    #
+    # Returns an empty body
+    #
+    # ==== Exceptions
+    #
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - invalid user id
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def user_invitations(account_id:, user_id:, new_user_data:)
+      log_action('Create user invitation')
+      body = {
+        isAdministeredBy: user_id,
+        email: new_user_data[:email],
+        name: new_user_data[:name],
+        verificationUrl: new_user_data[:verification_url],
+        permissions: new_user_data[:permissions]
+      }.to_json
+      request(:post, "/accounts/#{account_id}/user-invitations", body: body)
+    end
+
+    ##
     # Calls +/v1/auth/password/reset+ endpoint with +POST+ method.
     #
     # ==== Attributes

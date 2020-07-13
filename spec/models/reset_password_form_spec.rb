@@ -25,10 +25,7 @@ RSpec.describe ResetPasswordForm, type: :model do
     it 'has a proper error message' do
       form.valid?
       expect(form.errors.messages[:email_address]).to include(
-        I18n.t(
-          'input_form.errors.missing',
-          attribute: 'Email address'
-        )
+        I18n.t('reset_password_form.email_missing')
       )
     end
   end
@@ -46,10 +43,7 @@ RSpec.describe ResetPasswordForm, type: :model do
       it 'has a proper error message' do
         form.valid?
         expect(form.errors.messages[:email_address]).to include(
-          I18n.t(
-            'input_form.errors.invalid_format',
-            attribute: 'Email address'
-          )
+          I18n.t('reset_password_form.email_invalid_format')
         )
       end
     end

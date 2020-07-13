@@ -114,7 +114,7 @@ describe PaymentDates do
       end
 
       context 'when #charge_start_date is not considered' do
-        let(:charge_start_date) { Time.zone.today - 6.days }
+        let(:charge_start_date) { Time.zone.today - 7.days }
 
         it 'returns false' do
           expect(service.d_day_notice).to be_falsey
