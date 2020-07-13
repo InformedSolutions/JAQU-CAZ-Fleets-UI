@@ -60,6 +60,7 @@ module VehiclesManagement
     #
     def details
       @vehicle_details = VehiclesManagement::VehicleDetails.new(vrn)
+      session[:vehicle_type] = @vehicle_details.type
       redirect_to exempt_vehicles_path if @vehicle_details.exempt?
     end
 
@@ -197,7 +198,7 @@ module VehiclesManagement
 
     # Adds vehicle with vrn found in session to users fleet and sets flash accordingly
     def add_to_current_users_fleet
-      if current_user.add_vehicle(vrn)
+      if current_user.add_vehicle(vrn, session[:vehicle_type])
         flash[:success] = I18n.t('vrn_form.messages.single_vrn_added', vrn: vrn)
       else
         flash[:warning] = I18n.t('vrn_form.messages.vrn_already_exists', vrn: vrn)
@@ -247,6 +248,7 @@ module VehiclesManagement
     # Clear session from data needed for adding new vehicle to fleet
     def clear_session
       session[:vrn] = nil
+      session[:vehicle_type] = nil
       session[:show_continue_button] = nil
     end
   end
