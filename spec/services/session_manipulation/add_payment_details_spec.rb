@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe SessionManipulation::AddPaymentDetails do
-  subject(:service) do
+  subject do
     described_class.call(params: params, session: session)
   end
 
@@ -15,7 +15,7 @@ describe SessionManipulation::AddPaymentDetails do
   let(:details) { { @vrn => { dates: [] } } }
   let(:list) { @vrn }
 
-  before { service }
+  before { subject }
 
   it 'adds details for @vrn' do
     expect(session[:new_payment][:details][@vrn][:dates]).to eq(dates)

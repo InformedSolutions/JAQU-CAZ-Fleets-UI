@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Payments::Status, type: :model do
+describe Payments::Status, type: :model do
   subject(:payment_status) { described_class.new(id, 'Leeds') }
 
   let(:id) { SecureRandom.uuid }

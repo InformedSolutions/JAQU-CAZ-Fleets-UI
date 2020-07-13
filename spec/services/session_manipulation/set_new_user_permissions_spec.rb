@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe SessionManipulation::SetNewUserPermissions do
+describe SessionManipulation::SetNewUserPermissions do
   subject do
     described_class.call(session: session, params: { permissions: permissions })
   end

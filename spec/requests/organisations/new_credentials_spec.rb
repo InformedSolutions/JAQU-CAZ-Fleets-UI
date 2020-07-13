@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-describe 'OrganisationsController - GET #new_credentials' do
+describe 'CreateOrganisations::OrganisationsController - GET #new_credentials' do
   subject { get new_credentials_organisations_url }
 
   before do
-    add_to_session(new_account: { 'account_id': SecureRandom.uuid })
+    add_to_session(new_account: { 'account_id': @uuid })
     subject
   end
 

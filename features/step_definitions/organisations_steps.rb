@@ -5,12 +5,12 @@ Given('I go to the create account page') do
 end
 
 Given('I visit the verification link with a token status {string}') do |string|
-  allow(VerifyAccount).to receive(:call).and_return(string.to_sym)
+  allow(CreateOrganisations::VerifyAccount).to receive(:call).and_return(string.to_sym)
   visit email_verification_organisations_path(token: SecureRandom.uuid)
 end
 
 Given('I visit the verification link second time') do
-  allow(VerifyAccount).to receive(:call).and_raise(UserAlreadyConfirmedException)
+  allow(CreateOrganisations::VerifyAccount).to receive(:call).and_raise(UserAlreadyConfirmedException)
   visit email_verification_organisations_path(token: SecureRandom.uuid)
 end
 

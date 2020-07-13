@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - #index', type: :request do
+describe 'PaymentsController - #index' do
   subject { post local_authority_payments_path, params: { 'local-authority' => la } }
 
-  let(:la) { SecureRandom.uuid }
+  let(:la) { @uuid }
 
   context 'correct permissions' do
     let(:chargeable_vehicles_exists) { true }

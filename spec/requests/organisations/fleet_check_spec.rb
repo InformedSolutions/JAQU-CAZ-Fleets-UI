@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'OrganisationsController - GET #fleet_check' do
+describe 'CreateOrganisations::OrganisationsController - GET #fleet_check' do
   subject { get fleet_check_organisations_path }
 
   it 'returns an ok response' do
