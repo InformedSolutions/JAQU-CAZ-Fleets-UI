@@ -24,9 +24,7 @@
                 - @errors.uniq(&:second).each do |key, value|
                   - if value
                     %li.custom-csv-error
-                      = link_to(value,
-                                "##{key}-error",
-                                id: "#{key}-error")
+                      = link_to(value, "##{key}-error", id: "#{key}-error")
 
       %p
         You have been invited to set up a Clean Air Zone account.
@@ -34,7 +32,7 @@
         Create a password so that you can sign in.
 
       = form_for('account_set_up', url: confirm_set_up_users_path(token: @token), method: :post) do |f|
-        = f.hidden_field :token, :value => @token
+        = f.hidden_field :token, value: @token
 
         .govuk-form-group{class: "#{'govuk-form-group--error' if password_error.present?}"}
           = f.label :password, 'Password', class: 'govuk-label'
