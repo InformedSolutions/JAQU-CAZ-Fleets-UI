@@ -8,7 +8,9 @@ module UsersManagement
   #
   class UsersController < ApplicationController
     include CheckPermissions
-    before_action -> { check_permissions(allow_manage_users?) }
+    before_action :authenticate_user!, except: %i[set_up confirm_set_up set_up_confirmation]
+    before_action -> { check_permissions(allow_manage_users?) },
+                  except: %i[set_up confirm_set_up set_up_confirmation]
     before_action :check_new_user, only: %i[add_permissions confirm_permissions]
 
     ##
@@ -94,17 +96,56 @@ module UsersManagement
     end
 
     ##
-    # Renders set up mockup page
+    # Renders account set up page
     #
     # ==== Path
     #
     #    GET /users/set_up
     #
     def set_up
-      # Renders a mockup page
+      # Renders account set up page
+    end
+
+    ##
+    # Process account set up request
+    #
+    # ==== Path
+    #
+    #    POST /users/confirm_set_up
+    #
+    def confirm_set_up
+      parameters = params[:account_set_up].permit(:password, :password_confirmation, :token)
+      form = SetUpAccountForm.new(params: parameters)
+
+      if form.valid? && form.submit
+        redirect_to set_up_confirmation_users_path
+      else
+        confirm_set_up_errors(form.errors.messages)
+        render :set_up
+      end
+    end
+
+    ##
+    # Renders account set up confirmation page
+    #
+    # ==== Path
+    #
+    #    GET /users/set_up_confirmation
+    #
+    def set_up_confirmation
+      # Renders account set up confirmation mockup page
     end
 
     private
+
+    # Formats account set up page errors
+    def confirm_set_up_errors(errors)
+      flash.now[:errors] = {
+        token: errors[:token].first,
+        password: errors[:password].first,
+        password_confirmation: errors[:password_confirmation].first
+      }
+    end
 
     # Returns new user params
     def new_user_params
