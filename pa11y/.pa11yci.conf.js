@@ -26,7 +26,7 @@ var config = {
         },
         "${BASE_URL}/cookies",
         "${BASE_URL}/privacy_notice",
-        // "${BASE_URL}/accessibility_statement",
+        "${BASE_URL}/accessibility_statement",
         "${BASE_URL}/fleets",
         "${BASE_URL}/uploads",
         "${BASE_URL}/debits"
