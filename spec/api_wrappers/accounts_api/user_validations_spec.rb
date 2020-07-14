@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'AccountsApi.user_validations' do
+describe 'AccountsApi.user_validations - POST' do
   subject { AccountsApi.user_validations(account_id: account_id, email: email, name: name) }
 
   let(:account_id) { 'f1409c5e-3241-44b8-8224-8d40ee0fcac6' }
@@ -26,7 +26,7 @@ describe 'AccountsApi.user_validations' do
     before do
       stub_request(:post, /#{url}/).to_return(
         status: 400,
-        body: { 'message' => 'Email already exists' }.to_json
+        body: { message: 'Email already exists' }.to_json
       )
     end
 

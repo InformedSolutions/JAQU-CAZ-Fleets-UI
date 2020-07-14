@@ -47,11 +47,12 @@ module Organisations
     # Check if api returns 422 errors. If yes assign error messages to error object and
     # raise `UnableToCreateAccountException` exception
     def parse_422_error(enum)
-      error = if enum.eql?('duplicate')
+      error = case enum
+              when 'duplicate'
                 I18n.t('company_name.errors.duplicate')
-              elsif enum.eql?('profanity')
+              when 'profanity'
                 I18n.t('company_name.errors.profanity')
-              elsif enum.eql?('abuse')
+              when 'abuse'
                 I18n.t('company_name.errors.abuse')
               end
 

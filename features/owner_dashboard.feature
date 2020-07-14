@@ -50,7 +50,7 @@ Feature: Dashboard
     Given I visit Dashboard page with few users already added
       And I should see 'Manage users' link
       And I press 'Manage users' link
-    Then I should be on the manage users page
+    Then I should be on the Manage users page
       And I should see 'Add another user' button
       And I press 'Add another user' link
     Then I should be on the Add user page

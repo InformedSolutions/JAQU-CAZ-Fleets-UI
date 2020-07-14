@@ -6,12 +6,13 @@ module UsersManagement
   ##
   # Controller used to manage users
   #
-  class UsersController < ApplicationController
+  class UsersController < ApplicationController # rubocop:disable Metrics/ClassLength
     include CheckPermissions
     before_action :authenticate_user!, except: %i[set_up confirm_set_up set_up_confirmation]
     before_action -> { check_permissions(allow_manage_users?) },
                   except: %i[set_up confirm_set_up set_up_confirmation]
     before_action :check_new_user, only: %i[add_permissions confirm_permissions]
+    before_action :check_users_count, only: %i[new create]
 
     ##
     # Renders manage users page
@@ -199,6 +200,13 @@ module UsersManagement
     # Clears new user data in session
     def clear_new_user
       session.delete(:new_user)
+    end
+
+    # Do not allow owner to add more then 10 users
+    def check_users_count
+      api_response = AccountsApi.users(account_id: current_user.account_id)
+      users = api_response.map { |user_data| UsersManagement::User.new(user_data) }
+      redirect_to users_path if users.count > 9
     end
   end
 end

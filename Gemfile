@@ -12,7 +12,7 @@ gem 'bootsnap', require: false
 gem 'devise'
 gem 'haml'
 gem 'httparty'
-gem 'puma', '>= 4.3.5'
+gem 'puma'
 gem 'redis'
 gem 'sdoc', require: false
 gem 'sqlite3'

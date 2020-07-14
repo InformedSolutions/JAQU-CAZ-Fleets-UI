@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 
-Given('I visit the manage users page') do
+Given('I visit the Manage users page') do
   mock_api
   mock_users
-  login_owner
+  login_user(permissions: ['MANAGE_USERS'])
   visit users_path
 end
 
-Given('I visit the manage users page with no users') do
+Given('I visit the Manage users page with no users') do
   mock_api
   mock_empty_users_list
-  login_owner
+  login_user(permissions: ['MANAGE_USERS'])
   visit users_path
 end
 
-Given('I visit the manage users page with more then 10 users') do
+Given('I visit the Manage users page with more then 10 users') do
   mock_api
   mock_more_then_ten_users
-  login_owner
+  login_user(permissions: ['MANAGE_USERS'])
   visit users_path
 end
 
-Given('I visit the manage users page when i am on the list') do
+Given('I visit the Manage users page when i am on the list') do
   mock_api
   mock_user_on_list
   visit users_path
@@ -30,17 +30,25 @@ end
 Given('I visit the Add user page') do
   mock_api
   mock_users
-  login_owner
+  login_user(permissions: ['MANAGE_USERS'])
   visit new_user_path
 end
 
-Then('I should be on the manage users page with some users already added') do
+Given('I visit the Manage users page and want to user permissions') do
+  mock_api
+  mock_users
+  mock_user_details
+  login_user(permissions: ['MANAGE_USERS'])
+  visit users_path
+end
+
+Then('I should be on the Manage users page with some users already added') do
   mock_api
   mock_user_on_list
   expect(page).to have_current_path(users_path)
 end
 
-Then('I should be on the manage users page') do
+Then('I should be on the Manage users page') do
   expect(page).to have_current_path(users_path)
 end
 
@@ -56,7 +64,7 @@ Then('I should be on the User confirmation page') do
   expect(page).to have_current_path(confirmation_users_path)
 end
 
-When('I fill new user form with allready used email') do
+When('I fill new user form with already used email') do
   stub = instance_double(
     'AddNewUserForm',
     valid?: false,

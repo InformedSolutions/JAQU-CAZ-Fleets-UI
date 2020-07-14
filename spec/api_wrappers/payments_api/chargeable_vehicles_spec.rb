@@ -3,29 +3,29 @@
 require 'rails_helper'
 
 describe 'PaymentsApi.chargeable_vehicles' do
-  subject(:call) { PaymentsApi.chargeable_vehicles(account_id: id, zone_id: zone_id) }
+  subject { PaymentsApi.chargeable_vehicles(account_id: id, zone_id: zone_id) }
 
   let(:id) { SecureRandom.uuid }
   let(:zone_id) { SecureRandom.uuid }
-  let(:base_url) { "accounts/#{id}/chargeable-vehicles" }
+  let(:url) { "accounts/#{id}/chargeable-vehicles" }
 
   before do
-    stub_request(:get, /#{base_url}/).to_return(
+    stub_request(:get, /#{url}/).to_return(
       status: 200,
       body: read_unparsed_response('chargeable_vehicles.json')
     )
   end
 
   it 'calls API with proper query data' do
-    call
+    subject
     expect(WebMock).to have_requested(
       :get,
-      /#{base_url}\?cleanAirZoneId=#{zone_id}&pageSize=10/
+      /#{url}\?cleanAirZoneId=#{zone_id}&pageSize=10/
     )
   end
 
   context 'with vrn and direction' do
-    subject(:call) do
+    subject do
       PaymentsApi.chargeable_vehicles(
         account_id: id, zone_id: zone_id, vrn: @vrn, direction: direction
       )
@@ -34,10 +34,10 @@ describe 'PaymentsApi.chargeable_vehicles' do
     let(:direction) { 'next' }
 
     it 'calls API with proper query data' do
-      call
+      subject
       expect(WebMock).to have_requested(
         :get,
-        /#{base_url}\?cleanAirZoneId=#{zone_id}&direction=#{direction}&pageSize=10&vrn=#{@vrn}/
+        /#{url}\?cleanAirZoneId=#{zone_id}&direction=#{direction}&pageSize=10&vrn=#{@vrn}/
       )
     end
 
@@ -45,10 +45,10 @@ describe 'PaymentsApi.chargeable_vehicles' do
       let(:direction) { nil }
 
       it 'calls API without vrn and direction' do
-        call
+        subject
         expect(WebMock).to have_requested(
           :get,
-          /#{base_url}\?cleanAirZoneId=#{zone_id}&pageSize=10/
+          /#{url}\?cleanAirZoneId=#{zone_id}&pageSize=10/
         )
       end
     end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ##
-# This class is used to validate user data filled in +app/views/users/new.html.haml+.
+# This class is used to validate user data filled in +app/views/users_management/users/new.html.haml+.
 class AddNewUserForm < NewUserBaseForm
   # validates name attribute to presence
   validates :name, presence: { message: I18n.t('add_new_user_form.errors.name_missing') }

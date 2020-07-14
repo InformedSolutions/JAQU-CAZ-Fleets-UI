@@ -7,23 +7,26 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
+
       - if errors && errors[:permissions]
         = render 'shared/error_summary',
                  error_msg_div: '#permissions-error',
                  error_msg: errors[:permissions].first
+
       = form_for('new_user', url: confirm_permissions_users_path, method: :post) do |f|
         .govuk-form-group{class: ('govuk-form-group--error' if errors)}
           %fieldset.govuk-fieldset
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
               %h1.govuk-fieldset__heading
                 = title_and_header
+
             %span#permissions-hint.govuk-hint
               Select all that apply.
             
-            - if errors && errors['permissions']
+            - if errors && errors[:permissions]
               %span#permissions-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
-                = errors['permissions'].first
+                = errors[:permissions].first
 
             .govuk-checkboxes
               .govuk-checkboxes__item
@@ -33,8 +36,8 @@
                                                id: 'manage-vehicles-permission',
                                                checked: checked_permission?('MANAGE_VEHICLES'),
                                                'aria-describedby': 'manage-vehicles-permission-hint'}
-                %label.govuk-label.govuk-checkboxes__label{:for => 'manage-vehicles-permission'}
-                  %b= 'Manage vehicles'
+                %label.govuk-label.govuk-checkboxes__label{for: 'manage-vehicles-permission'}
+                  %b Manage vehicles
                 %span#manage-vehicles-permission-hint.govuk-hint.govuk-checkboxes__hint
                   Add and remove vehicles
 
@@ -45,8 +48,8 @@
                                                id: 'manage-mandates-permission',
                                                checked: checked_permission?('MANAGE_MANDATES'),
                                                'aria-describedby': 'manage-mandates-permission-hint'}
-                %label.govuk-label.govuk-checkboxes__label{:for => 'manage-mandates-permission'}
-                  %b= 'Set up Direct Debits'
+                %label.govuk-label.govuk-checkboxes__label{for: 'manage-mandates-permission'}
+                  %b Set up Direct Debits
                 %span#manage-mandates-permission-hint.govuk-hint.govuk-checkboxes__hint
                   Create Direct Debit mandates
 
@@ -57,8 +60,8 @@
                                                id: 'make-payments-permission',
                                                checked: checked_permission?('MAKE_PAYMENTS'),
                                                'aria-describedby': 'make-payments-permission-hint'}
-                %label.govuk-label.govuk-checkboxes__label{:for => 'make-payments-permission'}
-                  %b= 'Make payments'
+                %label.govuk-label.govuk-checkboxes__label{for: 'make-payments-permission'}
+                  %b Make payments
                 %span#make-payments-permission-hint.govuk-hint.govuk-checkboxes__hint
                   By credit/debit card and Direct Debit
 
@@ -69,8 +72,8 @@
                                                id: 'manage-users-permission',
                                                checked: checked_permission?('MANAGE_USERS'),
                                                'aria-describedby': 'manage-users-permission-hint'}
-                %label.govuk-label.govuk-checkboxes__label{:for => 'manage-users-permission'}
-                  %b= 'Manage users'
+                %label.govuk-label.govuk-checkboxes__label{for: 'manage-users-permission'}
+                  %b Manage users
                 %span#manage-users-permission-hint.govuk-hint.govuk-checkboxes__hint
                   Add and remove users and edit permissions
 
@@ -81,8 +84,8 @@
                                                id: 'view-payments-permission',
                                                checked: checked_permission?('VIEW_PAYMENTS'),
                                                'aria-describedby': 'view-payments-permission-hint'}
-                %label.govuk-label.govuk-checkboxes__label{:for => 'view-payments-permission'}
-                  %b= 'View payment history'
+                %label.govuk-label.govuk-checkboxes__label{for: 'view-payments-permission'}
+                  %b View payment history
                 %span#view-payments-permission-hint.govuk-hint.govuk-checkboxes__hint
                   View all charges paid by the company
 

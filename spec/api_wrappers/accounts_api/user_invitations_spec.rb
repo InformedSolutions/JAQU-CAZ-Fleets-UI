@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'AccountsApi.user_invitations' do
+describe 'AccountsApi.user_invitations - POST' do
   subject do
     AccountsApi.user_invitations(account_id: account_id, user_id: user_id, new_user_data: new_user_data)
   end
@@ -45,7 +45,7 @@ describe 'AccountsApi.user_invitations' do
     before do
       stub_request(:post, /#{url}/).to_return(
         status: 404,
-        body: { 'message' => 'The user who initiated the invitation was not found' }.to_json
+        body: { message: 'The user who initiated the invitation was not found' }.to_json
       )
     end
 

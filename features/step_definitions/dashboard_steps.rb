@@ -15,7 +15,7 @@ When('I navigate to a Dashboard page with {string} permission') do |permission|
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_users
-  login_user([permission])
+  login_user(permissions: [permission])
 end
 
 When('I navigate to a Dashboard page with all permissions assigned') do

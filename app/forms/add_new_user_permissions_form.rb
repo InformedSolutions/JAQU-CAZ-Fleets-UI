@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ##
-# This class is used to validate user data filled in +app/views/users/new.html.haml+.
+# This class is used to validate user data filled in +app/views/users_management/users/new.html.haml+.
 class AddNewUserPermissionsForm < NewUserBaseForm
   # validates +email+ against duplication
   validate :email_not_duplicated, if: -> { email.present? }

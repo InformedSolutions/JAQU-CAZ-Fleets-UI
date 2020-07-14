@@ -171,9 +171,10 @@ module Payments
     # * +la_id+ - id of the selected CAZ, required in the session
     def confirm_payment_method
       session[:payment_method] = params['payment_method']
-      if params['payment_method'] == 'true'
+      case params['payment_method']
+      when 'true'
         redirect_to confirm_debits_path
-      elsif params['payment_method'] == 'false'
+      when 'false'
         redirect_to initiate_payments_path
       else
         @errors = 'Choose Direct Debit or Card payment'
@@ -259,7 +260,7 @@ module Payments
     # Permits all the form params
     def payment_params
       params.permit(:authenticity_token, :commit, :allSelectedCheckboxesCount,
-                    payment: [:vrn_search, :next_vrn, :previous_vrn, :vrn_list, vehicles: {}])
+                    payment: [:vrn_search, :next_vrn, :previous_vrn, :vrn_list, { vehicles: {} }])
     end
 
     # Permits local-authority

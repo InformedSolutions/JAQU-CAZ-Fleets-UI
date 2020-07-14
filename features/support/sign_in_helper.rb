@@ -1,24 +1,20 @@
 # frozen_string_literal: true
 
 module SignInHelper
-  def login_user(permissions)
+  def login_user(permissions:)
     user = new_user(permissions: permissions)
     allow_any_instance_of(User).to receive(:authentication).and_return(user)
-
     fill_sign_in_form
   end
 
   def login_owner
     owner = new_user(owner: true)
     allow_any_instance_of(User).to receive(:authentication).and_return(owner)
-
     fill_sign_in_form
   end
 
   def fill_sign_in_form
-    allow_any_instance_of(ActionDispatch::Request)
-      .to receive(:remote_ip)
-      .and_return(remote_ip)
+    allow_any_instance_of(ActionDispatch::Request).to receive(:remote_ip).and_return(remote_ip)
     visit new_user_session_path
     fill_in('user_email', with: 'user@example.com')
     fill_in('user_password', with: 'password')
