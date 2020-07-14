@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'OrganisationsController - POST #create' do
+describe 'Organisations::OrganisationsController - POST #create' do
   subject { post new_credentials_organisations_path, params: params }
 
   let(:params) { { organisations: organization_params } }
@@ -14,14 +14,14 @@ describe 'OrganisationsController - POST #create' do
       password_confirmation: password
     }
   end
-  let(:user) { User.new(email: email, sub: SecureRandom.uuid) }
+  let(:user) { User.new(email: email, sub: @uuid) }
   let(:email) { 'email@example.com' }
-  let(:account_id) { SecureRandom.uuid }
+  let(:account_id) { @uuid }
   let(:password) { '8NAOTpMkx2%9' }
 
   context 'with company name in the session' do
     before do
-      allow(CreateUserAccount).to receive(:call).and_return(user)
+      allow(Organisations::CreateUserAccount).to receive(:call).and_return(user)
       add_to_session(new_account: { 'account_id': account_id })
     end
 
@@ -32,7 +32,7 @@ describe 'OrganisationsController - POST #create' do
       end
 
       it 'calls CreateAccountService with proper params' do
-        expect(CreateUserAccount)
+        expect(Organisations::CreateUserAccount)
           .to receive(:call)
           .with(
             organisations_params: strong_params(organization_params),
@@ -45,7 +45,8 @@ describe 'OrganisationsController - POST #create' do
 
     context 'with invalid params' do
       before do
-        allow(CreateUserAccount).to receive(:call).and_raise(NewPasswordException.new({}))
+        allow(Organisations::CreateUserAccount).to receive(:call)
+          .and_raise(NewPasswordException.new({}))
       end
 
       it 'renders account details view' do

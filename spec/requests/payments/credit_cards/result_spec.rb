@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'DebitsController - GET #result' do
+describe 'DirectDebits::DebitsController - GET #result' do
   subject { get result_payments_path }
 
-  let(:id) { SecureRandom.uuid }
+  let(:id) { @uuid }
   let(:details) do
     {
       'CU12345' =>

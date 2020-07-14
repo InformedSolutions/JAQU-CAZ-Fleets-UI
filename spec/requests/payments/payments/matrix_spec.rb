@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - #matrix', type: :request do
+describe 'PaymentsController - #matrix' do
   subject { get matrix_payments_path }
 
   context 'correct permissions' do

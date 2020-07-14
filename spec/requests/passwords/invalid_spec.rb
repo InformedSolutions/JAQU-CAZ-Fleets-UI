@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PasswordsController - GET #invalid', type: :request do
+describe 'PasswordsController - GET #invalid' do
   subject { get invalid_passwords_path }
 
   it 'returns an ok response' do

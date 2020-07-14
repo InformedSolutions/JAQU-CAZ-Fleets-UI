@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'DebitsController - POST #create' do
+describe 'DirectDebits::DebitsController - POST #create' do
   subject { post debits_path, params: { 'local-authority' => la_id } }
 
   let(:la_id) { @uuid }

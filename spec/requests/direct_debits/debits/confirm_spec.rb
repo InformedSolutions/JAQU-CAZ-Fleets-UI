@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'DebitsController - GET #confirm' do
+describe 'DirectDebits::DebitsController - GET #confirm' do
   subject { get confirm_debits_path }
 
   context 'correct permissions' do

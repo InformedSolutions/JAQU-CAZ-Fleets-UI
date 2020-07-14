@@ -13,7 +13,7 @@ require 'rspec/rails'
 Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
 RSpec.configure do |config|
-  # add helpers to rspec classes
+  # add helpers to request rspec classes
   [RequestSpecHelper,
    StringCountHelper,
    AddToSession,
@@ -21,6 +21,8 @@ RSpec.configure do |config|
    ChargeableVehiclesFactory].each do |h|
     config.include h, type: :request
   end
+
+  # add helpers to rspec classes
   [StrongParams,
    UsersFactory,
    ActiveSupport::Testing::TimeHelpers,

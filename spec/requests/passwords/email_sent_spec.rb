@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PasswordsController - GET #email_sent', type: :request do
+describe 'PasswordsController - GET #email_sent' do
   subject { get email_sent_passwords_path }
 
   it 'returns an ok response' do
