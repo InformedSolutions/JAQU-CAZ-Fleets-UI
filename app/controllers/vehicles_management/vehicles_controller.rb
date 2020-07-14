@@ -9,7 +9,7 @@ module VehiclesManagement
   #
   class VehiclesController < ApplicationController
     include CheckPermissions
-
+    before_action -> { check_permissions(allow_manage_vehicles?) }
     # 404 HTTP status from API means vehicle in not found in DLVA database. Redirects to the proper page.
     rescue_from BaseApi::Error404Exception, with: :vehicle_not_found
     # 400 HTTP status from API means invalid VRN or other validation error

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'DebitsController - GET #index' do
+describe 'DirectDebits::DebitsController - GET #index' do
   subject { get debits_path }
 
   context 'correct permissions' do

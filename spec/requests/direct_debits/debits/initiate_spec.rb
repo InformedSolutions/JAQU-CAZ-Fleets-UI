@@ -2,13 +2,14 @@
 
 require 'rails_helper'
 
-describe 'DebitsController - POST #initiate' do
+describe 'DirectDebits::DebitsController - POST #initiate' do
   subject { post initiate_debits_path }
 
   context 'correct permissions' do
     before do
-      add_to_session(new_payment: { la_id: SecureRandom.uuid })
-      allow(MakeDebitPayment).to receive(:call).and_return(read_response('/debits/create_payment.json'))
+      add_to_session(new_payment: { la_id: @uuid })
+      allow(Payments::MakeDebitPayment).to receive(:call)
+        .and_return(read_response('/debits/create_payment.json'))
       sign_in make_payments_user
       subject
     end

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe SessionManipulation::SetNewUser do
+describe SessionManipulation::SetNewUser do
   subject do
     described_class.call(session: session, params: { email: email, name: name })
   end

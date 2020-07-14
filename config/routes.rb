@@ -20,22 +20,24 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :organisations, only: %i[] do
-    collection do
-      get :new
-      post :new, to: 'organisations#set_name'
-      get :fleet_check
-      post :fleet_check, to: 'organisations#submit_fleet_check'
-      get :cannot_create
-      get :new_credentials
-      post :new_credentials, to: 'organisations#create'
+  scope module: 'organisations', path: '/' do
+    resources :organisations, only: %i[] do
+      collection do
+        get :new
+        post :new, to: 'organisations#set_name'
+        get :fleet_check
+        post :fleet_check, to: 'organisations#submit_fleet_check'
+        get :cannot_create
+        get :new_credentials
+        post :new_credentials, to: 'organisations#create'
 
-      get :email_sent
-      get :resend_email
-      get :email_verified
-      get :email_verification
-      get :verification_failed
-      get :verification_expired
+        get :email_sent
+        get :resend_email
+        get :email_verified
+        get :email_verification
+        get :verification_failed
+        get :verification_expired
+      end
     end
   end
 

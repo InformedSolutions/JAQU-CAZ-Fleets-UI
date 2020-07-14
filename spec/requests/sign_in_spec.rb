@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'User signing in', type: :request do
+describe 'User signing in' do
   subject { post user_session_path(params) }
 
   let(:email) { 'user@example.com' }
@@ -14,8 +14,8 @@ describe 'User signing in', type: :request do
       .to receive(:sign_in)
       .and_return(
         'email' => email,
-        'accountUserId' => SecureRandom.uuid,
-        'accountId' => SecureRandom.uuid,
+        'accountUserId' => @uuid,
+        'accountId' => @uuid,
         'accountName' => 'Royal Mail',
         'owner' => false
       )

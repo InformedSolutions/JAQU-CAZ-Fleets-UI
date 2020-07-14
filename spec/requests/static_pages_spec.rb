@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe StaticPagesController, type: :request do
+describe StaticPagesController do
   describe 'GET #cookies' do
     subject { get cookies_path }
 

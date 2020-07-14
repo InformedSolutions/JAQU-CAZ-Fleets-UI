@@ -277,7 +277,7 @@ module Payments
     # Assigns +zone+, +dates+ and +d_day_notice+
     def assign_zone_and_dates
       @zone = CleanAirZone.find(@zone_id)
-      service = PaymentDates.new(charge_start_date: @zone.active_charge_start_date)
+      service = Payments::PaymentDates.new(charge_start_date: @zone.active_charge_start_date)
       @dates = service.chargeable_dates
       @d_day_notice = service.d_day_notice
     end

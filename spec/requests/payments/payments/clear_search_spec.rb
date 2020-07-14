@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - #clear_serach', type: :request do
+describe 'PaymentsController - #clear_serach' do
   subject { get clear_search_payments_path }
 
   context 'correct permissions' do

@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'PasswordsController - GET #index', type: :request do
+describe 'PasswordsController - GET #index' do
   subject { get passwords_path(token: token) }
 
-  let(:token) { SecureRandom.uuid }
+  let(:token) { @uuid }
 
   before do
     allow(AccountsApi).to receive(:validate_password_reset).and_return(true)
