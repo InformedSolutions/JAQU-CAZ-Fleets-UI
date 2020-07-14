@@ -119,6 +119,8 @@ Rails.application.routes.draw do
         post :confirm_permissions
         get :confirmation
         get :set_up
+        post :confirm_set_up
+        get :set_up_confirmation
       end
     end
   end

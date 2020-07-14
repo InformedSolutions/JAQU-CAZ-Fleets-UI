@@ -17,4 +17,5 @@ Rails.application.config.filter_parameters += %i[
   license_number
   vehicles
   name
+  token
 ]
