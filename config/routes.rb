@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'create_organisations', path: '/' do
+  scope module: 'organisations', path: '/' do
     resources :organisations, only: %i[] do
       collection do
         get :new

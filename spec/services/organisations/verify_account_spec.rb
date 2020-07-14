@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe CreateOrganisations::VerifyAccount do
+describe Organisations::VerifyAccount do
   subject { described_class.call(token: token) }
 
   let(:token) { 'd9ffd832-c22e-49e7-9261-b6c6619e9d97' }

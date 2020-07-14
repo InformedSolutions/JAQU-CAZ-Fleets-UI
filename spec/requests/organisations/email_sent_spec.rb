@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'CreateOrganisations::OrganisationsController - GET #email_sent' do
+describe 'Organisations::OrganisationsController - GET #email_sent' do
   subject { get email_sent_organisations_path }
 
   let(:session_data) do

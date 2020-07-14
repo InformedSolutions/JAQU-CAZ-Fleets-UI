@@ -2,7 +2,7 @@
 
 ##
 # Module used for creating an organisation
-module CreateOrganisations
+module Organisations
   ##
   # Service used to validate company name and perform request to API which creates the Company.
   #

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'CreateOrganisations::OrganisationsController - GET #email_verified' do
+describe 'Organisations::OrganisationsController - GET #email_verified' do
   subject { get email_verified_organisations_path }
 
   it 'returns an ok response' do

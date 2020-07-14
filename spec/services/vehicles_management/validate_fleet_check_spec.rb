@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe CreateOrganisations::ValidateFleetCheck do
+describe Organisations::ValidateFleetCheck do
   subject { described_class.call(confirm_fleet_check: confirm_fleet_check) }
 
   let(:confirm_fleet_check) { 'two_or_more' }

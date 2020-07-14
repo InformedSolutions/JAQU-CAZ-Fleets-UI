@@ -2,7 +2,7 @@
 
 ##
 # Module used for creating an organisation
-module CreateOrganisations
+module Organisations
   ##
   # Service used to validates user params and performs call to API
   #

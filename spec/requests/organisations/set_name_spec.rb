@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'CreateOrganisations::OrganisationsController - POST #set_name' do
+describe 'Organisations::OrganisationsController - POST #set_name' do
   subject do
     post organisations_path, params: { organisations: { company_name: company_name } }
   end
@@ -11,7 +11,7 @@ describe 'CreateOrganisations::OrganisationsController - POST #set_name' do
 
   context 'with valid params' do
     before do
-      allow(CreateOrganisations::CreateAccount).to receive(:call).and_return(@uuid)
+      allow(Organisations::CreateAccount).to receive(:call).and_return(@uuid)
     end
 
     context 'when account_id not present in session' do
@@ -20,9 +20,9 @@ describe 'CreateOrganisations::OrganisationsController - POST #set_name' do
         expect(response).to have_http_status(:found)
       end
 
-      it 'calls CreateOrganisations::CreateAccount service response' do
+      it 'calls Organisations::CreateAccount service response' do
         subject
-        expect(CreateOrganisations::CreateAccount).to have_received(:call)
+        expect(Organisations::CreateAccount).to have_received(:call)
       end
     end
 
@@ -43,8 +43,8 @@ describe 'CreateOrganisations::OrganisationsController - POST #set_name' do
         expect(response).to have_http_status(:found)
       end
 
-      it 'calls CreateOrganisations::CreateAccount service response' do
-        expect(CreateOrganisations::CreateAccount).to have_received(:call)
+      it 'calls Organisations::CreateAccount service response' do
+        expect(Organisations::CreateAccount).to have_received(:call)
       end
     end
 
@@ -65,8 +65,8 @@ describe 'CreateOrganisations::OrganisationsController - POST #set_name' do
         expect(response).to have_http_status(:found)
       end
 
-      it 'does not call CreateOrganisations::CreateAccount service response' do
-        expect(CreateOrganisations::CreateAccount).not_to have_received(:call)
+      it 'does not call Organisations::CreateAccount service response' do
+        expect(Organisations::CreateAccount).not_to have_received(:call)
       end
     end
   end
@@ -75,7 +75,7 @@ describe 'CreateOrganisations::OrganisationsController - POST #set_name' do
     let(:errors) { { company_name: 'Sample Error' } }
 
     before do
-      allow(CreateOrganisations::CreateAccount).to(receive(:call)
+      allow(Organisations::CreateAccount).to(receive(:call)
         .and_raise(InvalidCompanyNameException, errors))
       subject
     end
@@ -89,7 +89,7 @@ describe 'CreateOrganisations::OrganisationsController - POST #set_name' do
     let(:errors) { { company_name: 'Sample Error' } }
 
     before do
-      allow(CreateOrganisations::CreateAccount).to(receive(:call)
+      allow(Organisations::CreateAccount).to(receive(:call)
         .and_raise(UnableToCreateAccountException, errors))
       subject
     end

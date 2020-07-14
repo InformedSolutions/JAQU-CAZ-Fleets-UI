@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe CreateOrganisations::CreateAccount do
+describe Organisations::CreateAccount do
   subject { described_class.call(company_name: company_name) }
 
   let(:company_name) { 'Mikusek Software' }

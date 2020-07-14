@@ -2,7 +2,7 @@
 
 ##
 # Module used for creating an organisation
-module CreateOrganisations
+module Organisations
   ##
   # Service used to validate fleet check and throw exception if is not valid.
   #

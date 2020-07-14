@@ -2,7 +2,7 @@
 
 ##
 # Module used for creating an organisation
-module CreateOrganisations
+module Organisations
   ##
   # Controller used to create a company account
   #
@@ -45,7 +45,7 @@ module CreateOrganisations
       redirect_to fleet_check_organisations_path
     rescue InvalidCompanyNameException, UnableToCreateAccountException => e
       @error = e.message
-      render 'create_organisations/organisations/new'
+      render 'organisations/organisations/new'
     end
 
     ##
@@ -69,11 +69,11 @@ module CreateOrganisations
     #
     def submit_fleet_check
       SessionManipulation::SetFleetCheck.call(session: session, params: company_params)
-      CreateOrganisations::ValidateFleetCheck.call(confirm_fleet_check: company_params[:confirm_fleet_check])
+      Organisations::ValidateFleetCheck.call(confirm_fleet_check: company_params[:confirm_fleet_check])
       redirect_to new_credentials_organisations_path
     rescue InvalidFleetCheckException => e
       @error = e.message
-      render 'create_organisations/organisations/fleet_check'
+      render 'organisations/organisations/fleet_check'
     rescue AccountForMultipleVehiclesException
       redirect_to cannot_create_organisations_path
     end
@@ -117,7 +117,7 @@ module CreateOrganisations
     # * +company_name+ - string, account name stored in the session e.g. 'Company name'
     #
     def create
-      user = CreateOrganisations::CreateUserAccount.call(
+      user = Organisations::CreateUserAccount.call(
         organisations_params: organisations_params,
         account_id: new_account['account_id'],
         verification_url: email_verification_organisations_url
@@ -163,7 +163,7 @@ module CreateOrganisations
     # * +token+ - string, encrypted token with verification data
     #
     def email_verification
-      verification_status = CreateOrganisations::VerifyAccount.call(token: params[:token])
+      verification_status = Organisations::VerifyAccount.call(token: params[:token])
       path = verification_paths[verification_status]
       session['new_account'] = nil
       redirect_to path
@@ -221,9 +221,8 @@ module CreateOrganisations
     # Creates Account and store details in session
     def create_new_account
       SessionManipulation::SetCompanyName.call(session: session, params: company_params)
-      account_id = CreateOrganisations::CreateAccount.call(company_name: new_account['company_name'])
-      SessionManipulation::SetAccountId.call(session: session,
-                                             params: { 'account_id' => account_id })
+      account_id = Organisations::CreateAccount.call(company_name: new_account['company_name'])
+      SessionManipulation::SetAccountId.call(session: session, params: { 'account_id' => account_id })
     end
 
     # Returns the list of permitted params

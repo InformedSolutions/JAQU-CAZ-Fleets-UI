@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'CreateOrganisations::OrganisationsController - POST #create' do
+describe 'Organisations::OrganisationsController - POST #create' do
   subject { post new_credentials_organisations_path, params: params }
 
   let(:params) { { organisations: organization_params } }
@@ -21,7 +21,7 @@ describe 'CreateOrganisations::OrganisationsController - POST #create' do
 
   context 'with company name in the session' do
     before do
-      allow(CreateOrganisations::CreateUserAccount).to receive(:call).and_return(user)
+      allow(Organisations::CreateUserAccount).to receive(:call).and_return(user)
       add_to_session(new_account: { 'account_id': account_id })
     end
 
@@ -32,7 +32,7 @@ describe 'CreateOrganisations::OrganisationsController - POST #create' do
       end
 
       it 'calls CreateAccountService with proper params' do
-        expect(CreateOrganisations::CreateUserAccount)
+        expect(Organisations::CreateUserAccount)
           .to receive(:call)
           .with(
             organisations_params: strong_params(organization_params),
@@ -45,7 +45,7 @@ describe 'CreateOrganisations::OrganisationsController - POST #create' do
 
     context 'with invalid params' do
       before do
-        allow(CreateOrganisations::CreateUserAccount).to receive(:call)
+        allow(Organisations::CreateUserAccount).to receive(:call)
           .and_raise(NewPasswordException.new({}))
       end
 

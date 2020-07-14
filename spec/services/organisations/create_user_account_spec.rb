@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe CreateOrganisations::CreateUserAccount do
+describe Organisations::CreateUserAccount do
   subject do
     described_class.call(
       organisations_params: params,

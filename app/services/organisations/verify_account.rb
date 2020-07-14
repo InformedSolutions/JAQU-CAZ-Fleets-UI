@@ -2,12 +2,12 @@
 
 ##
 # Module used for creating an organisation
-module CreateOrganisations
+module Organisations
   ##
   # Service used to verify account, call verify endpoint in the backend API
   #
   # ==== Usage
-  #    CreateOrganisations::VerifyAccount.call(token: params[:token])
+  #    Organisations::VerifyAccount.call(token: params[:token])
   #
   class VerifyAccount < BaseService
     # Initializer method used by class level +.call+ method
