@@ -14,7 +14,7 @@ var config = {
     urls: [
         '${BASE_URL}?login',
         {
-            "url": "${BASE_URL}?youraccount",
+            "url": "${BASE_URL}?your_account",
             "actions": [
                 "wait for element #ccc-dismiss-button to be visible",
                 "click element #ccc-dismiss-button ",
@@ -26,10 +26,10 @@ var config = {
         },
         "${BASE_URL}/cookies",
         "${BASE_URL}/privacy_notice",
-        "${BASE_URL}/accessibility_statement",
+        // "${BASE_URL}/accessibility_statement",
         "${BASE_URL}/fleets",
         "${BASE_URL}/uploads",
-        "${BASE_URL}/payments/debits"
+        "${BASE_URL}/debits"
         
     ]
 };
