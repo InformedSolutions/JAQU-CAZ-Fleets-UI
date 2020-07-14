@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+##
+# Controller used to create a company account
+#
 # rubocop:disable Metrics/ClassLength
 class OrganisationsController < ApplicationController
   skip_before_action :authenticate_user!

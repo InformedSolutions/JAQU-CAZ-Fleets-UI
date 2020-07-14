@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+##
+# Controller class used to automatically sign out user
+#
 class SessionsController < ApplicationController
   skip_before_action :authenticate_user!
   before_action :assign_back_button_url, only: :logout_notice

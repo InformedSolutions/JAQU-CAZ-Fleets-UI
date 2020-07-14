@@ -5,16 +5,8 @@
 
 class ApiException < StandardError
   ##
-  # HTTP error status as integer
-  attr_reader :status
-
-  ##
-  # HTTP error message
-  attr_reader :status_message
-
-  ##
-  # Message extracted from exception body
-  attr_reader :body_message
+  # Attributes used internally
+  attr_reader :status, :status_message, :body_message
 
   ##
   # Initializer method
