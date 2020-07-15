@@ -21,7 +21,7 @@ module FleetsUI
     # the framework and any gems in your application.
     #
     # feedback url
-    config.x.feedback_url = ENV.fetch('FEEDBACK_URL', nil)
+    config.x.feedback_url = ENV.fetch('FEEDBACK_URL', 'https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9')
     # payments ui url
     config.x.payments_ui_url = ENV.fetch('PAYMENTS_UI_URL', 'dev.paycleanairzonecharge.co.uk')
     # service name for whole app
