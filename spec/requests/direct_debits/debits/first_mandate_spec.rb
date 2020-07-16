@@ -2,7 +2,11 @@
 
 require 'rails_helper'
 
+<<<<<<< HEAD
 describe 'DirectDebits::DebitsController - GET #first_mandate' do
+=======
+describe 'DebitsController - GET #first_mandate' do
+>>>>>>> release-candidate/v1.2.0
   subject { get first_mandate_debits_path }
 
   context 'correct permissions' do

@@ -8,9 +8,13 @@ module UsersManagement
   #
   class UsersController < ApplicationController
     include CheckPermissions
+<<<<<<< HEAD
     before_action :authenticate_user!, except: %i[set_up confirm_set_up set_up_confirmation]
     before_action -> { check_permissions(allow_manage_users?) },
                   except: %i[set_up confirm_set_up set_up_confirmation]
+=======
+    before_action -> { check_permissions(allow_manage_users?) }
+>>>>>>> release-candidate/v1.2.0
     before_action :check_new_user, only: %i[add_permissions confirm_permissions]
 
     ##
@@ -96,13 +100,18 @@ module UsersManagement
     end
 
     ##
+<<<<<<< HEAD
     # Renders account set up page
+=======
+    # Renders set up mockup page
+>>>>>>> release-candidate/v1.2.0
     #
     # ==== Path
     #
     #    GET /users/set_up
     #
     def set_up
+<<<<<<< HEAD
       # Renders account set up page
     end
 
@@ -134,10 +143,14 @@ module UsersManagement
     #
     def set_up_confirmation
       # Renders account set up confirmation mockup page
+=======
+      # Renders a mockup page
+>>>>>>> release-candidate/v1.2.0
     end
 
     private
 
+<<<<<<< HEAD
     # Formats account set up page errors
     def confirm_set_up_errors(errors)
       flash.now[:errors] = {
@@ -147,6 +160,8 @@ module UsersManagement
       }
     end
 
+=======
+>>>>>>> release-candidate/v1.2.0
     # Returns new user params
     def new_user_params
       params.require(:new_user).permit(:name, :email)

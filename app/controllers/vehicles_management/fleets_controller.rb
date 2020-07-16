@@ -8,7 +8,11 @@ module VehiclesManagement
   #
   class FleetsController < ApplicationController
     include CheckPermissions
+<<<<<<< HEAD
     before_action -> { check_permissions(allow_manage_vehicles?) }
+=======
+
+>>>>>>> release-candidate/v1.2.0
     before_action :assign_fleet
     before_action :check_vrn, only: %i[delete confirm_delete]
     before_action :clear_show_continue_button, only: %i[index]

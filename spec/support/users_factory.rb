@@ -13,10 +13,6 @@ module UsersFactory
     create_user(options.merge({ permissions: ['MANAGE_VEHICLES'] }))
   end
 
-  def create_owner(options = {})
-    create_user(options.merge(owner: true))
-  end
-
   def create_user(options = {})
     User.new(
       email: options[:email] || 'test@example.com',

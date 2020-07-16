@@ -2,7 +2,11 @@
 
 require 'rails_helper'
 
+<<<<<<< HEAD
 describe 'PaymentsController - POST #confirm_payment_method' do
+=======
+describe 'PaymentsController - POST #confirm_payment_method', type: :request do
+>>>>>>> release-candidate/v1.2.0
   subject { post select_payment_method_payments_path, params: { payment_method: payment_method } }
 
   let(:payment_method) { 'false' }
@@ -11,7 +15,11 @@ describe 'PaymentsController - POST #confirm_payment_method' do
     before do
       add_to_session(new_payment: { la_id: @uuid, details: {} })
       allow(PaymentsApi).to receive(:create_payment).and_return(
+<<<<<<< HEAD
         'paymentId' => @uuid,
+=======
+        'paymentId' => SecureRandom.uuid,
+>>>>>>> release-candidate/v1.2.0
         'nextUrl' => result_payments_path
       )
       sign_in create_user

@@ -2,7 +2,11 @@
 
 require 'rails_helper'
 
+<<<<<<< HEAD
 describe 'PaymentsController - #submit' do
+=======
+describe 'PaymentsController - #submit', type: :request do
+>>>>>>> release-candidate/v1.2.0
   subject { post matrix_payments_path, params: params }
 
   let(:params) do

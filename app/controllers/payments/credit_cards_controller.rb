@@ -15,9 +15,15 @@ module Payments
     #     GET /payments/initiate
     #
     def initiate
+<<<<<<< HEAD
       service_response = Payments::MakeCardPayment.call(payment_data: payment_data,
                                                         user_id: current_user.user_id,
                                                         return_url: result_payments_url)
+=======
+      service_response = MakeCardPayment.call(payment_data: payment_data,
+                                              user_id: current_user.user_id,
+                                              return_url: result_payments_url)
+>>>>>>> release-candidate/v1.2.0
       store_payment_data_in_session(service_response)
       redirect_to service_response['nextUrl']
     end
