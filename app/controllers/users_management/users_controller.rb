@@ -137,7 +137,7 @@ module UsersManagement
     end
 
     private
-    
+
     # Formats account set up page errors
     def confirm_set_up_errors(errors)
       flash.now[:errors] = {
