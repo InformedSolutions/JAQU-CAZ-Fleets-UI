@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'UsersManagement::UsersController - GET #confirmation' do
+describe 'UsersManagement::CreateUsersController - GET #confirmation' do
   subject { get confirmation_users_path }
 
   context 'correct permissions' do

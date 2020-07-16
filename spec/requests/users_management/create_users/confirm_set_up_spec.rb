@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'UsersManagement::UsersController - POST #confirm_set_up' do
+describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
   subject { post confirm_set_up_users_path, params: { account_set_up: request_params } }
 
   let(:request_params) do

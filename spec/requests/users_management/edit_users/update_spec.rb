@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'UsersManagement::ManageUsersController - PATCH #update' do
+describe 'UsersManagement::EditController - PATCH #update' do
   subject { patch user_path(@uuid), params: params }
 
   let(:params) { { edit_user: permissions } }

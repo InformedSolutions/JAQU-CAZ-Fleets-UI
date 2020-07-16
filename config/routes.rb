@@ -113,8 +113,9 @@ Rails.application.routes.draw do
   end
 
   scope module: 'users_management', path: '/' do
-    resources :users, only: %i[index new create] do
+    resources :users, controller: 'create_users', only: %i[new create] do
       collection do
+        get :index, to: 'users#index'
         get :add_permissions
         post :confirm_permissions
         get :confirmation
@@ -124,9 +125,9 @@ Rails.application.routes.draw do
       end
 
       member do
-        get :edit, to: 'manage_users#edit'
-        patch :update, to: 'manage_users#update'
-        get :delete, to: 'manage_users#delete'
+        get :edit, to: 'edit_users#edit'
+        patch :update, to: 'edit_users#update'
+        get :delete, to: 'remove_users#delete'
       end
     end
   end

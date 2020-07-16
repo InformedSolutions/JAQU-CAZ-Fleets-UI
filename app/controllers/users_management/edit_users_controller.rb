@@ -4,14 +4,13 @@
 # Module used for manage users flow
 module UsersManagement
   ##
-  # Controller used to manage users
+  # Controller used to edit users
   #
-  class ManageUsersController < ApplicationController
-    include CheckPermissions
+  class EditUsersController < BaseController
     include UsersHelper
+    before_action :authenticate_user!
     before_action -> { check_permissions(allow_manage_users?) }
     before_action -> { not_own_account?(account_user_id) }, only: %i[edit update]
-    rescue_from BaseApi::Error404Exception, with: :user_not_found
 
     ##
     # Renders the manage user permissions page
@@ -42,18 +41,6 @@ module UsersManagement
       handle_edit_user_form(form)
     end
 
-    ##
-    # Renders the user removal confirmation page
-    #
-    # ==== Path
-    #
-    #    GET /users/:id/delete
-    #
-    def delete
-      @back_button_url = edit_user_path(account_user_id)
-      @user_full_name = session.dig(:edit_user, 'name')
-    end
-
     private
 
     # Validates user input and calls api to update the user permissions
@@ -65,16 +52,6 @@ module UsersManagement
         flash[:errors] = form.error_message
         redirect_to edit_user_path
       end
-    end
-
-    # account_user_id from params
-    def account_user_id
-      params['id']
-    end
-
-    # Redirects to {not_found page}[rdoc-ref:ErrorsController.not_found]
-    def user_not_found
-      redirect_to not_found_path
     end
   end
 end

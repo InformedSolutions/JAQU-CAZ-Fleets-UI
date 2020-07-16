@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'UsersManagement::UsersController - GET #add_permissions' do
+describe 'UsersManagement::CreateUsersController - GET #add_permissions' do
   subject { get add_permissions_users_path }
 
   context 'correct permissions' do
