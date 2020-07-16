@@ -9,11 +9,7 @@ module VehiclesManagement
   #
   class VehiclesController < ApplicationController
     include CheckPermissions
-<<<<<<< HEAD
     before_action -> { check_permissions(allow_manage_vehicles?) }
-=======
-
->>>>>>> release-candidate/v1.2.0
     # 404 HTTP status from API means vehicle in not found in DLVA database. Redirects to the proper page.
     rescue_from BaseApi::Error404Exception, with: :vehicle_not_found
     # 400 HTTP status from API means invalid VRN or other validation error
@@ -64,10 +60,7 @@ module VehiclesManagement
     #
     def details
       @vehicle_details = VehiclesManagement::VehicleDetails.new(vrn)
-<<<<<<< HEAD
       session[:vehicle_type] = @vehicle_details.type
-=======
->>>>>>> release-candidate/v1.2.0
       redirect_to exempt_vehicles_path if @vehicle_details.exempt?
     end
 
@@ -205,11 +198,7 @@ module VehiclesManagement
 
     # Adds vehicle with vrn found in session to users fleet and sets flash accordingly
     def add_to_current_users_fleet
-<<<<<<< HEAD
       if current_user.add_vehicle(vrn, session[:vehicle_type])
-=======
-      if current_user.add_vehicle(vrn)
->>>>>>> release-candidate/v1.2.0
         flash[:success] = I18n.t('vrn_form.messages.single_vrn_added', vrn: vrn)
       else
         flash[:warning] = I18n.t('vrn_form.messages.vrn_already_exists', vrn: vrn)
@@ -259,10 +248,7 @@ module VehiclesManagement
     # Clear session from data needed for adding new vehicle to fleet
     def clear_session
       session[:vrn] = nil
-<<<<<<< HEAD
       session[:vehicle_type] = nil
-=======
->>>>>>> release-candidate/v1.2.0
       session[:show_continue_button] = nil
     end
   end

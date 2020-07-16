@@ -2,11 +2,7 @@
 
 require 'rails_helper'
 
-<<<<<<< HEAD
 describe 'DirectDebits::DebitsController - GET #cancel' do
-=======
-describe 'DebitsController - #cancel', type: :request do
->>>>>>> release-candidate/v1.2.0
   subject { get cancel_payments_path }
 
   context 'correct permissions' do

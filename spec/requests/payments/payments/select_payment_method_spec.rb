@@ -2,11 +2,7 @@
 
 require 'rails_helper'
 
-<<<<<<< HEAD
 describe 'PaymentsController - GET #select_payment_method' do
-=======
-describe 'PaymentsController - GET #select_payment_method', type: :request do
->>>>>>> release-candidate/v1.2.0
   subject { get select_payment_method_payments_path }
 
   context 'correct permissions' do

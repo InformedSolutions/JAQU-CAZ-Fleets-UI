@@ -119,11 +119,8 @@ Rails.application.routes.draw do
         post :confirm_permissions
         get :confirmation
         get :set_up
-<<<<<<< HEAD
         post :confirm_set_up
         get :set_up_confirmation
-=======
->>>>>>> release-candidate/v1.2.0
       end
     end
   end

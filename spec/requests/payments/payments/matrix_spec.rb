@@ -2,11 +2,7 @@
 
 require 'rails_helper'
 
-<<<<<<< HEAD
 describe 'PaymentsController - #matrix' do
-=======
-describe 'PaymentsController - #matrix', type: :request do
->>>>>>> release-candidate/v1.2.0
   subject { get matrix_payments_path }
 
   context 'correct permissions' do

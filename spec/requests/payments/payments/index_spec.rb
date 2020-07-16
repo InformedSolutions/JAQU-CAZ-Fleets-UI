@@ -2,11 +2,7 @@
 
 require 'rails_helper'
 
-<<<<<<< HEAD
 describe 'PaymentsController - #index' do
-=======
-describe 'PaymentsController - #index', type: :request do
->>>>>>> release-candidate/v1.2.0
   subject { get payments_path }
 
   before { sign_in create_user }

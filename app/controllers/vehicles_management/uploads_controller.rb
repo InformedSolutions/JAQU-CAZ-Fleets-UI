@@ -8,11 +8,7 @@ module VehiclesManagement
   #
   class UploadsController < ApplicationController
     include CheckPermissions
-<<<<<<< HEAD
     before_action -> { check_permissions(allow_manage_vehicles?) }
-=======
-
->>>>>>> release-candidate/v1.2.0
     rescue_from CsvUploadException, with: :render_upload_error
 
     ##
@@ -38,11 +34,7 @@ module VehiclesManagement
     # * +file+ - the submitted file
     #
     def create
-<<<<<<< HEAD
       file_name = VehiclesManagement::UploadFile.call(file: params[:file], user: current_user)
-=======
-      file_name = UploadFile.call(file: params[:file], user: current_user)
->>>>>>> release-candidate/v1.2.0
       register_job(file_name)
       redirect_to processing_uploads_path
     end

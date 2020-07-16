@@ -136,19 +136,11 @@ module DirectDebits
 
     # creates Direct Debit payment for selected mandate.
     def create_direct_debit_payment
-<<<<<<< HEAD
       Payments::MakeDebitPayment.call(payment_data: helpers.new_payment_data,
                                       account_id: current_user.account_id,
                                       user_id: current_user.user_id,
                                       user_email: current_user.email,
                                       mandate_id: params['mandate_id'])
-=======
-      MakeDebitPayment.call(payment_data: helpers.new_payment_data,
-                            account_id: current_user.account_id,
-                            user_id: current_user.user_id,
-                            user_email: current_user.email,
-                            mandate_id: params['mandate_id'])
->>>>>>> release-candidate/v1.2.0
     end
 
     # Saves initiated Direct Debit payment details to the session
