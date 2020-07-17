@@ -208,6 +208,28 @@ class AccountsApi < BaseApi
     end
 
     ##
+    # Calls +/v1/accounts/:accountId/users/:accountUserId+ endpoint with +DELETE+ method
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - uuid, id of the account
+    # * +account_user_id+ - uuid, id of the user account
+    #
+    # ==== Result
+    #
+    #  Returns an empty body
+    #
+    # ==== Exceptions
+    #
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account or user not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def delete_user(account_id:, account_user_id:)
+      log_action 'Deleting user'
+      request(:delete, "/accounts/#{account_id}/users/#{account_user_id}")
+    end
+
+    ##
     # Calls +/v1/accounts/:accountId/users/:accountUserId/verifications+ endpoint with +POST+ method.
     #
     # ==== Attributes

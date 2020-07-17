@@ -46,7 +46,7 @@ module Organisations
 
     # Check if api returns 422 errors. If yes assign error messages to error object and
     # raise `UnableToCreateAccountException` exception
-    def parse_422_error(enum)
+    def parse_422_error(enum) # rubocop:disable Metrics/MethodLength
       error = case enum
               when 'duplicate'
                 I18n.t('company_name.errors.duplicate')
@@ -54,6 +54,8 @@ module Organisations
                 I18n.t('company_name.errors.profanity')
               when 'abuse'
                 I18n.t('company_name.errors.abuse')
+              else
+                'Something went wrong'
               end
 
       raise UnableToCreateAccountException, error

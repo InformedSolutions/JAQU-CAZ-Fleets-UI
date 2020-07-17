@@ -136,7 +136,7 @@ describe EmailAndPasswordForm, type: :model do
 
       it 'has a proper error message' do
         expect(form.errors.messages[:password]).to include(
-          I18n.t('password.errors.password_equality')
+          'Password and password confirmation must be the same'
         )
       end
     end

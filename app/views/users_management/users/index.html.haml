@@ -7,9 +7,9 @@
   .govuk-grid-row
     .govuk-grid-column-two-thirds
 
-      %h1.govuk-heading-l
-        = title_and_header
+      = render 'shared/banners'
 
+      %h1.govuk-heading-l= title_and_header
       - if @users.present?
         %table.govuk-table
           %caption.govuk-table__caption Users

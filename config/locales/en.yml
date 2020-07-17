@@ -2,6 +2,7 @@ en:
   external_link: 'opens in a new window'
   form:
     errors:
+      choose_answer: You must choose an answer
       missing: 'is required'
       maximum_length: 'is too long (maximum is %{length} characters)'
       invalid_format: 'has invalid format'
@@ -55,6 +56,9 @@ en:
       vrn_invalid: 'Enter the number plate in a valid format'
       vrn_too_long: 'The number plate is too long'
       vrn_too_short: 'The number plate is too short'
+  password:
+    errors:
+      password_equality: Password and password confirmation must be the same
   new_password_form:
     errors:
       password_not_equal: Enter a password and password confirmation that are the same
@@ -105,3 +109,5 @@ en:
       email_duplicated: Email address already exists
       permissions_missing: Select at least one permission type to continue
       email_invalid_format: Enter the user’s email address in a valid format
+  user_removed: 'You have successfully removed %{full_user_name} from your account.'
+

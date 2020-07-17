@@ -127,7 +127,8 @@ Rails.application.routes.draw do
       member do
         get :edit, to: 'edit_users#edit'
         patch :update, to: 'edit_users#update'
-        get :delete, to: 'remove_users#delete'
+        get :remove, to: 'remove_users#remove'
+        post :remove, to: 'remove_users#confirm_remove'
       end
     end
   end

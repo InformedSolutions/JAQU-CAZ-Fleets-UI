@@ -35,6 +35,10 @@ module MockUsers
     allow(AccountsApi).to receive(:update_user).and_return({})
   end
 
+  def mock_delete_user
+    allow(AccountsApi).to receive(:delete_user).and_return({})
+  end
+
   def uuid
     '5cd7441d-766f-48ff-b8ad-1809586fea37'
   end
