@@ -227,7 +227,7 @@ steps:
       AWS_ACCOUNT_NAME: jaqu-lower
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
       event:
@@ -437,7 +437,7 @@ steps:
       AWS_ACCOUNT_NAME: jaqu-controlled
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
       event:
@@ -499,7 +499,7 @@ steps:
       AWS_ACCOUNT_NAME: jaqu-controlled
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
       event:
@@ -708,7 +708,7 @@ steps:
       AWS_ACCOUNT_NAME: jaqu-controlled
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
       event:
@@ -770,7 +770,7 @@ steps:
       AWS_ACCOUNT_NAME: jaqu-controlled
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
       event:
@@ -897,7 +897,7 @@ steps:
       SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
       event:
@@ -964,7 +964,7 @@ steps:
       SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
       event:
@@ -1179,7 +1179,7 @@ steps:
       AWS_ACCOUNT_NAME: jaqu-staging
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
       event:
@@ -1241,7 +1241,7 @@ steps:
       AWS_ACCOUNT_NAME: jaqu-staging
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
       event:
