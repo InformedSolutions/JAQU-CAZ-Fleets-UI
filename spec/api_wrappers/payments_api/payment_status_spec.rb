@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'PaymentsApi.payment_status' do
-  subject(:call) { PaymentsApi.payment_status(payment_id: id, caz_name: 'leeds') }
+  subject { PaymentsApi.payment_status(payment_id: id, caz_name: 'leeds') }
 
   let(:id) { SecureRandom.uuid }
 
@@ -20,7 +20,7 @@ describe 'PaymentsApi.payment_status' do
     end
 
     it 'returns proper fields' do
-      expect(call.keys).to contain_exactly('paymentId', 'status', 'userEmail')
+      expect(subject.keys).to contain_exactly('paymentId', 'status', 'userEmail')
     end
   end
 
@@ -28,12 +28,12 @@ describe 'PaymentsApi.payment_status' do
     before do
       stub_request(:put, /payments/).to_return(
         status: 500,
-        body: { 'message' => 'Something went wrong' }.to_json
+        body: { message: 'Something went wrong' }.to_json
       )
     end
 
     it 'raises Error500Exception' do
-      expect { call }.to raise_exception(BaseApi::Error500Exception)
+      expect { subject }.to raise_exception(BaseApi::Error500Exception)
     end
   end
 end

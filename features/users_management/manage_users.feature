@@ -4,27 +4,27 @@ Feature: Manage users
   I want to manage my users
 
   Scenario: Visiting the manage users page
-    Given I visit the manage users page
-    Then I should be on the manage users page
+    Given I visit the Manage users page
+    Then I should be on the Manage users page
       And I should see "Add another user"
       And I should see "Manage" link
 
   Scenario: Visiting the manage users page with no users
-    Given I visit the manage users page with no users
-    Then I should be on the manage users page
+    Given I visit the Manage users page with no users
+    Then I should be on the Manage users page
       And I should see "Add another user" button
       And I should not see "Manage" link
       And I should not see "TBC"
 
   Scenario: Visiting the manage users page with more then 10 users
-    Given I visit the manage users page with more then 10 users
-    Then I should be on the manage users page
+    Given I visit the Manage users page with more then 10 users
+    Then I should be on the Manage users page
       And I should not see "Add another user" button
       And I should see "TBC"
 
   Scenario: Visiting the manage users page when i am on the list
-    Given I visit the manage users page when i am on the list
-    Then I should be on the manage users page
+    Given I visit the Manage users page when i am on the list
+    Then I should be on the Manage users page
       And I should see "user@example.com"
       And I should not see "Manage" link
 
@@ -36,7 +36,7 @@ Feature: Manage users
     When I press "Continue" button
     Then I should see "Enter the user's name"
       And I should see "Enter the user's email address"
-    When I fill new user form with allready used email
+    When I fill new user form with already used email
     Then I should see "Email address already exists"
     When I fill new user form with correct data
     Then I should be on the Add user permissions page
@@ -52,7 +52,7 @@ Feature: Manage users
     Then I should be on the User confirmation page
       And I should not see "Back" link
     When I press "Continue" link
-    Then I should be on the manage users page
+    Then I should be on the Manage users page
 
   Scenario: Adding new user - somebody added user with the same email in the meantime
     Given I visit the Add user page

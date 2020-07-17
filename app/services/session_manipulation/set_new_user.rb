@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+##
+# Module used to improve session management
+#
 module SessionManipulation
   ##
   # Service used to set New User data provided by user in the add new user process.

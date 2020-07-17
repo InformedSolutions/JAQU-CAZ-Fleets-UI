@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'AccountsApi.initiate_password_reset' do
-  subject(:call) { AccountsApi.initiate_password_reset(email: email, reset_url: reset_url) }
+describe 'AccountsApi.initiate_password_reset - POST' do
+  subject { AccountsApi.initiate_password_reset(email: email, reset_url: reset_url) }
 
   let(:email) { 'test@example.com' }
   let(:url) { %r{auth/password/reset} }
@@ -17,7 +17,7 @@ describe 'AccountsApi.initiate_password_reset' do
   end
 
   it 'calls API with proper body' do
-    call
+    subject
     expect(WebMock)
       .to have_requested(:post, url)
       .with(body: { email: email, resetUrl: reset_url })
@@ -25,14 +25,14 @@ describe 'AccountsApi.initiate_password_reset' do
   end
 
   it 'returns true' do
-    expect(call).to be_truthy
+    expect(subject).to be_truthy
   end
 
   context 'when email has uppercased letters' do
     let(:email) { 'Test@Example.com' }
 
     it 'calls API with downcased email' do
-      call
+      subject
       expect(WebMock)
         .to have_requested(:post, url)
         .with(body: { email: email.downcase, resetUrl: reset_url })

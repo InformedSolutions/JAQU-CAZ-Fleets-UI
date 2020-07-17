@@ -78,6 +78,10 @@ And('I check {string}') do |string|
   check(string)
 end
 
+And('I uncheck {string}') do |string|
+  uncheck(string)
+end
+
 def mock_api_responses
   mock_vehicles_in_fleet
   mock_debits

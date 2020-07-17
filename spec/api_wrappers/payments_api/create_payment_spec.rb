@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'PaymentsApi.create_payment' do
-  subject(:call) do
+  subject do
     PaymentsApi.create_payment(
       caz_id: caz_id,
       return_url: return_url,
@@ -42,11 +42,11 @@ describe 'PaymentsApi.create_payment' do
     end
 
     it 'returns proper attributes' do
-      expect(call.keys).to contain_exactly('paymentId', 'nextUrl')
+      expect(subject.keys).to contain_exactly('paymentId', 'nextUrl')
     end
 
     it 'calls API with right params' do
-      expect(call)
+      expect(subject)
         .to have_requested(:post, /#{mock_path}/)
         .with(body: {
                 'cleanAirZoneId' => caz_id,
@@ -62,12 +62,12 @@ describe 'PaymentsApi.create_payment' do
     before do
       stub_request(:post, /#{mock_path}/).to_return(
         status: 500,
-        body: { 'message' => 'Something went wrong' }.to_json
+        body: { message: 'Something went wrong' }.to_json
       )
     end
 
     it 'raises Error500Exception' do
-      expect { call }.to raise_exception(BaseApi::Error500Exception)
+      expect { subject }.to raise_exception(BaseApi::Error500Exception)
     end
   end
 end

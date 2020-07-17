@@ -9,6 +9,10 @@ module UsersFactory
     create_user({ permissions: ['MANAGE_MANDATES'] })
   end
 
+  def manage_users_user
+    create_user({ permissions: ['MANAGE_USERS'] })
+  end
+
   def manage_vehicles_user(options = {})
     create_user(options.merge({ permissions: ['MANAGE_VEHICLES'] }))
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ##
-# Module used to improve session management during the payment process
+# Module used to improve session management
 #
 module SessionManipulation
   ##

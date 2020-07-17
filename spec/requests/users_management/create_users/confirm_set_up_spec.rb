@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'UsersManagement::UsersController - POST #confirm_set_up' do
+describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
   subject { post confirm_set_up_users_path, params: { account_set_up: request_params } }
 
   let(:request_params) do
@@ -37,7 +37,7 @@ describe 'UsersManagement::UsersController - POST #confirm_set_up' do
       subject
     end
 
-    it 'rerenders the page' do
+    it 'render the view' do
       expect(response).to render_template('set_up')
     end
 
@@ -63,7 +63,7 @@ describe 'UsersManagement::UsersController - POST #confirm_set_up' do
       subject
     end
 
-    it 'rerenders the page' do
+    it 'render the view' do
       expect(response).to render_template('set_up')
     end
 
@@ -89,7 +89,7 @@ describe 'UsersManagement::UsersController - POST #confirm_set_up' do
       expect(AccountsApi).to_not receive(:set_password)
     end
 
-    it 'rerenders the page' do
+    it 'render the view' do
       expect(response).to render_template('set_up')
     end
 

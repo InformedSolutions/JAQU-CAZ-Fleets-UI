@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'AccountsApi.create_account' do
-  subject(:call) do
+describe 'AccountsApi.create_account - POST' do
+  subject do
     AccountsApi.create_account(company_name: name)
   end
 
@@ -19,12 +19,12 @@ describe 'AccountsApi.create_account' do
     end
 
     it 'returns proper fields' do
-      expect(call.keys).to contain_exactly('accountId')
+      expect(subject.keys).to contain_exactly('accountId')
     end
 
     it 'calls API with proper body' do
       body = { accountName: name }
-      call
+      subject
       expect(WebMock).to have_requested(:post, /accounts/).with(body: body).once
     end
   end
@@ -34,14 +34,14 @@ describe 'AccountsApi.create_account' do
       stub_request(:post, /accounts/).to_return(
         status: 422,
         body: {
-          'message' => 'Creation failed',
+          message: 'Creation failed',
           'details' => %w[emailNotUnique passwordNotValid]
         }.to_json
       )
     end
 
     it 'raises Error422Exception' do
-      expect { call }.to raise_exception(BaseApi::Error422Exception)
+      expect { subject }.to raise_exception(BaseApi::Error422Exception)
     end
   end
 end

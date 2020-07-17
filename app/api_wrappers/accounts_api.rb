@@ -133,7 +133,7 @@ class AccountsApi < BaseApi
     end
 
     ##
-    # Calls +/v1/accounts/:accountId/users+ endpoint with +GET+ method and returns non owner users for current user
+    # Calls +/v1/accounts/:accountId/users+ endpoint with +GET+ method and returns owner users for current user
     #
     # ==== Attributes
     #
@@ -153,8 +153,58 @@ class AccountsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def users(account_id:)
-      log_action 'Getting non owner users for specified account'
+      log_action 'Getting owner users for specified account'
       request(:get, "/accounts/#{account_id}/users")['users']
+    end
+
+    ##
+    # Calls +/v1/accounts/:accountId/users/:accountUserId+ endpoint with +GET+ method and returns user details
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - uuid, id of the account
+    # * +account_user_id+ - uuid, id of the user account
+    #
+    # ==== Result
+    #
+    # Returned user details will have the following fields:
+    # * +email+ - email, email of the user
+    # * +name+ - string, name of the user
+    # * +owner+ - boolean, determines if the user is owner
+    # * +permissions+ - permission names of the user
+    #
+    # ==== Exceptions
+    #
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account or user not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def user(account_id:, account_user_id:)
+      log_action 'Getting user details'
+      request(:get, "/accounts/#{account_id}/users/#{account_user_id}")
+    end
+
+    ##
+    # Calls +/v1/accounts/:accountId/users/:accountUserId+ endpoint with +PATCH+ method
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - uuid, id of the account
+    # * +account_user_id+ - uuid, id of the user account
+    # * +permissions+ - permission names of the user
+    #
+    # ==== Result
+    #
+    #  Returns an empty body
+    #
+    # ==== Exceptions
+    #
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account or user not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def update_user(account_id:, account_user_id:, permissions:)
+      log_action 'Updating user permissions'
+      body = { permissions: permissions }.to_json
+      request(:patch, "/accounts/#{account_id}/users/#{account_user_id}", body: body)
     end
 
     ##

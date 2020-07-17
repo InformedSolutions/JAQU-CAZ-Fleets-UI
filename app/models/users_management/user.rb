@@ -4,7 +4,7 @@
 # Module used for manage users flow
 module UsersManagement
   ##
-  # Represents the virtual model of the user, used in +app/views/users/index.html.haml+.
+  # Represents the virtual model of the user, used in +app/views/users_management/users/index.html.haml+.
   #
   class User
     def initialize(data)

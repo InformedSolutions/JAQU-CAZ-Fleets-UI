@@ -6,9 +6,16 @@ describe 'UsersManagement::UsersController - GET #index' do
   subject { get users_path }
 
   context 'correct permissions' do
-    before { mock_users }
-    it_behaves_like 'a login required'
+    before do
+      sign_in manage_users_user
+      mock_users
+    end
+
+    it 'renders the view' do
+      expect(subject).to render_template('index')
+    end
   end
 
   it_behaves_like 'incorrect permissions'
+  it_behaves_like 'a login required'
 end

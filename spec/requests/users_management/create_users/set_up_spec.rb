@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'UsersManagement::UsersController - GET #set_up_confirmation' do
-  subject { get set_up_confirmation_users_path }
+describe 'UsersManagement::CreateUsersController - GET #set_up' do
+  subject { get set_up_users_path }
 
   it 'does not require login' do
     subject

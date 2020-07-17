@@ -27,7 +27,8 @@ RSpec.configure do |config|
    UsersFactory,
    ActiveSupport::Testing::TimeHelpers,
    FixturesHelpers,
-   MockedResponses].each do |h|
+   MockedResponses,
+   UsersManagement::MockedResponses].each do |h|
     config.include h
   end
 
