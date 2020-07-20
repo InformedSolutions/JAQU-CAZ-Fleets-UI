@@ -57,3 +57,17 @@ Feature: Sign In
     Then I remain on the current page
       And I should see 'Enter your email address in a valid format'
       And I should see 'Enter your email address'
+
+  Scenario: Sign in after setting up the account
+    Given I am on the set up account confirmation page
+      And I should see 'Create account' link
+    When I enter invalid credentials
+    Then I remain on the current page
+      And I should see 'The email or password you entered is incorrect'
+    When I enter invalid email format
+    Then I remain on the current page
+      And I should see 'Enter your email address in a valid format'
+    Then I provide valid credentials and Continue
+      And I should see 'Your account'
+      And Cookie is created for my session
+      And I should not see 'Create account' link
