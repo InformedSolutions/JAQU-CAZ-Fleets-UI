@@ -274,6 +274,7 @@ Devise.setup do |config|
   # change the failure app, you can configure them inside the config.warden block.
   #
   config.warden do |manager|
+    # Sets failure app that handles login authentication failure
     manager.failure_app = CustomFailure
   end
 

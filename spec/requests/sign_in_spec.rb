@@ -148,6 +148,8 @@ describe 'User signing in' do
       let(:email) { 'test' }
       let(:password) { '' }
 
+      before { subject }
+
       it 'renders login view' do
         expect(subject).to redirect_to(referer)
       end
