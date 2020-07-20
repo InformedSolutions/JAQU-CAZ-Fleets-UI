@@ -4,6 +4,17 @@ Given('I am on the Sign in page') do
   visit new_user_session_path
 end
 
+Given('I am on the set up account confirmation page') do
+  visit set_up_confirmation_users_path
+end
+
+And('I provide valid credentials and Continue') do
+  mock_vehicles_in_fleet
+  mock_debits('active_mandates')
+  mock_users
+  login_owner
+end
+
 Then('I should enter fleet owner credentials and press the Continue') do
   login_owner
 end
