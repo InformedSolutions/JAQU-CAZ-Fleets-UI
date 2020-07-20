@@ -22,7 +22,6 @@ module UsersManagement
     #
     def remove
       @back_button_url = edit_user_path(account_user_id)
-      @full_user_name = full_user_name
     end
 
     ##

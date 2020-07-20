@@ -1,4 +1,4 @@
-- title_and_header = "Do you want to remove #{@full_user_name} from your account?"
+- title_and_header = "Do you want to remove #{session.dig(:edit_user, 'name')} from your account?"
 - content_for(:title, title_and_header)
 
 = link_to 'Back', @back_button_url, class: 'govuk-back-link'
@@ -14,28 +14,28 @@
 
       = form_tag remove_user_path, method: :post do
         .govuk-form-group{class: ('govuk-form-group--error' if alert)}
-        %fieldset.govuk-fieldset
-          %legend.govuk-visually-hidden
-            Confirm remove user
+          %fieldset.govuk-fieldset
+            %legend.govuk-visually-hidden
+              Confirm remove user
 
-          - if alert
-            %span#confirm-remove-user-error.govuk-error-message
-              %span.govuk-visually-hidden Error:
-              = alert
+            - if alert
+              %span#confirm-remove-user-error.govuk-error-message
+                %span.govuk-visually-hidden Error:
+                = alert
 
-          .govuk-radios.govuk-radios
-            .govuk-radios__item
-              %input#confirm-remove-user-1.govuk-radios__input{name: 'confirm-remove-user',
-                                                               type: 'radio',
-                                                               value: 'yes'}
-              %label.govuk-label.govuk-radios__label{for: 'confirm-remove-user-1'}
-                Yes
+            .govuk-radios.govuk-radios
+              .govuk-radios__item
+                %input#confirm-remove-user-1.govuk-radios__input{name: 'confirm-remove-user',
+                                                                 type: 'radio',
+                                                                 value: 'yes'}
+                %label.govuk-label.govuk-radios__label{for: 'confirm-remove-user-1'}
+                  Yes
 
-            .govuk-radios__item
-              %input#confirm-remove-user-2.govuk-radios__input{name: 'confirm-remove-user',
-                                                               type: 'radio',
-                                                               value: 'no'}
-              %label.govuk-label.govuk-radios__label{for: 'confirm-remove-user-2'}
-                No
+              .govuk-radios__item
+                %input#confirm-remove-user-2.govuk-radios__input{name: 'confirm-remove-user',
+                                                                 type: 'radio',
+                                                                 value: 'no'}
+                %label.govuk-label.govuk-radios__label{for: 'confirm-remove-user-2'}
+                  No
 
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
