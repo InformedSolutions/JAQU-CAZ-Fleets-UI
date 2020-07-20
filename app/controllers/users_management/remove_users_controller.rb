@@ -10,7 +10,7 @@ module UsersManagement
     include UsersHelper
     before_action :authenticate_user!
     before_action -> { check_permissions(allow_manage_users?) }
-    before_action -> { check_if_not_own_account?(account_user_id) }
+    before_action -> { check_account_ownership?(account_user_id) }
     before_action :check_edit_user
 
     ##
