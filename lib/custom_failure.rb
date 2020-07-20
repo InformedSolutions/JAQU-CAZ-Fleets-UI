@@ -16,8 +16,7 @@ class CustomFailure < Devise::FailureApp
     end
   end
 
-  # Defines the redirect_url to which user
-  # will be redirected on authentication fail
+  # Defines the redirect_url to which user will be redirected on authentication fail
   #
   # Returns string.
   def redirect_url
@@ -41,8 +40,7 @@ class CustomFailure < Devise::FailureApp
     }
   end
 
-  # Checks if the page from which the login was attempted
-  # is account set up confirmation page
+  # Checks if the page from which the login was attempted is account set up confirmation page
   #
   # Returns boolean.
   def confirmation_referer?
