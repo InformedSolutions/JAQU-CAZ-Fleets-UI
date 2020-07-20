@@ -16,5 +16,9 @@ module UsersManagement
     def mock_update_user
       allow(AccountsApi).to receive(:update_user).and_return({})
     end
+
+    def mock_delete_user
+      allow(AccountsApi).to receive(:delete_user).and_return({})
+    end
   end
 end

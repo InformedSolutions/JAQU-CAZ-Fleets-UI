@@ -21,7 +21,7 @@ class NewUserBaseForm < BaseForm
   def email_unique?
     AccountsApi.user_validations(account_id: account_id, name: name, email: email)
     true
-  rescue ApiException => e
+  rescue BaseApi::Error400Exception => e
     log_error(e)
     false
   end

@@ -83,7 +83,6 @@ When('I fill new user form with correct data') do
 
   fill_in('new_user_name', with: 'New User Name')
   fill_in('new_user_email', with: 'new_user@example.com')
-
   click_button 'Continue'
 end
 

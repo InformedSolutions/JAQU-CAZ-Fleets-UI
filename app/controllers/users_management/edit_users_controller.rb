@@ -10,7 +10,8 @@ module UsersManagement
     include UsersHelper
     before_action :authenticate_user!
     before_action -> { check_permissions(allow_manage_users?) }
-    before_action -> { not_own_account?(account_user_id) }, only: %i[edit update]
+    before_action -> { check_account_ownership?(account_user_id) }
+    before_action :check_edit_user, only: %w[update]
 
     ##
     # Renders the manage user permissions page
@@ -52,6 +53,19 @@ module UsersManagement
         flash[:errors] = form.error_message
         redirect_to edit_user_path
       end
+    end
+
+    # Checks edit user data in session, redirect to manage users page if data missing
+    def check_edit_user
+      return if permissions
+
+      Rails.logger.warn 'Edit user data is missing in the session. Redirecting to manage users page'
+      redirect_to users_path
+    end
+
+    # Returns edit user permissions
+    def permissions
+      session.dig(:edit_user, 'permissions')
     end
   end
 end

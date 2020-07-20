@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'UsersManagement::EditController - GET #edit' do
+describe 'UsersManagement::EditUsersController - GET #edit' do
   subject { get edit_user_path(@uuid) }
 
   context 'correct permissions' do
