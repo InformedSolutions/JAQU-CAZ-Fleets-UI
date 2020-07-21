@@ -437,6 +437,31 @@ class AccountsApi < BaseApi
       true
     end
 
+    ##
+    # Calls +/v1/accounts/:accountId+ endpoint with +GET+ method.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - uuid, ID of the account on backend DB
+    #
+    # ==== Example
+    #
+    #    AccountsApi.account(account_id:)
+    #
+    # ==== Result
+    #
+    # Returns hash with +accountName+ property
+    #
+    # ==== Exceptions
+    #
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def account(account_id:)
+      log_action('Getting company data')
+      request(:get, "/accounts/#{account_id}")
+    end
+
     private
 
     # prepares create user for account request body.

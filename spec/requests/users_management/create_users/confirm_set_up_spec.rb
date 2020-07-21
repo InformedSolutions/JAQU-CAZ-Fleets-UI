@@ -38,7 +38,7 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
     end
 
     it 'render the view' do
-      expect(response).to render_template('set_up')
+      expect(response).to redirect_to(set_up_users_path)
     end
 
     it 'provides proper error messages' do
@@ -64,7 +64,7 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
     end
 
     it 'render the view' do
-      expect(response).to render_template('set_up')
+      expect(response).to redirect_to(set_up_users_path)
     end
 
     it 'provides proper error messages' do
@@ -90,7 +90,7 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
     end
 
     it 'render the view' do
-      expect(response).to render_template('set_up')
+      expect(response).to redirect_to(set_up_users_path)
     end
 
     it 'provides proper error messages' do

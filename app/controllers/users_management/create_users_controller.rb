@@ -6,6 +6,7 @@ module UsersManagement
   ##
   # Controller used to create new users
   #
+  # rubocop:disable Metrics/ClassLength
   class CreateUsersController < BaseController
     before_action :authenticate_user!, except: %i[set_up confirm_set_up set_up_confirmation]
     before_action -> { check_permissions(allow_manage_users?) },
@@ -90,7 +91,12 @@ module UsersManagement
     #    GET /users/set_up
     #
     def set_up
-      # Renders account set up page
+      return handle_missing_invalid_params unless params[:account] && params[:token]
+
+      account = AccountsApi.account(account_id: params[:account])&.symbolize_keys
+      @company_name = account[:accountName]&.possessive
+    rescue BaseApi::Error404Exception
+      handle_missing_invalid_params
     end
 
     ##
@@ -107,8 +113,7 @@ module UsersManagement
       if form.valid? && form.submit
         redirect_to set_up_confirmation_users_path
       else
-        confirm_set_up_errors(form.errors.messages)
-        render :set_up
+        handle_invalid_set_up_form(form.errors.messages)
       end
     end
 
@@ -125,13 +130,22 @@ module UsersManagement
 
     private
 
-    # Formats account set up page errors
-    def confirm_set_up_errors(errors)
-      flash.now[:errors] = {
+    # Handles errors for missing or invalid account set up parameters
+    def handle_missing_invalid_params
+      flash.now[:errors] = { token: I18n.t('token_form.token_invalid') }
+      render :set_up
+    end
+
+    # Formats account set up page errors and redirects to :set_up
+    def handle_invalid_set_up_form(errors) # rubocop:disable Metrics/AbcSize
+      flash[:errors] = {
         token: errors[:token].first,
         password: errors[:password].first,
         password_confirmation: errors[:password_confirmation].first
       }
+      Rails.logger.silence do
+        redirect_to set_up_users_path(token: params[:token], account: params[:account])
+      end
     end
 
     # Returns new user params
@@ -190,4 +204,5 @@ module UsersManagement
       redirect_to users_path if users.count > 9
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end

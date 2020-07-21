@@ -1,9 +1,10 @@
 - title_and_header = 'You have been invited to set up an account'
 - content_for(:title, title_and_header)
 - @token = params[:token]
-- @errors = flash[:errors]
-- password_error = @errors.present? && @errors[:password]
-- confirmation_error = @errors.present? && @errors[:password_confirmation]
+- @account = params[:account]
+- errors = flash[:errors]&.symbolize_keys || {}
+- password_error = errors.present? && errors[:password]
+- confirmation_error = errors.present? && errors[:password_confirmation]
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
@@ -11,7 +12,7 @@
       %h1.govuk-heading-l
         = title_and_header
 
-      - if @errors.present?  
+      - if errors.present?  
         .govuk-error-summary{'aria-labelledby': 'error-summary-title',
                             'data-module': 'govuk-error-summary',
                             role: 'alert',
@@ -21,17 +22,17 @@
           .govuk-error-summary__body
             %ul.govuk-list.govuk-error-summary__list
               %li
-                - @errors.uniq(&:second).each do |key, value|
+                - errors.uniq(&:second).each do |key, value|
                   - if value
                     %li.custom-csv-error
                       = link_to(value, "##{key}-error", id: "#{key}-error")
 
       %p
-        You have been invited to set up a Clean Air Zone account.
+        = "You have been invited to #{@company_name ? "join #{@company_name}" : 'set up a'} Clean Air Zone account."
       %p
         Create a password so that you can sign in.
 
-      = form_for('account_set_up', url: confirm_set_up_users_path(token: @token), method: :post) do |f|
+      = form_for('account_set_up', url: confirm_set_up_users_path(token: @token, account: @account), method: :post) do |f|
         = f.hidden_field :token, value: @token
 
         .govuk-form-group{class: "#{'govuk-form-group--error' if password_error.present?}"}
