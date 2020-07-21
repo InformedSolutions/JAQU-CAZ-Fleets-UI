@@ -18,4 +18,5 @@ Rails.application.config.filter_parameters += %i[
   vehicles
   name
   token
+  account
 ]

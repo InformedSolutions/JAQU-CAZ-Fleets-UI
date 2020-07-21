@@ -27,7 +27,7 @@
                       = link_to(value, "##{key}-error", id: "#{key}-error")
 
       %p
-        You have been invited to set up a Clean Air Zone account.
+        = "You have been invited to #{@company_name ? "join #{@company_name}" : 'set up a'} Clean Air Zone account."
       %p
         Create a password so that you can sign in.
 

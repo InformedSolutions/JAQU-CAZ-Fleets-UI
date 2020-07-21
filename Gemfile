@@ -12,6 +12,7 @@ gem 'bootsnap', require: false
 gem 'devise'
 gem 'haml'
 gem 'httparty'
+gem 'possessive'
 gem 'puma'
 gem 'redis'
 gem 'sdoc', require: false

@@ -6,6 +6,7 @@ module UsersManagement
   ##
   # Controller used to create new users
   #
+  # rubocop:disable Metrics/ClassLength
   class CreateUsersController < BaseController
     before_action :authenticate_user!, except: %i[set_up confirm_set_up set_up_confirmation]
     before_action -> { check_permissions(allow_manage_users?) },
@@ -90,7 +91,12 @@ module UsersManagement
     #    GET /users/set_up
     #
     def set_up
-      # Renders account set up page
+      return handle_missing_invalid_params unless params[:account] && params[:token]
+
+      account = AccountsApi.account(account_id: params[:account])
+      @company_name = account[:name].possessive
+    rescue BaseApi::Error404Exception
+      handle_missing_invalid_params
     end
 
     ##
@@ -124,6 +130,12 @@ module UsersManagement
     end
 
     private
+
+    # Handles errors for missing or invalid account set up parameters
+    def handle_missing_invalid_params
+      flash.now[:errors] = { token: I18n.t('token_form.token_invalid') }
+      render :set_up
+    end
 
     # Formats account set up page errors
     def confirm_set_up_errors(errors)
@@ -190,4 +202,5 @@ module UsersManagement
       redirect_to users_path if users.count > 9
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end

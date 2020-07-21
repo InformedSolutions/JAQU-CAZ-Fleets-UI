@@ -437,6 +437,31 @@ class AccountsApi < BaseApi
       true
     end
 
+    ##
+    # Calls +/v1/accounts/:accountId+ endpoint with +GET+ method.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - uuid, ID of the account on backend DB
+    #
+    # ==== Example
+    #
+    #    AccountsApi.set_password(account_id:)
+    #
+    # ==== Result
+    #
+    # TODO
+    #
+    # ==== Exceptions
+    #
+    # * {422 Exception}[rdoc-ref:BaseApi::Error422Exception] - account not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def account(account_id:)
+      log_action('Getting company data')
+      request(:get, "/accounts/#{account_id}")
+    end
+
     private
 
     # prepares create user for account request body.
