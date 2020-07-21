@@ -13,6 +13,10 @@ Feature: Manage user
     Then I press the Continue
       And I should be on the Delete user page
       And I should see 'You must choose an answer' 2 times
+    Then I press "Back" link
+      And I should be on the Manage user page
+    Then I press 'Remove' link
+      And I press the Continue
       And I choose 'Yes'
     Then I press the Continue
       And I should be on the Manage users page
