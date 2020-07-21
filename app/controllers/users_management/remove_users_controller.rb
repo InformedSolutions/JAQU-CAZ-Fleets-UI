@@ -21,7 +21,7 @@ module UsersManagement
     #    GET /users/:id/remove
     #
     def remove
-      @back_button_url = edit_user_path(account_user_id)
+      # renders removal confirmation page
     end
 
     ##
