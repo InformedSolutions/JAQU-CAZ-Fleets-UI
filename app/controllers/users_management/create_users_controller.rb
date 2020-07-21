@@ -137,13 +137,15 @@ module UsersManagement
     end
 
     # Formats account set up page errors and redirects to :set_up
-    def handle_invalid_set_up_form(errors)
+    def handle_invalid_set_up_form(errors) # rubocop:disable Metrics/AbcSize
       flash[:errors] = {
         token: errors[:token].first,
         password: errors[:password].first,
         password_confirmation: errors[:password_confirmation].first
       }
-      redirect_to set_up_users_path(token: params[:token], account: params[:account])
+      Rails.logger.silence do
+        redirect_to set_up_users_path(token: params[:token], account: params[:account])
+      end
     end
 
     # Returns new user params
