@@ -446,15 +446,15 @@ class AccountsApi < BaseApi
     #
     # ==== Example
     #
-    #    AccountsApi.set_password(account_id:)
+    #    AccountsApi.account(account_id:)
     #
     # ==== Result
     #
-    # TODO
+    # Returns hash with +accountName+ property
     #
     # ==== Exceptions
     #
-    # * {422 Exception}[rdoc-ref:BaseApi::Error422Exception] - account not found
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def account(account_id:)

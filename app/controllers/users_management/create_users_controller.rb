@@ -93,8 +93,8 @@ module UsersManagement
     def set_up
       return handle_missing_invalid_params unless params[:account] && params[:token]
 
-      account = AccountsApi.account(account_id: params[:account])
-      @company_name = account[:name].possessive
+      account = AccountsApi.account(account_id: params[:account])&.symbolize_keys
+      @company_name = account[:accountName]&.possessive
     rescue BaseApi::Error404Exception
       handle_missing_invalid_params
     end
@@ -113,8 +113,7 @@ module UsersManagement
       if form.valid? && form.submit
         redirect_to set_up_confirmation_users_path
       else
-        confirm_set_up_errors(form.errors.messages)
-        render :set_up
+        handle_invalid_set_up_form(form.errors.messages)
       end
     end
 
@@ -137,13 +136,14 @@ module UsersManagement
       render :set_up
     end
 
-    # Formats account set up page errors
-    def confirm_set_up_errors(errors)
-      flash.now[:errors] = {
+    # Formats account set up page errors and redirects to :set_up
+    def handle_invalid_set_up_form(errors)
+      flash[:errors] = {
         token: errors[:token].first,
         password: errors[:password].first,
         password_confirmation: errors[:password_confirmation].first
       }
+      redirect_to set_up_users_path(token: params[:token], account: params[:account])
     end
 
     # Returns new user params

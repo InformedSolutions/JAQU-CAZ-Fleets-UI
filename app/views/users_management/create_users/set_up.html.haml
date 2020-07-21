@@ -1,7 +1,8 @@
 - title_and_header = 'You have been invited to set up an account'
 - content_for(:title, title_and_header)
 - @token = params[:token]
-- @errors = flash[:errors]
+- @account = params[:account]
+- @errors = flash[:errors] ? flash[:errors].symbolize_keys : {}
 - password_error = @errors.present? && @errors[:password]
 - confirmation_error = @errors.present? && @errors[:password_confirmation]
 
@@ -31,7 +32,7 @@
       %p
         Create a password so that you can sign in.
 
-      = form_for('account_set_up', url: confirm_set_up_users_path(token: @token), method: :post) do |f|
+      = form_for('account_set_up', url: confirm_set_up_users_path(token: @token, account: @account), method: :post) do |f|
         = f.hidden_field :token, value: @token
 
         .govuk-form-group{class: "#{'govuk-form-group--error' if password_error.present?}"}

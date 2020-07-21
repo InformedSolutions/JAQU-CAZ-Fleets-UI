@@ -1,7 +1,22 @@
 # frozen_string_literal: true
 
 Given('I am on the set up account page') do
-  visit "#{set_up_users_path}?token=27978cac-44fa-4d2e-bc9b-54fd12e37c69"
+  token = '27978cac-44fa-4d2e-bc9b-54fd12e37c69'
+  account = 'd7d5f7fe-ca59-11ea-9d1f-07266045ba2b'
+
+  allow(AccountsApi).to receive(:account).and_return({ accountName: 'Tested company name' })
+
+  visit set_up_users_path(token: token, account: account)
+end
+
+Given('I am on the set up account page with invalid account uuid') do
+  token = '27978cac-44fa-4d2e-bc9b-54fd12e37c69'
+
+  allow(AccountsApi).to receive(:account).and_raise(
+    BaseApi::Error404Exception.new(404, '', {})
+  )
+
+  visit set_up_users_path(token: token, account: 'invalid-account-uuid')
 end
 
 And('I have entered a valid password and confirmation') do

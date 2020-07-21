@@ -9,7 +9,7 @@ describe 'UsersManagement::CreateUsersController - GET #set_up' do
   let(:account) { '546badb2-7ad8-43ab-a8de-da41a74a5744' }
 
   before do
-    allow(AccountsApi).to receive(:account).and_return({ name: 'Company name' })
+    allow(AccountsApi).to receive(:account).and_return({ accountName: 'Company name' })
   end
 
   it 'does not require login' do
@@ -19,7 +19,7 @@ describe 'UsersManagement::CreateUsersController - GET #set_up' do
 
   context 'when company uuid is provided and is correct' do
     it 'makes an api call to get company name' do
-      expect(AccountsApi).to receive(:account).and_return({ name: 'Company name' })
+      expect(AccountsApi).to receive(:account).and_return({ accountName: 'Company name' })
       subject
     end
 

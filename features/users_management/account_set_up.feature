@@ -5,14 +5,16 @@ Feature: Account set up
 
   Scenario: I enter matching valid passwords and select continue
     Given I am on the set up account page
+      And I should see "Tested company name’s Clean Air Zone account"
       And I have a valid token
       And I have entered a valid password and confirmation
     When I press 'Continue' button
       Then I am taken to the account set up confirmation page
 
-  Scenario: The one where the token is missing or invalid
-    Given I am on the set up account page
+  Scenario: The one where the token or account uuid is missing or invalid
+    Given I am on the set up account page with invalid account uuid
       And I have an invalid token
+      And I should see 'Authorisation token is invalid or has expired'
       And I have entered a valid password and confirmation
     When I press 'Continue' button
       Then I should see 'Authorisation token is invalid or has expired'
