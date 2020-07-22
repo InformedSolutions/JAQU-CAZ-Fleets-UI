@@ -6,7 +6,7 @@ Feature: Manage user
   Scenario: Editing a user
     Given I visit the Manage users page and want to edit user permissions
       And I should be on the Manage users page
-    Then I press 'Manage' link
+    Then I press 'Change' link
       And I should be on the Manage user page
       And I should see 'Manage user' title
       And I should see what proper user permissions already checked
