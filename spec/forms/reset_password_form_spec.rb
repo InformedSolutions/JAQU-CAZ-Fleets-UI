@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe ResetPasswordForm, type: :model do
-  subject(:form) { described_class.new(email_address_params) }
+  subject { described_class.new(email_address_params) }
 
   let(:email_address_params) do
     {
@@ -18,11 +18,11 @@ describe ResetPasswordForm, type: :model do
   context 'when email_address is empty' do
     let(:email_address) { '' }
 
-    it { expect(form).not_to be_valid }
+    it { expect(subject).not_to be_valid }
 
     it 'has a proper error message' do
-      form.valid?
-      expect(form.errors.messages[:email_address].join(',')).to include(
+      subject.valid?
+      expect(subject.errors.messages[:email_address].join(',')).to include(
         I18n.t('reset_password_form.email_missing')
       )
     end
@@ -34,8 +34,8 @@ describe ResetPasswordForm, type: :model do
     it { is_expected.not_to be_valid }
 
     it 'has a proper error message' do
-      form.valid?
-      expect(form.errors.messages[:email_address].join(',')).to include(
+      subject.valid?
+      expect(subject.errors.messages[:email_address].join(',')).to include(
         I18n.t('reset_password_form.email_invalid_format')
       )
     end
@@ -47,8 +47,8 @@ describe ResetPasswordForm, type: :model do
     it { is_expected.not_to be_valid }
 
     it 'has a proper error message' do
-      form.valid?
-      expect(form.errors.messages[:email_address].join(',')).to include(
+      subject.valid?
+      expect(subject.errors.messages[:email_address].join(',')).to include(
         I18n.t('input_form.errors.maximum_length', attribute: 'Email address')
       )
     end

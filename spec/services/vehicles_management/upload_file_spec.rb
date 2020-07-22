@@ -3,11 +3,9 @@
 require 'rails_helper'
 
 describe VehiclesManagement::UploadFile do
-  subject(:service_call) { described_class.call(file: file, user: create_user(user_id: id)) }
+  subject { described_class.call(file: file, user: create_user(user_id: id)) }
 
-  let(:file) do
-    fixture_file_upload(file_path)
-  end
+  let(:file) { fixture_file_upload(file_path) }
   let(:file_path) { File.join('spec', 'fixtures', 'uploads', 'fleet.csv') }
   let(:id) { SecureRandom.uuid }
 
@@ -19,7 +17,7 @@ describe VehiclesManagement::UploadFile do
 
       it 'returns the proper file name' do
         freeze_time do
-          expect(service_call).to eq("fleet_#{id}_#{Time.current.to_i}")
+          expect(subject).to eq("fleet_#{id}_#{Time.current.to_i}")
         end
       end
     end
@@ -28,7 +26,7 @@ describe VehiclesManagement::UploadFile do
       let(:file_path) { File.join('spec', 'fixtures', 'uploads', 'fleet.txt') }
 
       it 'raises a proper exception' do
-        expect { service_call }.to raise_exception(
+        expect { subject }.to raise_exception(
           CsvUploadException, I18n.t('csv.errors.invalid_ext')
         )
       end
@@ -39,7 +37,7 @@ describe VehiclesManagement::UploadFile do
         let(:file) { nil }
 
         it 'raises a proper exception' do
-          expect { service_call }.to raise_exception(
+          expect { subject }.to raise_exception(
             CsvUploadException, I18n.t('csv.errors.no_file')
           )
         end
@@ -51,7 +49,7 @@ describe VehiclesManagement::UploadFile do
         end
 
         it 'raises a proper exception' do
-          expect { service_call }.to raise_exception(CsvUploadException, I18n.t('csv.errors.base'))
+          expect { subject }.to raise_exception(CsvUploadException, I18n.t('csv.errors.base'))
         end
       end
 
@@ -63,7 +61,7 @@ describe VehiclesManagement::UploadFile do
         end
 
         it 'raises a proper exception' do
-          expect { service_call }.to raise_exception(CsvUploadException, I18n.t('csv.errors.base'))
+          expect { subject }.to raise_exception(CsvUploadException, I18n.t('csv.errors.base'))
         end
       end
     end

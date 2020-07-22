@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe SubmissionMethodForm do
-  subject(:form) { described_class.new(submission_method: submission_method) }
+  subject { described_class.new(submission_method: submission_method) }
 
   let(:submission_method) { 'upload' }
   let(:error) { I18n.t('submission_method_form.errors.submission_method_missing') }
@@ -30,8 +30,8 @@ describe SubmissionMethodForm do
     it { is_expected.not_to be_valid }
 
     it 'returns a proper error' do
-      form.valid?
-      expect(form.errors[:submission_method]).to eq([error])
+      subject.valid?
+      expect(subject.errors[:submission_method]).to eq([error])
     end
   end
 
@@ -41,8 +41,8 @@ describe SubmissionMethodForm do
     it { is_expected.not_to be_valid }
 
     it 'returns a proper error' do
-      form.valid?
-      expect(form.errors[:submission_method]).to eq([error])
+      subject.valid?
+      expect(subject.errors[:submission_method]).to eq([error])
     end
   end
 end

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe Payments::Status, type: :model do
-  subject(:payment_status) { described_class.new(id, 'Leeds') }
+  subject { described_class.new(id, 'Leeds') }
 
   let(:id) { SecureRandom.uuid }
   let(:status) { 'success' }
@@ -18,20 +18,20 @@ describe Payments::Status, type: :model do
 
   describe '.id' do
     it 'returns id' do
-      expect(payment_status.id).to eq(id)
+      expect(subject.id).to eq(id)
     end
   end
 
   describe '.status' do
     it 'returns the uppercase status' do
-      expect(payment_status.status).to eq(status.upcase)
+      expect(subject.status).to eq(status.upcase)
     end
   end
 
   describe '.success?' do
     context 'when status is success' do
       it 'returns true' do
-        expect(payment_status.success?).to be_truthy
+        expect(subject.success?).to be_truthy
       end
     end
 
@@ -39,14 +39,14 @@ describe Payments::Status, type: :model do
       let(:status) { 'failure' }
 
       it 'returns false' do
-        expect(payment_status.success?).to be_falsey
+        expect(subject.success?).to be_falsey
       end
     end
   end
 
   describe '.user_email' do
     it 'returns the email' do
-      expect(payment_status.user_email).to eq(email)
+      expect(subject.user_email).to eq(email)
     end
   end
 end

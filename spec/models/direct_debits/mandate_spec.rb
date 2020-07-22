@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe DirectDebits::Mandate, type: :model do
-  subject(:mandate) { described_class.new(data) }
+  subject { described_class.new(data) }
 
   let(:data) do
     {
@@ -29,25 +29,25 @@ describe DirectDebits::Mandate, type: :model do
 
   describe '.zone_id' do
     it 'returns ID' do
-      expect(mandate.zone_id).to eq(zone_id)
+      expect(subject.zone_id).to eq(zone_id)
     end
   end
 
   describe '.zone_name' do
     it 'returns name' do
-      expect(mandate.zone_name).to eq(zone_name)
+      expect(subject.zone_name).to eq(zone_name)
     end
   end
 
   describe '.id' do
     it 'returns ID' do
-      expect(mandate.id).to eq(mandate_id)
+      expect(subject.id).to eq(mandate_id)
     end
   end
 
   describe '.status' do
     it 'returns humanized status' do
-      expect(mandate.status).to eq('Pending')
+      expect(subject.status).to eq('Pending')
     end
   end
 end

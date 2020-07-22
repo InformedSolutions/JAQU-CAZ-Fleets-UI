@@ -21,7 +21,7 @@ Given('I visit the Manage users page with more then 10 users') do
   visit users_path
 end
 
-Given('I visit the Manage users page when i am on the list') do
+Given('I visit the Manage users page as an owner') do
   mock_api
   mock_user_on_list
   visit users_path

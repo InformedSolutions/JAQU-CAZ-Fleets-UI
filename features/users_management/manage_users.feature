@@ -22,10 +22,10 @@ Feature: Manage users
       And I should not see 'Add another user' button
       And I should see 'TBC'
 
-  Scenario: Visiting the manage users page when i am on the list
-    Given I visit the Manage users page when i am on the list
+  Scenario: Visiting the manage users page as an owner
+    Given I visit the Manage users page as an owner
     Then I should be on the Manage users page
-      And I should see 'user@example.com'
+      And I should not see 'user@example.com'
       And I should not see 'Change' link
 
   Scenario: Adding new user - nobody added user with the same email in the meantime

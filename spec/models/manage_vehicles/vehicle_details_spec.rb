@@ -10,7 +10,6 @@ describe VehiclesManagement::VehicleDetails, type: :model do
   let(:taxi_or_phv) { false }
   let(:type) { 'car' }
   let(:las) { %w[Leeds Birmingham] }
-
   let(:response) do
     {
       'registration_number' => vrn,
@@ -25,9 +24,7 @@ describe VehiclesManagement::VehicleDetails, type: :model do
     }
   end
 
-  before do
-    allow(ComplianceCheckerApi).to receive(:vehicle_details).with(vrn).and_return(response)
-  end
+  before { allow(ComplianceCheckerApi).to receive(:vehicle_details).with(vrn).and_return(response) }
 
   describe '.registration_number' do
     it 'returns a proper registration number' do
@@ -67,9 +64,7 @@ describe VehiclesManagement::VehicleDetails, type: :model do
     end
 
     describe 'when key is present' do
-      before do
-        allow(ComplianceCheckerApi).to receive(:vehicle_details).and_return('exempt' => true)
-      end
+      before { allow(ComplianceCheckerApi).to receive(:vehicle_details).and_return('exempt' => true) }
 
       it 'returns a true' do
         expect(subject.exempt?).to eq(true)
@@ -99,12 +94,10 @@ describe VehiclesManagement::VehicleDetails, type: :model do
     end
 
     context 'when key is not present' do
-      before do
-        allow(ComplianceCheckerApi).to receive(:vehicle_details).with(vrn).and_return({})
-      end
+      before { allow(ComplianceCheckerApi).to receive(:vehicle_details).with(vrn).and_return({}) }
 
       it 'returns a nil' do
-        expect(compliance.type_approval).to eq(nil)
+        expect(subject.type_approval).to eq(nil)
       end
     end
 
@@ -112,7 +105,7 @@ describe VehiclesManagement::VehicleDetails, type: :model do
       let(:type_approval) { ' ' }
 
       it 'returns a nil' do
-        expect(compliance.type_approval).to eq(nil)
+        expect(subject.type_approval).to eq(nil)
       end
     end
 
@@ -120,7 +113,7 @@ describe VehiclesManagement::VehicleDetails, type: :model do
       let(:type_approval) { 'null' }
 
       it 'returns a nil' do
-        expect(compliance.type_approval).to eq(nil)
+        expect(subject.type_approval).to eq(nil)
       end
     end
   end
@@ -137,12 +130,10 @@ describe VehiclesManagement::VehicleDetails, type: :model do
     end
 
     context 'when key is not present' do
-      before do
-        allow(ComplianceCheckerApi).to receive(:vehicle_details).with(vrn).and_return({})
-      end
+      before { allow(ComplianceCheckerApi).to receive(:vehicle_details).with(vrn).and_return({}) }
 
       it 'returns a nil' do
-        expect(compliance.undetermined?).to eq('true')
+        expect(subject.undetermined?).to eq('true')
       end
     end
 
@@ -150,7 +141,7 @@ describe VehiclesManagement::VehicleDetails, type: :model do
       let(:type) { ' ' }
 
       it 'returns a nil' do
-        expect(compliance.undetermined?).to eq('true')
+        expect(subject.undetermined?).to eq('true')
       end
     end
 
@@ -158,13 +149,13 @@ describe VehiclesManagement::VehicleDetails, type: :model do
       let(:type) { 'null' }
 
       it 'returns a nil' do
-        expect(compliance.undetermined?).to eq('true')
+        expect(subject.undetermined?).to eq('true')
       end
     end
   end
 
   describe '.leeds_taxi?' do
-    subject(:taxi) { compliance.leeds_taxi? }
+    subject { compliance.leeds_taxi? }
 
     context 'when Leeds is in licensingAuthoritiesNames' do
       it { is_expected.to be_truthy }

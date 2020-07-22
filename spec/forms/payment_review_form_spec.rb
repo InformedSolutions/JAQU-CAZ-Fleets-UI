@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 describe PaymentReviewForm, type: :model do
-  subject(:form) { described_class.new(confirmation) }
+  subject { described_class.new(confirmation) }
 
-  before { form.valid? }
+  before { subject.valid? }
 
   context 'when confirmation equals yes' do
     let(:confirmation) { 'yes' }
@@ -14,7 +14,7 @@ describe PaymentReviewForm, type: :model do
 
     describe '.confirmed?' do
       it 'returns true' do
-        expect(form.confirmed?).to eq(true)
+        expect(subject.confirmed?).to eq(true)
       end
     end
   end
@@ -26,7 +26,7 @@ describe PaymentReviewForm, type: :model do
 
     it 'has a proper error message' do
       error_message = I18n.t('payment_review.errors.confirmation_alert')
-      expect(form.errors.messages[:confirmation]).to include(error_message)
+      expect(subject.errors.messages[:confirmation]).to include(error_message)
     end
   end
 end

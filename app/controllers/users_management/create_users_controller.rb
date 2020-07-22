@@ -199,8 +199,7 @@ module UsersManagement
 
     # Do not allow owner to add more then 10 users
     def check_users_count
-      api_response = AccountsApi.users(account_id: current_user.account_id)
-      users = api_response.map { |user_data| UsersManagement::User.new(user_data) }
+      users = UsersManagement::Users.new(account_id: current_user.account_id).filtered
       redirect_to users_path if users.count > 9
     end
   end

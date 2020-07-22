@@ -5,7 +5,7 @@ require 'rails_helper'
 describe DirectDebits::Debit, type: :model do
   subject(:debit) { described_class.new(account_id) }
 
-  let(:account_id) { SecureRandom.uuid }
+  let(:account_id) { @uuid }
 
   before { mock_debits }
 

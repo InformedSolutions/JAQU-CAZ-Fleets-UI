@@ -29,7 +29,7 @@ describe 'VehiclesManagement::FleetsController - POST #confirm_delete' do
       context 'with VRN in the session' do
         before { add_to_session(vrn: @vrn) }
 
-        context 'when user confirms form' do
+        context 'when user confirms subject' do
           it 'calls VehiclesManagement::Fleet#delete_vehicle' do
             expect(fleet).to receive(:delete_vehicle).with(@vrn)
             subject
