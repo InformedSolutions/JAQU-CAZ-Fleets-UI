@@ -32,7 +32,7 @@
       %p
         Create a password so that you can sign in.
 
-      = form_for('account_set_up', url: confirm_set_up_users_path(token: @token, account: @account), method: :post) do |f|
+      = form_for('account_set_up', url: set_up_users_path(token: @token, account: @account), method: :post) do |f|
         = f.hidden_field :token, value: @token
 
         .govuk-form-group{class: "#{'govuk-form-group--error' if password_error.present?}"}

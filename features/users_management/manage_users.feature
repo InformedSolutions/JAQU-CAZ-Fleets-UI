@@ -48,6 +48,12 @@ Feature: Manage users
     Then I should be on the Add user permissions page
     When I press 'Continue' button and new user email is still unique
     Then I should see 'Select at least one permission type to continue'
+    Then I press 'Cookies' link
+      And I press 'Back' link
+    Then I should be on the Add user permissions page
+      And I press 'Back' link
+    Then I should be on the Add user page
+      And I press 'Continue' button
     When I checked permissions correctly
     Then I should be on the User confirmation page
       And I should not see 'Back' link

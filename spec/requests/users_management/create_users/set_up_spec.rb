@@ -8,9 +8,7 @@ describe 'UsersManagement::CreateUsersController - GET #set_up' do
   let(:token) { '27978cac-44fa-4d2e-bc9b-54fd12e37c69' }
   let(:account) { '546badb2-7ad8-43ab-a8de-da41a74a5744' }
 
-  before do
-    allow(AccountsApi).to receive(:account).and_return({ accountName: 'Company name' })
-  end
+  before { allow(AccountsApi).to receive(:account).and_return({ accountName: 'Company name' }) }
 
   it 'does not require login' do
     subject
@@ -59,11 +57,7 @@ describe 'UsersManagement::CreateUsersController - GET #set_up' do
 
     it 'shows correct error' do
       subject
-
-      errors = {
-        token: I18n.t('token_form.token_invalid')
-      }
-      expect(flash[:errors]).to eq(errors)
+      expect(flash[:errors]).to eq({ token: I18n.t('token_form.token_invalid') })
     end
   end
 end

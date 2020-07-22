@@ -117,10 +117,10 @@ Rails.application.routes.draw do
       collection do
         get :index, to: 'users#index'
         get :add_permissions
-        post :confirm_permissions
+        post :add_permissions, to: 'create_users#confirm_permissions'
         get :confirmation
         get :set_up
-        post :confirm_set_up
+        post :set_up, to: 'create_users#confirm_set_up'
         get :set_up_confirmation
       end
 
