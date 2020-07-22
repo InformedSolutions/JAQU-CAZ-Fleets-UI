@@ -68,7 +68,7 @@ module UsersManagement
     def confirm_permissions
       SessionManipulation::SetNewUserPermissions.call(session: session, params: new_user_permissions_params)
       form = AddNewUserPermissionsForm.new(current_user: current_user, new_user: new_user_data,
-                                           verification_url: set_up_users_path)
+                                           verification_url: set_up_users_url)
       handle_permissions_form(form)
     end
 
