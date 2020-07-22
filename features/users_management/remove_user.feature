@@ -5,7 +5,7 @@ Feature: Manage user
 
   Scenario: Removing a user
     Given I visit the Manage users page and want to remove user
-    Then I press 'Manage' link
+    Then I press 'Change' link
       And I should be on the Manage user page
       And I should see 'Remove' link
     Then I press 'Remove' link
@@ -24,7 +24,7 @@ Feature: Manage user
 
   Scenario: Don't wont to remove a user
     Given I visit the Manage users page and do not want to remove user
-    Then I press 'Manage' link
+    Then I press 'Change' link
       And I press 'Remove' link
       And I should be on the Delete user page
       And I choose 'No'
