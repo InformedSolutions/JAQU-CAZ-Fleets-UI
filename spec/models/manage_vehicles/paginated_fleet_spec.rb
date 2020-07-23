@@ -3,13 +3,12 @@
 require 'rails_helper'
 
 describe VehiclesManagement::PaginatedFleet, type: :model do
-  subject(:fleet) { described_class.new(data) }
+  subject { described_class.new(data) }
 
   let(:size) { 51 }
   let(:page) { 3 }
   let(:per_page) { 10 }
   let(:vehicles_data) { read_response('fleet.json')['1'] }
-
   let(:data) do
     {
       'vehicles' => vehicles_data,
@@ -22,25 +21,25 @@ describe VehiclesManagement::PaginatedFleet, type: :model do
 
   describe '.page' do
     it 'returns page value' do
-      expect(fleet.page).to eq(page)
+      expect(subject.page).to eq(page)
     end
   end
 
   describe '.total_pages' do
     it 'returns pageCount value' do
-      expect(fleet.total_pages).to eq(data['pageCount'])
+      expect(subject.total_pages).to eq(data['pageCount'])
     end
   end
 
   describe '.total_vehicles_count' do
     it 'returns size value' do
-      expect(fleet.total_vehicles_count).to eq(size)
+      expect(subject.total_vehicles_count).to eq(size)
     end
   end
 
   describe '.per_page' do
     it 'returns per_page value' do
-      expect(fleet.per_page).to eq(per_page)
+      expect(subject.per_page).to eq(per_page)
     end
   end
 
@@ -49,13 +48,13 @@ describe VehiclesManagement::PaginatedFleet, type: :model do
       let(:page) { 1 }
 
       it 'returns 1' do
-        expect(fleet.range_start).to eq(1)
+        expect(subject.range_start).to eq(1)
       end
     end
 
     context 'when on the other page' do
       it 'returns correct value' do
-        expect(fleet.range_start).to eq(21)
+        expect(subject.range_start).to eq(21)
       end
     end
   end
@@ -65,13 +64,13 @@ describe VehiclesManagement::PaginatedFleet, type: :model do
       let(:page) { 1 }
 
       it 'returns 1' do
-        expect(fleet.range_end).to eq(per_page)
+        expect(subject.range_end).to eq(per_page)
       end
     end
 
     context 'when on the other page' do
       it 'returns correct value' do
-        expect(fleet.range_end).to eq(30)
+        expect(subject.range_end).to eq(30)
       end
     end
 
@@ -79,7 +78,7 @@ describe VehiclesManagement::PaginatedFleet, type: :model do
       let(:page) { 6 }
 
       it 'returns size' do
-        expect(fleet.range_end).to eq(size)
+        expect(subject.range_end).to eq(size)
       end
     end
   end

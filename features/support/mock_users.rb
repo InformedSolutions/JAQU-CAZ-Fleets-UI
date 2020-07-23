@@ -11,16 +11,18 @@ module MockUsers
 
   def mock_more_then_ten_users
     api_response = users_api_response
-    api_response << users_api_response.first
+    api_response << users_api_response.last
     allow(AccountsApi).to receive(:users).and_return(api_response)
   end
 
-  def mock_user_on_list
+  def mock_user_on_list # rubocop:disable Metrics/MethodLength
     user = new_user
     api_response = {
       accountUserId: user.user_id,
       name: 'Mary Smith',
-      email: 'user@example.com'
+      email: 'user@example.com',
+      owner: true,
+      removed: false
     }.stringify_keys
     allow(AccountsApi).to receive(:users).and_return([api_response])
     allow_any_instance_of(User).to receive(:authentication).and_return(user)
@@ -40,7 +42,7 @@ module MockUsers
   end
 
   def uuid
-    '5cd7441d-766f-48ff-b8ad-1809586fea37'
+    '6ffc41fd-ff2d-4cc1-a2a2-90006ae26446'
   end
 
   private
