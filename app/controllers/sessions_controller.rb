@@ -38,7 +38,7 @@ class SessionsController < ApplicationController
   #    :GET /timedout_user
   #
   def timedout_user
-    sign_out current_user
+    sign_out(current_user)
     flash[:notice] = I18n.t('inactivity_logout')
     redirect_to new_user_session_path
   end
