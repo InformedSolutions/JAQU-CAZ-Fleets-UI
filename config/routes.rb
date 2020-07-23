@@ -140,6 +140,7 @@ Rails.application.routes.draw do
   scope module: 'payment_history', path: '/', controller: 'payment_history' do
     get :company_payment_history
     get :user_payment_history
+    get :payment_history_details
   end
 
   scope controller: 'static_pages' do

@@ -58,6 +58,12 @@ class BaseApi
       validate_response(response_object.response)
     end
 
+    # escape negative page number
+    def calculate_page_number(page)
+      result = page - 1
+      result.negative? ? 0 : result
+    end
+
     private
 
     ##

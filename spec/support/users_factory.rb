@@ -17,6 +17,10 @@ module UsersFactory
     create_user(options.merge({ permissions: ['MANAGE_VEHICLES'] }))
   end
 
+  def view_payment_history_user(options = {})
+    create_user(options.merge({ permissions: ['VIEW_PAYMENTS'] }))
+  end
+
   def create_owner(options = {})
     create_user(options.merge(owner: true))
   end
