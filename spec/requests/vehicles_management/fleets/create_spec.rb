@@ -13,7 +13,7 @@ describe 'VehiclesManagement::FleetsController - POST #create' do
       subject
     end
 
-    context 'when user confirms form' do
+    context 'when user confirms subject' do
       it 'redirects to enter details page ' do
         expect(response).to redirect_to(enter_details_vehicles_path)
       end

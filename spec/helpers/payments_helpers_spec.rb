@@ -6,7 +6,7 @@ describe PaymentsHelper do
   let(:date) { '2019-11-03' }
 
   describe '.checked?' do
-    subject(:method) { helper.checked?(@vrn, date) }
+    subject { helper.checked?(@vrn, date) }
 
     context 'when there is no date in the session' do
       it { is_expected.to be_falsey }
@@ -30,7 +30,7 @@ describe PaymentsHelper do
   end
 
   describe '.paid?' do
-    subject(:method) { helper.paid?(vehicle, date) }
+    subject { helper.paid?(vehicle, date) }
 
     let(:vehicle) { instance_double(VehiclesManagement::ChargeableVehicle, paid_dates: dates) }
 

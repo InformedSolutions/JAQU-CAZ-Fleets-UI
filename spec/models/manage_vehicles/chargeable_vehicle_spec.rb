@@ -3,36 +3,29 @@
 require 'rails_helper'
 
 describe VehiclesManagement::ChargeableVehicle, type: :model do
-  subject(:vehicle) { described_class.new(data) }
+  subject { described_class.new(data) }
 
-  let(:data) do
-    {
-      'vrn' => vrn,
-      'charge' => charge,
-      'tariffCode' => tariff
-    }
-  end
-
+  let(:data) { { 'vrn' => vrn, 'charge' => charge, 'tariffCode' => tariff } }
   let(:caz_id) { SecureRandom.uuid }
   let(:vrn) { 'CAS310' }
   let(:tariff) { 'VAN-123' }
   let(:charge) { 12.0 }
 
   describe '.vrn' do
-    it { expect(vehicle.vrn).to eq(vrn) }
+    it { expect(subject.vrn).to eq(vrn) }
   end
 
   describe '.charge' do
-    it { expect(vehicle.charge).to eq(charge) }
+    it { expect(subject.charge).to eq(charge) }
   end
 
   describe '.tariff' do
-    it { expect(vehicle.tariff).to eq(tariff) }
+    it { expect(subject.tariff).to eq(tariff) }
   end
 
   describe '.paid_dates' do
     it 'returns an empty array' do
-      expect(vehicle.paid_dates).to eq([])
+      expect(subject.paid_dates).to eq([])
     end
 
     context 'with paidDates' do
@@ -40,16 +33,14 @@ describe VehiclesManagement::ChargeableVehicle, type: :model do
       let(:data) { { 'paidDates' => dates } }
 
       it 'returns dates' do
-        expect(vehicle.paid_dates).to eq(dates)
+        expect(subject.paid_dates).to eq(dates)
       end
     end
   end
 
   describe '.serialize' do
     it 'returns a proper hash' do
-      expect(vehicle.serialize).to eq(
-        { vrn: vrn, tariff: tariff, charge: charge, dates: [] }
-      )
+      expect(subject.serialize).to eq({ vrn: vrn, tariff: tariff, charge: charge, dates: [] })
     end
   end
 end

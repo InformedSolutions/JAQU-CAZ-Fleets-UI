@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe ResetPasswordForm, type: :model do
-  subject(:form) { described_class.new(email_address: email_address) }
+  subject { described_class.new(email_address: email_address) }
 
   let(:email_address) { 'user@example.com' }
 
@@ -11,7 +11,7 @@ describe ResetPasswordForm, type: :model do
     let(:email_address) { value }
 
     it 'is valid with a proper email' do
-      expect(form).to be_valid
+      expect(subject).to be_valid
     end
   end
 
@@ -19,12 +19,12 @@ describe ResetPasswordForm, type: :model do
     let(:email_address) { '' }
 
     it 'is not valid' do
-      expect(form).not_to be_valid
+      expect(subject).not_to be_valid
     end
 
     it 'has a proper error message' do
-      form.valid?
-      expect(form.errors.messages[:email_address]).to include(
+      subject.valid?
+      expect(subject.errors.messages[:email_address]).to include(
         I18n.t('reset_password_form.email_missing')
       )
     end
@@ -37,12 +37,12 @@ describe ResetPasswordForm, type: :model do
       let(:email_address) { value }
 
       it 'is not valid' do
-        expect(form).not_to be_valid
+        expect(subject).not_to be_valid
       end
 
       it 'has a proper error message' do
-        form.valid?
-        expect(form.errors.messages[:email_address]).to include(
+        subject.valid?
+        expect(subject.errors.messages[:email_address]).to include(
           I18n.t('reset_password_form.email_invalid_format')
         )
       end
@@ -53,12 +53,12 @@ describe ResetPasswordForm, type: :model do
     let(:email_address) { "#{SecureRandom.alphanumeric(36)}@email.com" }
 
     it 'is not valid' do
-      expect(form).not_to be_valid
+      expect(subject).not_to be_valid
     end
 
     it 'has a proper error message' do
-      form.valid?
-      expect(form.errors.messages[:email_address]).to include(
+      subject.valid?
+      expect(subject.errors.messages[:email_address]).to include(
         I18n.t(
           'input_form.errors.maximum_length',
           attribute: 'Email address'

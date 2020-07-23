@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe Payments::MakeCardPayment do
-  subject(:call) do
+  subject do
     described_class.call(
       payment_data: payment_data,
       user_id: user_id,
@@ -53,7 +53,7 @@ describe Payments::MakeCardPayment do
     end
 
     it 'calls PaymentsApi#create_payment with transformed parameters' do
-      call
+      subject
       expect(PaymentsApi).to have_received(:create_payment).with(transformed_data)
     end
   end

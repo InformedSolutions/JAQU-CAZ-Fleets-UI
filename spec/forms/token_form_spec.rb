@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe TokenForm, type: :model do
-  subject(:form) { described_class.new(token: token) }
+  subject { described_class.new(token: token) }
 
   let(:token) { SecureRandom.uuid }
 
@@ -15,28 +15,28 @@ describe TokenForm, type: :model do
     let(:token) { nil }
 
     it 'is invalid' do
-      expect(form).not_to be_valid
+      expect(subject).not_to be_valid
     end
 
     it 'assigns error' do
-      form.valid?
-      expect(form.errors[:token]).to include(I18n.t('token_form.token_missing'))
+      subject.valid?
+      expect(subject.errors[:token]).to include(I18n.t('token_form.token_missing'))
     end
 
     it 'does not call API' do
       expect(AccountsApi).not_to receive(:validate_password_reset)
-      form.valid?
+      subject.valid?
     end
   end
 
   context 'with a valid token' do
     it 'is valid' do
-      expect(form).to be_valid
+      expect(subject).to be_valid
     end
 
     it 'calls API' do
       expect(AccountsApi).to receive(:validate_password_reset).with(token: token)
-      form.valid?
+      subject.valid?
     end
   end
 
@@ -48,12 +48,12 @@ describe TokenForm, type: :model do
     end
 
     it 'is invalid' do
-      expect(form).not_to be_valid
+      expect(subject).not_to be_valid
     end
 
     it 'assigns error' do
-      form.valid?
-      expect(form.errors[:token]).to include(I18n.t('token_form.token_invalid'))
+      subject.valid?
+      expect(subject.errors[:token]).to include(I18n.t('token_form.token_invalid'))
     end
   end
 end

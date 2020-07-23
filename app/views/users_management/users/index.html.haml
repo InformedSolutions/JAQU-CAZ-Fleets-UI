@@ -25,9 +25,8 @@
                 %td.govuk-table__cell{scope: 'row'}= user.name
                 %td.govuk-table__cell{scope: 'row'}= user.email
                 %td.govuk-table__cell{scope: 'row'}
-                  - if not_own_account?(user.user_id)
-                    = link_to edit_user_path(user.user_id), class: 'govuk-link', id: "change-user-#{index}" do
-                      Change
+                  = link_to edit_user_path(user.user_id), class: 'govuk-link', id: "change-user-#{index}" do
+                    Change
 
       - if @users.count < 10
         %p

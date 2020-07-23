@@ -19,8 +19,7 @@ module UsersManagement
     #
     def index
       clear_new_user if request.referer&.include?(confirmation_users_path)
-      api_response = AccountsApi.users(account_id: current_user.account_id)
-      @users = api_response.map { |user_data| UsersManagement::User.new(user_data) }
+      @users = UsersManagement::Users.call(account_id: current_user.account_id)
     end
 
     private

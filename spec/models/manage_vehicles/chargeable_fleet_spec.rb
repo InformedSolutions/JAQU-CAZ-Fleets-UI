@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe VehiclesManagement::ChargeableFleet, type: :model do
-  subject(:fleet) { described_class.new(data) }
+  subject { described_class.new(data) }
 
   let(:first_vrn) { vehicles_data.first.try(:[], 'vrn') }
   let(:last_vrn) { vehicles_data.last.try(:[], 'vrn') }
@@ -21,46 +21,46 @@ describe VehiclesManagement::ChargeableFleet, type: :model do
 
   describe '.vehicle_list' do
     it 'returns an array of VehiclesManagement::ChargeableVehicle instances' do
-      expect(fleet.vehicle_list).to all(be_a(VehiclesManagement::ChargeableVehicle))
+      expect(subject.vehicle_list).to all(be_a(VehiclesManagement::ChargeableVehicle))
     end
 
     it 'returns proper number of vehicles' do
-      expect(fleet.vehicle_list.size).to eq(vehicles_data.size)
+      expect(subject.vehicle_list.size).to eq(vehicles_data.size)
     end
   end
 
   describe '.first_vrn' do
-    it { expect(fleet.first_vrn).to eq(first_vrn) }
+    it { expect(subject.first_vrn).to eq(first_vrn) }
   end
 
   describe '.last_vrn' do
-    it { expect(fleet.last_vrn).to eq(last_vrn) }
+    it { expect(subject.last_vrn).to eq(last_vrn) }
   end
 
   describe '.previous_page?' do
-    it { expect(fleet.previous_page?).to be_truthy }
+    it { expect(subject.previous_page?).to be_truthy }
 
     context 'without first_vrn' do
       let(:first_vrn) { nil }
 
-      it { expect(fleet.previous_page?).to be_falsey }
+      it { expect(subject.previous_page?).to be_falsey }
     end
   end
 
   describe '.next_page?' do
-    it { expect(fleet.next_page?).to be_truthy }
+    it { expect(subject.next_page?).to be_truthy }
 
     context 'without last_vrn' do
       let(:last_vrn) { nil }
 
-      it { expect(fleet.next_page?).to be_falsey }
+      it { expect(subject.next_page?).to be_falsey }
     end
   end
 
   describe '.all_dates_unpaid?' do
     context 'not all days are unpaid' do
       it 'returns false' do
-        expect(fleet.all_days_unpaid?).to be_falsey
+        expect(subject.all_days_unpaid?).to be_falsey
       end
     end
 
@@ -71,18 +71,18 @@ describe VehiclesManagement::ChargeableFleet, type: :model do
       end
 
       it 'returns true' do
-        expect(fleet.all_days_unpaid?).to be_truthy
+        expect(subject.all_days_unpaid?).to be_truthy
       end
     end
   end
 
   describe '.any_results?' do
-    it { expect(fleet.any_results?).to be_truthy }
+    it { expect(subject.any_results?).to be_truthy }
 
     context 'without any results' do
       let(:vehicles_data) { [] }
 
-      it { expect(fleet.any_results?).to be_falsey }
+      it { expect(subject.any_results?).to be_falsey }
     end
   end
 end

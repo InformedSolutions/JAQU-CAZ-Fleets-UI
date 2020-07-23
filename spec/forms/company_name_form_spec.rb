@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe CompanyNameForm, type: :model do
-  subject(:form) { described_class.new(company_name_params) }
+  subject { described_class.new(company_name_params) }
 
   let(:company_name_params) { { company_name: company_name } }
   let(:company_name) { 'Company name' }
@@ -16,8 +16,8 @@ describe CompanyNameForm, type: :model do
     it { is_expected.not_to be_valid }
 
     it 'has a proper error message' do
-      form.valid?
-      expect(form.errors.messages[:company_name]).to(
+      subject.valid?
+      expect(subject.errors.messages[:company_name]).to(
         include(I18n.t('company_name_form.comapny_name_missing'))
       )
     end
@@ -29,8 +29,8 @@ describe CompanyNameForm, type: :model do
     it { is_expected.not_to be_valid }
 
     it 'has a proper error message' do
-      form.valid?
-      expect(form.errors.messages[:company_name]).to include(
+      subject.valid?
+      expect(subject.errors.messages[:company_name]).to include(
         I18n.t('company_name_form.maximum_length', attribute: 'Company name', length: 180)
       )
     end
@@ -62,8 +62,8 @@ describe CompanyNameForm, type: :model do
       it { is_expected.not_to be_valid }
 
       it 'has proper error message' do
-        form.valid?
-        expect(form.errors.messages[:company_name]).to include(
+        subject.valid?
+        expect(subject.errors.messages[:company_name]).to include(
           I18n.t('company_name_form.invalid_format', attribute: 'Company name')
         )
       end
