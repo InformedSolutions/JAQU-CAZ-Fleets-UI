@@ -5,7 +5,7 @@
 #
 class SessionsController < ApplicationController
   skip_before_action :authenticate_user!
-  before_action :assign_back_button_url, only: :logout_notice
+  skip_before_action :verify_authenticity_token, only: :timeout_return_page
 
   ##
   # Renders the sign out page
@@ -19,6 +19,18 @@ class SessionsController < ApplicationController
   end
 
   ##
+  # Stores page to which user should be taken back after clicking `Continue` on the logout notice page.
+  #
+  # ==== Path
+  #
+  #     :POST /timeout_return_page
+  #
+  def timeout_return_page
+    session[:timeout_return_page] = params[:timeout_return_path]
+    head :no_content
+  end
+
+  ##
   # Renders the logout notice page
   #
   # ==== Path
@@ -26,7 +38,7 @@ class SessionsController < ApplicationController
   #    :GET /logout_notice
   #
   def logout_notice
-    @back_button_url = request.referer
+    @back_button_url = session[:timeout_return_page]
     render 'devise/sessions/logout_notice'
   end
 
