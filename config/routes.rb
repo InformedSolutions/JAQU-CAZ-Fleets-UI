@@ -6,9 +6,12 @@ Rails.application.routes.draw do
   authenticated(:user) { root 'dashboard#index', as: :authenticated_root }
   devise_scope(:user) { root to: 'devise/sessions#new' }
 
-  get 'sign-out', to: 'sessions#sign_out_page'
-  get 'logout_notice', to: 'sessions#logout_notice'
-  get 'timedout-user', to: 'sessions#timedout_user'
+  scope controller: 'sessions' do
+    get 'sign-out', to: 'sessions#sign_out_page'
+    post 'assign_logout_notice_back_url'
+    get 'logout_notice'
+    get 'timedout-user'
+  end
 
   resources :passwords, only: %i[index create] do
     collection do
