@@ -33,6 +33,9 @@ Feature: Sign In
       And I should see 'The email or password you entered is incorrect'
       And I should not see 'Enter your email address'
       And I should not see 'Enter your password'
+    When I press 'Forgotten your password?' link
+      And I press 'Back' link
+    Then I remain on the current page
 
   Scenario: Sign in with unconfirmed email
     Given I am on the Sign in page
