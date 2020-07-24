@@ -13,15 +13,9 @@ describe UsersManagement::User, type: :model do
     }
   end
 
-  let(:user_id) { SecureRandom.uuid }
+  let(:user_id) { @uuid }
   let(:name) { 'John Doe' }
-  let(:email) { 'test@example.com' }
-
-  describe '.user_id' do
-    it 'returns user_id' do
-      expect(subject.user_id).to eq(user_id)
-    end
-  end
+  let(:email) { 'Test@example.com' }
 
   describe '.name' do
     it 'returns name' do
@@ -30,8 +24,14 @@ describe UsersManagement::User, type: :model do
   end
 
   describe '.email' do
-    it 'returns email' do
-      expect(subject.email).to eq(email)
+    it 'returns downcase email' do
+      expect(subject.email).to eq('test@example.com')
+    end
+  end
+
+  describe '.user_id' do
+    it 'returns user_id' do
+      expect(subject.user_id).to eq(user_id)
     end
   end
 end

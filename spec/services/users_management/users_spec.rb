@@ -12,8 +12,8 @@ describe UsersManagement::Users do
       expect(subject.count).to eq(9)
     end
 
-    it 'returns sorted users by name' do
-      expect(subject.first.name).to eq('Anisah Melendez')
+    it 'returns sorted users by downcase name' do
+      expect(subject.first.name).to eq('anisah Melendez')
       expect(subject.last.name).to eq('Reef Giles')
     end
 
