@@ -32,10 +32,10 @@ module UsersManagement
 
     private
 
-    # Filtering out removed users and owner from the api response and then sorts by name in alphabetical order
+    # Filtering out removed users and owner from the api response and then sorts by downcase name in alphabetical order
     def filtered_and_sorted
       api_call.reject { |user| user['owner'] == true || user['removed'] == true }
-              .sort_by { |user| user['name'] }
+              .sort_by { |user| user['name'].downcase }
     end
 
     # Call the api go get all users
