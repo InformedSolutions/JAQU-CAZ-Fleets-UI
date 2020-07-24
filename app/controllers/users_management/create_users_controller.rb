@@ -22,10 +22,10 @@ module UsersManagement
     #    GET /users/new
     #
     def new
-      @return_url = if AccountsApi.users(account_id: current_user.account_id).any?
+      @return_url = if UsersManagement::Users.new(account_id: current_user.account_id).filtered.any?
                       users_path
                     else
-                      root_path
+                      dashboard_path
                     end
     end
 

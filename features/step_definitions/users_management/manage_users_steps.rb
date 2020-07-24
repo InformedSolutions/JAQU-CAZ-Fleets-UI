@@ -11,6 +11,7 @@ Given('I visit the Manage users page with no users') do
   mock_api
   mock_empty_users_list
   login_user(permissions: ['MANAGE_USERS'])
+  mock_debits
   visit users_path
 end
 
