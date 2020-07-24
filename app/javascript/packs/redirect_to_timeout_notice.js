@@ -7,11 +7,11 @@ const timeOffset = 1000 * 60 * redirectTimeInMinutes;
 
 setTimeout(function(path) {
   const xmlhttp = new XMLHttpRequest();
-  const payload = JSON.stringify({ "timeout_return_path": window.location.href });
+  const payload = JSON.stringify({ "logout_notice_back_url": window.location.href });
 
   // Request sends the current url to be stored in session. When user will click 'continue'
   // on the logout_notice_path, he will be taken back to the URL provided here.
-  xmlhttp.open('POST', '/timeout_return_page');
+  xmlhttp.open('POST', '/assign_logout_notice_back_url');
   xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
   xmlhttp.send(payload);
 

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   scope controller: 'sessions' do
     get 'sign-out', to: 'sessions#sign_out_page'
-    post 'timeout_return_page'
+    post 'assign_logout_notice_back_url'
     get 'logout_notice'
     get 'timedout-user'
   end
