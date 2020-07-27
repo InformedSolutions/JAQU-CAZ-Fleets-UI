@@ -16,10 +16,10 @@ class PasswordsController < ApplicationController
   #
   def reset
     @back_button_url = if request.referer&.include?(set_up_confirmation_users_path)
-                  set_up_confirmation_users_path
-                else
-                  new_user_session_path
-                end
+                         set_up_confirmation_users_path
+                       else
+                         new_user_session_path
+                       end
   end
 
   ##
