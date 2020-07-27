@@ -15,7 +15,11 @@ class PasswordsController < ApplicationController
   #    :GET /passwords/reset
   #
   def reset
-    # renders static page
+    @back_button_url = if request.referer&.include?(set_up_confirmation_users_path)
+                         set_up_confirmation_users_path
+                       else
+                         new_user_session_path
+                       end
   end
 
   ##
