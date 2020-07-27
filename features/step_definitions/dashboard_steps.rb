@@ -52,3 +52,7 @@ When('I navigate to a Dashboard page with one vehicle in the fleet') do
   mock_users
   visit dashboard_path
 end
+
+And('I should be on the Dashboard page') do
+  expect(page).to have_current_path(dashboard_path)
+end

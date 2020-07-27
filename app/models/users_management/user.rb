@@ -16,12 +16,12 @@ module UsersManagement
       data[:name]
     end
 
-    # user email
+    # downcase user email
     def email
-      data[:email]
+      data[:email].downcase
     end
 
-    # user user_id:
+    # user user_id
     def user_id
       data[:account_user_id]
     end

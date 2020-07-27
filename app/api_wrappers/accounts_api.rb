@@ -153,7 +153,7 @@ class AccountsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def users(account_id:)
-      log_action 'Getting owner users for specified account'
+      log_action 'Getting users'
       request(:get, "/accounts/#{account_id}/users")['users']
     end
 

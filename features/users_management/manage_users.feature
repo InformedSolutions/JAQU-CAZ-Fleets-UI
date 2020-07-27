@@ -15,6 +15,10 @@ Feature: Manage users
       And I should see 'Add another user' button
       And I should not see 'Change' link
       And I should not see 'TBC'
+    Then I press 'Add another user' link
+      And I should be on the Add user page
+    Then I press 'Back' link
+      Then I should be on the Dashboard page
 
   Scenario: Visiting the manage users page with more then 10 users
     Given I visit the Manage users page with more then 10 users
