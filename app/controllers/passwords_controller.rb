@@ -15,7 +15,11 @@ class PasswordsController < ApplicationController
   #    :GET /passwords/reset
   #
   def reset
-    @back_url = back_button_url
+    @back_button_url = if request.referer&.include?(set_up_confirmation_users_path)
+                  set_up_confirmation_users_path
+                else
+                  new_user_session_path
+                end
   end
 
   ##
@@ -151,14 +155,5 @@ class PasswordsController < ApplicationController
     return if params[:token].present? && params[:token] == session[:reset_password_token]
 
     redirect_to invalid_passwords_path
-  end
-
-  # Sets back button href
-  def back_button_url
-    if request.referer&.include?(set_up_confirmation_users_path)
-      set_up_confirmation_users_path
-    else
-      new_user_session_path
-    end
   end
 end
