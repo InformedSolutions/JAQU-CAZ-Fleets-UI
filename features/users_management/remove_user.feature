@@ -29,6 +29,5 @@ Feature: Manage user
       And I should be on the Delete user page
       And I choose 'No'
     Then I press the Continue
-      And I should be on the Manage users page
-      And I should not see 'You have successfully removed John Doe from your account.'
+      And I should be on the Manage user page
 
