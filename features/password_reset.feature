@@ -31,6 +31,6 @@ Feature: Password reset
   Scenario: Not enough complex password
     Given I visit passwords
     When I enter too easy password and confirmation
-    Then I should see "Password must be at least 12 characters long, include at least one upper case letter" 2 times
+    Then I should see "Enter a password at least 8 characters long, including 1 uppercase letter" 2 times
     When I enter valid password and confirmation
     Then I should be on the success page
