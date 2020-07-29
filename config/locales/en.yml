@@ -31,14 +31,14 @@ en:
       missing: '%{attribute} is required'
       invalid_format: '%{attribute} is in an invalid format'
       maximum_length: '%{attribute} is too long (maximum is 45 characters)'
-      password_complexity: '%{attribute} must be at least 12 characters long, include at least one upper case letter, a number, and a special character'
+      password_complexity: '%{attribute} must be at least 8 characters long, include at least 1 upper case letter and a number'
     labels:
       email: 'Enter your email address'
       email_confirmation: 'Confirm your email address'
       password: 'Create a password'
       password_confirmation: 'Confirm password'
     hints:
-      password: 'Must be at least 12 characters long, include at least one upper case letter, a number, and a special character'
+      password: 'Must be at least 8 characters long, include at least 1 upper case letter and a number'
   vrn_form:
     errors:
       vrn_missing: 'Enter the number plate of the vehicle'
@@ -64,7 +64,7 @@ en:
       password_not_equal: Enter a password and password confirmation that are the same
       password_missing: Enter your new password
       password_confirmation_missing: Confirm your new password
-      password_complexity: Password must be at least 12 characters long, include at least one upper case letter, a number, and a special character
+      password_complexity: Enter a password at least 8 characters long, including 1 uppercase letter and 1 number
   submission_method_form:
     errors:
       submission_method_missing: Choose how to add vehicles to your account

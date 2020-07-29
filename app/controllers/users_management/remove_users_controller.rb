@@ -47,8 +47,10 @@ module UsersManagement
       if confirmation == 'yes'
         AccountsApi.delete_user(account_id: current_user.account_id, account_user_id: account_user_id)
         flash[:success] = I18n.t('user_removed', full_user_name: full_user_name)
+        redirect_to users_path
+      else
+        redirect_to edit_user_path(account_user_id)
       end
-      redirect_to users_path
     end
 
     # user remove confirmation, e.g 'yes'

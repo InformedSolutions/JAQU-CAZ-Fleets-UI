@@ -49,5 +49,8 @@ config/ssl/
 .vagrant
 /sonar-scanner*
 
-# Ignore RDoc HTML files
+# RDoc HTML files
 /doc/app
+
+# Redis files
+*.rdb
