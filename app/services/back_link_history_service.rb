@@ -36,13 +36,13 @@ class BackLinkHistoryService < BaseService
 
   private
 
-  # Creating first step or adding page number to correct step
-  def update_steps_history
+  # Creating first step or adding page number to correct step or dont do anything in case if page was refreshed
+  def update_steps_history # rubocop:disable Metrics/AbcSize
     if history.nil?
       session[session_key] = { '1' => page }
     elsif back_button && history
       clear_unused_steps
-    else
+    elsif last_step_page != page
       session.dig(session_key)[next_step] = page
     end
   end
@@ -70,6 +70,11 @@ class BackLinkHistoryService < BaseService
   # Returns previous number of step, e.g '4'
   def previous_step
     (history.keys.last.to_i - 1).to_s
+  end
+
+  # Returns the last step page number, e.g 4
+  def last_step_page
+    history.values.last
   end
 
   # Returns previous next of step, e.g '5'

@@ -2,18 +2,18 @@
 
 require 'rails_helper'
 
-describe 'PaymentHistory::PaymentHistoryController - GET #company_payment_history' do
-  subject { get company_payment_history_path, params: { page: 2 } }
+describe 'PaymentHistory::PaymentHistoryController - GET #user_payment_history' do
+  subject { get user_payment_history_path, params: { page: 2 } }
 
   context 'correct permissions' do
     before do
       api_response = read_response('payment_history/payments.json')['1']
       allow(PaymentHistoryApi).to receive(:payments).and_return(api_response)
-      sign_in view_payment_history_user
+      sign_in make_payments_user
     end
 
     it 'renders the view' do
-      expect(subject).to render_template('company_payment_history')
+      expect(subject).to render_template('user_payment_history')
     end
 
     context 'and with invalid page' do
@@ -24,8 +24,8 @@ describe 'PaymentHistory::PaymentHistoryController - GET #company_payment_histor
         subject
       end
 
-      it 'redirects to the company payment history page' do
-        expect(response).to redirect_to company_payment_history_path
+      it 'redirects to the user payment history page' do
+        expect(response).to redirect_to user_payment_history_path
       end
     end
   end
