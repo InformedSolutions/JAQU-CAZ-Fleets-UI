@@ -34,8 +34,8 @@ describe 'UsersManagement::RemoveUsersController - POST #confirm_remove' do
         context 'when confirmation is no' do
           let(:confirmation) { 'no' }
 
-          it 'redirects to the users page' do
-            expect(subject).to redirect_to(users_path)
+          it 'redirects to the edit user page' do
+            expect(subject).to redirect_to(edit_user_path(@uuid))
           end
         end
 
