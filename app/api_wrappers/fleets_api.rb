@@ -100,7 +100,7 @@ class FleetsApi < AccountsApi
     #
     def fleet_vehicles(account_id:, page:, per_page: 10)
       log_action('Getting fleet vehicles')
-      query = { 'pageNumber' => page - 1, 'pageSize' => per_page }
+      query = { 'pageNumber' => calculate_page_number(page), 'pageSize' => per_page }
       request(:get, "/accounts/#{account_id}/vehicles", query: query)
     end
 
