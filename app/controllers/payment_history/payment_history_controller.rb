@@ -57,14 +57,17 @@ module PaymentHistory
 
     private
 
+    # Assign paginated history to variable
     def assign_paginated_history
       @pagination = PaymentHistory::History.new(current_user.account_id).pagination(page: page_number)
     end
 
+    # page number from params
     def page_number
       (params[:page] || 1).to_i
     end
 
+    # payment_id from params
     def payment_id
       params['payment_id']
     end
