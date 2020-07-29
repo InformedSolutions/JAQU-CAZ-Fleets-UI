@@ -1,3 +1,61 @@
+  #################################################### Nightly Steps ############################################################
+kind: pipeline
+type: docker
+name: fleets-web-nightly
+trigger:
+  event:
+    - cron
+concurrency:
+  limit: 1
+volumes:
+- name: docker_sock
+  host:
+    path: /var/run/docker.sock
+
+steps:
+
+  # Build end to end tests docker image
+  - name: build end to end test image
+    image: docker:19.03.11-git
+    commands:
+      - mkdir ~/.ssh
+      - echo -e "$GIT_PRIVATE_SSH" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - touch ~/.ssh/known_hosts
+      - chmod 600 ~/.ssh/known_hosts
+      - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
+      - git clone git@github.com:InformedSolutions/JAQU-CAZ-QA-selenium.git
+      - cd JAQU-CAZ-QA-selenium
+      - docker build -t selenium-jaqu .
+    environment:
+      GIT_PRIVATE_SSH:
+        from_secret: jaqu_lower_github_private_key
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+   # Run end to end tests
+  - name: run end to end tests
+    image: selenium-jaqu
+    pull: never
+    environment:
+      BS_USERNAME:
+        from_secret: browserstack_username
+      BS_AUTHKEY:
+        from_secret: browserstack_auth_key
+      BASEURL_FLEETS: 'https://dev-fleet.paycleanairzonecharge.co.uk/'
+      VALID_USERNAME: 'tester@informed.com'
+      VALID_PASSWORD: 'Tester123..'
+      BROWSER_SET: 'min'
+      BUILD: FLEETS-UI-${DRONE_BUILD_NUMBER}
+      LOCATION: browserstack
+    commands:
+      - cd JAQU-CAZ-QA-selenium
+      - cucumber -t @FLEETS --retry 3
+
+  ################################################# End Nightly Steps ############################################################
+
+---
 
   #################################################### Dev Environment Steps ############################################################
 kind: pipeline
@@ -5,7 +63,7 @@ type: docker
 name: accounts-web-dev
 trigger:
   branch:
-    - iac-restructure-baseline
+    - develop
   event:
     - pull_request
     - push
@@ -76,7 +134,7 @@ steps:
     pull: never
     commands:
       - bundle audit check --update
-      - yarn run improved-yarn-audit --exclude '1486' --retry-on-network-failure
+      - yarn run improved-yarn-audit --exclude '1523' --retry-on-network-failure
       - brakeman
     volumes:
       - name: docker_sock
@@ -133,7 +191,7 @@ steps:
       - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
       - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
-      - git checkout iac_restructure_baseline
+      - git checkout lower_dev
       - cd terraform-iac/projects/payments/layers/01.networking
       - PATH=$PATH:../../../../bin/
       - chmod +x ../../../../bin/tf
@@ -169,7 +227,7 @@ steps:
       AWS_ACCOUNT_NAME: jaqu-lower
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
       event:
@@ -202,7 +260,7 @@ steps:
   - name: await ecs rollout
     image: docker:19.03.11-git
     environment:
-      build_id_url: https://dev2-fleet.paycleanairzonecharge.co.uk/build_id
+      build_id_url: https://dev-fleet.paycleanairzonecharge.co.uk/build_id
       build_id: ${DRONE_BUILD_NUMBER}
     commands:
       - apk add curl
@@ -232,7 +290,7 @@ type: docker
 name: accounts-web-st
 trigger:
   branch:
-    - iac-restructure-controlled-st
+    - release-candidate/*
   event:
     - pull_request
     - push
@@ -303,7 +361,7 @@ steps:
     pull: never
     commands:
       - bundle audit check --update
-      - yarn run improved-yarn-audit --exclude '1486' --retry-on-network-failure
+      - yarn run improved-yarn-audit --exclude '1523' --retry-on-network-failure
       - brakeman
     volumes:
       - name: docker_sock
@@ -343,7 +401,7 @@ steps:
       - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
       - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
-      - git checkout iac_restructure_controlled
+      - git checkout controlled_st
       - cd terraform-iac/projects/payments/layers/01.networking
       - PATH=$PATH:../../../../bin/
       - chmod +x ../../../../bin/tf
@@ -379,14 +437,14 @@ steps:
       AWS_ACCOUNT_NAME: jaqu-controlled
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
       event:
         - pull_request
 
   - name: provisioning warning
-    image: docker:git
+    image: docker:19.03.11-git
     commands:
       - echo "Pipeline failed. If a deployment is being made for the first time into an environment terraform backends will not yet exist which means this is to be expected. If not terraform related, please see logs for further details"
     when:
@@ -405,7 +463,7 @@ steps:
       - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
       - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
-      - git checkout iac_restructure_controlled
+      - git checkout controlled_st
       - cd terraform-iac/projects/payments/layers/01.networking
       - PATH=$PATH:../../../../bin/
       - chmod +x ../../../../bin/tf
@@ -441,7 +499,7 @@ steps:
       AWS_ACCOUNT_NAME: jaqu-controlled
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
       event:
@@ -474,7 +532,7 @@ steps:
   - name: await ecs rollout
     image: docker:19.03.11-git
     environment:
-      build_id_url: https://st2-fleet.paycleanairzonecharge.co.uk/build_id
+      build_id_url: https://st-fleet.paycleanairzonecharge.co.uk/build_id
       build_id: ${DRONE_BUILD_NUMBER}
     commands:
       - apk add curl
@@ -503,7 +561,478 @@ type: docker
 name: accounts-web-sit
 trigger:
   branch:
-    - iac-restructure-controlled-sit
+    - release/*
+  event:
+    - pull_request
+    - push
+concurrency:
+  limit: 1
+
+volumes:
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
+
+
+steps:
+
+  # Clean agent images and containers to prevent disk space overuse
+  - name: clean agent
+    image: docker:19.03.11-git
+    commands:
+    - docker system prune -f
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+  # Build docker image
+  - name: build
+    image: docker:19.03.11-git
+    commands:
+    - docker build -f Dockerfile.test -t test-fleet-frontend:latest .
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+  # Trigger unit tests
+  - name: unit tests
+    image: test-fleet-frontend
+    pull: never
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+    commands:
+      - yarn install
+      - rspec -f d
+
+  # Execute integration/scenario tests
+  - name: integration tests
+    image: test-fleet-frontend
+    pull: never
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+    commands:
+      - cucumber
+
+  # Invoke static code analysis through Ruby libraries
+  - name: static code analysis (Ruby + assets)
+    image: test-fleet-frontend
+    pull: never
+    commands:
+      - rubocop
+      - scss-lint app/javascript
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+  # Invoke security analysis through Ruby libraries and yarn
+  - name: security tests (Ruby + Yarn)
+    image: test-fleet-frontend
+    pull: never
+    commands:
+      - bundle audit check --update
+      - yarn run improved-yarn-audit --exclude '1523' --retry-on-network-failure
+      - brakeman
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+  # Push built image to ECR registry
+  - name: publish image to ecr
+    image: plugins/ecr
+    settings:
+      access_key:
+        from_secret: jaqu_controlled_service_aws_access_key_id
+      secret_key:
+        from_secret: jaqu_controlled_service_aws_secret_access_key
+      repo: 311075478274.dkr.ecr.eu-west-2.amazonaws.com/fleet-web
+      registry: 311075478274.dkr.ecr.eu-west-2.amazonaws.com
+      dockerfile: Dockerfile.build
+      region: eu-west-2
+      tags:
+        - release
+        - ${DRONE_BUILD_NUMBER}
+      build_args:
+        - secret_key_base=${DRONE_COMMIT}
+        - aws_region=eu-west-2
+    when:
+      event:
+        - push
+
+  - name: plan updates into sit
+    image: hashicorp/terraform:0.12.3
+    commands:
+      - apk update && apk add bash
+      - mkdir ~/.ssh
+      - echo -e "$GIT_PRIVATE_SSH" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - touch ~/.ssh/known_hosts
+      - chmod 600 ~/.ssh/known_hosts
+      - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
+      - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
+      - cd JAQU-CAZ-IAC
+      - git checkout controlled_sit
+      - cd terraform-iac/projects/payments/layers/01.networking
+      - PATH=$PATH:../../../../bin/
+      - chmod +x ../../../../bin/tf
+      - tf init
+      - tf workspace select sit || tf workspace new sit
+      - tf plan
+      - cd ../02.backends
+      - tf init
+      - tf workspace select sit || tf workspace new sit
+      - tf plan
+      - cd ../06.accounts-ui
+      - tf init
+      - tf workspace select sit || tf workspace new sit
+      - tf plan
+    environment:
+      TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
+      TF_VAR_secret_key_base:
+        from_secret: fleet_ruby_secret
+      TF_VAR_google_analytics_id: UA-144774549-2
+      TF_VAR_access_key:
+        from_secret: jaqu_controlled_aws_access_key_id
+      TF_VAR_secret_key:
+        from_secret: jaqu_controlled_aws_secret_access_key
+      TF_VAR_master_access_key:
+        from_secret: jaqu_master_aws_access_key_id
+      TF_VAR_master_secret_key:
+        from_secret: jaqu_master_aws_secret_access_key
+      AWS_ACCESS_KEY_ID:
+        from_secret: jaqu_controlled_aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: jaqu_controlled_aws_secret_access_key
+      AWS_DEFAULT_REGION: eu-west-2
+      AWS_ACCOUNT_NAME: jaqu-controlled
+      GIT_PRIVATE_SSH:
+        from_secret: jaqu_lower_github_private_key
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
+      TF_VAR_enable_https_redirect: false
+    when:
+      event:
+        - pull_request
+
+  - name: provisioning warning
+    image: docker:19.03.11-git
+    commands:
+      - echo "Pipeline failed. If a deployment is being made for the first time into an environment terraform backends will not yet exist which means this is to be expected. If not terraform related, please see logs for further details"
+    when:
+      status:
+        - failure
+
+  - name: deploy to sit
+    image: hashicorp/terraform:0.12.3
+    commands:
+      - apk update && apk add bash
+      - mkdir ~/.ssh
+      - echo -e "$GIT_PRIVATE_SSH" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - touch ~/.ssh/known_hosts
+      - chmod 600 ~/.ssh/known_hosts
+      - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
+      - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
+      - cd JAQU-CAZ-IAC
+      - git checkout controlled_sit
+      - cd terraform-iac/projects/payments/layers/01.networking
+      - PATH=$PATH:../../../../bin/
+      - chmod +x ../../../../bin/tf
+      - tf init
+      - tf workspace select sit || tf workspace new sit
+      - tf apply -auto-approve
+      - cd ../02.backends
+      - tf init
+      - tf workspace select sit || tf workspace new sit
+      - tf apply -auto-approve
+      - cd ../06.accounts-ui
+      - tf init
+      - tf workspace select sit || tf workspace new sit
+      - tf apply -auto-approve
+    environment:
+      TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
+      TF_VAR_secret_key_base:
+        from_secret: fleet_ruby_secret
+      TF_VAR_google_analytics_id: UA-144774549-2
+      TF_VAR_access_key:
+        from_secret: jaqu_controlled_aws_access_key_id
+      TF_VAR_secret_key:
+        from_secret: jaqu_controlled_aws_secret_access_key
+      TF_VAR_master_access_key:
+        from_secret: jaqu_master_aws_access_key_id
+      TF_VAR_master_secret_key:
+        from_secret: jaqu_master_aws_secret_access_key
+      AWS_ACCESS_KEY_ID:
+        from_secret: jaqu_controlled_aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: jaqu_controlled_aws_secret_access_key
+      AWS_DEFAULT_REGION: eu-west-2
+      AWS_ACCOUNT_NAME: jaqu-controlled
+      GIT_PRIVATE_SSH:
+        from_secret: jaqu_lower_github_private_key
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
+      TF_VAR_enable_https_redirect: false
+    when:
+      event:
+        - push
+
+  - name: codedeploy ui sit
+    image: alpine:3.11.6
+    commands:
+      - apk add --update bash python python-dev py-pip build-base jq
+      - pip install awscli
+      - mkdir ~/.aws
+      - echo -e "[profile target_acc]\nrole_arn = $AWS_ACCOUNT_ROLE\ncredential_source = Environment\nrole_session_name = AWSACCOUNT" > ~/.aws/config
+      - aws deploy create-deployment --application-name $APPLICATION_NAME --deployment-config-name CodeDeployDefault.ECSAllAtOnce --deployment-group-name $DEPLOYMENT_GROUP --description "Deployment ECS" --s3-location bucket=$LAMBDA_BUCKET,bundleType=yaml,key=$PROJECT/sit/appspec.yaml --profile target_acc
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: jaqu_controlled_aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: jaqu_controlled_aws_secret_access_key
+      AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
+      AWS_DEFAULT_REGION: eu-west-2
+      APPLICATION_NAME: accounts-codedeploy-service-sit
+      DEPLOYMENT_GROUP: accounts-codedeploy-service-sit
+      PROJECT: accounts
+      LAMBDA_BUCKET: jaqu-shared-project-lambda-bucket
+    when:
+      event:
+        - push
+
+  # Waits for rollout
+  - name: await ecs rollout
+    image: docker:19.03.11-git
+    environment:
+      build_id_url: https://sit-fleet.paycleanairzonecharge.co.uk/build_id
+      build_id: ${DRONE_BUILD_NUMBER}
+    commands:
+      - apk add curl
+      - sh build_utils/check_build_number.sh
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+    when:
+      event:
+        - push
+
+  #################################################### End of SIT Environment steps #######################################################################
+
+
+
+
+
+---
+
+  #################################################### Preprod Environment Steps ###########################################################
+kind: pipeline
+type: docker
+name: accounts-web-preprod
+trigger:
+  branch:
+    - staging
+  event:
+    - pull_request
+    - push
+concurrency:
+  limit: 1
+
+volumes:
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
+
+
+steps:
+
+  - name: plan updates into preprod
+    image: hashicorp/terraform:0.12.3
+    commands:
+      - apk add --update bash python python-dev py-pip build-base jq
+      - pip install awscli
+      - mkdir ~/.aws
+      - echo -e "[profile target_acc]\nrole_arn = $SRC_AWS_ACCOUNT_ROLE\ncredential_source = Environment\nrole_session_name = AWSACCOUNT" > ~/.aws/config
+      - TASKDEF=`aws ecs describe-services --profile target_acc --cluster accounts-cluster-sit --services accounts-sit-ecs-service | jq --raw-output '.services[0].taskDefinition'`
+      - export TF_VAR_build_number=`aws ecs describe-task-definition --profile target_acc --task-definition $TASKDEF | jq --raw-output '.taskDefinition.containerDefinitions[0].image' | cut -f 2 -d ':'`
+      - mkdir ~/.ssh
+      - echo -e "$GIT_PRIVATE_SSH" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - touch ~/.ssh/known_hosts
+      - chmod 600 ~/.ssh/known_hosts
+      - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
+      - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
+      - cd JAQU-CAZ-IAC
+      - git checkout staging_preprod
+      - cd terraform-iac/projects/payments/layers/01.networking
+      - PATH=$PATH:../../../../bin/
+      - chmod +x ../../../../bin/tf
+      - tf init
+      - tf workspace select preprod || tf workspace new preprod
+      - tf plan
+      - cd ../02.backends
+      - tf init
+      - tf workspace select preprod || tf workspace new preprod
+      - tf plan
+      - cd ../06.accounts-ui
+      - tf init
+      - tf workspace select preprod || tf workspace new preprod
+      - tf plan
+    environment:
+      TF_VAR_secret_key_base:
+        from_secret: fleet_ruby_secret
+      TF_VAR_google_analytics_id: UA-144774549-2
+      TF_VAR_access_key:
+        from_secret: jaqu_staging_aws_access_key_id
+      TF_VAR_secret_key:
+        from_secret: jaqu_staging_aws_secret_access_key
+      TF_VAR_master_access_key:
+        from_secret: jaqu_master_aws_access_key_id
+      TF_VAR_master_secret_key:
+        from_secret: jaqu_master_aws_secret_access_key
+      AWS_ACCESS_KEY_ID:
+        from_secret: jaqu_staging_aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: jaqu_staging_aws_secret_access_key
+      AWS_DEFAULT_REGION: eu-west-2
+      AWS_ACCOUNT_NAME: jaqu-staging
+      SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
+      GIT_PRIVATE_SSH:
+        from_secret: jaqu_lower_github_private_key
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
+      TF_VAR_enable_https_redirect: false
+    when:
+      event:
+        - pull_request
+
+  - name: provisioning warning
+    image: docker:19.03.11-git
+    commands:
+      - echo "Pipeline failed. If a deployment is being made for the first time into an environment terraform backends will not yet exist which means this is to be expected. If not terraform related, please see logs for further details"
+    when:
+      status:
+        - failure
+
+  - name: deploy to preprod
+    image: hashicorp/terraform:0.12.3
+    commands:
+      - apk add --update bash python python-dev py-pip build-base jq
+      - pip install awscli
+      - mkdir ~/.aws
+      - echo -e "[profile target_acc]\nrole_arn = $SRC_AWS_ACCOUNT_ROLE\ncredential_source = Environment\nrole_session_name = AWSACCOUNT" > ~/.aws/config
+      - TASKDEF=`aws ecs describe-services --profile target_acc --cluster accounts-cluster-sit --services accounts-sit-ecs-service | jq --raw-output '.services[0].taskDefinition'`
+      - export TF_VAR_build_number=`aws ecs describe-task-definition --profile target_acc --task-definition $TASKDEF | jq --raw-output '.taskDefinition.containerDefinitions[0].image' | cut -f 2 -d ':'`
+      - mkdir ~/.ssh
+      - echo -e "$GIT_PRIVATE_SSH" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - touch ~/.ssh/known_hosts
+      - chmod 600 ~/.ssh/known_hosts
+      - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
+      - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
+      - cd JAQU-CAZ-IAC
+      - git checkout staging_preprod
+      - cd terraform-iac/projects/payments/layers/01.networking
+      - PATH=$PATH:../../../../bin/
+      - chmod +x ../../../../bin/tf
+      - tf init
+      - tf workspace select preprod || tf workspace new preprod
+      - tf apply -auto-approve
+      - cd ../02.backends
+      - tf init
+      - tf workspace select preprod || tf workspace new preprod
+      - tf apply -auto-approve
+      - cd ../06.accounts-ui
+      - tf init
+      - tf workspace select preprod || tf workspace new preprod
+      - tf apply -auto-approve
+    environment:
+      TF_VAR_secret_key_base:
+        from_secret: fleet_ruby_secret
+      TF_VAR_google_analytics_id: UA-144774549-2
+      TF_VAR_access_key:
+        from_secret: jaqu_staging_aws_access_key_id
+      TF_VAR_secret_key:
+        from_secret: jaqu_staging_aws_secret_access_key
+      TF_VAR_master_access_key:
+        from_secret: jaqu_master_aws_access_key_id
+      TF_VAR_master_secret_key:
+        from_secret: jaqu_master_aws_secret_access_key
+      AWS_ACCESS_KEY_ID:
+        from_secret: jaqu_staging_aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: jaqu_staging_aws_secret_access_key
+      AWS_DEFAULT_REGION: eu-west-2
+      AWS_ACCOUNT_NAME: jaqu-staging
+      SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
+      GIT_PRIVATE_SSH:
+        from_secret: jaqu_lower_github_private_key
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
+      TF_VAR_enable_https_redirect: false
+    when:
+      event:
+        - push
+
+
+  - name: codedeploy ui preprod
+    image: alpine:3.11.6
+    commands:
+      - apk add --update bash python python-dev py-pip build-base jq
+      - pip install awscli
+      - mkdir ~/.aws
+      - echo -e "[profile target_acc]\nrole_arn = $AWS_ACCOUNT_ROLE\ncredential_source = Environment\nrole_session_name = AWSACCOUNT" > ~/.aws/config
+      - aws deploy create-deployment --application-name $APPLICATION_NAME --deployment-config-name CodeDeployDefault.ECSAllAtOnce --deployment-group-name $DEPLOYMENT_GROUP --description "Deployment ECS" --s3-location bucket=$LAMBDA_BUCKET,bundleType=yaml,key=$PROJECT/preprod/appspec.yaml --profile target_acc
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: jaqu_staging_aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: jaqu_staging_aws_secret_access_key
+      AWS_ACCOUNT_ROLE: arn:aws:iam::360470905865:role/jaqu-stagingServiceRole
+      AWS_DEFAULT_REGION: eu-west-2
+      APPLICATION_NAME: accounts-codedeploy-service-preprod
+      DEPLOYMENT_GROUP: accounts-codedeploy-service-preprod
+      PROJECT: accounts
+      LAMBDA_BUCKET: jaqu-shared-project-lambda-bucket
+    when:
+      event:
+        - push
+
+  # Waits for rollout
+  - name: await ecs rollout
+    image: alpine:3.11.6
+    environment:
+      build_id_url: https://preprod-fleet.paycleanairzonecharge.co.uk/build_id
+      SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
+      AWS_ACCESS_KEY_ID:
+        from_secret: jaqu_controlled_aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: jaqu_controlled_aws_secret_access_key
+      AWS_DEFAULT_REGION: eu-west-2
+    commands:
+      - apk add --update bash python python-dev py-pip build-base jq
+      - pip install awscli
+      - mkdir ~/.aws
+      - echo -e "[profile target_acc]\nrole_arn = $SRC_AWS_ACCOUNT_ROLE\ncredential_source = Environment\nrole_session_name = AWSACCOUNT" > ~/.aws/config
+      - TASKDEF=`aws ecs describe-services --profile target_acc --cluster accounts-cluster-sit --services accounts-sit-ecs-service | jq --raw-output '.services[0].taskDefinition'`
+      - export build_id=`aws ecs describe-task-definition  --profile target_acc --task-definition $TASKDEF | jq --raw-output '.taskDefinition.containerDefinitions[0].image' | cut -f 2 -d ':'`
+      - apk add curl
+      - sh build_utils/check_build_number.sh
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+    when:
+      event:
+        - push
+
+  #################################################### End of Preprod Environment steps #######################################################################
+
+
+
+---
+  #################################################### UAT Environment Steps ############################################################
+kind: pipeline
+type: docker
+name: accounts-web-uat
+trigger:
+  branch:
+    - uat/*
   event:
     - pull_request
     - push
@@ -585,24 +1114,24 @@ steps:
     image: plugins/ecr
     settings:
       access_key:
-        from_secret: jaqu_controlled_service_aws_access_key_id
+        from_secret: jaqu_staging_service_aws_access_key_id
       secret_key:
-        from_secret: jaqu_controlled_service_aws_secret_access_key
+        from_secret: jaqu_staging_service_aws_secret_access_key
       repo: 311075478274.dkr.ecr.eu-west-2.amazonaws.com/fleet-web
       registry: 311075478274.dkr.ecr.eu-west-2.amazonaws.com
       dockerfile: Dockerfile.build
       region: eu-west-2
       tags:
         - release
+        - hotfix
         - ${DRONE_BUILD_NUMBER}
       build_args:
         - secret_key_base=${DRONE_COMMIT}
-        - aws_region=eu-west-2
     when:
       event:
         - push
 
-  - name: plan updates into sit
+  - name: plan updates into uat
     image: hashicorp/terraform:0.12.3
     commands:
       - apk update && apk add bash
@@ -614,20 +1143,20 @@ steps:
       - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
       - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
-      - git checkout iac_restructure_controlled
+      - git checkout staging_uat
       - cd terraform-iac/projects/payments/layers/01.networking
       - PATH=$PATH:../../../../bin/
       - chmod +x ../../../../bin/tf
       - tf init
-      - tf workspace select sit || tf workspace new sit
+      - tf workspace select uat || tf workspace new uat
       - tf plan
       - cd ../02.backends
       - tf init
-      - tf workspace select sit || tf workspace new sit
+      - tf workspace select uat || tf workspace new uat
       - tf plan
       - cd ../06.accounts-ui
       - tf init
-      - tf workspace select sit || tf workspace new sit
+      - tf workspace select uat || tf workspace new uat
       - tf plan
     environment:
       TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
@@ -635,22 +1164,22 @@ steps:
         from_secret: fleet_ruby_secret
       TF_VAR_google_analytics_id: UA-144774549-2
       TF_VAR_access_key:
-        from_secret: jaqu_controlled_aws_access_key_id
+        from_secret: jaqu_staging_aws_access_key_id
       TF_VAR_secret_key:
-        from_secret: jaqu_controlled_aws_secret_access_key
+        from_secret: jaqu_staging_aws_secret_access_key
       TF_VAR_master_access_key:
         from_secret: jaqu_master_aws_access_key_id
       TF_VAR_master_secret_key:
         from_secret: jaqu_master_aws_secret_access_key
       AWS_ACCESS_KEY_ID:
-        from_secret: jaqu_controlled_aws_access_key_id
+        from_secret: jaqu_staging_aws_access_key_id
       AWS_SECRET_ACCESS_KEY:
-        from_secret: jaqu_controlled_aws_secret_access_key
+        from_secret: jaqu_staging_aws_secret_access_key
       AWS_DEFAULT_REGION: eu-west-2
-      AWS_ACCOUNT_NAME: jaqu-controlled
+      AWS_ACCOUNT_NAME: jaqu-staging
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
       event:
@@ -664,7 +1193,7 @@ steps:
       status:
         - failure
 
-  - name: deploy to sit
+  - name: deploy to uat
     image: hashicorp/terraform:0.12.3
     commands:
       - apk update && apk add bash
@@ -676,20 +1205,20 @@ steps:
       - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
       - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
-      - git checkout iac_restructure_controlled
+      - git checkout staging_uat
       - cd terraform-iac/projects/payments/layers/01.networking
       - PATH=$PATH:../../../../bin/
       - chmod +x ../../../../bin/tf
       - tf init
-      - tf workspace select sit || tf workspace new sit
+      - tf workspace select uat || tf workspace new uat
       - tf apply -auto-approve
       - cd ../02.backends
       - tf init
-      - tf workspace select sit || tf workspace new sit
+      - tf workspace select uat || tf workspace new uat
       - tf apply -auto-approve
       - cd ../06.accounts-ui
       - tf init
-      - tf workspace select sit || tf workspace new sit
+      - tf workspace select uat || tf workspace new uat
       - tf apply -auto-approve
     environment:
       TF_VAR_build_number: ${DRONE_BUILD_NUMBER}
@@ -697,44 +1226,44 @@ steps:
         from_secret: fleet_ruby_secret
       TF_VAR_google_analytics_id: UA-144774549-2
       TF_VAR_access_key:
-        from_secret: jaqu_controlled_aws_access_key_id
+        from_secret: jaqu_staging_aws_access_key_id
       TF_VAR_secret_key:
-        from_secret: jaqu_controlled_aws_secret_access_key
+        from_secret: jaqu_staging_aws_secret_access_key
       TF_VAR_master_access_key:
         from_secret: jaqu_master_aws_access_key_id
       TF_VAR_master_secret_key:
         from_secret: jaqu_master_aws_secret_access_key
       AWS_ACCESS_KEY_ID:
-        from_secret: jaqu_controlled_aws_access_key_id
+        from_secret: jaqu_staging_aws_access_key_id
       AWS_SECRET_ACCESS_KEY:
-        from_secret: jaqu_controlled_aws_secret_access_key
+        from_secret: jaqu_staging_aws_secret_access_key
       AWS_DEFAULT_REGION: eu-west-2
-      AWS_ACCOUNT_NAME: jaqu-controlled
+      AWS_ACCOUNT_NAME: jaqu-staging
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
       event:
         - push
 
-  - name: codedeploy ui sit
+  - name: codedeploy ui uat
     image: alpine:3.11.6
     commands:
       - apk add --update bash python python-dev py-pip build-base jq
       - pip install awscli
       - mkdir ~/.aws
       - echo -e "[profile target_acc]\nrole_arn = $AWS_ACCOUNT_ROLE\ncredential_source = Environment\nrole_session_name = AWSACCOUNT" > ~/.aws/config
-      - aws deploy create-deployment --application-name $APPLICATION_NAME --deployment-config-name CodeDeployDefault.ECSAllAtOnce --deployment-group-name $DEPLOYMENT_GROUP --description "Deployment ECS" --s3-location bucket=$LAMBDA_BUCKET,bundleType=yaml,key=$PROJECT/sit/appspec.yaml --profile target_acc
+      - aws deploy create-deployment --application-name $APPLICATION_NAME --deployment-config-name CodeDeployDefault.ECSAllAtOnce --deployment-group-name $DEPLOYMENT_GROUP --description "Deployment ECS" --s3-location bucket=$LAMBDA_BUCKET,bundleType=yaml,key=$PROJECT/uat/appspec.yaml --profile target_acc
     environment:
       AWS_ACCESS_KEY_ID:
-        from_secret: jaqu_controlled_aws_access_key_id
+        from_secret: jaqu_staging_aws_access_key_id
       AWS_SECRET_ACCESS_KEY:
-        from_secret: jaqu_controlled_aws_secret_access_key
-      AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
+        from_secret: jaqu_staging_aws_secret_access_key
+      AWS_ACCOUNT_ROLE: arn:aws:iam::360470905865:role/jaqu-stagingServiceRole
       AWS_DEFAULT_REGION: eu-west-2
-      APPLICATION_NAME: accounts-codedeploy-service-sit
-      DEPLOYMENT_GROUP: accounts-codedeploy-service-sit
+      APPLICATION_NAME: accounts-codedeploy-service-uat
+      DEPLOYMENT_GROUP: accounts-codedeploy-service-uat
       PROJECT: accounts
       LAMBDA_BUCKET: jaqu-shared-project-lambda-bucket
     when:
@@ -743,9 +1272,9 @@ steps:
 
   # Waits for rollout
   - name: await ecs rollout
-    image: docker:19.03.11-git
+    image: alpine:3.11.6
     environment:
-      build_id_url: https://sit2-fleet.paycleanairzonecharge.co.uk/build_id
+      build_id_url: https://uat-fleet.paycleanairzonecharge.co.uk/build_id
       build_id: ${DRONE_BUILD_NUMBER}
     commands:
       - apk add curl
@@ -757,213 +1286,7 @@ steps:
       event:
         - push
 
-  #################################################### End of SIT Environment steps #######################################################################
-
-
-
-
-
----
-
-  #################################################### Preprod Environment Steps ###########################################################
-kind: pipeline
-type: docker
-name: accounts-web-preprod
-trigger:
-  branch:
-    - iac-restructure-staging-preprod
-  event:
-    - pull_request
-    - push
-concurrency:
-  limit: 1
-
-volumes:
-  - name: docker_sock
-    host:
-      path: /var/run/docker.sock
-
-
-steps:
-
-  - name: plan updates into preprod
-    image: hashicorp/terraform:0.12.3
-    commands:
-      - apk add --update bash python python-dev py-pip build-base jq
-      - pip install awscli
-      - mkdir ~/.aws
-      - echo -e "[profile target_acc]\nrole_arn = $SRC_AWS_ACCOUNT_ROLE\ncredential_source = Environment\nrole_session_name = AWSACCOUNT" > ~/.aws/config
-      - TASKDEF=`aws ecs describe-services --profile target_acc --cluster accounts-cluster-sit --services accounts-sit-ecs-service | jq --raw-output '.services[0].taskDefinition'`
-      - export TF_VAR_build_number=`aws ecs describe-task-definition --profile target_acc --task-definition $TASKDEF | jq --raw-output '.taskDefinition.containerDefinitions[0].image' | cut -f 2 -d ':'`
-      - mkdir ~/.ssh
-      - echo -e "$GIT_PRIVATE_SSH" > ~/.ssh/id_rsa
-      - chmod 600 ~/.ssh/id_rsa
-      - touch ~/.ssh/known_hosts
-      - chmod 600 ~/.ssh/known_hosts
-      - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
-      - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
-      - cd JAQU-CAZ-IAC
-      - git checkout iac_restructure_staging
-      - cd terraform-iac/projects/payments/layers/01.networking
-      - PATH=$PATH:../../../../bin/
-      - chmod +x ../../../../bin/tf
-      - tf init
-      - tf workspace select preprod || tf workspace new preprod
-      - tf plan
-      - cd ../02.backends
-      - tf init
-      - tf workspace select preprod || tf workspace new preprod
-      - tf plan
-      - cd ../06.accounts-ui
-      - tf init
-      - tf workspace select preprod || tf workspace new preprod
-      - tf plan
-    environment:
-      TF_VAR_secret_key_base:
-        from_secret: fleet_ruby_secret
-      TF_VAR_google_analytics_id: UA-144774549-2
-      TF_VAR_access_key:
-        from_secret: jaqu_staging_aws_access_key_id
-      TF_VAR_secret_key:
-        from_secret: jaqu_staging_aws_secret_access_key
-      TF_VAR_master_access_key:
-        from_secret: jaqu_master_aws_access_key_id
-      TF_VAR_master_secret_key:
-        from_secret: jaqu_master_aws_secret_access_key
-      AWS_ACCESS_KEY_ID:
-        from_secret: jaqu_staging_aws_access_key_id
-      AWS_SECRET_ACCESS_KEY:
-        from_secret: jaqu_staging_aws_secret_access_key
-      AWS_DEFAULT_REGION: eu-west-2
-      AWS_ACCOUNT_NAME: jaqu-staging
-      SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
-      GIT_PRIVATE_SSH:
-        from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
-      TF_VAR_enable_https_redirect: false
-    when:
-      event:
-        - pull_request
-
-  - name: provisioning warning
-    image: docker:19.03.11-git
-    commands:
-      - echo "Pipeline failed. If a deployment is being made for the first time into an environment terraform backends will not yet exist which means this is to be expected. If not terraform related, please see logs for further details"
-    when:
-      status:
-        - failure
-
-  - name: deploy to preprod
-    image: hashicorp/terraform:0.12.3
-    commands:
-      - apk add --update bash python python-dev py-pip build-base jq
-      - pip install awscli
-      - mkdir ~/.aws
-      - echo -e "[profile target_acc]\nrole_arn = $SRC_AWS_ACCOUNT_ROLE\ncredential_source = Environment\nrole_session_name = AWSACCOUNT" > ~/.aws/config
-      - TASKDEF=`aws ecs describe-services --profile target_acc --cluster accounts-cluster-sit --services accounts-sit-ecs-service | jq --raw-output '.services[0].taskDefinition'`
-      - export TF_VAR_build_number=`aws ecs describe-task-definition --profile target_acc --task-definition $TASKDEF | jq --raw-output '.taskDefinition.containerDefinitions[0].image' | cut -f 2 -d ':'`
-      - mkdir ~/.ssh
-      - echo -e "$GIT_PRIVATE_SSH" > ~/.ssh/id_rsa
-      - chmod 600 ~/.ssh/id_rsa
-      - touch ~/.ssh/known_hosts
-      - chmod 600 ~/.ssh/known_hosts
-      - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
-      - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
-      - cd JAQU-CAZ-IAC
-      - git checkout iac_restructure_staging
-      - cd terraform-iac/projects/payments/layers/01.networking
-      - PATH=$PATH:../../../../bin/
-      - chmod +x ../../../../bin/tf
-      - tf init
-      - tf workspace select preprod || tf workspace new preprod
-      - tf apply -auto-approve
-      - cd ../02.backends
-      - tf init
-      - tf workspace select preprod || tf workspace new preprod
-      - tf apply -auto-approve
-      - cd ../06.accounts-ui
-      - tf init
-      - tf workspace select preprod || tf workspace new preprod
-      - tf apply -auto-approve
-    environment:
-      TF_VAR_secret_key_base:
-        from_secret: fleet_ruby_secret
-      TF_VAR_google_analytics_id: UA-144774549-2
-      TF_VAR_access_key:
-        from_secret: jaqu_staging_aws_access_key_id
-      TF_VAR_secret_key:
-        from_secret: jaqu_staging_aws_secret_access_key
-      TF_VAR_master_access_key:
-        from_secret: jaqu_master_aws_access_key_id
-      TF_VAR_master_secret_key:
-        from_secret: jaqu_master_aws_secret_access_key
-      AWS_ACCESS_KEY_ID:
-        from_secret: jaqu_staging_aws_access_key_id
-      AWS_SECRET_ACCESS_KEY:
-        from_secret: jaqu_staging_aws_secret_access_key
-      AWS_DEFAULT_REGION: eu-west-2
-      AWS_ACCOUNT_NAME: jaqu-staging
-      SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
-      GIT_PRIVATE_SSH:
-        from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://www.surveymonkey.co.uk/r/L3D2HV6
-      TF_VAR_enable_https_redirect: false
-    when:
-      event:
-        - push
-
-
-  - name: codedeploy ui preprod
-    image: alpine:3.11.6
-    commands:
-      - apk add --update bash python python-dev py-pip build-base jq
-      - pip install awscli
-      - mkdir ~/.aws
-      - echo -e "[profile target_acc]\nrole_arn = $AWS_ACCOUNT_ROLE\ncredential_source = Environment\nrole_session_name = AWSACCOUNT" > ~/.aws/config
-      - aws deploy create-deployment --application-name $APPLICATION_NAME --deployment-config-name CodeDeployDefault.ECSAllAtOnce --deployment-group-name $DEPLOYMENT_GROUP --description "Deployment ECS" --s3-location bucket=$LAMBDA_BUCKET,bundleType=yaml,key=$PROJECT/preprod/appspec.yaml --profile target_acc
-    environment:
-      AWS_ACCESS_KEY_ID:
-        from_secret: jaqu_staging_aws_access_key_id
-      AWS_SECRET_ACCESS_KEY:
-        from_secret: jaqu_staging_aws_secret_access_key
-      AWS_ACCOUNT_ROLE: arn:aws:iam::360470905865:role/jaqu-stagingServiceRole
-      AWS_DEFAULT_REGION: eu-west-2
-      APPLICATION_NAME: accounts-codedeploy-service-preprod
-      DEPLOYMENT_GROUP: accounts-codedeploy-service-preprod
-      PROJECT: accounts
-      LAMBDA_BUCKET: jaqu-shared-project-lambda-bucket
-    when:
-      event:
-        - push
-
-  # Waits for rollout
-  - name: await ecs rollout
-    image: alpine:3.11.6
-    environment:
-      build_id_url: https://preprod2-fleet.paycleanairzonecharge.co.uk/build_id
-      SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
-      AWS_ACCESS_KEY_ID:
-        from_secret: jaqu_controlled_aws_access_key_id
-      AWS_SECRET_ACCESS_KEY:
-        from_secret: jaqu_controlled_aws_secret_access_key
-      AWS_DEFAULT_REGION: eu-west-2
-    commands:
-      - apk add --update bash python python-dev py-pip build-base jq
-      - pip install awscli
-      - mkdir ~/.aws
-      - echo -e "[profile target_acc]\nrole_arn = $SRC_AWS_ACCOUNT_ROLE\ncredential_source = Environment\nrole_session_name = AWSACCOUNT" > ~/.aws/config
-      - TASKDEF=`aws ecs describe-services --profile target_acc --cluster accounts-cluster-sit --services accounts-sit-ecs-service | jq --raw-output '.services[0].taskDefinition'`
-      - export build_id=`aws ecs describe-task-definition  --profile target_acc --task-definition $TASKDEF | jq --raw-output '.taskDefinition.containerDefinitions[0].image' | cut -f 2 -d ':'`
-      - apk add curl
-      - sh build_utils/check_build_number.sh
-    volumes:
-      - name: docker_sock
-        path: /var/run/docker.sock
-    when:
-      event:
-        - push
-
-  #################################################### End of Preprod Environment steps #######################################################################
+  #################################################### End of UAT  Environmentsteps #######################################################################
 
 
 ---
@@ -974,7 +1297,7 @@ type: docker
 name: accounts-web-prod
 trigger:
   branch:
-    - iac-restructure-prod
+    - master
   event:
     - pull_request
     - push
@@ -1006,7 +1329,7 @@ steps:
       - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
       - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
-      - git checkout iac_restructure_prod
+      - git checkout prod_live
       - cd terraform-iac/projects/payments/layers/01.networking
       - PATH=$PATH:../../../../bin/
       - chmod +x ../../../../bin/tf
@@ -1073,7 +1396,7 @@ steps:
       - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
       - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
-      - git checkout iac_restructure_prod
+      - git checkout prod_live
       - cd terraform-iac/projects/payments/layers/01.networking
       - PATH=$PATH:../../../../bin/
       - chmod +x ../../../../bin/tf
@@ -1143,7 +1466,7 @@ steps:
   - name: await ecs rollout
     image: alpine:3.11.6
     environment:
-      build_id_url: https://prod2-fleet.paycleanairzonecharge.co.uk/build_id
+      build_id_url: https://accountpay.cleanairzone.defra.gov.uk/build_id
       SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::360470905865:role/jaqu-stagingServiceRole
       AWS_ACCESS_KEY_ID:
         from_secret: jaqu_staging_aws_access_key_id
@@ -1233,6 +1556,7 @@ get:
   path: /build-tools/drone
   name: awsControlledServiceSecretAccessKey
 
+
 ---
 kind: secret
 name: jaqu_staging_aws_access_key_id
@@ -1246,7 +1570,6 @@ name: jaqu_staging_aws_secret_access_key
 get:
   path: /build-tools/drone
   name: awsStagingSecretAccessKey
-
 
 ---
 kind: secret
@@ -1262,6 +1585,7 @@ get:
   path: /build-tools/drone
   name: awsStagingServiceSecretAccessKey
 
+
 ---
 kind: secret
 name: jaqu_prod_aws_access_key_id
@@ -1275,21 +1599,6 @@ name: jaqu_prod_aws_secret_access_key
 get:
   path: /build-tools/drone
   name: awsProdSecretAccessKey
-
-
----
-kind: secret
-name: jaqu_prod_service_aws_access_key_id
-get:
-  path: /build-tools/drone
-  name: awsProdServiceAccessKeyId
-
----
-kind: secret
-name: jaqu_prod_service_aws_secret_access_key
-get:
-  path: /build-tools/drone
-  name: awsProdServiceSecretAccessKey
 
 
 ---
@@ -1350,4 +1659,3 @@ get:
 
 
   ################################################ End Secrets #########################################################
-  
