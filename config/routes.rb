@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   authenticated(:user) { root 'dashboard#index', as: :authenticated_root }
+  get :dashboard, to: 'dashboard#index'
   devise_scope(:user) { root to: 'devise/sessions#new' }
 
   scope controller: 'sessions' do
@@ -136,18 +137,28 @@ Rails.application.routes.draw do
     end
   end
 
-  get :cookies, to: 'static_pages#cookies'
-  get :accessibility_statement, to: 'static_pages#accessibility_statement'
-  get :privacy_notice, to: 'static_pages#privacy_notice'
-  get :dashboard, to: 'dashboard#index'
-  get :build_id, to: 'application#build_id'
-  get :health, to: 'application#health'
+  scope module: 'payment_history', path: '/', controller: 'payment_history' do
+    get :company_payment_history
+    get :user_payment_history
+  end
 
-  get :not_found, to: 'errors#not_found'
-  get :service_unavailable, to: 'errors#server_unavailable'
+  scope controller: 'static_pages' do
+    get :cookies
+    get :accessibility_statement
+    get :privacy_notice
+  end
+
+  scope controller: 'application' do
+    get :build_id
+    get :health
+  end
+
+  scope controller: 'errors' do
+    get :not_found
+    get :service_unavailable
+  end
 
   match '/404', to: 'errors#not_found', via: :all
-  # There is no 422 error page in design systems
   match '/422', to: 'errors#internal_server_error', via: :all
   match '/500', to: 'errors#internal_server_error', via: :all
   match '/503', to: 'errors#service_unavailable', via: :all
