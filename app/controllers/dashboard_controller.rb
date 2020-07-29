@@ -13,21 +13,21 @@ class DashboardController < ApplicationController
   def index
     clear_input_history
     @vehicles_count = current_user.fleet.total_vehicles_count
-    @mandates_present = check_user_mandates
-    @users_present = check_owner_users
+    @mandates_present = check_mandates
+    @users_present = check_users
   end
 
   private
 
   # Do not perform api call if user don't have permission
-  def check_user_mandates
+  def check_mandates
     return false unless allow_manage_mandates?
 
     DirectDebits::Debit.new(current_user.account_id).active_mandates.any?
   end
 
   # Do not perform api call if user don't have permission
-  def check_owner_users
+  def check_users
     return false unless allow_manage_users?
 
     UsersManagement::Users.new(account_id: current_user.account_id).filtered.any?
