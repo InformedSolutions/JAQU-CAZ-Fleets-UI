@@ -18,11 +18,6 @@ module PaymentHistory
                                  .map { |payment| PaymentHistory::CompanyPayment.new(payment) }
     end
 
-    # Checks if there are any entries in the +payments+ array
-    def company_payment_history_empty?
-      company_payments_list.empty?
-    end
-
     # Returns current page value
     def page
       data['page'] + 1
