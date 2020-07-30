@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe PaymentHistory::CompanyPayment, type: :model do
+describe PaymentHistory::Payment, type: :model do
   subject { described_class.new(data) }
 
   let(:data) do

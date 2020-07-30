@@ -6,7 +6,7 @@ module PaymentHistory
   ##
   # Represents the virtual model of the payment history, used in +app/views/payment_history/company_payment_history.html.haml+.
   #
-  class CompanyPayment
+  class Payment
     def initialize(data)
       @data = data.transform_keys { |key| key.underscore.to_sym }
     end

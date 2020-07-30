@@ -1,14 +1,33 @@
 # frozen_string_literal: true
 
-Given('I visit the Company payment history') do
+Given('I visit the Company payment history page') do
   mock_vehicles_in_fleet
   mock_payment_history
   login_user(permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
   visit company_payment_history_path
 end
 
+Given('I go to the Company payment history page') do
+  visit company_payment_history_path
+end
+
+Given('I go to the User payment history page') do
+  visit user_payment_history_path
+end
+
+Given('I visit the User payment history page') do
+  mock_vehicles_in_fleet
+  mock_payment_history
+  login_user(permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
+  visit user_payment_history_path
+end
+
 Then('I should be on the the Company payment history page') do
   expect_path(company_payment_history_path)
+end
+
+Then('I should be on the the User payment history page') do
+  expect_path(user_payment_history_path)
 end
 
 And('I should be on the Company payment history page number {int}') do |page_number|
@@ -17,6 +36,14 @@ end
 
 And('I should be on the Company payment history page number {int} when using back button') do |page_number|
   expect(page).to have_current_path("#{company_payment_history_url}?page=#{page_number}?back=true")
+end
+
+And('I should be on the User payment history page number {int}') do |page_number|
+  expect(page).to have_current_path("#{user_payment_history_url}?page=#{page_number}")
+end
+
+And('I should be on the User payment history page number {int} when using back button') do |page_number|
+  expect(page).to have_current_path("#{user_payment_history_url}?page=#{page_number}?back=true")
 end
 
 When('I press {int} pagination button on the payment history page') do |selected_page|
@@ -37,7 +64,7 @@ end
 def paginated_history(page = 1)
   instance_double(
     PaymentHistory::PaginatedPayment,
-    company_payments_list: company_mocked_payments_list,
+    payments_list: payments_list,
     page: page,
     total_pages: 5,
     range_start: 1,
@@ -46,8 +73,8 @@ def paginated_history(page = 1)
   )
 end
 
-def company_mocked_payments_list
-  api_response.map { |data| PaymentHistory::CompanyPayment.new(data) }
+def payments_list
+  api_response.map { |data| PaymentHistory::Payment.new(data) }
 end
 
 def api_response

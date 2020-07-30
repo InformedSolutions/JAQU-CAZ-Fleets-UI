@@ -9,7 +9,7 @@
       %h1.govuk-heading-l
         = title_and_header
 
-      - unless @pagination.company_payments_list.empty?
+      - unless @pagination.payments_list.empty?
 
         %table.govuk-table
           %caption.govuk-table__caption
@@ -23,7 +23,7 @@
               %th.govuk-table__header{scope: 'col'} Amount paid
               %th.govuk-table__header{scope: 'col'} Charge details
           %tbody.govuk-table__body
-            - @pagination.company_payments_list.each_with_index do |payment, index|
+            - @pagination.payments_list.each_with_index do |payment, index|
               %tr.govuk-table__row
                 %th.govuk-table__header{scope: 'row'}= payment.date
                 %td.govuk-table__cell= payment.payer_name
@@ -34,4 +34,4 @@
                   = link_to payment_history_details_path(payment_id: payment.payment_id), class: 'govuk-link', id: "payment-#{index}" do
                     View details
 
-        = render 'payment_history/payment_history/company_payment_history/pagination'
+        = render 'payment_history/payment_history/company/pagination'

@@ -12,10 +12,9 @@ module PaymentHistory
       @data = data
     end
 
-    # Returns an array of PaymentHistory::CompanyPayment model instances
-    def company_payments_list
-      @company_payments_list ||= data['payments']
-                                 .map { |payment| PaymentHistory::CompanyPayment.new(payment) }
+    # Returns an array of PaymentHistory::Payment model instances
+    def payments_list
+      @payments_list ||= data['payments'].map { |payment| PaymentHistory::Payment.new(payment) }
     end
 
     # Returns current page value
