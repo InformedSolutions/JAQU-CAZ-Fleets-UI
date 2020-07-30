@@ -125,7 +125,7 @@ module UsersManagement
     #    GET /users/set_up_confirmation
     #
     def set_up_confirmation
-      # Renders account set up confirmation mockup page
+      session[:reset_password_back_button_url] = set_up_confirmation_users_path
     end
 
     private
