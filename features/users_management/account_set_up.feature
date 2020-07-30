@@ -13,6 +13,11 @@ Feature: Account set up
     When I press 'Forgotten your password?' link
       And I press 'Back' link
     Then I am taken to the account set up confirmation page
+      When I press 'Forgotten your password?' link
+      And I press 'Privacy Notice' link
+      And I press 'Back' link
+      And I press 'Back' link
+    Then I am taken to the account set up confirmation page
 
   Scenario: The one where the token or account uuid is missing or invalid
     Given I am on the set up account page with invalid account uuid
