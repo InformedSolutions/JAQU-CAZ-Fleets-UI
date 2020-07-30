@@ -74,3 +74,17 @@ Feature: Payment History
       And I should be on the User payment history page number 1 when using back button
     Then I press 'Back' link
       And I should be on the Dashboard page
+
+  Scenario: User sees payment details history from Company payments history page
+    Given I want visit the Payments details page from Company payments history page
+    Then I press 'View details' link
+      And I should be on the the Payment details history page
+    Then I press 'Back' link
+      And I should be on the the Company payment history page
+
+  Scenario: User sees payment details history from User payments history page
+    Given I want visit the Payments details page from User payments history page
+    Then I press 'View details' link
+      And I should be on the the Payment details history page
+    Then I press 'Back' link
+      And I should be on the the User payment history page

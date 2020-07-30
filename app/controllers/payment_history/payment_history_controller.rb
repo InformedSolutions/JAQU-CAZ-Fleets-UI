@@ -10,6 +10,7 @@ module PaymentHistory
     include CheckPermissions
     before_action -> { check_permissions(allow_view_payment_history?) }, only: :company_payment_history
     before_action -> { check_permissions(allow_make_payments?) }, only: :user_payment_history
+    before_action -> { check_permissions(allow_view_details_history?) }, only: :payment_history_details
 
     ##
     # Renders the company payment history page
@@ -19,7 +20,7 @@ module PaymentHistory
     #    :GET /company_payment_history
     #
     def company_payment_history
-      assign_paginated_history
+      assign_paginated_history(company_payments: true)
       @back_button_url = determinate_back_link_url(
         :company_back_link_history,
         dashboard_url,
@@ -54,13 +55,21 @@ module PaymentHistory
     #
     #    :GET /payment_history_details
     #
-    def payment_history_details; end
+    def payment_history_details
+      @details =  PaymentHistory::Details.new(payment_id)
+      @payments = @details.payments
+      @back_button_url = determinate_back_link
+    end
 
     private
 
     # Assign paginated history to variable
-    def assign_paginated_history
-      @pagination = PaymentHistory::History.new(current_user.account_id).pagination(page: page_number)
+    def assign_paginated_history(company_payments: false)
+      @pagination = PaymentHistory::History.new(
+        current_user.account_id,
+        current_user.user_id,
+        company_payments
+      ).pagination(page: page_number)
     end
 
     # page number from params
@@ -83,6 +92,17 @@ module PaymentHistory
         default_url: default_url,
         url: url
       )
+    end
+
+    # Returns back on the payment history details page
+    # Assigns +@company_payment_history+ to true if last visited page was the company payment history
+    def determinate_back_link
+      if request.referer&.include?(company_payment_history_path)
+        @company_payment_history = true
+        company_payment_history_path
+      else
+        user_payment_history_path
+      end
     end
   end
 end
