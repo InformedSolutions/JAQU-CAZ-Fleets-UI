@@ -110,7 +110,7 @@ describe SetUpAccountForm, type: :model do
     end
 
     it 'has correct confirmation error' do
-      error_message = I18n.t('email_and_password_form.password_confirmation_missing')
+      error_message = I18n.t('new_password_form.errors.password_confirmation_missing')
       expect(subject.errors.messages[:password_confirmation]).to include(error_message)
     end
   end
@@ -124,7 +124,7 @@ describe SetUpAccountForm, type: :model do
     it { is_expected.not_to be_valid }
 
     it 'has correct password error' do
-      error_message = I18n.t('email_and_password_form.password_missing')
+      error_message = I18n.t('new_password_form.errors.password_missing')
       expect(subject.errors.messages[:password]).to include(error_message)
     end
 
@@ -162,12 +162,12 @@ describe SetUpAccountForm, type: :model do
     it { is_expected.not_to be_valid }
 
     it 'has correct password error' do
-      error_message = I18n.t('email_and_password_form.password_missing')
+      error_message = I18n.t('new_password_form.errors.password_missing')
       expect(subject.errors.messages[:password]).to include(error_message)
     end
 
     it 'has correct confirmation error' do
-      error_message = I18n.t('email_and_password_form.password_confirmation_missing')
+      error_message = I18n.t('new_password_form.errors.password_confirmation_missing')
       expect(subject.errors.messages[:password_confirmation]).to include(error_message)
     end
   end

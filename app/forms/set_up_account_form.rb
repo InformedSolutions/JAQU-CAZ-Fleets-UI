@@ -3,9 +3,9 @@
 ##
 # This class is used to validate user data filled in +app/views/users/set_up.html.haml+.
 class SetUpAccountForm < BaseForm
-  validates :password, presence: { message: I18n.t('email_and_password_form.password_missing') }
+  validates :password, presence: { message: I18n.t('new_password_form.errors.password_missing') }
   validates :password_confirmation,
-            presence: { message: I18n.t('email_and_password_form.password_confirmation_missing') }
+            presence: { message: I18n.t('new_password_form.errors.password_confirmation_missing') }
   validates :token, format: {
     with: /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/,
     message: I18n.t('token_form.token_invalid')
