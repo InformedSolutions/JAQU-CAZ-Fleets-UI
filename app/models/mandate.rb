@@ -1,40 +1,45 @@
 # frozen_string_literal: true
 
 ##
-# Class used to serialize data from DebitsApi.account_mandates
+# Class used to serialize data from DebitsApi.mandates
 #
 class Mandate
   # Initializer method. Assigns :data
   #
   # ==== Params
   #
-  # * +zoneId+ - uuid, CleanAirZone ID
-  # * +zoneName+ - string, name of the CAZ
-  # * +mandateId+ - uuid, mandate ID
-  # * +status+ - string, status of the mandate eg. 'pending'
+  # * +cazId+ - uuid, CleanAirZone ID
+  # * +cazName+ - string, name of the CAZ
+  # * +mandates+ - hash
+  #   * +id+ - uuid, mandate ID
+  #   * +status+ - string, status of the mandate eg. 'active'
   #
   def initialize(data)
     @data = data
   end
 
-  # Returns mandate's ID
-  def id
-    data['mandateId']
-  end
-
-  # Returns debit status
-  def status
-    data['status']&.humanize
+  # Returns the ID od associated CAZ
+  def zone_id
+    data['cazId']
   end
 
   # Returns the name od associated CAZ
   def zone_name
-    data['zoneName']&.humanize
+    data['cazName']&.humanize
   end
 
-  # Returns the ID od associated CAZ
-  def zone_id
-    data['zoneId']
+  # Returns mandate's ID
+  def id
+    return nil if data['mandates'].empty?
+
+    data.dig('mandates', 'id')
+  end
+
+  # Returns mandate status
+  def status
+    return nil if data['mandates'].empty?
+
+    data.dig('mandates', 'status')&.humanize
   end
 
   private

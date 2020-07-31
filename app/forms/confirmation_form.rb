@@ -5,6 +5,9 @@
 class ConfirmationForm
   include ActiveModel::Validations
 
+  # form confirmation from the query params, values: 'yes', 'no', nil
+  attr_reader :confirmation
+
   validates :confirmation, inclusion: {
     in: %w[yes no], message: I18n.t('confirmation_form.answer_missing')
   }
@@ -26,9 +29,4 @@ class ConfirmationForm
   def confirmed?
     confirmation == 'yes'
   end
-
-  private
-
-  # form confirmation from the query params, values: 'yes', 'no', nil
-  attr_reader :confirmation
 end

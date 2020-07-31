@@ -18,6 +18,10 @@ Then('I should not see {string}') do |string|
   expect(page).not_to have_content(string)
 end
 
+Then('I select {string}') do |string|
+  choose(string)
+end
+
 # links interactions
 
 Then('I press {string} link') do |string|
@@ -30,6 +34,10 @@ end
 
 Then('I press the Confirm') do
   click_button 'Confirm'
+end
+
+Then('I press {string} button') do |string|
+  click_button string
 end
 
 Then('I press the Back link') do
@@ -54,4 +62,12 @@ end
 
 When('I reload the page') do
   visit page.current_path
+end
+
+Then('I should see {string} as {string} value') do |string, field|
+  expect(page).to have_field(field, with: string)
+end
+
+And('I check {string}') do |string|
+  check(string)
 end

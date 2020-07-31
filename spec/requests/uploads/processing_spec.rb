@@ -28,6 +28,7 @@ describe 'UploadsController - #processing' do
       allow(FleetsApi)
         .to receive(:job_status)
         .and_return(status: status, errors: errors)
+      mock_fleet(create_empty_fleet)
     end
 
     it 'calls FleetsApi.job_status with proper params' do
@@ -39,17 +40,22 @@ describe 'UploadsController - #processing' do
 
     describe 'job status' do
       before do
-        mock_fleet(create_empty_fleet)
+        mock_fleet(create_fleet)
         http_request
       end
 
       describe 'success' do
-        it 'returns redirect to fleets_path' do
-          expect(response).to redirect_to(fleets_path)
+        it 'returns redirect to local_exemptions_vehicles_path' do
+          expect(response).to redirect_to(local_exemptions_vehicles_path)
         end
 
         it 'clears job data' do
           expect(session[:job]).to be_nil
+        end
+
+        it 'sets :success flash message' do
+          expect(flash[:success])
+            .to eq('You have successfully uploaded 45 to your vehicle list.')
         end
       end
 

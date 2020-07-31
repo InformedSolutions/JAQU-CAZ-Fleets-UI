@@ -7,69 +7,77 @@ describe DirectDebit, type: :model do
 
   let(:account_id) { SecureRandom.uuid }
 
+  before do
+    mock_debits
+  end
+
   describe '.mandates' do
-    before do
-      mandates_data = read_response('mandates.json')
-      allow(DebitsApi)
-        .to receive(:account_mandates)
-        .and_return(mandates_data)
-    end
+    subject { debit.mandates }
 
     it 'calls DebitsApi.account_mandates with proper params' do
-      expect(DebitsApi)
-        .to receive(:account_mandates)
-        .with(account_id: account_id)
-      debit.mandates
+      expect(DebitsApi).to receive(:mandates).with(account_id: account_id)
+      subject
     end
 
     it 'returns an array of Mandate instances' do
-      expect(debit.mandates).to all(be_a(Mandate))
+      expect(subject).to all(be_a(Mandate))
     end
 
     it 'assigns data to mandates' do
-      expect(debit.mandates.first.id).not_to be_nil
+      expect(subject.first.zone_id).not_to be_nil
     end
   end
 
-  describe '.add_mandate' do
+  describe '.caz_mandates' do
+    subject { debit.caz_mandates(zone_id) }
+
     let(:zone_id) { SecureRandom.uuid }
 
-    before do
-      allow(DebitsApi)
-        .to receive(:add_mandate)
-        .and_return(true)
+    before { mock_caz_mandates('caz_mandates') }
+
+    it 'calls DebitsApi.caz_mandates with proper params' do
+      expect(DebitsApi).to receive(:caz_mandates).with(account_id: account_id, zone_id: zone_id)
+      subject
     end
 
-    it 'calls DebitsApi.add_mandate with proper params' do
-      expect(DebitsApi)
-        .to receive(:add_mandate)
-        .with(zone_id: zone_id, account_id: account_id)
-      debit.add_mandate(zone_id)
+    it 'returns a hash' do
+      expect(subject).to be_a(Hash)
+    end
+
+    it 'returns the active mandate' do
+      expect(subject['status']).to eq('active')
     end
   end
 
-  describe '.zones_without_mandate' do
-    let(:caz_list) { read_response('caz_list.json')['cleanAirZones'] }
-    let(:first_zone_id) { caz_list.first['cleanAirZoneId'] }
-    let(:second_zone_id) { caz_list.last['cleanAirZoneId'] }
+  describe '.active_mandates' do
+    subject { debit.active_mandates }
 
-    before do
-      allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(caz_list)
-      allow(DebitsApi)
-        .to receive(:account_mandates)
-        .and_return([{ 'zoneId' => first_zone_id }])
+    it 'returns an array of Mandate instances' do
+      expect(subject).to all(be_a(Mandate))
     end
 
-    it 'returns one CAZ' do
-      expect(debit.zones_without_mandate.size).to eq(1)
+    it 'returns only active mandate' do
+      expect(subject.size).to eq(1)
+    end
+  end
+
+  describe '.inactive_mandates' do
+    subject { debit.inactive_mandates }
+
+    it 'returns an array of Mandate instances' do
+      expect(subject).to all(be_a(Mandate))
     end
 
-    it 'returns the other zone' do
-      expect(debit.zones_without_mandate.first.id).to eq(second_zone_id)
+    it 'returns only zone_id' do
+      expect(subject.first.zone_id).not_to be_nil
     end
 
-    it 'returns an array of CleanAirZone instances' do
-      expect(debit.zones_without_mandate).to all(be_a(CleanAirZone))
+    it 'returns only caz_name' do
+      expect(subject.first.zone_name).not_to be_nil
+    end
+
+    it 'returns only inactive mandate' do
+      expect(subject.size).to eq(1)
     end
   end
 end

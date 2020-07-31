@@ -1,22 +1,29 @@
-= back_link_to_dashboard
+- title_and_header = 'Your Direct Debits'
+- content_for(:title, title_and_header)
+
+= link_to 'Back', @back_button_url, class: 'govuk-back-link'
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      %h1.govuk-heading-l Your direct debits
+      %h1.govuk-heading-l
+        = title_and_header
+
+      %p You need to make single payments each time you want to pay by Direct Debit.
+
       %details.govuk-details{'data-module': 'govuk-details'}
         %summary.govuk-details__summary
           %span.govuk-details__summary-text
-            Help with changing or cancelling a direct debit
+            Help with changing or cancelling a Direct Debit
         .govuk-details__text
-          You can only cancel direct debits with your bank.
-          To change which bank account will be billed,
-          cancel the direct debit on your old account
-          and then create a new direct debit with your new account details.
+          To cancel a Direct Debit you need to contact your bank.
+          %br
+          %br
+          To change the details of a Direct Debit you need to cancel the Direct Debit and set up another one with the new details.
       %table.govuk-table
         %thead.govuk-table__head
           %tr.govuk-table__row
-            %th.govuk-table__header{scope: 'col'} CAZ
+            %th.govuk-table__header{scope: 'col'} Clean Air Zone
             %th.govuk-table__header{scope: 'col'} Mandate ID
             %th.govuk-table__header{scope: 'col'} Status
         %tbody.govuk-table__body
@@ -28,9 +35,19 @@
                 = mandate.id
               %td.govuk-table__cell
                 = mandate.status
-      - if @zones.any?
-        = button_to('Set up new direct debit', new_debit_path, method: :get, class: 'govuk-button')
+      %p
+        %strong Pending
+        \- It takes 3 working days for your payment to go through the first time you set up a Direct Debit.
+      %p
+        %strong Active
+        \- Once set up it will take 2 days each time you pay.
+      %p
+        Payments will appear on your bank statements as Driving in Clean Air Zone charge.
+
+      - if @zones_without_mandate.present? && @mandates.present?
+        = button_to('Set up new Direct Debit', new_debit_path, method: :get, class: 'govuk-button')
       - else
         %p
-          You have created a mandate for each CAZ.
-          No more mandates can be created.
+          You have created a Direct Debit for every Clean Air Zone.
+      %p
+        = link_to 'Back to Your account', root_path

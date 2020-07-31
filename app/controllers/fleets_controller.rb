@@ -14,9 +14,7 @@ class FleetsController < ApplicationController
   #
   #    :GET /fleets/submission_method
   #
-  def submission_method
-    session[:add_vehicle_back_button] = submission_method_fleets_path
-  end
+  def submission_method; end
 
   ##
   # Validates the submission method form and redirects to selected method screen.
@@ -30,6 +28,7 @@ class FleetsController < ApplicationController
   #
   def submit_method
     form = SubmissionMethodForm.new(submission_method: params['submission-method'])
+    session[:submission_method] = form.submission_method
     unless form.valid?
       @errors = form.errors
       render :submission_method and return
@@ -56,6 +55,8 @@ class FleetsController < ApplicationController
     page = (params[:page] || 1).to_i
     @pagination = @fleet.pagination(page: page)
     @zones = CleanAirZone.all
+  rescue BaseApi::Error400Exception
+    return redirect_to fleets_path unless page == 1
   end
 
   ##
@@ -70,11 +71,8 @@ class FleetsController < ApplicationController
   #
   def create
     form = ConfirmationForm.new(params['confirm-vehicle-creation'])
-    unless form.valid?
-      return redirect_to fleets_path, alert: form.errors.messages[:confirmation].first
-    end
-
-    redirect_to form.confirmed? ? enter_details_vehicles_path : dashboard_path
+    session[:confirm_vehicle_creation] = form.confirmation
+    determinate_next_step(form)
   end
 
   ##
@@ -84,9 +82,7 @@ class FleetsController < ApplicationController
   #
   #    :GET /fleets/first_upload
   #
-  def first_upload
-    # nothing for now
-  end
+  def first_upload; end
 
   ##
   # Assigns VRN to remove. Redirects to {delete view}[rdoc-ref:FleetsController.delete]
@@ -134,9 +130,9 @@ class FleetsController < ApplicationController
     form = ConfirmationForm.new(confirm_delete_param)
     return redirect_to delete_fleets_path, alert: confirmation_error(form) unless form.valid?
 
-    @fleet.delete_vehicle(vrn) if form.confirmed?
+    remove_vehicle if form.confirmed?
     session[:vrn] = nil
-    redirect_to @fleet.empty? ? dashboard_path : fleets_path
+    redirect_to after_removal_redirect_path(@fleet)
   end
 
   private
@@ -162,5 +158,31 @@ class FleetsController < ApplicationController
   # Extract 'confirm-delete' from params
   def confirm_delete_param
     params['confirm-delete']
+  end
+
+  # Verifies if user confirms to add another vehicle
+  # If yes, redirects to {upload vehicle}[rdoc-ref:FleetsController.upload]
+  # If no, redirects to {dashboard page}[rdoc-ref:DashboardController.index]
+  # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:FleetsController.index]
+  def determinate_next_step(form)
+    if form.valid?
+      redirect_to form.confirmed? ? enter_details_vehicles_path : dashboard_path
+    else
+      redirect_to fleets_path, alert: form.errors.messages[:confirmation].first
+    end
+  end
+
+  # Removes vehicle and sets successful flash message
+  def remove_vehicle
+    @fleet.delete_vehicle(vrn)
+    flash[:success] = I18n.t(
+      'vrn_form.messages.single_vrn_removed',
+      vrn: session[:vrn]
+    )
+  end
+
+  # Returns redirect path after successful removal of vehicle from the fleet
+  def after_removal_redirect_path(fleet)
+    fleet.empty? ? dashboard_path : fleets_path
   end
 end

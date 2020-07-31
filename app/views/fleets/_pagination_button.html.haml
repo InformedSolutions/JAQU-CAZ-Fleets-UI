@@ -1,6 +1,6 @@
 - active ||= false
 - form_class ||= nil
-- id = "pagination-button-#{button_text.to_s.downcase}"
+- id = "pagination-button-#{transform_to_id(button_text)}"
 
 - if active
   %li.moj-pagination__item.moj-pagination__item--active{id: id}

@@ -43,10 +43,51 @@ class PaymentsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def charges(account_id:, page:, per_page: 10, zones: [])
-      log_action("Getting charges for page: #{page}")
+      log_action('Getting charges')
       query = { 'pageNumber' => page - 1, 'pageSize' => per_page }
       query['zones'] = zones.join(',') if zones.any?
       request(:get, "/accounts/#{account_id}/charges", query: query)
+    end
+
+    ##
+    # Calls +/v1/accounts/:account_id/chargeable-vehicles/:vrn+ endpoint with +GET+ method
+    # and returns fleet vehicle with compliance result for provided vrn.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - ID of the account associated with the fleet
+    # * +vrn+ - registration number used to mark page start/end
+    #
+    # ==== Example
+    #
+    #    PaymentsApi.chargeable_vehicle(
+    #       account_id: '1f30838f-69ee-4486-95b4-7dfcd5c6c67c',
+    #       vrn: 'PAY001'
+    #    )
+    #
+    # ==== Result
+    #
+    # Returned vehicle details will have the following fields:
+    # * +chargeableAccountVehicles+ - list of the vehicles
+    # * +firstVrn+ - VRN used to fetch the previous page
+    # * +lastVrn+ - VRN used to fetch the next page
+    #
+    # ==== Serialization
+    #
+    # {ChargeableFleet model}[rdoc-ref:ChargeableFleet]
+    # can be used to create an instance referring to the returned data
+    #
+    # ==== Exceptions
+    #
+    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - invalid parameters
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - vehicle not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def chargeable_vehicle(account_id:, zone_id:, vrn:)
+      log_action('Getting chargeable vehicle')
+      query = { 'cleanAirZoneId' => zone_id }
+      request(:get, "/accounts/#{account_id}/chargeable-vehicles/#{vrn.upcase}", query: query)
     end
 
     ##
@@ -88,7 +129,7 @@ class PaymentsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def chargeable_vehicles(account_id:, zone_id:, vrn: nil, direction: nil)
-      log_action('Getting chargeable vehicles')
+      log_action('Getting the list of chargeable vehicles')
       query = { 'cleanAirZoneId' => zone_id, 'pageSize' => 10 }
       if vrn.present? && direction.present?
         query['vrn'] = vrn
@@ -140,7 +181,7 @@ class PaymentsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def create_payment(caz_id:, return_url:, user_id:, transactions:)
-      log_action("Creating payment for user with id = #{user_id}")
+      log_action('Creating payment')
       body = payment_creation_body(
         caz_id: caz_id,
         return_url: return_url,
@@ -150,15 +191,60 @@ class PaymentsApi < BaseApi
       request(:post, '/payments', body: body.to_json)
     end
 
+    # Calls +/v1/payments/:id+ endpoint with +PUT+ method which returns details of the payment.
+    #
+    # ==== Attributes
+    #
+    # * +payment_id+ - Payment ID returned by backend API during the payment creation
+    # * +caz_name+ - the name of the Clean Air Zone for which the payment is being made
+    #
+    # ==== Example
+    #
+    #    PaymentsApi.payment_status(payment_id: '86b64512-154c-4033-a64d-92e8ed19275f',
+    #                               caz_name: 'Leeds')
+    #
+    # ==== Result
+    #
+    # Returned payment details will have the following fields:
+    # * +referenceNumber+ - integer, central reference number of the payment
+    # * +externalPaymentId+ - string, external identifier for the payment
+    # * +status+ - string, status of the payment eg. "success"
+    # * +userEmail+ - email, email submitted by the user during the payment process
+    #
+    # ==== Serialization
+    #
+    # {PaymentStatus model}[rdoc-ref:PaymentStatus]
+    # can be used to create an instance referring to the returned data
+    #
+    # ==== Exceptions
+    #
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - payment not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def payment_status(payment_id:, caz_name:)
+      log_action("Getting a payment status with id: #{payment_id}")
+      request(:put, "/payments/#{payment_id}",
+              body: payment_status_body(caz_name))
+    end
+
     private
 
+    # Returns parsed JSON of the payment creation parameters with proper keys
     def payment_creation_body(caz_id:, return_url:, user_id:, transactions:)
       {
         clean_air_zone_id: caz_id,
         return_url: return_url,
         user_id: user_id,
-        transactions: transactions
+        transactions: transactions,
+        telephone_payment: false
       }.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
+    end
+
+    # Returns parsed JSON of the payment status reconciliation parameters with proper keys
+    def payment_status_body(caz_name)
+      {
+        cleanAirZoneName: caz_name
+      }.to_json
     end
   end
 end

@@ -15,8 +15,7 @@ module MockVccs
   end
 
   def mock_not_found_vehicle_details
-    allow(ComplianceCheckerApi)
-      .to receive(:vehicle_details)
+    allow(ComplianceCheckerApi).to receive(:vehicle_details)
       .and_raise(BaseApi::Error404Exception.new(404, '', {}))
   end
 

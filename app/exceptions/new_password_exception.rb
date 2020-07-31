@@ -6,6 +6,7 @@
 class NewPasswordException < ApplicationException
   # Attribute used internally
   attr_reader :errors_object
+
   #
   # Initializer method for the class. Calls +super+ method on parent class (ApplicationException).
   #

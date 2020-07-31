@@ -17,7 +17,7 @@ describe 'User signing in', type: :request do
         'accountUserId' => SecureRandom.uuid,
         'accountId' => SecureRandom.uuid,
         'accountName' => 'Royal Mail',
-        'admin' => false
+        'owner' => false
       )
   end
 
@@ -58,12 +58,12 @@ describe 'User signing in', type: :request do
 
     it 'shows email error message once' do
       http_request
-      expect(body_scan(I18n.t('login_form.email_missing'))).to eq(1)
+      expect(body_scan(I18n.t('login_form.email_missing'))).to eq(0)
     end
 
     it 'shows password error message once' do
       http_request
-      expect(body_scan(I18n.t('login_form.password_missing'))).to eq(1)
+      expect(body_scan(I18n.t('login_form.password_missing'))).to eq(0)
     end
   end
 

@@ -1,3 +1,7 @@
+- title_content = 'Manage your vehicles and view charges'
+- title_and_header = flash[:success] ? "Upload successful - #{title_content}" : title_content
+- content_for(:title, title_and_header)
+
 = back_link_to_dashboard
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
@@ -8,7 +12,10 @@
           error_msg_div: '#confirm-vehicle-creation-error',
           error_msg: alert
 
-      %h1.govuk-heading-l Manage your vehicles and view charges
+      = render 'common/banners'
+
+      %h1.govuk-heading-l
+        = title_content
       %p
         Charge information for your vehicles in each Clean Air Zone.
       %p
@@ -16,47 +23,49 @@
         you don't have to pay the charge in that Clean Air Zone as your vehicle meets its emissions standards.
       %p
         %strong Undetermined -
-        we could not calculate a charge based on your registration information. Contact 
-        = external_link_to 'DVLA',
-                            'https://www.gov.uk/change-vehicle-details-registration-certificate',
-                            id: 'update_record_link'
-        to make sure it holds the correct information for you. The charge still needs to be paid but must be done per individual vehicle. 
+        we could not calculate a charge based on your number plate. Contact
+        = external_link_to('DVLA',
+                           'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
+                           id: 'update_record_link')
+        to make sure it holds the correct information for you. The charge may still need to be paid but must be done per individual vehicle.
         Use the
-        = link_to 'Pay a Clean Air Zone charge service for an individual vehicle',
-                  single_vehicle_payment_link,
-                  target: '_blank',
-                  class: 'govuk-link',
-                  id: 'pay_clean_air_zone_link'                  
+        = external_link_to('Pay a Clean Air Zone Charge service for an individual vehicle',
+                           single_vehicle_payment_link,
+                           class: 'govuk-link',
+                           id: 'pay_clean_air_zone_link')
       %table.govuk-table
         %caption.govuk-table__caption
         %thead.govuk-table__head
           %tr.govuk-table__row
-            %th.govuk-table__header{scope: 'col'} Number plate
-            %th.govuk-table__header{scope: 'col'} Type
+            %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'} Number plate
+            %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'} Type
             - @zones.each_with_index do |zone, index|
-              %th.govuk-table__header{scope: 'col', colspan: zone_colspan(index)}
+              %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'}
                 = zone.name
+            %th.govuk-table__header{scope: 'col', class: 'visually-hidden-text'} Actions
         %tbody.govuk-table__body
           - @pagination.vehicle_list.each do |vehicle|
             %tr.govuk-table__row
-              %td.govuk-table__cell{scope: 'row'}
+              %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
                 = vehicle.vrn
-              %td.govuk-table__cell{scope: 'row'}
+              %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
                 = vehicle.type
               - @zones.each do |zone|
-                %td.govuk-table__cell{scope: 'row'}
+                %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
                   = vehicle.formatted_charge(zone.id)
               %td.govuk-table__cell{scope: 'row'}
                 = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
       = render 'pagination'
-      %p
-        You can then pay for the vehicles with a charge on the
-        = link_to('Make a payment', payments_path)
-        page.
+
+      - if @pagination.total_vehicles_count >= 2
+        %p
+          You can then pay for the vehicles with a charge on the
+          = link_to('Make a payment', payments_path)
+          page.
 
       %h2.govuk-heading-m Add vehicles
-      %p 
-        You can add multiple vehicles by overriding this list with a 
+      %p
+        You can add multiple vehicles by overriding this list with a
         = link_to('new list of vehicles', uploads_path, id: 'reupload', class: 'govuk-link')
       %p
       = form_for fleets_path, method: :post do
@@ -74,7 +83,8 @@
               .govuk-radios__item
                 %input#confirm-vehicle-creation-1.govuk-radios__input{name: 'confirm-vehicle-creation',
                                                                       type: 'radio',
-                                                                      value: 'yes'}
+                                                                      value: 'yes',
+                                                                      checked: session[:confirm_vehicle_creation] == 'yes'}
                 %label.govuk-label.govuk-radios__label{for: 'confirm-vehicle-creation-1'}
                   Yes
 

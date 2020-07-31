@@ -16,19 +16,19 @@ class User
   devise :timeoutable
 
   # User attributes
-  attr_accessor :email, :admin, :user_id, :account_id, :account_name, :login_ip
+  attr_accessor :email, :owner, :user_id, :account_id, :account_name, :login_ip
 
   # Delegates fleet methods to fleet
-  delegate :vehicles, :add_vehicle, :remove_vehicle, :charges, to: :fleet
+  delegate :vehicles, :add_vehicle, :remove_vehicle, :charges, :charges_by_vrn, to: :fleet
 
   # Delegates debit methods to payment_method
-  delegate :mandates, :add_mandate, :zones_without_mandate, to: :direct_debit
+  delegate :mandates, to: :direct_debit
 
   # Overrides default initializer for compliance with Devise Gem.
   #
-  # Set +admin+ to false by default
+  # Set +owner+ to false by default
   def initialize(options = {})
-    self.admin = false
+    self.owner = false
     options.each do |key, value|
       public_send("#{key}=", value) if respond_to?(key)
     end
@@ -43,12 +43,12 @@ class User
   #
   # ==== Example
   #   user = User.new()email = 'example@email.com'
-  #   user #<User email: example@email.com, admin: false, ...>
-  #   user.serializable_hash #{:email=>"example@email.com", :admin=>false, ...}
+  #   user #<User email: example@email.com, owner: false, ...>
+  #   user.serializable_hash #{:email=>"example@email.com", :owner=>false, ...}
   def serializable_hash(_options = nil)
     {
       email: email,
-      admin: admin,
+      owner: owner,
       user_id: user_id,
       account_id: account_id,
       account_name: account_name,
@@ -61,11 +61,6 @@ class User
     @fleet ||= Fleet.new(account_id)
   end
 
-  # Returns associated payment method object
-  def direct_debit
-    @direct_debit = DirectDebit.new(account_id)
-  end
-
   # Serializes User based on data from API
   def self.serialize_from_api(user_attributes)
     User.new(
@@ -73,7 +68,7 @@ class User
       user_id: user_attributes['accountUserId'],
       account_id: user_attributes['accountId'],
       account_name: user_attributes['accountName'],
-      admin: user_attributes['admin']
+      owner: user_attributes['owner']
     )
   end
 end

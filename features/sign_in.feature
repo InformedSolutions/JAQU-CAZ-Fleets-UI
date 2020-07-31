@@ -9,7 +9,7 @@ Feature: Sign In
     Then I am redirected to the unauthenticated root page
       And I should see "Sign In"
       And I should not see "Account" link
-    Then I should enter fleet admin credentials and press the Continue
+    Then I should enter fleet owner credentials and press the Continue
     When I should see "Your account"
       And Cookie is created for my session
       And I should not see "Create account" link
@@ -32,8 +32,8 @@ Feature: Sign In
     When I enter invalid credentials
     Then I remain on the current page
       And I should see "The email or password you entered is incorrect"
-      And I should see "Enter your email address"
-      And I should see "Enter your password"
+      And I should not see "Enter your email address"
+      And I should not see "Enter your password"
 
   Scenario: Sign in with unconfirmed email
     Given I am on the Sign in page
@@ -47,7 +47,7 @@ Feature: Sign In
       And  I am redirected to the Sign out page
       And I should see "Sign out successful"
       And I should see "Pay a Clean Air Zone charge" link
-      And I should see "Login to your account" link
+      And I should see "Log in to your account" link
     When I navigate to a Dashboard page
     Then I am redirected to the unauthenticated root page
       And I should see "Sign In"

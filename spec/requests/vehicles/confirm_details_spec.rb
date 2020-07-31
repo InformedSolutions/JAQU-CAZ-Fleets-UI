@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'VehicleCheckersController - POST #confirm_details', type: :request do
+describe 'VehicleController - POST #confirm_details', type: :request do
   subject(:http_request) do
     post confirm_details_vehicles_path, params: { 'confirm-vehicle' => confirmation }
   end
@@ -32,43 +32,9 @@ describe 'VehicleCheckersController - POST #confirm_details', type: :request do
       end
 
       context 'when user confirms details' do
-        it 'redirects to fleets' do
+        it 'redirects to local vehicle exemptions' do
           http_request
-          expect(response).to redirect_to(fleets_path)
-        end
-
-        it 'adds the vehicle to the fleet' do
-          expect(FleetsApi)
-            .to receive(:add_vehicle_to_fleet)
-            .with(vrn: @vrn, account_id: account_id)
-          http_request
-        end
-
-        it 'removes vrn from session' do
-          http_request
-          expect(session[:vrn]).to be_nil
-        end
-
-        context 'when the call fails' do
-          let(:message) { 'Test exception message' }
-
-          before do
-            allow(FleetsApi)
-              .to receive(:add_vehicle_to_fleet)
-              .and_raise(
-                BaseApi::Error400Exception.new(400, '', message: message)
-              )
-          end
-
-          it 'renders enter_details' do
-            http_request
-            expect(response).to render_template(:enter_details)
-          end
-
-          it 'displays an error' do
-            http_request
-            expect(response.body).to include(message)
-          end
+          expect(response).to redirect_to(local_exemptions_vehicles_path)
         end
       end
 
@@ -79,11 +45,6 @@ describe 'VehicleCheckersController - POST #confirm_details', type: :request do
           http_request
           expect(response).to redirect_to(incorrect_details_vehicles_path)
         end
-
-        it 'does not add the vehicle to the fleet' do
-          expect(FleetsApi).not_to receive(:add_vehicle_to_fleet)
-          http_request
-        end
       end
 
       context 'when confirmation is empty' do
@@ -92,11 +53,6 @@ describe 'VehicleCheckersController - POST #confirm_details', type: :request do
         it 'redirects to confirm details page' do
           http_request
           expect(response).to redirect_to(details_vehicles_path)
-        end
-
-        it 'does not add the vehicle to the fleet' do
-          expect(FleetsApi).not_to receive(:add_vehicle_to_fleet)
-          http_request
         end
       end
     end

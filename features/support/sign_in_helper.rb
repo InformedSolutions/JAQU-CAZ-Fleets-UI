@@ -8,9 +8,9 @@ module SignInHelper
     fill_sign_in_form
   end
 
-  def login_admin
-    admin = new_user(admin: true)
-    allow_any_instance_of(User).to receive(:authentication).and_return(admin)
+  def login_owner
+    owner = new_user(owner: true)
+    allow_any_instance_of(User).to receive(:authentication).and_return(owner)
 
     fill_sign_in_form
   end
@@ -30,7 +30,7 @@ module SignInHelper
   def new_user(options = {})
     User.new(
       email: options[:email] || 'test@example.com',
-      admin: options[:admin] || false,
+      owner: options[:owner] || false,
       login_ip: options[:remote_ip] || remote_ip,
       **account_data(options)
     )

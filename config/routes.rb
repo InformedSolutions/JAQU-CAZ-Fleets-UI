@@ -22,6 +22,9 @@ Rails.application.routes.draw do
     collection do
       get :new
       post :new, to: 'organisations#set_name'
+      get :fleet_check
+      post :fleet_check, to: 'organisations#submit_fleet_check'
+      get :cannot_create
       get :new_credentials
       post :new_credentials, to: 'organisations#create'
 
@@ -30,6 +33,7 @@ Rails.application.routes.draw do
       get :email_verified
       get :email_verification
       get :verification_failed
+      get :verification_expired
     end
   end
 
@@ -48,11 +52,30 @@ Rails.application.routes.draw do
   resources :payments, only: :index do
     collection do
       post :local_authority
+      get :no_chargeable_vehicles
       get :matrix
       post :matrix, to: 'payments#submit'
+      get :clear_search
       get :review
+      post :confirm_review
       get :review_details
-      post :initiate_payment
+      get :select_payment_method
+      post :select_payment_method, to: 'payments#confirm_payment_method'
+      get :initiate, to: 'credit_cards#initiate'
+      get :result, to: 'credit_cards#result'
+      get :success
+      get :failure
+      get :post_payment_details
+      get :cancel
+
+      resources :debits, only: %i[index new create] do
+        collection do
+          get :first_mandate
+          get :confirm
+          post :initiate
+          get :success
+        end
+      end
     end
   end
 
@@ -65,10 +88,11 @@ Rails.application.routes.draw do
       get :exempt
       get :incorrect_details
       get :not_found
+      post :confirm_not_found
+      get :local_exemptions
+      post :add_to_fleet
     end
   end
-
-  resources :debits, only: %i[index new create]
 
   resources :uploads, only: %i[index create] do
     collection do
@@ -79,6 +103,7 @@ Rails.application.routes.draw do
 
   get :cookies, to: 'static_pages#cookies'
   get :accessibility_statement, to: 'static_pages#accessibility_statement'
+  get :privacy_notice, to: 'static_pages#privacy_notice'
   get :dashboard, to: 'dashboard#index'
   get :build_id, to: 'application#build_id'
   get :health, to: 'application#health'

@@ -6,6 +6,7 @@ $moj-assets-path: '/application/assets';
 @import '~@ministryofjustice/frontend/moj/all';
 @import 'cookie_control';
 @import 'custom_pagination';
+@import 'payment_summary';
 
 html {
   background-color: govuk-colour($colour: 'light-grey');
@@ -26,4 +27,29 @@ html {
 
 .draft-tag {
   margin-bottom: 10px;
+}
+
+.vehicle-management-column {
+  width: 22.5%;
+}
+
+.visually-hidden-text {
+  color: transparent;
+}
+
+@media (max-width: 40.0525em) {
+  .scrollable-table {
+    overflow: scroll;
+    margin-bottom: 20px;
+  }
+}
+
+.matrix-table-past {
+  .govuk-table__cell {
+    width: 14%;
+  }
+
+  .govuk-table__cell.vrn {
+    width: 16%;
+  }
 }

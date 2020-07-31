@@ -1,4 +1,5 @@
--# TO DO: Change back path to CAZ Payments url
+- title_and_header = 'Create an account'
+- content_for(:title, title_and_header)
 
 = link_to 'Back', root_path, class: 'govuk-back-link'
 
@@ -10,7 +11,8 @@
           error_msg_div: '#company_name-error',
           error_msg: "#{@error}"
 
-      %h1.govuk-heading-l Create an account
+      %h1.govuk-heading-l
+        = title_and_header
       %p
       %span#create-account-hint.govuk-hint
         Upload and pay the charge for multiple vehicles.
@@ -26,10 +28,10 @@
             - if @error
               %span#company_name-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
-                = "[TBA] #{@error}"
+                = (@error.include?('exists')) ? @error.remove('reset your password') : @error
+                = link_to 'reset your password', reset_passwords_path if @error.include? 'exists'
             = f.text_field :company_name,
                             class: determinate_input_class(@error),
-                            value: params.dig(:organisations, :company_name),
-                            maxlength: 100
+                            value: session.dig('new_account', 'company_name')
 
           = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

@@ -16,7 +16,8 @@ Feature: Password reset
   Scenario: Visit passwords without the token
     Given I visit passwords without the token
     Then I should be on the invalid page
-    
+      And I should not see "Back" link
+
   Scenario: Changing password
     Given I visit passwords
     Then I should see "Please enter your new password below"

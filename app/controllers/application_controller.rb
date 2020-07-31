@@ -3,10 +3,10 @@
 class ApplicationController < ActionController::Base
   # protects applications against CSRF
   protect_from_forgery prepend: true
+  # permits additional parameters before sign in
+  before_action :configure_permitted_parameters, if: :devise_controller?
   # checks if a user is logged in
   before_action :authenticate_user!, except: %i[health build_id]
-  # saves reference to the request for mocks
-  before_action :save_request_for_mocks
 
   # rescues from API errors
   rescue_from Errno::ECONNREFUSED,
@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   ##
   # Health endpoint
   #
-  # Used as a healthcheck - returns 200 HTTP status
+  # Used as a health check - returns 200 HTTP status
   #
   # ==== Path
   #
@@ -51,6 +51,11 @@ class ApplicationController < ActionController::Base
 
   private
 
+  # Permits additional parameters before sign in
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_in, keys: [:login_ip])
+  end
+
   # Overwriting the sign_out redirect path method
   def after_sign_out_path_for(_resource_or_scope)
     sign_out_path
@@ -76,16 +81,8 @@ class ApplicationController < ActionController::Base
     remote_ip = request.remote_ip
     return if current_user.login_ip == remote_ip
 
-    Rails.logger.warn "User with ip #{remote_ip} tried to access the page as #{current_user.email}"
     sign_out current_user
     redirect_to new_user_session_path
-  end
-
-  # It assigns current request to the global variable.
-  # It is used for the mocks to have access to the session
-  # TODO: SHOULD NOT be present in the final release!!!
-  def save_request_for_mocks
-    $request = request
   end
 
   # Returns a single error message from confirmation form
@@ -104,5 +101,21 @@ class ApplicationController < ActionController::Base
   # Assign back button url
   def assign_back_button_url
     @back_button_url = request.referer || root_path
+  end
+
+  # Gets data about the new payment from the session
+  def total_to_pay_from_session
+    helpers.total_to_pay(helpers.new_payment_data[:details])
+  end
+
+  # Checks if the user selected LA
+  def check_la
+    @zone_id = helpers.new_payment_data[:la_id] || helpers.initiated_payment_data[:la_id]
+    redirect_to payments_path unless @zone_id
+  end
+
+  # Creates an instance of DirectDebit class and assign it to +@debit+ variable
+  def assign_debit
+    @debit = DirectDebit.new(current_user.account_id)
   end
 end

@@ -10,7 +10,7 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # load support folder
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
 RSpec.configure do |config|
   # add helpers to rspec classes
@@ -18,7 +18,6 @@ RSpec.configure do |config|
    StringCountHelper,
    AddToSession,
    FleetFactory,
-   DebitFactory,
    ChargeableVehiclesFactory].each do |h|
     config.include h, type: :request
   end
@@ -26,7 +25,7 @@ RSpec.configure do |config|
    UserFactory,
    ActiveSupport::Testing::TimeHelpers,
    FixturesHelpers,
-   MockCazList].each do |h|
+   MockedResponses].each do |h|
     config.include h
   end
 

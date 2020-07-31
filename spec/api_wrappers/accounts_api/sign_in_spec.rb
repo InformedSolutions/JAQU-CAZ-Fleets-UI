@@ -10,7 +10,7 @@ describe 'AccountsApi.sign_in' do
 
   context 'when the response status is 200' do
     before do
-      user_details = read_unparsed_response('user.json')
+      user_details = read_unparsed_response('create_user.json')
       stub_request(:post, %r{auth/login}).to_return(
         status: 200,
         body: user_details
@@ -19,7 +19,7 @@ describe 'AccountsApi.sign_in' do
 
     it 'returns proper fields' do
       expect(call.keys).to contain_exactly(
-        'accountId', 'accountName', 'accountUserId', 'admin', 'email'
+        'accountId', 'accountName', 'accountUserId', 'owner', 'email'
       )
     end
 

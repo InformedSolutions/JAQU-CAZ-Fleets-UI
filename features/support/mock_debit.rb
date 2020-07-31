@@ -1,30 +1,41 @@
 # frozen_string_literal: true
 
 module MockDebit
-  def create_empty_debit
-    create_debit(mandates: [], zones: mocked_zones)
+  def mock_api_endpoints(caz_mandates = 'caz_mandates')
+    mock_clean_air_zones
+    mock_vehicles_in_fleet
+    mock_debits('mandates')
+    mock_caz_mandates(caz_mandates)
+    mock_create_mandate
+    mock_create_payment
   end
 
-  def create_debit(mandates: mocked_mandates, zones: [])
-    instance_double(DirectDebit,
-                    mandates: mandates,
-                    add_mandate: true,
-                    zones_without_mandate: zones)
+  def mock_debits_api_call(mocked_file = 'mandates')
+    api_response = read_response("/debits/#{mocked_file}.json")
+    stub_request(:get, /direct-debit-mandate/).to_return(
+      status: 200,
+      body: api_response.to_json
+    )
   end
 
-  def mocked_mandates
-    mandates_data = read_response('mandates.json')
-    mandates_data.map { |data| Mandate.new(data) }
+  def mock_debits(mocked_file = 'mandates')
+    api_response = read_response("/debits/#{mocked_file}.json")['cleanAirZones']
+    allow(DebitsApi).to receive(:mandates).and_return(api_response)
   end
 
-  def mocked_zones
-    caz_data = read_response('caz_list.json')['cleanAirZones']
-    caz_data.map { |data| CleanAirZone.new(data) }
+  def mock_caz_mandates(mocked_file = 'caz_mandates')
+    api_response = read_response("/debits/#{mocked_file}.json")['mandates']
+    allow(DebitsApi).to receive(:caz_mandates).and_return(api_response)
   end
 
-  def mock_debit(debit_instance = create_debit)
-    @debit = debit_instance
-    allow(DirectDebit).to receive(:new).and_return(@debit)
+  def mock_create_payment
+    api_response = read_response('/debits/create_payment.json')
+    allow(DebitsApi).to receive(:create_payment).and_return(api_response)
+  end
+
+  def mock_create_mandate
+    api_response = read_response('/debits/create_mandate.json')
+    allow(DebitsApi).to receive(:create_mandate).and_return(api_response)
   end
 end
 

@@ -32,6 +32,16 @@ class CleanAirZone
     caz_data[:boundary_url]
   end
 
+  # Returns a string, eg. 'www.example.com'.
+  def exemption_url
+    caz_data[:exemption_url]
+  end
+
+  # Returns date when CAZ started charging, eg. '2020-05-01'
+  def active_charge_start_date
+    Date.parse(caz_data[:active_charge_start_date])
+  end
+
   # Checks if zones was already checked by user before.
   # Returns a boolean.
   def checked?(checked_zones)
@@ -40,9 +50,12 @@ class CleanAirZone
 
   # Fetches all available CAZs from ComplianceCheckerApi.clean_air_zones endpoint
   def self.all
-    ComplianceCheckerApi.clean_air_zones
-                        .map { |caz_data| new(caz_data) }
-                        .sort_by(&:name)
+    ComplianceCheckerApi.clean_air_zones.map { |caz_data| new(caz_data) }.sort_by(&:name)
+  end
+
+  # Fetches active for charging CAZs from ComplianceCheckerApi.clean_air_zones endpoint
+  def self.active
+    all.reject { |caz| caz.active_charge_start_date.future? }
   end
 
   # Finds a zone by given ID

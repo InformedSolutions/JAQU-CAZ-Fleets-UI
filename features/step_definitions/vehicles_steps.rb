@@ -2,6 +2,7 @@
 
 When('I visit the enter details page') do
   mock_vehicles_in_fleet
+  mock_debits
   login_user
   visit enter_details_vehicles_path
 end
@@ -55,4 +56,8 @@ When('I press the Continue to add vehicle') do
   mock_clean_air_zones
   mock_vehicles_in_fleet
   click_on 'Continue'
+end
+
+Then('I should be on the local vehicles exemptions page') do
+  expect_path(local_exemptions_vehicles_path)
 end

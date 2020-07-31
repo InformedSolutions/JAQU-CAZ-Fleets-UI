@@ -3,27 +3,131 @@
 require 'rails_helper'
 
 describe PaymentDates do
-  subject(:service_call) { described_class.call }
+  subject(:service) { described_class.new(charge_start_date: charge_start_date) }
 
-  it 'returns next and past dates' do
-    expect(service_call.keys).to contain_exactly(:next, :past)
-  end
+  let(:charge_start_date) { Time.zone.today }
 
-  it 'returns 7 objects in :next block' do
-    expect(service_call[:next].size).to eq(7)
-  end
+  describe '.chargeable_dates' do
+    subject { service.chargeable_dates }
 
-  it 'returns 6 objects in :past block' do
-    expect(service_call[:past].size).to eq(6)
-  end
+    context 'when charge_start_date was before 6 days ago' do
+      let(:charge_start_date) { 10.days.ago }
 
-  it 'returns a proper object' do
-    expect(service_call[:next].first).to eq(
-      {
-        name: Date.current.strftime(described_class::DISPLAY_DATE_FORMAT),
-        value: Date.current.strftime(described_class::VALUE_DATE_FORMAT),
-        today: true
-      }
-    )
+      it 'returns next and past dates' do
+        expect(subject.keys).to contain_exactly(:next, :past)
+      end
+
+      it 'returns 7 objects in :next block' do
+        expect(subject[:next].size).to eq(7)
+      end
+
+      it 'returns 6 objects in :past block' do
+        expect(subject[:past].size).to eq(6)
+      end
+
+      it 'returns a proper object' do
+        expect(subject[:next].first).to eq(
+          {
+            name: Date.current.strftime(described_class::DISPLAY_DATE_FORMAT),
+            value: Date.current.strftime(described_class::VALUE_DATE_FORMAT),
+            today: true
+          }
+        )
+      end
+    end
+
+    context 'when charge_start_date was before 3 days ago' do
+      let(:charge_start_date) { Time.zone.today - 3.days }
+
+      it 'returns next and past dates' do
+        expect(subject.keys).to contain_exactly(:next, :past)
+      end
+
+      it 'returns 7 objects in :next block' do
+        expect(subject[:next].size).to eq(7)
+      end
+
+      it 'returns 6 objects in :past block' do
+        expect(subject[:past].size).to eq(3)
+      end
+
+      it 'returns a proper object' do
+        expect(subject[:next].first).to eq(
+          {
+            name: Date.current.strftime(described_class::DISPLAY_DATE_FORMAT),
+            value: Date.current.strftime(described_class::VALUE_DATE_FORMAT),
+            today: true
+          }
+        )
+      end
+    end
+
+    context 'when charge_start_date was before today ago' do
+      it 'returns next and past dates' do
+        expect(subject.keys).to contain_exactly(:next, :past)
+      end
+
+      it 'returns 7 objects in :next block' do
+        expect(subject[:next].size).to eq(7)
+      end
+
+      it 'returns 6 objects in :past block' do
+        expect(subject[:past]).to be_empty
+      end
+
+      it 'returns a proper object' do
+        expect(subject[:next].first).to eq(
+          {
+            name: Date.current.strftime(described_class::DISPLAY_DATE_FORMAT),
+            value: Date.current.strftime(described_class::VALUE_DATE_FORMAT),
+            today: true
+          }
+        )
+      end
+    end
+
+    describe '.d_day_notice' do
+      before { subject }
+
+      context 'when #charge_start_date is tomorrow' do
+        let(:charge_start_date) { Date.current.tomorrow }
+
+        it 'returns true' do
+          expect(service.d_day_notice).to be_truthy
+        end
+      end
+
+      context 'and #charge_start_date is today' do
+        let(:charge_start_date) { Date.current }
+
+        it 'returns true' do
+          expect(service.d_day_notice).to be_truthy
+        end
+      end
+
+      context 'and #charge_start_date is more than a week in the future' do
+        let(:charge_start_date) { 1.day.from_now }
+
+        it 'returns true' do
+          expect(service.d_day_notice).to be_truthy
+        end
+      end
+
+      context 'when #charge_start_date is not considered' do
+        let(:charge_start_date) { Time.zone.today - 7.days }
+
+        it 'returns false' do
+          expect(service.d_day_notice).to be_falsey
+        end
+      end
+
+      context 'when #charge_start_date is considered' do
+        let(:charge_start_date) { Time.zone.today - 4.days }
+
+        it 'returns true' do
+          expect(service.d_day_notice).to be_truthy
+        end
+      end
+    end
   end
 end

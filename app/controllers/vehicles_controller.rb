@@ -11,6 +11,7 @@ class VehiclesController < ApplicationController
   rescue_from BaseApi::Error400Exception, with: :add_vehicle_exception
   # checks if VRN is present in the session
   before_action :check_vrn, only: %i[details confirm_details exempt incorrect_details not_found]
+  before_action :assign_back_button_url, only: %i[enter_details local_exemptions]
 
   ##
   # Renders the first step of checking the vehicle compliance.
@@ -19,9 +20,7 @@ class VehiclesController < ApplicationController
   # ==== Path
   #    GET /vehicles/enter_details
   #
-  def enter_details
-    session[:vrn] = nil
-  end
+  def enter_details; end
 
   ##
   # Validates +vrn+ submitted by the user.
@@ -36,13 +35,9 @@ class VehiclesController < ApplicationController
   #
   def submit_details
     form = VrnForm.new(params[:vrn])
-    unless form.valid?
-      @errors = form.errors.messages
-      return render enter_details_vehicles_path
-    end
-
+    session[:confirm_vehicle_creation] = nil
     session[:vrn] = form.vrn
-    redirect_to details_vehicles_path
+    determinate_next_step(form)
   end
 
   ##
@@ -82,7 +77,7 @@ class VehiclesController < ApplicationController
 
     return redirect_to incorrect_details_vehicles_path unless form.confirmed?
 
-    add_vehicle_to_fleet
+    redirect_to local_exemptions_vehicles_path
   end
 
   ##
@@ -127,6 +122,47 @@ class VehiclesController < ApplicationController
     @vehicle_registration = vrn
   end
 
+  ##
+  # Validates user has confirmed VRN not found is correct.
+  # If it is valid, redirects to  {manage vehicles page}[rdoc-ref:FleetsController.index]
+  # If not, renders {not found}[rdoc-ref:VehiclesController.not_found] with errors
+  #
+  # ==== Path
+  #    POST /vehicles/confirm_not_found
+  #
+  def confirm_not_found
+    form = ConfirmationForm.new(params['confirm-registration'])
+    return redirect_to not_found_vehicles_path, alert: confirmation_error(form) unless form.valid?
+
+    redirect_to local_exemptions_vehicles_path
+  end
+
+  ##
+  # Renders the local vehicle exemptions page
+  #
+  # ==== Path
+  #    GET /vehicles/local_exemptions
+  #
+  def local_exemptions
+    @show_continue_link = session[:show_continue_button]
+  end
+
+  # Add vehicle with given VRN to the user's fleet
+  #
+  # ==== Path
+  #    POST /vehicles/add_to_fleet
+  #
+  def add_to_fleet
+    if current_user.add_vehicle(vrn)
+      flash[:success] = I18n.t('vrn_form.messages.single_vrn_added', vrn: vrn)
+    else
+      flash[:warning] = I18n.t('vrn_form.messages.vrn_already_exists', vrn: vrn)
+    end
+    clear_session
+
+    redirect_to fleets_path
+  end
+
   private
 
   # Check if vrn is present in the session
@@ -147,13 +183,6 @@ class VehiclesController < ApplicationController
     params['confirm-vehicle']
   end
 
-  # Add vehicle with given VRN to the user's fleet
-  def add_vehicle_to_fleet
-    current_user.add_vehicle(vrn)
-    session[:vrn] = nil
-    redirect_to fleets_path
-  end
-
   # Redirects to {vehicle not found}[rdoc-ref:VehiclesController.unrecognised_vehicle]
   def vehicle_not_found
     redirect_to not_found_vehicles_path
@@ -163,5 +192,22 @@ class VehiclesController < ApplicationController
   def add_vehicle_exception(exception)
     @errors = { vrn: [exception.body_message] }
     render :enter_details
+  end
+
+  # If +vrn+ is valid, redirects to {confirm details}[rdoc-ref:VehiclesController.details]
+  # If not, renders {enter details}[rdoc-ref:VehiclesController.enter_details] with errors
+  def determinate_next_step(form)
+    if form.valid?
+      redirect_to details_vehicles_path
+    else
+      @errors = form.errors.messages
+      render enter_details_vehicles_path
+    end
+  end
+
+  # Clear session from data needed for adding new vehicle to fleet
+  def clear_session
+    session[:vrn] = nil
+    session[:show_continue_button] = nil
   end
 end
