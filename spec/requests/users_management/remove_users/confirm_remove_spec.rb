@@ -49,7 +49,7 @@ describe 'UsersManagement::RemoveUsersController - POST #confirm_remove' do
           end
 
           it 'sets :alert flash message' do
-            expect(flash[:alert]).to eq('You must choose an answer')
+            expect(flash[:alert]).to eq('Select yes to remove the user')
           end
         end
       end

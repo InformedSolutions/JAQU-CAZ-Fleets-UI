@@ -35,7 +35,7 @@ module UsersManagement
       if confirmation
         process_user_deletion
       else
-        flash.now[:alert] = I18n.t('form.errors.choose_answer')
+        flash.now[:alert] = I18n.t('remove_user.choose_answer')
         render :remove
       end
     end
@@ -46,7 +46,7 @@ module UsersManagement
     def process_user_deletion
       if confirmation == 'yes'
         AccountsApi.delete_user(account_id: current_user.account_id, account_user_id: account_user_id)
-        flash[:success] = I18n.t('user_removed', full_user_name: full_user_name)
+        flash[:success] = I18n.t('remove_user.removed', full_user_name: full_user_name)
         redirect_to users_path
       else
         redirect_to edit_user_path(account_user_id)
