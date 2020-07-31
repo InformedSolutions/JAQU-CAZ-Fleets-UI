@@ -13,6 +13,8 @@ class PaymentHistoryApi < PaymentsApi
     # ==== Attributes
     #
     # * +account_id+ - uuid, id of the account
+    # * +user_id+ - uuid, ID of the user
+    # * +user_payments+ - boolean, to filter out company payments and show only users payments
     #
     # ==== Result
     #
@@ -28,14 +30,15 @@ class PaymentHistoryApi < PaymentsApi
     # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
-    def payments(account_id:, page: 1)
+    def payments(account_id:, user_id:, user_payments:, page: 1)
       log_action 'Getting payments history'
       query = { 'pageNumber' => calculate_page_number(page), 'pageSize' => 10 }
+      query.merge!('accountUserId' => user_id) if user_payments
       request(:get, "/accounts/#{account_id}/payments", query: query)
     end
 
     ##
-    # Calls +/v1/payments/:paymentId+ endpoint with +GET+ method and returns payment history
+    # Calls +/v1/payments/:paymentId+ endpoint with +GET+ method and returns detailed payment history
     #
     # ==== Attributes
     #
@@ -44,6 +47,7 @@ class PaymentHistoryApi < PaymentsApi
     # ==== Result
     #
     # Returned payment history will have the following fields:
+    # * +payerName+ - payment made by
     # * +centralPaymentReference+ - unique traceability identifier
     # * +paymentDate+ - payment date
     # * +paymentProviderId+ - id of provider
@@ -56,7 +60,7 @@ class PaymentHistoryApi < PaymentsApi
     # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - payment not found
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
-    def payment(payment_id:)
+    def payment_details(payment_id:)
       log_action 'Getting payment history'
       request(:get, "/payments/#{payment_id}")
     end
