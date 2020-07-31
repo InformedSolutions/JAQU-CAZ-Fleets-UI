@@ -343,7 +343,7 @@ class AccountsApi < BaseApi
       log_action('Create user invitation')
       body = {
         isAdministeredBy: user_id,
-        email: new_user_data[:email],
+        email: new_user_data[:email].downcase,
         name: new_user_data[:name],
         verificationUrl: new_user_data[:verification_url],
         permissions: new_user_data[:permissions]
