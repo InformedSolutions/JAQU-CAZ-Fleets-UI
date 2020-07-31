@@ -13,6 +13,11 @@ Feature: Account set up
     When I press 'Forgotten your password?' link
       And I press 'Back' link
     Then I am taken to the account set up confirmation page
+      When I press 'Forgotten your password?' link
+      And I press 'Privacy Notice' link
+      And I press 'Back' link
+      And I press 'Back' link
+    Then I am taken to the account set up confirmation page
 
   Scenario: The one where the token or account uuid is missing or invalid
     Given I am on the set up account page with invalid account uuid
@@ -25,16 +30,16 @@ Feature: Account set up
   Scenario: I am not allowed to progress if I don't give a password or confirmation
     Given I am on the set up account page
       When I press 'Continue' button
-    Then I should see 'Enter your password'
-      And I should see 'Confirm your password'
+    Then I should see 'Enter your new password'
+      And I should see 'Confirm your new password'
     Then I provide only password confirmation
       And I press 'Continue' button
-    Then I should see 'Enter your password'
+    Then I should see 'Enter your new password'
       And I should see 'Enter a password and password confirmation that are the same'
     When I provide password only
       And I press 'Continue' button
     Then I should see 'Enter a password and password confirmation that are the same'
-      And I should see 'Confirm your password'
+      And I should see 'Confirm your new password'
 
   Scenario: The one where the passwords details don’t match
     Given I am on the set up account page

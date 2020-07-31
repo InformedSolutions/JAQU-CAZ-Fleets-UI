@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { sessions: 'sessions' }
 
   authenticated(:user) { root 'dashboard#index', as: :authenticated_root }
   get :dashboard, to: 'dashboard#index'
-  devise_scope(:user) { root to: 'devise/sessions#new' }
+  devise_scope(:user) { root to: 'sessions#new' }
 
-  scope controller: 'sessions' do
-    get 'sign-out', to: 'sessions#sign_out_page'
+  scope controller: 'logout' do
+    get 'sign-out', to: 'logout#sign_out_page'
     post 'assign_logout_notice_back_url'
     get 'logout_notice'
     get 'timedout-user'
@@ -140,6 +140,7 @@ Rails.application.routes.draw do
   scope module: 'payment_history', path: '/', controller: 'payment_history' do
     get :company_payment_history
     get :user_payment_history
+    get :payment_history_details
   end
 
   scope controller: 'static_pages' do

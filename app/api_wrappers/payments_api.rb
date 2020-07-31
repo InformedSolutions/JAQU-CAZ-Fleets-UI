@@ -44,7 +44,7 @@ class PaymentsApi < BaseApi
     #
     def charges(account_id:, page:, per_page: 10, zones: [])
       log_action('Getting charges')
-      query = { 'pageNumber' => page - 1, 'pageSize' => per_page }
+      query = { 'pageNumber' => calculate_page_number(page), 'pageSize' => per_page }
       query['zones'] = zones.join(',') if zones.any?
       request(:get, "/accounts/#{account_id}/charges", query: query)
     end

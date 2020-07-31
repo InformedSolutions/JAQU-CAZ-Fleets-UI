@@ -13,18 +13,34 @@ class DashboardController < ApplicationController
   def index
     clear_input_history
     @vehicles_count = current_user.fleet.total_vehicles_count
-    @mandates_present = DirectDebits::Debit.new(current_user.account_id).active_mandates.any?
-    @users_present = UsersManagement::Users.new(account_id: current_user.account_id).filtered.any?
+    @mandates_present = check_mandates
+    @users_present = check_users
   end
 
   private
 
-  # clear input history from the session
+  # Do not perform api call if user don't have permission
+  def check_mandates
+    return false unless allow_manage_mandates?
+
+    DirectDebits::Debit.new(current_user.account_id).active_mandates.any?
+  end
+
+  # Do not perform api call if user don't have permission
+  def check_users
+    return false unless allow_manage_users?
+
+    UsersManagement::Users.new(account_id: current_user.account_id).filtered.any?
+  end
+
+  # clear user flow history from the session
   def clear_input_history
     session[:vrn] = nil
     session[:confirm_vehicle_creation] = nil
     session[:payment_method] = nil
     session[:submission_method] = nil
     session[:new_payment] = nil
+    session[:company_back_link_history] = nil
+    session[:user_back_link_history] = nil
   end
 end
