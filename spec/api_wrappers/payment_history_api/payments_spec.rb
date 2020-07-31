@@ -7,14 +7,14 @@ describe 'PaymentHistoryApi.payments' do
     PaymentHistoryApi.payments(
       account_id: account_id,
       user_id: user_id,
-      company_payments: company_payments,
+      user_payments: user_payments,
       page: page
     )
   end
 
   let(:account_id) { @uuid }
   let(:user_id) { @uuid }
-  let(:company_payments) { false }
+  let(:user_payments) { true }
   let(:page) { 5 }
   let(:url) { %r{accounts/#{account_id}/payments\?accountUserId=#{@uuid}&pageNumber=#{page - 1}} }
 

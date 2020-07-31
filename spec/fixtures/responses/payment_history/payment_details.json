@@ -4,6 +4,7 @@
   "paymentDate": "2020-07-29",
   "totalPaid": 50.0,
   "telephonePayment": false,
+  "payerName": "John Doe",
   "lineItems": [
     {
 

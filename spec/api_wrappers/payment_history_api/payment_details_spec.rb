@@ -28,6 +28,7 @@ describe 'PaymentHistoryApi.payments' do
         'paymentDate',
         'totalPaid',
         'telephonePayment',
+        'payerName',
         'lineItems'
       )
     end

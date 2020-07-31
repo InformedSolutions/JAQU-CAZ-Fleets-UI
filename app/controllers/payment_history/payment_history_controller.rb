@@ -20,7 +20,7 @@ module PaymentHistory
     #    :GET /company_payment_history
     #
     def company_payment_history
-      assign_paginated_history(company_payments: true)
+      assign_paginated_history
       @back_button_url = determinate_back_link_url(
         :company_back_link_history,
         dashboard_url,
@@ -38,7 +38,7 @@ module PaymentHistory
     #    :GET /user_payment_history
     #
     def user_payment_history
-      assign_paginated_history
+      assign_paginated_history(user_payments: true)
       @back_button_url = determinate_back_link_url(
         :user_back_link_history,
         dashboard_url,
@@ -64,11 +64,11 @@ module PaymentHistory
     private
 
     # Assign paginated history to variable
-    def assign_paginated_history(company_payments: false)
+    def assign_paginated_history(user_payments: false)
       @pagination = PaymentHistory::History.new(
         current_user.account_id,
         current_user.user_id,
-        company_payments
+        user_payments
       ).pagination(page: page_number)
     end
 

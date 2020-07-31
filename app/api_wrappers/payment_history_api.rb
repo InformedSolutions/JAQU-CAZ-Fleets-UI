@@ -14,6 +14,7 @@ class PaymentHistoryApi < PaymentsApi
     #
     # * +account_id+ - uuid, id of the account
     # * +user_id+ - uuid, ID of the user
+    # * +user_payments+ - boolean, to filter out company payments and show only users payments
     #
     # ==== Result
     #
@@ -29,10 +30,10 @@ class PaymentHistoryApi < PaymentsApi
     # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
-    def payments(account_id:, user_id:, company_payments:, page: 1)
+    def payments(account_id:, user_id:, user_payments:, page: 1)
       log_action 'Getting payments history'
       query = { 'pageNumber' => calculate_page_number(page), 'pageSize' => 10 }
-      query.merge!('accountUserId' => user_id) unless company_payments
+      query.merge!('accountUserId' => user_id) if user_payments
       request(:get, "/accounts/#{account_id}/payments", query: query)
     end
 
