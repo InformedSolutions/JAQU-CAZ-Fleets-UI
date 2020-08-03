@@ -40,7 +40,7 @@ Feature: Organisations
       And I should see "Create account" link
     Then I enter invalid company name
       And I press the Continue
-      And I should see "Company name has invalid format"
+      And I should see "Enter company name in a valid format"
     Then I enter api invalid company: "duplicate"
       And I press the Continue
       And I should see "The company name already exists."
@@ -99,7 +99,7 @@ Feature: Organisations
     Given I go to the create account page
     Then I enter a long company name
       And I press the Continue
-    Then I should see "Company name is too long"
+    Then I should see "Enter a company name that is less than 180 characters"
 
   Scenario: View email verified page
     Given I navigate to a Dashboard page
