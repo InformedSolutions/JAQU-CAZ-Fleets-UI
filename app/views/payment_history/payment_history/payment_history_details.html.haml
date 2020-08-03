@@ -9,7 +9,7 @@
       %h1.govuk-heading-l
         = title_and_header
 
-      - if @company_payment_history
+      - if session[:company_payment_history]
         %p
           %strong Payment made by:
           = @details.payer_name
@@ -45,5 +45,5 @@
                 %td.govuk-table__cell
 
       %p
-        = link_to 'Return to payment history', (@company_payment_history ? company_payment_history_path : user_payment_history_path)
-      = render 'shared/print_link' if @company_payment_history
+        = link_to 'Return to payment history', @back_button_url
+      = render 'shared/print_link' if session[:company_payment_history]
