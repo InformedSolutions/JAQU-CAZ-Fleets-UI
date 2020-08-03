@@ -79,12 +79,31 @@ Feature: Payment History
     Given I want visit the Payments details page from Company payments history page
     Then I press 'View details' link
       And I should be on the the Payment details history page
+    Then I press 'Cookies' link
+      And I should be on the the Cookies page
     Then I press 'Back' link
+      And I should be on the the Payment details history page
+      And I should see 'Payment made by'
+      And I should see 'Print this page'
+    Then I press 'Back' link
+      And I should be on the the Company payment history page
+    Then I press 'View details' link
+      And I should be on the the Payment details history page
+    Then I press 'Return to payment history' link
       And I should be on the the Company payment history page
 
   Scenario: User sees payment details history from User payments history page
     Given I want visit the Payments details page from User payments history page
     Then I press 'View details' link
       And I should be on the the Payment details history page
+    Then I press 'Cookies' link
+      And I should be on the the Cookies page
     Then I press 'Back' link
+      And I should be on the the Payment details history page
+      And I should not see 'Print this page'
+    Then I press 'Back' link
+      And I should be on the the User payment history page
+    Then I press 'View details' link
+      And I should be on the the Payment details history page
+    Then I press 'Return to payment history' link
       And I should be on the the User payment history page
