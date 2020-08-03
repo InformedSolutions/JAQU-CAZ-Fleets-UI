@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'PaymentsApi.payment_status' do
   subject { PaymentsApi.payment_status(payment_id: id, caz_name: 'leeds') }
 
-  let(:id) { SecureRandom.uuid }
+  let(:id) { @uuid }
 
   context 'when the response status is 200' do
     before do

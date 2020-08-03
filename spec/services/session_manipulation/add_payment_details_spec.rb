@@ -3,11 +3,9 @@
 require 'rails_helper'
 
 describe SessionManipulation::AddPaymentDetails do
-  subject do
-    described_class.call(params: params, session: session)
-  end
+  subject { described_class.call(params: params, session: session) }
 
-  let(:id) { SecureRandom.uuid }
+  let(:id) { @uuid }
   let(:params) { { payment: { vehicles: vehicles_data, vrn_list: list } } }
   let(:vehicles_data) { { @vrn => dates } }
   let(:session) { { new_payment: { la_id: id, details: details } } }
