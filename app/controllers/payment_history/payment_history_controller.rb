@@ -10,7 +10,6 @@ module PaymentHistory
     include CheckPermissions
     before_action -> { check_permissions(allow_view_payment_history?) }, only: :company_payment_history
     before_action -> { check_permissions(allow_make_payments?) }, only: :user_payment_history
-    before_action -> { assign_paginated_history }, only: %i[company_payment_history user_payment_history]
 
     ##
     # Renders the company payment history page
@@ -20,6 +19,7 @@ module PaymentHistory
     #    :GET /company_payment_history
     #
     def company_payment_history
+      assign_paginated_history
       @back_button_url = determinate_back_link_url(
         :company_back_link_history,
         dashboard_url,
@@ -37,6 +37,7 @@ module PaymentHistory
     #    :GET /user_payment_history
     #
     def user_payment_history
+      assign_paginated_history
       @back_button_url = determinate_back_link_url(
         :user_back_link_history,
         dashboard_url,

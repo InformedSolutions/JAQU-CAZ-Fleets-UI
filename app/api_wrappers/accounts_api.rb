@@ -313,7 +313,7 @@ class AccountsApi < BaseApi
     #
     def user_validations(account_id:, email:, name:)
       log_action('Validate the user account')
-      body = { email: email, name: name }.to_json
+      body = { email: email.downcase, name: name }.to_json
       request(:post, "/accounts/#{account_id}/user-validations", body: body)
     end
 
@@ -343,7 +343,7 @@ class AccountsApi < BaseApi
       log_action('Create user invitation')
       body = {
         isAdministeredBy: user_id,
-        email: new_user_data[:email],
+        email: new_user_data[:email].downcase,
         name: new_user_data[:name],
         verificationUrl: new_user_data[:verification_url],
         permissions: new_user_data[:permissions]

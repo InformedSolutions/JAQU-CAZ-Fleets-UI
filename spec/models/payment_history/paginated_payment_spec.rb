@@ -20,9 +20,9 @@ describe PaymentHistory::PaginatedPayment, type: :model do
     }.stringify_keys
   end
 
-  describe '.company_payments_list' do
+  describe '.payments_list' do
     it 'returns an array of PaymentHistory::CompanyPayment instances' do
-      expect(subject.company_payments_list).to all(be_an_instance_of(PaymentHistory::CompanyPayment))
+      expect(subject.payments_list).to all(be_an_instance_of(PaymentHistory::Payment))
     end
   end
 

@@ -109,5 +109,7 @@ en:
       email_duplicated: Email address already exists
       permissions_missing: Select at least one permission type to continue
       email_invalid_format: Enter the user’s email address in a valid format
-  user_removed: 'You have successfully removed %{full_user_name} from your account.'
+  remove_user:
+    choose_answer: Select yes to remove the user
+    removed: 'You have successfully removed %{full_user_name} from your account.'
 
