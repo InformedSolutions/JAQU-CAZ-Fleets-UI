@@ -82,6 +82,10 @@ And('I uncheck {string}') do |string|
   uncheck(string)
 end
 
+Then('I refresh current page') do
+  visit current_url
+end
+
 def mock_api_responses
   mock_vehicles_in_fleet
   mock_debits
