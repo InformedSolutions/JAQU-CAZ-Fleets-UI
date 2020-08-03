@@ -45,7 +45,5 @@ class DashboardController < ApplicationController
     session[:new_payment] = nil
     session[:company_back_link_history] = nil
     session[:user_back_link_history] = nil
-    session[:company_payment_history] = nil
-    session[:payment_details_back_link] = nil
   end
 end

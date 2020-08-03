@@ -95,16 +95,15 @@ module PaymentHistory
     end
 
     # Returns back link url on the payment history details page
-    # Assigns +@company_payment_history+ to true if last visited page was the company payment history
     # Assign +payment_details_back_link+ and +company_payment_history+ to the session
-    def determinate_back_link
-      if session[:payment_details_back_link]
-        session[:payment_details_back_link]
-      elsif request.referer&.include?(company_payment_history_path)
+    def determinate_back_link # rubocop:disable Metrics/AbcSize
+      if request.referer&.include?(company_payment_history_path)
         session[:company_payment_history] = true
-        session[:payment_details_back_link] = company_payment_history_path
+        session[:payment_details_back_link] = request.referer
+      elsif request.referer&.include?(user_payment_history_path)
+        session[:payment_details_back_link] = request.referer
       else
-        session[:payment_details_back_link] = user_payment_history_path
+        session[:payment_details_back_link] || user_payment_history_path
       end
     end
   end
