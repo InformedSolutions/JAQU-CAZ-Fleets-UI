@@ -103,7 +103,7 @@ module PaymentHistory
       elsif request.referer&.include?(user_payment_history_path)
         session[:payment_details_back_link] = request.referer
       else
-        session[:payment_details_back_link] || user_payment_history_path
+        session[:payment_details_back_link] = session[:payment_details_back_link] || user_payment_history_path
       end
     end
   end

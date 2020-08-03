@@ -12,9 +12,9 @@ describe 'PaymentsApi.create_payment' do
     )
   end
 
-  let(:caz_id) { SecureRandom.uuid }
+  let(:caz_id) { @uuid }
   let(:return_url) { 'http://example.com' }
-  let(:user_id) { SecureRandom.uuid }
+  let(:user_id) { @uuid }
   let(:transactions) do
     [
       {
@@ -37,7 +37,7 @@ describe 'PaymentsApi.create_payment' do
     before do
       stub_request(:post, /#{mock_path}/).to_return(
         status: 201,
-        body: { 'paymentId' => SecureRandom.uuid, 'nextUrl' => 'http://example.com' }.to_json
+        body: { 'paymentId' => @uuid, 'nextUrl' => 'http://example.com' }.to_json
       )
     end
 

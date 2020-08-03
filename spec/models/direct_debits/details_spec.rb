@@ -13,7 +13,7 @@ describe DirectDebits::Details, type: :model do
   end
 
   let(:payment_reference) { 'WYP3HNDP' }
-  let(:external_id) { SecureRandom.uuid }
+  let(:external_id) { @uuid }
 
   describe '.payment_reference' do
     it 'returns payment reference' do

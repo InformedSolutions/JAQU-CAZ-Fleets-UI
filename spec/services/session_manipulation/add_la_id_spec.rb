@@ -3,9 +3,7 @@
 require 'rails_helper'
 
 describe SessionManipulation::AddLaId do
-  subject do
-    described_class.call(params: params, session: session)
-  end
+  subject { described_class.call(params: params, session: session) }
 
   let(:id) { SecureRandom.uuid }
   let(:params) { { 'local-authority' => id } }

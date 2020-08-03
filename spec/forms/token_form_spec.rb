@@ -5,7 +5,7 @@ require 'rails_helper'
 describe TokenForm, type: :model do
   subject { described_class.new(token: token) }
 
-  let(:token) { SecureRandom.uuid }
+  let(:token) { @uuid }
 
   before do
     allow(AccountsApi).to receive(:validate_password_reset).and_return(true)

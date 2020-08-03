@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'AccountsApi.validate_password_reset - POST' do
   subject { AccountsApi.validate_password_reset(token: token) }
 
-  let(:token) { SecureRandom.uuid }
+  let(:token) { @uuid }
   let(:url) { %r{auth/password/reset/validation} }
 
   before do
