@@ -1,0 +1,28 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+describe 'OrganisationsController - GET #email_sent' do
+  subject { get email_sent_organisations_path }
+
+  let(:session_data) do
+    { new_account: create_user.serializable_hash.merge(company_name: 'Company name') }
+  end
+
+  before do
+    add_to_session(session_data)
+    subject
+  end
+
+  it 'returns an ok response' do
+    expect(response).to have_http_status(:ok)
+  end
+
+  context 'without new_account data in the session' do
+    let(:session_data) { { new_account: { 'account_id': SecureRandom.uuid } } }
+
+    it 'returns a redirect' do
+      expect(response).to redirect_to(root_path)
+    end
+  end
+end

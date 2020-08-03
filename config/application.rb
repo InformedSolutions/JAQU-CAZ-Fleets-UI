@@ -19,10 +19,21 @@ module FleetsUI
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+    #
+    # feedback url
+    config.x.feedback_url = ENV.fetch('FEEDBACK_URL', nil)
+    # payments ui url
+    config.x.payments_ui_url = ENV.fetch('PAYMENTS_UI_URL', 'dev.paycleanairzonecharge.co.uk')
+    # service name for whole app
+    config.x.service_name = 'Pay a Clean Air Zone charge'
 
-    feedback_url_default = nil
-    config.x.feedback_url = (ENV['FEEDBACK_URL'].presence || feedback_url_default)
+    # timeout the user session without activity.
+    config.x.session_timeout_in_min = ENV.fetch('SESSION_TIMEOUT', 15).to_i
 
-    config.x.service_name = 'Fleets UI'
+    # https://mattbrictson.com/dynamic-rails-error-pages
+    config.exceptions_app = routes
+
+    config.time_zone = 'London'
+    config.x.time_format = '%d %B %Y %H:%M:%S %Z'
   end
 end

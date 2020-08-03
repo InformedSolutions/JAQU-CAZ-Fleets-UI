@@ -1,13 +1,19 @@
+- title_and_header = 'Sign in'
+- content_for(:title, title_and_header)
+
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      %h1.govuk-heading-xl Sign in
+      %h1.govuk-heading-xl
+        = title_and_header
 
-      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        = render 'error_summary'
+      = form_for(@user ||= User.new, as: @user, url: session_path(@user)) do |f|
+        = render 'shared/sign_in/error_summary'
         %fieldset.govuk-fieldset
           %legend.govuk-visually-hidden
             Submit your login credentials
-          = render 'email_field', form: f
-          = render 'password_field', form: f
+          = render 'shared/sign_in/email_field', form: f
+          = render 'shared/sign_in/password_field', form: f
+        %p
+          = link_to('Forgotten your password?', reset_passwords_path)
         = f.submit 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

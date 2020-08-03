@@ -10,11 +10,34 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # load support folder
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
 RSpec.configure do |config|
-  config.include RequestSpecHelper, type: :request
-  config.include StringCountHelper, type: :request
+  # add helpers to rspec classes
+  [RequestSpecHelper,
+   StringCountHelper,
+   AddToSession,
+   FleetFactory,
+   ChargeableVehiclesFactory].each do |h|
+    config.include h, type: :request
+  end
+  [StrongParams,
+   UserFactory,
+   ActiveSupport::Testing::TimeHelpers,
+   FixturesHelpers,
+   MockedResponses].each do |h|
+    config.include h
+  end
+
+  config.before(:each) do
+    ENV['REDIS_URL'] = nil
+    @vrn = 'ABC123'
+    @remote_ip = '1.2.3.4'
+    allow_any_instance_of(ActionDispatch::Request)
+      .to receive(:remote_ip)
+      .and_return(@remote_ip)
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -30,7 +53,7 @@ RSpec.configure do |config|
   # You can disable this behaviour by removing the line below, and instead
   # explicitly tag your specs with their type, e.g.:
   #
-  #     RSpec.describe UsersController, :type => :controller do
+  #     describe UsersController, :type => :controller do
   #       # ...
   #     end
   #
@@ -42,4 +65,11 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
 end

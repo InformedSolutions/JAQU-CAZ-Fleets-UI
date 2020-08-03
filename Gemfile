@@ -3,32 +3,35 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.5'
+ruby '2.6.6'
 
-gem 'rails', '~> 6.0.1'
+gem 'rails', '~> 6.0.3.2'
 
+gem 'aws-sdk-s3'
 gem 'bootsnap', require: false
-gem 'brakeman'
-gem 'bundler-audit'
 gem 'devise'
 gem 'haml'
-gem 'logstash-logger'
-gem 'puma'
-gem 'sass-rails'
+gem 'httparty'
+gem 'puma', '>= 4.3.5'
+gem 'redis'
 gem 'sdoc', require: false
 gem 'sqlite3'
 gem 'turbolinks'
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'webpacker'
 
 group :development, :test do
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'dotenv-rails'
   gem 'haml-rails'
+  gem 'jazz_fingers'
+  gem 'pry'
+  gem 'pry-rails'
   gem 'rspec-rails'
-  gem 'scss_lint-govuk', require: false
 end
 
 group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'listen'
   gem 'spring'
   gem 'spring-watcher-listen'
@@ -36,12 +39,18 @@ group :development do
 end
 
 group :test do
+  gem 'brakeman'
+  gem 'bundler-audit'
   gem 'capybara'
   gem 'cucumber-rails', require: false
+  gem 'rack_session_access'
   gem 'rails-controller-testing'
+  gem 'rubocop-rails'
+  gem 'scss_lint-govuk', require: false
   gem 'selenium-webdriver'
-  gem 'simplecov', require: false
+  gem 'shoulda-matchers'
+  gem 'show_me_the_cookies'
+  gem 'simplecov', '~> 0.17.1', require: false
   gem 'webdrivers'
+  gem 'webmock'
 end
-
-gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

@@ -15,14 +15,20 @@ class User
   # Takes care of verifying whether a user session has already expired or not.
   devise :timeoutable
 
-  # Attribute that is being used to authorize a user and use it in csv uploading.
-  attr_accessor :email, :admin, :sub
+  # User attributes
+  attr_accessor :email, :owner, :user_id, :account_id, :account_name, :login_ip
+
+  # Delegates fleet methods to fleet
+  delegate :vehicles, :add_vehicle, :remove_vehicle, :charges, :charges_by_vrn, to: :fleet
+
+  # Delegates debit methods to payment_method
+  delegate :mandates, to: :direct_debit
 
   # Overrides default initializer for compliance with Devise Gem.
   #
-  # Set +admin+ to false by default
+  # Set +owner+ to false by default
   def initialize(options = {})
-    self.admin = false
+    self.owner = false
     options.each do |key, value|
       public_send("#{key}=", value) if respond_to?(key)
     end
@@ -37,13 +43,32 @@ class User
   #
   # ==== Example
   #   user = User.new()email = 'example@email.com'
-  #   user #<User email: example@email.com, admin: false, ...>
-  #   user.serializable_hash #{:email=>"example@email.com", :admin=>false, ...}
+  #   user #<User email: example@email.com, owner: false, ...>
+  #   user.serializable_hash #{:email=>"example@email.com", :owner=>false, ...}
   def serializable_hash(_options = nil)
     {
       email: email,
-      admin: admin,
-      sub: sub
+      owner: owner,
+      user_id: user_id,
+      account_id: account_id,
+      account_name: account_name,
+      login_ip: login_ip
     }
+  end
+
+  # Returns associated fleet object
+  def fleet
+    @fleet ||= Fleet.new(account_id)
+  end
+
+  # Serializes User based on data from API
+  def self.serialize_from_api(user_attributes)
+    User.new(
+      email: user_attributes['email'],
+      user_id: user_attributes['accountUserId'],
+      account_id: user_attributes['accountId'],
+      account_name: user_attributes['accountName'],
+      owner: user_attributes['owner']
+    )
   end
 end

@@ -16,6 +16,7 @@ module Devise
         resource = mapping.to.new
         return fail! unless resource
 
+        params_auth_hash[:login_ip] = request.remote_ip
         authenticate_user(resource, params_auth_hash)
       end
 
@@ -48,12 +49,23 @@ module Devise
         if validate(resource) { resource = resource.authentication(auth_params) }
           success!(resource)
         else
-          # Sets errors with base error to display in the error summary
-          errors.add(:base, I18n.t('login_form.incorrect'))
-          errors.add(:email, I18n.t('login_form.email_missing'))
-          errors.add(:password, I18n.t('login_form.password_missing'))
-          fail!(:invalid)
+          add_unauthorized_errors
         end
+      rescue BaseApi::Error401Exception, BaseApi::Error400Exception
+        add_unauthorized_errors
+      rescue BaseApi::Error422Exception
+        add_unconfirmed_errors
+      end
+
+      def add_unauthorized_errors
+        # Sets errors with base error to display in the error summary
+        errors.add(:base, I18n.t('login_form.incorrect'))
+        fail!(:invalid)
+      end
+
+      def add_unconfirmed_errors
+        errors.add(:email, I18n.t('login_form.email_unconfirmed'))
+        fail!(:invalid)
       end
     end
   end
