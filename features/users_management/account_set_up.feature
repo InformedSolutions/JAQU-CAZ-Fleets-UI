@@ -51,4 +51,4 @@ Feature: Account set up
     Given I am on the set up account page
       And I provide exact but invalid passwords
     When I press 'Continue' button
-      Then I should see "Enter a password at least 8 characters long, including 1 uppercase letter" 3 times
+      Then I should see "Enter a password at least 8 characters long, including at least 1 upper case letter and 1 number" 3 times
