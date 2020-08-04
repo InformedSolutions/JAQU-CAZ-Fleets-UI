@@ -10,7 +10,10 @@
         = title_and_header
 
       - unless @pagination.payments_list.empty?
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
         %table.govuk-table
           %caption.govuk-table__caption
             %p View payments made by you and your team members.
@@ -33,4 +36,8 @@
                 %td.govuk-table__cell
                   = link_to payment_history_details_path(payment_id: payment.payment_id), class: 'govuk-link', id: "payment-#{index}" do
                     View details
+<<<<<<< HEAD
+=======
+
+>>>>>>> develop
         = render 'payment_history/payment_history/company/pagination'

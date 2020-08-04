@@ -6,7 +6,7 @@ describe VehiclesManagement::ChargeableVehicle, type: :model do
   subject { described_class.new(data) }
 
   let(:data) { { 'vrn' => vrn, 'charge' => charge, 'tariffCode' => tariff } }
-  let(:caz_id) { SecureRandom.uuid }
+  let(:caz_id) { @uuid }
   let(:vrn) { 'CAS310' }
   let(:tariff) { 'VAN-123' }
   let(:charge) { 12.0 }

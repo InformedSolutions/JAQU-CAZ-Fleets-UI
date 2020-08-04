@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Payments::Status, type: :model do
   subject { described_class.new(id, 'Leeds') }
 
-  let(:id) { SecureRandom.uuid }
+  let(:id) { @uuid }
   let(:status) { 'success' }
   let(:email) { 'test@example.com' }
 

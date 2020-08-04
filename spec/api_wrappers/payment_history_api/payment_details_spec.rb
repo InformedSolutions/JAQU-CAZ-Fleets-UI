@@ -3,26 +3,16 @@
 require 'rails_helper'
 
 describe 'PaymentHistoryApi.payments' do
-  subject do
-    PaymentHistoryApi.payments(
-      account_id: account_id,
-      user_id: user_id,
-      user_payments: user_payments,
-      page: page
-    )
-  end
+  subject { PaymentHistoryApi.payment_details(payment_id: payment_id) }
 
-  let(:account_id) { @uuid }
-  let(:user_id) { @uuid }
-  let(:user_payments) { true }
-  let(:page) { 5 }
-  let(:url) { %r{accounts/#{account_id}/payments\?accountUserId=#{@uuid}&pageNumber=#{page - 1}} }
+  let(:payment_id) { @uuid }
+  let(:url) { %r{payments/#{payment_id}} }
 
   context 'when the response status is 200' do
     before do
       stub_request(:get, /#{url}/).to_return(
         status: 200,
-        body: read_unparsed_response('/payment_history/payments.json')['1']
+        body: read_unparsed_response('/payment_history/payment_details.json')
       )
     end
 
@@ -31,13 +21,16 @@ describe 'PaymentHistoryApi.payments' do
       expect(WebMock).to have_requested(:get, url)
     end
 
-    context 'with per_page' do
-      let(:per_page) { 25 }
-
-      it 'calls API with proper query data' do
-        subject
-        expect(WebMock).to have_requested(:get, url)
-      end
+    it 'returns proper fields' do
+      expect(subject.keys).to contain_exactly(
+        'centralPaymentReference',
+        'paymentProviderId',
+        'paymentDate',
+        'totalPaid',
+        'telephonePayment',
+        'payerName',
+        'lineItems'
+      )
     end
   end
 

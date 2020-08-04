@@ -22,7 +22,14 @@ module UsersManagement
     #    GET /users/new
     #
     def new
+<<<<<<< HEAD
       @return_url = if UsersManagement::Users.new(account_id: current_user.account_id).filtered.any?
+=======
+      @return_url = if UsersManagement::Users.new(
+        account_id: current_user.account_id,
+        user_id: current_user.user_id
+      ).filtered.any?
+>>>>>>> develop
                       users_path
                     else
                       dashboard_path
@@ -199,7 +206,10 @@ module UsersManagement
 
     # Do not allow owner to add more then 10 users
     def check_users_count
-      users = UsersManagement::Users.new(account_id: current_user.account_id).filtered
+      users = UsersManagement::Users.new(
+        account_id: current_user.account_id,
+        user_id: current_user.user_id
+      ).filtered
       redirect_to users_path if users.count > 9
     end
   end

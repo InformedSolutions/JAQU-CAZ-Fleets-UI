@@ -5,8 +5,8 @@ require 'rails_helper'
 describe 'FleetsApi.job_status' do
   subject { FleetsApi.job_status(job_name: job_name, correlation_id: id) }
   let(:url) { %r{accounts/register-csv-from-s3/jobs/#{job_name}} }
-  let(:id) { SecureRandom.uuid }
-  let(:job_name) { SecureRandom.uuid }
+  let(:id) { @uuid }
+  let(:job_name) { @uuid }
   let(:status) { 'SUCCESS' }
   let(:errors) { ['Invalid VRN'] }
 

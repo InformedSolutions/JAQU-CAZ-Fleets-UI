@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'FleetsApi.add_vehicle_to_fleet' do
   subject { FleetsApi.add_vehicle_to_fleet(account_id: id, vehicle_type: vehicle_type, vrn: @vrn) }
-  let(:id) { SecureRandom.uuid }
+  let(:id) { @uuid }
   let(:vehicle_type) { 'Car' }
   let(:url) { %r{accounts/#{id}/vehicles} }
 

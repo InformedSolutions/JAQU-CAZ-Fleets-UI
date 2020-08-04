@@ -29,7 +29,7 @@ describe DirectDebits::Debit, type: :model do
   describe '.caz_mandates' do
     subject { debit.caz_mandates(zone_id) }
 
-    let(:zone_id) { SecureRandom.uuid }
+    let(:zone_id) { @uuid }
 
     before { mock_caz_mandates('caz_mandates') }
 

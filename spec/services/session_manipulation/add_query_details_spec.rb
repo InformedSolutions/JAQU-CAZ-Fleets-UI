@@ -7,7 +7,7 @@ describe SessionManipulation::AddQueryDetails do
     described_class.call(params: params, session: session)
   end
 
-  let(:id) { SecureRandom.uuid }
+  let(:id) { @uuid }
   let(:params) do
     {
       commit: commit,

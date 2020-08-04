@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe PaymentHistory::History, type: :model do
-  subject { described_class.new(account_id: @uuid) }
+  subject { described_class.new(@uuid, @uuid, true) }
 
   describe '.pagination' do
     before do

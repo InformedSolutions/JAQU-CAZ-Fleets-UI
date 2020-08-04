@@ -5,9 +5,9 @@ require 'rails_helper'
 describe 'FleetsApi.register_job' do
   subject { FleetsApi.register_job(filename: filename, correlation_id: id) }
   let(:url) { %r{accounts/register-csv-from-s3/jobs} }
-  let(:id) { SecureRandom.uuid }
+  let(:id) { @uuid }
   let(:filename) { 'filename' }
-  let(:job_name) { SecureRandom.uuid }
+  let(:job_name) { @uuid }
 
   context 'when the response status is 200' do
     before do

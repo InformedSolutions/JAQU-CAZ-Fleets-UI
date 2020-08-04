@@ -6,18 +6,26 @@ class NewPasswordForm < BaseForm
   attr_accessor :password, :password_confirmation
 
   validates :password, presence: { message: I18n.t('new_password_form.errors.password_missing') }
+  validate :correct_password_match
+
   validates :password_confirmation,
             presence: { message: I18n.t('new_password_form.errors.password_confirmation_missing') }
-
-  validate :correct_password_confirmation
+  validate :correct_password_confirmation_match
 
   # Checks if +password+ and +password_confirmation+ are same.
-  # If not, add error message to +password+. and +password_confirmation+
-  def correct_password_confirmation
+  # If not, add error message to +password+
+  def correct_password_match
     return if password == password_confirmation
 
-    error_message = I18n.t('new_password_form.errors.password_not_equal')
-    errors.add(:password, :invalid, message: error_message)
-    errors.add(:password_confirmation, :invalid, message: error_message)
+    errors.add(:password, :invalid, message: I18n.t('new_password_form.errors.password_not_equal'))
+  end
+
+  # Checks if +password+ and +password_confirmation+ are same.
+  # If not, add error message to +password_confirmation+
+  def correct_password_confirmation_match
+    return if password == password_confirmation
+
+    errors.add(:password_confirmation, :invalid,
+               message: I18n.t('new_password_form.errors.password_not_equal'))
   end
 end

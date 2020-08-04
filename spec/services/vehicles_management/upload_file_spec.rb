@@ -7,7 +7,7 @@ describe VehiclesManagement::UploadFile do
 
   let(:file) { fixture_file_upload(file_path) }
   let(:file_path) { File.join('spec', 'fixtures', 'uploads', 'fleet.csv') }
-  let(:id) { SecureRandom.uuid }
+  let(:id) { @uuid }
 
   describe '#call' do
     context 'with valid params' do
