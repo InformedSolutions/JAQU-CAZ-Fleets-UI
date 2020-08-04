@@ -106,3 +106,4 @@ def mock_payment_details_history
   api_response = read_response('payment_history/payment_details.json')
   allow(PaymentHistoryApi).to receive(:payment_details).and_return(api_response)
 end
+
