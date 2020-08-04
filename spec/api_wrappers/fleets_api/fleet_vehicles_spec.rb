@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'FleetsApi.job_status' do
   subject { FleetsApi.fleet_vehicles(account_id: id, page: page) }
-  let(:id) { SecureRandom.uuid }
+  let(:id) { @uuid }
   let(:page) { 5 }
 
   before do

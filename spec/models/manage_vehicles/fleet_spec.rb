@@ -45,7 +45,7 @@ describe VehiclesManagement::Fleet, type: :model do
   describe '.any_chargeable_vehicles_in_caz?' do
     subject { fleet.any_chargeable_vehicles_in_caz?(zone_id) }
 
-    let(:zone_id) { SecureRandom.uuid }
+    let(:zone_id) { @uuid }
     let(:data) { read_response('chargeable_vehicles.json') }
 
     before { allow(PaymentsApi).to receive(:chargeable_vehicles).and_return(data) }
@@ -75,7 +75,7 @@ describe VehiclesManagement::Fleet, type: :model do
   describe '.charges' do
     subject { fleet.charges(zone_id: zone_id) }
 
-    let(:zone_id) { SecureRandom.uuid }
+    let(:zone_id) { @uuid }
     let(:data) { read_response('chargeable_vehicles.json') }
 
     before { allow(PaymentsApi).to receive(:chargeable_vehicles).and_return(data) }
@@ -114,7 +114,7 @@ describe VehiclesManagement::Fleet, type: :model do
   describe '.charges_by_vrn' do
     subject(:charges_by_vrn) { fleet.charges_by_vrn(zone_id: zone_id, vrn: vrn) }
 
-    let(:zone_id) { SecureRandom.uuid }
+    let(:zone_id) { @uuid }
     let(:vrn) { 'PAY001' }
     let(:data) { read_response('chargeable_vehicle.json') }
 

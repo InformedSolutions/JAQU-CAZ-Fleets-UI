@@ -22,6 +22,16 @@ Given('I visit the User payment history page') do
   visit user_payment_history_path
 end
 
+Given('I want visit the Payments details page from Company payments history page') do
+  mock_api_and_sign_in_user
+  visit company_payment_history_path
+end
+
+Given('I want visit the Payments details page from User payments history page') do
+  mock_api_and_sign_in_user
+  visit user_payment_history_path
+end
+
 Then('I should be on the the Company payment history page') do
   expect_path(company_payment_history_path)
 end
@@ -49,6 +59,10 @@ end
 When('I press {int} pagination button on the payment history page') do |selected_page|
   mock_payment_history(selected_page)
   page.find("#pagination-button-#{selected_page}").first('a').click
+end
+
+Then('I should be on the the Payment details history page') do
+  expect_path("#{payment_history_details_path}?payment_id=b1f14586-d024-11ea-afe0-47fd231cac0c")
 end
 
 private
@@ -79,4 +93,16 @@ end
 
 def api_response
   read_response('payment_history/payments.json')['1']['payments']
+end
+
+def mock_api_and_sign_in_user
+  mock_vehicles_in_fleet
+  mock_payment_history
+  mock_payment_details_history
+  login_user(permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
+end
+
+def mock_payment_details_history
+  api_response = read_response('payment_history/payment_details.json')
+  allow(PaymentHistoryApi).to receive(:payment_details).and_return(api_response)
 end

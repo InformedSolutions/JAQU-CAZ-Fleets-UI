@@ -5,8 +5,8 @@ require 'rails_helper'
 describe 'PaymentsApi.chargeable_vehicles' do
   subject { PaymentsApi.chargeable_vehicles(account_id: id, zone_id: zone_id) }
 
-  let(:id) { SecureRandom.uuid }
-  let(:zone_id) { SecureRandom.uuid }
+  let(:id) { @uuid }
+  let(:zone_id) { @uuid }
   let(:url) { "accounts/#{id}/chargeable-vehicles" }
 
   before do

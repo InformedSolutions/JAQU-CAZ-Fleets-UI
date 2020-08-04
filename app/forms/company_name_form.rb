@@ -15,14 +15,13 @@ class CompanyNameForm < BaseForm
   # validates max length
   validates :company_name, length: {
     maximum: MAX_COMPANY_NAME_LENGTH,
-    too_long: I18n.t('company_name_form.maximum_length', attribute: 'Company name',
-                                                         length: MAX_COMPANY_NAME_LENGTH)
+    too_long: I18n.t('company_name_form.company_name_invalid_length')
   }
 
   # validates format
   validates :company_name, format: {
     with: COMPANY_NAME_REGEX,
     multiline: true,
-    message: I18n.t('company_name_form.invalid_format', attribute: 'Company name')
+    message: I18n.t('company_name_form.company_name_invalid_format')
   }
 end

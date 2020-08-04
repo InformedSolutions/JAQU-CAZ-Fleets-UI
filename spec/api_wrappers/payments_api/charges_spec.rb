@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'PaymentsApi.charges' do
   subject { PaymentsApi.charges(account_id: id, page: page) }
 
-  let(:id) { SecureRandom.uuid }
+  let(:id) { @uuid }
   let(:page) { 5 }
 
   before do
@@ -40,7 +40,7 @@ describe 'PaymentsApi.charges' do
   context 'with zones' do
     subject { PaymentsApi.charges(account_id: id, page: page, zones: zones) }
 
-    let(:zones) { [SecureRandom.uuid, SecureRandom.uuid] }
+    let(:zones) { [@uuid, @uuid] }
 
     it 'calls API with proper query data' do
       subject

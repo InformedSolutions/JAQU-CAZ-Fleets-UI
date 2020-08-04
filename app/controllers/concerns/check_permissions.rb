@@ -37,4 +37,9 @@ module CheckPermissions
   def allow_view_payment_history?
     current_user.permissions&.include?('VIEW_PAYMENTS')
   end
+
+  # Checks if user has a +MAKE_PAYMENTS+ or +VIEW_PAYMENTS+ permission
+  def allow_view_details_history?
+    current_user.permissions&.include?('MAKE_PAYMENTS') || current_user.permissions&.include?('VIEW_PAYMENTS')
+  end
 end

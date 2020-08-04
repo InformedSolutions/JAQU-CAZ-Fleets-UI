@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 describe UsersManagement::Users do
-  subject { described_class.call(account_id: @uuid) }
+  subject { described_class.call(account_id: @uuid, user_id: @uuid) }
 
   describe '#call' do
     before { mock_users }
 
-    it 'returns only nine users' do
-      expect(subject.count).to eq(9)
+    it 'returns users without owner, removed and himself' do
+      expect(subject.count).to eq(8)
     end
 
     it 'returns sorted users by downcase name' do
@@ -28,16 +28,16 @@ describe UsersManagement::Users do
   end
 
   describe '#filtered' do
-    subject { described_class.new(account_id: @uuid).filtered }
+    subject { described_class.new(account_id: @uuid, user_id: @uuid).filtered }
 
     before { mock_users }
 
-    it 'returns only nine users' do
-      expect(subject.count).to eq(9)
+    it 'returns users without owner, removed and himself' do
+      expect(subject.count).to eq(8)
     end
 
     it 'returns not sorted users by name' do
-      expect(subject.first['name']).to eq('John Doe')
+      expect(subject.first['name']).to eq('Maximilian Mejia')
       expect(subject.last['name']).to eq('Giles Kelsea')
     end
 

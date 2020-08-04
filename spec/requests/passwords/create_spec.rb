@@ -9,7 +9,7 @@ describe 'PasswordsController - POST #create' do
     }
   end
 
-  let(:token) { SecureRandom.uuid }
+  let(:token) { @uuid }
   let(:password) { 'password' }
   let(:confirmation) { password }
 

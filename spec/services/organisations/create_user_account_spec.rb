@@ -22,7 +22,7 @@ describe Organisations::CreateUserAccount do
   let(:user) { create_owner(email: email) }
   let(:email) { 'email@example.com' }
   let(:password) { '8NAOTpMkx2%9' }
-  let(:account_id) { SecureRandom.uuid }
+  let(:account_id) { @uuid }
   let(:verification_url) { 'www.example.com' }
   let(:valid) { true }
 

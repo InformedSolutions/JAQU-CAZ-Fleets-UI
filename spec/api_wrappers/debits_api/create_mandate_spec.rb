@@ -11,8 +11,8 @@ describe 'DebitsApi.create_mandate' do
     )
   end
 
-  let(:account_id) { SecureRandom.uuid }
-  let(:caz_id) { SecureRandom.uuid }
+  let(:account_id) { @uuid }
+  let(:caz_id) { @uuid }
   let(:return_url) { 'http://example.com' }
   let(:url) { "/payments/accounts/#{account_id}/direct-debit-mandates" }
 

@@ -8,8 +8,8 @@ en:
       invalid_format: 'has invalid format'
   company_name_form:
     comapny_name_missing: Enter your company name
-    maximum_length: '%{attribute} is too long (maximum is %{length} characters)'
-    invalid_format: '%{attribute} has invalid format'
+    company_name_invalid_format: Enter company name in a valid format
+    company_name_invalid_length: Enter a company name that is less than 180 characters
   email_and_password_form:
     email_missing: Enter your email address
     email_confirmation_missing: Confirm your email address
@@ -64,7 +64,7 @@ en:
       password_not_equal: Enter a password and password confirmation that are the same
       password_missing: Enter your new password
       password_confirmation_missing: Confirm your new password
-      password_complexity: Enter a password at least 8 characters long, including 1 uppercase letter and 1 number
+      password_complexity: Enter a password at least 8 characters long, including at least 1 upper case letter and 1 number
   submission_method_form:
     errors:
       submission_method_missing: Choose how to add vehicles to your account

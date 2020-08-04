@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'DebitsApi.mandates' do
   subject { DebitsApi.mandates(account_id: account_id) }
 
-  let(:account_id) { SecureRandom.uuid }
+  let(:account_id) { @uuid }
   let(:url) { "payments/accounts/#{account_id}/direct-debit-mandates" }
 
   context 'when the response status is 200' do
