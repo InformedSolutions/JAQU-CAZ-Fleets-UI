@@ -30,14 +30,10 @@ class DashboardController < ApplicationController
   def check_users
     return false unless allow_manage_users?
 
-<<<<<<< HEAD
-    UsersManagement::Users.new(account_id: current_user.account_id).filtered.any?
-=======
     UsersManagement::Users.new(
       account_id: current_user.account_id,
       user_id: current_user.user_id
     ).filtered.any?
->>>>>>> develop
   end
 
   # clear user flow history from the session

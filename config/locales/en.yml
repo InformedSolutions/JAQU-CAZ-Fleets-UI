@@ -64,11 +64,7 @@ en:
       password_not_equal: Enter a password and password confirmation that are the same
       password_missing: Enter your new password
       password_confirmation_missing: Confirm your new password
-<<<<<<< HEAD
-      password_complexity: Enter a password at least 8 characters long, including 1 uppercase letter and 1 number
-=======
       password_complexity: Enter a password at least 8 characters long, including at least 1 upper case letter and 1 number
->>>>>>> develop
   submission_method_form:
     errors:
       submission_method_missing: Choose how to add vehicles to your account
