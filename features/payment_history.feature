@@ -98,8 +98,12 @@ Feature: Payment History
       And I should be on the Company payment history page number 1 when using back button
     Then I press 'View details' link
       And I should be on the the Payment details history page
+      And I should see 'Payment made by'
     Then I press 'Return to payment history' link
       And I should be on the Company payment history page number 1 when using back button
+    Then I want visit the User payment history page and then the Payment details history page
+      And I press 'View details' link
+      And I should not see 'Payment made by'
 
   Scenario: User sees payment details history from User payments history page
     Given I want visit the Payments details page from User payments history page
@@ -123,5 +127,6 @@ Feature: Payment History
       And I should be on the User payment history page number 1 when using back button
     Then I press 'View details' link
       And I should be on the the Payment details history page
+      And I should not see 'Payment made by'
     Then I press 'Return to payment history' link
       And I should be on the User payment history page number 1 when using back button

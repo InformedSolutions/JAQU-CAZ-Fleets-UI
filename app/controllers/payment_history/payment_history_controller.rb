@@ -38,6 +38,7 @@ module PaymentHistory
     #    :GET /user_payment_history
     #
     def user_payment_history
+      session[:company_payment_history] = nil
       assign_paginated_history(user_payments: true)
       @back_button_url = determinate_back_link_url(
         :user_back_link_history,
