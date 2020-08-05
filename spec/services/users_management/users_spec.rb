@@ -8,8 +8,8 @@ describe UsersManagement::Users do
   describe '#call' do
     before { mock_users }
 
-    it 'returns users without owner, removed and himself' do
-      expect(subject.count).to eq(8)
+    it 'returns users without owner and without removed' do
+      expect(subject.count).to eq(9)
     end
 
     it 'returns sorted users by downcase name' do
@@ -32,12 +32,12 @@ describe UsersManagement::Users do
 
     before { mock_users }
 
-    it 'returns users without owner, removed and himself' do
-      expect(subject.count).to eq(8)
+    it 'returns users without owner and without removed' do
+      expect(subject.count).to eq(9)
     end
 
     it 'returns not sorted users by name' do
-      expect(subject.first['name']).to eq('Maximilian Mejia')
+      expect(subject.first['name']).to eq('John Doe')
       expect(subject.last['name']).to eq('Giles Kelsea')
     end
 
