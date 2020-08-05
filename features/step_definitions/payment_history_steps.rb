@@ -65,6 +65,12 @@ Then('I should be on the the Payment details history page') do
   expect_path("#{payment_history_details_path}?payment_id=b1f14586-d024-11ea-afe0-47fd231cac0c")
 end
 
+Then('I want visit the User payment history page and then the Payment details history page') do
+  mock_payment_history
+  mock_payment_details_history
+  visit user_payment_history_path
+end
+
 private
 
 def mock_payment_history(page = 1)
