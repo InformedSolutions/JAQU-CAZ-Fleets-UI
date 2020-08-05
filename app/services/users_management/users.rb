@@ -27,7 +27,7 @@ module UsersManagement
       filtered_and_sorted.map { |user_data| UsersManagement::User.new(user_data) }
     end
 
-    # Filtering out removed users and owner from the api response
+    # Filtering out removed users, owner and himself from the api response
     def filtered
       api_call.reject { |user| filter_users(user) }
     end

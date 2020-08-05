@@ -37,7 +37,7 @@ describe UsersManagement::Users do
     end
 
     it 'returns not sorted users by name' do
-      expect(subject.first['name']).to eq('John Doe')
+      expect(subject.first['name']).to eq('Maximilian Mejia')
       expect(subject.last['name']).to eq('Giles Kelsea')
     end
 
