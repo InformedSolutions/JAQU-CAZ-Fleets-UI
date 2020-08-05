@@ -27,7 +27,7 @@ module UsersManagement
       filtered_and_sorted.map { |user_data| UsersManagement::User.new(user_data) }
     end
 
-    # Filtering out removed users, owner and himself from the api response
+    # Filtering out removed users and owner from the api response
     def filtered
       api_call.reject { |user| filter_users(user) }
     end
@@ -44,9 +44,9 @@ module UsersManagement
       AccountsApi.users(account_id: account_id)
     end
 
-    # Checks if user owner or removed or himself
+    # Checks if user owner or removed
     def filter_users(user)
-      user['owner'] == true || user['removed'] == true || user['accountUserId'] == user_id
+      user['owner'] == true || user['removed'] == true
     end
 
     # Attributes used internally
