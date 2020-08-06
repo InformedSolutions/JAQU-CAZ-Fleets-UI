@@ -44,7 +44,6 @@
               %span#permissions-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
                 = errors
-
             .govuk-checkboxes
               .govuk-checkboxes__item
                 %input.govuk-checkboxes__input{name: 'edit_user[permissions][]',
@@ -55,7 +54,7 @@
                 %label.govuk-label.govuk-checkboxes__label{for: 'manage-vehicles-permission'}
                   Manage vehicles
 
-              .govuk-checkboxes__item
+              .govuk-checkboxes__item{style: "display: #{Rails.configuration.x.feature_direct_debits ? 'block' : 'none'}" }
                 %input.govuk-checkboxes__input{name: 'edit_user[permissions][]',
                                                type: 'checkbox',
                                                value: 'MANAGE_MANDATES',

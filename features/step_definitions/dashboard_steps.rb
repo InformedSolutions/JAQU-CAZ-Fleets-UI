@@ -5,6 +5,24 @@ When('I visit the Dashboard page') do
 end
 
 When('I navigate to a Dashboard page') do
+  mock_direct_debit_enabled
+  mock_vehicles_in_fleet
+  mock_debits('active_mandates')
+  mock_users
+  visit dashboard_path
+end
+
+When('I navigate to a Dashboard page with Direct Debits disabled') do
+  mock_direct_debit_disabled
+  mock_vehicles_in_fleet
+  mock_debits('active_mandates')
+  mock_users
+  visit dashboard_path
+end
+
+When('I navigate to a Dashboard page with Direct Debits enabled') do
+  allow(Rails.application.config.x).to receive(:method_missing).and_return('test')
+  allow(Rails.application.config.x).to receive(:method_missing).with(:feature_direct_debits).and_return(false)
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_users
@@ -12,6 +30,7 @@ When('I navigate to a Dashboard page') do
 end
 
 When('I navigate to a Dashboard page with {string} permission') do |permission|
+  mock_direct_debit_enabled
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_users
@@ -40,6 +59,7 @@ Given('I visit Dashboard page with few users already added') do
 end
 
 When('I navigate to a Dashboard page with empty fleets') do
+  mock_direct_debit_enabled
   mock_empty_fleet
   mock_debits('inactive_mandates')
   mock_users
@@ -47,6 +67,7 @@ When('I navigate to a Dashboard page with empty fleets') do
 end
 
 When('I navigate to a Dashboard page with one vehicle in the fleet') do
+  mock_direct_debit_enabled
   mock_one_vehicle_fleet
   mock_debits('inactive_mandates')
   mock_users

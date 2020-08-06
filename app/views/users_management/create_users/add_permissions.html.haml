@@ -22,7 +22,7 @@
 
             %span#permissions-hint.govuk-hint
               Select all that apply.
-            
+
             - if errors && errors[:permissions]
               %span#permissions-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
@@ -40,18 +40,18 @@
                   %b Manage vehicles
                 %span#manage-vehicles-permission-hint.govuk-hint.govuk-checkboxes__hint
                   Add and remove vehicles
-
-              .govuk-checkboxes__item
-                %input.govuk-checkboxes__input{name: 'new_user[permissions][]',
-                                               type: 'checkbox',
-                                               value: 'MANAGE_MANDATES',
-                                               id: 'manage-mandates-permission',
-                                               checked: checked_permission?('MANAGE_MANDATES'),
-                                               'aria-describedby': 'manage-mandates-permission-hint'}
-                %label.govuk-label.govuk-checkboxes__label{for: 'manage-mandates-permission'}
-                  %b Set up Direct Debits
-                %span#manage-mandates-permission-hint.govuk-hint.govuk-checkboxes__hint
-                  Create Direct Debit mandates
+              - if Rails.configuration.x.feature_direct_debits
+                .govuk-checkboxes__item
+                  %input.govuk-checkboxes__input{name: 'new_user[permissions][]',
+                                                 type: 'checkbox',
+                                                 value: 'MANAGE_MANDATES',
+                                                 id: 'manage-mandates-permission',
+                                                 checked: checked_permission?('MANAGE_MANDATES'),
+                                                 'aria-describedby': 'manage-mandates-permission-hint'}
+                  %label.govuk-label.govuk-checkboxes__label{for: 'manage-mandates-permission'}
+                    %b Set up Direct Debits
+                  %span#manage-mandates-permission-hint.govuk-hint.govuk-checkboxes__hint
+                    Create Direct Debit mandates
 
               .govuk-checkboxes__item
                 %input.govuk-checkboxes__input{name: 'new_user[permissions][]',
@@ -63,7 +63,9 @@
                 %label.govuk-label.govuk-checkboxes__label{for: 'make-payments-permission'}
                   %b Make payments
                 %span#make-payments-permission-hint.govuk-hint.govuk-checkboxes__hint
-                  By credit/debit card and Direct Debit
+                  By credit/debit card
+                  - if Rails.configuration.x.feature_direct_debits
+                    and Direct Debit
 
               .govuk-checkboxes__item
                 %input.govuk-checkboxes__input{name: 'new_user[permissions][]',
