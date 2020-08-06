@@ -49,3 +49,9 @@ html {
     width: 16%;
   }
 }
+
+@media print {
+  .govuk-back-link {
+    width: 100%;
+  }
+}
