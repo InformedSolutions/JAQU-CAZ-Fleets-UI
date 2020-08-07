@@ -17,15 +17,11 @@ module DirectDebits
     end
 
     # It calls {rdoc-ref:DebitsApi.mandates} to fetch data.
-    # Modify `api_response` hash to keep a mandate only in `active` or `pending` status
+    # Returns `DirectDebits::Mandate` instances where enabled cazes with mandate only in `active` or `pending` status
     def mandates
       @mandates ||= begin
-                  api_response = DebitsApi.mandates(account_id: account_id)
-                  result = api_response.each do |obj|
-                    active = obj['mandates'].find do |mandate|
-                      select_active_statuses(mandate['status'])
-                    end
-
+                  result = enabled_cazes.each do |obj|
+                    active = obj['mandates'].find { |mandate| select_active_statuses(mandate['status']) }
                     obj['mandates'] = (active || [])
                   end
 
@@ -74,6 +70,11 @@ module DirectDebits
       return false unless status
 
       status.downcase == 'active' || status.downcase == 'pending'
+    end
+
+    # Returns an array of enabled cazes
+    def enabled_cazes
+      DebitsApi.mandates(account_id: account_id).select { |caz| caz['directDebitEnabled'] == true }
     end
   end
 end
