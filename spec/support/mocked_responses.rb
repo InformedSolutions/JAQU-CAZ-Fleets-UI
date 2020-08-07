@@ -24,14 +24,14 @@ module MockedResponses
   def mock_direct_debit_enabled
     allow(Rails.application.config.x).to receive(:method_missing).and_return('test')
     allow(Rails.application.config.x).to(
-      receive(:method_missing).with(:feature_direct_debits).and_return(true)
+      receive(:method_missing).with(:feature_direct_debits).and_return('true')
     )
   end
 
   def mock_direct_debit_disabled
     allow(Rails.application.config.x).to receive(:method_missing).and_return('test')
     allow(Rails.application.config.x).to(
-      receive(:method_missing).with(:feature_direct_debits).and_return(false)
+      receive(:method_missing).with(:feature_direct_debits).and_return('false')
     )
   end
 end

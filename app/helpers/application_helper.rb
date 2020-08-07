@@ -91,6 +91,6 @@ module ApplicationHelper
 
   # Check if Direct Debit feature is enabled in configuration.
   def direct_debits_enabled?
-    Rails.configuration.x.feature_direct_debits
+    Rails.configuration.x.feature_direct_debits.to_s.downcase == 'true'
   end
 end

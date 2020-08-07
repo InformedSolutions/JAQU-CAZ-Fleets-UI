@@ -35,6 +35,6 @@ module FleetsUI
 
     config.time_zone = 'London'
     config.x.time_format = '%d %B %Y %H:%M:%S %Z'
-    config.x.feature_direct_debits = ENV.fetch('FEATURE_DIRECT_DEBITS', false)
+    config.x.feature_direct_debits = ENV.fetch('FEATURE_DIRECT_DEBITS', 'false')
   end
 end
