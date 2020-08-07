@@ -88,4 +88,9 @@ module ApplicationHelper
   def formatted_date(date)
     date.strftime('%A %d %B %Y')
   end
+
+  # Check if Direct Debit feature is enabled in configuration.
+  def direct_debits_enabled?
+    Rails.configuration.x.feature_direct_debits
+  end
 end

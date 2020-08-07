@@ -40,7 +40,7 @@
                   %b Manage vehicles
                 %span#manage-vehicles-permission-hint.govuk-hint.govuk-checkboxes__hint
                   Add and remove vehicles
-              - if Rails.configuration.x.feature_direct_debits
+              - if direct_debits_enabled?
                 .govuk-checkboxes__item
                   %input.govuk-checkboxes__input{name: 'new_user[permissions][]',
                                                  type: 'checkbox',
@@ -64,7 +64,7 @@
                   %b Make payments
                 %span#make-payments-permission-hint.govuk-hint.govuk-checkboxes__hint
                   By credit/debit card
-                  - if Rails.configuration.x.feature_direct_debits
+                  - if direct_debits_enabled?
                     and Direct Debit
 
               .govuk-checkboxes__item

@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe 'DirectDebits::DebitsController - POST #create' do
   subject { post debits_path, params: { 'local-authority' => la_id } }
+  before { mock_direct_debit_enabled }
 
   let(:la_id) { @uuid }
 
@@ -55,4 +56,16 @@ describe 'DirectDebits::DebitsController - POST #create' do
   end
 
   it_behaves_like 'incorrect permissions'
+
+  context 'when Direct Debits feature disabled' do
+    before do
+      sign_in manage_mandates_user
+      mock_direct_debit_disabled
+      subject
+    end
+
+    it 'redirects to not found page' do
+      expect(response).to redirect_to(not_found_path)
+    end
+  end
 end

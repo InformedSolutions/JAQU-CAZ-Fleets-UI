@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 When('I have no mandates') do
+  mock_direct_debit_enabled
   mock_vehicles_in_fleet
   mock_debits_api_call('inactive_mandates')
   mock_users
@@ -20,12 +21,14 @@ Then('I should be on the add new mandate page') do
 end
 
 When('I have created mandates') do
+  mock_direct_debit_enabled
   mock_vehicles_in_fleet
   mock_debits_api_call
   mock_users
 end
 
 When('I have created all the possible mandates') do
+  mock_direct_debit_enabled
   mock_vehicles_in_fleet
   mock_debits_api_call('active_mandates')
   mock_users
@@ -51,6 +54,7 @@ Then('I should have a new mandate added') do
 end
 
 When('I have active mandates for selected CAZ') do
+  mock_direct_debit_enabled
   mock_api_endpoints
 end
 
