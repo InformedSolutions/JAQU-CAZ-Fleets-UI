@@ -54,7 +54,7 @@
                 %label.govuk-label.govuk-checkboxes__label{for: 'manage-vehicles-permission'}
                   Manage vehicles
 
-              .govuk-checkboxes__item{style: "display: #{direct_debits_enabled? ? 'block' : 'none'}" }
+              .govuk-checkboxes__item{class: manage_debits_visible? }
                 %input.govuk-checkboxes__input{name: 'edit_user[permissions][]',
                                                type: 'checkbox',
                                                value: 'MANAGE_MANDATES',
