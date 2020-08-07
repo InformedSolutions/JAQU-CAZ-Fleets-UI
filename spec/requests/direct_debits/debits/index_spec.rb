@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe 'DirectDebits::DebitsController - GET #index' do
   subject { get debits_path }
+  before { mock_direct_debit_enabled }
 
   context 'correct permissions' do
     before { sign_in manage_mandates_user }
@@ -28,4 +29,16 @@ describe 'DirectDebits::DebitsController - GET #index' do
   end
 
   it_behaves_like 'incorrect permissions'
+
+  context 'when Direct Debits feature disabled' do
+    before do
+      sign_in manage_mandates_user
+      mock_direct_debit_disabled
+      subject
+    end
+
+    it 'redirects to not found page' do
+      expect(response).to redirect_to(not_found_path)
+    end
+  end
 end

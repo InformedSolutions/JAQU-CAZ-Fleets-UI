@@ -8,6 +8,7 @@ module DirectDebits
   #
   class DebitsController < ApplicationController
     include CheckPermissions
+    before_action -> { check_permissions(helpers.direct_debits_enabled?) }, only: %i[index new create]
     before_action -> { check_permissions(allow_manage_mandates?) }, only: %i[index new create]
     before_action -> { check_permissions(allow_make_payments?) }, except: %i[index new create]
     before_action :check_la, only: %i[confirm first_mandate]
