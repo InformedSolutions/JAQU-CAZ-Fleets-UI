@@ -4,7 +4,7 @@ Feature: Debits
   I want to manage my Direct Debits mandates
 
   Scenario: Making a successful Direct Debit payment with active mandate
-    When I have active mandates for selected CAZ
+    Given I have active mandates for selected CAZ
       And I visit the make payment page
       And I press the Continue
     Then I select 'Birmingham'
@@ -22,7 +22,7 @@ Feature: Debits
     Then I should see success message
 
   Scenario: Making a cancel Direct Debit payment with active mandate
-    When I have active mandates for selected CAZ
+    Given I have active mandates for selected CAZ
       And I visit the make payment page
       And I press the Continue
     Then I select 'Birmingham'
@@ -41,7 +41,7 @@ Feature: Debits
       And I should see 'Your payment has been cancelled'
 
   Scenario: Making a failure Direct Debit payment with active mandate
-    When I have active mandates for selected CAZ
+    Given I have active mandates for selected CAZ
       And I visit the make payment page
       And I press the Continue
     Then I select 'Birmingham'
@@ -82,3 +82,10 @@ Feature: Debits
       And I should see 'You must choose one Clean Air Zone' 2 times
     When I select 'Birmingham'
     Then I should have a new mandate added
+
+  Scenario: Adding a new mandate with disabled CAZ
+    Given I have inactive mandates for each CAZ but one of them is disabled
+      And I visit the add new mandate page
+      And I should be on the add new mandate page
+    Then I should see 'Leeds'
+    Then I should not see 'Birmingham'

@@ -53,11 +53,19 @@ Then('I should have a new mandate added') do
   allow(DebitsApi).to receive(:create_mandate).and_return(true)
 end
 
-When('I have active mandates for selected CAZ') do
+Given('I have active mandates for selected CAZ') do
   mock_direct_debit_enabled
   mock_api_endpoints
 end
 
 Then('I should be on the cancel payment page') do
   expect_path(cancel_payments_path)
+end
+
+Given('I have inactive mandates for each CAZ but one of them is disabled') do
+  mock_vehicles_in_fleet
+  mock_direct_debit_enabled
+  api_response = read_response('/debits/inactive_mandates.json')
+  api_response['cleanAirZones'].second['directDebitEnabled'] = false
+  stub_request(:get, /direct-debit-mandate/).to_return(status: 200, body: api_response.to_json)
 end
