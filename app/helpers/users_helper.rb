@@ -16,9 +16,4 @@ module UsersHelper
     Rails.logger.warn('User want to edit or remove his own account. Redirects to Manage users page')
     redirect_to users_path
   end
-
-  # returns hidden class if direct debits are disabled.
-  def manage_debits_visible?
-    'hidden' unless direct_debits_enabled?
-  end
 end
