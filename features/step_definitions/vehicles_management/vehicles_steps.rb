@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 When('I visit the enter details page') do
-  mock_api_responses
-  login_owner
+  mock_vehicles_in_fleet
+  login_user(permissions: 'MANAGE_VEHICLES')
   visit enter_details_vehicles_path
 end
 

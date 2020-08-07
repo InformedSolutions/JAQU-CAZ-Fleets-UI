@@ -20,3 +20,6 @@ Style/Documentation:
 
 Rails/HelperInstanceVariable:
   Enabled: false
+
+Lint/MissingSuper:
+  Enabled: false

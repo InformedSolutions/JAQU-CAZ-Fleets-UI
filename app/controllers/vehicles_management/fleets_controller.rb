@@ -198,7 +198,7 @@ module VehiclesManagement
 
     # Clears show_continue_button from session when user lands on fleets page after end of CSV import
     def clear_show_continue_button
-      session[:show_continue_button] = nil if session.dig(:show_continue_button) == true
+      session[:show_continue_button] = nil if session[:show_continue_button] == true
     end
   end
 end

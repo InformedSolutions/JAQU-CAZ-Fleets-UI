@@ -8,7 +8,7 @@ When('I have no mandates') do
 end
 
 When('I visit the manage Direct Debit page') do
-  login_owner
+  login_user(permissions: 'MANAGE_MANDATES')
   visit debits_path
 end
 
@@ -39,7 +39,7 @@ Then('I should be on the manage debits page') do
 end
 
 When('I visit the add new mandate page') do
-  login_owner
+  login_user(permissions: 'MANAGE_MANDATES')
   visit new_debit_path
 end
 

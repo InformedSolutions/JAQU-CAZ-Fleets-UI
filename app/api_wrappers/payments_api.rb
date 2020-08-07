@@ -4,7 +4,7 @@
 # API wrapper for connecting to Payments API.
 #
 class PaymentsApi < BaseApi
-  base_uri ENV.fetch('PAYMENTS_API_URL', 'localhost:3001') + '/v1'
+  base_uri "#{ENV.fetch('PAYMENTS_API_URL', 'localhost:3001')}/v1"
 
   class << self
     ##

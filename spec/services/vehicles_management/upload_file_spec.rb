@@ -43,6 +43,14 @@ describe VehiclesManagement::UploadFile do
         end
       end
 
+      context 'when file size is too big' do
+        before { allow(file).to receive(:size).and_return(52_428_801) }
+
+        it 'raises exception' do
+          expect { subject }.to raise_exception(CsvUploadException)
+        end
+      end
+
       context 'when `S3UploadService` returns error' do
         before do
           allow_any_instance_of(Aws::S3::Object).to receive(:upload_file).and_return(false)

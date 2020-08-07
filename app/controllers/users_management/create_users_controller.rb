@@ -39,7 +39,7 @@ module UsersManagement
     #
     #    POST /users
     #
-    def create # rubocop:disable Metrics/AbcSize
+    def create
       SessionManipulation::SetNewUser.call(session: session, params: new_user_params)
       form = AddNewUserForm.new(account_id: current_user.account_id, new_user: new_user_data)
       if form.valid?
@@ -140,7 +140,7 @@ module UsersManagement
     end
 
     # Formats account set up page errors and redirects to :set_up
-    def handle_invalid_set_up_form(errors) # rubocop:disable Metrics/AbcSize
+    def handle_invalid_set_up_form(errors)
       flash[:errors] = {
         token: errors[:token].first,
         password: errors[:password].first,
@@ -165,7 +165,7 @@ module UsersManagement
 
     # Returns new user data from session
     def new_user_data
-      session.dig(:new_user)
+      session[:new_user]
     end
 
     # Returns new user name from session

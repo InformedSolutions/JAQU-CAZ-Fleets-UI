@@ -3,7 +3,7 @@
 When('I visit the make payment page') do
   mock_debits
   mock_users
-  login_owner
+  login_user(permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS])
   visit payments_path
 end
 
