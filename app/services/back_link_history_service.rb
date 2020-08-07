@@ -44,7 +44,7 @@ class BackLinkHistoryService < BaseService
       return clear_unused_steps if back_button && history
 
       log_action('Adding step to the back link history')
-      session.dig(session_key)[next_step] = page
+      session[session_key][next_step] = page
     end
   end
 

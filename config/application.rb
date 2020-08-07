@@ -36,5 +36,8 @@ module FleetsUI
     config.time_zone = 'London'
     config.x.time_format = '%d %B %Y %H:%M:%S %Z'
     config.x.feature_direct_debits = ENV.fetch('FEATURE_DIRECT_DEBITS', 'false')
+
+    # Configurable CSV upload size limit
+    config.x.csv_file_size_limit = ENV.fetch('CSV_FILE_SIZE_LIMIT_MB', 50).to_i
   end
 end

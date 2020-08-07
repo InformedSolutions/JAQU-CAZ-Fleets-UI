@@ -39,7 +39,7 @@ module VehiclesManagement
     #
     # Returns a boolean.
     def validate
-      raise CsvUploadException, error if no_file_selected? || invalid_extname?
+      raise CsvUploadException, error if no_file_selected? || invalid_extname? || filesize_too_big?
     end
 
     # Checks if file is present.
@@ -60,6 +60,14 @@ module VehiclesManagement
       return if File.extname(file.original_filename).downcase == '.csv'
 
       @error = I18n.t('csv.errors.invalid_ext')
+    end
+
+    # Checks if file size not bigger than `Rails.configuration.x.csv_file_size_limit`
+    # Returns a boolean if filename is compliant with the naming rules
+    # Returns a string if not.
+    def filesize_too_big?
+      csv_file_size_limit = Rails.configuration.x.csv_file_size_limit
+      @error = "The CSV must be smaller than #{csv_file_size_limit}MB" if file.size > csv_file_size_limit.megabytes
     end
 
     # Uploading file to AWS S3.

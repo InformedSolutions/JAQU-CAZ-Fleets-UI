@@ -6,9 +6,7 @@ end
 
 Given('I have no vehicles in my fleet and visit the manage vehicles page') do
   mock_empty_fleet
-  mock_debits
-  mock_users
-  login_owner
+  login_user(permissions: 'MANAGE_VEHICLES')
   visit fleets_path
 end
 
@@ -17,15 +15,13 @@ When('I have one vehicle in my fleet') do
 end
 
 When('I visit the manage vehicles page') do
-  mock_debits
-  mock_users
-  login_owner
+  login_user(permissions: 'MANAGE_VEHICLES')
   visit fleets_path
 end
 
 When('I visit the submission method page') do
-  mock_api_responses
-  login_owner
+  mock_vehicles_in_fleet
+  login_user(permissions: 'MANAGE_VEHICLES')
   visit submission_method_fleets_path
 end
 

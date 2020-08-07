@@ -4,13 +4,13 @@ Feature: Uploads
   I want to add vehicles to my fleet by submitting CSV file
 
   Scenario: Uploading file with no vehicles in the fleet
-    When I have no vehicles in my fleet
+    Given I have no vehicles in my fleet
       And I visit the upload page
     Then I should see "Upload your vehicle list"
-    When I press upload
+    When I press Upload file button
     Then I should see "Select a CSV file to upload" 2 times
     When I attach a file
-      And I press upload
+      And I press Upload file button
     Then I should be on the processing page
     When I reload the page
     Then I should be on the processing page
@@ -25,10 +25,10 @@ Feature: Uploads
     When I have vehicles in my fleet
       And I visit the upload page
     Then I should see "Replace and upload a new list of vehicles"
-    When I press upload
+    When I press Upload file button
     Then I should see "Select a CSV file to upload" 2 times
     When I attach a file
-      And I press upload
+      And I press Upload file button
     Then I should be on the processing page
       And My upload is successful
       And I reload the page
@@ -57,3 +57,9 @@ Feature: Uploads
       And I reload the page
     Then I should see "Upload your vehicle list"
       And I should see "Some error message"
+
+  Scenario: Upload a csv file whose size is too big
+    Given I have no vehicles in my fleet
+      And I visit the upload page
+    When I upload a csv file whose size is too big
+    Then I should see "The CSV must be smaller than 50MB"

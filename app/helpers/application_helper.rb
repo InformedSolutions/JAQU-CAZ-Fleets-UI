@@ -63,7 +63,7 @@ module ApplicationHelper
   # Generates a unique link for presentation on the vehicle management page that navigates a user
   # to the VRN entry page in IOD journey.
   def single_vehicle_payment_link
-    Rails.configuration.x.payments_ui_url + '/vehicles/enter_details'
+    "#{Rails.configuration.x.payments_ui_url}/vehicles/enter_details"
   end
 
   # rubocop:disable Style/AsciiComments

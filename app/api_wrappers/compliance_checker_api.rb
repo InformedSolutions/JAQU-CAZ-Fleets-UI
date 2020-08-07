@@ -9,7 +9,7 @@
 # All methods are on the class level, so there is no initializer method.
 #
 class ComplianceCheckerApi < BaseApi
-  base_uri ENV.fetch('PAYMENTS_API_URL', 'localhost:3001') + '/v1/payments'
+  base_uri "#{ENV.fetch('PAYMENTS_API_URL', 'localhost:3001')}/v1/payments"
 
   class << self
     ##

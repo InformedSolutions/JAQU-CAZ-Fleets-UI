@@ -6,7 +6,7 @@
 # See {FleetsApi}[rdoc-ref:FleetsApi] for fleet related actions.
 #
 class AccountsApi < BaseApi
-  base_uri ENV.fetch('ACCOUNTS_API_URL', 'localhost:3001') + '/v1'
+  base_uri "#{ENV.fetch('ACCOUNTS_API_URL', 'localhost:3001')}/v1"
 
   class << self
     ##
