@@ -85,7 +85,7 @@ Feature: Debits
 
   Scenario: Adding a new mandate with disabled CAZ
     Given I have inactive mandates for each CAZ but one of them is disabled
-      And I visit the add new mandate page
-      And I should be on the add new mandate page
-    Then I should see 'Leeds'
-    Then I should not see 'Birmingham'
+    When I visit the add new mandate page
+    Then I should be on the add new mandate page
+      And I should see 'Leeds'
+      And I should not see 'Birmingham'
