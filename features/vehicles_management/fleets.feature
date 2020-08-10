@@ -10,6 +10,12 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the upload page
 
+  Scenario: Visiting the manage fleet page with not empty fleet
+    When I have vehicles in my fleet
+      And I visit the manage vehicles page
+    Then I should see 'Live' 3 times
+    Then I should see 'Upcoming' 1 times
+
   Scenario: No selection on the submission method page
     When I visit the submission method page
       And I press the Continue

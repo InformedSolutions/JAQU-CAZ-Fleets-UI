@@ -42,6 +42,11 @@ class CleanAirZone
     Date.parse(caz_data[:active_charge_start_date])
   end
 
+  # Check if clean air zone charge is live, eg. 'true'
+  def live?
+    !active_charge_start_date.future?
+  end
+
   # Checks if zones was already checked by user before.
   # Returns a boolean.
   def checked?(checked_zones)
