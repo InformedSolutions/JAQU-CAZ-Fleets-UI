@@ -53,6 +53,11 @@ And('I want to confirm my payment without any active Direct Debit mandate') do
   mock_requests_to_payments_api_with(return_url: result_payments_path)
 end
 
+And('I want to confirm my payment when Direct Debits are disabled') do
+  mock_direct_debit_disabled
+  mock_requests_to_payments_api_with(return_url: result_payments_path)
+end
+
 Then('I should be on the success payment page') do
   expect_path(success_payments_path)
 end
