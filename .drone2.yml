@@ -1307,7 +1307,7 @@ steps:
       - pip install awscli
       - mkdir ~/.aws
       - echo -e "[profile target_acc]\nrole_arn = $SRC_AWS_ACCOUNT_ROLE\ncredential_source = Environment\nrole_session_name = AWSACCOUNT" > ~/.aws/config
-      - TASKDEF=`aws ecs describe-services --profile target_acc --cluster accounts-cluster-sit --services accounts-sit-ecs-service | jq --raw-output '.services[0].taskDefinition'`
+      - TASKDEF=`aws ecs describe-services --profile target_acc --cluster accounts-cluster-preprod --services accounts-preprod-ecs-service | jq --raw-output '.services[0].taskDefinition'`
       - export TF_VAR_build_number=`aws ecs describe-task-definition --profile target_acc --task-definition $TASKDEF | jq --raw-output '.taskDefinition.containerDefinitions[0].image' | cut -f 2 -d ':'`
       - mkdir ~/.ssh
       - echo -e "$GIT_PRIVATE_SSH" > ~/.ssh/id_rsa
