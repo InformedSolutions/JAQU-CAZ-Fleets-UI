@@ -63,6 +63,21 @@ Feature: Fleets
     Then I should be on the success payment page
       And I should see success message
 
+  Scenario: Making a card payment with vehicles in fleet when Direct Debits are disabled
+    When I have vehicles in my fleet
+      And I visit the make payment page
+    Then I select 'Birmingham'
+      And I press the Continue
+    Then I should be on the payment matrix page
+    When I select any date for vrn on the payment matrix
+      And I press the Continue
+    Then I should be on the confirm payment page
+      And I want to confirm my payment when Direct Debits are disabled
+      And I confirm that my vehicles are not exempt from payment
+      And I press the Continue
+    Then I should be on the success payment page
+      And I should see success message
+
   Scenario: Visiting the the matrix page when all dates are unpaid
     When I have vehicles in my fleet that are not paid
       And I visit the make payment page

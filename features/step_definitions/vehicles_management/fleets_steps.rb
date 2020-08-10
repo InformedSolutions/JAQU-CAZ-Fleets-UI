@@ -45,6 +45,7 @@ When('I have vehicles in my fleet') do
   mock_clean_air_zones
   mock_vehicles_in_fleet
   mock_caz_mandates
+  mock_direct_debit_enabled
 end
 
 When('I want to pay for CAZ which started charging {int} days ago') do |start_days_ago|
