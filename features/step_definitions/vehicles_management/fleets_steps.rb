@@ -29,6 +29,10 @@ Then('I should be on the submission method page') do
   expect(page).to have_current_path(submission_method_fleets_path)
 end
 
+Then('I should be able to check CAZ charging statuses') do
+  expect(page).to have_current_path(submission_method_fleets_path)
+end
+
 When('I select manual entry') do
   choose('Individual')
 end
