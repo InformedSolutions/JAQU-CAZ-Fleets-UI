@@ -154,7 +154,9 @@ module Payments
     #    :GET /payments/select_payment_method
     #
     def select_payment_method
-      redirect_to initiate_payments_path if @debit.caz_mandates(@zone_id).nil?
+      return if helpers.direct_debits_enabled? && @debit.caz_mandates(@zone_id).present?
+
+      redirect_to initiate_payments_path
     end
 
     ##

@@ -49,6 +49,28 @@ describe CleanAirZone, type: :model do
     end
   end
 
+  describe '.live?' do
+    it 'returns true' do
+      expect(subject.live?).to eq(true)
+    end
+
+    context 'when active_charge_start_date is today' do
+      let(:active_charge_start_date) { Time.zone.today.to_s }
+
+      it 'returns true' do
+        expect(subject.live?).to eq(true)
+      end
+    end
+
+    context 'when active_charge_start_date is in the future' do
+      let(:active_charge_start_date) { Date.tomorrow.to_s }
+
+      it 'returns false' do
+        expect(subject.live?).to eq(false)
+      end
+    end
+  end
+
   describe '.checked?' do
     it 'returns true' do
       expect(subject.checked?([id])).to eq(true)

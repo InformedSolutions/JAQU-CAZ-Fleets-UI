@@ -29,6 +29,10 @@ Then('I should be on the submission method page') do
   expect(page).to have_current_path(submission_method_fleets_path)
 end
 
+Then('I should be able to check CAZ charging statuses') do
+  expect(page).to have_current_path(submission_method_fleets_path)
+end
+
 When('I select manual entry') do
   choose('Individual')
 end
@@ -45,6 +49,7 @@ When('I have vehicles in my fleet') do
   mock_clean_air_zones
   mock_vehicles_in_fleet
   mock_caz_mandates
+  mock_direct_debit_enabled
 end
 
 When('I want to pay for CAZ which started charging {int} days ago') do |start_days_ago|

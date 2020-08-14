@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe 'PaymentsController - GET #select_payment_method' do
   subject { get select_payment_method_payments_path }
+  before { mock_direct_debit_enabled }
 
   context 'correct permissions' do
     before do
@@ -30,6 +31,18 @@ describe 'PaymentsController - GET #select_payment_method' do
 
       it 'renders select payment method page' do
         expect(response).to render_template('payments/select_payment_method')
+      end
+    end
+
+    context 'when Direct Debits feature disabled' do
+      before do
+        mock_direct_debit_disabled
+        mock_caz_mandates
+        subject
+      end
+
+      it 'redirects to initiate payment path' do
+        expect(response).to redirect_to(initiate_payments_path)
       end
     end
   end

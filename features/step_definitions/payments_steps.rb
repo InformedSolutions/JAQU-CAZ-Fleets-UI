@@ -2,7 +2,6 @@
 
 When('I visit the make payment page') do
   mock_debits
-  mock_users
   login_user(permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS])
   visit payments_path
 end
@@ -50,6 +49,11 @@ end
 
 And('I want to confirm my payment without any active Direct Debit mandate') do
   mock_caz_mandates('inactive_caz_mandates')
+  mock_requests_to_payments_api_with(return_url: result_payments_path)
+end
+
+And('I want to confirm my payment when Direct Debits are disabled') do
+  mock_direct_debit_disabled
   mock_requests_to_payments_api_with(return_url: result_payments_path)
 end
 
