@@ -66,7 +66,7 @@ Feature: Debits
       And I should see 'Set up new Direct Debit' link
       And I should not see 'You have created a Direct Debit for every Clean Air Zone.'
     Then I press `Set up new Direct Debit` button
-      And I should see 'Which Clean Air Zone do you need to set up a Direct Debit with?'
+      And I should see 'Zones where the local authority supports Direct Debit payments, and you haven\'t set one up yet will appear here.'
 
   Scenario: Visiting the manage Direct Debit page with all mandates
     When I have created all the possible mandates
