@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 When('I visit the upload page') do
-  login_user(permissions: ['MANAGE_VEHICLES'])
+  login_user({ permissions: ['MANAGE_VEHICLES'] })
   visit uploads_path
 end
 
@@ -27,16 +27,26 @@ end
 
 When('I am on the processing page') do
   mock_vehicles_in_fleet
-  login_user(permissions: 'MANAGE_VEHICLES')
-  page.set_rack_session(job: { job_name: SecureRandom.uuid, correlation_id: SecureRandom.uuid })
-  allow(FleetsApi).to receive(:job_status).and_return(status: 'running')
+  account_id = SecureRandom.uuid
+  login_user(permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS], account_id: account_id)
+  Redis.new.hmset(
+    "account_id_#{account_id}",
+    'job_id', SecureRandom.uuid,
+    'correlation_id', SecureRandom.uuid
+  )
+  allow(FleetsApi).to receive(:job_status).and_return(status: 'RUNNING')
   visit processing_uploads_path
 end
 
-When('My upload is successful') do
-  allow(FleetsApi).to receive(:job_status).and_return(status: 'success')
+When('My upload is finished') do
+  allow(FleetsApi).to receive(:job_status).and_return(status: 'FINISHED_')
   mock_clean_air_zones
   mock_vehicles_in_fleet
+end
+
+When('My upload is calculating') do
+  allow(FleetsApi).to receive(:job_status).and_return(status: 'CHARGEABILITY_CALCULATION_IN_PROGRESS')
+  mock_clean_air_zones
 end
 
 When('My upload is failed with error: {string}') do |error|

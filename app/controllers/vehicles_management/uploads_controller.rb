@@ -40,7 +40,7 @@ module VehiclesManagement
     end
 
     ##
-    # Renders processing page. Checks if file_name is present
+    # Renders processing page. Checks if job_id and job_correlation_id are present in redis
     #
     # ==== Path
     #
@@ -54,13 +54,21 @@ module VehiclesManagement
     #    * +correlation_id+ - uuid, ID used to identify calls
     #
     def processing
-      return redirect_to uploads_path unless job_data
+      return redirect_to uploads_path unless job_id && job_correlation_id
 
-      job = FleetsApi.job_status(
-        job_name: job_data[:job_name],
-        correlation_id: job_data[:correlation_id]
-      )
+      job = FleetsApi.job_status(job_id: job_id, correlation_id: job_correlation_id)
       react_to_status(job)
+    end
+
+    ##
+    # Renders calculating chargeability page
+    #
+    # ==== Path
+    #
+    #    :GET /upload/calculating_chargeability
+    #
+    def calculating_chargeability
+      # renders static page
     end
 
     ##
@@ -86,38 +94,39 @@ module VehiclesManagement
     end
 
     # Register upload job in the backend API.
-    # Sets proper data in the session.
+    # Sets proper data to the redis
     def register_job(filename)
       correlation_id = SecureRandom.uuid
-      job_name = FleetsApi.register_job(filename: filename, correlation_id: correlation_id)
-      session[:job] = {
-        job_name: job_name,
-        filename: filename,
-        correlation_id: correlation_id
-      }
+      job_id = FleetsApi.register_job(filename: filename, correlation_id: correlation_id)
+      add_data_to_redis(correlation_id, job_id)
     end
 
     # Handles controller reaction based on the given job status.
     # * 'RUNNING' - renders the page
-    # * 'SUCCESS' - redirects to fleets index view
+    # * 'CHARGEABILITY_CALCULATION_IN_PROGRESS' or 'FINISHED_' - redirects to local vehicle exemptions page
     # * 'FAILURE' = renders uploads index with errors
     #
     def react_to_status(job)
       status = job[:status].upcase
       return if status == 'RUNNING'
 
-      session[:job] = nil
-      if status == 'SUCCESS'
-        handle_successful_processing
+      if status == 'CHARGEABILITY_CALCULATION_IN_PROGRESS'
+        redirect_to_local_exemptions
+      elsif status.include?('FINISHED_')
+        handle_finished_processing
       else
         handle_failed_processing(job)
       end
     end
 
-    # Handles successful scenario after CSV processing
-    def handle_successful_processing
+    # Handles finished scenario after CSV processing
+    def handle_finished_processing
       vrns_count = current_user.fleet.total_vehicles_count
       flash[:success] = I18n.t('vrn_form.messages.multiple_vrns_added', vrns_count: vrns_count)
+      redirect_to_local_exemptions
+    end
+
+    def redirect_to_local_exemptions
       session[:show_continue_button] = true
       redirect_to local_exemptions_vehicles_path
     end
@@ -129,9 +138,9 @@ module VehiclesManagement
       render :index
     end
 
-    # Returns hash with the job data
-    def job_data
-      @job_data ||= session[:job]&.symbolize_keys
+    # Adding hash to redis
+    def add_data_to_redis(correlation_id, job_id)
+      Redis.new.hmset(account_id_redis_key, 'job_id', job_id, 'correlation_id', correlation_id)
     end
   end
 end
