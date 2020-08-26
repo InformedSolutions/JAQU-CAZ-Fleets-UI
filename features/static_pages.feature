@@ -16,5 +16,5 @@ Feature: Static Pages
 
   Scenario: User sees privacy notice page
     Given I am on the Sign in page
-    When I press footer link 'Privacy Notice'
+    When I press footer link 'Privacy notice'
     Then I should see 'Drive in a Clean Air Zone'
