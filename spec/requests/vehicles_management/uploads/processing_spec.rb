@@ -63,6 +63,14 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
           end
         end
 
+        context 'when status is FINISHED_WITH_ERRORS' do
+          let(:status) { 'FINISHED_WITH_ERRORS' }
+
+          it 'redirects to local exemptions page' do
+            expect(response).to redirect_to(local_exemptions_vehicles_path)
+          end
+        end
+
         describe 'running' do
           let(:status) { 'running' }
 
