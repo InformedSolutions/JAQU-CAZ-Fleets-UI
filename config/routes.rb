@@ -77,6 +77,7 @@ Rails.application.routes.draw do
     resources :uploads, only: %i[index create] do
       collection do
         get :processing
+        get :calculating_chargeability
         get :download_template
       end
     end

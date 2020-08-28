@@ -60,3 +60,7 @@ end
 Then('I should be on the local vehicles exemptions page') do
   expect_path(local_exemptions_vehicles_path)
 end
+
+Then('I should be on the calculating chargeability page') do
+  expect_path(calculating_chargeability_uploads_path)
+end

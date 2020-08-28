@@ -13,6 +13,7 @@ module Payments
     before_action :check_la, only: %i[matrix submit review select_payment_method no_chargeable_vehicles]
     before_action :assign_back_button_url, only: %i[index select_payment_method]
     before_action :assign_debit, only: %i[select_payment_method]
+    before_action :check_job_status, only: %i[matrix]
     before_action :assign_zone_and_dates, only: %i[matrix]
 
     ##
@@ -54,6 +55,7 @@ module Payments
     #    :GET /payments/matrix
     #
     def matrix
+      clear_job_data
       @search = helpers.payment_query_data[:search]
       @errors = validate_search_params unless @search.nil?
       @charges = @errors || @search.nil? ? charges : charges_by_vrn
@@ -243,8 +245,7 @@ module Payments
     # Fetches charges with params saved in the session
     def charges
       query_data = helpers.payment_query_data
-      data = current_user.charges(zone_id: @zone_id, vrn: query_data[:vrn],
-                                  direction: query_data[:direction])
+      data = current_user.charges(zone_id: @zone_id, vrn: query_data[:vrn], direction: query_data[:direction])
       SessionManipulation::AddVehicleDetails.call(session: session, params: data.vehicle_list)
       data
     end
@@ -283,6 +284,14 @@ module Payments
       service = Payments::PaymentDates.new(charge_start_date: @zone.active_charge_start_date)
       @dates = service.chargeable_dates
       @d_day_notice = service.d_day_notice
+    end
+
+    # Checks job status and depends on it redirects to calculating chargeability page
+    def check_job_status
+      return unless job_id && job_correlation_id
+
+      status = FleetsApi.job_status(job_id: job_id, correlation_id: job_correlation_id)[:status].upcase
+      redirect_to calculating_chargeability_uploads_path unless status.include?('FINISHED_')
     end
   end
   # rubocop:enable Metrics/ClassLength

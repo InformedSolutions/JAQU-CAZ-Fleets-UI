@@ -46,7 +46,7 @@ class FleetsApi < AccountsApi
     #
     # ==== Attributes
     #
-    # * +job_name+ - Job name returned in register_job call, eg '2ad47f86-8365-47ee-863b-dae6dbf69b3e'
+    # * +job_id+ - Job id returned in register_job call, eg '2ad47f86-8365-47ee-863b-dae6dbf69b3e'
     # * +correlation_id+ - Correlation id (same as in register_job call), eg '98faf123-d201-48cb-8fd5-4b30c1f80918'
     #
     # ==== Example
@@ -62,11 +62,11 @@ class FleetsApi < AccountsApi
     # * success - { status: 'SUCCESS', errors: [] }
     # * failure - { status: 'FAILURE', errors: ['Invalid VRN'] }
     #
-    def job_status(job_name:, correlation_id:)
+    def job_status(job_id:, correlation_id:)
       log_action('Getting job status')
       request(
         :get,
-        "/accounts/register-csv-from-s3/jobs/#{job_name}",
+        "/accounts/register-csv-from-s3/jobs/#{job_id}",
         headers: custom_headers(correlation_id)
       ).symbolize_keys
     end
