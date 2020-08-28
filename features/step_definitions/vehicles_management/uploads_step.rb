@@ -29,7 +29,7 @@ When('I am on the processing page') do
   mock_vehicles_in_fleet
   account_id = SecureRandom.uuid
   login_user(permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS], account_id: account_id)
-  Redis.new.hmset(
+  REDIS.hmset(
     "account_id_#{account_id}",
     'job_id', SecureRandom.uuid,
     'correlation_id', SecureRandom.uuid
