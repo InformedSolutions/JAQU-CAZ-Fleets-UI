@@ -140,7 +140,7 @@ module VehiclesManagement
 
     # Adding hash to redis
     def add_data_to_redis(correlation_id, job_id)
-      Redis.current.hmset(account_id_redis_key, 'job_id', job_id, 'correlation_id', correlation_id)
+      REDIS.hmset(account_id_redis_key, 'job_id', job_id, 'correlation_id', correlation_id)
     end
   end
 end

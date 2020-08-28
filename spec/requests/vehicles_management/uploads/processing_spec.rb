@@ -23,9 +23,8 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
       let(:errors) { [] }
 
       before do
-        redis = Redis.new
         account = "account_id_#{user.account_id}"
-        redis.hmset(account, 'job_id', job_id, 'correlation_id', correlation_id)
+        REDIS.hmset(account, 'job_id', job_id, 'correlation_id', correlation_id)
         allow(FleetsApi).to receive(:job_status).and_return(status: status, errors: errors)
         mock_fleet(create_empty_fleet)
       end

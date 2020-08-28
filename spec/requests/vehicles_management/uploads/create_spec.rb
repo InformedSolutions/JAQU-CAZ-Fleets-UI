@@ -41,11 +41,11 @@ describe 'VehiclesManagement::UploadsController - POST #create' do
         end
 
         it 'sets job id in redis' do
-          expect(Redis.current.hget("account_id_#{user.account_id}", 'job_id')).to eq(job_id)
+          expect(REDIS.hget("account_id_#{user.account_id}", 'job_id')).to eq(job_id)
         end
 
         it 'sets correlation_id in redis' do
-          expect(Redis.current.hget("account_id_#{user.account_id}", 'correlation_id'))
+          expect(REDIS.hget("account_id_#{user.account_id}", 'correlation_id'))
             .to eq(correlation_id)
         end
       end
