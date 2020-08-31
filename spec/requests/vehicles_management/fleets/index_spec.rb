@@ -6,7 +6,9 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
   subject { get fleets_path }
 
   context 'correct permissions' do
-    before { sign_in manage_vehicles_user }
+    before { sign_in user }
+
+    let(:user) { manage_vehicles_user }
 
     context 'with empty fleet' do
       before { mock_fleet(create_empty_fleet) }
@@ -18,18 +20,59 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
     end
 
     context 'with vehicles in fleet' do
-      before do
-        mock_fleet
-        mock_caz_list
-        subject
+      before { mock_caz_list }
+
+      context 'and without upload data in redis' do
+        before do
+          mock_fleet
+          subject
+        end
+
+        it 'renders manage vehicles page' do
+          expect(response).to render_template('fleets/index')
+        end
+
+        it 'sets default page value to 1' do
+          expect(assigns(:pagination).page).to eq(1)
+        end
+
+        it 'not sets :success flash message' do
+          expect(flash[:success]).to be_nil
+        end
       end
 
-      it 'renders manage vehicles page' do
-        expect(response).to render_template('fleets/index')
-      end
+      context 'with upload data in redis' do
+        before do
+          account = "account_id_#{user.account_id}"
+          REDIS.hmset(account, 'job_id', SecureRandom.uuid, 'correlation_id', SecureRandom.uuid)
+          allow(FleetsApi).to receive(:job_status).and_return(status: status, errors: [])
+          mock_fleet
+          subject
+        end
 
-      it 'sets default page value to 1' do
-        expect(assigns(:pagination).page).to eq(1)
+        context 'and when status is FINISHED_' do
+          let(:status) { 'FINISHED_' }
+
+          it 'renders manage vehicles page' do
+            expect(response).to render_template('fleets/index')
+          end
+
+          it 'sets :success flash message' do
+            expect(flash[:success]).to eq('You have successfully uploaded 45 vehicles to your vehicle list.')
+          end
+        end
+
+        context 'and when status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
+          let(:status) { 'CHARGEABILITY_CALCULATION_IN_PROGRESS' }
+
+          it 'redirects to calculating chargeability page' do
+            expect(response).to redirect_to(calculating_chargeability_uploads_path)
+          end
+
+          it 'not sets :success flash message' do
+            expect(flash[:success]).to be_nil
+          end
+        end
       end
     end
 

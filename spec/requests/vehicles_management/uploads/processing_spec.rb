@@ -56,10 +56,6 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
           it 'redirects to local exemptions page' do
             expect(response).to redirect_to(local_exemptions_vehicles_path)
           end
-
-          it 'sets :success flash message' do
-            expect(flash[:success]).to eq('You have successfully uploaded 45 vehicles to your vehicle list.')
-          end
         end
 
         context 'when status is FINISHED_WITH_ERRORS' do

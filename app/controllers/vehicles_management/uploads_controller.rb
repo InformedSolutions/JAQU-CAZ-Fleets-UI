@@ -110,22 +110,14 @@ module VehiclesManagement
       status = job[:status].upcase
       return if status == 'RUNNING'
 
-      if status == 'CHARGEABILITY_CALCULATION_IN_PROGRESS'
+      if status == 'CHARGEABILITY_CALCULATION_IN_PROGRESS' || status.include?('FINISHED_')
         redirect_to_local_exemptions
-      elsif status.include?('FINISHED_')
-        handle_finished_processing
       else
         handle_failed_processing(job)
       end
     end
 
-    # Handles finished scenario after CSV processing
-    def handle_finished_processing
-      vrns_count = current_user.fleet.total_vehicles_count
-      flash[:success] = I18n.t('vrn_form.messages.multiple_vrns_added', vrns_count: vrns_count)
-      redirect_to_local_exemptions
-    end
-
+    # Adding `show_continue_button` to the session and redirects to local exemptions page
     def redirect_to_local_exemptions
       session[:show_continue_button] = true
       redirect_to local_exemptions_vehicles_path
