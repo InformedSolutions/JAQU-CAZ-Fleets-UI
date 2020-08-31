@@ -144,7 +144,7 @@ module VehiclesManagement
     end
 
     ##
-    # Renders the page for vehicles not found in the DVLA databsse.
+    # Renders the page for vehicles not found in the DVLA database.
     #
     # ==== Path
     #

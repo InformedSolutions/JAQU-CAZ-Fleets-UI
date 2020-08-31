@@ -19,7 +19,7 @@ Feature: Uploads
     Then I should be on the local vehicles exemptions page
       And I press 'Continue' link
     Then I should be on the manage vehicles page
-      And I should see 'You have successfully uploaded'
+      And I should see 'You have successfully uploaded 15 vehicles'
 
   Scenario: Uploading file with vehicles in the fleets
     When I have vehicles in my fleet
