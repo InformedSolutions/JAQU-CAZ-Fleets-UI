@@ -8,6 +8,8 @@ module VehiclesManagement
   #
   class FleetsController < ApplicationController
     include CheckPermissions
+    include ChargeabilityCalculator
+
     before_action -> { check_permissions(allow_manage_vehicles?) }
     before_action :assign_fleet
     before_action :check_vrn, only: %i[delete confirm_delete]
@@ -196,21 +198,6 @@ module VehiclesManagement
     # Returns redirect path after successful removal of vehicle from the fleet
     def after_removal_redirect_path(fleet)
       fleet.empty? ? dashboard_path : fleets_path
-    end
-
-    # Checks job status and depends on it adding a flash message or redirects to calculating chargeability page
-    def check_job_status
-      return unless job_id && job_correlation_id
-
-      status = FleetsApi.job_status(job_id: job_id, correlation_id: job_correlation_id)[:status].upcase
-      if status.include?('FINISHED_')
-        flash.now[:success] = I18n.t(
-          'vrn_form.messages.multiple_vrns_added',
-          vrns_count: @fleet.total_vehicles_count
-        )
-      else
-        redirect_to calculating_chargeability_uploads_path
-      end
     end
 
     # Clears show_continue_button from session when user lands on fleets page after end of CSV import

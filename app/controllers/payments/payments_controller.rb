@@ -9,6 +9,8 @@ module Payments
   # rubocop:disable Metrics/ClassLength
   class PaymentsController < ApplicationController
     include CheckPermissions
+    include ChargeabilityCalculator
+
     before_action -> { check_permissions(allow_make_payments?) }
     before_action :check_la, only: %i[matrix submit review select_payment_method no_chargeable_vehicles]
     before_action :assign_back_button_url, only: %i[index select_payment_method]
@@ -284,14 +286,6 @@ module Payments
       service = Payments::PaymentDates.new(charge_start_date: @zone.active_charge_start_date)
       @dates = service.chargeable_dates
       @d_day_notice = service.d_day_notice
-    end
-
-    # Checks job status and depends on it redirects to calculating chargeability page
-    def check_job_status
-      return unless job_id && job_correlation_id
-
-      status = FleetsApi.job_status(job_id: job_id, correlation_id: job_correlation_id)[:status].upcase
-      redirect_to calculating_chargeability_uploads_path unless status.include?('FINISHED_')
     end
   end
   # rubocop:enable Metrics/ClassLength

@@ -50,24 +50,16 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
           end
         end
 
-        context 'when status is FINISHED_' do
-          let(:status) { 'FINISHED_' }
+        context 'when status is SUCCESS' do
+          let(:status) { 'SUCCESS' }
 
           it 'redirects to local exemptions page' do
             expect(response).to redirect_to(local_exemptions_vehicles_path)
           end
         end
 
-        context 'when status is FINISHED_WITH_ERRORS' do
-          let(:status) { 'FINISHED_WITH_ERRORS' }
-
-          it 'redirects to local exemptions page' do
-            expect(response).to redirect_to(local_exemptions_vehicles_path)
-          end
-        end
-
-        describe 'running' do
-          let(:status) { 'running' }
+        describe 'when status is RUNNING' do
+          let(:status) { 'RUNNING' }
 
           it 'is successful' do
             expect(response).to have_http_status(:success)
@@ -78,8 +70,8 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
           end
         end
 
-        describe 'failure' do
-          let(:status) { 'failure' }
+        describe 'FAILURE' do
+          let(:status) { 'FAILURE' }
           let(:errors) { ['Some error'] }
 
           it 'renders the upload page' do

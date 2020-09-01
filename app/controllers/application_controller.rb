@@ -123,24 +123,4 @@ class ApplicationController < ActionController::Base
   def assign_debit
     @debit = DirectDebits::Debit.new(current_user.account_id)
   end
-
-  # Returns job_id for pending job
-  def job_id
-    REDIS.hget(account_id_redis_key, 'job_id')
-  end
-
-  # Returns correlation_id for pending job
-  def job_correlation_id
-    REDIS.hget(account_id_redis_key, 'correlation_id')
-  end
-
-  # Clears pending job data for current user
-  def clear_job_data
-    REDIS.del(account_id_redis_key)
-  end
-
-  # Returns string, e.g. 'account_id_214e8858-5f61-44be-b17d-571a94bee1b0'
-  def account_id_redis_key
-    "account_id_#{current_user.account_id}"
-  end
 end

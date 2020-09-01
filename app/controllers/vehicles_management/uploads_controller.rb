@@ -8,6 +8,8 @@ module VehiclesManagement
   #
   class UploadsController < ApplicationController
     include CheckPermissions
+    include ChargeabilityCalculator
+
     before_action -> { check_permissions(allow_manage_vehicles?) }
     rescue_from CsvUploadException, with: :render_upload_error
 
@@ -103,14 +105,14 @@ module VehiclesManagement
 
     # Handles controller reaction based on the given job status.
     # * 'RUNNING' - renders the page
-    # * 'CHARGEABILITY_CALCULATION_IN_PROGRESS' or 'FINISHED_' - redirects to local vehicle exemptions page
+    # * 'CHARGEABILITY_CALCULATION_IN_PROGRESS' or 'SUCCESS' - redirects to local vehicle exemptions page
     # * 'FAILURE' = renders uploads index with errors
     #
     def react_to_status(job)
       status = job[:status].upcase
       return if status == 'RUNNING'
 
-      if status == 'CHARGEABILITY_CALCULATION_IN_PROGRESS' || status.include?('FINISHED_')
+      if %w[CHARGEABILITY_CALCULATION_IN_PROGRESS SUCCESS].include?(status)
         redirect_to_local_exemptions
       else
         handle_failed_processing(job)
@@ -128,11 +130,6 @@ module VehiclesManagement
       @job_errors = job[:errors]
       @vehicles_present = !current_user.fleet.empty?
       render :index
-    end
-
-    # Adding hash to redis
-    def add_data_to_redis(correlation_id, job_id)
-      REDIS.hmset(account_id_redis_key, 'job_id', job_id, 'correlation_id', correlation_id)
     end
   end
 end

@@ -50,8 +50,8 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
           subject
         end
 
-        context 'and when status is FINISHED_' do
-          let(:status) { 'FINISHED_' }
+        context 'and when status is SUCCESS' do
+          let(:status) { 'SUCCESS' }
 
           it 'renders manage vehicles page' do
             expect(response).to render_template('fleets/index')
