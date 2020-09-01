@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - #index' do
+describe 'PaymentsController - GET #index' do
   subject { get payments_path }
 
   before { sign_in create_user }

@@ -114,11 +114,11 @@ module DirectDebits
     #    POST /payments/debits
     #
     def create
-      form = LocalAuthorityForm.new(authority: params['local-authority'])
+      form = LocalAuthorityForm.new(caz_id: params['caz_id'])
       if form.valid?
-        create_debit_mandate(form.authority)
+        create_debit_mandate(form.caz_id)
       else
-        redirect_to new_debit_path, alert: confirmation_error(form, :authority)
+        redirect_to new_debit_path, alert: confirmation_error(form, :caz_id)
       end
     end
 

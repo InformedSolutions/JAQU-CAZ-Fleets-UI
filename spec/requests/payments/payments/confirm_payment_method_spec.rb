@@ -9,7 +9,7 @@ describe 'PaymentsController - POST #confirm_payment_method' do
 
   context 'correct permissions' do
     before do
-      add_to_session(new_payment: { la_id: @uuid, details: {} })
+      add_to_session(new_payment: { caz_id: @uuid, details: {} })
       allow(PaymentsApi).to receive(:create_payment).and_return(
         'paymentId' => @uuid,
         'nextUrl' => result_payments_path

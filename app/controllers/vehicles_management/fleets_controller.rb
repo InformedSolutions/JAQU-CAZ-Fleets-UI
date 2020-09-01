@@ -40,12 +40,12 @@ module VehiclesManagement
     def submit_method
       form = SubmissionMethodForm.new(submission_method: params['submission-method'])
       session[:submission_method] = form.submission_method
-      unless form.valid?
+      if form.valid?
+        redirect_to form.manual? ? enter_details_vehicles_path : uploads_path
+      else
         @errors = form.errors
-        render :submission_method and return
+        render :submission_method
       end
-
-      redirect_to form.manual? ? enter_details_vehicles_path : uploads_path
     end
 
     ##

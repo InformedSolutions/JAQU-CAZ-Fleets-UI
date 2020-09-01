@@ -7,7 +7,7 @@ describe 'DirectDebits::DebitsController - POST #initiate' do
 
   context 'correct permissions' do
     before do
-      add_to_session(new_payment: { la_id: @uuid })
+      add_to_session(new_payment: { caz_id: @uuid })
       allow(Payments::MakeDebitPayment).to receive(:call)
         .and_return(read_response('/debits/create_payment.json'))
       sign_in make_payments_user

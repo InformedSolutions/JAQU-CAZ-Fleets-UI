@@ -128,3 +128,18 @@ Feature: Fleets
       And I should see 'Birmingham'
       And I should not see 'Leeds'
 
+  Scenario: Making a payment when another user is paying for in the same CAZ
+    When I have vehicles in my fleet
+    Then I visit the make payment page
+      And I select 'Birmingham'
+      And I press the Continue
+    Then I should be on the payment matrix page
+      And Second user prevented from making a payment that another user is paying for in the same CAZ
+      And I press 'Back' link
+    Then I should be on the make a payment page
+      And I select 'Leeds'
+      And I press the Continue
+    Then I should be on the payment matrix page
+      And Second user can now pay for Birmingham
+    Then After 16 minutes second user can pay for Leeds too
+
