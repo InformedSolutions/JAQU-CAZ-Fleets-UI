@@ -9,6 +9,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
     before { sign_in user }
 
     let(:user) { manage_vehicles_user }
+    let(:account_redis_key) { "account_id_#{user.account_id}" }
 
     context 'with empty fleet' do
       before { mock_fleet(create_empty_fleet) }
@@ -43,10 +44,9 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
 
       context 'with upload data in redis' do
         before do
-          account = "account_id_#{user.account_id}"
-          REDIS.hmset(account, 'job_id', SecureRandom.uuid, 'correlation_id', SecureRandom.uuid)
-          allow(FleetsApi).to receive(:job_status).and_return(status: status, errors: [])
+          REDIS.hmset(account_redis_key, 'job_id', SecureRandom.uuid, 'correlation_id', SecureRandom.uuid)
           mock_fleet
+          allow(FleetsApi).to receive(:job_status).and_return(status: status, errors: [])
           subject
         end
 
@@ -72,6 +72,24 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
           it 'not sets :success flash message' do
             expect(flash[:success]).to be_nil
           end
+        end
+      end
+
+      context 'and when api returns 404' do
+        before do
+          REDIS.hmset(account_redis_key, 'job_id', SecureRandom.uuid, 'correlation_id', SecureRandom.uuid)
+          mock_fleet
+          allow(FleetsApi).to receive(:job_status)
+            .and_raise(BaseApi::Error404Exception.new(404, '', {}))
+          subject
+        end
+
+        it 'render the view' do
+          expect(response).to render_template('index')
+        end
+
+        it 'deletes job data from redis' do
+          expect(REDIS.hget(account_redis_key, 'job_id')).to be_nil
         end
       end
     end

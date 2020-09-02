@@ -7,11 +7,14 @@ module ChargeabilityCalculator
   private
 
   # Checks job status and depends on it adding a flash message and redirects to proper page
+  # Clears job data from redis if api returns 404 error
   def check_job_status
     return unless job_id && job_correlation_id
 
     status = FleetsApi.job_status(job_id: job_id, correlation_id: job_correlation_id)[:status].upcase
     handle_job_status(status)
+  rescue BaseApi::Error404Exception
+    clear_job_data
   end
 
   # Adding hash to redis
