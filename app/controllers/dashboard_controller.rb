@@ -48,6 +48,7 @@ class DashboardController < ApplicationController
     session[:user_back_link_history] = nil
   end
 
+  # Calculates days to password expiry
   def days_to_password_expiry
     return unless current_user.password_update_timestamp
 
