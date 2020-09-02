@@ -16,7 +16,8 @@ class User
   devise :timeoutable
 
   # User attributes
-  attr_accessor :email, :owner, :permissions, :user_id, :account_id, :account_name, :login_ip
+  attr_accessor :email, :owner, :permissions, :user_id, :account_id, :account_name, :login_ip,
+                :password_update_timestamp
 
   # Delegates fleet methods to fleet
   delegate :vehicles, :add_vehicle, :remove_vehicle, :charges, :charges_by_vrn, to: :fleet
@@ -53,7 +54,8 @@ class User
       user_id: user_id,
       account_id: account_id,
       account_name: account_name,
-      login_ip: login_ip
+      login_ip: login_ip,
+      password_update_timestamp: password_update_timestamp
     }
   end
 
@@ -70,7 +72,8 @@ class User
       account_id: user_attributes['accountId'],
       account_name: user_attributes['accountName'],
       owner: user_attributes['owner'],
-      permissions: user_attributes['permissions']
+      permissions: user_attributes['permissions'],
+      password_update_timestamp: user_attributes['passwordUpdateTimestamp']
     )
   end
 end

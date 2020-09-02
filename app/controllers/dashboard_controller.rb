@@ -15,6 +15,7 @@ class DashboardController < ApplicationController
     @vehicles_count = current_user.fleet.total_vehicles_count
     @mandates_present = check_mandates
     @users_present = check_users
+    @days_count = days_to_password_expiry
   end
 
   private
@@ -45,5 +46,11 @@ class DashboardController < ApplicationController
     session[:new_payment] = nil
     session[:company_back_link_history] = nil
     session[:user_back_link_history] = nil
+  end
+
+  def days_to_password_expiry
+    return unless current_user.password_update_timestamp
+
+    90 - (Date.current.mjd - Date.parse(current_user.password_update_timestamp).mjd)
   end
 end

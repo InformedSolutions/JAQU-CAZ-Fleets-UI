@@ -9,6 +9,10 @@
 
       %h1.govuk-heading-l
         = title_and_header
+
+      - if @days_count && @days_count <= 10
+        = render 'update_password_notice'
+
       %p
         This service works by you telling us the number of days your vehicles drive in a Clean Air Zone.
         The number plates determine if the vehicles meet emissions standards in a zone.
