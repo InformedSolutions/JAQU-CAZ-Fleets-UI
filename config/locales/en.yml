@@ -38,7 +38,7 @@ en:
       password: 'Create a password'
       password_confirmation: 'Confirm password'
     hints:
-      password: 'Must be at least 12 characters long, include at least 1 upper case letter, a number and a special characer'
+      password: 'Must be at least 12 characters long, include at least 1 upper case letter, a number and a special character'
   vrn_form:
     errors:
       vrn_missing: 'Enter the number plate of the vehicle'
@@ -46,7 +46,7 @@ en:
       vrn_too_long: 'The number plate of the vehicle is too long'
       vrn_too_short: 'The number plate of the vehicle is too short'
     messages:
-      multiple_vrns_added: 'You have successfully uploaded %{vrns_count} to your vehicle list.'
+      multiple_vrns_added: 'You have successfully uploaded %{vrns_count} vehicles to your vehicle list.'
       single_vrn_added: 'You have successfully added %{vrn} to your vehicle list.'
       single_vrn_removed: 'You have successfully removed %{vrn} from your vehicle list.'
       vrn_already_exists: '%{vrn} already exists in your vehicle list.'

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module SignInHelper
-  def login_user(permissions:)
-    user = new_user(permissions: permissions)
+  def login_user(options)
+    user = new_user(options)
     allow_any_instance_of(User).to receive(:authentication).and_return(user)
     fill_sign_in_form
   end

@@ -8,9 +8,12 @@ module VehiclesManagement
   #
   class FleetsController < ApplicationController
     include CheckPermissions
+    include ChargeabilityCalculator
+
     before_action -> { check_permissions(allow_manage_vehicles?) }
     before_action :assign_fleet
     before_action :check_vrn, only: %i[delete confirm_delete]
+    before_action :check_job_status, only: %i[index]
     before_action :clear_show_continue_button, only: %i[index]
 
     ##
@@ -58,6 +61,7 @@ module VehiclesManagement
     # * +page+ - used to paginate vehicles list, defaults to 1, present in the query params
     #
     def index
+      clear_job_data
       return redirect_to submission_method_fleets_path if @fleet.empty?
 
       page = (params[:page] || 1).to_i
@@ -69,9 +73,9 @@ module VehiclesManagement
 
     ##
     # Verifies if user confirms to add another vehicle
-    # If yes, redirects to {upload vehicle}[rdoc-ref:FleetsController.upload]
+    # If yes, redirects to {upload vehicle}[rdoc-ref:upload]
     # If no, redirects to {dashboard page}[rdoc-ref:DashboardController.index]
-    # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:FleetsController.index]
+    # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:index]
     #
     # ==== Path
     #
@@ -95,7 +99,7 @@ module VehiclesManagement
     end
 
     ##
-    # Assigns VRN to remove. Redirects to {delete view}[rdoc-ref:FleetsController.delete]
+    # Assigns VRN to remove. Redirects to {delete view}[rdoc-ref:delete]
     #
     # ==== Path
     #
@@ -171,9 +175,9 @@ module VehiclesManagement
     end
 
     # Verifies if user confirms to add another vehicle
-    # If yes, redirects to {upload vehicle}[rdoc-ref:FleetsController.upload]
+    # If yes, redirects to {upload vehicle}[rdoc-ref:upload]
     # If no, redirects to {dashboard page}[rdoc-ref:DashboardController.index]
-    # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:FleetsController.index]
+    # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:index]
     def determinate_next_step(form)
       if form.valid?
         redirect_to form.confirmed? ? enter_details_vehicles_path : dashboard_path

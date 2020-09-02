@@ -11,13 +11,13 @@ describe 'VehiclesManagement::UploadsController - POST #create' do
   context 'correct permissions' do
     let(:user) { manage_vehicles_user }
     let(:file_name) { 'filename' }
-    let(:job_name) { 'job_name' }
-    let(:correlation_id) { @uuid }
+    let(:job_id) { SecureRandom.uuid }
+    let(:correlation_id) { SecureRandom.uuid }
 
     before do
       allow(SecureRandom).to receive(:uuid).and_return(correlation_id)
       allow(VehiclesManagement::UploadFile).to receive(:call).and_return(file_name)
-      allow(FleetsApi).to receive(:register_job).and_return(job_name)
+      allow(FleetsApi).to receive(:register_job).and_return(job_id)
       sign_in user
     end
 
@@ -40,16 +40,13 @@ describe 'VehiclesManagement::UploadsController - POST #create' do
           expect(response).to redirect_to(processing_uploads_path)
         end
 
-        it 'sets filename in the session' do
-          expect(session[:job][:filename]).to eq(file_name)
+        it 'sets job id in redis' do
+          expect(REDIS.hget("account_id_#{user.account_id}", 'job_id')).to eq(job_id)
         end
 
-        it 'sets job name in the session' do
-          expect(session[:job][:job_name]).to eq(job_name)
-        end
-
-        it 'sets correlation_id in the session' do
-          expect(session[:job][:correlation_id]).to eq(correlation_id)
+        it 'sets correlation_id in redis' do
+          expect(REDIS.hget("account_id_#{user.account_id}", 'correlation_id'))
+            .to eq(correlation_id)
         end
       end
     end

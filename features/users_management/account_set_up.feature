@@ -6,6 +6,7 @@ Feature: Account set up
   Scenario: I enter matching valid passwords and select continue
     Given I am on the set up account page
       And I should see "Tested company name’s Clean Air Zone account"
+      And I should see 'include at least 1 upper case letter, a number and a special character'
       And I have a valid token
       And I have entered a valid password and confirmation
     When I press 'Continue' button

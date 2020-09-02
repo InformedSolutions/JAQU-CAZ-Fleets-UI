@@ -9,10 +9,13 @@ module Payments
   # rubocop:disable Metrics/ClassLength
   class PaymentsController < ApplicationController
     include CheckPermissions
+    include ChargeabilityCalculator
+
     before_action -> { check_permissions(allow_make_payments?) }
     before_action :check_la, only: %i[matrix submit review select_payment_method no_chargeable_vehicles]
     before_action :assign_back_button_url, only: %i[index select_payment_method]
     before_action :assign_debit, only: %i[select_payment_method]
+    before_action :check_job_status, only: %i[matrix]
     before_action :assign_zone_and_dates, only: %i[matrix]
 
     ##
@@ -54,6 +57,7 @@ module Payments
     #    :GET /payments/matrix
     #
     def matrix
+      clear_job_data
       @search = helpers.payment_query_data[:search]
       @errors = validate_search_params unless @search.nil?
       @charges = @errors || @search.nil? ? charges : charges_by_vrn
@@ -243,8 +247,7 @@ module Payments
     # Fetches charges with params saved in the session
     def charges
       query_data = helpers.payment_query_data
-      data = current_user.charges(zone_id: @zone_id, vrn: query_data[:vrn],
-                                  direction: query_data[:direction])
+      data = current_user.charges(zone_id: @zone_id, vrn: query_data[:vrn], direction: query_data[:direction])
       SessionManipulation::AddVehicleDetails.call(session: session, params: data.vehicle_list)
       data
     end
