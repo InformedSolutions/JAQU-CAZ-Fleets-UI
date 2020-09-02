@@ -7,7 +7,7 @@ describe 'DirectDebits::DebitsController - GET #confirm' do
 
   context 'correct permissions' do
     before do
-      add_to_session(new_payment: { la_id: @uuid, details: {} })
+      add_to_session(new_payment: { caz_id: @uuid, details: {} })
       mock_clean_air_zones
       sign_in(make_payments_user)
     end

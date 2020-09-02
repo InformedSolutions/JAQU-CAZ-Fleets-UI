@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - #clear_serach' do
+describe 'PaymentsController - GET #clear_serach' do
   subject { get clear_search_payments_path }
 
   context 'correct permissions' do
@@ -10,7 +10,7 @@ describe 'PaymentsController - #clear_serach' do
       mock_caz_list
       mock_fleet(create_chargeable_vehicles)
       sign_in create_user
-      add_to_session(new_payment: { la_id: @uuid })
+      add_to_session(new_payment: { caz_id: @uuid })
       add_to_session(payment_query: { search: 'search' })
     end
 

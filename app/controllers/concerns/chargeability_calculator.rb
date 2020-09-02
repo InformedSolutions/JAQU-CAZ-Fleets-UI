@@ -14,7 +14,7 @@ module ChargeabilityCalculator
     status = FleetsApi.job_status(job_id: job_id, correlation_id: job_correlation_id)[:status].upcase
     handle_job_status(status)
   rescue BaseApi::Error404Exception
-    clear_job_data
+    clear_upload_job_data
   end
 
   # Adding hash to redis
@@ -45,7 +45,7 @@ module ChargeabilityCalculator
   end
 
   # Clears pending job data for current user
-  def clear_job_data
+  def clear_upload_job_data
     REDIS.del(account_id_redis_key)
   end
 

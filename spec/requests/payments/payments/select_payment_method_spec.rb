@@ -8,7 +8,7 @@ describe 'PaymentsController - GET #select_payment_method' do
 
   context 'correct permissions' do
     before do
-      add_to_session(new_payment: { la_id: @uuid, details: {} })
+      add_to_session(new_payment: { caz_id: @uuid, details: {} })
       sign_in create_user
     end
 
