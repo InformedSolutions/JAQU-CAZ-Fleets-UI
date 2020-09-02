@@ -38,7 +38,7 @@ en:
       password: 'Create a password'
       password_confirmation: 'Confirm password'
     hints:
-      password: 'Must be at least 12 characters long, include at least 1 upper case letter, a number and a special characer'
+      password: 'Must be at least 12 characters long, include at least 1 upper case letter, a number and a special character'
   vrn_form:
     errors:
       vrn_missing: 'Enter the number plate of the vehicle'
