@@ -97,3 +97,7 @@ end
 def account_id
   @account_id ||= SecureRandom.uuid
 end
+
+def second_user_id
+  @second_user_id ||= SecureRandom.uuid
+end
