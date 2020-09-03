@@ -81,7 +81,7 @@ module VehiclesManagement
     # * +confirm-vehicle+ - lack of it redirects to {incorrect details}[rdoc-ref:VehiclesController.incorrect_details]
     #
     def confirm_details
-      form = ConfirmationForm.new(confirmation)
+      form = VehiclesManagement::ConfirmationForm.new(confirmation)
       return redirect_to details_vehicles_path, alert: confirmation_error(form) unless form.valid?
 
       return redirect_to incorrect_details_vehicles_path unless form.confirmed?
@@ -105,7 +105,7 @@ module VehiclesManagement
     # * +confirm-vehicle+ - lack of it redirects to {incorrect details}[rdoc-ref:VehiclesController.incorrect_details]
     #
     def confirm_and_add_exempt_vehicle_to_fleet
-      form = ConfirmationForm.new(confirmation)
+      form = VehiclesManagement::ConfirmationForm.new(confirmation)
       return redirect_to details_vehicles_path, alert: confirmation_error(form) unless form.valid?
       return redirect_to incorrect_details_vehicles_path unless form.confirmed?
 
@@ -166,7 +166,7 @@ module VehiclesManagement
     #    POST /vehicles/confirm_not_found
     #
     def confirm_not_found
-      form = ConfirmationForm.new(params['confirm-registration'])
+      form = VehiclesManagement::ConfirmationForm.new(params['confirm-registration'])
       return redirect_to not_found_vehicles_path, alert: confirmation_error(form) unless form.valid?
 
       redirect_to local_exemptions_vehicles_path

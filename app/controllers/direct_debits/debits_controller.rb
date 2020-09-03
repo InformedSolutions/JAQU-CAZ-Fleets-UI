@@ -115,7 +115,7 @@ module DirectDebits
     #    POST /payments/debits
     #
     def create
-      form = LocalAuthorityForm.new(caz_id: params['caz_id'])
+      form = Payments::LocalAuthorityForm.new(caz_id: params['caz_id'])
       if form.valid?
         create_debit_mandate(form.caz_id)
       else

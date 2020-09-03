@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe BackLinkHistoryService do
+RSpec.describe PaymentHistory::BackLinkHistory do
   subject do
     described_class.call(
       session: session,

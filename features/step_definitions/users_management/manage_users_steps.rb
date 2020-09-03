@@ -71,19 +71,24 @@ end
 
 When('I fill new user form with already used email') do
   stub = instance_double(
-    'AddNewUserForm',
+    'UsersManagement::AddUserForm',
     valid?: false,
     email_unique?: false,
     errors: instance_double('messages', messages: { email: ['Email address already exists'] })
   )
-  allow(AddNewUserForm).to receive(:new).and_return(stub)
+  allow(UsersManagement::AddUserForm).to receive(:new).and_return(stub)
 
   fill_in('new_user_name', with: 'User Name')
   click_button 'Continue'
 end
 
 When('I fill new user form with correct data') do
-  allow(AddNewUserForm).to receive(:new).and_return(instance_double('AddNewUserForm', valid?: true))
+  allow(UsersManagement::AddUserForm).to receive(:new).and_return(
+    instance_double(
+      'UsersManagement::AddUserForm',
+      valid?: true
+    )
+  )
 
   fill_in('new_user_name', with: 'New User Name')
   fill_in('new_user_email', with: 'new_user@example.com')
@@ -92,7 +97,7 @@ end
 
 When('I press {string} button and new user email is still unique') do |_string|
   stub = instance_double(
-    'AddNewUserPermissionsForm',
+    'UsersManagement::AddUserPermissionsForm',
     valid?: false,
     email_unique?: true,
     errors: instance_double(
@@ -103,14 +108,14 @@ When('I press {string} button and new user email is still unique') do |_string|
       }
     )
   )
-  allow(AddNewUserPermissionsForm).to receive(:new).and_return(stub)
+  allow(UsersManagement::AddUserPermissionsForm).to receive(:new).and_return(stub)
 
   click_button 'Continue'
 end
 
 When('I checked permissions correctly') do
-  stub = instance_double('AddNewUserPermissionsForm', valid?: true, submit: true)
-  allow(AddNewUserPermissionsForm).to receive(:new).and_return(stub)
+  stub = instance_double('UsersManagement::AddUserPermissionsForm', valid?: true, submit: true)
+  allow(UsersManagement::AddUserPermissionsForm).to receive(:new).and_return(stub)
 
   check('manage-vehicles-permission')
   click_button 'Continue'
@@ -118,12 +123,12 @@ end
 
 When('I press {string} button and new user with email was added in the meantime') do |_string|
   stub = instance_double(
-    'AddNewUserPermissionsForm',
+    'UsersManagement::AddUserPermissionsForm',
     valid?: false,
     email_unique?: false,
     errors: instance_double('messages', messages: { email: ['Email address already exists'] })
   )
-  allow(AddNewUserPermissionsForm).to receive(:new).and_return(stub)
+  allow(UsersManagement::AddUserPermissionsForm).to receive(:new).and_return(stub)
 
   click_button 'Continue'
 end

@@ -10,10 +10,7 @@ SimpleCov.start 'rails' do
   minimum_coverage 90
   # ignore next folders and files
   add_filter %w[
-    app/channels/application_cable/channel.rb
-    app/channels/application_cable/connection.rb
-    app/jobs/application_job.rb
-    app/mailers/application_mailer.rb
+    app/models/application_record.rb
     lib/
     config/
   ]

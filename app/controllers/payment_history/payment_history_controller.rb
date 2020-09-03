@@ -86,7 +86,7 @@ module PaymentHistory
 
     # Returns back link url, e.g '.../company_payment_history?page=3?back=true'
     def determinate_back_link_url(session_key, default_url, url)
-      BackLinkHistoryService.call(
+      PaymentHistory::BackLinkHistory.call(
         session: session,
         session_key: session_key,
         back_button: request.query_parameters['page']&.include?('back'),

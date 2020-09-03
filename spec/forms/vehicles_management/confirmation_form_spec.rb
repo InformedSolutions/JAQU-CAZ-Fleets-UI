@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ConfirmationForm, type: :model do
+describe VehiclesManagement::ConfirmationForm, type: :model do
   subject { described_class.new(confirmation) }
 
   let(:confirmation) { 'yes' }
