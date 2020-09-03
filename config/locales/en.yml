@@ -31,7 +31,7 @@ en:
       missing: '%{attribute} is required'
       invalid_format: '%{attribute} is in an invalid format'
       maximum_length: '%{attribute} is too long (maximum is 45 characters)'
-      password_complexity: '%{attribute} should be at least 12 characters long, include at least one upper case letter, a number, and a special character'
+      password_complexity: '%{attribute} must be at least 12 characters long, include at least one upper case letter, a number, and a special character'
     labels:
       email: 'Enter your email address'
       email_confirmation: 'Confirm your email address'
