@@ -38,7 +38,7 @@ module SignInHelper
       account_id: options[:account_id] || SecureRandom.uuid,
       account_name: options[:account_name] || 'Royal Mail',
       permissions: options[:permissions] || account_permissions,
-      password_update_timestamp: options[:password_update_timestamp] || Date.current.to_s
+      days_to_password_expiry: options[:days_to_password_expiry] || 90
     }
   end
 
