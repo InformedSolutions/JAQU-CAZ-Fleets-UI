@@ -15,6 +15,7 @@ class DashboardController < ApplicationController
     @vehicles_count = current_user.fleet.total_vehicles_count
     @mandates_present = check_mandates
     @users_present = check_users
+    @days_count = current_user.days_to_password_expiry
   end
 
   private

@@ -63,3 +63,18 @@ Feature: Dashboard
       And I should see 'Make a payment' link
       And I should see 'Manage users' link
       And I should not see 'Set up a Direct Debit' link
+
+  Scenario: View dashboard page when password expires in 1 day
+    Given I navigate to a Dashboard page
+      And I enter email and password that is about to expire in 1 days and press Continue
+    Then I should see 'Your password will expire in 1 day.'
+
+  Scenario: View dashboard page when password expires in 10 days
+    Given I navigate to a Dashboard page
+      And I enter email and password that is about to expire in 10 days and press Continue
+    Then I should see 'Your password will expire in 10 days.'
+
+  Scenario: View dashboard page when password expires in 50 days
+    Given I navigate to a Dashboard page
+      And I enter email and password that is about to expire in 50 days and press Continue
+    Then I should not see 'Your password will expire in'

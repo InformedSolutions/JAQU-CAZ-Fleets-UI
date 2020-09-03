@@ -11,17 +11,23 @@ describe DashboardController do
       expect(response).to redirect_to(new_user_session_path)
     end
 
-    context 'when user is signed in' do
+    context 'when user is signed in with password that is about to expire in 8 days' do
       before do
         mock_fleet
-        mock_debits
-        mock_users
-        sign_in create_user
+        sign_in create_user(
+          permissions: [],
+          days_to_password_expiry: 8
+        )
       end
 
       it 'returns http success' do
         subject
         expect(response).to have_http_status(:success)
+      end
+
+      it 'assigns @days_count variable' do
+        subject
+        expect(assigns(:days_count)).to eq(8)
       end
     end
 
