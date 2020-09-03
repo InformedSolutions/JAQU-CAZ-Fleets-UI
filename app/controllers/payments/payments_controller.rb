@@ -56,7 +56,7 @@ module Payments
     #    :GET /payments/matrix
     #
     def matrix
-      clear_job_data
+      clear_upload_job_data
       @search = helpers.payment_query_data[:search]
       @errors = validate_search_params unless @search.nil?
       @charges = @errors || @search.nil? ? charges : charges_by_vrn
