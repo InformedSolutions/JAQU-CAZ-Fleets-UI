@@ -8,6 +8,7 @@ module PaymentHistory
   #
   class PaymentHistoryController < ApplicationController
     include CheckPermissions
+
     before_action -> { check_permissions(allow_view_payment_history?) }, only: :company_payment_history
     before_action -> { check_permissions(allow_make_payments?) }, only: :user_payment_history
     before_action -> { check_permissions(allow_view_details_history?) }, only: :payment_history_details

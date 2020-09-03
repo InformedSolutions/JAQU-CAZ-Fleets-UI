@@ -28,10 +28,14 @@ Given('I visit the Manage users page as an owner') do
   visit users_path
 end
 
-Given('I visit the Add user page') do
+Given('I visit the Add user page after sign in') do
   mock_api
   mock_users
   login_user(permissions: ['MANAGE_USERS'])
+  visit new_user_path
+end
+
+Given('I visit the Add user page') do
   visit new_user_path
 end
 
@@ -79,8 +83,7 @@ When('I fill new user form with already used email') do
 end
 
 When('I fill new user form with correct data') do
-  stub = instance_double('AddNewUserForm', valid?: true)
-  allow(AddNewUserForm).to receive(:new).and_return(stub)
+  allow(AddNewUserForm).to receive(:new).and_return(instance_double('AddNewUserForm', valid?: true))
 
   fill_in('new_user_name', with: 'New User Name')
   fill_in('new_user_email', with: 'new_user@example.com')
@@ -123,6 +126,16 @@ When('I press {string} button and new user with email was added in the meantime'
   allow(AddNewUserPermissionsForm).to receive(:new).and_return(stub)
 
   click_button 'Continue'
+end
+
+And('I should see what user input fields already filled') do
+  expect(page.find_field('new_user_name').value).to eq('New User Name')
+  expect(page.find_field('new_user_email').value).to eq('new_user@example.com')
+end
+
+And('I should not see what user input fields already filled') do
+  expect(page.find_field('new_user_name').value).to be_nil
+  expect(page.find_field('new_user_email').value).to be_nil
 end
 
 private
