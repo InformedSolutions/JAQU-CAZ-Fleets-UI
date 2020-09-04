@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe PaymentReviewForm, type: :model do
+describe Payments::PaymentReviewForm, type: :model do
   subject { described_class.new(confirmation) }
 
   before { subject.valid? }

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe FleetCheckForm, type: :model do
+describe Organisations::FleetCheckForm, type: :model do
   subject { described_class.new(confirm_fleet_check: confirm_fleet_check) }
 
   let(:confirm_fleet_check) { 'less_than_two' }

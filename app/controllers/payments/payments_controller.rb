@@ -42,7 +42,7 @@ module Payments
     #    :POST /payments
     #
     def local_authority
-      form = LocalAuthorityForm.new(caz_id: la_params['caz_id'])
+      form = Payments::LocalAuthorityForm.new(caz_id: la_params['caz_id'])
       if form.valid?
         determinate_lock_caz(form.caz_id)
       else
@@ -129,7 +129,7 @@ module Payments
     #    POST /payments/confirm_review
     #
     def confirm_review
-      form = PaymentReviewForm.new(params['confirm-not-exemption'])
+      form = Payments::PaymentReviewForm.new(params['confirm-not-exemption'])
 
       if form.valid?
         redirect_to select_payment_method_payments_path

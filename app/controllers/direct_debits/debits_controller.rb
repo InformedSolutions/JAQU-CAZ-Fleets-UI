@@ -8,6 +8,7 @@ module DirectDebits
   #
   class DebitsController < ApplicationController
     include CheckPermissions
+
     before_action -> { check_permissions(helpers.direct_debits_enabled?) }, only: %i[index new create]
     before_action -> { check_permissions(allow_manage_mandates?) }, only: %i[index new create]
     before_action -> { check_permissions(allow_make_payments?) }, except: %i[index new create]
@@ -114,7 +115,7 @@ module DirectDebits
     #    POST /payments/debits
     #
     def create
-      form = LocalAuthorityForm.new(caz_id: params['caz_id'])
+      form = Payments::LocalAuthorityForm.new(caz_id: params['caz_id'])
       if form.valid?
         create_debit_mandate(form.caz_id)
       else

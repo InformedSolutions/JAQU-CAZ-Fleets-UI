@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe SetUpAccountForm, type: :model do
+describe UsersManagement::SetUpAccountForm, type: :model do
   subject { described_class.new(params: request_params) }
 
   let(:request_params) do

@@ -11,13 +11,13 @@ describe Organisations::ValidateFleetCheck do
 
   context 'when valid params' do
     before do
-      allow(FleetCheckForm)
+      allow(Organisations::FleetCheckForm)
         .to receive(:new)
-        .and_return(instance_double(FleetCheckForm, valid?: valid))
+        .and_return(instance_double(Organisations::FleetCheckForm, valid?: valid))
     end
 
-    it 'calls FleetCheckForm with proper params' do
-      expect(FleetCheckForm).to receive(:new).with(confirm_fleet_check: confirm_fleet_check)
+    it 'calls Organisations::FleetCheckForm with proper params' do
+      expect(Organisations::FleetCheckForm).to receive(:new).with(confirm_fleet_check: confirm_fleet_check)
       subject
     end
   end
@@ -26,11 +26,14 @@ describe Organisations::ValidateFleetCheck do
     let(:valid) { false }
     let(:errors) { ActiveModel::Errors.new(['Some error']) }
     let(:fleet_check_form_instance) do
-      instance_double(FleetCheckForm, valid?: valid, errors: errors, first_error_message: 'test')
+      instance_double(Organisations::FleetCheckForm,
+                      valid?: valid,
+                      errors: errors,
+                      first_error_message: 'test')
     end
 
     before do
-      allow(FleetCheckForm)
+      allow(Organisations::FleetCheckForm)
         .to receive(:new)
         .and_return(fleet_check_form_instance)
     end

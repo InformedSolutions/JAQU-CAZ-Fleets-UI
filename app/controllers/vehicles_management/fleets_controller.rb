@@ -38,7 +38,7 @@ module VehiclesManagement
     # * +submission-method+ - manual or upload - selected submission method
     #
     def submit_method
-      form = SubmissionMethodForm.new(submission_method: params['submission-method'])
+      form = VehiclesManagement::SubmissionMethodForm.new(submission_method: params['submission-method'])
       session[:submission_method] = form.submission_method
       if form.valid?
         redirect_to form.manual? ? enter_details_vehicles_path : uploads_path
@@ -81,7 +81,7 @@ module VehiclesManagement
     #    POST /fleets
     #
     def create
-      form = ConfirmationForm.new(params['confirm-vehicle-creation'])
+      form = VehiclesManagement::ConfirmationForm.new(params['confirm-vehicle-creation'])
       session[:confirm_vehicle_creation] = form.confirmation
       determinate_next_step(form)
     end
@@ -140,7 +140,7 @@ module VehiclesManagement
     # * +confirm-delete+ - form confirmation, possible values: 'yes', 'no', nil
     #
     def confirm_delete
-      form = ConfirmationForm.new(confirm_delete_param)
+      form = VehiclesManagement::ConfirmationForm.new(confirm_delete_param)
       return redirect_to delete_fleets_path, alert: confirmation_error(form) unless form.valid?
 
       remove_vehicle if form.confirmed?

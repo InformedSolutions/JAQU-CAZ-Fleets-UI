@@ -28,9 +28,9 @@ describe Organisations::CreateUserAccount do
 
   context 'when api returns correct response' do
     before do
-      allow(EmailAndPasswordForm)
+      allow(Organisations::EmailAndPasswordForm)
         .to receive(:new)
-        .and_return(instance_double(EmailAndPasswordForm, valid?: valid))
+        .and_return(instance_double(Organisations::EmailAndPasswordForm, valid?: valid))
       response = read_response('create_user.json')
       allow(AccountsApi).to receive(:create_user).and_return(response)
     end
@@ -39,8 +39,8 @@ describe Organisations::CreateUserAccount do
       expect(subject.class).to eq(User)
     end
 
-    it 'calls EmailAndPasswordForm with proper params' do
-      expect(EmailAndPasswordForm).to receive(:new).with(params)
+    it 'calls Organisations::EmailAndPasswordForm with proper params' do
+      expect(Organisations::EmailAndPasswordForm).to receive(:new).with(params)
       subject
     end
 
@@ -61,9 +61,9 @@ describe Organisations::CreateUserAccount do
     let(:error_code) { 'emailNotUnique' }
 
     before do
-      allow(EmailAndPasswordForm)
+      allow(Organisations::EmailAndPasswordForm)
         .to receive(:new)
-        .and_return(instance_double(EmailAndPasswordForm, valid?: valid))
+        .and_return(instance_double(Organisations::EmailAndPasswordForm, valid?: valid))
 
       stub_request(:post, /users/).to_return(
         status: 422,
