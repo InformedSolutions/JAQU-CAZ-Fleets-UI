@@ -12,7 +12,9 @@ module Payments
     include CazLock
 
     before_action -> { check_permissions(allow_make_payments?) }
-    before_action :check_la, only: %i[matrix submit review select_payment_method no_chargeable_vehicles]
+    before_action :check_la, only: %i[
+      matrix submit review select_payment_method no_chargeable_vehicles in_progress
+    ]
     before_action :assign_back_button_url, only: %i[index select_payment_method]
     before_action :assign_debit, only: %i[select_payment_method]
     before_action :check_job_status, only: %i[matrix]
@@ -239,7 +241,8 @@ module Payments
     #   GET /payments/in_progress
     #
     def in_progress
-      # renders static page
+      @user_locking_email = caz_lock_user_email
+      @zone = CleanAirZone.find(@zone_id)
     end
 
     private

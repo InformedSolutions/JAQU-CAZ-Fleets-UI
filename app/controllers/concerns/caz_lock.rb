@@ -63,4 +63,9 @@ module CazLock
   def current_user_payment?
     current_user.user_id == redis_value('user_id')
   end
+
+  # Returns email for Caz lock process
+  def caz_lock_user_email
+    redis_value('email')
+  end
 end
