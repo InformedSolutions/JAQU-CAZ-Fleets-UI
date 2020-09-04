@@ -7,19 +7,18 @@ module VehiclesManagement
   # Class used to display fleet on the manage vehicles page
   #
   class PaginatedFleet
+    attr_reader :per_page, :page
+
     # Take data returned from the FleetsApi.fleet_vehicles
-    def initialize(data)
+    def initialize(data, page, per_page)
       @data = data
+      @page = page
+      @per_page = per_page
     end
 
     # Returns an array of VehiclesManagement::Vehicle model instances
     def vehicle_list
       @vehicle_list ||= data['vehicles'].map { |vehicle_data| VehiclesManagement::Vehicle.new(vehicle_data) }
-    end
-
-    # Returns current page value
-    def page
-      data['page'] + 1
     end
 
     # Returns the number of available pages
@@ -29,12 +28,7 @@ module VehiclesManagement
 
     # Returns the total number of vehicles in the fleet
     def total_vehicles_count
-      data['totalVrnsCount']
-    end
-
-    # Returns the number of vehicles displayed per page
-    def per_page
-      data['perPage']
+      data['totalVehiclesCount']
     end
 
     # Returns the index of the first vehicle on the page

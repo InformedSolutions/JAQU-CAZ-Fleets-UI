@@ -9,13 +9,16 @@ describe VehiclesManagement::Fleet, type: :model do
 
   describe '.pagination' do
     let(:page) { 1 }
+    let(:per_page) { 10 }
     let(:vehicles) { subject.pagination(page: page) }
-    let(:vehicles_data) { read_response('charges.json')[page.to_s] }
+    let(:vehicles_data) { read_response('vehicles.json')[page.to_s] }
 
-    before { allow(PaymentsApi).to receive(:charges).and_return(vehicles_data) }
+    before { allow(FleetsApi).to receive(:vehicles).and_return(vehicles_data) }
 
-    it 'calls FleetsApi.charges with proper params' do
-      expect(PaymentsApi).to receive(:charges).with(account_id: account_id, page: page)
+    it 'calls FleetsApi.vehicles with proper params' do
+      expect(FleetsApi).to(
+        receive(:vehicles).with(account_id: account_id, page: page, per_page: per_page)
+      )
       vehicles
     end
 
@@ -26,12 +29,6 @@ describe VehiclesManagement::Fleet, type: :model do
     describe '.vehicle_list' do
       it 'returns an list of vehicles' do
         expect(vehicles.vehicle_list).to all(be_a(VehiclesManagement::Vehicle))
-      end
-    end
-
-    describe '.page' do
-      it 'returns the page value increased by 1' do
-        expect(vehicles.page).to eq(vehicles_data['page'] + 1)
       end
     end
 

@@ -12,7 +12,7 @@ module VehiclesManagement
       @data = data
     end
 
-    # Returns an array of VehiclesManagement::Vehicle model instances
+    # Returns an array of VehiclesManagement::ChargeableVehicle model instances
     def vehicle_list
       @vehicle_list ||= (data.dig('chargeableAccountVehicles', 'results') || [])
                         .map { |vehicle_data| VehiclesManagement::ChargeableVehicle.new(vehicle_data) }

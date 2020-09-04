@@ -3,19 +3,16 @@
 require 'rails_helper'
 
 describe VehiclesManagement::PaginatedFleet, type: :model do
-  subject { described_class.new(data) }
+  subject { described_class.new(data, page, per_page) }
 
   let(:size) { 51 }
   let(:page) { 3 }
   let(:per_page) { 10 }
-  let(:vehicles_data) { read_response('fleet.json')['1'] }
   let(:data) do
     {
-      'vehicles' => vehicles_data,
-      'perPage' => per_page,
-      'page' => page - 1,
+      'vehicles' => read_response('vehicles_management/vehicles.json')['vehicles'],
       'pageCount' => (size / per_page.to_f).ceil,
-      'totalVrnsCount' => size
+      'totalVehiclesCount' => size
     }
   end
 
