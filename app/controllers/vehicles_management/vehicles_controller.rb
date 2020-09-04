@@ -9,15 +9,15 @@ module VehiclesManagement
   #
   class VehiclesController < ApplicationController
     include CheckPermissions
+
     before_action -> { check_permissions(allow_manage_vehicles?) }
+    before_action :check_vrn, only: %i[details confirm_details exempt incorrect_details not_found
+                                       confirm_and_add_exempt_vehicle_to_fleet]
+    before_action :assign_back_button_url, only: %i[enter_details local_exemptions]
     # 404 HTTP status from API means vehicle in not found in DLVA database. Redirects to the proper page.
     rescue_from BaseApi::Error404Exception, with: :vehicle_not_found
     # 400 HTTP status from API means invalid VRN or other validation error
     rescue_from BaseApi::Error400Exception, with: :add_vehicle_exception
-    # checks if VRN is present in the session
-    before_action :check_vrn, only: %i[details confirm_details exempt incorrect_details not_found
-                                       confirm_and_add_exempt_vehicle_to_fleet]
-    before_action :assign_back_button_url, only: %i[enter_details local_exemptions]
 
     ##
     # Renders the first step of checking the vehicle compliance.
@@ -81,7 +81,7 @@ module VehiclesManagement
     # * +confirm-vehicle+ - lack of it redirects to {incorrect details}[rdoc-ref:VehiclesController.incorrect_details]
     #
     def confirm_details
-      form = ConfirmationForm.new(confirmation)
+      form = VehiclesManagement::ConfirmationForm.new(confirmation)
       return redirect_to details_vehicles_path, alert: confirmation_error(form) unless form.valid?
 
       return redirect_to incorrect_details_vehicles_path unless form.confirmed?
@@ -105,7 +105,7 @@ module VehiclesManagement
     # * +confirm-vehicle+ - lack of it redirects to {incorrect details}[rdoc-ref:VehiclesController.incorrect_details]
     #
     def confirm_and_add_exempt_vehicle_to_fleet
-      form = ConfirmationForm.new(confirmation)
+      form = VehiclesManagement::ConfirmationForm.new(confirmation)
       return redirect_to details_vehicles_path, alert: confirmation_error(form) unless form.valid?
       return redirect_to incorrect_details_vehicles_path unless form.confirmed?
 
@@ -166,7 +166,7 @@ module VehiclesManagement
     #    POST /vehicles/confirm_not_found
     #
     def confirm_not_found
-      form = ConfirmationForm.new(params['confirm-registration'])
+      form = VehiclesManagement::ConfirmationForm.new(params['confirm-registration'])
       return redirect_to not_found_vehicles_path, alert: confirmation_error(form) unless form.valid?
 
       redirect_to local_exemptions_vehicles_path

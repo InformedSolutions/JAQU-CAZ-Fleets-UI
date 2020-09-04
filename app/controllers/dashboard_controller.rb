@@ -3,6 +3,8 @@
 class DashboardController < ApplicationController
   include CheckPermissions
 
+  before_action :clear_input_history, only: :index
+
   ##
   # Renders the dashboard page.
   #
@@ -11,7 +13,6 @@ class DashboardController < ApplicationController
   #    :GET /fleets/organisation-account/dashboard
   #
   def index
-    clear_input_history
     @vehicles_count = current_user.fleet.total_vehicles_count
     @mandates_present = check_mandates
     @users_present = check_users
@@ -39,11 +40,35 @@ class DashboardController < ApplicationController
 
   # clear user flow history from the session
   def clear_input_history
-    session[:vrn] = nil
-    session[:confirm_vehicle_creation] = nil
-    session[:payment_method] = nil
+    clear_manage_vehicles_history
+    clear_make_payment_history
+    clear_manage_users_history
+    clear_payment_history
+  end
+
+  # clear manage vehicles inputs
+  def clear_manage_vehicles_history
     session[:submission_method] = nil
+    session[:confirm_vehicle_creation] = nil
+  end
+
+  # clear make payments inputs
+  def clear_make_payment_history
+    session[:vrn] = nil
     session[:new_payment] = nil
+    session[:payment_method] = nil
+  end
+
+  # clear manage users inputs
+  def clear_manage_users_history
+    return if session['new_user'].nil?
+
+    session['new_user']['name'] = nil
+    session['new_user']['email'] = nil
+  end
+
+  # clear payments history back links
+  def clear_payment_history
     session[:company_back_link_history] = nil
     session[:user_back_link_history] = nil
   end

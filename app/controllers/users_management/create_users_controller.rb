@@ -41,7 +41,7 @@ module UsersManagement
     #
     def create
       SessionManipulation::SetNewUser.call(session: session, params: new_user_params)
-      form = AddNewUserForm.new(account_id: current_user.account_id, new_user: new_user_data)
+      form = UsersManagement::AddUserForm.new(account_id: current_user.account_id, new_user: new_user_data)
       if form.valid?
         redirect_to add_permissions_users_path
       else
@@ -70,8 +70,11 @@ module UsersManagement
     #
     def confirm_permissions
       SessionManipulation::SetNewUserPermissions.call(session: session, params: new_user_permissions_params)
-      form = AddNewUserPermissionsForm.new(current_user: current_user, new_user: new_user_data,
-                                           verification_url: set_up_users_url)
+      form = UsersManagement::AddUserPermissionsForm.new(
+        current_user: current_user,
+        new_user: new_user_data,
+        verification_url: set_up_users_url
+      )
       handle_permissions_form(form)
     end
 
@@ -111,7 +114,7 @@ module UsersManagement
     #
     def confirm_set_up
       parameters = params[:account_set_up].permit(:password, :password_confirmation, :token)
-      form = SetUpAccountForm.new(params: parameters)
+      form = UsersManagement::SetUpAccountForm.new(params: parameters)
 
       if form.valid? && form.submit
         redirect_to set_up_confirmation_users_path

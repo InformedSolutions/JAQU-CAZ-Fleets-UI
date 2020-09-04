@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe SubmissionMethodForm do
+describe VehiclesManagement::SubmissionMethodForm do
   subject { described_class.new(submission_method: submission_method) }
 
   let(:submission_method) { 'upload' }

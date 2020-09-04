@@ -37,7 +37,7 @@ module Organisations
     # Validate user params.
     # Raises `NewPasswordException` exception if validation failed.
     def validate_user_params
-      form = EmailAndPasswordForm.new(organisations_params)
+      form = Organisations::EmailAndPasswordForm.new(organisations_params)
       return if form.valid?
 
       raise NewPasswordException, form.errors.messages
