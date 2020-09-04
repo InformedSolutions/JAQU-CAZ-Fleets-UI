@@ -17,6 +17,7 @@ RSpec.configure do |config|
   [RequestSpecHelper,
    StringCountHelper,
    AddToSession,
+   AddToRedis,
    FleetFactory,
    ChargeableVehiclesFactory].each do |h|
     config.include h, type: :request

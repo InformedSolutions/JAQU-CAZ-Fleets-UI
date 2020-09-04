@@ -163,4 +163,4 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the payment in progress page
       And I press 'Return to Your account' link
-    Then I should be on the dashboard page
+    Then I should be on the Dashboard page

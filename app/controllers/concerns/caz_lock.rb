@@ -21,8 +21,8 @@ module CazLock
 
   # Checks if selected caz locked
   def caz_locked?
-    return false if current_user.user_id == caz_lock_user_id
-    return false if current_user.account_id != caz_lock_account_id
+    return false if current_user.user_id == redis_value('user_id')
+    return false if current_user.account_id != redis_value('account_id')
 
     redis_value('caz_id') == caz_id_in_session
   end
@@ -61,16 +61,11 @@ module CazLock
 
   # Checks if current user is locked caz
   def current_user_payment?
-    current_user.user_id == caz_lock_user_id
+    current_user.user_id == redis_value('user_id')
   end
 
-  # Returns user_id for Caz lock process
-  def caz_lock_user_id
-    redis_value('user_id')
-  end
-
-  # Returns account_id for Caz lock process
-  def caz_lock_account_id
-    redis_value('account_id')
+  # Returns email for Caz lock process
+  def caz_lock_user_email
+    redis_value('email')
   end
 end
