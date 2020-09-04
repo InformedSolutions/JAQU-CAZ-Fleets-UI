@@ -138,7 +138,7 @@ describe VehiclesManagement::Fleet, type: :model do
   describe '.add_vehicle' do
     before { allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true) }
 
-    it 'calls AccountsApi.fleet_vehicles with proper params' do
+    it 'calls AccountsApi.vehicles with proper params' do
       vehicle_type = 'car'
       expect(FleetsApi).to receive(:add_vehicle_to_fleet)
         .with(vrn: @vrn, vehicle_type: vehicle_type, account_id: account_id)
@@ -147,12 +147,12 @@ describe VehiclesManagement::Fleet, type: :model do
   end
 
   describe '.empty?' do
-    let(:vehicles_data) { read_response('fleet.json') }
+    let(:vehicles_data) { read_response('vehicles.json')['1'] }
 
-    before { allow(FleetsApi).to receive(:fleet_vehicles).and_return(vehicles_data) }
+    before { allow(FleetsApi).to receive(:vehicles).and_return(vehicles_data) }
 
-    it 'calls AccountsApi.fleet_vehicles with proper params' do
-      expect(FleetsApi).to receive(:fleet_vehicles).with(account_id: account_id, page: 1, per_page: 1)
+    it 'calls AccountsApi.vehicles with proper params' do
+      expect(FleetsApi).to receive(:vehicles).with(account_id: account_id, page: 1, per_page: 1)
       subject.empty?
     end
 
@@ -163,7 +163,7 @@ describe VehiclesManagement::Fleet, type: :model do
     end
 
     context 'when no vehicles returned' do
-      let(:vehicles_data) { { 'vrns' => [] } }
+      let(:vehicles_data) { { 'vehicles' => [] } }
 
       it 'returns true' do
         expect(subject.empty?).to be_truthy
@@ -181,18 +181,18 @@ describe VehiclesManagement::Fleet, type: :model do
   end
 
   describe '.total_vehicles_count' do
-    let(:vehicles_data) { read_response('fleet.json') }
+    let(:vehicles_data) { read_response('vehicles.json')['1'] }
 
-    before { allow(FleetsApi).to receive(:fleet_vehicles).and_return(vehicles_data) }
+    before { allow(FleetsApi).to receive(:vehicles).and_return(vehicles_data) }
 
-    it 'calls AccountsApi.fleet_vehicles with proper params' do
-      expect(FleetsApi).to receive(:fleet_vehicles).with(account_id: account_id, page: 1, per_page: 1)
+    it 'calls AccountsApi.vehicles with proper params' do
+      expect(FleetsApi).to receive(:vehicles).with(account_id: account_id, page: 1, per_page: 1)
       subject.total_vehicles_count
     end
 
     context 'when some vehicles returned' do
       it 'returns vehicles count' do
-        expect(subject.total_vehicles_count).to eq(23)
+        expect(subject.total_vehicles_count).to eq(12)
       end
     end
   end

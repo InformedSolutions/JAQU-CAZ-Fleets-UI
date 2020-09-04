@@ -72,39 +72,6 @@ class FleetsApi < AccountsApi
     end
 
     ##
-    # Calls +/v1/accounts/:account_id/vehicles+ endpoint with +GET+ method
-    # and returns paginated list of the fleet vehicles.
-    #
-    # ==== Attributes
-    #
-    # * +account_id+ - ID of the account associated with the fleet
-    # * +page+ - requested page of the results
-    # * +per_page+ - number of vehicles per page, defaults to 10
-    #
-    # ==== Example
-    #
-    #    FleetApi.fleet_vehicles(account_id: '1f30838f-69ee-4486-95b4-7dfcd5c6c67c', page: 1)
-    #
-    # ==== Result
-    #
-    # Returned vehicles details will have the following fields:
-    # * +vrns+ - list of the vehicles' registration numbers
-    # * +pageCount+ - number of available pages
-    # * +totalVrnsCount+ - total number of vehicles in the fleet
-    #
-    # ==== Exceptions
-    #
-    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - invalid parameters
-    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
-    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
-    #
-    def fleet_vehicles(account_id:, page:, per_page: 10)
-      log_action('Getting fleet vehicles')
-      query = { 'pageNumber' => calculate_page_number(page), 'pageSize' => per_page }
-      request(:get, "/accounts/#{account_id}/vehicles", query: query)
-    end
-
-    ##
     # Calls +/v1/accounts/:account_id/vehicles+ endpoint with +POST+ method to add the vehicle to the fleet.
     #
     # ==== Attributes
@@ -183,7 +150,7 @@ class FleetsApi < AccountsApi
     # Returned vehicles details will have the following fields:
     # * +vehicles+ - list of the vehicles
     # * +pageCount+ - number of available pages
-    # * +totalVrnsCount+ - total number of vehicles in the fleet
+    # * +totalVehiclesCount+ - total number of vehicles in the fleet
     #
     # ==== Serialization
     #

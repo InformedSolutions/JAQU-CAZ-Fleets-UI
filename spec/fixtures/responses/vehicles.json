@@ -105,7 +105,7 @@
     "perPage": 10,
     "page": 1,
     "pageCount": 2,
-    "totalregistrationNumbersCount": 12
+    "totalVehiclesCount": 12
   },
   "2": {
     "vehicles": [
@@ -133,6 +133,6 @@
     "perPage": 10,
     "page": 2,
     "pageCount": 2,
-    "totalregistrationNumbersCount": 12
+    "totalVehiclesCount": 12
   }
 }

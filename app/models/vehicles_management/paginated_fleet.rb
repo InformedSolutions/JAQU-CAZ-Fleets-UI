@@ -9,7 +9,7 @@ module VehiclesManagement
   class PaginatedFleet
     attr_reader :per_page, :page
 
-    # Take data returned from the FleetsApi.fleet_vehicles
+    # Take data returned from the FleetsApi.vehicles
     def initialize(data, page, per_page)
       @data = data
       @page = page
