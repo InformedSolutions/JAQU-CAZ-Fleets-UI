@@ -7,7 +7,12 @@ end
 
 When('I attach a file') do
   attach_valid_csv_file
-  allow(VehiclesManagement::UploadFile).to receive(:call).and_return('filename')
+  stub = instance_double(
+    'VehiclesManagement::UploadFile',
+    filename: 'filename',
+    large_fleet: false
+  )
+  allow(VehiclesManagement::UploadFile).to receive(:call).and_return(stub)
   allow(FleetsApi).to receive(:register_job).and_return('job_name')
 end
 
@@ -26,15 +31,11 @@ Then('I should download the template') do
 end
 
 When('I am on the processing page') do
-  mock_vehicles_in_fleet
-  login_user(permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS], account_id: account_id)
-  REDIS.hmset(
-    "account_id_#{account_id}",
-    'job_id', SecureRandom.uuid,
-    'correlation_id', SecureRandom.uuid
-  )
-  allow(FleetsApi).to receive(:job_status).and_return(status: 'RUNNING')
-  visit processing_uploads_path
+  mock_processing_page(large_fleet: true)
+end
+
+When('I am on the processing page and number of vehicles less than the threshold') do
+  mock_processing_page(large_fleet: false)
 end
 
 When('My upload is finished') do
@@ -64,4 +65,17 @@ private
 
 def attach_valid_csv_file
   attach_file(:file, File.join('spec', 'fixtures', 'uploads', 'fleet.csv'))
+end
+
+def mock_processing_page(large_fleet:)
+  mock_vehicles_in_fleet
+  login_user(permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS], account_id: account_id)
+  REDIS.hmset(
+    "account_id_#{account_id}",
+    'job_id', SecureRandom.uuid,
+    'correlation_id', SecureRandom.uuid,
+    'large_fleet', large_fleet
+  )
+  allow(FleetsApi).to receive(:job_status).and_return(status: 'RUNNING')
+  visit processing_uploads_path
 end

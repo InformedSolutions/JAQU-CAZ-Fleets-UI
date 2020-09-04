@@ -7,13 +7,12 @@ describe 'PaymentsController - GET #in_progress' do
 
   let(:caz_id) { @uuid }
   let(:user) { make_payments_user }
-  let(:caz_lock_key) { "caz_lock_#{user.account_id}_#{caz_id}" }
 
   context 'correct permissions' do
     let(:fleet) { create_chargeable_vehicles }
 
     before do
-      add_caz_lock_to_redis(SecureRandom.uuid)
+      add_caz_lock_to_redis(user)
       sign_in user
     end
 

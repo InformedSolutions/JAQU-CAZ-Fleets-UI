@@ -9,7 +9,7 @@ module ChargeabilityCalculator
   # Checks job status and depends on it adding a flash message and redirects to proper page
   # Clears job data from redis if api returns 404 error
   def check_job_status
-    return unless job_id && job_correlation_id
+    return unless job_id && job_correlation_id && large_fleet
 
     status = FleetsApi.job_status(job_id: job_id, correlation_id: job_correlation_id)[:status].upcase
     handle_job_status(status)
@@ -18,8 +18,11 @@ module ChargeabilityCalculator
   end
 
   # Adding hash to redis
-  def add_data_to_redis(correlation_id, job_id)
-    REDIS.hmset(account_id_redis_key, 'job_id', job_id, 'correlation_id', correlation_id)
+  def add_data_to_redis(correlation_id, job_id, large_fleet)
+    REDIS.hmset(account_id_redis_key,
+                'job_id', job_id,
+                'correlation_id', correlation_id,
+                'large_fleet', large_fleet)
   end
 
   # Handles controller reaction based on the given job status
@@ -42,6 +45,11 @@ module ChargeabilityCalculator
   # Returns correlation_id for pending job
   def job_correlation_id
     REDIS.hget(account_id_redis_key, 'correlation_id')
+  end
+
+  # Returns large_fleet status for pending job, e.g. 'true'
+  def large_fleet
+    REDIS.hget(account_id_redis_key, 'large_fleet')
   end
 
   # Clears pending job data for current user

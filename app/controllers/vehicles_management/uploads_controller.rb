@@ -36,8 +36,8 @@ module VehiclesManagement
     # * +file+ - the submitted file
     #
     def create
-      file_name = VehiclesManagement::UploadFile.call(file: params[:file], user: current_user)
-      register_job(file_name)
+      result = VehiclesManagement::UploadFile.call(file: params[:file], user: current_user)
+      register_job(result.filename, result.large_fleet)
       redirect_to processing_uploads_path
     end
 
@@ -56,7 +56,7 @@ module VehiclesManagement
     #    * +correlation_id+ - uuid, ID used to identify calls
     #
     def processing
-      return redirect_to uploads_path unless job_id && job_correlation_id
+      return redirect_to uploads_path unless job_id && job_correlation_id && large_fleet
 
       job = FleetsApi.job_status(job_id: job_id, correlation_id: job_correlation_id)
       react_to_status(job)
@@ -97,20 +97,18 @@ module VehiclesManagement
 
     # Register upload job in the backend API.
     # Sets proper data to the redis
-    def register_job(filename)
+    def register_job(filename, large_fleet)
       correlation_id = SecureRandom.uuid
       job_id = FleetsApi.register_job(filename: filename, correlation_id: correlation_id)
-      add_data_to_redis(correlation_id, job_id)
+      add_data_to_redis(correlation_id, job_id, large_fleet)
     end
 
-    # Handles controller reaction based on the given job status.
-    # * 'RUNNING' - renders the page
-    # * 'CHARGEABILITY_CALCULATION_IN_PROGRESS' or 'SUCCESS' - redirects to local vehicle exemptions page
-    # * 'FAILURE' = renders uploads index with errors
-    #
+    # Handles controller reaction based on the given job status and the threshold limit value
     def react_to_status(job)
       status = job[:status].upcase
+
       return if status == 'RUNNING'
+      return if status == 'CHARGEABILITY_CALCULATION_IN_PROGRESS' && large_fleet == 'false'
 
       if %w[CHARGEABILITY_CALCULATION_IN_PROGRESS SUCCESS].include?(status)
         redirect_to_local_exemptions

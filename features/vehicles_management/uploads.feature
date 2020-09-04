@@ -91,3 +91,15 @@ Feature: Uploads
       And I visit the upload page
     When I upload a csv file whose size is too big
     Then I should see 'The CSV must be smaller than 50MB'
+
+  Scenario: Upload in calculating chargeability status and number of vehicles less than the threshold
+    When I am on the processing page and number of vehicles less than the threshold
+      And My upload is calculating
+      And I reload the page
+    Then I should be on the processing page
+    When My upload is finished
+      And I reload the page
+    Then I should be on the local vehicles exemptions page
+      And I press 'Continue' link
+    Then I should be on the manage vehicles page
+      And I should see 'You have successfully uploaded 15 vehicles'

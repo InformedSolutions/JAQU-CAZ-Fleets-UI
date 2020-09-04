@@ -58,7 +58,7 @@ class DebitsApi < PaymentsApi
     # * +externalPaymentId+ - string, external identifier for the payment
     #
     def create_payment(caz_id:, account_id:, user_id:, mandate_id:, user_email:, transactions:)
-      log_action('Creating Direct Debit payment')
+      log_action('Creating direct debit payment')
 
       body = payment_creation_body(
         caz_id: caz_id,
