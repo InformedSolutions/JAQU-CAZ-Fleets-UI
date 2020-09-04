@@ -241,7 +241,6 @@ module Payments
     #   GET /payments/in_progress
     #
     def in_progress
-      # api_response = AccountsApi.user(account_id: caz_lock_account_id, account_user_id: caz_lock_user_id)
       @user_locking_email = caz_lock_user_email
       @zone = CleanAirZone.find(@zone_id)
     end
