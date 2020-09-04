@@ -7,10 +7,10 @@ describe VehiclesManagement::Vehicle, type: :model do
 
   let(:data) do
     {
-      'registrationNumber' => vrn,
+      'vrn' => vrn,
       'vehicleType' => type,
-      'complianceOutcomes' => [
-        { 'cleanAirZoneId' => caz_id, 'charge' => charge, 'tariffCode' => 'VAN-123' }
+      'cachedCharges' => [
+        { 'cazId' => caz_id, 'charge' => charge, 'tariffCode' => 'VAN-123' }
       ]
     }
   end

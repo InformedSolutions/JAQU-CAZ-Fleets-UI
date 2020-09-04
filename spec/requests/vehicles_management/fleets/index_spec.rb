@@ -96,7 +96,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
 
     context 'with invalid page' do
       before do
-        allow(FleetsApi).to receive(:fleet_vehicles).and_raise(
+        allow(FleetsApi).to receive(:vehicles).and_raise(
           BaseApi::Error400Exception.new(400, '', {})
         )
         subject
