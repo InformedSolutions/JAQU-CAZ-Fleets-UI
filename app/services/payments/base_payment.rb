@@ -16,7 +16,7 @@ module Payments
     # Method fetches +caz_id+ from provided +payment_data+.
     #
     def caz_id
-      payment_data[:la_id]
+      payment_data[:caz_id]
     end
 
     ##

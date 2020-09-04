@@ -19,7 +19,7 @@ describe 'DirectDebits::DebitsController - GET #result' do
   end
 
   before do
-    add_to_session(initiated_payment: { la_id: 'Leeds', payment_id: id, details: details })
+    add_to_session(initiated_payment: { caz_id: 'Leeds', payment_id: id, details: details })
     allow(PaymentsApi).to receive(:payment_status)
       .with(payment_id: id, caz_name: 'Leeds').and_return(
         'paymentId' => id, 'status' => 'success', 'userEmail' => 'test@example.com'

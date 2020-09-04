@@ -14,7 +14,7 @@ module VehiclesManagement
     before_action :assign_fleet
     before_action :check_vrn, only: %i[delete confirm_delete]
     before_action :check_job_status, only: %i[index]
-    before_action :clear_show_continue_button, only: %i[index]
+    before_action :clear_user_data, only: %i[index]
 
     ##
     # Renders submission method selection page
@@ -40,12 +40,12 @@ module VehiclesManagement
     def submit_method
       form = SubmissionMethodForm.new(submission_method: params['submission-method'])
       session[:submission_method] = form.submission_method
-      unless form.valid?
+      if form.valid?
+        redirect_to form.manual? ? enter_details_vehicles_path : uploads_path
+      else
         @errors = form.errors
-        render :submission_method and return
+        render :submission_method
       end
-
-      redirect_to form.manual? ? enter_details_vehicles_path : uploads_path
     end
 
     ##
@@ -61,7 +61,6 @@ module VehiclesManagement
     # * +page+ - used to paginate vehicles list, defaults to 1, present in the query params
     #
     def index
-      clear_job_data
       return redirect_to submission_method_fleets_path if @fleet.empty?
 
       page = (params[:page] || 1).to_i
@@ -200,8 +199,10 @@ module VehiclesManagement
       fleet.empty? ? dashboard_path : fleets_path
     end
 
+    # Clears upload job data
     # Clears show_continue_button from session when user lands on fleets page after end of CSV import
-    def clear_show_continue_button
+    def clear_user_data
+      clear_upload_job_data
       session[:show_continue_button] = nil if session[:show_continue_button] == true
     end
   end

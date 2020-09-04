@@ -115,7 +115,7 @@ class ApplicationController < ActionController::Base
 
   # Checks if the user selected LA
   def check_la
-    @zone_id = helpers.new_payment_data[:la_id] || helpers.initiated_payment_data[:la_id]
+    @zone_id = helpers.new_payment_data[:caz_id] || helpers.initiated_payment_data[:caz_id]
     redirect_to payments_path unless @zone_id
   end
 

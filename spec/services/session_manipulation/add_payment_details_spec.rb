@@ -8,7 +8,7 @@ describe SessionManipulation::AddPaymentDetails do
   let(:id) { @uuid }
   let(:params) { { payment: { vehicles: vehicles_data, vrn_list: list } } }
   let(:vehicles_data) { { @vrn => dates } }
-  let(:session) { { new_payment: { la_id: id, details: details } } }
+  let(:session) { { new_payment: { caz_id: id, details: details } } }
   let(:dates) { %w[2019-11-04 2019-11-05] }
   let(:details) { { @vrn => { dates: [] } } }
   let(:list) { @vrn }
@@ -20,7 +20,7 @@ describe SessionManipulation::AddPaymentDetails do
   end
 
   it 'keeps LA ID' do
-    expect(session[:new_payment][:la_id]).to eq(id)
+    expect(session[:new_payment][:caz_id]).to eq(id)
   end
 
   context 'with other dates for @vrn' do
