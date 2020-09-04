@@ -13,7 +13,7 @@ describe Payments::MakeCardPayment do
   let(:charge_in_pounds) { 50.0 }
   let(:payment_data) do
     {
-      la_id: caz_id,
+      caz_id: caz_id,
       details: {
         'PAY015' => {
           vrn: 'PAY015',

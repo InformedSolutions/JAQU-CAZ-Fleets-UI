@@ -29,7 +29,7 @@
               .govuk-radios
                 - @zones.each do |mandate|
                   .govuk-radios__item
-                    %input.govuk-radios__input{name: 'local-authority',
+                    %input.govuk-radios__input{name: 'caz_id',
                                                type: 'radio',
                                                value: mandate.zone_id,
                                                id: mandate.zone_name.downcase}

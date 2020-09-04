@@ -8,6 +8,7 @@ module Payments
   #
   class CreditCardsController < ApplicationController
     include CheckPermissions
+    include CazLock
 
     # Makes a request to initiate card payment and redirects to response url
     #
@@ -34,10 +35,10 @@ module Payments
     #
     # ==== Params
     # * +payment_id+ - id of the created payment, required in the session
-    # * +la_id+ - id of the selected CAZ, required in the session
+    # * +caz_id+ - id of the selected CAZ, required in the session
     def result
       payment_data = helpers.initiated_payment_data
-      payment = Payments::Status.new(payment_data[:payment_id], payment_data[:la_id])
+      payment = Payments::Status.new(payment_data[:payment_id], payment_data[:caz_id])
       save_payment_details(payment)
       payment.success? ? redirect_to(success_payments_path) : redirect_to(failure_payments_path)
     end

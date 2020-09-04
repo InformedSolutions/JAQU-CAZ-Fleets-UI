@@ -4,8 +4,11 @@
 # Controller class used to automatically sign out user
 #
 class LogoutController < ApplicationController
+  include CazLock
+
   skip_before_action :authenticate_user!
   skip_before_action :verify_authenticity_token, only: :assign_logout_notice_back_url
+  before_action :release_lock_on_caz, only: %i[timedout_user]
 
   ##
   # Renders the sign out page

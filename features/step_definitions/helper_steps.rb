@@ -86,8 +86,18 @@ Then('I refresh current page') do
   visit current_url
 end
 
+private
+
 def mock_api_responses
   mock_vehicles_in_fleet
   mock_debits
   mock_users
+end
+
+def account_id
+  @account_id ||= SecureRandom.uuid
+end
+
+def second_user_id
+  @second_user_id ||= SecureRandom.uuid
 end

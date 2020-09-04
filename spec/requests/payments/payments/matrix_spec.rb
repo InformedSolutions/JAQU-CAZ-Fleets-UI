@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - #matrix' do
+describe 'PaymentsController - GET #matrix' do
   subject { get matrix_payments_path }
 
   context 'correct permissions' do
@@ -14,7 +14,7 @@ describe 'PaymentsController - #matrix' do
       before do
         mock_caz_list
         mock_fleet(fleet)
-        add_to_session(new_payment: { la_id: @uuid })
+        add_to_session(new_payment: { caz_id: @uuid })
       end
 
       it 'is successful' do
