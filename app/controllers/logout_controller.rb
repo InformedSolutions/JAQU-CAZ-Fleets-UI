@@ -8,7 +8,7 @@ class LogoutController < ApplicationController
 
   skip_before_action :authenticate_user!
   skip_before_action :verify_authenticity_token, only: :assign_logout_notice_back_url
-  before_action :release_lock_on_caz, only: %i[timedout_user]
+  before_action :release_lock_on_caz, only: :timedout_user
 
   ##
   # Renders the sign out page
