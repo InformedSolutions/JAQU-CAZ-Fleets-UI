@@ -2,6 +2,7 @@
 
 class DashboardController < ApplicationController
   include CheckPermissions
+  include CazLock
 
   before_action :clear_input_history, only: :index
 
@@ -51,8 +52,9 @@ class DashboardController < ApplicationController
     session[:confirm_vehicle_creation] = nil
   end
 
-  # clear make payments inputs
+  # clear make payments inputs and release lock on caz for current user
   def clear_make_payment_history
+    release_lock_on_caz
     session[:vrn] = nil
     session[:new_payment] = nil
     session[:payment_method] = nil
