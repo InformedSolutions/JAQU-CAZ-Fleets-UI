@@ -30,6 +30,14 @@ module Payments
     def index
       return redirect_to first_upload_fleets_path if current_user.fleet.total_vehicles_count < 2
 
+      last_path = request.referer || []
+      @back_button_url = if last_path.include?(success_payments_path)
+                           success_payments_path
+                         elsif last_path.include?(success_debits_path)
+                           success_debits_path
+                         else
+                           dashboard_path
+                         end
       @zones = CleanAirZone.active
     end
 

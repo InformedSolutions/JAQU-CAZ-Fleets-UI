@@ -51,6 +51,9 @@ Feature: Fleets
     Then I should be on the Post Payment Details page
     When I press 'Back' link
     Then I should be on the success payment page
+    When I press 'Pay for another Clean Air Zone' link
+    Then I press 'Back' link
+      Then I should be on the success payment page
 
   Scenario: Making a card payment with vehicles in fleet without any active Direct Debit mandate
     When I have vehicles in my fleet
