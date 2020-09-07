@@ -56,7 +56,7 @@ module CazLock
 
   # Returns CAZ UUID from the session
   def caz_id_in_session
-    helpers.new_payment_data[:caz_id]
+    helpers.new_payment_data[:caz_id] || helpers.initiated_payment_data[:caz_id]
   end
 
   # Checks if current user is locked caz

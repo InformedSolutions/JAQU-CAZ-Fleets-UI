@@ -103,7 +103,7 @@ Then('After 16 minutes second user can pay for Leeds too') do
   end
 end
 
-And('Second user already started payment in the same CAZ') do
+And('Second user starts payment in the same CAZ') do
   Capybara.using_session('Second user session') do
     sign_in_second_user
     visit payments_path

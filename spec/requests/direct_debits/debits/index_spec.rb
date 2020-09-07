@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe 'DirectDebits::DebitsController - GET #index' do
   subject { get debits_path }
+
   before { mock_direct_debit_enabled }
 
   context 'correct permissions' do

@@ -18,6 +18,7 @@ module Payments
     before_action :assign_debit, only: %i[select_payment_method]
     before_action :check_job_status, only: %i[matrix]
     before_action :assign_zone_and_dates, only: %i[matrix]
+    before_action :release_lock_on_caz, only: %i[success failure]
 
     ##
     # Renders payment page.
