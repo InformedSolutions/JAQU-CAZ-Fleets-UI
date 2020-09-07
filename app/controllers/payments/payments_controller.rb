@@ -15,7 +15,6 @@ module Payments
     before_action :check_la, only: %i[
       matrix submit review select_payment_method no_chargeable_vehicles in_progress
     ]
-    before_action :assign_back_button_url, only: %i[index select_payment_method]
     before_action :assign_debit, only: %i[select_payment_method]
     before_action :check_job_status, only: %i[matrix]
     before_action :assign_zone_and_dates, only: %i[matrix]
@@ -31,6 +30,14 @@ module Payments
     def index
       return redirect_to first_upload_fleets_path if current_user.fleet.total_vehicles_count < 2
 
+      last_path = request.referer || []
+      @back_button_url = if last_path.include?(success_payments_path)
+                           success_payments_path
+                         elsif last_path.include?(success_debits_path)
+                           success_debits_path
+                         else
+                           dashboard_path
+                         end
       @zones = CleanAirZone.active
     end
 
@@ -129,7 +136,8 @@ module Payments
     #    POST /payments/confirm_review
     #
     def confirm_review
-      form = Payments::PaymentReviewForm.new(params['confirm-not-exemption'])
+      form = Payments::PaymentReviewForm.new(params['confirm_not_exemption'])
+      session[:confirm_not_exemption] = params['confirm_not_exemption']
 
       if form.valid?
         redirect_to select_payment_method_payments_path

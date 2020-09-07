@@ -13,7 +13,7 @@ Feature: Organisations
     Then I enter a company name
       And I press the Continue
     Then I should see "How many vehicles do you manage or own?"
-      And I press the Back link
+      And I press 'Back' link
     Then I should see "Create an account"
       And I press the Continue
     Then I should see "How many vehicles do you manage or own?"
@@ -65,7 +65,7 @@ Feature: Organisations
       And I choose "Less than two"
       And I press the Continue
     Then I should see "Accounts are for multiple vehicles"
-      And I press the Back link
+      And I press 'Back' link
     Then I should see "How many vehicles do you manage or own?"
 
   Scenario: User wants to verify account with valid token

@@ -27,7 +27,7 @@ When('I select any date for vrn on the payment matrix') do
 end
 
 And('I confirm that my vehicles are not exempt from payment') do
-  page.find('#confirm-not-exemption').click
+  page.find('#confirm_not_exemption').click
 end
 
 Then('I should be on the confirm payment page') do
