@@ -39,13 +39,17 @@ Feature: Fleets
     Then I should be on the Select payment method page
       And I press the Continue
     When I should see 'Choose Direct Debit or Card payment'
+      And I press 'Back' link
+      And I should be on the confirm payment page
+    Then I press the Continue
+      And I should be on the Select payment method page
       And I select 'Card payment'
       And I press the Continue
     Then I should be on the success payment page
       And I should see success message
     When I click view details link
     Then I should be on the Post Payment Details page
-    When I press the Back link
+    When I press 'Back' link
     Then I should be on the success payment page
 
   Scenario: Making a card payment with vehicles in fleet without any active Direct Debit mandate
@@ -98,6 +102,10 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the no chargeable vehicles page
       And I should see 'No chargeable vehicles in the Birmingham'
+    Then I press 'Back' link
+      And I should be on the make a payment page
+    Then I press 'Back' link
+      And I should be on the Dashboard page
 
   Scenario: Visiting the the matrix for caz which stared charging today
     When I want to pay for CAZ which started charging 0 days ago
