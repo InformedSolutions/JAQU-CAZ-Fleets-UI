@@ -27,7 +27,7 @@ Feature: Sign In
 
   Scenario: Sign in with invalid credentials
     Given I am on the Sign in page
-      And I should see 'Create account' link
+      And I should see 'Create an account' link
     When I enter invalid credentials
     Then I remain on the current page
       And I should see 'The email or password you entered is incorrect'
@@ -48,8 +48,7 @@ Feature: Sign In
     When I request to sign out
       And  I am redirected to the Sign out page
       And I should see 'Sign out successful'
-      And I should see 'Drive in a Clean Air Zone' link
-      And I should see 'Log in to your account' link
+      And I should see 'Sign back into your account' link
     When I navigate to a Dashboard page
     Then I am redirected to the unauthenticated root page
       And I should see 'Sign In'
@@ -63,7 +62,7 @@ Feature: Sign In
 
   Scenario: Sign in after setting up the account
     Given I am on the set up account confirmation page
-      And I should see 'Create account' link
+      And I should see 'Create an account' link
     When I enter invalid credentials
     Then I remain on the current page
       And I should see 'The email or password you entered is incorrect'
