@@ -21,7 +21,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
     end
 
     context 'with vehicles in fleet' do
-      before { mock_caz_list }
+      before { mock_clean_air_zones }
 
       context 'and without upload data in redis' do
         before do
@@ -87,7 +87,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
         end
       end
 
-      context 'and when api returns 404' do
+      context 'and when api returns 404 status' do
         before do
           add_upload_job_to_redis
           mock_fleet

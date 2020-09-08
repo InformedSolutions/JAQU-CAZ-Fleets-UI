@@ -11,13 +11,15 @@ describe DashboardController do
       expect(response).to redirect_to(new_user_session_path)
     end
 
-    context 'when user is sign in' do
+    context 'when user is signed in' do
       before do
         mock_fleet
+        mock_users
+        mock_debits
         sign_in user
       end
 
-      let(:user) { create_user(permissions: []) }
+      let(:user) { create_user(permissions: %w[MAKE_PAYMENTS MANAGE_MANDATES MANAGE_VEHICLES MANAGE_USERS]) }
 
       context 'should clear manage users session' do
         before do

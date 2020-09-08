@@ -21,7 +21,7 @@ describe 'PaymentsController - GET #index' do
 
     context 'with vehicles in fleet' do
       before do
-        mock_caz_list
+        mock_clean_air_zones
         mock_fleet
       end
 
