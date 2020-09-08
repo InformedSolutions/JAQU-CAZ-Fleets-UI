@@ -96,7 +96,7 @@ en:
   payment_review:
     errors:
       confirmation_alert: Confirm you have checked if you are eligible for an exemption
-  inactivity_logout: You have been logged out due to inactivity
+  inactivity_logout: We have signed you out of your account to keep it secure after it became inactive.
   add_new_user_form:
     labels:
       name: Name
