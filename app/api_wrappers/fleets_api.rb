@@ -15,28 +15,30 @@ class FleetsApi < AccountsApi
     #
     # * +filename+ - Csv file name, eg. 'fleet_email@example.com_1579778166'
     # * +correlation_id+ - Correlation id, eg '98faf123-d201-48cb-8fd5-4b30c1f80918'
+    # * +large_fleet+ - large fleet status for pending job, e.g. false
     #
     # ==== Example
     #
     #    FleetsApi.register_job(
     #       filename: 'fleet_email@example.com_1579778166',
-    #       correlation_id: '98faf123-d201-48cb-8fd5-4b30c1f80918'
+    #       correlation_id: '98faf123-d201-48cb-8fd5-4b30c1f80918',
+    #       large_fleet: false
     #    )
     #
     # ==== Result
     #
     # Returns a UUID, eg. '2ad47f86-8365-47ee-863b-dae6dbf69b3e'.
     #
-    def register_job(filename:, correlation_id:)
+    def register_job(filename:, correlation_id:, large_fleet:)
       log_action('Registering a new upload job')
       request(
         :post,
         '/accounts/register-csv-from-s3/jobs',
         body: {
           'filename' => filename,
-          's3Bucket' => ENV.fetch('S3_AWS_BUCKET', 'S3_AWS_BUCKET')
-        }.to_json,
-        headers: custom_headers(correlation_id)
+          's3Bucket' => ENV.fetch('S3_AWS_BUCKET', 'S3_AWS_BUCKET'),
+          'successEmail' => large_fleet
+        }.to_json, headers: custom_headers(correlation_id)
       )['jobName']
     end
 

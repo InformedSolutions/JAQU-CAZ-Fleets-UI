@@ -99,7 +99,11 @@ module VehiclesManagement
     # Sets proper data to the redis
     def register_job(filename, large_fleet)
       correlation_id = SecureRandom.uuid
-      job_id = FleetsApi.register_job(filename: filename, correlation_id: correlation_id)
+      job_id = FleetsApi.register_job(
+        filename: filename,
+        correlation_id: correlation_id,
+        large_fleet: large_fleet
+      )
       add_data_to_redis(correlation_id, job_id, large_fleet)
     end
 
