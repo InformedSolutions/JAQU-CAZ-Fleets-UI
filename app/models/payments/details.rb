@@ -21,7 +21,7 @@ module Payments
     #   * +external_id+ - payment ID in backend DB
     #   * +user_email+ - user email address
     #   * +reference_number+ - payment reference number
-    #   * +la_id+ - selected local authority ID
+    #   * +caz_id+ - selected local authority ID
     # * +entries_paid+ - quantity of paid days
     # * +total_charge+ - sum of charges for all entries
     #
@@ -33,7 +33,7 @@ module Payments
 
     # Returns selected local authority name, eg. 'Leeds'
     def caz_name
-      CleanAirZone.find(session_details[:la_id]).name
+      CleanAirZone.find(session_details[:caz_id]).name
     end
 
     # Returns user email address

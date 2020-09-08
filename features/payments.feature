@@ -39,14 +39,22 @@ Feature: Fleets
     Then I should be on the Select payment method page
       And I press the Continue
     When I should see 'Choose Direct Debit or Card payment'
+      And I press 'Back' link
+      And I should be on the confirm payment page
+    Then I press the Continue
+      And I should be on the Select payment method page
       And I select 'Card payment'
       And I press the Continue
     Then I should be on the success payment page
       And I should see success message
     When I click view details link
     Then I should be on the Post Payment Details page
-    When I press the Back link
+    When I press 'Back' link
     Then I should be on the success payment page
+    When I press 'Pay for another Clean Air Zone' link
+    Then I press 'Back' link
+      Then I should be on the success payment page
+    And Second user starts payment in the same CAZ
 
   Scenario: Making a card payment with vehicles in fleet without any active Direct Debit mandate
     When I have vehicles in my fleet
@@ -98,6 +106,10 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the no chargeable vehicles page
       And I should see 'No chargeable vehicles in the Birmingham'
+    Then I press 'Back' link
+      And I should be on the make a payment page
+    Then I press 'Back' link
+      And I should be on the Dashboard page
 
   Scenario: Visiting the the matrix for caz which stared charging today
     When I want to pay for CAZ which started charging 0 days ago
@@ -128,3 +140,39 @@ Feature: Fleets
       And I should see 'Birmingham'
       And I should not see 'Leeds'
 
+  Scenario: Making a payment and block payment for second user in selected CAZ
+    When I have vehicles in my fleet
+    Then I visit the make payment page
+      And I select 'Birmingham'
+      And I press the Continue
+    Then I should be on the payment matrix page
+      And Second user is blocked from making a payment in the same CAZ
+      And I press 'Back' link
+    Then I should be on the make a payment page
+      And I select 'Leeds'
+      And I press the Continue
+    Then I should be on the payment matrix page
+      And Second user can now pay for Birmingham
+    Then After 16 minutes second user can pay for Leeds too
+
+  Scenario: Making a payment when another user started payment process in the same caz
+    When I have vehicles in my fleet
+      And Second user starts payment in the same CAZ
+    Then I visit the make payment page
+      And I select 'Birmingham'
+      And I press the Continue
+    Then I should be on the payment in progress page
+      And I should see 'Payment in progress'
+      And I should see 'Back'
+      And I should see 'Pay for another Clean Air Zone'
+      And I should see 'Return to Your account'
+      And I press 'Back' link
+    Then I should be on the make a payment page
+      And I press the Continue
+    Then I should be on the payment in progress page
+      And I press 'Pay for another Clean Air Zone' link
+    Then I should be on the make a payment page
+      And I press the Continue
+    Then I should be on the payment in progress page
+      And I press 'Return to Your account' link
+    Then I should be on the Dashboard page

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - #submit' do
+describe 'PaymentsController - POST #submit' do
   subject { post matrix_payments_path, params: params }
 
   let(:params) do
@@ -31,9 +31,9 @@ describe 'PaymentsController - #submit' do
       expect(subject).to redirect_to(payments_path)
     end
 
-    context 'with la_id and vehicle details in the session' do
+    context 'with caz_id and vehicle details in the session' do
       before do
-        add_to_session(new_payment: { la_id: @uuid, details: { @vrn => { dates: [] } } })
+        add_to_session(new_payment: { caz_id: @uuid, details: { @vrn => { dates: [] } } })
         subject
       end
 

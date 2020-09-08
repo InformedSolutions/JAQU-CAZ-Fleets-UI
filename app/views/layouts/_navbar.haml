@@ -9,8 +9,7 @@
       %li.govuk-header__navigation-item{class: current_path?(authenticated_root_path)}
         = link_to('Home', authenticated_root_path, class: 'govuk-header__link', id: 'home')
       %li.govuk-header__navigation-item
-        = link_to('Sign Out', destroy_user_session_path,
-          method: :delete, class: 'govuk-header__link', id: 'sign-out')
+        = link_to('Sign Out', destroy_user_session_path, method: :delete, class: 'govuk-header__link', id: 'sign-out')
     - else
       %li.govuk-header__navigation-item{class: current_path?(new_user_session_path)}
         = link_to('Sign In', new_user_session_path, class: 'govuk-header__link', id: 'sign-in')

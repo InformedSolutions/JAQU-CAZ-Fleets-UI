@@ -2,7 +2,7 @@
 
 When('I visit the make payment page') do
   mock_debits
-  login_user(permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS])
+  login_user(permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS], account_id: account_id)
   visit payments_path
 end
 
@@ -27,7 +27,7 @@ When('I select any date for vrn on the payment matrix') do
 end
 
 And('I confirm that my vehicles are not exempt from payment') do
-  page.find('#confirm-not-exemption').click
+  page.find('#confirm_not_exemption').click
 end
 
 Then('I should be on the confirm payment page') do
@@ -75,4 +75,60 @@ end
 
 Then('I should be on the Select payment method page') do
   expect_path(select_payment_method_payments_path)
+end
+
+Then('Second user is blocked from making a payment in the same CAZ') do
+  Capybara.using_session('Second user session') do
+    sign_in_second_user
+    mock_user_details
+    visit_caz_selection_page
+    expect_path(in_progress_payments_path)
+  end
+end
+
+Then('Second user can now pay for Birmingham') do
+  Capybara.using_session('Second user session') do
+    visit_caz_selection_page
+    expect_path(matrix_payments_path)
+  end
+end
+
+Then('After 16 minutes second user can pay for Leeds too') do
+  travel(16.minutes) do
+    sign_in_second_user
+    visit payments_path
+    choose('Leeds')
+    click_on('Continue')
+    expect_path(matrix_payments_path)
+  end
+end
+
+And('Second user starts payment in the same CAZ') do
+  Capybara.using_session('Second user session') do
+    sign_in_second_user
+    visit payments_path
+    visit_caz_selection_page
+    expect_path(matrix_payments_path)
+  end
+end
+
+Then('I should be on the payment in progress page') do
+  expect_path(in_progress_payments_path)
+end
+
+private
+
+def sign_in_second_user
+  login_user(
+    email: 'second_user@email.com',
+    permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS],
+    account_id: account_id,
+    user_id: second_user_id
+  )
+end
+
+def visit_caz_selection_page
+  visit payments_path
+  choose('Birmingham')
+  click_on('Continue')
 end
