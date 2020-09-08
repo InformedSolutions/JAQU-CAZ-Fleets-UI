@@ -27,5 +27,7 @@ module FleetsUI
     config.x.feature_direct_debits = ENV.fetch('FEATURE_DIRECT_DEBITS', 'false')
     # Configurable CSV upload size limit
     config.x.csv_file_size_limit = ENV.fetch('CSV_FILE_SIZE_LIMIT_MB', 50).to_i
+    # Number of uploaded vehicles when we should change flow of compliance calculation
+    config.x.large_fleet_threshold = ENV.fetch('LARGE_FLEET_THRESHOLD', 100).to_i
   end
 end

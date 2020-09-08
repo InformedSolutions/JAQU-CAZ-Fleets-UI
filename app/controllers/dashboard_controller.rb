@@ -63,10 +63,7 @@ class DashboardController < ApplicationController
 
   # clear manage users inputs
   def clear_manage_users_history
-    return if session['new_user'].nil?
-
-    session['new_user']['name'] = nil
-    session['new_user']['email'] = nil
+    session[:new_user] = nil
   end
 
   # clear payments history back links

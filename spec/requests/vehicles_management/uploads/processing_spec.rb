@@ -17,14 +17,15 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
 
     context 'with filename in the session' do
       let(:filename) { 'filename' }
+      let(:upload_job_redis_key) { "account_id_#{user.account_id}" }
       let(:job_id) { SecureRandom.uuid }
       let(:correlation_id) { SecureRandom.uuid }
+      let(:large_fleet) { true }
       let(:status) { 'CHARGEABILITY_CALCULATION_IN_PROGRESS' }
       let(:errors) { [] }
 
       before do
-        account = "account_id_#{user.account_id}"
-        REDIS.hmset(account, 'job_id', job_id, 'correlation_id', correlation_id)
+        add_upload_job_to_redis(job_id: job_id, correlation_id: correlation_id, large_fleet: large_fleet)
         allow(FleetsApi).to receive(:job_status).and_return(status: status, errors: errors)
         mock_fleet(create_empty_fleet)
       end
@@ -41,12 +42,26 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
         end
 
         context 'when status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
-          it 'redirects to local exemptions page' do
-            expect(response).to redirect_to(local_exemptions_vehicles_path)
+          context 'and large_fleet is true' do
+            it 'redirects to local exemptions page' do
+              expect(response).to redirect_to(local_exemptions_vehicles_path)
+            end
+
+            it 'not sets :success flash message' do
+              expect(flash[:success]).to be_nil
+            end
           end
 
-          it 'not sets :success flash message' do
-            expect(flash[:success]).to be_nil
+          context 'and large_fleet is false' do
+            let(:large_fleet) { false }
+
+            it 'renders processing page' do
+              expect(response).to render_template('processing')
+            end
+
+            it 'not sets :success flash message' do
+              expect(flash[:success]).to be_nil
+            end
           end
         end
 

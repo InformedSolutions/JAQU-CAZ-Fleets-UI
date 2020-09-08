@@ -127,7 +127,7 @@ class AccountsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def create_user(account_id:, email:, password:, verification_url:)
-      log_action 'Creating a user account'
+      log_action('Creating a user account')
       body = create_account_user_body(email, password, verification_url)
       request(:post, "/accounts/#{account_id}/users", body: body)
     end
@@ -153,7 +153,7 @@ class AccountsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def users(account_id:)
-      log_action 'Getting users'
+      log_action('Getting users')
       request(:get, "/accounts/#{account_id}/users")['users']
     end
 
@@ -179,7 +179,7 @@ class AccountsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def user(account_id:, account_user_id:)
-      log_action 'Getting user details'
+      log_action('Getting user details')
       request(:get, "/accounts/#{account_id}/users/#{account_user_id}")
     end
 
@@ -202,7 +202,7 @@ class AccountsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def update_user(account_id:, account_user_id:, permissions:)
-      log_action 'Updating user permissions'
+      log_action('Updating user permissions')
       body = { permissions: permissions }.to_json
       request(:patch, "/accounts/#{account_id}/users/#{account_user_id}", body: body)
     end
@@ -225,7 +225,7 @@ class AccountsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def delete_user(account_id:, account_user_id:)
-      log_action 'Deleting user'
+      log_action('Deleting user')
       request(:delete, "/accounts/#{account_id}/users/#{account_user_id}")
     end
 
@@ -256,7 +256,7 @@ class AccountsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def resend_verification(account_id:, user_id:, verification_url:)
-      log_action 'Resend verification email of user account'
+      log_action('Resend verification email of user account')
       body = { verificationUrl: verification_url }.to_json
       request(:post, "/accounts/#{account_id}/users/#{user_id}/verifications", body: body)
     end

@@ -11,21 +11,37 @@ describe DashboardController do
       expect(response).to redirect_to(new_user_session_path)
     end
 
-    context 'when CAZ locked by current user' do
+    context 'when user is sign in' do
       before do
         mock_fleet
-        add_caz_lock_to_redis(user.user_id)
         sign_in user
-        add_to_session(new_payment: { caz_id: caz_id })
-        subject
       end
 
-      let(:user) { make_payments_user }
-      let(:caz_lock_key) { "caz_lock_#{user.account_id}_#{caz_id}" }
-      let(:caz_id) { @uuid }
+      let(:user) { create_user(permissions: []) }
 
-      it 'removes caz lock from redis' do
-        expect(REDIS.hget(caz_lock_key, 'caz_id')).to be_nil
+      context 'should clear manage users session' do
+        before do
+          add_to_session(new_user: { name: user.account_name, email: user.email })
+          subject
+        end
+
+        it 'clears the session' do
+          expect(session[:new_user]).to be_nil
+        end
+      end
+
+      context 'when CAZ locked by current user' do
+        before do
+          add_caz_lock_to_redis(user)
+          add_to_session(new_payment: { caz_id: caz_id })
+          subject
+        end
+
+        let(:caz_id) { @uuid }
+
+        it 'removes caz lock from redis' do
+          expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).to be_nil
+        end
       end
     end
 

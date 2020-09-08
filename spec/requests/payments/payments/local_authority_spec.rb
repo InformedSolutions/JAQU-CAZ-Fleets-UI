@@ -3,11 +3,10 @@
 require 'rails_helper'
 
 describe 'PaymentsController - POST #local_authority' do
-  subject { post local_authority_payments_path, params: { 'caz_id' => caz_id } }
+  subject { post local_authority_payments_path, params: { caz_id: caz_id } }
 
   let(:caz_id) { @uuid }
   let(:user) { make_payments_user }
-  let(:caz_lock_key) { "caz_lock_#{user.account_id}_#{caz_id}" }
 
   context 'correct permissions' do
     let(:chargeable_vehicles_exists) { true }
@@ -61,7 +60,7 @@ describe 'PaymentsController - POST #local_authority' do
 
     context 'when CAZ locked by another user' do
       before do
-        add_caz_lock_to_redis(SecureRandom.uuid)
+        add_caz_lock_to_redis(user, user_id: SecureRandom.uuid)
         add_to_session(new_payment: { caz_id: caz_id })
         subject
       end
@@ -71,13 +70,13 @@ describe 'PaymentsController - POST #local_authority' do
       end
 
       it 'not removes caz lock from redis' do
-        expect(REDIS.hget(caz_lock_key, 'caz_id')).to_not be_nil
+        expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).to_not be_nil
       end
     end
 
     context 'when CAZ locked by current user' do
       before do
-        add_caz_lock_to_redis(user.user_id)
+        add_caz_lock_to_redis(user)
         add_to_session(new_payment: { caz_id: caz_id })
         subject
       end
@@ -87,7 +86,7 @@ describe 'PaymentsController - POST #local_authority' do
       end
 
       it 'not removes caz lock from redis' do
-        expect(REDIS.hget(caz_lock_key, 'caz_id')).to_not be_nil
+        expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).to_not be_nil
       end
     end
   end

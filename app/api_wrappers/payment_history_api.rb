@@ -31,7 +31,7 @@ class PaymentHistoryApi < PaymentsApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def payments(account_id:, user_id:, user_payments:, page: 1)
-      log_action 'Getting payments history'
+      log_action('Getting payments history')
       query = { 'pageNumber' => calculate_page_number(page), 'pageSize' => 10 }
       query.merge!('accountUserId' => user_id) if user_payments
       request(:get, "/accounts/#{account_id}/payments", query: query)
@@ -61,7 +61,7 @@ class PaymentHistoryApi < PaymentsApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def payment_details(payment_id:)
-      log_action 'Getting payment history'
+      log_action('Getting payment history')
       request(:get, "/payments/#{payment_id}")
     end
   end
