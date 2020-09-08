@@ -54,6 +54,7 @@ Feature: Fleets
     When I press 'Pay for another Clean Air Zone' link
     Then I press 'Back' link
       Then I should be on the success payment page
+    And Second user starts payment in the same CAZ
 
   Scenario: Making a card payment with vehicles in fleet without any active Direct Debit mandate
     When I have vehicles in my fleet
@@ -156,7 +157,7 @@ Feature: Fleets
 
   Scenario: Making a payment when another user started payment process in the same caz
     When I have vehicles in my fleet
-      And Second user already started payment in the same CAZ
+      And Second user starts payment in the same CAZ
     Then I visit the make payment page
       And I select 'Birmingham'
       And I press the Continue

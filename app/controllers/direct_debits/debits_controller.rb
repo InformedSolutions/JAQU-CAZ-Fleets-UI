@@ -8,6 +8,7 @@ module DirectDebits
   #
   class DebitsController < ApplicationController
     include CheckPermissions
+    include CazLock
 
     before_action -> { check_permissions(helpers.direct_debits_enabled?) }, only: %i[index new create]
     before_action -> { check_permissions(allow_manage_mandates?) }, only: %i[index new create]
@@ -17,6 +18,7 @@ module DirectDebits
     before_action :check_active_caz_mandates, only: %i[first_mandate]
     before_action :assign_back_button_url, only: %i[confirm index new first_mandate]
     before_action :clear_payment_method, only: %i[first_mandate initiate]
+    before_action :release_lock_on_caz, only: :success
 
     ##
     # Renders the confirm Direct Debit page
