@@ -19,8 +19,7 @@
             %p
               Invite team members to help manage your company account.
             %p
-              Once set up you can choose whether they can invite other user to use the
-              accounts, make payments#{', set up Direct Debits' if direct_debits_enabled?} and manage vehicles.
+              Once their account is created, you can choose their permissions.
 
             - if errors.present?
               = render 'users_management/create_users/new_user_form_input/errored', f: f, errors: errors
