@@ -23,6 +23,7 @@ Feature: Debits
     When I press 'Pay for another Clean Air Zone' link
     Then I press 'Back' link
       Then I should see success message
+    And Second user starts payment in the same CAZ
 
   Scenario: Making a cancel Direct Debit payment with active mandate
     Given I have active mandates for selected CAZ
