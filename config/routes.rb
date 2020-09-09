@@ -21,6 +21,8 @@ Rails.application.routes.draw do
       get :email_sent
       get :invalid
       get :success
+      get :edit
+      patch :update
     end
   end
 
