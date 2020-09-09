@@ -82,12 +82,32 @@ describe Organisations::CreateAccount do
       end
     end
 
+    context 'when company name has profanity term' do
+      let(:error_code) { 'profanity' }
+
+      it 'raises `UnableToCreateAccountException` exception' do
+        expect { subject }.to raise_error(
+          UnableToCreateAccountException, I18n.t('company_name.errors.profanity')
+        )
+      end
+    end
+
     context 'when company name has abusive term' do
       let(:error_code) { 'abuse' }
 
       it 'raises `UnableToCreateAccountException` exception' do
         expect { subject }.to raise_error(
           UnableToCreateAccountException, I18n.t('company_name.errors.abuse')
+        )
+      end
+    end
+
+    context 'when unknown code returns' do
+      let(:error_code) { 'unknown code' }
+
+      it 'raises `UnableToCreateAccountException` exception' do
+        expect { subject }.to raise_error(
+          UnableToCreateAccountException, 'Something went wrong'
         )
       end
     end

@@ -46,4 +46,34 @@ describe PaymentsHelper do
       it { is_expected.to be_truthy }
     end
   end
+
+  describe '.parse_date' do
+    subject { helper.parse_date('2020-09-04') }
+
+    it 'returns a proper date format' do
+      expect(subject).to eq('Friday 04 September 2020')
+    end
+  end
+
+  describe '.single_vrn_parsed_charge' do
+    subject { helper.single_vrn_parsed_charge(['03 September 2020'], 50.0) }
+
+    it 'returns a proper value' do
+      expect(subject).to eq('£50.00')
+    end
+  end
+
+  describe '.exemption_url_for' do
+    subject { helper.exemption_url_for(caz) }
+
+    let(:caz) do
+      instance_double 'CleanAirZone',
+                      name: 'Leeds',
+                      exemption_url: 'www.example.com'
+    end
+
+    it 'returns a `link_to` instance' do
+      expect(subject).to be_an(ActiveSupport::SafeBuffer)
+    end
+  end
 end
