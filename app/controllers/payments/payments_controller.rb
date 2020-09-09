@@ -31,14 +31,7 @@ module Payments
     def index
       return redirect_to first_upload_fleets_path if current_user.fleet.total_vehicles_count < 2
 
-      last_path = request.referer || []
-      @back_button_url = if last_path.include?(success_payments_path)
-                           success_payments_path
-                         elsif last_path.include?(success_debits_path)
-                           success_debits_path
-                         else
-                           dashboard_path
-                         end
+      @back_button_url = determinate_back_button_url
       @zones = CleanAirZone.active
     end
 
@@ -304,6 +297,20 @@ module Payments
       service = Payments::PaymentDates.new(charge_start_date: @zone.active_charge_start_date)
       @dates = service.chargeable_dates
       @d_day_notice = service.d_day_notice
+    end
+
+    # Returns back link url
+    def determinate_back_button_url
+      last_path = request.referer || []
+      if last_path.include?(success_payments_path)
+        success_payments_path
+      elsif last_path.include?(success_debits_path)
+        success_debits_path
+      elsif last_path.include?(in_progress_payments_path)
+        in_progress_payments_path
+      else
+        dashboard_path
+      end
     end
   end
 end
