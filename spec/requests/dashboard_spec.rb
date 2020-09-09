@@ -67,6 +67,15 @@ describe DashboardController do
       end
     end
 
+    context 'when user logs in with outdated password' do
+      before { sign_in create_user(permissions: [], days_to_password_expiry: -2) }
+
+      it 'redirects to edit password page' do
+        subject
+        expect(response).to redirect_to(edit_passwords_path)
+      end
+    end
+
     context 'when user login IP does not match request IP' do
       before { sign_in create_user(login_ip: '0.0.0.0') }
 
