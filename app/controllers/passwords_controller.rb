@@ -5,6 +5,7 @@
 #
 class PasswordsController < ApplicationController
   skip_before_action :authenticate_user!
+  skip_before_action :check_password_age
   before_action :authenticate_user!, only: %i[edit update]
 
   before_action :validate_token, only: :create

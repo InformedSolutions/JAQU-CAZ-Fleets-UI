@@ -71,12 +71,4 @@ class DashboardController < ApplicationController
     session[:company_back_link_history] = nil
     session[:user_back_link_history] = nil
   end
-
-  # Sets number of remaining days to password expiry
-  # Returns number or nil if password was already changed during existing session
-  def days_to_password_expiry
-    return if session[:password_updated]
-
-    current_user.days_to_password_expiry
-  end
 end
