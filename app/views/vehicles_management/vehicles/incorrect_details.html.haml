@@ -17,7 +17,11 @@
       %p
         You still need to pay a charge if you have driven, or are planning to drive, in the zone.
       %p
-        If your vehicle does meet emission standards, you can claim a refund when your registration details are updated. 
+        If your vehicle does meet emission standards, you can claim a
+        = external_link_to('refund',
+                   'https://www.gov.uk/guidance/driving-in-a-clean-air-zone',
+                   id: 'refund-link')
+        from the local authority after your registration details have been updated.
       %p
         Continue to add the vehicle to your account.
       = link_to 'Continue', local_exemptions_vehicles_path, class: 'govuk-button'
