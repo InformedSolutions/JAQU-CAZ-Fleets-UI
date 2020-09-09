@@ -5,14 +5,7 @@ require 'rails_helper'
 describe UsersManagement::User, type: :model do
   subject { described_class.new(data) }
 
-  let(:data) do
-    {
-      'accountUserId' => user_id,
-      'name' => name,
-      'email' => email
-    }
-  end
-
+  let(:data) { { 'accountUserId' => user_id, 'name' => name, 'email' => email } }
   let(:user_id) { @uuid }
   let(:name) { 'John Doe' }
   let(:email) { 'Test@example.com' }

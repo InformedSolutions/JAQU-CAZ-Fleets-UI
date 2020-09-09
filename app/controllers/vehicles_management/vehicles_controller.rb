@@ -190,7 +190,6 @@ module VehiclesManagement
     def add_to_fleet
       add_to_current_users_fleet
       clear_session
-
       redirect_to fleets_path
     end
 

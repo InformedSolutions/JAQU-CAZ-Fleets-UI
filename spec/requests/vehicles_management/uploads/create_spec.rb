@@ -13,12 +13,13 @@ describe 'VehiclesManagement::UploadsController - POST #create' do
     let(:filename) { 'filename' }
     let(:job_id) { SecureRandom.uuid }
     let(:correlation_id) { SecureRandom.uuid }
+    let(:large_fleet) { false }
 
     before do
       allow(SecureRandom).to receive(:uuid).and_return(correlation_id)
       stub = instance_double('VehiclesManagement::UploadFile',
                              filename: filename,
-                             large_fleet: false)
+                             large_fleet: large_fleet)
       allow(VehiclesManagement::UploadFile).to receive(:call).and_return(stub)
       allow(FleetsApi).to receive(:register_job).and_return(job_id)
       sign_in user
@@ -32,7 +33,11 @@ describe 'VehiclesManagement::UploadsController - POST #create' do
       end
 
       it 'triggers job the right params' do
-        expect(FleetsApi).to receive(:register_job).with(filename: filename, correlation_id: correlation_id)
+        expect(FleetsApi).to receive(:register_job).with(
+          filename: filename,
+          correlation_id: correlation_id,
+          large_fleet: large_fleet
+        )
         subject
       end
 

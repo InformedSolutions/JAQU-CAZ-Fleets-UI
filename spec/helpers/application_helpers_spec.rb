@@ -12,4 +12,14 @@ describe ApplicationHelper do
       expect(subject).to eq('Thursday 30 April 2020')
     end
   end
+
+  describe '.formatted_date' do
+    subject { helper.formatted_date(date) }
+
+    let(:date) { Date.parse('2020-09-04') }
+
+    it 'returns a proper date format' do
+      expect(subject).to eq('Friday 04 September 2020')
+    end
+  end
 end
