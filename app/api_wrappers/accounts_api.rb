@@ -438,6 +438,41 @@ class AccountsApi < BaseApi
     end
 
     ##
+    # Calls +/v1/auth/password/update+ endpoint with +POST+ method.
+    #
+    # ==== Attributes
+    #
+    # * +user_id+ - uuid, account user id
+    # * +old_password+ - string, old password value submitted by the user
+    # * +new_password+ - string, new password value submitted by the user
+    #
+    # ==== Example
+    #
+    #    AccountsApi.update_password(
+    #       user_id: '27978cac-44fa-4d2e-bc9b-54fd12e37c69',
+    #       old_password: 'Password1234!',
+    #       new_password: '12345!Password'
+    #    )
+    #
+    # ==== Result
+    #
+    # Returns true if the call was successful
+    #
+    # ==== Exceptions
+    #
+    # * {422 Exception}[rdoc-ref:BaseApi::Error422Exception] - invalid password - errorCode 'oldPasswordInvalid'
+    # * {422 Exception}[rdoc-ref:BaseApi::Error422Exception] - password not complex enough - errorCode 'passwordNotValid'
+    # * {422 Exception}[rdoc-ref:BaseApi::Error422Exception] - old password reused - errorCode 'newPasswordReuse'
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def update_password(user_id:, old_password:, new_password:)
+      log_action('Performing password update')
+      body = { accountUserId: user_id, oldPassword: old_password, newPassword: new_password }.to_json
+      request(:post, '/auth/password/update', body: body)
+      true
+    end
+
+    ##
     # Calls +/v1/accounts/:accountId+ endpoint with +GET+ method.
     #
     # ==== Attributes

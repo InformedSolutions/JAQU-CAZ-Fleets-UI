@@ -17,7 +17,7 @@ class DashboardController < ApplicationController
     @vehicles_count = current_user.fleet.total_vehicles_count
     @mandates_present = check_mandates
     @users_present = check_users
-    @days_count = current_user.days_to_password_expiry
+    @days_count = days_to_password_expiry
   end
 
   private
@@ -70,5 +70,13 @@ class DashboardController < ApplicationController
   def clear_payment_history
     session[:company_back_link_history] = nil
     session[:user_back_link_history] = nil
+  end
+
+  # Sets number of remaining days to password expiry
+  # Returns number or nil if password was already changed during existing session
+  def days_to_password_expiry
+    return if session[:password_updated]
+
+    current_user.days_to_password_expiry
   end
 end

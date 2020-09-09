@@ -77,9 +77,3 @@ end
 And('I should be on the Dashboard page') do
   expect(page).to have_current_path(dashboard_path)
 end
-
-And('I enter email and password that is about to expire in {int} days and press Continue') do |days_count|
-  user = new_user(days_to_password_expiry: days_count)
-  allow_any_instance_of(User).to receive(:authentication).and_return(user)
-  fill_sign_in_form
-end

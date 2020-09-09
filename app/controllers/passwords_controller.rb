@@ -5,6 +5,8 @@
 #
 class PasswordsController < ApplicationController
   skip_before_action :authenticate_user!
+  before_action :authenticate_user!, only: %i[edit update]
+
   before_action :validate_token, only: :create
 
   ##
@@ -122,6 +124,37 @@ class PasswordsController < ApplicationController
     # Renders static page
   end
 
+  ##
+  # Renders the update password page.
+  #
+  # ==== Path
+  #
+  #    :GET /passwords/edit
+  #
+  def edit
+    # Renders static page
+  end
+
+  ##
+  # Updates user password by calling AccountsApi.update_password
+  #
+  # ==== Path
+  #
+  #    :PATCH /passwords
+  #
+  def update
+    form = UpdatePasswordForm.new(
+      user_id: current_user.user_id,
+      old_password: params.dig(:passwords, :old_password),
+      password: params.dig(:passwords, :password),
+      password_confirmation: params.dig(:passwords, :password_confirmation)
+    )
+
+    return rerender_edit(form.errors.messages) unless form.valid? && form.submit
+
+    redirect_to_dashboard
+  end
+
   private
 
   ##
@@ -147,6 +180,12 @@ class PasswordsController < ApplicationController
     render :index
   end
 
+  # Renders :edit with assigned errors
+  def rerender_edit(errors)
+    @errors = errors
+    render :edit
+  end
+
   # Returns the list of permitted params
   def email_address_params
     params.require(:passwords).permit(:email_address)
@@ -157,5 +196,11 @@ class PasswordsController < ApplicationController
     return if params[:token].present? && params[:token] == session[:reset_password_token]
 
     redirect_to invalid_passwords_path
+  end
+
+  # Sets session flag and redirects to dashboard after successful password update
+  def redirect_to_dashboard
+    session[:password_updated] = true
+    redirect_to dashboard_path
   end
 end

@@ -65,6 +65,11 @@ en:
       password_missing: Enter your new password
       password_confirmation_missing: Confirm your new password
       password_complexity: Password must be at least 12 characters long, include at least one upper case letter, a number, and a special character
+  update_password_form:
+    errors:
+      old_password_missing: Enter your old password
+      old_password_invalid: The password you entered is incorrect
+      password_reused: You have already used that password, choose a new one
   submission_method_form:
     errors:
       submission_method_missing: Choose how to add vehicles to your account
