@@ -41,9 +41,9 @@ module VehiclesManagement
     # Returns the charge for given CAZ in float
     def charge(caz_id)
       cached_charge = data['cachedCharges'].find { |res| res['cazId'] == caz_id }
-      return nil unless cached_charge
+      return nil if cached_charge.blank? || cached_charge['charge'].blank?
 
-      cached_charge['charge'] == 'null' ? nil : cached_charge['charge'].to_f
+      cached_charge['charge'].to_f
     end
 
     # Returns the parsed charge for given CAZ
