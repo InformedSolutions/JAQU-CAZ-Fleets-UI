@@ -52,7 +52,7 @@ describe VehiclesManagement::Vehicle, type: :model do
     end
 
     context 'when charge is null' do
-      let(:charge) { 'null' }
+      let(:charge) { nil }
 
       it 'returns nil' do
         expect(subject.charge(caz_id)).to be_nil
@@ -86,7 +86,7 @@ describe VehiclesManagement::Vehicle, type: :model do
     end
 
     context 'when charge is null' do
-      let(:charge) { 'null' }
+      let(:charge) { nil }
 
       it "returns 'Undetermined'" do
         expect(subject.formatted_charge(caz_id)).to eq('Undetermined')
