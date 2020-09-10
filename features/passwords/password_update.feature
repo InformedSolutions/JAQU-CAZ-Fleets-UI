@@ -17,7 +17,7 @@ Feature: Password reset
       And I enter email and password that is about to expire in 50 days and press Continue
     Then I should not see 'Your password will expire in'
 
-  Scenario: Password update process
+  Scenario: Voluntary password update process
     Given I navigate to a Dashboard page
       And I enter email and password that is about to expire in 5 days and press Continue
       And I press 'Update it now' link
@@ -34,6 +34,19 @@ Feature: Password reset
       Then I should see 'You have already used that password, choose a new one' 2 times
     When I fill passwords that do not match and press Continue
       Then I should see 'Enter a password and password confirmation that are the same' 3 times
+    When I fill in correct old and new password and press Continue
+      Then I should be on the Dashboard page
+      And I should not see 'Your password will expire in'
+
+  Scenario: Forced password update process
+    Given I navigate to a Dashboard page
+      And I enter email and password that is about to expire in 0 days and press Continue
+      And I should be on Update Password page
+    When I press 'Home' link
+      And I should be on Update Password page
+    When I press 'Sign out' link
+      And I enter email and password that is about to expire in -6 days and press Continue
+      And I should be on Update Password page
     When I fill in correct old and new password and press Continue
       Then I should be on the Dashboard page
       And I should not see 'Your password will expire in'
