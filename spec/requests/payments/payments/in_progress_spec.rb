@@ -19,7 +19,6 @@ describe 'PaymentsController - GET #in_progress' do
     context 'with la in the session' do
       before do
         mock_clean_air_zones
-        mock_caz_list
         mock_fleet(fleet)
         add_to_session(new_payment: { caz_id: caz_id })
       end
