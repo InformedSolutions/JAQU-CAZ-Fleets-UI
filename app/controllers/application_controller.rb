@@ -141,4 +141,11 @@ class ApplicationController < ActionController::Base
 
     current_user.days_to_password_expiry
   end
+
+  # set headers for pages that should be refreshed every time
+  def set_cache_headers
+    response.headers['Cache-Control'] = 'no-cache, no-store'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = 'Mon, 01 Jan 1990 00:00:00 GMT'
+  end
 end
