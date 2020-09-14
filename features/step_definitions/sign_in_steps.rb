@@ -48,7 +48,7 @@ Then('I am redirected to the Sign out page') do
 end
 
 Then('I am redirected to the unauthenticated root page') do
-  expect(page).to have_current_path(new_user_session_path)
+  expect(page).to have_content('Forgotten your password?')
 end
 
 When('I enter invalid credentials') do

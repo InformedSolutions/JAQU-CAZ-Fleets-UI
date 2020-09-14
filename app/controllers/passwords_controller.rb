@@ -202,6 +202,6 @@ class PasswordsController < ApplicationController
   # Sets session flag and redirects to dashboard after successful password update
   def redirect_to_dashboard
     session[:password_updated] = true
-    redirect_to dashboard_path
+    redirect_to authenticated_root_path
   end
 end

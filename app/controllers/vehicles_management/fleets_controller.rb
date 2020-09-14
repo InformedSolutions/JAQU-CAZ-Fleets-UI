@@ -179,7 +179,7 @@ module VehiclesManagement
     # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:index]
     def determinate_next_step(form)
       if form.valid?
-        redirect_to form.confirmed? ? enter_details_vehicles_path : dashboard_path
+        redirect_to form.confirmed? ? enter_details_vehicles_path : authenticated_root_path
       else
         redirect_to fleets_path, alert: form.errors.messages[:confirmation].first
       end
@@ -196,7 +196,7 @@ module VehiclesManagement
 
     # Returns redirect path after successful removal of vehicle from the fleet
     def after_removal_redirect_path(fleet)
-      fleet.empty? ? dashboard_path : fleets_path
+      fleet.empty? ? authenticated_root_path : fleets_path
     end
 
     # Clears upload job data

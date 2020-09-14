@@ -23,7 +23,7 @@ describe 'VehiclesManagement::FleetsController - POST #create' do
       let(:confirmation) { 'no' }
 
       it 'redirects to dashboard page' do
-        expect(response).to redirect_to(dashboard_path)
+        expect(response).to redirect_to(authenticated_root_path)
       end
     end
 

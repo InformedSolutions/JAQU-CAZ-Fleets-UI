@@ -24,7 +24,7 @@ module PaymentHistory
       assign_paginated_history
       @back_button_url = determinate_back_link_url(
         :company_back_link_history,
-        dashboard_url,
+        authenticated_root_url,
         company_payment_history_url
       )
     rescue BaseApi::Error400Exception
@@ -43,7 +43,7 @@ module PaymentHistory
       assign_paginated_history(user_payments: true)
       @back_button_url = determinate_back_link_url(
         :user_back_link_history,
-        dashboard_url,
+        authenticated_root_url,
         user_payment_history_url
       )
     rescue BaseApi::Error400Exception

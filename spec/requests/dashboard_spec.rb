@@ -4,11 +4,11 @@ require 'rails_helper'
 
 describe DashboardController do
   describe 'GET #index' do
-    subject { get dashboard_path }
+    subject { get authenticated_root_path }
 
     it 'returns redirect to the login page' do
       subject
-      expect(response).to redirect_to(new_user_session_path)
+      expect(response).to render_template('devise/sessions/new')
     end
 
     context 'when user is signed in' do

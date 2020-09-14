@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { sessions: 'sessions' }
 
   authenticated(:user) { root 'dashboard#index', as: :authenticated_root }
-  get :dashboard, to: 'dashboard#index'
   devise_scope(:user) { root to: 'sessions#new' }
 
   scope controller: 'logout' do

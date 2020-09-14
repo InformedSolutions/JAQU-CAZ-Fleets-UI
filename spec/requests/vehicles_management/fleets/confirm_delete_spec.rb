@@ -56,7 +56,7 @@ describe 'VehiclesManagement::FleetsController - POST #confirm_delete' do
 
             it 'redirects to dashboard' do
               subject
-              expect(response).to redirect_to(dashboard_path)
+              expect(response).to redirect_to(authenticated_root_path)
             end
           end
         end

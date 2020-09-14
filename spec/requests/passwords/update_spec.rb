@@ -23,7 +23,7 @@ describe 'PasswordsController - PATCH #update' do
       before { allow(AccountsApi).to receive(:update_password).and_return(true) }
 
       it 'redirects to success page' do
-        expect(subject).to redirect_to(dashboard_path)
+        expect(subject).to redirect_to(authenticated_root_path)
       end
 
       it 'calls AccountsApi.set_password with right params' do

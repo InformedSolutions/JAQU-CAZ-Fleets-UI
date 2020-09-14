@@ -309,7 +309,7 @@ module Payments
       elsif last_path.include?(in_progress_payments_path)
         in_progress_payments_path
       else
-        dashboard_path
+        authenticated_root_path
       end
     end
   end

@@ -28,7 +28,7 @@ module UsersManagement
       ).filtered.any?
                       users_path
                     else
-                      dashboard_path
+                      authenticated_root_path
                     end
     end
 
