@@ -22,8 +22,9 @@ class DashboardController < ApplicationController
 
   private
 
-  # Do not perform api call if user don't have permission
+  # Do not perform api call if direct debits disabled or user don't have permission
   def check_mandates
+    return false unless Rails.configuration.x.feature_direct_debits.to_s.downcase == 'true'
     return false unless allow_manage_mandates?
 
     DirectDebits::Debit.new(current_user.account_id).active_mandates.any?
