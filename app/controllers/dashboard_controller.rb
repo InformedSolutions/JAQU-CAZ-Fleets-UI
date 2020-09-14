@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
   include CheckPermissions
   include CazLock
 
+  before_action :set_cache_headers, only: %i[index]
   before_action :clear_input_history, only: :index
 
   ##
