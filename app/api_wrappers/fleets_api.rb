@@ -15,28 +15,30 @@ class FleetsApi < AccountsApi
     #
     # * +filename+ - Csv file name, eg. 'fleet_email@example.com_1579778166'
     # * +correlation_id+ - Correlation id, eg '98faf123-d201-48cb-8fd5-4b30c1f80918'
+    # * +large_fleet+ - large fleet status for pending job, e.g. false
     #
     # ==== Example
     #
     #    FleetsApi.register_job(
     #       filename: 'fleet_email@example.com_1579778166',
-    #       correlation_id: '98faf123-d201-48cb-8fd5-4b30c1f80918'
+    #       correlation_id: '98faf123-d201-48cb-8fd5-4b30c1f80918',
+    #       large_fleet: false
     #    )
     #
     # ==== Result
     #
     # Returns a UUID, eg. '2ad47f86-8365-47ee-863b-dae6dbf69b3e'.
     #
-    def register_job(filename:, correlation_id:)
+    def register_job(filename:, correlation_id:, large_fleet:)
       log_action('Registering a new upload job')
       request(
         :post,
         '/accounts/register-csv-from-s3/jobs',
         body: {
           'filename' => filename,
-          's3Bucket' => ENV.fetch('S3_AWS_BUCKET', 'S3_AWS_BUCKET')
-        }.to_json,
-        headers: custom_headers(correlation_id)
+          's3Bucket' => ENV.fetch('S3_AWS_BUCKET', 'S3_AWS_BUCKET'),
+          'successEmail' => large_fleet
+        }.to_json, headers: custom_headers(correlation_id)
       )['jobName']
     end
 
@@ -69,39 +71,6 @@ class FleetsApi < AccountsApi
         "/accounts/register-csv-from-s3/jobs/#{job_id}",
         headers: custom_headers(correlation_id)
       ).symbolize_keys
-    end
-
-    ##
-    # Calls +/v1/accounts/:account_id/vehicles+ endpoint with +GET+ method
-    # and returns paginated list of the fleet vehicles.
-    #
-    # ==== Attributes
-    #
-    # * +account_id+ - ID of the account associated with the fleet
-    # * +page+ - requested page of the results
-    # * +per_page+ - number of vehicles per page, defaults to 10
-    #
-    # ==== Example
-    #
-    #    FleetApi.fleet_vehicles(account_id: '1f30838f-69ee-4486-95b4-7dfcd5c6c67c', page: 1)
-    #
-    # ==== Result
-    #
-    # Returned vehicles details will have the following fields:
-    # * +vrns+ - list of the vehicles' registration numbers
-    # * +pageCount+ - number of available pages
-    # * +totalVrnsCount+ - total number of vehicles in the fleet
-    #
-    # ==== Exceptions
-    #
-    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - invalid parameters
-    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
-    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
-    #
-    def fleet_vehicles(account_id:, page:, per_page: 10)
-      log_action('Getting fleet vehicles')
-      query = { 'pageNumber' => calculate_page_number(page), 'pageSize' => per_page }
-      request(:get, "/accounts/#{account_id}/vehicles", query: query)
     end
 
     ##
@@ -162,6 +131,44 @@ class FleetsApi < AccountsApi
       log_action('Removing vehicles from the fleet')
       request(:delete, "/accounts/#{account_id}/vehicles/#{vrn}")
       true
+    end
+
+    ##
+    # Calls +/v1/accounts/:account_id/vehicles+ endpoint with +GET+ method
+    # and returns paginated list of the fleet vehicles with compliance results.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - ID of the account associated with the fleet
+    # * +page+ - requested page of the results
+    # * +per_page+ - number of vehicles per page, defaults to 10
+    #
+    # ==== Example
+    #
+    #    FleetsApi.vehicles(account_id: '1f30838f-69ee-4486-95b4-7dfcd5c6c67c', page: 1)
+    #
+    # ==== Result
+    #
+    # Returned vehicles details will have the following fields:
+    # * +vehicles+ - list of the vehicles
+    # * +pageCount+ - number of available pages
+    # * +totalVehiclesCount+ - total number of vehicles in the fleet
+    #
+    # ==== Serialization
+    #
+    # {VehiclesManagement::PaginatedFleet model}[rdoc-ref:VehiclesManagement::PaginatedFleet]
+    # can be used to create an instance referring to the returned data
+    #
+    # ==== Exceptions
+    #
+    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - invalid parameters
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def vehicles(account_id:, page:, per_page:)
+      log_action('Getting vehicles')
+      query = { 'pageNumber' => calculate_page_number(page), 'pageSize' => per_page }
+      request(:get, "/accounts/#{account_id}/vehicles", query: query)
     end
   end
 end

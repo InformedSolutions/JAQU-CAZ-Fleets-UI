@@ -6,16 +6,9 @@ describe 'SessionsController  - DELETE #destroy' do
   subject { delete destroy_user_session_url }
 
   let(:user) { create_owner }
-  let(:caz_id) { SecureRandom.uuid }
-  let(:caz_lock_key) { "caz_lock_#{user.account_id}_#{caz_id}" }
+  let(:caz_id) { @uuid }
 
-  before do
-    REDIS.hmset(caz_lock_key,
-                'account_id', user.account_id,
-                'user_id', user.user_id,
-                'caz_id', caz_id,
-                'email', user.email)
-  end
+  before { add_caz_lock_to_redis(user) }
 
   context 'when CAZ locked by current user' do
     before do
@@ -29,7 +22,7 @@ describe 'SessionsController  - DELETE #destroy' do
     end
 
     it 'removes caz lock from redis' do
-      expect(REDIS.hget(caz_lock_key, 'caz_id')).to be_nil
+      expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).to be_nil
     end
   end
 
@@ -44,7 +37,7 @@ describe 'SessionsController  - DELETE #destroy' do
     end
 
     it 'not removes caz lock from redis' do
-      expect(REDIS.hget(caz_lock_key, 'caz_id')).to_not be_nil
+      expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).to_not be_nil
     end
   end
 end

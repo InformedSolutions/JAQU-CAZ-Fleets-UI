@@ -172,7 +172,7 @@ Feature: Fleets
     Then I should be on the payment in progress page
       And I press 'Pay for another Clean Air Zone' link
     Then I should be on the make a payment page
-      And I press the Continue
+      And I press 'Back' link
     Then I should be on the payment in progress page
       And I press 'Return to Your account' link
     Then I should be on the Dashboard page

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'DirectDebits::DebitsController - GET #result' do
+describe 'Payments::CreditCardsController - GET #result' do
   subject { get result_payments_path }
 
   let(:id) { @uuid }

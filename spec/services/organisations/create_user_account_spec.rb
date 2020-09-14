@@ -19,6 +19,7 @@ describe Organisations::CreateUserAccount do
       password_confirmation: password
     )
   end
+
   let(:user) { create_owner(email: email) }
   let(:email) { 'email@example.com' }
   let(:password) { '8NAOTpMkx2%9' }
@@ -27,33 +28,54 @@ describe Organisations::CreateUserAccount do
   let(:valid) { true }
 
   context 'when api returns correct response' do
-    before do
-      allow(Organisations::EmailAndPasswordForm)
-        .to receive(:new)
-        .and_return(instance_double(Organisations::EmailAndPasswordForm, valid?: valid))
-      response = read_response('create_user.json')
-      allow(AccountsApi).to receive(:create_user).and_return(response)
+    context 'and form valid' do
+      before do
+        allow(Organisations::EmailAndPasswordForm)
+          .to receive(:new)
+          .and_return(instance_double(Organisations::EmailAndPasswordForm, valid?: valid))
+        allow(AccountsApi).to receive(:create_user).and_return(read_response('create_user.json'))
+      end
+
+      it 'returns the User class' do
+        expect(subject.class).to eq(User)
+      end
+
+      it 'calls Organisations::EmailAndPasswordForm with proper params' do
+        expect(Organisations::EmailAndPasswordForm).to receive(:new).with(params)
+        subject
+      end
+
+      it 'calls AccountsApi.users with proper params' do
+        expect(AccountsApi)
+          .to receive(:create_user)
+          .with(
+            account_id: account_id,
+            email: email,
+            password: password,
+            verification_url: verification_url
+          )
+        subject
+      end
     end
 
-    it 'returns the User class' do
-      expect(subject.class).to eq(User)
-    end
+    context 'and form not valid' do
+      before do
+        allow(Organisations::EmailAndPasswordForm)
+          .to receive(:new)
+          .and_return(
+            instance_double(
+              Organisations::EmailAndPasswordForm,
+              valid?: false,
+              errors: instance_double('messages', messages: error_message)
+            )
+          )
+      end
 
-    it 'calls Organisations::EmailAndPasswordForm with proper params' do
-      expect(Organisations::EmailAndPasswordForm).to receive(:new).with(params)
-      subject
-    end
+      let(:error_message) { 'Enter your email address' }
 
-    it 'calls AccountsApi.users with proper params' do
-      expect(AccountsApi)
-        .to receive(:create_user)
-        .with(
-          account_id: account_id,
-          email: email,
-          password: password,
-          verification_url: verification_url
-        )
-      subject
+      it 'raises NewPasswordException' do
+        expect { subject }.to raise_error(NewPasswordException, error_message)
+      end
     end
   end
 

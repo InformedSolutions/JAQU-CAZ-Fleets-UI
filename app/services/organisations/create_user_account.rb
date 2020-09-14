@@ -65,7 +65,7 @@ module Organisations
       check_email_uniq(enum, errors)
       check_password_complexity(enum, errors)
 
-      raise(NewPasswordException, errors)
+      raise NewPasswordException, errors
     end
 
     # add error to +errors+ object if `emailNotUnique` enum is present

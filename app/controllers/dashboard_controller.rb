@@ -17,6 +17,7 @@ class DashboardController < ApplicationController
     @vehicles_count = current_user.fleet.total_vehicles_count
     @mandates_present = check_mandates
     @users_present = check_users
+    @days_count = days_to_password_expiry
   end
 
   private
@@ -62,10 +63,7 @@ class DashboardController < ApplicationController
 
   # clear manage users inputs
   def clear_manage_users_history
-    return if session['new_user'].nil?
-
-    session['new_user']['name'] = nil
-    session['new_user']['email'] = nil
+    session[:new_user] = nil
   end
 
   # clear payments history back links
