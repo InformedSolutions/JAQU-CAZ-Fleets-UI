@@ -3,18 +3,18 @@
 require 'rails_helper'
 
 describe User, type: :model do
-  subject(:user) { create_user(account_id: account_id) }
+  subject { create_user(account_id: account_id) }
 
-  let(:account_id) { SecureRandom.uuid }
+  let(:account_id) { @uuid }
 
   describe '.fleet' do
     it 'returns a fleet object' do
-      expect(user.fleet).to be_a(Fleet)
+      expect(subject.fleet).to be_a(VehiclesManagement::Fleet)
     end
 
-    it 'calls Fleet.new with proper params' do
-      expect(Fleet).to receive(:new).with(account_id)
-      user.fleet
+    it 'calls VehiclesManagement::Fleet.new with proper params' do
+      expect(VehiclesManagement::Fleet).to receive(:new).with(account_id)
+      subject.fleet
     end
   end
 

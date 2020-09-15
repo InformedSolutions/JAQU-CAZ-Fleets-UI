@@ -21,11 +21,11 @@ module FleetsUI
     # the framework and any gems in your application.
     #
     # feedback url
-    config.x.feedback_url = ENV.fetch('FEEDBACK_URL', nil)
+    config.x.feedback_url = ENV.fetch('FEEDBACK_URL', 'https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9')
     # payments ui url
     config.x.payments_ui_url = ENV.fetch('PAYMENTS_UI_URL', 'dev.paycleanairzonecharge.co.uk')
     # service name for whole app
-    config.x.service_name = 'Pay a Clean Air Zone charge'
+    config.x.service_name = 'Drive in a Clean Air Zone'
 
     # timeout the user session without activity.
     config.x.session_timeout_in_min = ENV.fetch('SESSION_TIMEOUT', 15).to_i

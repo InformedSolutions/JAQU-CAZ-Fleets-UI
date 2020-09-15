@@ -3,18 +3,18 @@
 require 'rails_helper'
 
 describe VrnForm, type: :model do
-  subject(:form) { described_class.new(vrn) }
+  subject { described_class.new(vrn) }
 
   let(:vrn) { 'ABC123' }
 
   it { is_expected.to be_valid }
-  it { expect(form.vrn).to eq(vrn) }
+  it { expect(subject.vrn).to eq(vrn) }
 
   context 'when vrn includes spaces and small letters' do
     let(:vrn) { 'AbC 12 3' }
 
     it 'removes spaces and upcases vrn' do
-      expect(form.vrn).to eq('ABC123')
+      expect(subject.vrn).to eq('ABC123')
     end
   end
   context 'when vrn is nil' do

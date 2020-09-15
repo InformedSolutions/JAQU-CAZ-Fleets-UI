@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'AccountsApi.verify_user' do
-  subject(:call) { AccountsApi.verify_user(token: token) }
+describe 'AccountsApi.verify_user - POST' do
+  subject { AccountsApi.verify_user(token: token) }
 
   let(:token) { '80a367e3-6dc0-4430-97e3-36eb1549cac3' }
   let(:url) { %r{/accounts/verify} }
@@ -15,7 +15,7 @@ describe 'AccountsApi.verify_user' do
 
     it 'calls API with no body' do
       body = { token: token }.to_json
-      call
+      subject
       expect(WebMock).to have_requested(:post, url).with(body: body).once
     end
   end
@@ -24,12 +24,12 @@ describe 'AccountsApi.verify_user' do
     before do
       stub_request(:post, url).to_return(
         status: 400,
-        body: { 'message' => 'Email already confirmed' }.to_json
+        body: { message: 'Email already confirmed' }.to_json
       )
     end
 
     it 'raises Error400Exception' do
-      expect { call }.to raise_exception(BaseApi::Error400Exception)
+      expect { subject }.to raise_exception(BaseApi::Error400Exception)
     end
   end
 
@@ -37,12 +37,12 @@ describe 'AccountsApi.verify_user' do
     before do
       stub_request(:post, url).to_return(
         status: 404,
-        body: { 'message' => 'User not found' }.to_json
+        body: { message: 'User not found' }.to_json
       )
     end
 
     it 'raises Error404Exception' do
-      expect { call }.to raise_exception(BaseApi::Error404Exception)
+      expect { subject }.to raise_exception(BaseApi::Error404Exception)
     end
   end
 end

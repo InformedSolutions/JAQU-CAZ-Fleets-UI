@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'OrganisationsController - POST #submit_fleet_check' do
+describe 'Organisations::OrganisationsController - POST #submit_fleet_check' do
   subject do
     post fleet_check_organisations_path, params: {
       organisations: { confirm_fleet_check: 'less_than_two' }
@@ -11,7 +11,7 @@ describe 'OrganisationsController - POST #submit_fleet_check' do
 
   context 'with valid params' do
     before do
-      allow(ValidateFleetCheck).to receive(:call).and_return(SecureRandom.uuid)
+      allow(Organisations::ValidateFleetCheck).to receive(:call).and_return(@uuid)
       subject
     end
 
@@ -24,7 +24,8 @@ describe 'OrganisationsController - POST #submit_fleet_check' do
     let(:errors) { { company_name: 'Sample Error' } }
 
     before do
-      allow(ValidateFleetCheck).to(receive(:call).and_raise(InvalidFleetCheckException, errors))
+      allow(Organisations::ValidateFleetCheck).to(receive(:call)
+        .and_raise(InvalidFleetCheckException, errors))
       subject
     end
 
@@ -37,7 +38,7 @@ describe 'OrganisationsController - POST #submit_fleet_check' do
     let(:errors) { { company_name: 'Sample Error' } }
 
     before do
-      allow(ValidateFleetCheck).to(receive(:call)
+      allow(Organisations::ValidateFleetCheck).to(receive(:call)
         .and_raise(AccountForMultipleVehiclesException, errors))
       subject
     end

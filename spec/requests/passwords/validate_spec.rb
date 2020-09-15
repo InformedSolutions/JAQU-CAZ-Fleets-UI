@@ -3,26 +3,22 @@
 require 'rails_helper'
 
 describe 'PasswordsController - POST #validate' do
-  subject(:http_request) do
-    post reset_passwords_path, params: { passwords: { email_address: email_address } }
-  end
+  subject { post reset_passwords_path, params: { passwords: { email_address: email_address } } }
 
   let(:email_address) { 'email@example.com' }
 
-  before do
-    allow(AccountsApi).to receive(:initiate_password_reset).and_return(true)
-  end
+  before { allow(AccountsApi).to receive(:initiate_password_reset).and_return(true) }
 
   context 'with valid params' do
     it 'returns a redirect to email sent ' do
-      expect(http_request).to redirect_to(email_sent_passwords_path)
+      expect(subject).to redirect_to(email_sent_passwords_path)
     end
 
     it 'calls AccountsApi.initiate_password_reset' do
       expect(AccountsApi)
         .to receive(:initiate_password_reset)
         .with(email: email_address, reset_url: passwords_url)
-      http_request
+      subject
     end
   end
 
@@ -30,7 +26,7 @@ describe 'PasswordsController - POST #validate' do
     let(:email_address) { '' }
 
     it 'renders reset password view' do
-      http_request
+      subject
       expect(response).to render_template('passwords/reset')
     end
   end

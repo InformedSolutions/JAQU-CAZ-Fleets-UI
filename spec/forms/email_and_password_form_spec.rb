@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe EmailAndPasswordForm, type: :model do
-  subject(:form) { described_class.new(params) }
+  subject { described_class.new(params) }
 
   let(:params) do
     {
@@ -19,7 +19,7 @@ describe EmailAndPasswordForm, type: :model do
   let(:password) { '8NAOTpMkx2%9' }
   let(:password_confirmation) { '8NAOTpMkx2%9' }
 
-  before { form.valid? }
+  before { subject.valid? }
 
   it { is_expected.to be_valid }
 
@@ -30,8 +30,8 @@ describe EmailAndPasswordForm, type: :model do
       it { is_expected.not_to be_valid }
 
       it 'has a proper error message' do
-        expect(form.errors.messages[:email]).to include(
-          I18n.t('input_form.errors.missing', attribute: 'Email')
+        expect(subject.errors.messages[:email]).to include(
+          I18n.t('email_and_password_form.email_missing')
         )
       end
     end
@@ -42,7 +42,7 @@ describe EmailAndPasswordForm, type: :model do
       it { is_expected.not_to be_valid }
 
       it 'has a proper error message' do
-        expect(form.errors.messages[:email]).to include(
+        expect(subject.errors.messages[:email]).to include(
           I18n.t('input_form.errors.invalid_format', attribute: 'Email')
         )
       end
@@ -54,7 +54,7 @@ describe EmailAndPasswordForm, type: :model do
       it { is_expected.not_to be_valid }
 
       it 'has a proper error message' do
-        expect(form.errors.messages[:email]).to include(
+        expect(subject.errors.messages[:email]).to include(
           I18n.t('input_form.errors.maximum_length', attribute: 'Email')
         )
       end
@@ -66,7 +66,7 @@ describe EmailAndPasswordForm, type: :model do
       it { is_expected.not_to be_valid }
 
       it 'has a proper error message' do
-        expect(form.errors.messages[:email]).to include(
+        expect(subject.errors.messages[:email]).to include(
           I18n.t('email.errors.email_equality')
         )
       end
@@ -78,8 +78,8 @@ describe EmailAndPasswordForm, type: :model do
       it { is_expected.not_to be_valid }
 
       it 'has a proper error message' do
-        expect(form.errors.messages[:email_confirmation]).to include(
-          I18n.t('input_form.errors.missing', attribute: 'Email confirmation')
+        expect(subject.errors.messages[:email_confirmation]).to include(
+          I18n.t('email_and_password_form.email_confirmation_missing')
         )
       end
     end
@@ -91,13 +91,13 @@ describe EmailAndPasswordForm, type: :model do
       it { is_expected.not_to be_valid }
 
       it 'has a proper email error message' do
-        expect(form.errors.messages[:email]).to include(
+        expect(subject.errors.messages[:email]).to include(
           I18n.t('input_form.errors.invalid_format', attribute: 'Email')
         )
       end
 
       it 'has a proper email_confirmation error message' do
-        expect(form.errors.messages[:email_confirmation]).to include(
+        expect(subject.errors.messages[:email_confirmation]).to include(
           I18n.t('input_form.errors.invalid_format', attribute: 'Email confirmation')
         )
       end
@@ -111,8 +111,8 @@ describe EmailAndPasswordForm, type: :model do
       it { is_expected.not_to be_valid }
 
       it 'has a proper error message' do
-        expect(form.errors.messages[:password]).to include(
-          I18n.t('input_form.errors.missing', attribute: 'Password')
+        expect(subject.errors.messages[:password]).to include(
+          I18n.t('email_and_password_form.password_missing')
         )
       end
     end
@@ -123,7 +123,7 @@ describe EmailAndPasswordForm, type: :model do
       it { is_expected.not_to be_valid }
 
       it 'has a proper error message' do
-        expect(form.errors.messages[:password]).to include(
+        expect(subject.errors.messages[:password]).to include(
           I18n.t('input_form.errors.maximum_length', attribute: 'Password')
         )
       end
@@ -135,8 +135,32 @@ describe EmailAndPasswordForm, type: :model do
       it { is_expected.not_to be_valid }
 
       it 'has a proper error message' do
-        expect(form.errors.messages[:password]).to include(
-          I18n.t('password.errors.password_equality')
+        expect(subject.errors.messages[:password]).to include(
+          'Password and password confirmation must be the same'
+        )
+      end
+    end
+
+    context 'when password_confirmation is empty' do
+      let(:password_confirmation) { '' }
+
+      it { is_expected.not_to be_valid }
+
+      it 'has a proper error message' do
+        expect(subject.errors.messages[:password_confirmation]).to include(
+          I18n.t('email_and_password_form.password_confirmation_missing')
+        )
+      end
+    end
+
+    context 'when password_confirmation is too long' do
+      let(:password_confirmation) { '8NAOTpMkx2%9' * 4 }
+
+      it { is_expected.not_to be_valid }
+
+      it 'has a proper error message' do
+        expect(subject.errors.messages[:password_confirmation]).to include(
+          I18n.t('input_form.errors.maximum_length', attribute: 'Password confirmation')
         )
       end
     end

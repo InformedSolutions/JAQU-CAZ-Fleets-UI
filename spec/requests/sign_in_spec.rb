@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'User signing in', type: :request do
-  subject(:http_request) { post user_session_path(params) }
+describe 'User signing in' do
+  subject { post user_session_path(params) }
 
   let(:email) { 'user@example.com' }
   let(:password) { '12345678' }
@@ -14,8 +14,8 @@ describe 'User signing in', type: :request do
       .to receive(:sign_in)
       .and_return(
         'email' => email,
-        'accountUserId' => SecureRandom.uuid,
-        'accountId' => SecureRandom.uuid,
+        'accountUserId' => @uuid,
+        'accountId' => @uuid,
         'accountName' => 'Royal Mail',
         'owner' => false
       )
@@ -26,16 +26,16 @@ describe 'User signing in', type: :request do
       expect(AccountsApi)
         .to receive(:sign_in)
         .with(email: email, password: password)
-      http_request
+      subject
     end
 
     it 'redirects to root path' do
-      http_request
+      subject
       expect(response).to redirect_to(authenticated_root_path)
     end
 
     it 'sets login IP' do
-      http_request
+      subject
       expect(controller.current_user.login_ip).to eq(@remote_ip)
     end
   end
@@ -48,21 +48,21 @@ describe 'User signing in', type: :request do
     end
 
     it 'renders login view' do
-      expect(http_request).to render_template('devise/sessions/new')
+      expect(subject).to render_template('devise/sessions/new')
     end
 
     it 'shows base error message once' do
-      http_request
+      subject
       expect(body_scan(I18n.t('login_form.incorrect'))).to eq(1)
     end
 
     it 'shows email error message once' do
-      http_request
+      subject
       expect(body_scan(I18n.t('login_form.email_missing'))).to eq(0)
     end
 
     it 'shows password error message once' do
-      http_request
+      subject
       expect(body_scan(I18n.t('login_form.password_missing'))).to eq(0)
     end
   end
@@ -75,11 +75,11 @@ describe 'User signing in', type: :request do
     end
 
     it 'renders login view' do
-      expect(http_request).to render_template('devise/sessions/new')
+      expect(subject).to render_template('devise/sessions/new')
     end
 
     it 'shows email error message twice' do
-      http_request
+      subject
       expect(body_scan(I18n.t('login_form.email_unconfirmed'))).to eq(2)
     end
   end
@@ -90,7 +90,7 @@ describe 'User signing in', type: :request do
     it_behaves_like 'an invalid login param'
 
     it 'shows email error message twice' do
-      http_request
+      subject
       expect(body_scan(I18n.t('login_form.email_missing'))).to eq(2)
     end
   end
@@ -101,7 +101,7 @@ describe 'User signing in', type: :request do
     it_behaves_like 'an invalid login param'
 
     it 'shows email error message twice' do
-      http_request
+      subject
       expect(body_scan(I18n.t('login_form.invalid_email'))).to eq(2)
     end
   end
@@ -112,8 +112,51 @@ describe 'User signing in', type: :request do
     it_behaves_like 'an invalid login param'
 
     it 'shows password error message twice' do
-      http_request
+      subject
       expect(body_scan(I18n.t('login_form.password_missing'))).to eq(2)
+    end
+  end
+
+  describe 'when login is performed from account set up confirmation page' do
+    subject { post user_session_path(params), headers: { 'HTTP_REFERER': referer } }
+
+    let(:referer) { 'http://www.example.com/users/set_up_confirmation' }
+
+    context 'with valid parameters' do
+      let(:email) { 'user@example.com' }
+      let(:password) { 'P@$$w0rd12345!' }
+
+      it 'calls AccountApi.sign_in with proper params' do
+        expect(AccountsApi)
+          .to receive(:sign_in)
+          .with(email: email, password: password)
+        subject
+      end
+
+      it 'redirects to root path' do
+        subject
+        expect(response).to redirect_to(authenticated_root_path)
+      end
+
+      it 'sets login IP' do
+        subject
+        expect(controller.current_user.login_ip).to eq(@remote_ip)
+      end
+    end
+
+    context 'with invalid parameters' do
+      let(:email) { 'test' }
+      let(:password) { '' }
+
+      before { subject }
+
+      it 'renders login view' do
+        expect(subject).to redirect_to(referer)
+      end
+
+      it 'does not call AccountApi.sign_in' do
+        expect(AccountsApi).not_to receive(:sign_in)
+      end
     end
   end
 end

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe LoginForm, type: :model do
-  subject(:form) { described_class.new(email, password) }
+  subject { described_class.new(email, password) }
 
   let(:email) { 'test@example.com' }
   let(:password) { 'password' }
@@ -16,8 +16,8 @@ describe LoginForm, type: :model do
     it { is_expected.not_to be_valid }
 
     it 'has a proper error message' do
-      form.valid?
-      expect(form.errors.messages[:email]).to include(I18n.t('login_form.email_missing'))
+      subject.valid?
+      expect(subject.errors.messages[:email]).to include(I18n.t('login_form.email_missing'))
     end
   end
 
@@ -27,8 +27,8 @@ describe LoginForm, type: :model do
     it { is_expected.not_to be_valid }
 
     it 'has a proper error message' do
-      form.valid?
-      expect(form.errors.messages[:email]).to include(I18n.t('login_form.invalid_email'))
+      subject.valid?
+      expect(subject.errors.messages[:email]).to include(I18n.t('login_form.invalid_email'))
     end
   end
 
@@ -38,8 +38,8 @@ describe LoginForm, type: :model do
     it { is_expected.not_to be_valid }
 
     it 'has a proper error message' do
-      form.valid?
-      expect(form.errors.messages[:password]).to include(I18n.t('login_form.password_missing'))
+      subject.valid?
+      expect(subject.errors.messages[:password]).to include(I18n.t('login_form.password_missing'))
     end
   end
 end

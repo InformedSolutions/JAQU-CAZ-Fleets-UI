@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Sign out', type: :request do
+describe 'Sign out' do
   subject { delete destroy_user_session_url }
 
   before do
