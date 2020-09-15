@@ -8,14 +8,12 @@ module MockDebit
     mock_caz_mandates(caz_mandates)
     mock_create_mandate
     mock_create_payment
+    mock_users
   end
 
   def mock_debits_api_call(mocked_file = 'mandates')
     api_response = read_response("/debits/#{mocked_file}.json")
-    stub_request(:get, /direct-debit-mandate/).to_return(
-      status: 200,
-      body: api_response.to_json
-    )
+    stub_request(:get, /direct-debit-mandate/).to_return(status: 200, body: api_response.to_json)
   end
 
   def mock_debits(mocked_file = 'mandates')

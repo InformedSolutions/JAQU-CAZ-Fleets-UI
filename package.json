@@ -7,15 +7,15 @@
     "@rails/activestorage": "^6.0.3",
     "@rails/ujs": "^6.0.3",
     "@rails/webpacker": "^5.1.1",
-    "core-js": "^3.6.4",
-    "govuk-frontend": "^3.6.0",
+    "core-js": "^3.6.5",
+    "govuk-frontend": "^3.8.0",
     "improved-yarn-audit": "^2.2.1",
     "rails-erb-loader": "^5.5.2",
-    "regenerator-runtime": "^0.13.5"
+    "regenerator-runtime": "^0.13.7"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "webpack-dev-server": "^3.11.0",
-    "pa11y": "^5.3.0"
+    "pa11y": "^5.3.0",
+    "webpack-dev-server": "^3.11.0"
   }
 }

@@ -13,7 +13,7 @@ require 'rspec/rails'
 Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
 RSpec.configure do |config|
-  # add helpers to rspec classes
+  # add helpers to request rspec classes
   [RequestSpecHelper,
    StringCountHelper,
    AddToSession,
@@ -21,21 +21,22 @@ RSpec.configure do |config|
    ChargeableVehiclesFactory].each do |h|
     config.include h, type: :request
   end
+
+  # add helpers to rspec classes
   [StrongParams,
-   UserFactory,
+   UsersFactory,
    ActiveSupport::Testing::TimeHelpers,
    FixturesHelpers,
-   MockedResponses].each do |h|
+   MockedResponses,
+   UsersManagement::MockedResponses].each do |h|
     config.include h
   end
 
-  config.before(:each) do
-    ENV['REDIS_URL'] = nil
+  config.before do
     @vrn = 'ABC123'
+    @uuid = '5cd7441d-766f-48ff-b8ad-1809586fea37'
     @remote_ip = '1.2.3.4'
-    allow_any_instance_of(ActionDispatch::Request)
-      .to receive(:remote_ip)
-      .and_return(@remote_ip)
+    allow_any_instance_of(ActionDispatch::Request).to receive(:remote_ip).and_return(@remote_ip)
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

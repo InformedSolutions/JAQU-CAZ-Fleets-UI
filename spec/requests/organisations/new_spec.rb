@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'OrganisationsController - GET #new' do
+describe 'Organisations::OrganisationsController - GET #new' do
   subject { get organisations_path }
 
   it 'returns an ok response' do

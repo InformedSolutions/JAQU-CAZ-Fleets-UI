@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 describe SessionManipulation::AddQueryDetails do
-  subject(:service) do
+  subject do
     described_class.call(params: params, session: session)
   end
 
-  let(:id) { SecureRandom.uuid }
+  let(:id) { @uuid }
   let(:params) do
     {
       commit: commit,
@@ -20,7 +20,7 @@ describe SessionManipulation::AddQueryDetails do
   let(:vrn2) { 'CAZ400' }
   let(:session) { {} }
 
-  before { service }
+  before { subject }
 
   it 'saves only the search value' do
     expect(session[:payment_query]).to eq({ search: search })

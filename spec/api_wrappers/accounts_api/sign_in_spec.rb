@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'AccountsApi.sign_in' do
-  subject(:call) { AccountsApi.sign_in(email: email, password: password) }
+describe 'AccountsApi.sign_in - POST' do
+  subject { AccountsApi.sign_in(email: email, password: password) }
 
   let(:email) { 'test@example.com' }
   let(:password) { 'password' }
@@ -18,14 +18,14 @@ describe 'AccountsApi.sign_in' do
     end
 
     it 'returns proper fields' do
-      expect(call.keys).to contain_exactly(
-        'accountId', 'accountName', 'accountUserId', 'owner', 'email'
+      expect(subject.keys).to contain_exactly(
+        'accountId', 'accountName', 'accountUserId', 'owner', 'permissions', 'email'
       )
     end
 
     it 'calls API with proper body' do
       body = { email: email, password: password }
-      call
+      subject
       expect(WebMock).to have_requested(:post, %r{auth/login}).with(body: body).once
     end
 
@@ -34,7 +34,7 @@ describe 'AccountsApi.sign_in' do
 
       it 'calls API with proper body' do
         body = { email: email.downcase, password: password }
-        call
+        subject
         expect(WebMock).to have_requested(:post, %r{auth/login}).with(body: body).once
       end
     end
@@ -44,12 +44,12 @@ describe 'AccountsApi.sign_in' do
     before do
       stub_request(:post, %r{auth/login}).to_return(
         status: 401,
-        body: { 'message' => 'Unauthorised' }.to_json
+        body: { message: 'Unauthorised' }.to_json
       )
     end
 
     it 'raises Error401Exception' do
-      expect { call }.to raise_exception(BaseApi::Error401Exception)
+      expect { subject }.to raise_exception(BaseApi::Error401Exception)
     end
   end
 
@@ -57,12 +57,12 @@ describe 'AccountsApi.sign_in' do
     before do
       stub_request(:post, %r{auth/login}).to_return(
         status: 422,
-        body: { 'message' => 'Email unconfirmed' }.to_json
+        body: { message: 'Email unconfirmed' }.to_json
       )
     end
 
     it 'raises Error422Exception' do
-      expect { call }.to raise_exception(BaseApi::Error422Exception)
+      expect { subject }.to raise_exception(BaseApi::Error422Exception)
     end
   end
 end

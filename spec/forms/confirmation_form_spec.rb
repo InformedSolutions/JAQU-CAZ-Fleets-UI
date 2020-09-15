@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe ConfirmationForm, type: :model do
-  subject(:form) { described_class.new(confirmation) }
+  subject { described_class.new(confirmation) }
 
   let(:confirmation) { 'yes' }
 
@@ -12,7 +12,7 @@ describe ConfirmationForm, type: :model do
   describe '.confirmed?' do
     context 'when confirmation equals yes' do
       it 'returns true' do
-        expect(form.confirmed?).to eq(true)
+        expect(subject.confirmed?).to eq(true)
       end
     end
 
@@ -20,7 +20,7 @@ describe ConfirmationForm, type: :model do
       let(:confirmation) { 'no' }
 
       it 'returns false' do
-        expect(form.confirmed?).to eq(false)
+        expect(subject.confirmed?).to eq(false)
       end
     end
   end
@@ -31,11 +31,11 @@ describe ConfirmationForm, type: :model do
     it { is_expected.not_to be_valid }
 
     before do
-      form.valid?
+      subject.valid?
     end
 
     it 'has a proper error message' do
-      expect(form.errors.messages[:confirmation]).to include('You must choose an answer')
+      expect(subject.errors.messages[:confirmation]).to include('You must choose an answer')
     end
   end
 end

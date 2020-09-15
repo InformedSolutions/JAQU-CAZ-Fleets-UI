@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+##
+# Controller class for the password change
+#
 class PasswordsController < ApplicationController
   skip_before_action :authenticate_user!
   before_action :validate_token, only: :create
@@ -12,7 +15,13 @@ class PasswordsController < ApplicationController
   #    :GET /passwords/reset
   #
   def reset
-    # renders static page
+    @back_button_url = if request.referer&.include?(set_up_confirmation_users_path)
+                         set_up_confirmation_users_path
+                       elsif session[:reset_password_back_button_url]
+                         session[:reset_password_back_button_url]
+                       else
+                         new_user_session_path
+                       end
   end
 
   ##
@@ -128,9 +137,7 @@ class PasswordsController < ApplicationController
     session[:reset_password_token] = nil
     redirect_to invalid_passwords_path
   rescue BaseApi::Error422Exception
-    rerender_index({ password: [
-                     I18n.t('input_form.errors.password_complexity', attribute: 'Password')
-                   ] })
+    rerender_index({ password: [I18n.t('new_password_form.errors.password_complexity')] })
   end
 
   # Renders :index with assigned errors and token

@@ -100,7 +100,7 @@ class FleetsApi < AccountsApi
     #
     def fleet_vehicles(account_id:, page:, per_page: 10)
       log_action('Getting fleet vehicles')
-      query = { 'pageNumber' => page - 1, 'pageSize' => per_page }
+      query = { 'pageNumber' => calculate_page_number(page), 'pageSize' => per_page }
       request(:get, "/accounts/#{account_id}/vehicles", query: query)
     end
 
@@ -110,11 +110,12 @@ class FleetsApi < AccountsApi
     # ==== Attributes
     #
     # * +account_id+ - ID of the account associated with the fleet
+    # * +vehicle_type+ - caz vehicle type of the new vehicle
     # * +vrn+ - registration umber of the new vehicle
     #
     # ==== Example
     #
-    #    FleetApi.add_vehicle_to_fleet(account_id: '1f30838f-69ee-4486-95b4-7dfcd5c6c67c', vrn: 'CAS315')
+    #    FleetApi.add_vehicle_to_fleet(account_id: '1f30838f-69ee-4486-95b4-7dfcd5c6c67c', vehicle_type: 'CAR', vrn: 'CAS315')
     #
     # ==== Result
     #
@@ -126,9 +127,9 @@ class FleetsApi < AccountsApi
     # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
-    def add_vehicle_to_fleet(vrn:, account_id:)
+    def add_vehicle_to_fleet(vrn:, vehicle_type:, account_id:)
       log_action('Adding a new VRN to the fleet')
-      body = { vrn: vrn }.to_json
+      body = { vrn: vrn, cazVehicleType: vehicle_type }.to_json
       request(:post, "/accounts/#{account_id}/vehicles", body: body)
       true
     end

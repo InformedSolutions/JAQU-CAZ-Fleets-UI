@@ -3,17 +3,17 @@
 require 'rails_helper'
 
 describe SessionManipulation::AddVehicleDetails do
-  subject(:service) do
+  subject do
     described_class.call(params: params, session: session)
   end
 
-  let(:params) { ChargeableFleet.new(data).vehicle_list }
+  let(:params) { VehiclesManagement::ChargeableFleet.new(data).vehicle_list }
   let(:data) { read_response('chargeable_vehicles.json') }
   let(:session) { {} }
   let(:first_vehicle) { params.first }
   let(:last_vehicle) { params.last }
 
-  before { service }
+  before { subject }
 
   it 'saves all vehicles data' do
     expect(session[:new_payment][:details].keys.size).to eq(params.size)

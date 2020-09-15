@@ -3,10 +3,11 @@
 When('I have no mandates') do
   mock_vehicles_in_fleet
   mock_debits_api_call('inactive_mandates')
+  mock_users
 end
 
 When('I visit the manage Direct Debit page') do
-  login_user
+  login_owner
   visit debits_path
 end
 
@@ -21,11 +22,13 @@ end
 When('I have created mandates') do
   mock_vehicles_in_fleet
   mock_debits_api_call
+  mock_users
 end
 
 When('I have created all the possible mandates') do
   mock_vehicles_in_fleet
   mock_debits_api_call('active_mandates')
+  mock_users
 end
 
 Then('I should be on the manage debits page') do
@@ -33,7 +36,7 @@ Then('I should be on the manage debits page') do
 end
 
 When('I visit the add new mandate page') do
-  login_user
+  login_owner
   visit new_debit_path
 end
 
@@ -49,4 +52,8 @@ end
 
 When('I have active mandates for selected CAZ') do
   mock_api_endpoints
+end
+
+Then('I should be on the cancel payment page') do
+  expect_path(cancel_payments_path)
 end

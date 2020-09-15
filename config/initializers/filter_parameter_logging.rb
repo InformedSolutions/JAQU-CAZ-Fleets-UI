@@ -16,4 +16,7 @@ Rails.application.config.filter_parameters += %i[
   plate_number
   license_number
   vehicles
+  name
+  token
+  account
 ]

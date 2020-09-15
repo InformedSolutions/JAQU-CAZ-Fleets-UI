@@ -4,6 +4,17 @@ Given('I am on the Sign in page') do
   visit new_user_session_path
 end
 
+Given('I am on the set up account confirmation page') do
+  visit set_up_confirmation_users_path
+end
+
+And('I provide valid credentials and Continue') do
+  mock_vehicles_in_fleet
+  mock_debits('active_mandates')
+  mock_users
+  login_owner
+end
+
 Then('I should enter fleet owner credentials and press the Continue') do
   login_owner
 end
@@ -19,10 +30,9 @@ And('Cookie is created for my session') do
 end
 
 When('I have authentication cookie that has not expired') do
-  mock_vehicles_in_fleet
-  mock_debits
+  mock_api_responses
   visit new_user_session_path
-  login_user
+  login_owner
 
   cookie = get_me_the_cookie('_caz_fleets_session')
   expect(cookie).to_not be_nil
@@ -64,9 +74,8 @@ Given('I have authentication cookie that has expired') do
   Rails.configuration.x.session_timeout = 15
 
   travel_to(20.minutes.ago) do
-    mock_vehicles_in_fleet
-    mock_debits
-    login_user
+    mock_api_responses
+    login_owner
   end
 
   cookie = get_me_the_cookie('_caz_fleets_session')
@@ -75,9 +84,8 @@ Given('I have authentication cookie that has expired') do
 end
 
 Given('I am signed in') do
-  mock_vehicles_in_fleet
-  mock_debits
-  login_user
+  mock_api_responses
+  login_owner
 end
 
 When('I request to sign out') do

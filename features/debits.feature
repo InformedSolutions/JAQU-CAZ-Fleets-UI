@@ -21,6 +21,25 @@ Feature: Debits
       And I press 'Confirm payment' button
     Then I should see success message
 
+  Scenario: Making a cancel Direct Debit payment with active mandate
+    When I have active mandates for selected CAZ
+      And I visit the make payment page
+      And I press the Continue
+    Then I select 'Birmingham'
+      And I press the Continue
+    Then I click Next 7 days tab
+      And I select any date for vrn on the payment matrix
+      And I press the Continue
+    Then I want to confirm my payment
+      And I confirm that my vehicles are not exempt from payment
+      And I press the Continue
+    Then I select 'Direct Debit'
+      And I press the Continue
+      And I should see 'Cancel payment'
+      And I press 'Cancel payment' link
+    Then I should be on the cancel payment page
+      And I should see 'Your payment has been cancelled'
+
   Scenario: Making a failure Direct Debit payment with active mandate
     When I have active mandates for selected CAZ
       And I visit the make payment page

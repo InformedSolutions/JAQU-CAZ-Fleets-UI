@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 describe 'ComplianceCheckerApi.clean_air_zones' do
-  subject(:call) { ComplianceCheckerApi.clean_air_zones }
+  subject { ComplianceCheckerApi.clean_air_zones }
   let(:url) { %r{v1/payments/clean-air-zones} }
 
-  context 'when call returns 200' do
+  context 'when subject returns 200' do
     before do
       caz_list_response = read_unparsed_response('caz_list.json')
       stub_request(:get, url).to_return(
@@ -17,32 +17,32 @@ describe 'ComplianceCheckerApi.clean_air_zones' do
     end
 
     it 'returns an array of clear air zones' do
-      expect(call).to be_a(Array)
+      expect(subject).to be_a(Array)
     end
 
     it 'returns proper fields' do
-      expect(call.first.keys).to(
+      expect(subject.first.keys).to(
         contain_exactly('cleanAirZoneId', 'name', 'boundaryUrl', 'activeChargeStartDate')
       )
     end
 
     it 'calls API once' do
-      call
+      subject
       expect(WebMock).to have_requested(:get, url).once
     end
   end
 
-  context 'when call returns 500' do
+  context 'when subject returns 500' do
     before do
       stub_request(:get, /clean-air-zones/).to_return(
         status: 500,
-        body: { 'message' => 'Something went wrong' }.to_json,
+        body: { message: 'Something went wrong' }.to_json,
         headers: { 'Content-Type' => 'application/json' }
       )
     end
 
     it 'raises Error500Exception' do
-      expect { call }.to raise_exception(BaseApi::Error500Exception)
+      expect { subject }.to raise_exception(BaseApi::Error500Exception)
     end
   end
 end
