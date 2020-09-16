@@ -28,9 +28,11 @@ Feature: Password reset
     When I enter valid password and confirmation
     Then I should be on the success page
 
-  Scenario: Not enough complex password
+  Scenario: Not enough complex or reused password
     Given I visit passwords
     When I enter too easy password and confirmation
     Then I should see "12 characters long, include at least one upper case letter, a number, and a special character" 2 times
+    When I try to reuse old password
+    Then I should see "You have already used that password, choose a new one" 2 times
     When I enter valid password and confirmation
     Then I should be on the success page

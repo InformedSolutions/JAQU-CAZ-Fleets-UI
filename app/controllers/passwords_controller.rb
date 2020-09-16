@@ -170,8 +170,8 @@ class PasswordsController < ApplicationController
   rescue BaseApi::Error400Exception
     session[:reset_password_token] = nil
     redirect_to invalid_passwords_path
-  rescue BaseApi::Error422Exception
-    rerender_index({ password: [I18n.t('new_password_form.errors.password_complexity')] })
+  rescue BaseApi::Error422Exception => e
+    rerender_index({ password: parse_422_error(e.body['errorCode']) })
   end
 
   # Renders :index with assigned errors and token
@@ -203,5 +203,15 @@ class PasswordsController < ApplicationController
   def redirect_to_dashboard
     session[:password_updated] = true
     redirect_to dashboard_path
+  end
+
+  # Returns correct error message for 422 error
+  def parse_422_error(code)
+    case code
+    when 'passwordNotValid'
+      [I18n.t('new_password_form.errors.password_complexity')]
+    when 'newPasswordReuse'
+      [I18n.t('update_password_form.errors.password_reused')]
+    end
   end
 end
