@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+##
+# Module used to improve session management
+#
 module SessionManipulation
   ##
   # Saves submitted vehicles details.

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'OrganisationsController - GET #email_sent' do
+describe 'Organisations::OrganisationsController - GET #email_sent' do
   subject { get email_sent_organisations_path }
 
   let(:session_data) do
@@ -19,7 +19,7 @@ describe 'OrganisationsController - GET #email_sent' do
   end
 
   context 'without new_account data in the session' do
-    let(:session_data) { { new_account: { 'account_id': SecureRandom.uuid } } }
+    let(:session_data) { { new_account: { 'account_id': @uuid } } }
 
     it 'returns a redirect' do
       expect(response).to redirect_to(root_path)

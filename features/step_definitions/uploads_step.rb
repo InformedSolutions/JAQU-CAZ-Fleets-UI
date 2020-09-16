@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 When('I visit the upload page') do
-  login_user
+  mock_debits
+  mock_users
+  login_owner
   visit uploads_path
 end
 
 When('I attach a file') do
   attach_file(:file, File.join('spec', 'fixtures', 'uploads', 'fleet.csv'))
 
-  allow(UploadFile).to receive(:call).and_return('filename')
+  allow(VehiclesManagement::UploadFile).to receive(:call).and_return('filename')
   allow(FleetsApi).to receive(:register_job).and_return('job_name')
 end
 
@@ -27,9 +29,8 @@ Then('I should download the template') do
 end
 
 When('I am on the processing page') do
-  mock_vehicles_in_fleet
-  mock_debits
-  login_user
+  mock_api_responses
+  login_owner
   page.set_rack_session(
     job: { job_name: SecureRandom.uuid, correlation_id: SecureRandom.uuid }
   )

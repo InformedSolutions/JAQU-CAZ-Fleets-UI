@@ -33,7 +33,7 @@ class PaymentsApi < BaseApi
     #
     # ==== Serialization
     #
-    # {PaginatedFleet model}[rdoc-ref:PaginatedFleet]
+    # {VehiclesManagement::PaginatedFleet model}[rdoc-ref:VehiclesManagement::PaginatedFleet]
     # can be used to create an instance referring to the returned data
     #
     # ==== Exceptions
@@ -44,7 +44,7 @@ class PaymentsApi < BaseApi
     #
     def charges(account_id:, page:, per_page: 10, zones: [])
       log_action('Getting charges')
-      query = { 'pageNumber' => page - 1, 'pageSize' => per_page }
+      query = { 'pageNumber' => calculate_page_number(page), 'pageSize' => per_page }
       query['zones'] = zones.join(',') if zones.any?
       request(:get, "/accounts/#{account_id}/charges", query: query)
     end
@@ -74,7 +74,7 @@ class PaymentsApi < BaseApi
     #
     # ==== Serialization
     #
-    # {ChargeableFleet model}[rdoc-ref:ChargeableFleet]
+    # {VehiclesManagement::ChargeableFleet model}[rdoc-ref:VehiclesManagement::ChargeableFleet]
     # can be used to create an instance referring to the returned data
     #
     # ==== Exceptions
@@ -119,7 +119,7 @@ class PaymentsApi < BaseApi
     #
     # ==== Serialization
     #
-    # {ChargeableFleet model}[rdoc-ref:ChargeableFleet]
+    # {VehiclesManagement::ChargeableFleet model}[rdoc-ref:VehiclesManagement::ChargeableFleet]
     # can be used to create an instance referring to the returned data
     #
     # ==== Exceptions
@@ -213,7 +213,7 @@ class PaymentsApi < BaseApi
     #
     # ==== Serialization
     #
-    # {PaymentStatus model}[rdoc-ref:PaymentStatus]
+    # {Payments::Status model}[rdoc-ref:Payments::Status]
     # can be used to create an instance referring to the returned data
     #
     # ==== Exceptions

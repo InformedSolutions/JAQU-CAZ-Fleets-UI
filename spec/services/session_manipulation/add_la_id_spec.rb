@@ -3,15 +3,13 @@
 require 'rails_helper'
 
 describe SessionManipulation::AddLaId do
-  subject(:service) do
-    described_class.call(params: params, session: session)
-  end
+  subject { described_class.call(params: params, session: session) }
 
   let(:id) { SecureRandom.uuid }
   let(:params) { { 'local-authority' => id } }
   let(:session) { {} }
 
-  before { service }
+  before { subject }
 
   it 'sets la_id' do
     expect(session[:new_payment]).to eq({ la_id: id })

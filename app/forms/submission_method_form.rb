@@ -8,7 +8,7 @@ class SubmissionMethodForm < BaseForm
 
   # Validates if the method is either +upload+ or +manual+
   validates :submission_method, inclusion: {
-    message: I18n.t('input_form.errors.missing'),
+    message: I18n.t('submission_method_form.errors.submission_method_missing'),
     allow_blank: false,
     in: %w[upload manual]
   }

@@ -20,4 +20,14 @@ class BaseForm
   def to_key
     nil
   end
+
+  # Logs exception on +error+ level
+  def log_error(exception)
+    Rails.logger.error "[#{self.class.name}] #{exception.class} - #{exception}"
+  end
+
+  # returns first error message from the errors collection.
+  def first_error_message
+    errors.messages.values.flatten.first
+  end
 end

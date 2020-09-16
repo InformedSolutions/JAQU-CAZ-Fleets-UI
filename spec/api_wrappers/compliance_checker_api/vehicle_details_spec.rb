@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'ComplianceCheckerApi.vehicle_details' do
-  subject(:call) { ComplianceCheckerApi.vehicle_details(vrn) }
+  subject { ComplianceCheckerApi.vehicle_details(vrn) }
 
   let(:vrn) { 'CU57ABC' }
   let(:url) { %r{v1/payments/vehicles/#{vrn}/details} }
@@ -18,7 +18,7 @@ describe 'ComplianceCheckerApi.vehicle_details' do
     end
 
     it 'returns proper fields' do
-      expect(call.keys).to contain_exactly(
+      expect(subject.keys).to contain_exactly(
         'registration_number',
         'typeApproval',
         'type',
@@ -32,7 +32,7 @@ describe 'ComplianceCheckerApi.vehicle_details' do
     end
 
     it 'calls API once' do
-      call
+      subject
       expect(WebMock).to have_requested(:get, url).once
     end
   end
@@ -48,7 +48,7 @@ describe 'ComplianceCheckerApi.vehicle_details' do
     end
 
     it 'raises Error500Exception' do
-      expect { call }.to raise_exception(
+      expect { subject }.to raise_exception(
         an_instance_of(BaseApi::Error500Exception)
           .and(having_attributes(status: 500, status_message: 'Response body parsing failed'))
       )
@@ -59,12 +59,12 @@ describe 'ComplianceCheckerApi.vehicle_details' do
     before do
       stub_request(:get, url).to_return(
         status: 500,
-        body: { 'message' => 'Something went wrong' }.to_json
+        body: { message: 'Something went wrong' }.to_json
       )
     end
 
     it 'raises Error500Exception' do
-      expect { call }.to raise_exception(BaseApi::Error500Exception)
+      expect { subject }.to raise_exception(BaseApi::Error500Exception)
     end
   end
 
@@ -72,12 +72,12 @@ describe 'ComplianceCheckerApi.vehicle_details' do
     before do
       stub_request(:get, url).to_return(
         status: 400,
-        body: { 'message' => 'Correlation ID is missing' }.to_json
+        body: { message: 'Correlation ID is missing' }.to_json
       )
     end
 
     it 'raises Error500Exception' do
-      expect { call }.to raise_exception(BaseApi::Error400Exception)
+      expect { subject }.to raise_exception(BaseApi::Error400Exception)
     end
   end
 
@@ -85,12 +85,12 @@ describe 'ComplianceCheckerApi.vehicle_details' do
     before do
       stub_request(:get, url).to_return(
         status: 404,
-        body: { 'message' => "Vehicle with registration number #{vrn} was not found" }.to_json
+        body: { message: "Vehicle with registration number #{vrn} was not found" }.to_json
       )
     end
 
     it 'raises Error500Exception' do
-      expect { call }.to raise_exception(BaseApi::Error404Exception)
+      expect { subject }.to raise_exception(BaseApi::Error404Exception)
     end
   end
 
@@ -98,12 +98,12 @@ describe 'ComplianceCheckerApi.vehicle_details' do
     before do
       stub_request(:get, url).to_return(
         status: 422,
-        body: { 'message' => "#{vrn} is an invalid registration number" }.to_json
+        body: { message: "#{vrn} is an invalid registration number" }.to_json
       )
     end
 
     it 'raises Error500Exception' do
-      expect { call }.to raise_exception(BaseApi::Error422Exception)
+      expect { subject }.to raise_exception(BaseApi::Error422Exception)
     end
   end
 end
