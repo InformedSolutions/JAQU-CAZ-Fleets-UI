@@ -13,8 +13,9 @@ module VehiclesManagement
     before_action -> { check_permissions(allow_manage_vehicles?) }
     before_action :assign_fleet
     before_action :check_vrn, only: %i[delete confirm_delete]
-    before_action :check_job_status, only: %i[index]
-    before_action :clear_user_data, only: %i[index]
+    before_action :set_cache_headers, only: :index
+    before_action :check_job_status, only: :index
+    before_action :clear_user_data, only: :index
 
     ##
     # Renders submission method selection page
