@@ -186,7 +186,7 @@ module Payments
       when 'false'
         redirect_to initiate_payments_path
       else
-        @errors = 'Choose Direct Debit or Card payment'
+        @errors = 'Choose Direct Debit or card payment'
         render :select_payment_method
       end
     end

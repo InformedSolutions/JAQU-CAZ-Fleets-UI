@@ -38,7 +38,7 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the Select payment method page
       And I press the Continue
-    When I should see 'Choose Direct Debit or Card payment'
+    When I should see 'Choose Direct Debit or card payment'
       And I press 'Back' link
       And I should be on the confirm payment page
     Then I press the Continue
