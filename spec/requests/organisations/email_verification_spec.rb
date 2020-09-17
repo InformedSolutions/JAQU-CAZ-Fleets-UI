@@ -36,20 +36,4 @@ describe 'Organisations::OrganisationsController - GET #email_verification' do
       expect(response).to redirect_to(verification_expired_organisations_path)
     end
   end
-
-  context 'when api response raise `UserAlreadyConfirmedException` exception' do
-    before { allow(Organisations::VerifyAccount).to receive(:call).and_raise(UserAlreadyConfirmedException) }
-
-    it 'renders the view' do
-      expect(subject).to render_template('devise/sessions/new')
-    end
-  end
-
-  context 'when api response raise `Errno::ECONNREFUSED` exception' do
-    before { allow(Organisations::VerifyAccount).to receive(:call).and_raise(Errno::ECONNREFUSED) }
-
-    it 'renders the view' do
-      expect(subject).to render_template('errors/service_unavailable')
-    end
-  end
 end
