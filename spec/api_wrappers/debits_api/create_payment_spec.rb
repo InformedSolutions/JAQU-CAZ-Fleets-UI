@@ -2,19 +2,24 @@
 
 require 'rails_helper'
 
-describe 'PaymentsApi.create_payment' do
+describe 'DebitsApi.create_payment - POST' do
   subject do
-    PaymentsApi.create_payment(
+    DebitsApi.create_payment(
       caz_id: caz_id,
-      return_url: return_url,
+      account_id: account_id,
       user_id: user_id,
+      mandate_id: mandate_id,
+      user_email: user_email,
       transactions: transactions
     )
   end
 
+  let(:user) { create_user }
   let(:caz_id) { @uuid }
-  let(:return_url) { 'http://example.com' }
-  let(:user_id) { @uuid }
+  let(:account_id) { user.account_id }
+  let(:user_id) { user.user_id }
+  let(:mandate_id) { SecureRandom.uuid }
+  let(:user_email) { user.email }
   let(:transactions) do
     [
       {
@@ -30,7 +35,7 @@ describe 'PaymentsApi.create_payment' do
   let(:vrn) { 'CAS134' }
   let(:tariff_code) { 'BCC01-private-car' }
   let(:charge) { 18 }
-  let(:url) { '/v1/payments' }
+  let(:url) { '/v1/direct-debit-payments' }
 
   context 'when the response status is :created (201)' do
     before do
@@ -48,11 +53,12 @@ describe 'PaymentsApi.create_payment' do
       expect(subject)
         .to have_requested(:post, /#{url}/)
         .with(body: {
+                accountId: account_id,
                 cleanAirZoneId: caz_id,
-                returnUrl: return_url,
                 userId: user_id,
-                transactions: transactions,
-                telephonePayment: false
+                userEmail: user_email,
+                mandateId: mandate_id,
+                transactions: transactions
               })
     end
   end

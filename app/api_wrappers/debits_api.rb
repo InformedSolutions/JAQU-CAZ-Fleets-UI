@@ -61,11 +61,11 @@ class DebitsApi < PaymentsApi
       log_action('Creating direct debit payment')
 
       body = payment_creation_body(
-        caz_id: caz_id,
         account_id: account_id,
-        mandate_id: mandate_id,
+        caz_id: caz_id,
         user_id: user_id,
         user_email: user_email,
+        mandate_id: mandate_id,
         transactions: transactions
       )
       request(:post, '/direct-debit-payments', body: body.to_json)
@@ -142,6 +142,7 @@ class DebitsApi < PaymentsApi
     #
     def complete_mandate_creation(flow_id:, session_id:, caz_id:)
       log_action('Finalising mandate creation')
+
       body = { sessionToken: session_id, cleanAirZoneId: caz_id }.to_json
       request(
         :post,
@@ -153,8 +154,7 @@ class DebitsApi < PaymentsApi
     private
 
     # Returns parsed JSON of the payment creation parameters with proper keys
-    def payment_creation_body(account_id:, caz_id:, user_id:, user_email:, mandate_id:,
-                              transactions:)
+    def payment_creation_body(account_id:, caz_id:, user_id:, user_email:, mandate_id:, transactions:)
       {
         account_id: account_id,
         clean_air_zone_id: caz_id,
