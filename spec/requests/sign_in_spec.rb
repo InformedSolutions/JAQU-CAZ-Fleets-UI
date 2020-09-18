@@ -29,7 +29,7 @@ describe 'User signing in' do
       subject
     end
 
-    it 'redirects to root path' do
+    it 'redirects to the root path' do
       subject
       expect(response).to redirect_to(authenticated_root_path)
     end
@@ -133,7 +133,7 @@ describe 'User signing in' do
         subject
       end
 
-      it 'redirects to root path' do
+      it 'redirects to the root path' do
         subject
         expect(response).to redirect_to(authenticated_root_path)
       end

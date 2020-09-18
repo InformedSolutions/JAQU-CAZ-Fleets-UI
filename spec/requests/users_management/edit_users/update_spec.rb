@@ -46,7 +46,7 @@ describe 'UsersManagement::EditUsersController - PATCH #update' do
             .and_raise(BaseApi::Error404Exception.new(404, '', {}))
         end
 
-        it 'redirects to not_found page' do
+        it 'redirects to the not_found page' do
           expect(subject).to redirect_to not_found_path
         end
       end
@@ -55,7 +55,7 @@ describe 'UsersManagement::EditUsersController - PATCH #update' do
     context 'without edit user data in session' do
       before { sign_in manage_users_user }
 
-      it 'redirects to users page' do
+      it 'redirects to the users page' do
         expect(subject).to redirect_to users_path
       end
     end

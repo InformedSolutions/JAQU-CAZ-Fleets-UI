@@ -27,7 +27,7 @@ Then('I press {string} link') do |string|
 end
 
 Then('I press the Continue') do
-  click_on 'Continue'
+  click_on('Continue')
 end
 
 Then('I press the Confirm') do

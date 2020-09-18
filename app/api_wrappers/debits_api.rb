@@ -102,22 +102,52 @@ class DebitsApi < PaymentsApi
     #
     # * +account_id+ - ID of the account associated with the fleet
     # * +caz_id+ - uuid, ID of the CAZ
-    # * +return_url+ - URL where GOV.UK Pay should redirect after the payment is done.
+    # * +return_url+ - URL where GoCardless should redirect after the payment is done
+    # * +session_id+ - actively logged in user's session token
     #
     # ==== Result
     #
     # Returned payment details will have the following fields:
     # * +nextUrl+ - string, path where user should be redirected
     #
-    def create_mandate(account_id:, caz_id:, return_url:)
+    def create_mandate(account_id:, caz_id:, return_url:, session_id:)
       log_action('Adding a mandate to account')
 
       body = {
         cleanAirZoneId: caz_id,
-        returnUrl: return_url
+        returnUrl: return_url,
+        sessionId: session_id
       }.to_json
 
       request(:post, "/payments/accounts/#{account_id}/direct-debit-mandates", body: body)
+    end
+
+    # Calls +/v1/payments/direct_debit_redirect_flows/:flowId/complete+ endpoint with +POST+ method which
+    # returns the status of mandate creation
+    #
+    # ==== Attributes
+    #
+    # * +sessionToken+ - the session token of the actively logged in user, e.g. 'a724ed38b864e7490c91f9c06142ef9a'
+    # * +cleanAirZoneId+ - UUID of the Clean Air Zone for which the mandate is being create
+    #
+    # ==== Result
+    #
+    #  Returns an empty body
+    #
+    # ==== Exceptions
+    #
+    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - sessionToken do not match with session ID returned by GoCardless
+    # * {422 Exception}[rdoc-ref:BaseApi::Error422Exception] - invalid data or payment has not yet completed
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def complete_mandate_creation(flow_id:, session_id:, caz_id:)
+      log_action('Finalising mandate creation')
+      body = { sessionToken: session_id, cleanAirZoneId: caz_id }.to_json
+      request(
+        :post,
+        "/payments/direct_debit_redirect_flows/#{flow_id}/complete",
+        body: body
+      )
     end
 
     private

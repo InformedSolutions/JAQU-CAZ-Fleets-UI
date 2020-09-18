@@ -7,9 +7,7 @@ describe VehiclesManagement::ChargeableFleet, type: :model do
 
   let(:first_vrn) { vehicles_data.first.try(:[], 'vrn') }
   let(:last_vrn) { vehicles_data.last.try(:[], 'vrn') }
-  let(:vehicles_data) do
-    read_response('chargeable_vehicles.json')['chargeableAccountVehicles']['results']
-  end
+  let(:vehicles_data) { read_response('chargeable_vehicles.json')['chargeableAccountVehicles']['results'] }
 
   let(:data) do
     {

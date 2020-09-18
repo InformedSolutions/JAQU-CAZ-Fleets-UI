@@ -41,7 +41,7 @@ Feature: Debits
       And I press the Continue
       And I should see 'Cancel payment'
       And I press 'Cancel payment' link
-    Then I should be on the cancel payment page
+    Then I should be on the Cancel payment page
       And I should see 'Your payment has been cancelled'
 
   Scenario: Making a failure Direct Debit payment with active mandate
@@ -60,13 +60,13 @@ Feature: Debits
 
   Scenario: Visiting the manage Direct Debit page with no mandates
     When I have no mandates
-      And I visit the manage Direct Debit page
-    Then I should be on the add new mandate page
+      And I visit the Manage Direct Debit page
+    Then I should be on the Add new mandate page
 
   Scenario: Visiting the manage Direct Debit page with mandates
     When I have created mandates
-      And I visit the manage Direct Debit page
-    Then I should be on the manage debits page
+      And I visit the Manage Direct Debit page
+    Then I should be on the Manage debits page
       And I should see 'Set up new Direct Debit' link
       And I should not see 'You have created a Direct Debit for every Clean Air Zone.'
     Then I press `Set up new Direct Debit` button
@@ -74,22 +74,31 @@ Feature: Debits
 
   Scenario: Visiting the manage Direct Debit page with all mandates
     When I have created all the possible mandates
-      And I visit the manage Direct Debit page
-    Then I should be on the manage debits page
+      And I visit the Manage Direct Debit page
+    Then I should be on the Manage debits page
       And I should not see 'Set up new Direct Debit' link
       And I should see 'You have created a Direct Debit for every Clean Air Zone.'
 
   Scenario: Adding a new mandate
     When I have no mandates
-      And I visit the add new mandate page
+      And I visit the Add new mandate page
       And I press the Continue
       And I should see 'You must choose one Clean Air Zone' 2 times
     When I select 'Birmingham'
-    Then I should have a new mandate added
+    Then I am creating a new mandate and redirecting to the complete setup endpoint
+      And I should be on the Manage debits page
 
   Scenario: Adding a new mandate with disabled CAZ
     Given I have inactive mandates for each CAZ but one of them is disabled
-    When I visit the add new mandate page
-    Then I should be on the add new mandate page
+    When I visit the Add new mandate page
+    Then I should be on the Add new mandate page
       And I should see 'Leeds'
       And I should not see 'Birmingham'
+
+  Scenario: Adding a new mandate when api returns an error
+    When I have no mandates
+      And I visit the Add new mandate page
+      And I press the Continue
+    When I select 'Birmingham'
+    Then I am creating a new mandate when api returns 400 status
+      And I should see the Service Unavailable page

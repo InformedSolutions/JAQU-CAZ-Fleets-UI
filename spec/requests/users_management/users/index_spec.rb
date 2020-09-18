@@ -16,7 +16,7 @@ describe 'UsersManagement::UsersController - GET #index' do
     end
 
     context 'when last visited page is confirmation user' do
-      subject { get users_path, headers: { 'HTTP_REFERER' => confirmation_users_path } }
+      subject { get users_path, headers: { 'HTTP_REFERER': confirmation_users_path } }
 
       before do
         add_to_session(new_user: {})

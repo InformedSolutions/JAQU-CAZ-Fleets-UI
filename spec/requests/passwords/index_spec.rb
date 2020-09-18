@@ -34,7 +34,7 @@ describe 'PasswordsController - GET #index' do
   context 'without the token' do
     let(:token) { nil }
 
-    it 'redirects to invalid page' do
+    it 'redirects to the invalid page' do
       expect(subject).to redirect_to(invalid_passwords_path)
     end
   end
@@ -48,7 +48,7 @@ describe 'PasswordsController - GET #index' do
         )
     end
 
-    it 'redirects to invalid page' do
+    it 'redirects to the invalid page' do
       expect(subject).to redirect_to(invalid_passwords_path)
     end
   end

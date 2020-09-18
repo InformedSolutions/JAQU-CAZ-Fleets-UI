@@ -20,13 +20,13 @@ module DirectDebits
     # Returns `DirectDebits::Mandate` instances where enabled cazes with mandate only in `active` or `pending` status
     def mandates
       @mandates ||= begin
-                  result = enabled_cazes.each do |obj|
-                    active = obj['mandates'].find { |mandate| select_active_statuses(mandate['status']) }
-                    obj['mandates'] = (active || [])
-                  end
+        result = enabled_cazes.each do |obj|
+          active = obj['mandates'].find { |mandate| select_active_statuses(mandate['status']) }
+          obj['mandates'] = (active || [])
+        end
 
-                  result.map { |mandate_data| DirectDebits::Mandate.new(mandate_data) }.sort_by(&:zone_name)
-                end
+        result.map { |mandate_data| DirectDebits::Mandate.new(mandate_data) }.sort_by(&:zone_name)
+      end
     end
 
     # Returns an array of associated DirectDebits::Mandate instances in `active` or `pending` statuses
@@ -52,12 +52,12 @@ module DirectDebits
     #
     def caz_mandates(zone_id)
       @caz_mandates ||= begin
-                          api_response ||= DebitsApi.caz_mandates(
-                            account_id: account_id,
-                            zone_id: zone_id
-                          )
-                          api_response&.find { |mandate| select_active_statuses(mandate['status']) }
-                        end
+        api_response ||= DebitsApi.caz_mandates(
+          account_id: account_id,
+          zone_id: zone_id
+        )
+        api_response&.find { |mandate| select_active_statuses(mandate['status']) }
+      end
     end
 
     private

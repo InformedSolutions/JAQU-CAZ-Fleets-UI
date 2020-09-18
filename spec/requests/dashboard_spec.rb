@@ -70,7 +70,7 @@ describe DashboardController do
     context 'when user enters the Dashboard with an outdated password' do
       before { sign_in create_user(permissions: [], days_to_password_expiry: -2) }
 
-      it 'redirects to edit password page' do
+      it 'redirects to the edit password page' do
         subject
         expect(response).to redirect_to(edit_passwords_path)
       end

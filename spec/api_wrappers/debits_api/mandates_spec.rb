@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'DebitsApi.mandates' do
+describe 'DebitsApi.mandates - GET' do
   subject { DebitsApi.mandates(account_id: account_id) }
 
   let(:account_id) { @uuid }

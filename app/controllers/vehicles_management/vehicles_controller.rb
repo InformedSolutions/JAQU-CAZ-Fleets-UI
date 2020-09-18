@@ -14,6 +14,7 @@ module VehiclesManagement
     before_action :check_vrn, only: %i[details confirm_details exempt incorrect_details not_found
                                        confirm_and_add_exempt_vehicle_to_fleet]
     before_action :assign_back_button_url, only: %i[enter_details local_exemptions]
+
     # 404 HTTP status from API means vehicle in not found in DLVA database. Redirects to the proper page.
     rescue_from BaseApi::Error404Exception, with: :vehicle_not_found
     # 400 HTTP status from API means invalid VRN or other validation error
@@ -32,8 +33,8 @@ module VehiclesManagement
 
     ##
     # Validates +vrn+ submitted by the user.
-    # If it is valid, redirects to {confirm details}[rdoc-ref:VehiclesController.details]
-    # If not, renders {enter details}[rdoc-ref:VehiclesController.enter_details] with errors
+    # If it is valid, redirects to the {confirm details}[rdoc-ref:details]
+    # If not, renders {enter details}[rdoc-ref:enter_details] with errors
     #
     # ==== Path
     #    POST /vehicles/enter_details
@@ -65,8 +66,8 @@ module VehiclesManagement
 
     ##
     # Verifies if user confirms the vehicle's details.
-    # If yes, renders to {incorrect details}[rdoc-ref:VehiclesController.local_authority]
-    # If no, redirects to {incorrect details}[rdoc-ref:VehiclesController.incorrect_details]
+    # If yes, redirects to the {local authority}[rdoc-ref:local_authority]
+    # If no, redirects to the {incorrect details}[rdoc-ref:incorrect_details]
     #
     # ==== Path
     #    POST /vehicles/confirm_details
@@ -76,8 +77,8 @@ module VehiclesManagement
     # * +confirm-vehicle+ - user confirmation of vehicle details, 'yes' or 'no', required in the query
     #
     # ==== Validations
-    # * +vrn+ - lack of VRN redirects to {enter_details}[rdoc-ref:VehiclesController.enter_details]
-    # * +confirm-vehicle+ - lack of it redirects to {incorrect details}[rdoc-ref:VehiclesController.incorrect_details]
+    # * +vrn+ - lack of VRN redirects to the{enter_details}[rdoc-ref:enter_details]
+    # * +confirm-vehicle+ - lack of it redirects to the{incorrect details}[rdoc-ref:incorrect_details]
     #
     def confirm_details
       form = VehiclesManagement::ConfirmationForm.new(confirmation)
@@ -100,7 +101,7 @@ module VehiclesManagement
     # * +confirm-vehicle+ - user confirmation of vehicle details, 'yes' or 'no', required in the query
     #
     # ==== Validations
-    # * +vrn+ - lack of VRN redirects to {enter_details}[rdoc-ref:VehiclesController.enter_details]
+    # * +vrn+ - lack of VRN redirects to the{enter_details}[rdoc-ref:VehiclesController.enter_details]
     # * +confirm-vehicle+ - lack of it redirects to {incorrect details}[rdoc-ref:VehiclesController.incorrect_details]
     #
     def confirm_and_add_exempt_vehicle_to_fleet

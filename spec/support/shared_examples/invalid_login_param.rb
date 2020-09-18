@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'an invalid login param' do
-  it 'renders login view' do
+  it 'redirects the login view' do
     expect(subject).to render_template('devise/sessions/new')
   end
 

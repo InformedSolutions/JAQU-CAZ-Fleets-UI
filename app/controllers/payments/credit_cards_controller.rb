@@ -7,10 +7,10 @@ module Payments
   # Controller used to pay by credit card
   #
   class CreditCardsController < ApplicationController
-    include CheckPermissions
     include CazLock
+    include CheckPermissions
 
-    # Makes a request to initiate card payment and redirects to response url
+    # Makes a request to initiate card payment and redirects to the response url
     #
     # ==== Path
     #     GET /payments/initiate

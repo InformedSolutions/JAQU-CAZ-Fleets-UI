@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
               BaseApi::Error422Exception,
               BaseApi::Error400Exception,
               BaseApi::Error404Exception,
-              with: :redirect_to_server_unavailable
+              with: :render_server_unavailable
 
   # rescues `UserAlreadyConfirmedException` exception
   rescue_from UserAlreadyConfirmedException, with: :redirect_to_sign_in
@@ -68,7 +68,7 @@ class ApplicationController < ActionController::Base
     sign_out_path
   end
 
-  # Logs exception and redirects to sign in page
+  # Logs exception and redirects to the sign in page
   def redirect_to_sign_in(exception)
     Rails.logger.error "#{exception.class}: #{exception}"
 
@@ -98,8 +98,8 @@ class ApplicationController < ActionController::Base
   end
 
   # Function used as a rescue from API errors.
-  # Logs the exception and redirects to ErrorsController#service_unavailable
-  def redirect_to_server_unavailable(exception)
+  # Logs the exception and renders service unavailable page
+  def render_server_unavailable(exception)
     Rails.logger.error "#{exception.class}: #{exception}"
 
     render template: 'errors/service_unavailable', status: :service_unavailable
@@ -127,7 +127,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Checks if password is outdated
-  # If password is older than 89 days redirects to /passwords/edit
+  # If password is older than 89 days redirects to the password edit page
   def check_password_age
     return unless current_user && days_to_password_expiry
 

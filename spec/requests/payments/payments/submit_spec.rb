@@ -27,7 +27,7 @@ describe 'PaymentsController - POST #submit' do
   context 'correct permissions' do
     before { sign_in create_user }
 
-    it 'redirects to :index' do
+    it 'redirects to the :index' do
       expect(subject).to redirect_to(payments_path)
     end
 
@@ -38,7 +38,7 @@ describe 'PaymentsController - POST #submit' do
       end
 
       context 'when commit is continue' do
-        it 'redirects to :review' do
+        it 'redirects to the :review' do
           expect(response).to redirect_to(review_payments_path)
         end
 

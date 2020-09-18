@@ -7,9 +7,9 @@ describe DirectDebits::Details, type: :model do
 
   let(:data) do
     {
-      'referenceNumber' => payment_reference,
-      'externalPaymentId' => external_id
-    }
+      referenceNumber: payment_reference,
+      externalPaymentId: external_id
+    }.stringify_keys
   end
 
   let(:payment_reference) { 'WYP3HNDP' }

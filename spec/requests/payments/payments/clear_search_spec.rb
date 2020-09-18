@@ -19,7 +19,7 @@ describe 'PaymentsController - GET #clear_serach' do
       expect(assigns(:search)).to be_nil
     end
 
-    it 'redirects to matrix' do
+    it 'redirects to the matrix' do
       subject
       expect(response).to redirect_to(matrix_payments_path)
     end

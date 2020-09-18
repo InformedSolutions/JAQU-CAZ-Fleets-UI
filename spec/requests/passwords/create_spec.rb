@@ -25,7 +25,7 @@ describe 'PasswordsController - POST #create' do
       allow(AccountsApi).to receive(:set_password).and_return(true)
     end
 
-    it 'redirects to success page' do
+    it 'redirects to the success page' do
       expect(subject).to redirect_to(success_passwords_path)
     end
 
@@ -42,7 +42,7 @@ describe 'PasswordsController - POST #create' do
     context 'when password confirmation is different' do
       let(:confirmation) { 'different_password' }
 
-      it 'renders :index' do
+      it 'renders the view' do
         subject
         expect(response).to render_template('passwords/index')
       end
@@ -70,7 +70,7 @@ describe 'PasswordsController - POST #create' do
         )
       end
 
-      it 'renders :index' do
+      it 'renders the view' do
         subject
         expect(response).to render_template('passwords/index')
       end
@@ -103,7 +103,7 @@ describe 'PasswordsController - POST #create' do
         )
       end
 
-      it 'renders :index' do
+      it 'renders the view' do
         subject
         expect(response).to render_template('passwords/index')
       end
