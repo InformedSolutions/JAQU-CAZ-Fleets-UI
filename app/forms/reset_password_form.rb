@@ -7,7 +7,7 @@ class ResetPasswordForm < BaseForm
   attr_accessor :email_address
 
   # validates attributes to presence
-  validates :email_address, presence: { message: I18n.t('input_form.errors.missing') }
+  validates :email_address, presence: { message: I18n.t('reset_password_form.email_missing') }
 
   # validates max length
   validates :email_address, length: {
@@ -18,6 +18,6 @@ class ResetPasswordForm < BaseForm
   # validates email format
   validates :email_address, format: {
     with: EMAIL_FORMAT,
-    message: I18n.t('input_form.errors.invalid_format')
+    message: I18n.t('reset_password_form.email_invalid_format')
   }, allow_blank: true
 end

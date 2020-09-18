@@ -2,7 +2,7 @@
 
 RSpec.shared_examples 'a vrn required view' do
   it 'returns redirect to the login page' do
-    http_request
+    subject
     expect(response).to redirect_to(new_user_session_path)
   end
 
@@ -11,7 +11,7 @@ RSpec.shared_examples 'a vrn required view' do
 
     context 'without VRN in the session' do
       it 'returns redirect to no VRN path' do
-        http_request
+        subject
         expect(response).to redirect_to(no_vrn_path)
       end
     end
@@ -20,7 +20,7 @@ RSpec.shared_examples 'a vrn required view' do
       before { add_to_session(vrn: @vrn) }
 
       it 'returns http success' do
-        http_request
+        subject
         expect(response).to have_http_status(:success)
       end
     end

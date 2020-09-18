@@ -2,7 +2,8 @@
 
 When('I visit the make payment page') do
   mock_debits
-  login_user
+  mock_users
+  login_owner
   visit payments_path
 end
 

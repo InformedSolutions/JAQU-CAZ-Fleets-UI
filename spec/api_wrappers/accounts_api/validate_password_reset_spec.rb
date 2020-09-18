@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'AccountsApi.validate_password_reset' do
-  subject(:call) { AccountsApi.validate_password_reset(token: token) }
+describe 'AccountsApi.validate_password_reset - POST' do
+  subject { AccountsApi.validate_password_reset(token: token) }
 
-  let(:token) { SecureRandom.uuid }
+  let(:token) { @uuid }
   let(:url) { %r{auth/password/reset/validation} }
 
   before do
@@ -16,7 +16,7 @@ describe 'AccountsApi.validate_password_reset' do
   end
 
   it 'calls API with proper body' do
-    call
+    subject
     expect(WebMock)
       .to have_requested(:post, url)
       .with(body: { token: token })
@@ -24,6 +24,6 @@ describe 'AccountsApi.validate_password_reset' do
   end
 
   it 'returns true' do
-    expect(call).to be_truthy
+    expect(subject).to be_truthy
   end
 end

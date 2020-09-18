@@ -1,16 +1,18 @@
 # frozen_string_literal: true
 
-class SessionsController < ApplicationController
-  skip_before_action :authenticate_user!
-
+##
+# Controller class for overwriting Devise methods.
+#
+class SessionsController < Devise::SessionsController
   ##
-  # Renders the sign out page
+  # Renders login page
   #
   # ==== Path
   #
-  #    :GET /sign-out
+  #    :GET /users/sign_in
   #
-  def sign_out
-    render 'devise/sessions/sign_out'
+  def new
+    super
+    session[:reset_password_back_button_url] = new_user_session_path
   end
 end

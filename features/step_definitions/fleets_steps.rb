@@ -1,24 +1,31 @@
 # frozen_string_literal: true
 
-When('I have no vehicles in my fleet') do
+Given('I have no vehicles in my fleet') do
+  mock_empty_fleet
+end
+
+Given('I have no vehicles in my fleet and visit the manage vehicles page') do
   mock_empty_fleet
   mock_debits
+  mock_users
+  login_owner
+  visit fleets_path
 end
 
 When('I have one vehicle in my fleet') do
   mock_one_vehicle_fleet
-  mock_debits
 end
 
 When('I visit the manage vehicles page') do
-  login_user
+  mock_debits
+  mock_users
+  login_owner
   visit fleets_path
 end
 
 When('I visit the submission method page') do
-  mock_vehicles_in_fleet
-  mock_debits
-  login_user
+  mock_api_responses
+  login_owner
   visit submission_method_fleets_path
 end
 
@@ -39,7 +46,6 @@ Then('I should be on the upload page') do
 end
 
 When('I have vehicles in my fleet') do
-  mock_debits
   mock_clean_air_zones
   mock_vehicles_in_fleet
   mock_caz_mandates
