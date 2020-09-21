@@ -48,4 +48,22 @@ describe UsersManagement::AddUserPermissionsForm, type: :model do
       expect(subject.submit).to eq(true)
     end
   end
+
+  describe '.email_not_duplicated' do
+    before do
+      allow(AccountsApi).to receive(:user_invitations).and_return(true)
+      allow(AccountsApi).to receive(:user_validations).and_raise(
+        BaseApi::Error400Exception.new(400, '', '')
+      )
+    end
+
+    it 'returns false' do
+      expect(subject.valid?).to eq(false)
+    end
+
+    it 'has a proper error message' do
+      subject.valid?
+      expect(subject.errors[:email]).to include('Email address already exists')
+    end
+  end
 end
