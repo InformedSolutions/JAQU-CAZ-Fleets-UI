@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   end
 
   scope module: 'vehicles_management', path: '/' do
-    resources :fleets, only: %i[index create] do
+    resources :fleets, only: %i[index] do
       collection do
         get :submission_method
         post :submission_method, to: 'fleets#submit_method'

@@ -72,22 +72,6 @@ module VehiclesManagement
     end
 
     ##
-    # Verifies if user confirms to add another vehicle
-    # If yes, redirects to {upload vehicle}[rdoc-ref:upload]
-    # If no, redirects to {dashboard page}[rdoc-ref:DashboardController.index]
-    # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:index]
-    #
-    # ==== Path
-    #
-    #    POST /fleets
-    #
-    def create
-      form = VehiclesManagement::ConfirmationForm.new(params['confirm-vehicle-creation'])
-      session[:confirm_vehicle_creation] = form.confirmation
-      determinate_next_step(form)
-    end
-
-    ##
     # Renders the view for first CSV upload
     #
     # ==== Path
@@ -172,18 +156,6 @@ module VehiclesManagement
     # Extract 'confirm-delete' from params
     def confirm_delete_param
       params['confirm-delete']
-    end
-
-    # Verifies if user confirms to add another vehicle
-    # If yes, redirects to {upload vehicle}[rdoc-ref:upload]
-    # If no, redirects to {dashboard page}[rdoc-ref:DashboardController.index]
-    # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:index]
-    def determinate_next_step(form)
-      if form.valid?
-        redirect_to form.confirmed? ? enter_details_vehicles_path : dashboard_path
-      else
-        redirect_to fleets_path, alert: form.errors.messages[:confirmation].first
-      end
     end
 
     # Removes vehicle and sets successful flash message
