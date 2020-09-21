@@ -81,7 +81,7 @@
                     id: 'individual-payment',
                     class: 'govuk-link')
       
-      - if @pagination.total_vehicles_count >= 2 && allow_make_payments?
+      - if allow_make_payments? && @pagination.total_vehicles_count >= 2
         %hr.govuk-section-break.govuk-section-break--m
         = link_to('Make a payment', payments_path, id: 'payment-button', class: 'govuk-button', 'data-module': 'govuk-button')
       
