@@ -43,7 +43,6 @@ module VehiclesManagement
     #
     def submit_details
       form = VrnForm.new(params[:vrn])
-      session[:confirm_vehicle_creation] = nil
       session[:vrn] = form.vrn
       determinate_next_step(form)
     end
