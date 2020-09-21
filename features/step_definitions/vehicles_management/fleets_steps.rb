@@ -19,6 +19,11 @@ When('I visit the manage vehicles page') do
   visit fleets_path
 end
 
+When('I visit the manage vehicles page with payment permission') do
+  login_user({ permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS] })
+  visit fleets_path
+end
+
 When('I visit the submission method page') do
   mock_vehicles_in_fleet
   login_user({ permissions: 'MANAGE_VEHICLES' })

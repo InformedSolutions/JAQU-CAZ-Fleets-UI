@@ -28,12 +28,26 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the enter details page
 
-  Scenario: Visiting the manage fleet page with vehicles in fleet
+  Scenario: Fleet override
+    When I have vehicles in my fleet
+      And I visit the manage vehicles page
+      And I press 'list of vehicles' link
+    Then I should be on the upload page
+
+  Scenario: Visiting the manage fleet page with vehicles in fleet with no paymnet permission
     When I have vehicles in my fleet
       And I visit the manage vehicles page
     Then I should be on the manage vehicles page
-    Then I press the Continue
-    Then I should see 'You must choose an answer'
+      And I should not see 'Make a payment' link
+    Then I press 'Return to Your account' link
+      And I should be on the Dashboard page
+
+  Scenario: Visiting the manage fleet page with vehicles in fleet with paymnet permission
+    When I have vehicles in my fleet
+      And I visit the manage vehicles page with payment permission
+    Then I should be on the manage vehicles page
+      And I press 'Make a payment' link
+      And I should be on the make a payment page
 
   Scenario: Removing vehicle from the fleet
     When I have vehicles in my fleet

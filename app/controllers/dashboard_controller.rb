@@ -52,7 +52,6 @@ class DashboardController < ApplicationController
   # clear manage vehicles inputs
   def clear_manage_vehicles_history
     session[:submission_method] = nil
-    session[:confirm_vehicle_creation] = nil
   end
 
   # clear make payments inputs and release lock on caz for current user
