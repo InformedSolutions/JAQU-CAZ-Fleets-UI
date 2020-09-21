@@ -37,7 +37,7 @@ describe 'DirectDebits::DebitsController - GET #new' do
       subject
     end
 
-    it 'redirects to not found page' do
+    it 'redirects to the not found page' do
       expect(response).to redirect_to(not_found_path)
     end
   end

@@ -24,14 +24,14 @@ module PaymentHistory
     # Includes data about page and total pages count
     def pagination(page:)
       @pagination ||= begin
-                   data = PaymentHistoryApi.payments(
-                     account_id: account_id,
-                     user_id: user_id,
-                     user_payments: user_payments,
-                     page: page
-                   )
-                   PaymentHistory::PaginatedPayment.new(data)
-                 end
+        data = PaymentHistoryApi.payments(
+          account_id: account_id,
+          user_id: user_id,
+          user_payments: user_payments,
+          page: page
+        )
+        PaymentHistory::PaginatedPayment.new(data)
+      end
     end
 
     private

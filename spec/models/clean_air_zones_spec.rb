@@ -7,12 +7,12 @@ describe CleanAirZone, type: :model do
 
   let(:data) do
     {
-      'name' => name,
-      'cleanAirZoneId' => id,
-      'boundaryUrl' => url,
-      'exemptionUrl' => url,
-      'activeChargeStartDate' => active_charge_start_date
-    }
+      name: name,
+      cleanAirZoneId: id,
+      boundaryUrl: url,
+      exemptionUrl: url,
+      activeChargeStartDate: active_charge_start_date
+    }.stringify_keys
   end
   let(:name) { 'Birmingham' }
   let(:id) { 'a49afb83-d1b3-48b6-b08b-5db8142045dc' }

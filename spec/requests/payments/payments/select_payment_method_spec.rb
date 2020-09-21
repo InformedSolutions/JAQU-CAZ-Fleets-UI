@@ -18,7 +18,7 @@ describe 'PaymentsController - GET #select_payment_method' do
         subject
       end
 
-      it 'redirects to initiate payment path' do
+      it 'redirects to the initiate payment path' do
         expect(response).to redirect_to(initiate_payments_path)
       end
     end
@@ -41,7 +41,7 @@ describe 'PaymentsController - GET #select_payment_method' do
         subject
       end
 
-      it 'redirects to initiate payment path' do
+      it 'redirects to the initiate payment path' do
         expect(response).to redirect_to(initiate_payments_path)
       end
     end

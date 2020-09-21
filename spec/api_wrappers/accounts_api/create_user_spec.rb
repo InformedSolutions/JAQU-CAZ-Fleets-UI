@@ -4,8 +4,12 @@ require 'rails_helper'
 
 describe 'AccountsApi.create_account - POST' do
   subject do
-    AccountsApi.create_user(account_id: account_id, email: email, password: password,
-                            verification_url: verification_url)
+    AccountsApi.create_user(
+      account_id: account_id,
+      email: email,
+      password: password,
+      verification_url: verification_url
+    )
   end
 
   let(:account_id) { '3fa85f64-5717-4562-b3fc-2c963f66afa6' }

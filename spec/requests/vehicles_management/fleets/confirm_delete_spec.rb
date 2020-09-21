@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'VehiclesManagement::FleetsController - POST #confirm_delete' do
-  subject { post delete_fleets_path, params: { 'confirm-delete' => confirmation } }
+  subject { post delete_fleets_path, params: { 'confirm-delete': confirmation } }
 
   let(:confirmation) { 'yes' }
 
@@ -38,7 +38,7 @@ describe 'VehiclesManagement::FleetsController - POST #confirm_delete' do
           context do
             before { subject }
 
-            it 'redirects to fleets page' do
+            it 'redirects to the fleets page' do
               expect(response).to redirect_to(fleets_path)
             end
 
@@ -54,7 +54,7 @@ describe 'VehiclesManagement::FleetsController - POST #confirm_delete' do
           context 'when it was the last vehicle' do
             before { mock_fleet(create_empty_fleet) }
 
-            it 'redirects to dashboard' do
+            it 'redirects to the dashboard' do
               subject
               expect(response).to redirect_to(dashboard_path)
             end
@@ -64,7 +64,7 @@ describe 'VehiclesManagement::FleetsController - POST #confirm_delete' do
         context 'when user does not confirm details' do
           let(:confirmation) { 'no' }
 
-          it 'redirects to fleets page' do
+          it 'redirects to the fleets page' do
             subject
             expect(response).to redirect_to(fleets_path)
           end
@@ -80,7 +80,7 @@ describe 'VehiclesManagement::FleetsController - POST #confirm_delete' do
 
           before { subject }
 
-          it 'redirects to delete' do
+          it 'redirects to the delete' do
             expect(response).to redirect_to(delete_fleets_path)
           end
 

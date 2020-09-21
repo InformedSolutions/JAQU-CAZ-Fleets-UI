@@ -56,7 +56,7 @@ describe 'PaymentsController - GET #matrix' do
     end
 
     context 'without la in the session' do
-      it 'redirects to index' do
+      it 'redirects to the index' do
         subject
         expect(response).to redirect_to(payments_path)
       end

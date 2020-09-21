@@ -1,11 +1,11 @@
 en:
-  external_link: 'opens in a new window'
+  external_link: opens in a new window
   form:
     errors:
       choose_answer: You must choose an answer
-      missing: 'is required'
-      maximum_length: 'is too long (maximum is %{length} characters)'
-      invalid_format: 'has invalid format'
+      missing: is required
+      maximum_length: is too long (maximum is %{length} characters)
+      invalid_format: has invalid format
   company_name_form:
     comapny_name_missing: Enter your company name
     company_name_invalid_format: Enter company name in a valid format
@@ -19,13 +19,13 @@ en:
     email_missing: Enter your email address
     email_invalid_format: Enter your email address in a valid format
   login_form:
-    email_missing: 'Enter your email address'
-    password_missing: 'Enter your password'
-    invalid_email: 'Enter your email address in a valid format'
-    incorrect: 'The email or password you entered is incorrect'
-    email_unconfirmed: 'Your email address is not confirmed'
+    email_missing: Enter your email address
+    password_missing: Enter your password
+    invalid_email: Enter your email address in a valid format
+    incorrect: The email or password you entered is incorrect
+    email_unconfirmed: Your email address is not confirmed
   la_form:
-    la_missing: 'You must choose one Clean Air Zone'
+    la_missing: You must choose one Clean Air Zone
   input_form:
     errors:
       missing: '%{attribute} is required'
@@ -33,29 +33,29 @@ en:
       maximum_length: '%{attribute} is too long (maximum is 45 characters)'
       password_complexity: '%{attribute} must be at least 12 characters long, include at least one upper case letter, a number, and a special character'
     labels:
-      email: 'Enter your email address'
-      email_confirmation: 'Confirm your email address'
-      password: 'Create a password'
-      password_confirmation: 'Confirm password'
+      email: Enter your email address
+      email_confirmation: Confirm your email address
+      password: Create a password
+      password_confirmation: Confirm password
     hints:
-      password: 'Must be at least 12 characters long, include at least 1 upper case letter, a number and a special character'
+      password: Must be at least 12 characters long, include at least 1 upper case letter, a number and a special character
   vrn_form:
     errors:
-      vrn_missing: 'Enter the number plate of the vehicle'
-      vrn_invalid: 'Enter the number plate of the vehicle in a valid format'
-      vrn_too_long: 'The number plate of the vehicle is too long'
-      vrn_too_short: 'The number plate of the vehicle is too short'
+      vrn_missing: Enter the number plate of the vehicle
+      vrn_invalid: Enter the number plate of the vehicle in a valid format
+      vrn_too_long: The number plate of the vehicle is too long
+      vrn_too_short: The number plate of the vehicle is too short
     messages:
-      multiple_vrns_added: 'You have successfully uploaded %{vrns_count} vehicles to your vehicle list.'
-      single_vrn_added: 'You have successfully added %{vrn} to your vehicle list.'
-      single_vrn_removed: 'You have successfully removed %{vrn} from your vehicle list.'
+      multiple_vrns_added: You have successfully uploaded %{vrns_count} vehicles to your vehicle list.
+      single_vrn_added: You have successfully added %{vrn} to your vehicle list.
+      single_vrn_removed: You have successfully removed %{vrn} from your vehicle list.
       vrn_already_exists: '%{vrn} already exists in your vehicle list.'
   search_vrn_form:
     errors:
-      vrn_missing: 'Enter a number plate'
-      vrn_invalid: 'Enter the number plate in a valid format'
-      vrn_too_long: 'The number plate is too long'
-      vrn_too_short: 'The number plate is too short'
+      vrn_missing: Enter a number plate
+      vrn_invalid: Enter the number plate in a valid format
+      vrn_too_long: The number plate is too long
+      vrn_too_short: The number plate is too short
   password:
     errors:
       password_equality: Password and password confirmation must be the same
@@ -78,23 +78,23 @@ en:
       confirm_fleet_check: You must choose an answer
   email:
     errors:
-      email_equality: 'Email address and email address confirmation must be the same'
-      exists: 'Email already exists'
+      email_equality: Email address and email address confirmation must be the same
+      exists: Email already exists
   company_name:
     errors:
       duplicate: The company name already exists. If you have forgotten your sign in details you can reset your password
       profanity: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.
       abuse: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.
   confirmation_form:
-    answer_missing: 'You must choose an answer'
+    answer_missing: You must choose an answer
   csv:
     errors:
-      base: 'The selected file could not be uploaded – try again'
-      no_file: 'Select a CSV file to upload'
-      invalid_ext: 'The selected file must be in a .CSV format'
+      base: The selected file could not be uploaded – try again
+      no_file: Select a CSV file to upload
+      invalid_ext: The selected file must be in a .CSV format
   token_form:
-    token_missing: 'Authorisation token is missing'
-    token_invalid: 'Authorisation token is invalid or has expired'
+    token_missing: Authorisation token is missing
+    token_invalid: Authorisation token is invalid or has expired
   vehicle_not_found:
     errors:
       confirmation_alert: Confirm the number plate is correct
@@ -116,5 +116,5 @@ en:
       email_invalid_format: Enter the user’s email address in a valid format
   remove_user:
     choose_answer: Select yes to remove the user
-    removed: 'You have successfully removed %{full_user_name} from your account.'
+    removed: You have successfully removed %{full_user_name} from your account.
 

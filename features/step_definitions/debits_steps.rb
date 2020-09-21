@@ -7,16 +7,16 @@ When('I have no mandates') do
   mock_users
 end
 
-When('I visit the manage Direct Debit page') do
+When('I visit the Manage Direct Debit page') do
   login_user(permissions: 'MANAGE_MANDATES')
   visit debits_path
 end
 
-Then('I visit the payment method page') do
+Then('I visit the Payment method page') do
   visit select_payment_method_payments_path
 end
 
-Then('I should be on the add new mandate page') do
+Then('I should be on the Add new mandate page') do
   expect_path(new_debit_path)
 end
 
@@ -34,23 +34,34 @@ When('I have created all the possible mandates') do
   mock_users
 end
 
-Then('I should be on the manage debits page') do
+Then('I should be on the Manage debits page') do
   expect_path(debits_path)
 end
 
-When('I visit the add new mandate page') do
+When('I visit the Add new mandate page') do
   login_user(permissions: 'MANAGE_MANDATES')
   visit new_debit_path
 end
 
 Then('I press `Set up new Direct Debit` button') do
   mock_debits_api_call('inactive_mandates')
-  click_button 'Set up new Direct Debit'
+  click_button('Set up new Direct Debit')
 end
 
-Then('I should have a new mandate added') do
+Then('I am creating a new mandate and redirecting to the complete setup endpoint') do
   mock_debits_api_call
-  allow(DebitsApi).to receive(:create_mandate).and_return(true)
+  mock_create_mandate
+  allow(DebitsApi).to receive(:complete_mandate_creation).and_return({})
+  click_on('Continue')
+end
+
+Then('I am creating a new mandate when api returns 400 status') do
+  mock_debits_api_call
+  mock_create_mandate
+  allow(DebitsApi).to receive(:complete_mandate_creation).and_raise(
+    BaseApi::Error400Exception.new(400, '', {})
+  )
+  click_on('Continue')
 end
 
 Given('I have active mandates for selected CAZ') do
@@ -58,7 +69,7 @@ Given('I have active mandates for selected CAZ') do
   mock_api_endpoints
 end
 
-Then('I should be on the cancel payment page') do
+Then('I should be on the Cancel payment page') do
   expect_path(cancel_payments_path)
 end
 

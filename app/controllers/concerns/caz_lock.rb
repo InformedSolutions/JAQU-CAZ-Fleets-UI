@@ -2,8 +2,6 @@
 
 # Module used to add or release a lock on CAZ if user is paying for it
 module CazLock
-  extend ActiveSupport::Concern
-
   # Determinate if lock on caz should release, then adding a new selected caz to the session
   # Redirects to payment in progress page if selected caz already in paying progress by another user
   # Or lock CAZ and redirects to the matrix page

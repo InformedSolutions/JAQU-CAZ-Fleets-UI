@@ -14,7 +14,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
     context 'with empty fleet' do
       before { mock_fleet(create_empty_fleet) }
 
-      it 'redirects to  #submission_method' do
+      it 'redirects to the  #submission_method' do
         subject
         expect(response).to redirect_to submission_method_fleets_path
       end
@@ -65,7 +65,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
         context 'and when status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
           let(:status) { 'CHARGEABILITY_CALCULATION_IN_PROGRESS' }
 
-          it 'redirects to calculating chargeability page' do
+          it 'redirects to the calculating chargeability page' do
             expect(response).to redirect_to(calculating_chargeability_uploads_path)
           end
 
@@ -77,7 +77,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
         context 'and when status is RUNNING' do
           let(:status) { 'RUNNING' }
 
-          it 'redirects to calculating chargeability page' do
+          it 'redirects to the calculating chargeability page' do
             expect(response).to redirect_to(processing_uploads_path)
           end
 
@@ -114,7 +114,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
         subject
       end
 
-      it 'redirects to fleets page' do
+      it 'redirects to the fleets page' do
         expect(response).to redirect_to fleets_path
       end
     end

@@ -30,7 +30,7 @@ describe 'VehiclesManagement::VehicleController - GET #details' do
           subject
         end
 
-        it 'redirects to vehicles#not_found' do
+        it 'redirects to the vehicles not found page' do
           expect(response).to redirect_to not_found_vehicles_path
         end
       end
@@ -48,7 +48,7 @@ describe 'VehiclesManagement::VehicleController - GET #details' do
           expect(assigns(:errors)).to eq({ vrn: [error] })
         end
 
-        it 'renders :enter_details view' do
+        it 'renders the :enter_details view' do
           expect(response).to render_template('enter_details')
         end
       end

@@ -26,7 +26,7 @@ describe 'Organisations::OrganisationsController - POST #create' do
     end
 
     context 'with valid params' do
-      it 'redirects to email sent page' do
+      it 'redirects to the email sent page' do
         subject
         expect(response).to redirect_to(email_sent_organisations_path)
       end
@@ -49,7 +49,7 @@ describe 'Organisations::OrganisationsController - POST #create' do
           .and_raise(NewPasswordException.new({}))
       end
 
-      it 'renders account details view' do
+      it 'redirects the account details view' do
         subject
         expect(response).to render_template('organisations/new_credentials')
       end
