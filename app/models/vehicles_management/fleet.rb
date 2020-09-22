@@ -84,6 +84,12 @@ module VehiclesManagement
       FleetsApi.vehicles(account_id: account_id, page: 1, per_page: 1)['totalVehiclesCount']
     end
 
+    # Checks if there are any undetermined vehicles in the fleet.
+    # Return boolean.
+    def any_undetermined_vehicles
+      FleetsApi.vehicles(account_id: account_id, page: 1, per_page: 1)['anyUndeterminedVehicles']
+    end
+
     # Checks if there are any chargeable vehicles in the provided clean air zone.
     # Return boolean.
     def any_chargeable_vehicles_in_caz?(zone_id)

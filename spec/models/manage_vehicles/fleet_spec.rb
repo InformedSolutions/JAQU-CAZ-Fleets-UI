@@ -199,6 +199,26 @@ describe VehiclesManagement::Fleet, type: :model do
     end
   end
 
+  describe '.any_undetermined_vehicles' do
+    before { allow(FleetsApi).to receive(:vehicles).and_return(vehicles_data) }
+
+    context 'when the are no undetermined vehicles' do
+      let(:vehicles_data) { read_response('vehicles.json')['1'] }
+
+      it 'returns false' do
+        expect(subject.any_undetermined_vehicles).to eq(false)
+      end
+    end
+
+    context 'when some vehicles are undetermined' do
+      let(:vehicles_data) { read_response('vehicles.json')['2'] }
+
+      it 'returns true' do
+        expect(subject.any_undetermined_vehicles).to eq(true)
+      end
+    end
+  end
+
   describe '.delete_vehicle' do
     before { allow(FleetsApi).to receive(:remove_vehicle_from_fleet).and_return(true) }
 
