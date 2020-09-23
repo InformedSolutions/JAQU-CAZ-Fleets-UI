@@ -17,7 +17,7 @@ module DirectDebits
     end
 
     # It calls {rdoc-ref:DebitsApi.mandates} to fetch data.
-    # Returns `DirectDebits::Mandate` instances where enabled cazes with mandate only in `active` or `pending` status
+    # Returns `DirectDebits::Mandate` instances where enabled cazes with mandate only in `active` or `pending_submission` status
     def mandates
       @mandates ||= begin
         result = enabled_cazes.each do |obj|
@@ -29,14 +29,14 @@ module DirectDebits
       end
     end
 
-    # Returns an array of associated DirectDebits::Mandate instances in `active` or `pending` statuses
+    # Returns an array of associated DirectDebits::Mandate instances in `active` or `pending_submission` statuses
     def active_mandates
       mandates.select do |mandate|
         select_active_statuses(mandate.status)
       end
     end
 
-    # Returns an array of associated DirectDebits::Mandate instances without `active` or `pending` statuses
+    # Returns an array of associated DirectDebits::Mandate instances without `active` or `pending_submission` statuses
     def inactive_mandates
       mandates.reject do |mandate|
         select_active_statuses(mandate.status)
@@ -44,7 +44,7 @@ module DirectDebits
     end
 
     # Calls {rdoc-ref:DebitsApi.caz_mandates} to fetch data.
-    # Find the mandate in 'active' or `pending` status
+    # Find the mandate in 'active' or `pending_submission` status
     #
     # ==== Params
     # * +account_id+ - ID of the account associated with the fleet
@@ -65,11 +65,11 @@ module DirectDebits
     # Reader for account id from backend DB
     attr_reader :account_id
 
-    # Returns true if status 'active' or 'pending'
+    # Returns true if status can be considered as an 'active'
     def select_active_statuses(status)
       return false unless status
 
-      status.downcase == 'active' || status.downcase == 'pending'
+      %w[pending pending_customer_approval pending_submission submitted active].include?(status.downcase)
     end
 
     # Returns an array of enabled cazes
