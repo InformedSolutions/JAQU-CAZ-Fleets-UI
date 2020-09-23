@@ -141,6 +141,11 @@ Rails.application.routes.draw do
     end
   end
 
+  scope module: 'account_details', path: '/' do
+    resources :primary_users, only: :index
+    resources :non_primary_users, only: :index
+  end
+
   scope module: 'payment_history', path: '/', controller: 'payment_history' do
     get :company_payment_history
     get :user_payment_history
