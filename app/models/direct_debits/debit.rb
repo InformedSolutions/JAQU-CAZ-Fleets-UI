@@ -21,7 +21,7 @@ module DirectDebits
     def mandates
       @mandates ||= begin
         result = enabled_cazes.each do |obj|
-          active = obj['mandates'].find { |mandate| select_active_statuses(mandate['status']) }
+          active = obj['mandates'].find { |mandate| select_active_api_statuses(mandate['status']) }
           obj['mandates'] = (active || [])
         end
 
@@ -56,7 +56,7 @@ module DirectDebits
           account_id: account_id,
           zone_id: zone_id
         )
-        api_response&.find { |mandate| select_active_statuses(mandate['status']) }
+        api_response&.find { |mandate| select_active_api_statuses(mandate['status']) }
       end
     end
 
@@ -65,19 +65,18 @@ module DirectDebits
     # Reader for account id from backend DB
     attr_reader :account_id
 
-    # Returns true if status can be considered as an 'active'
+    # Returns true if status can be considered as an 'active' received from api response
+    def select_active_api_statuses(status)
+      return false unless status
+
+      %w[pending_customer_approval pending_submission submitted active].include?(status.downcase)
+    end
+
+    # Returns true if status can be considered as an 'active', status already humanized in DirectDebits::Mandate.status
     def select_active_statuses(status)
       return false unless status
 
-      [
-        'pending',
-        'pending_customer_approval',
-        'pending_submission',
-        'submitted',
-        'active',
-        'pending customer approval',
-        'pending submission'
-      ].include?(status.downcase)
+      %w[pending submitted active].include?(status.downcase)
     end
 
     # Returns an array of enabled cazes
