@@ -69,7 +69,15 @@ module DirectDebits
     def select_active_statuses(status)
       return false unless status
 
-      %w[pending pending_customer_approval pending_submission submitted active].include?(status.downcase)
+      [
+        'pending',
+        'pending_customer_approval',
+        'pending_submission',
+        'submitted',
+        'active',
+        'pending customer approval',
+        'pending submission'
+      ].include?(status.downcase)
     end
 
     # Returns an array of enabled cazes
