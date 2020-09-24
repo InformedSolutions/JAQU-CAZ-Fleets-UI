@@ -7,15 +7,23 @@ module AccountDetails
   # Controller used to manage the primary user settings
   #
   class PrimaryUsersController < ApplicationController
+    include CheckPermissions
+
+    before_action -> { check_permissions(current_user.owner) }
+
     ##
     # Renders the management page for primary users.
     #
     # ==== Path
     #
-    #    :GET /primary_user
+    #    :GET /primary_account_details
     #
-    def index
-      # renders a static page
+    def primary_account_details
+      api_response = AccountsApi.user(
+        account_id: current_user.account_id,
+        account_user_id: current_user.user_id
+      )
+      @user = AccountDetails::User.new(api_response)
     end
   end
 end

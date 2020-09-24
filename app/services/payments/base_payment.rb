@@ -21,8 +21,8 @@ module Payments
     # Method transforms data stored in provided hash a format expected by the API spec.
     # Returns information only about days which are going to be paid.
     def transformed_transactions
-      payment_data[:details].filter_map do
-        |_, payment| extract_data_for_each_date(payment) if payment.symbolize_keys![:dates].any?
+      payment_data[:details].filter_map do |_, payment|
+        extract_data_for_each_date(payment) if payment.symbolize_keys![:dates].any?
       end.flatten
     end
 
