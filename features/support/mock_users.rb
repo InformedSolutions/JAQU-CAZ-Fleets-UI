@@ -33,6 +33,12 @@ module MockUsers
     allow(AccountsApi).to receive(:user).and_return(read_response('users_management/user.json'))
   end
 
+  def mock_account_details
+    allow(AccountDetails::Api)
+      .to receive(:account_details)
+      .and_return(read_response('users_management/user.json'))
+  end
+
   def mock_update_user
     allow(AccountsApi).to receive(:update_user).and_return({})
   end
