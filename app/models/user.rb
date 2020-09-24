@@ -20,7 +20,7 @@ class User
                 :days_to_password_expiry
 
   # Delegates fleet methods to fleet
-  delegate :vehicles, :add_vehicle, :remove_vehicle, :charges, :charges_by_vrn, to: :fleet
+  delegate :add_vehicle, :charges, :charges_by_vrn, to: :fleet
 
   # Delegates debit methods to payment_method
   delegate :mandates, to: :direct_debit
@@ -73,7 +73,7 @@ class User
       account_name: user_attributes['accountName'],
       owner: user_attributes['owner'],
       permissions: user_attributes['permissions'],
-      days_to_password_expiry: calculate_days_to_password_expiry(user_attributes['passwordUpdateTimestamp'])
+      days_to_password_expiry: calculate_password_expiry(user_attributes['passwordUpdateTimestamp'])
     )
   end
 
@@ -85,7 +85,7 @@ class User
 
   # Calculates days to password expiry
   # Returns number
-  def self.calculate_days_to_password_expiry(date)
+  def self.calculate_password_expiry(date)
     return if date.nil?
 
     90 - (Date.current.mjd - Date.parse(date).mjd)

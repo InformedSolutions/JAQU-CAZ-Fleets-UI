@@ -12,28 +12,21 @@ module Payments
     # Attributes used internally
     attr_reader :payment_data, :user_id
 
-    ##
     # Method fetches +caz_id+ from provided +payment_data+.
     #
     def caz_id
       payment_data[:caz_id]
     end
 
-    ##
-    # Method transforms data stored in provided hash a format expected by
-    # the API spec. Returns information only about days which are going to
-    # be paid.
-    #
+    # Method transforms data stored in provided hash a format expected by the API spec.
+    # Returns information only about days which are going to be paid.
     def transformed_transactions
-      payment_data[:details]
-        .select { |_, payment_detail| payment_detail.symbolize_keys![:dates].any? }
-        .map { |_, payment_detail| extract_data_for_each_date(payment_detail) }
-        .flatten
+      payment_data[:details].filter_map do
+        |_, payment| extract_data_for_each_date(payment) if payment.symbolize_keys![:dates].any?
+      end.flatten
     end
 
-    ##
     # Method which transforms data to have a single object for each date.
-    #
     def extract_data_for_each_date(payment_detail)
       payment_detail[:dates].map do |date|
         {
@@ -45,7 +38,7 @@ module Payments
       end
     end
 
-    # convert charge in pence
+    # Convert charge in pence
     def charge_in_pence(charge_in_pounds)
       (charge_in_pounds.to_f * 100).to_i
     end

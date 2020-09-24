@@ -18,6 +18,18 @@ describe User, type: :model do
     end
   end
 
-  it { is_expected.to delegate_method(:vehicles).to(:fleet) }
-  it { is_expected.to delegate_method(:add_vehicle).to(:fleet) }
+  describe '.add_vehicle' do
+    let(:vrn) { @vrn }
+    let(:vehicle_type) { 'car' }
+
+    it 'calls FleetsApi.add_vehicle_to_fleet with proper params' do
+      expect(FleetsApi).to receive(:add_vehicle_to_fleet).with(
+        vrn: vrn,
+        vehicle_type: vehicle_type,
+        account_id: account_id
+      )
+
+      subject.add_vehicle(vrn, vehicle_type)
+    end
+  end
 end
