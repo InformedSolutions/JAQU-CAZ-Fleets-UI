@@ -211,6 +211,8 @@ class PasswordsController < ApplicationController
       [I18n.t('new_password_form.errors.password_complexity')]
     when 'newPasswordReuse'
       [I18n.t('update_password_form.errors.password_reused')]
+    else
+      'Something went wrong'
     end
   end
 end
