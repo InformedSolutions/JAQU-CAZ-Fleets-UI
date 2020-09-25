@@ -12,7 +12,7 @@ describe 'VehiclesManagement::UploadsController - GET #index' do
     end
 
     it 'renders the view' do
-      expect(subject).to render_template('index')
+      expect(subject).to render_template(:index)
     end
   end
 

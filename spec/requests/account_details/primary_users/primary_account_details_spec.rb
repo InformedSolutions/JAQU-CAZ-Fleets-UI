@@ -18,7 +18,7 @@ describe 'AccountDetails::PrimaryUsersController - GET #primary_account_details'
     end
 
     it 'renders the view' do
-      expect(response).to render_template('primary_account_details')
+      expect(response).to render_template(:primary_account_details)
     end
   end
 

@@ -23,9 +23,9 @@ describe 'PaymentsController - GET #in_progress' do
         add_to_session(new_payment: { caz_id: caz_id })
       end
 
-      it 'is successful' do
+      it 'returns a 200 OK status' do
         subject
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:ok)
       end
     end
 

@@ -56,9 +56,9 @@ describe DashboardController do
         )
       end
 
-      it 'returns http success' do
+      it 'returns a 200 OK status' do
         subject
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:ok)
       end
 
       it 'assigns @days_count variable' do

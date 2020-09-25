@@ -6,7 +6,7 @@ module DirectDebits
   ##
   # Controller used to manage and pay Direct Debits
   #
-  class DebitsController < ApplicationController
+  class DebitsController < ApplicationController # rubocop:disable Metrics/ClassLength
     include CazLock
     include CheckPermissions
 
@@ -20,7 +20,7 @@ module DirectDebits
     before_action :check_active_caz_mandates, only: :first_mandate
     before_action :assign_back_button_url, only: %i[confirm index new first_mandate]
     before_action :clear_payment_method, only: %i[first_mandate initiate]
-    before_action :release_lock_on_caz, only: :success
+    before_action :release_lock_on_caz, only: %i[cancel success failure]
     before_action :check_caz_id_in_session, only: :complete_setup
 
     ##
@@ -30,7 +30,7 @@ module DirectDebits
     #
     # ==== Path
     #
-    #    :GET /payments/debits/confirm
+    #    :GET /debits/confirm
     #
     def confirm
       caz_mandates = @debit.caz_mandates(@zone_id)
@@ -49,13 +49,14 @@ module DirectDebits
     #
     # ==== Path
     #
-    #    :POST /payments/debits/initiate
+    #    :POST /debits/initiate
     #
     def initiate
-      service_response = create_direct_debit_payment
-      details = DirectDebits::Details.new(service_response)
+      details = DirectDebits::Details.new(create_direct_debit_payment)
       payment_details_to_session(details)
       redirect_to success_debits_path
+    rescue BaseApi::Error400Exception
+      redirect_to failure_debits_path
     end
 
     ##
@@ -63,7 +64,7 @@ module DirectDebits
     #
     # ==== Path
     #
-    #    :GET /payments/debits/success
+    #    :GET /debits/success
     #
     def success
       payments = helpers.initiated_payment_data
@@ -77,7 +78,7 @@ module DirectDebits
     #
     # ==== Path
     #
-    #    :GET /payments/debits/first_mandate
+    #    :GET /debits/first_mandate
     #
     def first_mandate
       # renders static page
@@ -89,7 +90,7 @@ module DirectDebits
     #
     # ==== Path
     #
-    #    GET /payments/debits
+    #    GET /debits
     #
     def index
       redirect_to new_debit_path if @debit.active_mandates.empty?
@@ -104,7 +105,7 @@ module DirectDebits
     #
     # ==== Path
     #
-    #    GET /payments/debits/new
+    #    GET /debits/new
     #
     def new
       @zones = @debit.inactive_mandates
@@ -117,7 +118,7 @@ module DirectDebits
     #
     # ==== Path
     #
-    #    POST /payments/debits
+    #    POST /debits
     #
     def create
       form = Payments::LocalAuthorityForm.new(caz_id: params['caz_id'])
@@ -141,11 +142,21 @@ module DirectDebits
     end
 
     ##
+    # Render page after unsuccessful direct debit payment
+    #
+    # ==== Path
+    #   GET /debits/failure
+    #
+    def failure
+      # renders the static page
+    end
+
+    ##
     # Complete Direct Debit mandate creation
     #
     # ==== Path
     #
-    #    GET /direct_debits/complete_setup
+    #    GET /debits/complete_setup
     #
     def complete_setup
       DebitsApi.complete_mandate_creation(
@@ -197,8 +208,7 @@ module DirectDebits
       session[:payment_method] = nil
     end
 
-    # Checks if +mandate_caz_id+ in session
-    # If not redirects to the debits page
+    # Checks if +mandate_caz_id+ in session. If not, it redirects to the debits page
     def check_caz_id_in_session
       redirect_to debits_path if session[:mandate_caz_id].nil?
     end

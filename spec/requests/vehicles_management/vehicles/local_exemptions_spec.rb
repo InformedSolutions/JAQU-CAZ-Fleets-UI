@@ -9,7 +9,7 @@ describe 'VehiclesManagement::VehicleController - GET #local_exemptions' do
     before { sign_in manage_vehicles_user }
 
     it 'renders the view' do
-      expect(subject).to render_template('local_exemptions')
+      expect(subject).to render_template(:local_exemptions)
     end
   end
 

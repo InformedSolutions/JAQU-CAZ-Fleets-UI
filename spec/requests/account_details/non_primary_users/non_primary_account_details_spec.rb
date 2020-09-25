@@ -18,7 +18,7 @@ describe 'AccountDetails::NonPrimaryUsersController - GET #non_primary_account_d
     end
 
     it 'renders the view' do
-      expect(response).to render_template('non_primary_account_details')
+      expect(response).to render_template(:non_primary_account_details)
     end
   end
 

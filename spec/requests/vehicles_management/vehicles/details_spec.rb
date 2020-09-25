@@ -49,7 +49,7 @@ describe 'VehiclesManagement::VehicleController - GET #details' do
         end
 
         it 'renders the :enter_details view' do
-          expect(response).to render_template('enter_details')
+          expect(response).to render_template(:enter_details)
         end
       end
     end
