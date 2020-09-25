@@ -90,10 +90,10 @@ Feature: Fleets
       And I visit the manage vehicles page
     Then I should see active '1' pagination button
       And I should see inactive '2' pagination button
-      And I should see inactive 'next-page' pagination button
-      And I should not see 'previous-page' pagination button
+      And I should see inactive 'next' pagination button
+      And I should not see 'previous' pagination button
     When I press 2 pagination button
     Then I should see active '2' pagination button
       And I should see inactive '1' pagination button
-      And I should see inactive 'previous-page' pagination button
-      And I should not see 'next-page' pagination button
+      And I should see inactive 'previous' pagination button
+      And I should not see 'next' pagination button
