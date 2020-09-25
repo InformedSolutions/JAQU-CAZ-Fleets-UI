@@ -12,7 +12,7 @@ describe 'VehiclesManagement::FleetsController - GET #submission_method' do
     end
 
     it 'renders the view' do
-      expect(subject).to render_template('submission_method')
+      expect(subject).to render_template(:submission_method)
     end
   end
 

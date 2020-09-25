@@ -9,7 +9,7 @@ describe 'PasswordsController - GET #edit' do
     before { sign_in create_user }
 
     it 'renders the view' do
-      expect(subject).to render_template('passwords/edit')
+      expect(subject).to render_template(:edit)
     end
   end
 

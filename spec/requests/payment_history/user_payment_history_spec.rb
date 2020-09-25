@@ -13,7 +13,7 @@ describe 'PaymentHistory::PaymentHistoryController - GET #user_payment_history' 
     end
 
     it 'renders the view' do
-      expect(subject).to render_template('user_payment_history')
+      expect(subject).to render_template(:user_payment_history)
     end
 
     context 'and with invalid page' do

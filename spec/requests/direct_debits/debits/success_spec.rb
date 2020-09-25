@@ -32,7 +32,7 @@ describe 'DirectDebits::DebitsController - GET #success' do
     end
 
     it 'renders the view' do
-      expect(subject).to render_template('success')
+      expect(subject).to render_template(:success)
     end
 
     context 'when CAZ locked by current user' do

@@ -50,7 +50,7 @@ describe 'PasswordsController - PATCH #update' do
       end
 
       it 'renders the view' do
-        expect(response).to render_template('passwords/edit')
+        expect(response).to render_template(:edit)
       end
 
       it 'assigns a proper error message' do
@@ -72,7 +72,7 @@ describe 'PasswordsController - PATCH #update' do
       end
 
       it 'renders the view' do
-        expect(response).to render_template('passwords/edit')
+        expect(response).to render_template(:edit)
       end
 
       it 'assigns a proper error message' do
@@ -92,7 +92,7 @@ describe 'PasswordsController - PATCH #update' do
       end
 
       it 'renders the view' do
-        expect(response).to render_template('passwords/edit')
+        expect(response).to render_template(:edit)
       end
 
       it 'assigns a proper error message' do
@@ -108,7 +108,7 @@ describe 'PasswordsController - PATCH #update' do
       before { subject }
 
       it 'renders the view' do
-        expect(response).to render_template('passwords/edit')
+        expect(response).to render_template(:edit)
       end
 
       it 'does not call AccountsApi.set_password' do

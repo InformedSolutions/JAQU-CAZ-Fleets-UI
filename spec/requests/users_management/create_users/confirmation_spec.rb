@@ -9,7 +9,7 @@ describe 'UsersManagement::CreateUsersController - GET #confirmation' do
     before { sign_in manage_users_user }
 
     it 'renders the view' do
-      expect(subject).to render_template('confirmation')
+      expect(subject).to render_template(:confirmation)
     end
   end
 

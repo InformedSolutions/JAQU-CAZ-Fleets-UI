@@ -2,14 +2,15 @@
 
 require 'rails_helper'
 
-describe 'DirectDebits::DebitsController - GET #cancel' do
-  subject { get cancel_payments_path }
+describe 'DirectDebits::DebitsController - GET #failure' do
+  subject { get failure_debits_path }
 
   context 'correct permissions' do
     context 'and CAZ locked by current user' do
       before do
-        add_to_session(new_payment: { caz_id: caz_id, details: {} })
-        sign_in create_user
+        add_caz_lock_to_redis(user)
+        add_to_session(new_payment: { caz_id: caz_id })
+        sign_in user
         subject
       end
 
@@ -20,8 +21,8 @@ describe 'DirectDebits::DebitsController - GET #cancel' do
         expect(response).to have_http_status(:ok)
       end
 
-      it 'renders the cancel page' do
-        expect(response).to render_template(:cancel)
+      it 'renders the view' do
+        expect(subject).to render_template(:failure)
       end
 
       it 'removes caz lock from redis' do

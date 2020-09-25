@@ -30,7 +30,7 @@ describe 'PaymentsController - GET #select_payment_method' do
       end
 
       it 'renders select payment method page' do
-        expect(response).to render_template('payments/select_payment_method')
+        expect(response).to render_template(:select_payment_method)
       end
     end
 

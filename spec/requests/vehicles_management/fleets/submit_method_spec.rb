@@ -24,7 +24,7 @@ describe 'VehiclesManagement::FleetsController - POST #submit_method' do
       let(:submission_method) { nil }
 
       it 'renders the submission_method view' do
-        expect(response).to render_template('fleets/submission_method')
+        expect(response).to render_template(:submission_method)
       end
     end
 

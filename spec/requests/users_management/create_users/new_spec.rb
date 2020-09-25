@@ -12,7 +12,7 @@ describe 'UsersManagement::CreateUsersController - GET #new' do
     end
 
     it 'renders the view' do
-      expect(subject).to render_template('new')
+      expect(subject).to  render_template(:new)
     end
   end
 
