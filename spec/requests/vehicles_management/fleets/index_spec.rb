@@ -85,6 +85,22 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
             expect(flash[:success]).to be_nil
           end
         end
+
+        context 'and when status is unknown' do
+          let(:status) { 'UNKNOWN' }
+
+          it 'renders manage vehicles page' do
+            expect(response).to render_template('fleets/index')
+          end
+
+          it 'not sets :success flash message' do
+            expect(flash[:success]).to be_nil
+          end
+
+          it 'deletes job data from redis' do
+            expect(REDIS.hget(upload_job_redis_key, 'job_id')).to be_nil
+          end
+        end
       end
 
       context 'and when api returns 404 status' do

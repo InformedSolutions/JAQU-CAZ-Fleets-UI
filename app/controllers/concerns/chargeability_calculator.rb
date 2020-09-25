@@ -34,6 +34,8 @@ module ChargeabilityCalculator
       redirect_to calculating_chargeability_uploads_path
     when 'RUNNING'
       redirect_to processing_uploads_path
+    else
+      clear_upload_job_data
     end
   end
 
