@@ -14,7 +14,7 @@ describe 'DirectDebits::DebitsController - GET #failure' do
         subject
       end
 
-      let(:user) { manage_mandates_user }
+      let(:user) { make_payments_user }
       let(:caz_id) { @uuid }
 
       it 'returns a 200 OK status' do

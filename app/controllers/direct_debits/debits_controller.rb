@@ -13,12 +13,8 @@ module DirectDebits
     before_action -> { check_permissions(helpers.direct_debits_enabled?) }, only: %i[
       index new create complete_setup
     ]
-    before_action -> { check_permissions(allow_manage_mandates?) }, only: %i[
-      index new create complete_setup failure
-    ]
-    before_action -> { check_permissions(allow_make_payments?) }, except: %i[
-      index new create complete_setup failure
-    ]
+    before_action -> { check_permissions(allow_manage_mandates?) }, only: %i[index new create complete_setup]
+    before_action -> { check_permissions(allow_make_payments?) }, except: %i[index new create complete_setup]
     before_action :check_la, only: %i[confirm first_mandate]
     before_action :assign_debit, only: %i[confirm index new first_mandate]
     before_action :check_active_caz_mandates, only: :first_mandate

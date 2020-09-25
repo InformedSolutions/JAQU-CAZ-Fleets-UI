@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+When('I visit the make payment page to pay by direct debit') do
+  mock_debits
+  login_user(permissions: %w[MAKE_PAYMENTS MANAGE_MANDATES], account_id: account_id)
+  visit payments_path
+end
+
 When('I have no mandates') do
   mock_direct_debit_enabled
   mock_vehicles_in_fleet
