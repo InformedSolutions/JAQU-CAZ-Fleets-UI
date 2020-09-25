@@ -30,7 +30,7 @@ describe 'DirectDebits::DebitsController - GET #complete_setup' do
         end
 
         it 'renders the service unavailable page' do
-          expect(subject).to render_template('errors/service_unavailable')
+          expect(subject).to render_template(:service_unavailable)
         end
       end
     end

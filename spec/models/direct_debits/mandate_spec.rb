@@ -64,7 +64,7 @@ describe DirectDebits::Mandate, type: :model do
       let(:status) { 'submitted' }
 
       it 'returns a proper value' do
-        expect(subject.status).to eq('Submitted')
+        expect(subject.status).to eq('Pending')
       end
     end
 

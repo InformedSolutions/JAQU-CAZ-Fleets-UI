@@ -44,7 +44,7 @@ describe 'PasswordsController - POST #create' do
 
       it 'renders the view' do
         subject
-        expect(response).to render_template('passwords/index')
+        expect(response).to render_template(:index)
       end
 
       it 'does not call AccountsApi.set_password' do
@@ -72,7 +72,7 @@ describe 'PasswordsController - POST #create' do
 
       it 'renders the view' do
         subject
-        expect(response).to render_template('passwords/index')
+        expect(response).to render_template(:index)
       end
 
       it 'calls AccountsApi.set_password with right params' do
@@ -105,7 +105,7 @@ describe 'PasswordsController - POST #create' do
 
       it 'renders the view' do
         subject
-        expect(response).to render_template('passwords/index')
+        expect(response).to render_template(:index)
       end
 
       it 'calls AccountsApi.set_password with right params' do
@@ -143,6 +143,39 @@ describe 'PasswordsController - POST #create' do
 
       it 'redirect to invalid page' do
         expect(subject).to redirect_to(invalid_passwords_path)
+      end
+    end
+
+    context 'when api returns unknown errorCode' do
+      before do
+        allow(AccountsApi).to receive(:set_password).and_raise(
+          BaseApi::Error422Exception.new(422, '', 'errorCode' => '')
+        )
+      end
+
+      it 'renders the view' do
+        subject
+        expect(response).to render_template(:index)
+      end
+
+      it 'calls AccountsApi.set_password with right params' do
+        expect(AccountsApi).to receive(:set_password).with(token: token, password: password)
+        subject
+      end
+
+      it 'assigns token' do
+        subject
+        expect(assigns(:token)).to eq(token)
+      end
+
+      it 'does not clear the token' do
+        subject
+        expect(session[:reset_password_token]).to eq(token)
+      end
+
+      it 'assigns a proper error message' do
+        subject
+        expect(assigns(:errors)[:password]).to include('Something went wrong')
       end
     end
   end

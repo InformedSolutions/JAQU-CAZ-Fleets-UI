@@ -30,7 +30,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
         end
 
         it 'renders manage vehicles page' do
-          expect(response).to render_template('fleets/index')
+          expect(response).to render_template(:index)
         end
 
         it 'sets default page value to 1' do
@@ -54,7 +54,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
           let(:status) { 'SUCCESS' }
 
           it 'renders manage vehicles page' do
-            expect(response).to render_template('fleets/index')
+            expect(response).to render_template(:index)
           end
 
           it 'sets :success flash message' do
@@ -85,6 +85,22 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
             expect(flash[:success]).to be_nil
           end
         end
+
+        context 'and when status is unknown' do
+          let(:status) { 'UNKNOWN' }
+
+          it 'renders manage vehicles page' do
+            expect(response).to render_template(:index)
+          end
+
+          it 'not sets :success flash message' do
+            expect(flash[:success]).to be_nil
+          end
+
+          it 'deletes job data from redis' do
+            expect(REDIS.hget(upload_job_redis_key, 'job_id')).to be_nil
+          end
+        end
       end
 
       context 'and when api returns 404 status' do
@@ -97,7 +113,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
         end
 
         it 'render the view' do
-          expect(response).to render_template('index')
+          expect(response).to render_template(:index)
         end
 
         it 'deletes job data from redis' do

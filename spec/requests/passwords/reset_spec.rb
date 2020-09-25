@@ -10,12 +10,12 @@ describe 'PasswordsController - GET #reset' do
   context 'when last visited page is nil' do
     before { subject }
 
-    it 'returns an ok response' do
+    it 'returns a 200 OK status' do
       expect(response).to have_http_status(:ok)
     end
 
     it 'renders the view' do
-      expect(response).to render_template('reset')
+      expect(response).to render_template(:reset)
     end
   end
 
@@ -25,7 +25,7 @@ describe 'PasswordsController - GET #reset' do
     let(:last_visited_path) { set_up_confirmation_users_path }
 
     it 'renders the view' do
-      expect(response).to render_template('reset')
+      expect(response).to render_template(:reset)
     end
 
     it 'assigns @back_button_url variable' do
@@ -44,7 +44,7 @@ describe 'PasswordsController - GET #reset' do
     end
 
     it 'renders the view' do
-      expect(response).to render_template('reset')
+      expect(response).to render_template(:reset)
     end
   end
 end

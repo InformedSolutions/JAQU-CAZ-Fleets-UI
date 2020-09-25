@@ -12,7 +12,7 @@ describe 'UsersManagement::UsersController - GET #index' do
     end
 
     it 'renders the view' do
-      expect(subject).to render_template('index')
+      expect(subject).to render_template(:index)
     end
 
     context 'when last visited page is confirmation user' do
@@ -24,7 +24,7 @@ describe 'UsersManagement::UsersController - GET #index' do
       end
 
       it 'renders the view' do
-        expect(response).to render_template('index')
+        expect(response).to render_template(:index)
       end
 
       it 'clears the new_user' do

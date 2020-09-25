@@ -129,6 +129,7 @@ module VehiclesManagement
 
     # Handles failed scenario after CSV processing
     def handle_failed_processing(job)
+      clear_upload_job_data
       @job_errors = job[:errors]
       @vehicles_present = !current_user.fleet.empty?
       render :index

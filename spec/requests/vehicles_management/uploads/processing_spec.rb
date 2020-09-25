@@ -56,7 +56,7 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
             let(:large_fleet) { false }
 
             it 'renders the processing page' do
-              expect(response).to render_template('processing')
+              expect(response).to render_template(:processing)
             end
 
             it 'not sets :success flash message' do
@@ -76,12 +76,12 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
         describe 'when status is RUNNING' do
           let(:status) { 'RUNNING' }
 
-          it 'is successful' do
-            expect(response).to have_http_status(:success)
+          it 'returns a 200 OK status' do
+            expect(response).to have_http_status(:ok)
           end
 
           it 'renders the processing view' do
-            expect(response).to render_template('uploads/processing')
+            expect(response).to render_template(:processing)
           end
         end
 
@@ -90,11 +90,15 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
           let(:errors) { ['Some error'] }
 
           it 'renders the upload page' do
-            expect(response).to render_template('uploads/index')
+            expect(response).to render_template(:index)
           end
 
           it 'assigns errors' do
             expect(assigns[:job_errors]).to eq(errors)
+          end
+
+          it 'deletes job data from redis' do
+            expect(REDIS.hget(upload_job_redis_key, 'job_id')).to be_nil
           end
         end
       end

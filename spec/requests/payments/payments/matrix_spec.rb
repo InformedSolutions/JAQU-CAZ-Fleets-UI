@@ -17,9 +17,9 @@ describe 'PaymentsController - GET #matrix' do
         add_to_session(new_payment: { caz_id: @uuid })
       end
 
-      it 'is successful' do
+      it 'returns a 200 OK status' do
         subject
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:ok)
       end
 
       it 'calls charges with right params' do

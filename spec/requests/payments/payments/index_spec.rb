@@ -27,7 +27,7 @@ describe 'PaymentsController - GET #index' do
 
       it 'renders payments page' do
         subject
-        expect(response).to render_template('payments/index')
+        expect(response).to render_template(:index)
       end
     end
   end

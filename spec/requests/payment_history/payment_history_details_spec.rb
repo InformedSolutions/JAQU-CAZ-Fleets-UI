@@ -20,7 +20,7 @@ describe 'PaymentHistory::PaymentHistoryController - GET #payment_history_detail
     end
 
     it 'renders the view' do
-      expect(response).to render_template('payment_history_details')
+      expect(response).to render_template(:payment_history_details)
     end
 
     context 'when last visited page was the Company payment history page' do
