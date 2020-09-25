@@ -9,7 +9,7 @@ describe 'VehiclesManagement::VehicleController - GET #enter_details' do
     before { sign_in manage_vehicles_user }
 
     it 'renders the view' do
-      expect(subject).to render_template('enter_details')
+      expect(subject).to render_template(:enter_details)
     end
   end
 

@@ -45,7 +45,7 @@ describe 'UsersManagement::RemoveUsersController - POST #confirm_remove' do
           before { subject }
 
           it 'render the view' do
-            expect(response).to render_template('remove')
+            expect(response).to render_template(:remove)
           end
 
           it 'sets :alert flash message' do

@@ -16,7 +16,7 @@ describe 'UsersManagement::RemoveUsersController - GET #remove' do
         end
 
         it 'renders the view' do
-          expect(subject).to render_template('remove')
+          expect(subject).to render_template(:remove)
         end
       end
 

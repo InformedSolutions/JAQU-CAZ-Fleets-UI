@@ -12,7 +12,7 @@ describe 'UsersManagement::EditUsersController - GET #edit' do
       before { mock_user_details }
 
       it 'renders the view' do
-        expect(subject).to render_template('edit')
+        expect(subject).to render_template(:edit)
       end
     end
 
