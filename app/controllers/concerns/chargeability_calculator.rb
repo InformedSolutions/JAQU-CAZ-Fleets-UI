@@ -35,7 +35,7 @@ module ChargeabilityCalculator
     when 'RUNNING'
       redirect_to processing_uploads_path
     else
-      redirect_to root_path
+      clear_upload_job_data
     end
   end
 
