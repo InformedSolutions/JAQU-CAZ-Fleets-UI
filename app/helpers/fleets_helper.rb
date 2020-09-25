@@ -9,7 +9,7 @@ module FleetsHelper
 
   # Returns pages to fleets management pagination
   def fleets_paginated_pages(current_page, total_pages)
-    return (1..total_pages) unless total_pages > 13
+    return (1..total_pages).to_a unless total_pages > 13
 
     paginated_pages(current_page, total_pages)
   end
