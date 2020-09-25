@@ -48,7 +48,7 @@ describe 'User signing in' do
     end
 
     it 'renders login view' do
-      expect(subject).to render_template('devise/sessions/new')
+      expect(subject).to render_template(:new)
     end
 
     it 'shows base error message once' do
@@ -75,7 +75,7 @@ describe 'User signing in' do
     end
 
     it 'renders login view' do
-      expect(subject).to render_template('devise/sessions/new')
+      expect(subject).to render_template(:new)
     end
 
     it 'shows email error message twice' do

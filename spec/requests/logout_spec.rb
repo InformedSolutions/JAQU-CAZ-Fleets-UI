@@ -7,7 +7,7 @@ describe LogoutController do
     subject { get sign_out_path }
 
     it 'redirects the correct template' do
-      expect(subject).to render_template('devise/sessions/sign_out')
+      expect(subject).to render_template(:sign_out)
     end
   end
 
@@ -32,7 +32,7 @@ describe LogoutController do
     before { add_to_session(logout_notice_back_url: root_path) }
 
     it 'redirects the correct template' do
-      expect(subject).to render_template('devise/sessions/logout_notice')
+      expect(subject).to render_template(:logout_notice)
     end
 
     it 'assigns @back_button_url variable' do

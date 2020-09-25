@@ -11,7 +11,7 @@ describe 'PasswordsController - GET #index' do
     allow(AccountsApi).to receive(:validate_password_reset).and_return(true)
   end
 
-  it 'returns an ok response' do
+  it 'returns a 200 OK status' do
     subject
     expect(response).to have_http_status(:ok)
   end

@@ -51,7 +51,7 @@ describe 'Organisations::OrganisationsController - POST #create' do
 
       it 'redirects the account details view' do
         subject
-        expect(response).to render_template('organisations/new_credentials')
+        expect(response).to render_template(:new_credentials)
       end
     end
   end
