@@ -19,7 +19,7 @@ describe FleetsHelper do
       context 'when current_page is 1 or 2' do
         let(:current_page) { 2 }
         let(:total_pages) { 30 }
-        
+
         it 'returns array of pages and elipsis' do
           expect(subject).to eq([1, 2, 3, 4, 5, 6, '...', 28, 29, 30])
         end
@@ -28,7 +28,7 @@ describe FleetsHelper do
       context 'when elipsis is hide in the first pages' do
         let(:current_page) { 8 }
         let(:total_pages) { 30 }
-        
+
         it 'returns array of pages and one elipsis' do
           expect(subject).to eq([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, '...', 28, 29, 30])
         end
@@ -37,7 +37,7 @@ describe FleetsHelper do
       context 'when two elipsis are shown' do
         let(:current_page) { 15 }
         let(:total_pages) { 30 }
-        
+
         it 'returns array of pages and two elipsis' do
           expect(subject).to eq([1, 2, 3, '...', 12, 13, 14, 15, 16, 17, 18, '...', 28, 29, 30])
         end
@@ -46,7 +46,7 @@ describe FleetsHelper do
       context 'when elipsis is hide in the first pages' do
         let(:current_page) { 23 }
         let(:total_pages) { 30 }
-        
+
         it 'returns array of pages and one elipsis' do
           expect(subject).to eq([1, 2, 3, '...', 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])
         end
@@ -55,7 +55,7 @@ describe FleetsHelper do
       context 'when current_page is within two last pages' do
         let(:current_page) { 29 }
         let(:total_pages) { 30 }
-        
+
         it 'returns array of pages and elipsis' do
           expect(subject).to eq([1, 2, 3, '...', 25, 26, 27, 28, 29, 30])
         end
