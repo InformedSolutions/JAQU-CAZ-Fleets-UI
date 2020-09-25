@@ -5,7 +5,7 @@ Feature: Debits
 
   Scenario: Making a successful Direct Debit payment with active mandate
     Given I have active mandates for selected CAZ
-      And I visit the make payment page
+      And I visit the make payment page to pay by direct debit
       And I press the Continue
     Then I select 'Birmingham'
       And I press the Continue
@@ -27,7 +27,7 @@ Feature: Debits
 
   Scenario: Making a cancel Direct Debit payment with active mandate
     Given I have active mandates for selected CAZ
-      And I visit the make payment page
+      And I visit the make payment page to pay by direct debit
       And I press the Continue
     Then I select 'Birmingham'
       And I press the Continue
@@ -48,7 +48,7 @@ Feature: Debits
 
   Scenario: Making a failure Direct Debit payment with active mandate
     Given I have active mandates for selected CAZ
-      And I visit the make payment page
+      And I visit the make payment page to pay by direct debit
       And I press the Continue
     Then I select 'Birmingham'
       And I press the Continue
