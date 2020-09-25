@@ -96,6 +96,10 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
           it 'assigns errors' do
             expect(assigns[:job_errors]).to eq(errors)
           end
+
+          it 'deletes job data from redis' do
+            expect(REDIS.hget(upload_job_redis_key, 'job_id')).to be_nil
+          end
         end
       end
     end
