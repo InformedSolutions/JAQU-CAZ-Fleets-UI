@@ -73,6 +73,10 @@ Then('I should be on the Cancel payment page') do
   expect_path(cancel_payments_path)
 end
 
+Then('I should be on the Payment unsuccessful page') do
+  expect_path(failure_debits_path)
+end
+
 Given('I have inactive mandates for each CAZ but one of them is disabled') do
   mock_vehicles_in_fleet
   mock_direct_debit_enabled
