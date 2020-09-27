@@ -145,14 +145,14 @@ Rails.application.routes.draw do
 
   scope module: 'account_details', path: '/' do
     get :primary_users_account_details, to: 'primary_users#primary_account_details'
+    get :edit_password, to: 'passwords#edit'
+    patch :edit_password, to: 'passwords#update'
     resources :primary_users, only: %i[] do
       collection do
         get :edit_name
         patch :update_name
         get :edit_email
         patch :update_email
-        get :edit_password, to: 'passwords#edit'
-        patch :edit_password, to: 'passwords#update'
       end
     end
 
@@ -161,8 +161,6 @@ Rails.application.routes.draw do
       collection do
         get :edit_name
         patch :update_name
-        get :edit_password, to: 'passwords#edit'
-        patch :edit_password, to: 'passwords#update'
       end
     end
   end

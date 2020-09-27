@@ -26,15 +26,15 @@ Feature: Password reset
       Then I should see 'Enter your old password' 3 times
       Then I should see 'Enter your new password' 3 times
       Then I should see 'Confirm your new password' 3 times
-    When I fill invalid old password and press Continue
+    When I fill invalid old password and press 'Continue'
       Then I should see 'The password you entered is incorrect' 2 times
-    When I fill in a password not complex enough and press Continue
+    When I fill in a password not complex enough and press 'Continue'
       Then I should see 'Password must be at least 12 characters long' 2 times
-    When I fill in a password that was used before and press Continue
+    When I fill in a password that was used before and press 'Continue'
       Then I should see 'You have already used that password, choose a new one' 2 times
-    When I fill passwords that do not match and press Continue
+    When I fill passwords that do not match and press 'Continue'
       Then I should see 'Enter a password and password confirmation that are the same' 3 times
-    When I fill in correct old and new password and press Continue
+    When I fill in correct old and new password and press 'Continue'
       Then I should be on the Dashboard page
       And I should not see 'Your password will expire in'
 
@@ -47,6 +47,6 @@ Feature: Password reset
     When I press 'Sign out' link
       And I enter email and password that is about to expire in -6 days and press Continue
       And I should be on Update Password page
-    When I fill in correct old and new password and press Continue
+    When I fill in correct old and new password and press 'Continue'
       Then I should be on the Dashboard page
       And I should not see 'Your password will expire in'
