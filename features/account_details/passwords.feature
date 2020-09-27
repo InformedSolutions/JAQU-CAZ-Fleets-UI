@@ -9,6 +9,9 @@ Feature: Password update
     Then I want to see my account details
       And I want to change my password
       And I should be on account details update password page
+    Then I press 'Exit without saving' link
+      And I should be on primary user account details page
+      And I want to change my password
     When I press 'Save changes' button
       Then I should see 'Enter your old password' 2 times
       Then I should see 'Enter your new password' 2 times
@@ -29,5 +32,8 @@ Feature: Password update
       Then I want to see my account details
       And I want to change my password
       And I should be on account details update password page
+    Then I press 'Exit without saving' link
+      And I should be on non primary user account details page
+      And I want to change my password
     When I fill in correct old and new password and press 'Save changes'
       Then I should be on non primary user account details page
