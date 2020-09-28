@@ -5,7 +5,7 @@
 class BaseForm
   # allow using ActiveRecord validation
   include ActiveModel::Validations
-  
+
   # Email Address Regular Expression
   EMAIL_FORMAT = URI::MailTo::EMAIL_REGEXP.freeze
 
