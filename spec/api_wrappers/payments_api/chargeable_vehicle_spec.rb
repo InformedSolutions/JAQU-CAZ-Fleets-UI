@@ -19,9 +19,6 @@ describe 'PaymentsApi.chargeable_vehicle' do
 
   it 'calls API with proper query data' do
     subject
-    expect(WebMock).to have_requested(
-      :get,
-      /#{url}\?cleanAirZoneId=#{zone_id}/
-    )
+    expect(WebMock).to have_requested(:get, /#{url}\?cleanAirZoneId=#{zone_id}/)
   end
 end

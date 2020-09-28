@@ -80,8 +80,8 @@ describe 'Organisations::OrganisationsController - POST #set_name' do
       subject
     end
 
-    it 'renders create company name view' do
-      expect(response).to render_template('organisations/new')
+    it 'redirects the create company name view' do
+      expect(response).to render_template(:new)
     end
   end
 
@@ -94,8 +94,8 @@ describe 'Organisations::OrganisationsController - POST #set_name' do
       subject
     end
 
-    it 'renders create company name view' do
-      expect(response).to render_template('organisations/new')
+    it 'renders the create company name view' do
+      expect(response).to  render_template(:new)
     end
   end
 end

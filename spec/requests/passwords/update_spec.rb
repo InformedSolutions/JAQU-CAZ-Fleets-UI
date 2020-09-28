@@ -4,11 +4,14 @@ require 'rails_helper'
 
 describe 'PasswordsController - PATCH #update' do
   subject do
-    patch passwords_path, params: {
-      passwords: { old_password: old_password,
-                   password: password,
-                   password_confirmation: password_confirmation }
-    }
+    patch passwords_path,
+          params: {
+            passwords: {
+              old_password: old_password,
+              password: password,
+              password_confirmation: password_confirmation
+            }
+          }
   end
 
   let(:user_id) { SecureRandom.uuid }
@@ -22,7 +25,7 @@ describe 'PasswordsController - PATCH #update' do
     context 'when correct parameters are provided' do
       before { allow(AccountsApi).to receive(:update_password).and_return(true) }
 
-      it 'redirects to success page' do
+      it 'redirects to the success page' do
         expect(subject).to redirect_to(dashboard_path)
       end
 
@@ -46,8 +49,8 @@ describe 'PasswordsController - PATCH #update' do
         subject
       end
 
-      it 'renders :edit' do
-        expect(response).to render_template('passwords/edit')
+      it 'renders the view' do
+        expect(response).to render_template(:edit)
       end
 
       it 'assigns a proper error message' do
@@ -68,8 +71,8 @@ describe 'PasswordsController - PATCH #update' do
         subject
       end
 
-      it 'renders :edit' do
-        expect(response).to render_template('passwords/edit')
+      it 'renders the view' do
+        expect(response).to render_template(:edit)
       end
 
       it 'assigns a proper error message' do
@@ -88,8 +91,8 @@ describe 'PasswordsController - PATCH #update' do
         subject
       end
 
-      it 'renders :edit' do
-        expect(response).to render_template('passwords/edit')
+      it 'renders the view' do
+        expect(response).to render_template(:edit)
       end
 
       it 'assigns a proper error message' do
@@ -104,8 +107,8 @@ describe 'PasswordsController - PATCH #update' do
 
       before { subject }
 
-      it 'renders :edit' do
-        expect(response).to render_template('passwords/edit')
+      it 'renders the view' do
+        expect(response).to render_template(:edit)
       end
 
       it 'does not call AccountsApi.set_password' do

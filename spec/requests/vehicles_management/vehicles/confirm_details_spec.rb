@@ -32,7 +32,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_details' do
         end
 
         context 'when user confirms details' do
-          it 'redirects to local vehicle exemptions' do
+          it 'redirects to the local vehicle exemptions' do
             subject
             expect(response).to redirect_to(local_exemptions_vehicles_path)
           end
@@ -41,7 +41,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_details' do
         context 'when user does not confirm details' do
           let(:confirmation) { 'no' }
 
-          it 'redirects to incorrect details page' do
+          it 'redirects to the incorrect details page' do
             subject
             expect(response).to redirect_to(incorrect_details_vehicles_path)
           end
@@ -50,7 +50,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_details' do
         context 'when confirmation is empty' do
           let(:confirmation) { '' }
 
-          it 'redirects to confirm details page' do
+          it 'redirects to the confirm details page' do
             subject
             expect(response).to redirect_to(details_vehicles_path)
           end

@@ -23,14 +23,14 @@ describe 'PaymentsController - GET #in_progress' do
         add_to_session(new_payment: { caz_id: caz_id })
       end
 
-      it 'is successful' do
+      it 'returns a 200 OK status' do
         subject
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:ok)
       end
     end
 
     context 'without la in the session' do
-      it 'redirects to index' do
+      it 'redirects to the index' do
         subject
         expect(response).to redirect_to(payments_path)
       end

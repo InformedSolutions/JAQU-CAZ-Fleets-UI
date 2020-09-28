@@ -12,7 +12,7 @@ describe 'UsersManagement::EditUsersController - GET #edit' do
       before { mock_user_details }
 
       it 'renders the view' do
-        expect(subject).to render_template('edit')
+        expect(subject).to render_template(:edit)
       end
     end
 
@@ -22,7 +22,7 @@ describe 'UsersManagement::EditUsersController - GET #edit' do
           .and_raise(BaseApi::Error404Exception.new(404, '', {}))
       end
 
-      it 'redirects to not_found page' do
+      it 'redirects to the not_found page' do
         expect(subject).to redirect_to not_found_path
       end
     end

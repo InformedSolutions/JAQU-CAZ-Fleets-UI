@@ -18,22 +18,16 @@
         = title_content
       %p
         Charge information for your vehicles in each Clean Air Zone.
-      %p
-        %strong No charge -
-        you don't have to pay the charge in that Clean Air Zone as your vehicle meets its emissions standards.
-      %p
-        %strong Undetermined -
-        we could not calculate a charge based on your number plate. Contact
-        = external_link_to('DVLA',
-                           'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
-                           id: 'update_record_link')
-        to make sure it holds the correct information for you. The charge may still need to be paid for an individual vehicle.
-        You can
-        = external_link_to('pay a charge for a single vehicle',
-                           single_vehicle_payment_link,
-                           class: 'govuk-link',
-                           id: 'pay_clean_air_zone_link')
-        before or after driving in a Clean Air Zone.
+      .govuk-inset-text
+        %b Live
+        \- you must pay a charge to drive in the zone
+        %br
+        %b Upcoming
+        \- you do not need to pay until charging starts, you can see the dates on our
+        = external_link_to('guidance page',
+                           'https://www.gov.uk/guidance/driving-in-a-clean-air-zone#cleanairzones',
+                           class: 'govuk-link')
+
       %table.govuk-table
         %caption.govuk-table__caption
         %thead.govuk-table__head
@@ -60,13 +54,27 @@
               %td.govuk-table__cell{scope: 'row'}
                 = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
       = render 'pagination'
-      .govuk-inset-text
-        %b Live
-        \- you must pay a charge to drive in the zone
-        %br
-        %b Upcoming
-        \- charging will be starting soon. You can see the live dates are on the
-        = external_link_to('guidance page', 'https://www.gov.uk/guidance/driving-in-a-clean-air-zone#cleanairzones')
+
+      - if @fleet.any_undetermined_vehicles
+        %details.govuk-details{'data-module': 'govuk-details'}
+          %summary.govuk-details__summary
+            %span.govuk-details__summary-text
+              What does undetermined mean?
+          .govuk-details__text
+            %p 
+              A charge could not be calculated based on your registration information.
+              If the details we hold are incorrect you should contact
+              = succeed '.' do
+                = external_link_to('DVLA',
+                                    'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
+                                    id: 'update_record_link',
+                                    class: 'govuk-link')
+            %p
+              The charge still needs to be paid but must be done per individual vehicle.
+              = link_to('Use the Pay a Clean Air Zone charge service for an individual vehicle',
+                        single_vehicle_payment_link,
+                        id: 'pay_clean_air_zone_link',
+                        class: 'govuk-link')
 
       %h2.govuk-heading-m Add vehicles
       %p

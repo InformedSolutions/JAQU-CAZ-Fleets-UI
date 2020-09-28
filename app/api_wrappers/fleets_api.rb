@@ -153,6 +153,7 @@ class FleetsApi < AccountsApi
     # * +vehicles+ - list of the vehicles
     # * +pageCount+ - number of available pages
     # * +totalVehiclesCount+ - total number of vehicles in the fleet
+    # * +anyUndeterminedVehicles+ - indicates if any of the vehicles is undetermined
     #
     # ==== Serialization
     #

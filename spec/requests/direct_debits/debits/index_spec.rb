@@ -13,16 +13,16 @@ describe 'DirectDebits::DebitsController - GET #index' do
     context 'when zones have the active mandates' do
       before { mock_debits }
 
-      it 'returns 200' do
+      it 'returns a 200 OK status' do
         subject
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:ok)
       end
     end
 
     context 'when zones does not have the active mandates' do
       before { mock_debits('empty_mandates') }
 
-      it 'redirects to create debits page' do
+      it 'redirects to the create debits page' do
         subject
         expect(response).to redirect_to(new_debit_path)
       end
@@ -38,7 +38,7 @@ describe 'DirectDebits::DebitsController - GET #index' do
       subject
     end
 
-    it 'redirects to not found page' do
+    it 'redirects to the not found page' do
       expect(response).to redirect_to(not_found_path)
     end
   end

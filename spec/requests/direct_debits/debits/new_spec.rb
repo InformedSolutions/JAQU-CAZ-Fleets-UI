@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe 'DirectDebits::DebitsController - GET #new' do
   subject { get new_debit_path }
+
   before { mock_direct_debit_enabled }
 
   context 'correct permissions' do
@@ -12,9 +13,9 @@ describe 'DirectDebits::DebitsController - GET #new' do
     context 'with available zones to add a new mandate' do
       before { mock_debits }
 
-      it 'returns 200' do
+      it 'returns a 200 OK status' do
         subject
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -37,7 +38,7 @@ describe 'DirectDebits::DebitsController - GET #new' do
       subject
     end
 
-    it 'redirects to not found page' do
+    it 'redirects to the not found page' do
       expect(response).to redirect_to(not_found_path)
     end
   end

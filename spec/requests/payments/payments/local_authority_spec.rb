@@ -22,7 +22,7 @@ describe 'PaymentsController - POST #local_authority' do
       before { subject }
 
       context 'when user has chargeable vehicles in the selected CAZ' do
-        it 'redirects to matrix' do
+        it 'redirects to the matrix' do
           expect(response).to redirect_to(matrix_payments_path)
         end
       end
@@ -30,7 +30,7 @@ describe 'PaymentsController - POST #local_authority' do
       context 'when user has no chargeable vehicles in the selected CAZ' do
         let(:chargeable_vehicles_exists) { false }
 
-        it 'redirects to no chargeable vehicles page' do
+        it 'redirects to the no chargeable vehicles page' do
           expect(response).to redirect_to(no_chargeable_vehicles_payments_path)
         end
       end
@@ -45,7 +45,7 @@ describe 'PaymentsController - POST #local_authority' do
 
       before { subject }
 
-      it 'redirects to index' do
+      it 'redirects to the index' do
         expect(response).to redirect_to(payments_path)
       end
 
@@ -65,7 +65,7 @@ describe 'PaymentsController - POST #local_authority' do
         subject
       end
 
-      it 'redirects to payment in progress page' do
+      it 'redirects to the payment in progress page' do
         expect(response).to redirect_to(in_progress_payments_path)
       end
 
@@ -81,7 +81,7 @@ describe 'PaymentsController - POST #local_authority' do
         subject
       end
 
-      it 'redirects to matrix page' do
+      it 'redirects to the matrix page' do
         expect(response).to redirect_to(matrix_payments_path)
       end
 

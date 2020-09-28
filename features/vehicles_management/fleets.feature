@@ -15,6 +15,12 @@ Feature: Fleets
       And I visit the manage vehicles page
     Then I should see 'Live' 3 times
     Then I should see 'Upcoming' 1 times
+    Then I should not see 'What does undetermined mean?'
+
+  Scenario: Visiting the manage fleet page with undetermined vehicles in my fleet
+    When I have undetermined vehicles in my fleet
+      And I visit the manage vehicles page
+    Then I should see 'What does undetermined mean?'
 
   Scenario: No selection on the submission method page
     When I visit the submission method page
@@ -42,7 +48,7 @@ Feature: Fleets
     Then I press 'Return to Your account' link
       And I should be on the Dashboard page
 
-  Scenario: Visiting the manage fleet page with vehicles in fleet with paymnet permission
+  Scenario: Visiting the manage fleet page with vehicles in fleet with payment permission
     When I have vehicles in my fleet
       And I visit the manage vehicles page with payment permission
     Then I should be on the manage vehicles page

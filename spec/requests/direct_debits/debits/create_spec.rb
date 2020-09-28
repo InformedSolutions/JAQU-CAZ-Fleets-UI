@@ -3,34 +3,34 @@
 require 'rails_helper'
 
 describe 'DirectDebits::DebitsController - POST #create' do
-  subject { post debits_path, params: { 'caz_id' => caz_id } }
-  before { mock_direct_debit_enabled }
+  subject { post debits_path, params: { caz_id: caz_id } }
 
   let(:caz_id) { @uuid }
+  let(:user) { manage_mandates_user }
 
   context 'correct permissions' do
-    let(:user) { manage_mandates_user }
-    let(:return_url) { debits_url }
-
-    before { sign_in user }
+    before do
+      mock_direct_debit_enabled
+      sign_in user
+    end
 
     context 'when user selects the LA' do
       before do
-        api_response = read_response('debits/create_mandate.json')
-        allow(DebitsApi).to receive(:create_mandate).and_return(api_response)
+        allow(DebitsApi).to receive(:create_mandate).and_return(read_response('debits/create_mandate.json'))
         mock_debits
       end
 
-      it 'redirects to index' do
+      it 'redirects to the :complete_setup endpoint' do
         subject
-        expect(response).to redirect_to(debits_path)
+        expect(response).to redirect_to(/#{complete_setup_debits_path}/)
       end
 
       it 'adds a new mandate' do
         expect(DebitsApi).to receive(:create_mandate).with(
           account_id: user.account_id,
           caz_id: caz_id,
-          return_url: return_url
+          return_url: complete_setup_debits_url,
+          session_id: anything
         )
         subject
       end
@@ -41,7 +41,7 @@ describe 'DirectDebits::DebitsController - POST #create' do
 
       before { subject }
 
-      it 'redirects to new' do
+      it 'redirects to the new' do
         expect(response).to redirect_to(new_debit_path)
       end
 
@@ -59,12 +59,12 @@ describe 'DirectDebits::DebitsController - POST #create' do
 
   context 'when Direct Debits feature disabled' do
     before do
-      sign_in manage_mandates_user
       mock_direct_debit_disabled
+      sign_in user
       subject
     end
 
-    it 'redirects to not found page' do
+    it 'redirects to the not found page' do
       expect(response).to redirect_to(not_found_path)
     end
   end

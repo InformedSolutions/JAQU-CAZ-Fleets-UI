@@ -14,7 +14,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
     context 'with empty fleet' do
       before { mock_fleet(create_empty_fleet) }
 
-      it 'redirects to  #submission_method' do
+      it 'redirects to the  #submission_method' do
         subject
         expect(response).to redirect_to submission_method_fleets_path
       end
@@ -30,7 +30,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
         end
 
         it 'renders manage vehicles page' do
-          expect(response).to render_template('fleets/index')
+          expect(response).to render_template(:index)
         end
 
         it 'sets default page value to 1' do
@@ -54,7 +54,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
           let(:status) { 'SUCCESS' }
 
           it 'renders manage vehicles page' do
-            expect(response).to render_template('fleets/index')
+            expect(response).to render_template(:index)
           end
 
           it 'sets :success flash message' do
@@ -65,7 +65,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
         context 'and when status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
           let(:status) { 'CHARGEABILITY_CALCULATION_IN_PROGRESS' }
 
-          it 'redirects to calculating chargeability page' do
+          it 'redirects to the calculating chargeability page' do
             expect(response).to redirect_to(calculating_chargeability_uploads_path)
           end
 
@@ -77,12 +77,28 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
         context 'and when status is RUNNING' do
           let(:status) { 'RUNNING' }
 
-          it 'redirects to calculating chargeability page' do
+          it 'redirects to the calculating chargeability page' do
             expect(response).to redirect_to(processing_uploads_path)
           end
 
           it 'not sets :success flash message' do
             expect(flash[:success]).to be_nil
+          end
+        end
+
+        context 'and when status is unknown' do
+          let(:status) { 'UNKNOWN' }
+
+          it 'renders manage vehicles page' do
+            expect(response).to render_template(:index)
+          end
+
+          it 'not sets :success flash message' do
+            expect(flash[:success]).to be_nil
+          end
+
+          it 'deletes job data from redis' do
+            expect(REDIS.hget(upload_job_redis_key, 'job_id')).to be_nil
           end
         end
       end
@@ -97,7 +113,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
         end
 
         it 'render the view' do
-          expect(response).to render_template('index')
+          expect(response).to render_template(:index)
         end
 
         it 'deletes job data from redis' do
@@ -114,7 +130,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
         subject
       end
 
-      it 'redirects to fleets page' do
+      it 'redirects to the fleets page' do
         expect(response).to redirect_to fleets_path
       end
     end

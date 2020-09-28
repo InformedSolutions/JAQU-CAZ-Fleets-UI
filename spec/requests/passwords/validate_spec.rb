@@ -27,7 +27,7 @@ describe 'PasswordsController - POST #validate' do
 
     it 'renders reset password view' do
       subject
-      expect(response).to render_template('passwords/reset')
+      expect(response).to render_template(:reset)
     end
   end
 end

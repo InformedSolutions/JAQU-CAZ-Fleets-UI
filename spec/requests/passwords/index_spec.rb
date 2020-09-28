@@ -11,7 +11,7 @@ describe 'PasswordsController - GET #index' do
     allow(AccountsApi).to receive(:validate_password_reset).and_return(true)
   end
 
-  it 'returns an ok response' do
+  it 'returns a 200 OK status' do
     subject
     expect(response).to have_http_status(:ok)
   end
@@ -34,7 +34,7 @@ describe 'PasswordsController - GET #index' do
   context 'without the token' do
     let(:token) { nil }
 
-    it 'redirects to invalid page' do
+    it 'redirects to the invalid page' do
       expect(subject).to redirect_to(invalid_passwords_path)
     end
   end
@@ -48,7 +48,7 @@ describe 'PasswordsController - GET #index' do
         )
     end
 
-    it 'redirects to invalid page' do
+    it 'redirects to the invalid page' do
       expect(subject).to redirect_to(invalid_passwords_path)
     end
   end

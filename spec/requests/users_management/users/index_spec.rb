@@ -12,11 +12,11 @@ describe 'UsersManagement::UsersController - GET #index' do
     end
 
     it 'renders the view' do
-      expect(subject).to render_template('index')
+      expect(subject).to render_template(:index)
     end
 
     context 'when last visited page is confirmation user' do
-      subject { get users_path, headers: { 'HTTP_REFERER' => confirmation_users_path } }
+      subject { get users_path, headers: { 'HTTP_REFERER': confirmation_users_path } }
 
       before do
         add_to_session(new_user: {})
@@ -24,7 +24,7 @@ describe 'UsersManagement::UsersController - GET #index' do
       end
 
       it 'renders the view' do
-        expect(response).to render_template('index')
+        expect(response).to render_template(:index)
       end
 
       it 'clears the new_user' do

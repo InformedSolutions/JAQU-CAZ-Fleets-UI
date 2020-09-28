@@ -20,7 +20,7 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
   context 'when provided with correct parameters and valid token' do
     before { allow(AccountsApi).to receive(:set_password).and_return(true) }
 
-    it 'redirects to set up confirmation page' do
+    it 'redirects to the set up confirmation page' do
       subject
       expect(response).to redirect_to(set_up_confirmation_users_path)
     end

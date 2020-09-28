@@ -13,7 +13,7 @@ describe 'PaymentsController - GET #index' do
         mock_fleet(create_empty_fleet)
       end
 
-      it 'redirects to #first_upload' do
+      it 'redirects to first upload page' do
         subject
         expect(response).to redirect_to first_upload_fleets_path
       end
@@ -27,7 +27,7 @@ describe 'PaymentsController - GET #index' do
 
       it 'renders payments page' do
         subject
-        expect(response).to render_template('payments/index')
+        expect(response).to render_template(:index)
       end
     end
   end

@@ -57,6 +57,13 @@ When('I have vehicles in my fleet') do
   mock_direct_debit_enabled
 end
 
+When('I have undetermined vehicles in my fleet') do
+  mock_clean_air_zones
+  mock_undetermined_vehicles
+  mock_caz_mandates
+  mock_direct_debit_enabled
+end
+
 When('I want to pay for CAZ which started charging {int} days ago') do |start_days_ago|
   active_charge_start_date = Time.zone.today - start_days_ago.days
   caz_list = [{

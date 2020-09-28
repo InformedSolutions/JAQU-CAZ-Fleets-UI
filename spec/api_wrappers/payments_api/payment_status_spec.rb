@@ -12,9 +12,9 @@ describe 'PaymentsApi.payment_status' do
       stub_request(:put, /payments/).to_return(
         status: 200,
         body: {
-          'paymentId' => id,
-          'status' => 'success',
-          'userEmail' => 'test@email.com'
+          paymentId: id,
+          status: 'success',
+          userEmail: 'test@email.com'
         }.to_json
       )
     end

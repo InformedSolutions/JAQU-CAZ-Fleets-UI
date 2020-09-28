@@ -116,6 +116,8 @@ Rails.application.routes.draw do
         get :confirm
         post :initiate
         get :success
+        get :complete_setup
+        get :failure
       end
     end
   end

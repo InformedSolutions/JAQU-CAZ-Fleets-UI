@@ -12,16 +12,16 @@ describe VehiclesManagement::VehicleDetails, type: :model do
   let(:las) { %w[Leeds Birmingham] }
   let(:response) do
     {
-      'registration_number' => vrn,
-      'typeApproval' => type_approval,
-      'type' => type,
-      'make' => 'peugeot',
-      'model' => '208',
-      'colour' => 'grey',
-      'fuelType' => 'diesel',
-      'taxiOrPhv' => taxi_or_phv,
-      'licensingAuthoritiesNames' => las
-    }
+      registration_number: vrn,
+      typeApproval: type_approval,
+      type: type,
+      make: 'peugeot',
+      model: '208',
+      colour: 'grey',
+      fuelType: 'diesel',
+      taxiOrPhv: taxi_or_phv,
+      licensingAuthoritiesNames: las
+    }.stringify_keys
   end
 
   before { allow(ComplianceCheckerApi).to receive(:vehicle_details).with(vrn).and_return(response) }
