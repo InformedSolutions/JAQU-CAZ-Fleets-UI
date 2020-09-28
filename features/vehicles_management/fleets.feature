@@ -48,7 +48,7 @@ Feature: Fleets
     Then I press 'Return to Your account' link
       And I should be on the Dashboard page
 
-  Scenario: Visiting the manage fleet page with vehicles in fleet with payment permission
+  Scenario: Visiting the manage fleet page with vehicles in fleet with paymnet permission
     When I have vehicles in my fleet
       And I visit the manage vehicles page with payment permission
     Then I should be on the manage vehicles page

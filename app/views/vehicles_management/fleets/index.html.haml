@@ -55,27 +55,6 @@
                 = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
       = render 'pagination'
 
-      - if @fleet.any_undetermined_vehicles
-        %details.govuk-details{'data-module': 'govuk-details'}
-          %summary.govuk-details__summary
-            %span.govuk-details__summary-text
-              What does undetermined mean?
-          .govuk-details__text
-            %p 
-              A charge could not be calculated based on your registration information.
-              If the details we hold are incorrect you should contact
-              = succeed '.' do
-                = external_link_to('DVLA',
-                                    'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
-                                    id: 'update_record_link',
-                                    class: 'govuk-link')
-            %p
-              The charge still needs to be paid but must be done per individual vehicle.
-              = link_to('Use the Pay a Clean Air Zone charge service for an individual vehicle',
-                        single_vehicle_payment_link,
-                        id: 'pay_clean_air_zone_link',
-                        class: 'govuk-link')
-
       %h2.govuk-heading-m Add vehicles
       %p
         You can add multiple vehicles by overriding this list with a new
