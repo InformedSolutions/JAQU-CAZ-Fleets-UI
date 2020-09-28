@@ -7,26 +7,28 @@ describe 'PaymentsController - GET #in_progress' do
 
   let(:caz_id) { @uuid }
   let(:account_id) { SecureRandom.uuid }
-  let(:user) { create_user(account_id: account_id, user_id: SecureRandom.uuid, email: 'test1@test.com') }
+  let(:user) { create_user(account_id: account_id, user_id: SecureRandom.uuid) }
   let(:another_user) do
-    create_user(account_id: account_id, user_id: SecureRandom.uuid, email: 'test2@test.com')
+    create_user(account_id: account_id, user_id: SecureRandom.uuid)
   end
 
   context 'correct permissions' do
     let(:fleet) { create_chargeable_vehicles }
 
-    before { sign_in user }
+    before do
+      sign_in user
+      mock_clean_air_zones
+      mock_fleet(fleet)
+      add_to_session(new_payment: { caz_id: caz_id })
+    end
 
     context 'with la in the session and with no CAZ lock' do
       before do
         add_caz_lock_to_redis(user)
-        mock_clean_air_zones
-        mock_fleet(fleet)
-        add_to_session(new_payment: { caz_id: caz_id })
+        subject
       end
 
       it 'returns a 302 FOUND status' do
-        subject
         expect(response).to have_http_status(:found)
       end
 
@@ -38,20 +40,21 @@ describe 'PaymentsController - GET #in_progress' do
     context 'with la in the session and CAZ locked by other user' do
       before do
         add_caz_lock_to_redis(another_user)
-        mock_clean_air_zones
-        mock_fleet(fleet)
-        add_to_session(new_payment: { caz_id: caz_id })
+        subject
       end
 
       it 'returns a 200 OK status' do
-        subject
         expect(response).to have_http_status(:ok)
       end
     end
 
     context 'without la in the session' do
-      it 'redirects to the index' do
+      before do
+        add_to_session(new_payment: { caz_id: nil })
         subject
+      end
+
+      it 'redirects to the index' do
         expect(response).to redirect_to(payments_path)
       end
     end
