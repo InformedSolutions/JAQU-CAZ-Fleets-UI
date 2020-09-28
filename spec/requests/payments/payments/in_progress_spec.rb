@@ -6,18 +6,38 @@ describe 'PaymentsController - GET #in_progress' do
   subject { get in_progress_payments_path }
 
   let(:caz_id) { @uuid }
-  let(:user) { make_payments_user }
+  let(:account_id) { SecureRandom.uuid }
+  let(:user) { create_user(account_id: account_id, user_id: SecureRandom.uuid, email: 'test1@test.com') }
+  let(:another_user) do
+    create_user(account_id: account_id, user_id: SecureRandom.uuid, email: 'test2@test.com')
+  end
 
   context 'correct permissions' do
     let(:fleet) { create_chargeable_vehicles }
 
-    before do
-      add_caz_lock_to_redis(user)
-      sign_in user
+    before { sign_in user }
+
+    context 'with la in the session and with no CAZ lock' do
+      before do
+        add_caz_lock_to_redis(user)
+        mock_clean_air_zones
+        mock_fleet(fleet)
+        add_to_session(new_payment: { caz_id: caz_id })
+      end
+
+      it 'returns a 302 FOUND status' do
+        subject
+        expect(response).to have_http_status(:found)
+      end
+
+      it 'redirects to selected CAZ payment matrix' do
+        expect(subject).to redirect_to(matrix_payments_path)
+      end
     end
 
-    context 'with la in the session' do
+    context 'with la in the session and CAZ locked by other user' do
       before do
+        add_caz_lock_to_redis(another_user)
         mock_clean_air_zones
         mock_fleet(fleet)
         add_to_session(new_payment: { caz_id: caz_id })
