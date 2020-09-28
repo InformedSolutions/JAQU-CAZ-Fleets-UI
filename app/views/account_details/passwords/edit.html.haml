@@ -1,6 +1,5 @@
 - title_and_header = 'Update password'
 - content_for(:title, title_and_header)
-- return_url = current_user.owner ? primary_users_account_details_path : non_primary_users_account_details_path
 
 = render 'shared/js_back_link'
 
@@ -59,4 +58,4 @@
           = f.submit 'Save changes', class: 'govuk-button', 'data-module': 'govuk-button'
 
           %p
-            = link_to 'Exit without saving', return_url, class: 'govuk-link'
+            = link_to 'Exit without saving', @return_url, class: 'govuk-link'

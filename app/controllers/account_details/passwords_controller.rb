@@ -17,7 +17,7 @@ module AccountDetails
     #    :GET /edit_password
     #
     def edit
-      # renders the update password page
+      @return_url = account_management_url
     end
 
     ##
@@ -37,7 +37,7 @@ module AccountDetails
 
       return rerender_edit(form.errors.messages) unless form.valid? && form.submit
 
-      redirect_to_account_management
+      redirect_to account_management_url
     end
 
     private
@@ -48,10 +48,9 @@ module AccountDetails
       render :edit
     end
 
-    # Redirects to a proper account management page
-    def redirect_to_account_management
-      url = current_user.owner ? primary_users_account_details_path : non_primary_users_account_details_path
-      redirect_to url
+    # Current user account details page path
+    def account_management_url
+      current_user.owner ? primary_users_account_details_path : non_primary_users_account_details_path
     end
   end
 end
