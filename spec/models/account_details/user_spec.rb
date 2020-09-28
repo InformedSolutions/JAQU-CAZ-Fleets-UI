@@ -5,7 +5,7 @@ require 'rails_helper'
 describe AccountDetails::User, type: :model do
   subject { described_class.new(data) }
 
-  let(:data) { { 'name' => name, 'email' => email, 'accountName' => account_name } }
+  let(:data) { { name: name, email: email, accountName: account_name }.stringify_keys }
   let(:name) { 'John Doe' }
   let(:email) { 'Test@example.com' }
   let(:account_name) { 'Company name' }
