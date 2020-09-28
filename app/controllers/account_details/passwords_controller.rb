@@ -9,28 +9,48 @@ module AccountDetails
   class PasswordsController < ApplicationController
     include CheckPermissions
 
-    before_action :check_edit_request_path, only: :edit
-
     ##
     # Renders the update password page
     #
     # ==== Path
     #
-    #    :GET /primary_users/edit_password
-    #    :GET /non_primary_users/edit_password
+    #    :GET /edit_password
     #
     def edit
-      # renders the update password page
+      @back_button_url = account_management_url
+    end
+
+    ##
+    # Updates user password by calling AccountsApi.update_password
+    #
+    # ==== Path
+    #
+    #    :PATCH /edit_password
+    #
+    def update
+      form = UpdatePasswordForm.new(
+        user_id: current_user.user_id,
+        old_password: params.dig(:passwords, :old_password),
+        password: params.dig(:passwords, :password),
+        password_confirmation: params.dig(:passwords, :password_confirmation)
+      )
+
+      return rerender_edit(form.errors.messages) unless form.valid? && form.submit
+
+      redirect_to account_management_url
     end
 
     private
 
-    def check_edit_request_path
-      if current_user.owner
-        check_permissions(request.path.include?(edit_password_primary_users_path))
-      else
-        check_permissions(request.path.include?(edit_password_non_primary_users_path))
-      end
+    # Renders :edit with assigned errors
+    def rerender_edit(errors)
+      @errors = errors
+      render :edit
+    end
+
+    # Current user account details page path
+    def account_management_url
+      current_user.owner ? primary_users_account_details_path : non_primary_users_account_details_path
     end
   end
 end
