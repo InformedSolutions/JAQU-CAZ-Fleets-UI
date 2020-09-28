@@ -8,9 +8,7 @@ describe 'PaymentsController - GET #in_progress' do
   let(:caz_id) { @uuid }
   let(:account_id) { SecureRandom.uuid }
   let(:user) { create_user(account_id: account_id, user_id: SecureRandom.uuid) }
-  let(:another_user) do
-    create_user(account_id: account_id, user_id: SecureRandom.uuid)
-  end
+  let(:another_user) { create_user(account_id: account_id, user_id: SecureRandom.uuid) }
 
   context 'correct permissions' do
     let(:fleet) { create_chargeable_vehicles }
