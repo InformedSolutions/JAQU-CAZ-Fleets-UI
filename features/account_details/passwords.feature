@@ -4,13 +4,11 @@ Feature: Password update
   So that I can change it for security reasons
 
   Scenario: Password update process as primary user
-    Given I navigate to a Dashboard page
-      And I should enter fleet owner credentials and press the Continue
-    Then I want to see my account details
+    Given I visit primary user Account Details page
       And I want to change my password
       And I should be on account details update password page
     Then I press 'Exit without saving' link
-      And I should be on primary user account details page
+      And I should be on the primary user Account Details page
       And I want to change my password
     When I press 'Save changes' button
       Then I should see 'Enter your old password' 2 times
@@ -25,15 +23,14 @@ Feature: Password update
     When I fill passwords that do not match and press 'Save changes'
       Then I should see 'Enter a password and password confirmation that are the same' 3 times
     When I fill in correct old and new password and press 'Save changes'
-      Then I should be on primary user account details page
+      Then I should be on the primary user Account Details page
 
   Scenario: Password update process as non primary user
-    Given I navigate to a Dashboard page with 'MANAGE_VEHICLES' permission
-      Then I want to see my account details
+    Given I visit non-primary user Account Details page
       And I want to change my password
       And I should be on account details update password page
     Then I press 'Exit without saving' link
-      And I should be on non primary user account details page
+      And I should be on the non-primary user Account Details page
       And I want to change my password
     When I fill in correct old and new password and press 'Save changes'
-      Then I should be on non primary user account details page
+      Then I should be on the non-primary user Account Details page
