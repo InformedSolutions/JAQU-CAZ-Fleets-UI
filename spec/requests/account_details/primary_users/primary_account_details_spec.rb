@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'AccountDetails::PrimaryUsersController - GET #primary_account_details' do
   subject { get primary_users_account_details_path }
 
-  before { mock_user_details }
+  before { mock_account_details }
 
   context 'when user is an owner' do
     before do

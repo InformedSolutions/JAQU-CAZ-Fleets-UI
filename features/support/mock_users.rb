@@ -20,7 +20,7 @@ module MockUsers
     api_response = {
       accountUserId: user.user_id,
       name: 'Mary Smith',
-      email: 'user@example.com',
+      email: 'test@example.com',
       owner: true,
       removed: false
     }.stringify_keys

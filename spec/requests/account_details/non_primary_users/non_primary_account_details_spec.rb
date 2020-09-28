@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'AccountDetails::NonPrimaryUsersController - GET #non_primary_account_details' do
   subject { get non_primary_users_account_details_path }
 
-  before { mock_user_details }
+  before { mock_account_details }
 
   context 'when user is not owner' do
     before do
