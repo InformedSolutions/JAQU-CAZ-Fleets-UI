@@ -21,7 +21,7 @@ module Payments
     before_action :release_lock_on_caz, only: %i[index success failure]
 
     ##
-    # Renders payment page.
+    # Renders the list of available local authorities
     # If the fleet is empty, redirects to {first_upload}[rdoc-ref:FleetsController.first_upload]
     #
     # ==== Path
@@ -125,15 +125,15 @@ module Payments
 
     ##
     # Validates user has confirmed review payment.
-    # If it is valid, redirects to {select payment method page}[rdoc-ref:PaymentsController.select_payment_method]
-    # If not, renders {not found}[rdoc-ref:PaymentsController.review] with errors
+    # If it is valid, redirects to {select payment method page}[rdoc-ref:select_payment_method]
+    # If not, renders {not found}[rdoc-ref:review] with errors
     #
     # ==== Path
     #    POST /payments/confirm_review
     #
     def confirm_review
       form = Payments::PaymentReviewForm.new(params['confirm_not_exemption'])
-      session[:confirm_not_exemption] = params['confirm_not_exemption']
+      session[:new_payment]['confirm_not_exemption'] = params['confirm_not_exemption']
 
       if form.valid?
         redirect_to select_payment_method_payments_path
@@ -171,7 +171,7 @@ module Payments
     ##
     # Validate submit payment method and depending on the type, redirects to:
     #  {rdoc-ref:DirectDebitsController.confirm_direct_debit} if +direct_debit_method+ value is true
-    #  or call {rdoc-ref:PaymentsController.initiate_card_payment} method if +direct_debit_method+ value is false
+    #  or call {rdoc-ref:initiate_card_payment} method if +direct_debit_method+ value is false
     #  or render errors if +direct_debit_method+ value is null
     #
     # ==== Path
@@ -181,7 +181,7 @@ module Payments
     # ==== Params
     # * +caz_id+ - id of the selected CAZ, required in the session
     def confirm_payment_method
-      session[:payment_method] = params['payment_method']
+      session[:new_payment]['payment_method'] = params['payment_method']
       case params['payment_method']
       when 'true'
         redirect_to confirm_debits_path
