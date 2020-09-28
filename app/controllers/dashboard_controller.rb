@@ -59,7 +59,6 @@ class DashboardController < ApplicationController
     release_lock_on_caz
     session[:vrn] = nil
     session[:new_payment] = nil
-    session[:payment_method] = nil
   end
 
   # clear manage users inputs

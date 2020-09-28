@@ -22,14 +22,14 @@ module UsersManagement
     #    GET /users/new
     #
     def new
-      @return_url = if UsersManagement::Users.new(
+      @back_button_url = if UsersManagement::Users.new(
         account_id: current_user.account_id,
         user_id: current_user.user_id
       ).filtered.any?
-                      users_path
-                    else
-                      dashboard_path
-                    end
+                           users_path
+                         else
+                           dashboard_path
+                         end
     end
 
     ##
