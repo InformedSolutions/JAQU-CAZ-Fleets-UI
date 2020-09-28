@@ -15,7 +15,7 @@ task_metadata_address = '169.254.170.2'
 # Common environment config
 region = ENV.fetch('AWS_REGION', 'eu-west-2')
 
-credentials = if is_running_on_aws
+credentials = if is_running_locally
                 # On local machines we are using STS
                 Aws::AssumeRoleCredentials.new(
                   client: Aws::STS::Client.new(
@@ -26,7 +26,7 @@ credentials = if is_running_on_aws
                   role_arn: assume_role_arn,
                   role_session_name: assume_role_session_name
                 )
-              elsif is_running_locally
+              elsif is_running_on_aws
                 # On AWS lambda we are using task credentials
                 Aws::ECSCredentials.new({ ip_address: task_metadata_address })
               else
