@@ -8,11 +8,36 @@ describe 'UsersManagement::CreateUsersController - GET #new' do
   context 'correct permissions' do
     before do
       sign_in manage_users_user
-      mock_users
     end
 
-    it 'renders the view' do
-      expect(subject).to  render_template(:new)
+    context 'when api returns some users' do
+      before do
+        mock_users
+        subject
+      end
+
+      it 'renders the view' do
+        expect(response).to render_template(:new)
+      end
+
+      it 'assigns @back_button_url variable' do
+        expect(assigns(:back_button_url)).to eq(users_path)
+      end
+    end
+
+    context 'when api returns empty users' do
+      before do
+        allow(AccountsApi).to receive(:users).and_return([])
+        subject
+      end
+
+      it 'renders the view' do
+        expect(response).to render_template(:new)
+      end
+
+      it 'assigns @back_button_url variable' do
+        expect(assigns(:back_button_url)).to eq(dashboard_path)
+      end
     end
   end
 
