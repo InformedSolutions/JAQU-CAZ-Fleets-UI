@@ -18,7 +18,7 @@ module Payments
     before_action :assign_debit, only: %i[select_payment_method]
     before_action :check_job_status, only: %i[matrix]
     before_action :assign_zone_and_dates, only: %i[matrix]
-    before_action :release_lock_on_caz, only: %i[success failure]
+    before_action :release_lock_on_caz, only: %i[index success failure]
 
     ##
     # Renders payment page.
@@ -59,6 +59,8 @@ module Payments
     #    :GET /payments/matrix
     #
     def matrix
+      return redirect_to in_progress_payments_path if caz_locked?
+
       clear_upload_job_data
       @search = helpers.payment_query_data[:search]
       @errors = validate_search_params unless @search.nil?
@@ -237,12 +239,14 @@ module Payments
     end
 
     ##
-    # Render the payment in progress page
+    # Render the payment in progress page. If CAZ is no longer locked redirects to payment matrix
     #
     # ==== Path
     #   GET /payments/in_progress
     #
     def in_progress
+      return determinate_lock_caz(@zone_id) unless caz_locked?
+
       @user_locking_email = caz_lock_user_email
       @zone = CleanAirZone.find(@zone_id)
     end

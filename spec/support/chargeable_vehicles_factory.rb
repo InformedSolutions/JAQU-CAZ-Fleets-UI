@@ -2,7 +2,7 @@
 
 module ChargeableVehiclesFactory
   def create_chargeable_vehicles(vehicles = mocked_chargeable_vehicles)
-    instance_double(VehiclesManagement::Fleet, charges: vehicles)
+    instance_double(VehiclesManagement::Fleet, charges: vehicles, any_chargeable_vehicles_in_caz?: true)
   end
 
   private
