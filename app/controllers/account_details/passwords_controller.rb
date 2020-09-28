@@ -17,7 +17,7 @@ module AccountDetails
     #    :GET /edit_password
     #
     def edit
-      @return_url = account_management_url
+      @back_button_url = account_management_url
     end
 
     ##
