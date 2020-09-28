@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 is_running_locally = Rails.env.development?
-is_running_on_aws = ENV['AWS_LAMBDA_FUNCTION_NAME'].present?
+is_running_on_aws = Rails.env.production? && ENV['BUILD_ID']
 
 # Development environment config
 access_key_id = ENV['AWS_ACCESS_KEY_ID']
@@ -27,7 +27,7 @@ credentials = if is_running_locally
                   role_session_name: assume_role_session_name
                 )
               elsif is_running_on_aws
-                # On AWS lambda we are using task credentials
+                # On AWS ECS we are using task credentials
                 Aws::ECSCredentials.new({ ip_address: task_metadata_address })
               else
                 # In tests and Docker build we are using regular credentials
