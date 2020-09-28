@@ -14,4 +14,3 @@ end
 And('I should be on the primary user Account Details page') do
   expect(page).to have_current_path(primary_users_account_details_path)
 end
-
