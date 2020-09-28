@@ -103,7 +103,7 @@ module VehiclesManagement
     #
     # Returns a string.
     def bucket_name
-      ENV.fetch('S3_AWS_BUCKET', 'bucket_name')
+      ENV.fetch('AWS_BUCKET', 'bucket_name')
     end
 
     def metadata
