@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'User signing in' do
   subject { post user_session_path(params) }
 
-  let(:email) { 'user@example.com' }
+  let(:email) { 'test@example.com' }
   let(:password) { '12345678' }
   let(:params) { { user: { email: email, password: password } } }
 
@@ -123,7 +123,7 @@ describe 'User signing in' do
     let(:referer) { 'http://www.example.com/users/set_up_confirmation' }
 
     context 'with valid parameters' do
-      let(:email) { 'user@example.com' }
+      let(:email) { 'test@example.com' }
       let(:password) { 'P@$$w0rd12345!' }
 
       it 'calls AccountApi.sign_in with proper params' do

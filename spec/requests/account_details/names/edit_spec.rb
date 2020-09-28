@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe 'AccountDetails::NonPrimaryUsersController - GET #non_primary_account_details' do
-  subject { get non_primary_users_account_details_path }
+describe 'AccountsDetails::NamesController - GET #edit' do
+  subject { get edit_name_non_primary_users_path }
 
-  before { mock_account_details }
+  before { mock_user_details }
 
-  context 'when user is not owner' do
+  context 'when user is not an owner' do
     before do
       sign_in create_user
       subject
@@ -18,7 +18,7 @@ describe 'AccountDetails::NonPrimaryUsersController - GET #non_primary_account_d
     end
 
     it 'renders the view' do
-      expect(response).to render_template(:non_primary_account_details)
+      expect(response).to render_template('account_details/names/edit')
     end
   end
 

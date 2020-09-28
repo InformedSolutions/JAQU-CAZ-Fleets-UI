@@ -11,9 +11,9 @@
           %dt.govuk-summary-list__key
             Company name
           %dd.govuk-summary-list__value
-            = @user.name
+            = @user.account_name
           %dd.govuk-summary-list__actions
-            = link_to edit_name_non_primary_users_path, class: 'govuk-link' do
+            = link_to edit_name_primary_users_path, class: 'govuk-link' do
               Change
               %span.govuk-visually-hidden
                 company name

@@ -159,8 +159,8 @@ Rails.application.routes.draw do
     get :non_primary_users_account_details, to: 'non_primary_users#non_primary_account_details'
     resources :non_primary_users, only: %i[] do
       collection do
-        get :edit_name
-        patch :update_name
+        get :edit_name, to: 'names#edit'
+        get :update_name, to: 'names#update'
       end
     end
   end

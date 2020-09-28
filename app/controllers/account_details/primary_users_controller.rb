@@ -19,10 +19,7 @@ module AccountDetails
     #    :GET /primary_account_details
     #
     def primary_account_details
-      api_response = AccountsApi.user(
-        account_id: current_user.account_id,
-        account_user_id: current_user.user_id
-      )
+      api_response = AccountDetails::Api.account_details(account_user_id: current_user.user_id)
       @user = AccountDetails::User.new(api_response)
     end
   end

@@ -2,26 +2,33 @@
 
 require 'rails_helper'
 
-describe 'AccountsApi.user - GET' do
-  subject { AccountsApi.user(account_id: account_id, account_user_id: account_user_id) }
+describe 'Api.account_details - GET' do
+  subject { AccountDetails::Api.account_details(account_user_id: account_user_id) }
 
-  let(:account_id) { '3fa85f64-5717-4562-b3fc-2c963f66afa6' }
-  let(:account_user_id) { 'f1409c5e-3241-44b8-8224-8d40ee0fcac6' }
-  let(:url) { "/accounts/#{account_id}/users/#{account_user_id}" }
+  let(:account_user_id) { @uuid }
+  let(:url) { "/users/#{account_user_id}" }
 
   context 'when the response status is 200' do
     before do
-      user_details = read_unparsed_response('/users_management/user.json')
-      stub_request(:get, /#{url}/).to_return(status: 200, body: user_details)
+      account_details = read_unparsed_response('/account_details/user.json')
+      stub_request(:get, /#{url}/).to_return(status: 200, body: account_details)
     end
 
     it 'calls API with proper query data' do
       subject
-      expect(WebMock).to have_requested(:get, %r{accounts/#{account_id}/users})
+      expect(WebMock).to have_requested(:get, %r{users/#{account_user_id}})
     end
 
     it 'returns proper fields' do
-      expect(subject.keys).to contain_exactly('name', 'email', 'owner', 'permissions')
+      expect(subject.keys).to contain_exactly(
+        'accountId',
+        'accountName',
+        'accountUserId',
+        'email',
+        'name',
+        'owner',
+        'removed'
+      )
     end
 
     context 'when the response status is 404' do

@@ -5,7 +5,7 @@
 # Wraps methods regarding user management.
 # See {FleetsApi}[rdoc-ref:FleetsApi] for fleet related actions.
 #
-class AccountsApi < BaseApi
+class AccountsApi < BaseApi # rubocop:disable Metrics/ClassLength
   base_uri "#{ENV.fetch('ACCOUNTS_API_URL', 'localhost:3001')}/v1"
 
   class << self
@@ -201,9 +201,9 @@ class AccountsApi < BaseApi
     # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account or user not found
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
-    def update_user(account_id:, account_user_id:, permissions:)
+    def update_user(account_id:, account_user_id:, permissions: nil, name: nil)
       log_action('Updating user permissions')
-      body = { permissions: permissions }.to_json
+      body = create_account_user_update_payload(permissions: permissions, name: name)
       request(:patch, "/accounts/#{account_id}/users/#{account_user_id}", body: body)
     end
 
@@ -506,6 +506,14 @@ class AccountsApi < BaseApi
         password: password,
         verificationUrl: verification_url
       }.to_json
+    end
+
+    # prepares json payload for patch user action
+    def create_account_user_update_payload(permissions:, name:)
+      {
+        permissions: permissions,
+        name: name
+      }.compact.to_json
     end
   end
 end
