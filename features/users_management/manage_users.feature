@@ -29,7 +29,7 @@ Feature: Manage users
   Scenario: Visiting the manage users page as an owner
     Given I visit the Manage users page as an owner
     Then I should be on the Manage users page
-      And I should not see 'user@example.com'
+      And I should not see 'test@example.com'
       And I should not see 'Change' link
 
   Scenario: Adding new user - nobody added user with the same email in the meantime
