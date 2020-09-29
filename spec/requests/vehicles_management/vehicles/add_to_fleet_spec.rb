@@ -7,7 +7,7 @@ describe 'VehiclesManagement::VehicleController - POST #add_to_fleet' do
 
   context 'correct permissions' do
     context 'when user is not signed in' do
-      it 'returns redirect to the login page' do
+      it 'redirects to the login page' do
         subject
         expect(response).to redirect_to(new_user_session_path)
       end

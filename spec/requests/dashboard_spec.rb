@@ -6,7 +6,7 @@ describe DashboardController do
   describe 'GET #index' do
     subject { get dashboard_path }
 
-    it 'returns redirect to the login page' do
+    it 'redirects to the login page' do
       subject
       expect(response).to redirect_to(new_user_session_path)
     end

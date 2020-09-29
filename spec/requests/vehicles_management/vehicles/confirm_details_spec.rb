@@ -10,7 +10,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_details' do
   context 'correct permissions' do
     let(:account_id) { @uuid }
 
-    it 'returns redirect to the login page' do
+    it 'redirects to the login page' do
       subject
       expect(response).to redirect_to(new_user_session_path)
     end
@@ -19,7 +19,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_details' do
       before { sign_in manage_vehicles_user(account_id: account_id) }
 
       context 'without VRN in the session' do
-        it 'returns redirect to vehicles#enter_details' do
+        it 'redirects to vehicles#enter_details' do
           subject
           expect(response).to redirect_to(enter_details_vehicles_path)
         end
