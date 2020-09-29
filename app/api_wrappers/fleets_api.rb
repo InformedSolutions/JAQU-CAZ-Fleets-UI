@@ -36,7 +36,7 @@ class FleetsApi < AccountsApi
         '/accounts/register-csv-from-s3/jobs',
         body: {
           'filename' => filename,
-          's3Bucket' => ENV.fetch('AWS_BUCKET', 'AWS_BUCKET'),
+          's3Bucket' => ENV.fetch('S3_AWS_BUCKET', 'S3_AWS_BUCKET'),
           'successEmail' => large_fleet
         }.to_json, headers: custom_headers(correlation_id)
       )['jobName']

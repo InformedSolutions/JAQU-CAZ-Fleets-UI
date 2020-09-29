@@ -17,7 +17,7 @@ describe 'FleetsApi.register_job' do
       subject
       expect(WebMock)
         .to have_requested(:post, url)
-        .with(body: { filename: filename, s3Bucket: ENV['AWS_BUCKET'], successEmail: large_fleet })
+        .with(body: { filename: filename, s3Bucket: ENV['S3_AWS_BUCKET'], successEmail: large_fleet })
         .once
     end
 
