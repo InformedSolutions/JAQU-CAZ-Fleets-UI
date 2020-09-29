@@ -7,7 +7,7 @@ class BaseForm
   include ActiveModel::Validations
 
   # Email Address Regular Expression
-  EMAIL_FORMAT = /\A(([\w\d!#\$%&'*+\-\/=?\^_`{|}~]+)(\.{1}))*([\w\d!#\$%&'*+\-\/=?\^_`{|}~]+)@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/.freeze
+  EMAIL_FORMAT = %r{\A(([\w\d!#\$%&'*+\-\/=?\^_`{|}~]+)(\.{1}))*([\w\d!#\$%&'*+\-\/=?\^_`{|}~]+)@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z}
 
   # Overrides default initializer for compliance with form_for method in content_form view
   def initialize(attributes = {})
