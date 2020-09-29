@@ -10,7 +10,7 @@ describe 'VehiclesManagement::FleetsController - POST #confirm_delete' do
   context 'correct permissions' do
     let(:fleet) { create_fleet }
 
-    it 'returns redirect to the login page' do
+    it 'redirects to the login page' do
       subject
       expect(response).to redirect_to(new_user_session_path)
     end
@@ -21,7 +21,7 @@ describe 'VehiclesManagement::FleetsController - POST #confirm_delete' do
         mock_fleet(fleet)
       end
 
-      it 'returns redirect to fleets' do
+      it 'redirects to fleets' do
         subject
         expect(response).to redirect_to(fleets_path)
       end
