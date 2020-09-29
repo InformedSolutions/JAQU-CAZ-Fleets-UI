@@ -3,11 +3,10 @@
 Given('I visit non-primary user Account Details page') do
   mock_vehicles_in_fleet
   mock_users
-
-  login_user(permissions: ['MANAGE_USERS'])
   mock_user_details
   mock_account_details
 
+  login_user(permissions: ['MANAGE_USERS'])
   visit non_primary_users_account_details_path
 end
 
