@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.6'
+ruby '2.7.1'
 
 gem 'rails', '~> 6.0.3.3'
 
@@ -24,9 +24,6 @@ gem 'webpacker'
 group :development, :test do
   gem 'dotenv-rails'
   gem 'haml-rails'
-  gem 'jazz_fingers'
-  gem 'pry'
-  gem 'pry-rails'
   gem 'rspec-rails'
   gem 'ruby_jard'
 end
@@ -51,7 +48,6 @@ group :test do
   gem 'rubocop-rails'
   gem 'scss_lint-govuk', require: false
   gem 'selenium-webdriver'
-  gem 'shoulda-matchers'
   gem 'show_me_the_cookies'
   gem 'simplecov', '~> 0.17.1', require: false
   gem 'webdrivers'

@@ -20,7 +20,7 @@ module MockUsers
     api_response = {
       accountUserId: user.user_id,
       name: 'Mary Smith',
-      email: 'user@example.com',
+      email: 'test@example.com',
       owner: true,
       removed: false
     }.stringify_keys
@@ -31,6 +31,12 @@ module MockUsers
 
   def mock_user_details
     allow(AccountsApi).to receive(:user).and_return(read_response('users_management/user.json'))
+  end
+
+  def mock_account_details
+    allow(AccountDetails::Api)
+      .to receive(:account_details)
+      .and_return(read_response('users_management/user.json'))
   end
 
   def mock_update_user

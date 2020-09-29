@@ -8,10 +8,10 @@
     - if user_signed_in?
       %li.govuk-header__navigation-item{class: current_path?(authenticated_root_path)}
         = link_to('Home', authenticated_root_path, class: 'govuk-header__link', id: 'home')
-      %li.govuk-header__navigation-item{class: current_path?(primary_users_path) || current_path?(non_primary_users_path)}
+      %li.govuk-header__navigation-item{class: current_path?(primary_users_account_details_path) || current_path?(non_primary_users_account_details_path)}
         = link_to('Account details',
-            current_user.owner ? primary_users_path : non_primary_users_path,
-            class: 'govuk-header__link')
+            current_user.owner ? primary_users_account_details_path : non_primary_users_account_details_path,
+            class: 'govuk-header__link', id: 'account-details')
       %li.govuk-header__navigation-item
         = link_to('Sign out', destroy_user_session_path, method: :delete, class: 'govuk-header__link', id: 'sign-out')
     - else

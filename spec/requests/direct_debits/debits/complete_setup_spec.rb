@@ -33,6 +33,22 @@ describe 'DirectDebits::DebitsController - GET #complete_setup' do
           expect(subject).to render_template(:service_unavailable)
         end
       end
+
+      context 'and api returns 400 status because mandate was already created ' do
+        before do
+          allow(DebitsApi).to receive(:complete_mandate_creation).and_raise(
+            BaseApi::Error400Exception.new(
+              400,
+              '',
+              { 'message' => 'Your integration has already completed this redirect flow' }
+            )
+          )
+        end
+
+        it 'redirects to the debits page' do
+          expect(subject).to redirect_to(debits_path)
+        end
+      end
     end
 
     context 'without mandate_caz_id in session' do

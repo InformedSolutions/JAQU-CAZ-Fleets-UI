@@ -8,7 +8,7 @@ describe 'VehiclesManagement::FleetsController - GET #assign_delete' do
   let(:vrn) { @vrn }
 
   context 'correct permissions' do
-    it 'returns redirect to the login page' do
+    it 'redirects to the login page' do
       subject
       expect(response).to redirect_to(new_user_session_path)
     end
@@ -20,7 +20,7 @@ describe 'VehiclesManagement::FleetsController - GET #assign_delete' do
       end
 
       context 'when vrn is given' do
-        it 'returns redirect to #delete' do
+        it 'redirects to #delete' do
           expect(response).to redirect_to(delete_fleets_path)
         end
 
@@ -32,7 +32,7 @@ describe 'VehiclesManagement::FleetsController - GET #assign_delete' do
       context 'when vrn is NOT given' do
         let(:vrn) { nil }
 
-        it 'returns redirect to #index' do
+        it 'redirects to #index' do
           expect(response).to redirect_to(fleets_path)
         end
       end

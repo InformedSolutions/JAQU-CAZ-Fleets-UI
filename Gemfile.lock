@@ -59,10 +59,9 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.1)
-    awesome_print (1.8.0)
     aws-eventstream (1.1.0)
-    aws-partitions (1.375.0)
-    aws-sdk-core (3.107.0)
+    aws-partitions (1.376.0)
+    aws-sdk-core (3.108.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
@@ -70,7 +69,7 @@ GEM
     aws-sdk-kms (1.38.0)
       aws-sdk-core (~> 3, >= 3.99.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.81.0)
+    aws-sdk-s3 (1.81.1)
       aws-sdk-core (~> 3, >= 3.104.3)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
@@ -103,8 +102,6 @@ GEM
     childprocess (3.0.0)
     coderay (1.1.3)
     concurrent-ruby (1.1.7)
-    coolline (0.5.0)
-      unicode_utils (~> 1.4)
     crack (0.4.4)
     crass (1.0.6)
     cucumber (4.1.0)
@@ -184,11 +181,6 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
-    jazz_fingers (5.2.2)
-      awesome_print (~> 1.6)
-      pry (~> 0.10)
-      pry-byebug (~> 3.4)
-      pry-coolline (~> 0.2)
     jmespath (1.4.0)
     json (2.3.1)
     listen (3.2.1)
@@ -229,13 +221,6 @@ GEM
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    pry-byebug (3.9.0)
-      byebug (~> 11.0)
-      pry (~> 0.13.0)
-    pry-coolline (0.2.5)
-      coolline (~> 0.5)
-    pry-rails (0.3.9)
-      pry (>= 0.10.4)
     public_suffix (4.0.6)
     puma (5.0.0)
       nio4r (~> 2.0)
@@ -315,14 +300,15 @@ GEM
       rubocop-ast (>= 0.5.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 2.0)
-    rubocop-ast (0.5.0)
+    rubocop-ast (0.7.0)
       parser (>= 2.7.1.5)
+      strscan (>= 1.0.0)
     rubocop-rails (2.8.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 0.87.0)
     ruby-progressbar (1.10.1)
-    ruby_jard (0.3.0)
+    ruby_jard (0.3.1)
       byebug (>= 9.1, < 12.0)
       pry (~> 0.13.0)
       tty-screen (~> 0.8.1)
@@ -345,8 +331,6 @@ GEM
       rubyzip (>= 1.2.2)
     semantic_range (2.3.0)
     sexp_processor (4.15.1)
-    shoulda-matchers (4.4.1)
-      activesupport (>= 4.2.0)
     show_me_the_cookies (5.0.1)
       capybara (>= 2, < 4)
     simplecov (0.17.1)
@@ -366,6 +350,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
+    strscan (1.0.3)
     sys-uname (1.2.1)
       ffi (>= 1.0.0)
     temple (0.8.2)
@@ -379,7 +364,6 @@ GEM
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
     unicode-display_width (1.7.0)
-    unicode_utils (1.4.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.0.4)
@@ -425,11 +409,8 @@ DEPENDENCIES
   haml
   haml-rails
   httparty
-  jazz_fingers
   listen
   possessive
-  pry
-  pry-rails
   puma
   rack_session_access
   rails (~> 6.0.3.3)
@@ -441,7 +422,6 @@ DEPENDENCIES
   scss_lint-govuk
   sdoc
   selenium-webdriver
-  shoulda-matchers
   show_me_the_cookies
   simplecov (~> 0.17.1)
   spring
@@ -455,7 +435,7 @@ DEPENDENCIES
   webpacker
 
 RUBY VERSION
-   ruby 2.6.6p146
+   ruby 2.7.1p83
 
 BUNDLED WITH
    2.1.4

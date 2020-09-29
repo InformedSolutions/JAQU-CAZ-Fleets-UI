@@ -13,7 +13,7 @@ module Organisations
     MAX_COMPANY_NAME_LENGTH = 180
 
     # validates attributes to presence
-    validates :company_name, presence: { message: I18n.t('company_name_form.comapny_name_missing') }
+    validates :company_name, presence: { message: I18n.t('company_name_form.company_name_missing') }
 
     # validates max length
     validates :company_name, length: {

@@ -12,25 +12,28 @@ require 'rspec/rails'
 # load support folder
 Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
-RSpec.configure do |config|
+RSpec.configure do |config| # rubocop:disable Metrics/BlockLength
   # add helpers to request rspec classes
   [RequestSpecHelper,
    StringCountHelper,
    AddToSession,
    AddToRedis,
    FleetFactory,
-   ChargeableVehiclesFactory].each do |h|
-    config.include h, type: :request
+   ChargeableVehiclesFactory].each do |helper|
+    config.include helper, type: :request
   end
 
   # add helpers to rspec classes
-  [StrongParams,
-   UsersFactory,
-   ActiveSupport::Testing::TimeHelpers,
-   FixturesHelpers,
-   MockedResponses,
-   UsersManagement::MockedResponses].each do |h|
-    config.include h
+  [
+    StrongParams,
+    UsersFactory,
+    ActiveSupport::Testing::TimeHelpers,
+    FixturesHelpers,
+    MockedResponses,
+    UsersManagement::MockedResponses,
+    AccountDetails::MockedResponses
+  ].each do |helper|
+    config.include helper
   end
 
   config.before do
@@ -67,11 +70,4 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-end
-
-Shoulda::Matchers.configure do |config|
-  config.integrate do |with|
-    with.test_framework :rspec
-    with.library :rails
-  end
 end

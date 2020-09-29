@@ -50,6 +50,8 @@ class UpdatePasswordForm < NewPasswordForm
       errors.add(:old_password, :invalid, message: I18n.t('update_password_form.errors.old_password_invalid'))
     when 'newPasswordReuse'
       errors.add(:password, :invalid, message: I18n.t('update_password_form.errors.password_reused'))
+    else
+      errors.add(:password, :invalid, message: 'Something went wrong')
     end
   end
 end

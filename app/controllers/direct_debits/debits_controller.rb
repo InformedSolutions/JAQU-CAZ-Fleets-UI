@@ -165,6 +165,8 @@ module DirectDebits
         caz_id: session[:mandate_caz_id]
       )
       redirect_to debits_path
+    rescue BaseApi::Error400Exception => e
+      redirect_to_after_400_error(e)
     end
 
     private
@@ -211,6 +213,16 @@ module DirectDebits
     # Checks if +mandate_caz_id+ in session. If not, it redirects to the debits page
     def check_caz_id_in_session
       redirect_to debits_path if session[:mandate_caz_id].nil?
+    end
+
+    # Redirects to the {rdoc-ref:index} if mandate was already created
+    # Otherwise renders the service unavailable page
+    def redirect_to_after_400_error(exception)
+      if exception.message.include?('Your integration has already completed this redirect flow')
+        redirect_to debits_path
+      else
+        render_server_unavailable(exception)
+      end
     end
   end
 end

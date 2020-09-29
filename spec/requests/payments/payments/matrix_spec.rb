@@ -5,16 +5,20 @@ require 'rails_helper'
 describe 'PaymentsController - GET #matrix' do
   subject { get matrix_payments_path }
 
+  let(:caz_id) { @uuid }
+  let(:account_id) { SecureRandom.uuid }
+  let(:user) { create_user(account_id: account_id) }
+
   context 'correct permissions' do
     let(:fleet) { create_chargeable_vehicles }
 
-    before { sign_in create_user }
+    before { sign_in user }
 
     context 'with la in the session' do
       before do
         mock_clean_air_zones
         mock_fleet(fleet)
-        add_to_session(new_payment: { caz_id: @uuid })
+        add_to_session(new_payment: { caz_id: caz_id })
       end
 
       it 'returns a 200 OK status' do
@@ -23,7 +27,7 @@ describe 'PaymentsController - GET #matrix' do
       end
 
       it 'calls charges with right params' do
-        expect(fleet).to receive(:charges).with(zone_id: @uuid, direction: nil, vrn: nil)
+        expect(fleet).to receive(:charges).with(zone_id: caz_id, direction: nil, vrn: nil)
         subject
       end
 
@@ -49,8 +53,19 @@ describe 'PaymentsController - GET #matrix' do
         before { add_to_session(payment_query: { vrn: @vrn, direction: direction }) }
 
         it 'calls charges with right params' do
-          expect(fleet).to receive(:charges).with(zone_id: @uuid, direction: direction, vrn: @vrn)
+          expect(fleet).to receive(:charges).with(zone_id: caz_id, direction: direction, vrn: @vrn)
           subject
+        end
+      end
+
+      context 'with CAZ payment locked by another user' do
+        before do
+          add_caz_lock_to_redis(create_user(account_id: account_id, user_id: SecureRandom.uuid))
+          subject
+        end
+
+        it 'redirects to :in_progress page' do
+          expect(response).to redirect_to(in_progress_payments_path)
         end
       end
     end

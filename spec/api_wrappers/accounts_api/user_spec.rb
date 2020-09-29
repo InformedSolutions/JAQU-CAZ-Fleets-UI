@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'AccountsApi.users - GET' do
+describe 'AccountsApi.user - GET' do
   subject { AccountsApi.user(account_id: account_id, account_user_id: account_user_id) }
 
   let(:account_id) { '3fa85f64-5717-4562-b3fc-2c963f66afa6' }

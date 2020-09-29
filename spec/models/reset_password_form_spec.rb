@@ -5,9 +5,9 @@ require 'rails_helper'
 describe ResetPasswordForm, type: :model do
   subject { described_class.new(email_address: email_address) }
 
-  let(:email_address) { 'user@example.com' }
+  let(:email_address) { 'test@example.com' }
 
-  %w[user@example.com user.user@example.com].each do |value|
+  %w[test@example.com test.test@example.com].each do |value|
     let(:email_address) { value }
 
     it 'is valid with a proper email' do

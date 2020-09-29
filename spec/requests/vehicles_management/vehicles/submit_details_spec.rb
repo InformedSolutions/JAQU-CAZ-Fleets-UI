@@ -8,7 +8,7 @@ describe 'VehiclesManagement::VehicleController - POST #submit_details' do
   let(:vrn) { @vrn }
 
   context 'correct permissions' do
-    it 'returns redirect to the login page' do
+    it 'redirects to the login page' do
       subject
       expect(response).to redirect_to(new_user_session_path)
     end

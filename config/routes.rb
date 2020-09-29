@@ -144,8 +144,25 @@ Rails.application.routes.draw do
   end
 
   scope module: 'account_details', path: '/' do
-    resources :primary_users, only: :index
-    resources :non_primary_users, only: :index
+    get :primary_users_account_details, to: 'primary_users#primary_account_details'
+    get :edit_password, to: 'passwords#edit'
+    patch :edit_password, to: 'passwords#update'
+    resources :primary_users, only: %i[] do
+      collection do
+        get :edit_name
+        patch :update_name
+        get :edit_email
+        patch :update_email
+      end
+    end
+
+    get :non_primary_users_account_details, to: 'non_primary_users#non_primary_account_details'
+    resources :non_primary_users, only: %i[] do
+      collection do
+        get :edit_name, to: 'names#edit'
+        get :update_name, to: 'names#update'
+      end
+    end
   end
 
   scope module: 'payment_history', path: '/', controller: 'payment_history' do

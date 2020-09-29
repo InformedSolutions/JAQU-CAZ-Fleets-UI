@@ -7,13 +7,15 @@ describe 'AccountsApi.update_user - PATCH' do
     AccountsApi.update_user(
       account_id: account_id,
       account_user_id: account_user_id,
-      permissions: permissions
+      permissions: permissions,
+      name: name
     )
   end
 
   let(:account_id) { '3fa85f64-5717-4562-b3fc-2c963f66afa6' }
   let(:account_user_id) { 'f1409c5e-3241-44b8-8224-8d40ee0fcac6' }
   let(:permissions) { %w[MANAGE_VEHICLES MANAGE_USERS] }
+  let(:name) { 'Carl Glasser' }
   let(:url) { "/accounts/#{account_id}/users/#{account_user_id}" }
 
   context 'when the response status is 200' do
@@ -21,7 +23,27 @@ describe 'AccountsApi.update_user - PATCH' do
 
     it 'calls API with proper body' do
       subject
-      expect(WebMock).to have_requested(:patch, /#{url}/).with(body: { permissions: permissions }).once
+      expect(WebMock).to have_requested(:patch, /#{url}/)
+        .with(body: { permissions: permissions, name: name })
+        .once
+    end
+
+    context 'when name parameter is missing' do
+      let(:permissions) { nil }
+
+      it 'calls API with only name parameter' do
+        subject
+        expect(WebMock).to have_requested(:patch, /#{url}/).with(body: { name: name }).once
+      end
+    end
+
+    context 'when permissions parameter is missing' do
+      let(:name) { nil }
+
+      it 'calls API with only permissions parameter' do
+        subject
+        expect(WebMock).to have_requested(:patch, /#{url}/).with(body: { permissions: permissions }).once
+      end
     end
   end
 
