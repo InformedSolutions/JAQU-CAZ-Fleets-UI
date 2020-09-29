@@ -37,8 +37,34 @@ describe UsersManagement::AddUserForm, type: :model do
       end
     end
 
-    context 'when email in invalid format' do
-      let(:email) { 'test,,,@test.com ' }
+    context 'when email in invalid format with comma' do
+      let(:email) { 'test,a@test.com' }
+
+      it { is_expected.not_to be_valid }
+
+      it 'has a proper error message' do
+        subject.valid?
+        expect(subject.errors.messages[:email].join(',')).to include(
+          'Enter the user’s email address in a valid format'
+        )
+      end
+    end
+
+    context 'when email in invalid format with two consecutive dots' do
+      let(:email) { 'test..a@test.com ' }
+
+      it { is_expected.not_to be_valid }
+
+      it 'has a proper error message' do
+        subject.valid?
+        expect(subject.errors.messages[:email].join(',')).to include(
+          'Enter the user’s email address in a valid format'
+        )
+      end
+    end
+
+    context 'when email in invalid format with dot at the end' do
+      let(:email) { 'aaa.@test.com' }
 
       it { is_expected.not_to be_valid }
 
