@@ -22,5 +22,25 @@ module AccountDetails
       api_response = AccountDetails::Api.account_details(account_user_id: current_user.user_id)
       @user = AccountDetails::User.new(api_response)
     end
+
+    ##
+    # Renders update company name page.
+    #
+    # ==== Path
+    #
+    #    :GET /primary_users/edit_name
+    #
+    def edit_name
+      @errors = {}
+    end
+
+    ##
+    # Performs update of the users company name.
+    #
+    # ==== Path
+    #
+    #    :PATCH /primary_users/update_name
+    #
+    def update_name; end
   end
 end
