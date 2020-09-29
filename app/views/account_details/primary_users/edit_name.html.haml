@@ -20,17 +20,20 @@
               .govuk-form-group.govuk-form-group--error
                 %span#name-error.govuk-error-message
                   %span.govuk-visually-hidden Error:
-                  = @errors[:name].first
+                  = @errors[:company_name].first
 
-                = f.label :name, 'Company name', class: 'govuk-label'
-                = f.text_field :name, name: 'name', class: 'govuk-input govuk-!-width-two-thirds'
+                = f.label :company_name, 'Company name', class: 'govuk-label'
+                = f.text_field :company_name, name: 'company_name', class: 'govuk-input govuk-!-width-two-thirds'
 
             - else
               .govuk-form-group
-                = f.label :name, 'Company name', class: 'govuk-label'
-                = f.text_field :name, name: 'name', class: 'govuk-input govuk-!-width-two-thirds'
+                = f.label :company_name, 'Company name', class: 'govuk-label'
+                = f.text_field :company_name,
+                               name: 'company_name',
+                               class: 'govuk-input govuk-!-width-two-thirds',
+                               value: current_user.account_name
 
         = submit_tag 'Save changes', class: 'govuk-button', 'data-module': 'govuk-button'
 
         %p
-          = link_to 'Exit without saving', non_primary_users_account_details_path
+          = link_to 'Exit without saving', primary_users_account_details_path

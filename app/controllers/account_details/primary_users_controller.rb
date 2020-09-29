@@ -41,6 +41,16 @@ module AccountDetails
     #
     #    :PATCH /primary_users/update_name
     #
-    def update_name; end
+    def update_name
+      form = AccountDetails::EditCompanyNameForm.new(account_id: current_user.account_id,
+                                                     company_name: params[:company_name])
+
+      if form.valid? && form.submit
+        redirect_to primary_users_account_details_path
+      else
+        @errors = form.errors.messages
+        render :edit_name
+      end
+    end
   end
 end
