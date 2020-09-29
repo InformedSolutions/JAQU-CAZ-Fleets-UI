@@ -85,7 +85,7 @@ Rails.application.configure do
   # Use a different cache store in production - cluster of redis instances.
   if ENV['REDIS_URL']
     config.cache_store = :redis_cache_store, {
-      url: ENV['REDIS_URL'],
+      cluster: [ENV['REDIS_URL']],
       error_handler: lambda do |response|
         # Report errors to Sentry as warnings
         Rails.logger.error "Unable to connect to Redis - #{response}"
