@@ -36,6 +36,11 @@ describe 'PaymentsController - GET #matrix' do
         expect(assigns(:d_day_notice)).to eq(false)
       end
 
+      it 'assigns the @fleet' do
+        subject
+        expect(assigns(:fleet)).not_to be_nil
+      end
+
       context 'with search data' do
         let(:search) { 'test' }
 
