@@ -151,8 +151,8 @@ Rails.application.routes.draw do
       collection do
         get :edit_name
         patch :update_name
-        get :edit_email
-        patch :update_email
+        get :edit_email, to: 'emails#edit'
+        get :update_email, to: 'emails#update'
       end
     end
 
