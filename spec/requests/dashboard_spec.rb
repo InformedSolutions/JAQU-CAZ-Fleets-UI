@@ -50,6 +50,7 @@ describe DashboardController do
     context 'when user is signed in with password that is about to expire in 8 days' do
       before do
         mock_fleet
+        mock_users
         sign_in create_user(
           permissions: [],
           days_to_password_expiry: 8

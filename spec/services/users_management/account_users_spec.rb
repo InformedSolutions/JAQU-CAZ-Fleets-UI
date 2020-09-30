@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe UsersManagement::Users do
+describe UsersManagement::AccountUsers do
   subject { described_class.call(account_id: @uuid, user_id: @uuid) }
 
   describe '#call' do
@@ -28,7 +28,7 @@ describe UsersManagement::Users do
   end
 
   describe '#filtered' do
-    subject { described_class.new(account_id: @uuid, user_id: @uuid).filtered }
+    subject { described_class.new(account_id: @uuid, user_id: @uuid).filtered_users }
 
     before { mock_users }
 
