@@ -5,7 +5,12 @@
 module UsersManagement
   module MockedResponses
     def mock_users
-      api_response = read_response('users_management/users.json')['users']
+      api_response = read_response('users_management/users.json')
+      allow(AccountsApi).to receive(:users).and_return(api_response)
+    end
+
+    def mock_empty_users_list
+      api_response = read_response('users_management/empty_users.json')
       allow(AccountsApi).to receive(:users).and_return(api_response)
     end
 

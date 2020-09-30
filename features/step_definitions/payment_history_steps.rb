@@ -3,6 +3,7 @@
 Given('I visit the Company payment history page') do
   mock_vehicles_in_fleet
   mock_payment_history
+  mock_users
   login_user(permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
   visit company_payment_history_path
 end
@@ -16,6 +17,7 @@ Given('I go to the User payment history page') do
 end
 
 Given('I visit the User payment history page') do
+  mock_users
   mock_vehicles_in_fleet
   mock_payment_history
   login_user(permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
@@ -23,11 +25,13 @@ Given('I visit the User payment history page') do
 end
 
 Given('I want visit the Payments details page from Company payments history page') do
+  mock_users
   mock_api_and_sign_in_user
   visit company_payment_history_path
 end
 
 Given('I want visit the Payments details page from User payments history page') do
+  mock_users
   mock_api_and_sign_in_user
   visit user_payment_history_path
 end

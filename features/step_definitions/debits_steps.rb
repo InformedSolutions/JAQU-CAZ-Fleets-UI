@@ -84,6 +84,7 @@ Then('I should be on the Payment unsuccessful page') do
 end
 
 Given('I have inactive mandates for each CAZ but one of them is disabled') do
+  mock_users
   mock_vehicles_in_fleet
   mock_direct_debit_enabled
   api_response = read_response('/debits/inactive_mandates.json')
