@@ -53,7 +53,7 @@ module AccountDetails
       # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
       #
       def update_owner_email(account_user_id:, new_email:, confirm_url:)
-        log_action('Changing owners email')
+        log_action('Change request email for account owner')
         body = { accountUserId: account_user_id, newEmail: new_email, confirmUrl: confirm_url }.to_json
         request(:put, '/auth/email/change-request', body: body)
         true

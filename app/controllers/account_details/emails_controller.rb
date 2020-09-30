@@ -34,12 +34,35 @@ module AccountDetails
       form = AccountDetails::EditUserEmailForm.new(account_id: current_user.account_id, email: params[:email])
       if form.valid?
         update_owner_email(form.email)
-        # TODO: CAZB-2640 - redirect to email sent page
-        redirect_to primary_users_account_details_path
+        session[:owners_new_email] = form.email
+        redirect_to email_sent_primary_users_path
       else
         @errors = form.errors.messages
         render :edit
       end
+    end
+
+    ##
+    # Renders the email sent page.
+    #
+    # ==== Path
+    #
+    #    :GET /users/email-sent
+    #
+    def email_sent
+      @email = session[:owners_new_email]
+    end
+
+    ##
+    # Call api which will resend averification email after changing email process
+    #
+    # ==== Path
+    #
+    #    POST /users/resend_email
+    #
+    def resend_email
+      update_owner_email(session[:owners_new_email])
+      redirect_to email_sent_primary_users_path
     end
 
     private
