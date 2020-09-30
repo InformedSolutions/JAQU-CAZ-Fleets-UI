@@ -33,6 +33,17 @@ module MockUsers
     allow(AccountsApi).to receive(:user).and_return(read_response('users_management/user.json'))
   end
 
+  def mock_second_user_details
+    api_response = {
+      name: 'Mary Smith',
+      email: 'second_user@email.com',
+      owner: true,
+      permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS]
+    }.stringify_keys
+    allow(AccountsApi).to receive(:user).with(account_id: account_id, account_user_id: second_user_id)
+                                        .and_return(api_response)
+  end
+
   def mock_account_details
     allow(AccountDetails::Api)
       .to receive(:account_details)
