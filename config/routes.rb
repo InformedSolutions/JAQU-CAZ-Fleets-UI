@@ -175,8 +175,8 @@ Rails.application.routes.draw do
   end
 
   scope controller: 'static_pages' do
-    get :cookies
     get :accessibility_statement
+    get :cookies
     get :privacy_notice
   end
 
