@@ -73,6 +73,17 @@ describe 'PaymentsController - GET #matrix' do
           expect(response).to redirect_to(in_progress_payments_path)
         end
       end
+
+      context 'with CAZ payment locked by another user' do
+        before do
+          add_caz_lock_to_redis(create_user(account_id: account_id, user_id: SecureRandom.uuid))
+          subject
+        end
+
+        it 'redirects to :in_progress page' do
+          expect(response).to redirect_to(in_progress_payments_path)
+        end
+      end
     end
 
     context 'without la in the session' do
