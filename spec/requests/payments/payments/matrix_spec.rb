@@ -36,6 +36,11 @@ describe 'PaymentsController - GET #matrix' do
         expect(assigns(:d_day_notice)).to eq(false)
       end
 
+      it 'assigns the @fleet' do
+        subject
+        expect(assigns(:fleet)).not_to be_nil
+      end
+
       context 'with search data' do
         let(:search) { 'test' }
 
@@ -55,6 +60,17 @@ describe 'PaymentsController - GET #matrix' do
         it 'calls charges with right params' do
           expect(fleet).to receive(:charges).with(zone_id: caz_id, direction: direction, vrn: @vrn)
           subject
+        end
+      end
+
+      context 'with CAZ payment locked by another user' do
+        before do
+          add_caz_lock_to_redis(create_user(account_id: account_id, user_id: SecureRandom.uuid))
+          subject
+        end
+
+        it 'redirects to :in_progress page' do
+          expect(response).to redirect_to(in_progress_payments_path)
         end
       end
 

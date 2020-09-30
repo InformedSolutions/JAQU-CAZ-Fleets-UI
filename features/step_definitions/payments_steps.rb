@@ -110,6 +110,7 @@ And('Second user starts payment in the same CAZ') do
     visit_caz_selection_page
     expect_path(matrix_payments_path)
   end
+  mock_second_user_details
 end
 
 Then('I should be on the payment in progress page') do
