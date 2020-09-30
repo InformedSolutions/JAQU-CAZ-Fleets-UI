@@ -248,7 +248,8 @@ module Payments
     def in_progress
       return determinate_lock_caz(@zone_id) unless caz_locked?
 
-      @user_locking_email = caz_lock_user_email
+      api_response = AccountsApi.user(account_id: caz_lock_account_id, account_user_id: caz_lock_user_id)
+      @user = UsersManagement::User.new(api_response)
       @zone = CleanAirZone.find(@zone_id)
     end
 

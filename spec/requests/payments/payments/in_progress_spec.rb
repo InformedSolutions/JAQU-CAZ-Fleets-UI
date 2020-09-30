@@ -7,8 +7,9 @@ describe 'PaymentsController - GET #in_progress' do
 
   let(:caz_id) { @uuid }
   let(:account_id) { SecureRandom.uuid }
+  let(:second_user_id) { SecureRandom.uuid }
   let(:user) { create_user(account_id: account_id, user_id: SecureRandom.uuid) }
-  let(:another_user) { create_user(account_id: account_id, user_id: SecureRandom.uuid) }
+  let(:second_user) { create_user(account_id: account_id, user_id: second_user_id) }
 
   context 'correct permissions' do
     let(:fleet) { create_chargeable_vehicles }
@@ -37,7 +38,9 @@ describe 'PaymentsController - GET #in_progress' do
 
     context 'with la in the session and CAZ locked by other user' do
       before do
-        add_caz_lock_to_redis(another_user)
+        sign_in second_user
+        mock_second_user_details(account_id, user.user_id)
+        add_caz_lock_to_redis(user)
         subject
       end
 
