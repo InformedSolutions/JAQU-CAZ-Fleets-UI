@@ -20,7 +20,14 @@ describe 'AccountsApi.users - GET' do
     end
 
     it 'returns proper fields' do
-      expect(subject.first.keys).to contain_exactly(
+      expect(subject.keys).to contain_exactly(
+        'users',
+        'multiPayerAccount'
+      )
+    end
+
+    it 'returns proper fields for users collection' do
+      expect(subject['users'].first.keys).to contain_exactly(
         'accountUserId',
         'name',
         'email',

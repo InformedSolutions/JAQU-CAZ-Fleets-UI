@@ -27,7 +27,7 @@ describe 'UsersManagement::CreateUsersController - GET #new' do
 
     context 'when api returns empty users' do
       before do
-        allow(AccountsApi).to receive(:users).and_return([])
+        mock_empty_users_list
         subject
       end
 

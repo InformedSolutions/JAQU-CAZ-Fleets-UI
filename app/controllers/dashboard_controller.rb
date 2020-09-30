@@ -17,7 +17,9 @@ class DashboardController < ApplicationController
   def index
     @vehicles_count = current_user.fleet.total_vehicles_count
     @mandates_present = check_mandates
-    @users_present = check_users
+    account_users = load_account_users
+    @users_present = check_users(account_users)
+    @multi_payer_account = account_users.multi_payer_account?
     @days_count = days_to_password_expiry
   end
 
@@ -31,14 +33,19 @@ class DashboardController < ApplicationController
     DirectDebits::Debit.new(current_user.account_id).active_mandates.any?
   end
 
-  # Do not perform api call if user don't have permission
-  def check_users
-    return false unless allow_manage_users?
-
-    UsersManagement::Users.new(
+  # Loads account users
+  def load_account_users
+    UsersManagement::AccountUsers.new(
       account_id: current_user.account_id,
       user_id: current_user.user_id
-    ).filtered.any?
+    )
+  end
+
+  # Do not perform api call if user don't have permission
+  def check_users(account_users)
+    return false unless allow_manage_users?
+
+    account_users.filtered_users.any?
   end
 
   # clear user flow history from the session
