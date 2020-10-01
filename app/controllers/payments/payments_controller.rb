@@ -16,8 +16,7 @@ module Payments
       matrix submit review select_payment_method no_chargeable_vehicles in_progress
     ]
     before_action :assign_debit, only: %i[select_payment_method]
-    before_action :assign_fleet, only: %i[matrix]
-    before_action :check_job_status, only: %i[matrix]
+    before_action :check_job_status, only: %i[local_authority matrix]
     before_action :assign_zone_and_dates, only: %i[matrix]
     before_action :release_lock_on_caz, only: %i[index success failure]
 
@@ -317,11 +316,6 @@ module Payments
       else
         dashboard_path
       end
-    end
-
-    # Creates instant variable with fleet object
-    def assign_fleet
-      @fleet = current_user.fleet
     end
   end
 end
