@@ -497,6 +497,37 @@ class AccountsApi < BaseApi # rubocop:disable Metrics/ClassLength
       request(:get, "/accounts/#{account_id}")
     end
 
+    ##
+    # Calls +/v1/accounts/:accountId+ endpoint with +PATCH+ method.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - uuid, ID of the account on backend DB
+    # * +company_name+ - string, new company name submitted by user
+    #
+    # ==== Example
+    #
+    #    AccountsApi.update_company_name(
+    #       account_id: '27978cac-44fa-4d2e-bc9b-54fd12e37c69',
+    #       company_name: 'Royal Mail'
+    #    )
+    #
+    # ==== Result
+    #
+    # Returns an empty body
+    #
+    # ==== Exceptions
+    #
+    # * {422 Exception}[rdoc-ref:BaseApi::Error422Exception] - parameters are invalid (details in the exception body)
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def update_company_name(account_id:, company_name:)
+      log_action('Updating company name')
+      body = { accountName: company_name }.to_json
+      request(:patch, "/accounts/#{account_id}", body: body)
+      true
+    end
+
     private
 
     # prepares create user for account request body.
