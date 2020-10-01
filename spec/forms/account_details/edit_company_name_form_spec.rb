@@ -5,20 +5,21 @@ require 'rails_helper'
 describe AccountDetails::EditCompanyNameForm, type: :model do
   subject { described_class.new(company_name_params) }
 
-  let(:company_name_params) { { account_id: @uuid, company_name: company_name } }
+  let(:company_name_params) { { account_id: account_id, company_name: company_name } }
   let(:company_name) { 'Company name' }
+  let(:account_id) { @uuid }
 
   it { is_expected.to be_valid }
 
   context '.submit' do
-    before do
-      allow(AccountsApi).to receive(:update_company_name).and_return(true)
-      subject.submit
-    end
+    before { allow(AccountsApi).to receive(:update_company_name).and_return(true) }
 
     it 'calls AccountsApi with correct parameters' do
-      body = { accountName: 'Company name' }
-      allow(AccountsApi).to receive(:update_company_name).with(body: body).and_return(true)
+      expect(AccountsApi)
+        .to receive(:update_company_name)
+        .with(company_name: company_name, account_id: @uuid)
+        .and_return(true)
+      subject.submit
     end
   end
 
