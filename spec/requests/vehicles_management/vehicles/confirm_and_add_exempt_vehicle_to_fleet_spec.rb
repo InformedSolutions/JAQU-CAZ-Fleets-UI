@@ -14,7 +14,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_and_add_exempt_v
     let(:user) { manage_vehicles_user(account_id: account_id) }
     let(:vehicle_type) { 'Car' }
 
-    it 'returns redirect to the login page' do
+    it 'redirects to the login page' do
       subject
       expect(response).to redirect_to(new_user_session_path)
     end
@@ -23,7 +23,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_and_add_exempt_v
       before { sign_in user }
 
       context 'without VRN in the session' do
-        it 'returns redirect to vehicles#enter_details' do
+        it 'redirects to vehicles#enter_details' do
           subject
           expect(response).to redirect_to(enter_details_vehicles_path)
         end

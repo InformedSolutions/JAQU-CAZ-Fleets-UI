@@ -6,7 +6,7 @@ describe DashboardController do
   describe 'GET #index' do
     subject { get dashboard_path }
 
-    it 'returns redirect to the login page' do
+    it 'redirects to the login page' do
       subject
       expect(response).to redirect_to(new_user_session_path)
     end
@@ -50,6 +50,7 @@ describe DashboardController do
     context 'when user is signed in with password that is about to expire in 8 days' do
       before do
         mock_fleet
+        mock_users
         sign_in create_user(
           permissions: [],
           days_to_password_expiry: 8

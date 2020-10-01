@@ -3,11 +3,10 @@
 Given('I visit primary user Account Details page') do
   mock_vehicles_in_fleet
   mock_users
-
-  login_owner
-  mock_user_details
+  mock_debits
   mock_account_details
 
+  login_owner
   visit primary_users_account_details_path
 end
 

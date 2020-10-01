@@ -152,8 +152,8 @@ Rails.application.routes.draw do
       collection do
         get :edit_name
         patch :update_name
-        get :edit_email
-        patch :update_email
+        get :edit_email, to: 'emails#edit'
+        get :update_email, to: 'emails#update'
       end
     end
 
@@ -173,8 +173,8 @@ Rails.application.routes.draw do
   end
 
   scope controller: 'static_pages' do
-    get :cookies
     get :accessibility_statement
+    get :cookies
     get :privacy_notice
   end
 

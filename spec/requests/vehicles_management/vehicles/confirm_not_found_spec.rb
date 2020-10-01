@@ -10,7 +10,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_not_found' do
   context 'correct permissions' do
     let(:account_id) { @uuid }
 
-    it 'returns redirect to the login page' do
+    it 'redirects to the login page' do
       subject
       expect(response).to redirect_to(new_user_session_path)
     end

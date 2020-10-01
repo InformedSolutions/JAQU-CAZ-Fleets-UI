@@ -6,31 +6,47 @@ module MockUsers
   end
 
   def mock_empty_users_list
-    allow(AccountsApi).to receive(:users).and_return([])
+    allow(AccountsApi).to receive(:users).and_return(empty_users_api_response)
   end
 
   def mock_more_then_ten_users
     api_response = users_api_response
-    api_response << users_api_response.last
+    api_response['users'] << users_api_response['users'].last
     allow(AccountsApi).to receive(:users).and_return(api_response)
   end
 
   def mock_user_on_list # rubocop:disable Metrics/MethodLength
     user = new_user
     api_response = {
-      accountUserId: user.user_id,
-      name: 'Mary Smith',
-      email: 'test@example.com',
-      owner: true,
-      removed: false
+      multiPayerAccount: true,
+      users: [
+        {
+          accountUserId: user.user_id,
+          name: 'Mary Smith',
+          email: 'test@example.com',
+          owner: true,
+          removed: false
+        }.stringify_keys
+      ]
     }.stringify_keys
-    allow(AccountsApi).to receive(:users).and_return([api_response])
+    allow(AccountsApi).to receive(:users).and_return(api_response)
     allow_any_instance_of(User).to receive(:authentication).and_return(user)
     fill_sign_in_form
   end
 
   def mock_user_details
     allow(AccountsApi).to receive(:user).and_return(read_response('users_management/user.json'))
+  end
+
+  def mock_second_user_details
+    api_response = {
+      name: 'Mary Smith',
+      email: 'second_user@email.com',
+      owner: true,
+      permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS]
+    }.stringify_keys
+    allow(AccountsApi).to receive(:user).with(account_id: account_id, account_user_id: second_user_id)
+                                        .and_return(api_response)
   end
 
   def mock_account_details
@@ -54,7 +70,11 @@ module MockUsers
   private
 
   def users_api_response
-    read_response('users_management/users.json')['users']
+    read_response('users_management/users.json')
+  end
+
+  def empty_users_api_response
+    read_response('users_management/empty_users.json')
   end
 end
 

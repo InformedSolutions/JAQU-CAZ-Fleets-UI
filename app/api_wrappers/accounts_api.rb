@@ -154,7 +154,7 @@ class AccountsApi < BaseApi # rubocop:disable Metrics/ClassLength
     #
     def users(account_id:)
       log_action('Getting users')
-      request(:get, "/accounts/#{account_id}/users")['users']
+      request(:get, "/accounts/#{account_id}/users")
     end
 
     ##
@@ -300,7 +300,7 @@ class AccountsApi < BaseApi # rubocop:disable Metrics/ClassLength
     #
     # ==== Example
     #
-    #    AccountsApi.user_validations(account_id, user.acount_id, email: email, name: name)
+    #    AccountsApi.user_validations(account_id, user.account_id, email: email, name: name)
     #
     # ==== Result
     #

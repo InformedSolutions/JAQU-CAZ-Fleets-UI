@@ -16,6 +16,7 @@ module Payments
       matrix submit review select_payment_method no_chargeable_vehicles in_progress
     ]
     before_action :assign_debit, only: %i[select_payment_method]
+    before_action :assign_fleet, only: %i[matrix]
     before_action :check_job_status, only: %i[matrix]
     before_action :assign_zone_and_dates, only: %i[matrix]
     before_action :release_lock_on_caz, only: %i[index success failure]
@@ -247,7 +248,8 @@ module Payments
     def in_progress
       return determinate_lock_caz(@zone_id) unless caz_locked?
 
-      @user_locking_email = caz_lock_user_email
+      api_response = AccountsApi.user(account_id: caz_lock_account_id, account_user_id: caz_lock_user_id)
+      @user = UsersManagement::User.new(api_response)
       @zone = CleanAirZone.find(@zone_id)
     end
 
@@ -315,6 +317,11 @@ module Payments
       else
         dashboard_path
       end
+    end
+
+    # Creates instant variable with fleet object
+    def assign_fleet
+      @fleet = current_user.fleet
     end
   end
 end

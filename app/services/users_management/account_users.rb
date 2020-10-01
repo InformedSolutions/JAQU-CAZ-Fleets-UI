@@ -6,7 +6,7 @@ module UsersManagement
   ##
   # Service used to fetch the list of users and display only not owner and not removed users
   #
-  class Users < BaseService
+  class AccountUsers < BaseService
     ##
     # Initializer method
     #
@@ -28,20 +28,30 @@ module UsersManagement
     end
 
     # Filtering out removed users and owner from the api response
-    def filtered
-      api_call.reject { |user| filter_users(user) }
+    def filtered_users
+      users.reject { |user| filter_users(user) }
+    end
+
+    # Returns information if account has multiple payers users
+    def multi_payer_account?
+      api_call['multiPayerAccount']
     end
 
     private
 
+    # Gets users from the API response
+    def users
+      api_call['users']
+    end
+
     # Filtering out removed users and owner from the api response and then sorts by downcase name in alphabetical order
     def filtered_and_sorted
-      api_call.reject { |user| filter_users(user) }.sort_by { |user| user['name'].downcase }
+      users.reject { |user| filter_users(user) }.sort_by { |user| user['name'].downcase }
     end
 
     # Call the api go get all users
     def api_call
-      AccountsApi.users(account_id: account_id)
+      @api_call ||= AccountsApi.users(account_id: account_id)
     end
 
     # Checks if user owner or removed
