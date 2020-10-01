@@ -75,4 +75,22 @@ describe AccountDetails::EditCompanyNameForm, type: :model do
       expect(subject.submit).to eq(false)
     end
   end
+
+  context 'when api returns unknown errorCode' do
+    before do
+      allow(AccountsApi).to receive(:update_company_name).and_raise(
+        BaseApi::Error422Exception.new(422, '', 'errorCode' => 'code')
+      )
+      subject.submit
+    end
+
+    it 'assigns a proper error message' do
+      expect(subject.errors[:company_name])
+        .to include('Something went wrong')
+    end
+
+    it '.submit returns false' do
+      expect(subject.submit).to eq(false)
+    end
+  end
 end
