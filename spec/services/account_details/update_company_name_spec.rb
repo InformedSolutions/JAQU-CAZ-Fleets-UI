@@ -16,7 +16,7 @@ describe AccountDetails::UpdateCompanyName do
       allow(Organisations::CompanyNameForm)
         .to receive(:new)
         .and_return(instance_double(Organisations::CompanyNameForm, valid?: valid))
-        allow(AccountsApi).to receive(:update_company_name).and_return(true)
+      allow(AccountsApi).to receive(:update_company_name).and_return(true)
     end
 
     it 'calls Organisations::CompanyNameForm with proper params' do

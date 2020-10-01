@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'AccountDetails::PrimaryUsersController - PATCH #update_name' do
+describe 'AccountDetails::PrimaryUsersController - PATCH #update' do
   subject { patch update_name_primary_users_path(params: { company_name: company_name }) }
 
   let(:company_name) { 'Company Name' }
