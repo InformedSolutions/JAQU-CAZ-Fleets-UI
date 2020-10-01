@@ -7,9 +7,9 @@ module AccountDetails
   # This class is used to validate company name filled in +app/views/account_details/primary_users/edit_name.html.haml+
   class EditCompanyNameForm < Organisations::CompanyNameForm
     # Attribute used internally
-    attr_accessor :account_id    
+    attr_accessor :account_id
 
-    # Performs company name update by calling +/v1/accounts/:accountId+
+    # Performs company name update by calling +/v1/accounts/:accountId+ with +PATCH+ method
     # Handles api 422 error
     def submit
       AccountsApi.update_company_name(account_id: account_id, company_name: company_name)

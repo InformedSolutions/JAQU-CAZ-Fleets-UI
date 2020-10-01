@@ -10,6 +10,7 @@ module AccountDetails
     include CheckPermissions
 
     before_action -> { check_permissions(current_user.owner) }
+    before_action :set_account_details, only: %i[primary_account_details edit_name]
 
     ##
     # Renders the management page for primary users.
@@ -19,8 +20,7 @@ module AccountDetails
     #    :GET /primary_account_details
     #
     def primary_account_details
-      api_response = AccountDetails::Api.account_details(account_user_id: current_user.user_id)
-      @user = AccountDetails::User.new(api_response)
+      # Renders the management page for primary users.
     end
 
     ##
@@ -51,6 +51,14 @@ module AccountDetails
         @errors = form.errors.messages
         render :edit_name
       end
+    end
+
+    private
+
+    # Fetches account details from the API
+    def set_account_details
+      api_response = AccountDetails::Api.account_details(account_user_id: current_user.user_id)
+      @user = AccountDetails::User.new(api_response)
     end
   end
 end

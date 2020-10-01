@@ -507,11 +507,14 @@ class AccountsApi < BaseApi # rubocop:disable Metrics/ClassLength
     #
     # ==== Example
     #
-    #    AccountsApi.update_company_name(account_id:, company_name:)
+    #    AccountsApi.update_company_name(
+    #       account_id: '27978cac-44fa-4d2e-bc9b-54fd12e37c69',
+    #       company_name: 'Royal Mail'
+    #    )
     #
     # ==== Result
     #
-    # Returns hash with +accountName+ property
+    # Returns an empty body
     #
     # ==== Exceptions
     #
@@ -520,7 +523,7 @@ class AccountsApi < BaseApi # rubocop:disable Metrics/ClassLength
     #
     def update_company_name(account_id:, company_name:)
       log_action('Updating company name')
-      body = { name: company_name }.to_json
+      body = { accountName: company_name }.to_json
       request(:patch, "/accounts/#{account_id}", body: body)
       true
     end
