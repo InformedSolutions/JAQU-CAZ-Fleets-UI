@@ -153,6 +153,8 @@ Rails.application.routes.draw do
         patch :update_name
         get :edit_email, to: 'emails#edit'
         get :update_email, to: 'emails#update'
+        get :email_sent, to: 'emails#email_sent'
+        get :resend_email, to: 'emails#resend_email'
       end
     end
 

@@ -63,6 +63,19 @@ module MockUsers
     allow(AccountsApi).to receive(:delete_user).and_return({})
   end
 
+  def mock_successful_user_validation
+    allow(AccountsApi).to receive(:user_validations).and_return(true)
+  end
+
+  def mock_failed_user_validation
+    allow(AccountsApi).to receive(:user_validations)
+      .and_raise(BaseApi::Error400Exception.new(400, '', ''))
+  end
+
+  def mock_owners_change_email
+    allow(AccountDetails::Api).to receive(:update_owner_email).and_return(true)
+  end
+
   def uuid
     '6ffc41fd-ff2d-4cc1-a2a2-90006ae26446'
   end

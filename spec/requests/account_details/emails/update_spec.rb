@@ -22,8 +22,9 @@ describe 'AccountDetails::EmailsController - GET #update' do
         expect(AccountDetails::Api).to have_received(:update_owner_email)
       end
 
-      # TODO: CAZB-2640
-      it 'redirects to email sent page'
+      it 'redirects to email sent page' do
+        expect(subject).to redirect_to(email_sent_primary_users_path)
+      end
     end
 
     context 'when params are not valid' do
