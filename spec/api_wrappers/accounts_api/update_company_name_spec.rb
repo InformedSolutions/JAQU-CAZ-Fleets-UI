@@ -21,7 +21,7 @@ describe 'AccountsApi.create_account - POST' do
       subject
       expect(WebMock).to have_requested(:patch, /#{url}/).with(body: body).once
     end
-    
+
     it 'returns true' do
       expect(subject).to be_truthy
     end
@@ -36,7 +36,7 @@ describe 'AccountsApi.create_account - POST' do
     end
 
     it 'raises Error422Exception' do
-      expect{ subject }.to raise_exception(BaseApi::Error422Exception)
+      expect { subject }.to raise_exception(BaseApi::Error422Exception)
     end
   end
 
@@ -49,7 +49,7 @@ describe 'AccountsApi.create_account - POST' do
     end
 
     it 'raises Error500Exception' do
-      expect{ subject }.to raise_exception(BaseApi::Error500Exception)
+      expect { subject }.to raise_exception(BaseApi::Error500Exception)
     end
   end
 end

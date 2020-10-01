@@ -28,7 +28,7 @@ describe 'AccountDetails::PrimaryUsersController - PATCH #update_name' do
 
       it 'redirects to primary user account maintenance page' do
         expect(subject).to redirect_to(primary_users_account_details_path)
-      end 
+      end
     end
 
     context 'when api returns 422 error' do
@@ -38,12 +38,12 @@ describe 'AccountDetails::PrimaryUsersController - PATCH #update_name' do
         )
         subject
       end
-  
+
       it 'assigns error variable with a proper error message' do
         errors = { company_name: [I18n.t('company_name.errors.duplicate')] }
         expect(assigns(:errors)).to eq(errors)
       end
-  
+
       it 'rerenders :edit_name template' do
         expect(response).to render_template(:edit_name)
       end
@@ -58,7 +58,7 @@ describe 'AccountDetails::PrimaryUsersController - PATCH #update_name' do
         errors = { company_name: [I18n.t('company_name_form.company_name_invalid_format')] }
         expect(assigns(:errors)).to eq(errors)
       end
-      
+
       it 'rerenders :edit_name template' do
         expect(response).to render_template(:edit_name)
       end
