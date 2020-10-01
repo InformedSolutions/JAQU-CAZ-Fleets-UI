@@ -24,7 +24,7 @@
           %dd.govuk-summary-list__value
             = @user.email
           %dd.govuk-summary-list__actions
-            = link_to '#', class: 'govuk-link' do
+            = link_to edit_email_primary_users_path, class: 'govuk-link' do
               Change
               %span.govuk-visually-hidden
                 email

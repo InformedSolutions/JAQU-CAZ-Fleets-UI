@@ -120,3 +120,10 @@ en:
   edit_user_name_form:
     errors:
       name_missing: Enter your name
+  edit_user_email_form:
+    labels:
+      email: Email address
+    errors:
+      email_missing: Enter an email address
+      email_duplicated: Email address already exists
+      email_invalid_format: Enter an email address in a valid format
