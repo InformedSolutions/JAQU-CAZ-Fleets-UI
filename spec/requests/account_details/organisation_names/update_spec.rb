@@ -40,12 +40,11 @@ describe 'AccountDetails::PrimaryUsersController - PATCH #update_name' do
       end
 
       it 'assigns error variable with a proper error message' do
-        errors = { company_name: [I18n.t('company_name.errors.duplicate')] }
-        expect(assigns(:errors)).to eq(errors)
+        expect(assigns(:error)).to eq(I18n.t('company_name.errors.duplicate'))
       end
 
-      it 'rerenders :edit_name template' do
-        expect(response).to render_template(:edit_name)
+      it 'rerenders :edit template' do
+        expect(response).to render_template(:edit)
       end
     end
 
@@ -55,12 +54,11 @@ describe 'AccountDetails::PrimaryUsersController - PATCH #update_name' do
       before { subject }
 
       it 'assigns error variable with a proper error message' do
-        errors = { company_name: [I18n.t('company_name_form.company_name_invalid_format')] }
-        expect(assigns(:errors)).to eq(errors)
+        expect(assigns(:error)).to eq(I18n.t('company_name_form.company_name_invalid_format'))
       end
 
-      it 'rerenders :edit_name template' do
-        expect(response).to render_template(:edit_name)
+      it 'rerenders :edit template' do
+        expect(response).to render_template(:edit)
       end
 
       it 'does not make an api call' do

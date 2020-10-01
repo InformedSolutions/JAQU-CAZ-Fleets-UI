@@ -18,7 +18,7 @@ describe 'AccountDetails::PrimaryUsersController - GET #edit_name' do
     end
 
     it 'renders the view' do
-      expect(response).to render_template(:edit_name)
+      expect(response).to render_template(:edit)
     end
   end
 
