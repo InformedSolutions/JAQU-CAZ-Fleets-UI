@@ -85,4 +85,18 @@ describe UpdatePasswordForm, type: :model do
       expect(subject.errors[:password]).to include(I18n.t('update_password_form.errors.password_reused'))
     end
   end
+
+  context 'when api returns unknown errorCode' do
+    before do
+      allow(AccountsApi).to receive(:update_password).and_raise(
+        BaseApi::Error422Exception.new(422, '', 'errorCode' => 'code')
+      )
+      subject.submit
+    end
+
+    it 'assigns a proper error message' do
+      expect(subject.errors[:password])
+        .to include('Something went wrong')
+    end
+  end
 end

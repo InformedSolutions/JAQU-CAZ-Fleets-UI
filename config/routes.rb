@@ -144,13 +144,14 @@ Rails.application.routes.draw do
   end
 
   scope module: 'account_details', path: '/' do
-    get :primary_users_account_details, to: 'primary_users#primary_account_details'
     get :edit_password, to: 'passwords#edit'
     patch :edit_password, to: 'passwords#update'
+
+    get :primary_users_account_details, to: 'primary_users#primary_account_details'
     resources :primary_users, only: %i[] do
       collection do
-        get :edit_name
-        patch :update_name
+        get :edit_name, to: 'organisation_names#edit'
+        patch :update_name, to: 'organisation_names#update'
         get :edit_email, to: 'emails#edit'
         get :update_email, to: 'emails#update'
         get :email_sent, to: 'emails#email_sent'

@@ -52,7 +52,7 @@ module MockUsers
   def mock_account_details
     allow(AccountDetails::Api)
       .to receive(:account_details)
-      .and_return(read_response('users_management/user.json'))
+      .and_return(read_response('account_details/user.json'))
   end
 
   def mock_update_user
