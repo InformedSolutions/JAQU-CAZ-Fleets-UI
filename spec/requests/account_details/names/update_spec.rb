@@ -30,7 +30,7 @@ describe 'AccountDetails::NamesController - GET #update' do
   context 'when params are not valid' do
     let(:name) { '' }
 
-    it 'redirects to the edit name page' do
+    it 'renders the edit name page' do
       expect(subject).to render_template(:edit)
     end
   end

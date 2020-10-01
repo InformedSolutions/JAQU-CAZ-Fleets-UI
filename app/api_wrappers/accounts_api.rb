@@ -300,7 +300,7 @@ class AccountsApi < BaseApi # rubocop:disable Metrics/ClassLength
     #
     # ==== Example
     #
-    #    AccountsApi.user_validations(account_id, user.acount_id, email: email, name: name)
+    #    AccountsApi.user_validations(account_id, user.account_id, email: email, name: name)
     #
     # ==== Result
     #

@@ -150,12 +150,12 @@ Rails.application.routes.draw do
     get :primary_users_account_details, to: 'primary_users#primary_account_details'
     resources :primary_users, only: %i[] do
       collection do
-        get :edit_name, to: 'organisation_names#edit'
-        patch :update_name, to: 'organisation_names#update'
-        get :edit_email, to: 'emails#edit'
-        get :update_email, to: 'emails#update'
         get :email_sent, to: 'emails#email_sent'
         get :resend_email, to: 'emails#resend_email'
+        get :edit_name
+        patch :update_name
+        get :edit_email, to: 'emails#edit'
+        get :update_email, to: 'emails#update'
       end
     end
 
