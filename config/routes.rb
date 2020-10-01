@@ -151,19 +151,10 @@ Rails.application.routes.draw do
     get :primary_users_account_details, to: 'primary_users#primary_account_details'
     resources :primary_users, only: %i[] do
       collection do
-        scope controller: 'organisation_names' do
-          get :edit_name
-          get :update_name
-        end
-
-        scope controller: 'emails' do
-          get :edit_email
-          get :update_email
-          get :email_sent
-          get :resend_email
-          get :confirm_email
-          get :validate_confirm_email
-        end
+        get :edit_name
+        patch :update_name
+        get :edit_email, to: 'emails#edit'
+        get :update_email, to: 'emails#update'
       end
     end
 

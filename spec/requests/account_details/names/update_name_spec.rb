@@ -28,8 +28,8 @@ describe 'AccountDetails::NamesController - GET #update_name' do
   context 'when params are not valid' do
     let(:name) { '' }
 
-    it 'renders the view' do
-      expect(subject).to render_template(:edit_name)
+    it 'renders the edit name page' do
+      expect(subject).to render_template(:edit)
     end
   end
 end

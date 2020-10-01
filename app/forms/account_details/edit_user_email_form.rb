@@ -33,7 +33,11 @@ module AccountDetails
 
     # Checks if email is unique
     def email_unique?
+<<<<<<< HEAD
       AccountsApi::Accounts.user_validations(account_id: account_id, name: email, email: email)
+=======
+      AccountsApi.user_validations(account_id: account_id, name: email, email: email)
+>>>>>>> 83c4759... [CAZB-2856] Update email page (#617)
       true
     rescue BaseApi::Error400Exception => e
       log_error(e)

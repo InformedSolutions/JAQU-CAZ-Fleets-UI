@@ -6,7 +6,11 @@ describe AccountDetails::EditUserEmailForm, type: :model do
   subject { described_class.new(email: email) }
 
   context 'when email is valid' do
+<<<<<<< HEAD
     before { allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true) }
+=======
+    before { allow(AccountsApi).to receive(:user_validations).and_return(true) }
+>>>>>>> 83c4759... [CAZB-2856] Update email page (#617)
 
     let(:email) { 'valid@email.com' }
 
@@ -14,7 +18,11 @@ describe AccountDetails::EditUserEmailForm, type: :model do
   end
 
   context 'when email is not present' do
+<<<<<<< HEAD
     before { allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true) }
+=======
+    before { allow(AccountsApi).to receive(:user_validations).and_return(true) }
+>>>>>>> 83c4759... [CAZB-2856] Update email page (#617)
 
     let(:email) { '' }
 
@@ -29,7 +37,11 @@ describe AccountDetails::EditUserEmailForm, type: :model do
   end
 
   context 'when email is invalid format' do
+<<<<<<< HEAD
     before { allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true) }
+=======
+    before { allow(AccountsApi).to receive(:user_validations).and_return(true) }
+>>>>>>> 83c4759... [CAZB-2856] Update email page (#617)
 
     let(:email) { 'invalid-format' }
 
@@ -45,7 +57,11 @@ describe AccountDetails::EditUserEmailForm, type: :model do
 
   context 'when email is duplicated' do
     before do
+<<<<<<< HEAD
       allow(AccountsApi::Accounts)
+=======
+      allow(AccountsApi)
+>>>>>>> 83c4759... [CAZB-2856] Update email page (#617)
         .to receive(:user_validations)
         .and_raise(BaseApi::Error400Exception.new(400, '', ''))
     end
