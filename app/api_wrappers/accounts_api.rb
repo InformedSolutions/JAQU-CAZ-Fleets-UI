@@ -527,7 +527,7 @@ class AccountsApi < BaseApi # rubocop:disable Metrics/ClassLength
       request(:patch, "/accounts/#{account_id}", body: body)
       true
     end
-    
+
     ##
     # Calls +/v1/accounts/:accountId/vehicles/csv-exports+ endpoint with +POST+ method
     # to generate a CSV file and save it on S3 and then returns +fileUrl+.
@@ -535,7 +535,7 @@ class AccountsApi < BaseApi # rubocop:disable Metrics/ClassLength
     # ==== Attributes
     #
     # * +account_id+ - uuid, ID of the account on backend DB
-    # 
+    #
     # ==== Example
     #
     #    AccountsApi.csv_exports(

@@ -13,11 +13,11 @@ describe 'FleetsController - GET #export' do
       sign_in manage_vehicles_user
       subject
     end
-  
+
     it 'returns a found response' do
       expect(response).to have_http_status(:found)
     end
-  
+
     it 'redirects to file url' do
       expect(response).to redirect_to(file_url)
     end
