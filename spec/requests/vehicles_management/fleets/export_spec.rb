@@ -5,9 +5,9 @@ require 'rails_helper'
 describe 'FleetsController - GET #export' do
   subject { get export_fleets_path }
 
-  let(:file_url) { 'https://example.com/bucket-name/file.csv' }
-
   context 'correct permissions' do
+    let(:file_url) { 'https://example.com/bucket-name/file.csv' }
+
     before do
       allow(AccountsApi).to receive(:csv_exports).and_return(file_url)
       sign_in manage_vehicles_user
