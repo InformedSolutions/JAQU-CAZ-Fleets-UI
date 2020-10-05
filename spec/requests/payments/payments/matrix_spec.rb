@@ -36,11 +36,6 @@ describe 'PaymentsController - GET #matrix' do
         expect(assigns(:d_day_notice)).to eq(false)
       end
 
-      it 'assigns the @fleet' do
-        subject
-        expect(assigns(:fleet)).not_to be_nil
-      end
-
       context 'with search data' do
         let(:search) { 'test' }
 
@@ -74,14 +69,53 @@ describe 'PaymentsController - GET #matrix' do
         end
       end
 
-      context 'with CAZ payment locked by another user' do
+      context 'with upload data in redis' do
         before do
-          add_caz_lock_to_redis(create_user(account_id: account_id, user_id: SecureRandom.uuid))
+          add_upload_job_to_redis
+          allow(FleetsApi).to receive(:job_status).and_return(status: status, errors: [])
           subject
         end
 
-        it 'redirects to :in_progress page' do
-          expect(response).to redirect_to(in_progress_payments_path)
+        let(:upload_job_redis_key) { "account_id_#{user.account_id}" }
+
+        context 'and when status is SUCCESS' do
+          let(:status) { 'SUCCESS' }
+
+          it 'renders the view' do
+            expect(response).to render_template(:matrix)
+          end
+
+          it 'deletes job data from redis' do
+            expect(REDIS.hget(upload_job_redis_key, 'job_id')).to be_nil
+          end
+        end
+
+        context 'and when status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
+          let(:status) { 'CHARGEABILITY_CALCULATION_IN_PROGRESS' }
+
+          it 'redirects to the calculating chargeability page' do
+            expect(response).to redirect_to(calculating_chargeability_uploads_path)
+          end
+        end
+
+        context 'and when status is RUNNING' do
+          let(:status) { 'RUNNING' }
+
+          it 'redirects to the process uploading page' do
+            expect(response).to redirect_to(processing_uploads_path)
+          end
+        end
+
+        context 'and when status is unknown' do
+          let(:status) { 'UNKNOWN' }
+
+          it 'renders the view' do
+            expect(response).to render_template(:matrix)
+          end
+
+          it 'deletes job data from redis' do
+            expect(REDIS.hget(upload_job_redis_key, 'job_id')).to be_nil
+          end
         end
       end
     end

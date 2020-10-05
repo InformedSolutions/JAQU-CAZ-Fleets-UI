@@ -77,7 +77,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
         context 'and when status is RUNNING' do
           let(:status) { 'RUNNING' }
 
-          it 'redirects to the calculating chargeability page' do
+          it 'redirects to the process uploading page' do
             expect(response).to redirect_to(processing_uploads_path)
           end
 
