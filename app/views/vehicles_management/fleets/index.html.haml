@@ -55,6 +55,16 @@
                 = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
       = render 'pagination'
 
+      %p
+        = link_to('Download a spreadsheet (CSV) of the charges you would pay to drive in all Clean Air Zones',
+                  export_fleets_path,
+                  onclick: "document.getElementById('csv-export__notice').style.display = 'block'",
+                  id: 'csv-export',
+                  class: 'govuk-link')
+
+      %p{id: 'csv-export__notice', style: 'display: none;'}
+        Your export is downloading...
+
       - if @fleet.any_undetermined_vehicles
         %details.govuk-details{'data-module': 'govuk-details'}
           %summary.govuk-details__summary

@@ -57,6 +57,7 @@ Rails.application.routes.draw do
         get :assign_delete
         get :delete
         post :delete, to: 'fleets#confirm_delete'
+        get :export
       end
     end
 
