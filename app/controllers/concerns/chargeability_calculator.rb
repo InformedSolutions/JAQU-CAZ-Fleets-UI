@@ -29,7 +29,7 @@ module ChargeabilityCalculator
   def handle_job_status(status)
     case status
     when 'SUCCESS'
-      flash.now[:success] = I18n.t('vrn_form.messages.multiple_vrns_added', vrns_count: vehicles_count)
+      assign_flash_message
     when 'CHARGEABILITY_CALCULATION_IN_PROGRESS'
       redirect_to calculating_chargeability_uploads_path
     when 'RUNNING'
@@ -64,8 +64,13 @@ module ChargeabilityCalculator
     "account_id_#{current_user.account_id}"
   end
 
-  # Current user vehicles count
-  def vehicles_count
-    @fleet.total_vehicles_count
+  # Assign flash message only if user want to visit the fleets page
+  def assign_flash_message
+    return unless request.path.include?(fleets_path)
+
+    flash.now[:success] = I18n.t(
+      'vrn_form.messages.multiple_vrns_added',
+      vrns_count: @fleet.total_vehicles_count
+    )
   end
 end
