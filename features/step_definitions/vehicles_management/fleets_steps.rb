@@ -139,3 +139,7 @@ When('I press {int} pagination button') do |selected_page|
   mock_vehicles_in_fleet(selected_page)
   page.find("#pagination-button-#{selected_page}").first('a').click
 end
+
+Then('I am able to export my data to CSV file') do
+  expect(page).to have_link('Download a spreadsheet (CSV)')
+end

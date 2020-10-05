@@ -16,6 +16,7 @@ Feature: Fleets
     Then I should see 'Live' 3 times
     Then I should see 'Upcoming' 1 times
     Then I should not see 'What does undetermined mean?'
+    Then I am able to export my data to CSV file
 
   Scenario: Visiting the manage fleet page with undetermined vehicles in my fleet
     When I have undetermined vehicles in my fleet
