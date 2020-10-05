@@ -528,6 +528,34 @@ class AccountsApi < BaseApi # rubocop:disable Metrics/ClassLength
       true
     end
 
+    ##
+    # Calls +/v1/accounts/:accountId/vehicles/csv-exports+ endpoint with +POST+ method
+    # to generate a CSV file and save it on S3 and then returns +fileUrl+.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - uuid, ID of the account on backend DB
+    #
+    # ==== Example
+    #
+    #    AccountsApi.csv_exports(
+    #       account_id: '27978cac-44fa-4d2e-bc9b-54fd12e37c69',
+    #    )
+    #
+    # ==== Result
+    #
+    # Returns hash with +fileUrl+ and +bucketName+ property
+    #
+    # ==== Exceptions
+    #
+    # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - bad request
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def csv_exports(account_id:)
+      log_action('Downloading a csv file')
+      request(:post, "/accounts/#{account_id}/vehicles/csv-exports")['fileUrl']
+    end
+
     private
 
     # prepares create user for account request body.
