@@ -9,7 +9,7 @@ en:
   company_name_form:
     company_name_missing: Enter your company name
     company_name_invalid_format: Enter company name in a valid format
-    company_name_invalid_length: Enter a company name that is less than 180 characters
+    company_name_invalid_length: Enter a company name that is 180 characters or less
   email_and_password_form:
     email_missing: Enter your email address
     email_confirmation_missing: Confirm your email address
