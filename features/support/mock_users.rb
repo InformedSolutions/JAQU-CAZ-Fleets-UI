@@ -2,17 +2,17 @@
 
 module MockUsers
   def mock_users
-    allow(AccountsApi).to receive(:users).and_return(users_api_response)
+    allow(AccountsApi::Users).to receive(:users).and_return(users_api_response)
   end
 
   def mock_empty_users_list
-    allow(AccountsApi).to receive(:users).and_return(empty_users_api_response)
+    allow(AccountsApi::Users).to receive(:users).and_return(empty_users_api_response)
   end
 
   def mock_more_then_ten_users
     api_response = users_api_response
     api_response['users'] << users_api_response['users'].last
-    allow(AccountsApi).to receive(:users).and_return(api_response)
+    allow(AccountsApi::Users).to receive(:users).and_return(api_response)
   end
 
   def mock_user_on_list # rubocop:disable Metrics/MethodLength
@@ -29,13 +29,13 @@ module MockUsers
         }.stringify_keys
       ]
     }.stringify_keys
-    allow(AccountsApi).to receive(:users).and_return(api_response)
+    allow(AccountsApi::Users).to receive(:users).and_return(api_response)
     allow_any_instance_of(User).to receive(:authentication).and_return(user)
     fill_sign_in_form
   end
 
   def mock_user_details
-    allow(AccountsApi).to receive(:user).and_return(read_response('users_management/user.json'))
+    allow(AccountsApi::Users).to receive(:user).and_return(read_response('users_management/user.json'))
   end
 
   def mock_second_user_details
@@ -45,35 +45,34 @@ module MockUsers
       owner: true,
       permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS]
     }.stringify_keys
-    allow(AccountsApi).to receive(:user).with(account_id: account_id, account_user_id: second_user_id)
-                                        .and_return(api_response)
+    allow(AccountsApi::Users).to receive(:user).with(account_id: account_id, account_user_id: second_user_id)
+                                               .and_return(api_response)
   end
 
   def mock_account_details
-    allow(AccountDetails::Api)
-      .to receive(:account_details)
+    allow(AccountsApi::Users).to receive(:account_details)
       .and_return(read_response('account_details/user.json'))
   end
 
   def mock_update_user
-    allow(AccountsApi).to receive(:update_user).and_return({})
+    allow(AccountsApi::Users).to receive(:update_user).and_return({})
   end
 
   def mock_delete_user
-    allow(AccountsApi).to receive(:delete_user).and_return({})
+    allow(AccountsApi::Users).to receive(:delete_user).and_return({})
   end
 
   def mock_successful_user_validation
-    allow(AccountsApi).to receive(:user_validations).and_return(true)
+    allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true)
   end
 
   def mock_failed_user_validation
-    allow(AccountsApi).to receive(:user_validations)
+    allow(AccountsApi::Accounts).to receive(:user_validations)
       .and_raise(BaseApi::Error400Exception.new(400, '', ''))
   end
 
   def mock_owners_change_email
-    allow(AccountDetails::Api).to receive(:update_owner_email).and_return(true)
+    allow(AccountsApi::Auth).to receive(:update_owner_email).and_return(true)
   end
 
   def uuid

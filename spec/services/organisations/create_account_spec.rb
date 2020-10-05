@@ -14,7 +14,9 @@ describe Organisations::CreateAccount do
       allow(Organisations::CompanyNameForm)
         .to receive(:new)
         .and_return(instance_double(Organisations::CompanyNameForm, valid?: valid))
-      allow(AccountsApi).to receive(:create_account).and_return(read_response('create_account.json'))
+      allow(AccountsApi::Accounts).to receive(:create_account).and_return(
+        read_response('create_account.json')
+      )
     end
 
     it 'returns the String class' do
@@ -26,8 +28,8 @@ describe Organisations::CreateAccount do
       subject
     end
 
-    it 'calls AccountsApi.create_account with proper params' do
-      expect(AccountsApi).to receive(:create_account).with(company_name: company_name)
+    it 'calls AccountsApi::Accounts.create_account with proper params' do
+      expect(AccountsApi::Accounts).to receive(:create_account).with(company_name: company_name)
       subject
     end
   end

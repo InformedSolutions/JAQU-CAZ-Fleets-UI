@@ -10,7 +10,7 @@ describe 'User signing in' do
   let(:params) { { user: { email: email, password: password } } }
 
   before do
-    allow(AccountsApi)
+    allow(AccountsApi::Auth)
       .to receive(:sign_in)
       .and_return(
         'email' => email,
@@ -23,7 +23,7 @@ describe 'User signing in' do
 
   context 'when correct credentials given' do
     it 'calls AccountApi.sign_in with proper params' do
-      expect(AccountsApi)
+      expect(AccountsApi::Auth)
         .to receive(:sign_in)
         .with(email: email, password: password)
       subject
@@ -42,7 +42,7 @@ describe 'User signing in' do
 
   context 'when incorrect credentials given' do
     before do
-      allow(AccountsApi)
+      allow(AccountsApi::Auth)
         .to receive(:sign_in)
         .and_raise(BaseApi::Error401Exception.new(401, '', {}))
     end
@@ -69,7 +69,7 @@ describe 'User signing in' do
 
   context 'when unconfirmed email is given' do
     before do
-      allow(AccountsApi)
+      allow(AccountsApi::Auth)
         .to receive(:sign_in)
         .and_raise(BaseApi::Error422Exception.new(422, '', {}))
     end
@@ -127,7 +127,7 @@ describe 'User signing in' do
       let(:password) { 'P@$$w0rd12345!' }
 
       it 'calls AccountApi.sign_in with proper params' do
-        expect(AccountsApi)
+        expect(AccountsApi::Auth)
           .to receive(:sign_in)
           .with(email: email, password: password)
         subject
@@ -155,7 +155,7 @@ describe 'User signing in' do
       end
 
       it 'does not call AccountApi.sign_in' do
-        expect(AccountsApi).not_to receive(:sign_in)
+        expect(AccountsApi::Auth).not_to receive(:sign_in)
       end
     end
   end

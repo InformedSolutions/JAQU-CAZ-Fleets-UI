@@ -18,7 +18,7 @@ describe 'AccountsDetails::EmailsController - GET #edit' do
     end
 
     it 'renders the view' do
-      expect(response).to render_template('account_details/emails/edit')
+      expect(response).to render_template(:edit_email)
     end
   end
 

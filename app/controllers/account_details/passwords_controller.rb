@@ -21,7 +21,7 @@ module AccountDetails
     end
 
     ##
-    # Updates user password by calling AccountsApi.update_password
+    # Updates user password by calling AccountsApi::Auth.update_password
     #
     # ==== Path
     #

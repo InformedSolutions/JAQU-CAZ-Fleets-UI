@@ -10,16 +10,16 @@ module AccountDetails
     include CheckPermissions
 
     before_action -> { check_permissions(current_user.owner == false) }
-    before_action :set_user_details, only: :edit
+    before_action :set_user_details, only: :edit_name
 
     ##
-    # Renders the change name page for non-primary users.
+    # Renders the change name page for non-primary users
     #
     # ==== Path
     #
     #    :GET /non_primary_users/edit_name
     #
-    def edit
+    def edit_name
       @errors = {}
     end
 
@@ -30,14 +30,14 @@ module AccountDetails
     #
     #    :GET /non_primary_users/update_name
     #
-    def update
+    def update_name
       form = AccountDetails::EditUserNameForm.new(name: params[:name])
       if form.valid?
         update_user_name(form.name)
         redirect_to non_primary_users_account_details_path
       else
         @errors = form.errors.messages
-        render :edit
+        render :edit_name
       end
     end
 
@@ -45,7 +45,7 @@ module AccountDetails
 
     # Performs request to API with the :name parameter
     def update_user_name(name)
-      AccountsApi.update_user(
+      AccountsApi::Users.update_user(
         account_id: current_user.account_id,
         account_user_id: current_user.user_id,
         name: name
@@ -54,7 +54,7 @@ module AccountDetails
 
     # Fetches user details from the API
     def set_user_details
-      api_response = AccountsApi.user(
+      api_response = AccountsApi::Users.user(
         account_id: current_user.account_id,
         account_user_id: current_user.user_id
       )

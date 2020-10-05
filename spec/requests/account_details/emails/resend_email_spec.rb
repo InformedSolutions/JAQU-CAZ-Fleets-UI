@@ -8,14 +8,14 @@ describe 'AccountDetails::EmailsController - GET #resend_email' do
   let(:owner_email) { 'new@email.com' }
 
   before do
-    allow(AccountDetails::Api).to receive(:update_owner_email).and_return(true)
+    allow(AccountsApi::Auth).to receive(:update_owner_email).and_return(true)
     sign_in create_owner
     add_to_session(owners_new_email: owner_email)
     subject
   end
 
-  it 'calls AccountDetails::Api.update_owner_email method' do
-    expect(AccountDetails::Api).to have_received(:update_owner_email)
+  it 'calls AccountsApi::Auth.update_owner_email method' do
+    expect(AccountsApi::Auth).to have_received(:update_owner_email)
   end
 
   it 'redirects to email sent page' do

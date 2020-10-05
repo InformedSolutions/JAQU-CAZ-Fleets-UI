@@ -34,11 +34,9 @@ class UpdatePasswordForm < NewPasswordForm
 
   attr_reader :user_id, :old_password, :password
 
-  # Performs call to AccountsApi
+  # Performs call to AccountsApi::Auth.update_password
   def perform_api_call
-    AccountsApi.update_password(user_id: user_id,
-                                old_password: old_password,
-                                new_password: password)
+    AccountsApi::Auth.update_password(user_id: user_id, old_password: old_password, new_password: password)
   end
 
   # Returns correct error message for 422 error

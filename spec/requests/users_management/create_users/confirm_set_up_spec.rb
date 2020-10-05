@@ -18,7 +18,7 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
   let(:confirmation) { 'Pa$$w0rd123456' }
 
   context 'when provided with correct parameters and valid token' do
-    before { allow(AccountsApi).to receive(:set_password).and_return(true) }
+    before { allow(AccountsApi::Auth).to receive(:set_password).and_return(true) }
 
     it 'redirects to the set up confirmation page' do
       subject
@@ -31,7 +31,7 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
     let(:confirmation) { 'pass' }
 
     before do
-      allow(AccountsApi)
+      allow(AccountsApi::Auth)
         .to receive(:set_password)
         .and_raise(BaseApi::Error422Exception.new(422, '', {}))
       subject
@@ -57,7 +57,7 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
     let(:confirmation) { 'Pa$$w0rd123456' }
 
     before do
-      allow(AccountsApi)
+      allow(AccountsApi::Auth)
         .to receive(:set_password)
         .and_raise(BaseApi::Error400Exception.new(400, '', {}))
       subject
@@ -86,7 +86,7 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
     before { subject }
 
     it 'does not call API' do
-      expect(AccountsApi).to_not receive(:set_password)
+      expect(AccountsApi::Auth).to_not receive(:set_password)
     end
 
     it 'render the view' do

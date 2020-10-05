@@ -29,7 +29,7 @@ module UsersManagement
 
     # Submits the form - sets user password
     def submit
-      AccountsApi.set_password(token: token, password: password)
+      AccountsApi::Auth.set_password(token: token, password: password)
     rescue BaseApi::Error400Exception
       errors.add(:token, :invalid, message: I18n.t('token_form.token_invalid'))
       false

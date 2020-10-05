@@ -11,7 +11,7 @@ And('I should be on Update Password page') do
 end
 
 When('I fill invalid old password and press {string}') do |string|
-  allow(AccountsApi).to receive(:update_password).and_raise(
+  allow(AccountsApi::Auth).to receive(:update_password).and_raise(
     BaseApi::Error422Exception.new(422, '', 'errorCode' => 'oldPasswordInvalid')
   )
   fill_in_new_password
@@ -19,7 +19,7 @@ When('I fill invalid old password and press {string}') do |string|
 end
 
 When('I fill in a password not complex enough and press {string}') do |string|
-  allow(AccountsApi).to receive(:update_password).and_raise(
+  allow(AccountsApi::Auth).to receive(:update_password).and_raise(
     BaseApi::Error422Exception.new(422, '', 'errorCode' => 'passwordNotValid')
   )
   fill_in_new_password(password: 'a', password_confirmation: 'a')
@@ -27,7 +27,7 @@ When('I fill in a password not complex enough and press {string}') do |string|
 end
 
 When('I fill in a password that was used before and press {string}') do |string|
-  allow(AccountsApi).to receive(:update_password).and_raise(
+  allow(AccountsApi::Auth).to receive(:update_password).and_raise(
     BaseApi::Error422Exception.new(422, '', 'errorCode' => 'newPasswordReuse')
   )
   fill_in_new_password
@@ -41,7 +41,7 @@ end
 
 When('I fill in correct old and new password and press {string}') do |string|
   mock_debits('active_mandates')
-  allow(AccountsApi).to receive(:update_password).and_return(true)
+  allow(AccountsApi::Auth).to receive(:update_password).and_return(true)
   fill_in_new_password
   click_button string
 end
