@@ -36,6 +36,11 @@ When('I fill in company name with an invalid format and save changes') do
   click_button 'Save changes'
 end
 
+When('I fill a too long company name and save changes') do
+  fill_in_company_name('a' * 181)
+  click_button 'Save changes'
+end
+
 And('I should be on the primary user Account Details page') do
   expect(page).to have_current_path(primary_users_account_details_path)
 end
