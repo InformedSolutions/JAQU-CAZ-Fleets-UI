@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
 ##
-# Module used for
+# Module used for connecting to Accounts API
 module AccountsApi
   ##
-  # API wrapper for connecting to Accounts API.
-  # Wraps methods regarding user management.
-  # See {FleetsApi}[rdoc-ref:FleetsApi] for fleet related actions.
-  #
+  # Base class for using `base_uri` to Accounts API
   class Base < BaseApi
     base_uri "#{ENV.fetch('ACCOUNTS_API_URL', 'localhost:3001')}/v1"
   end

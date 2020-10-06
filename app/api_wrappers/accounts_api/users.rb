@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ##
-# Module used for
+# Module used for connecting to Accounts API
 module AccountsApi
   ##
   # API wrapper for connecting to Accounts API - Users endpoints
