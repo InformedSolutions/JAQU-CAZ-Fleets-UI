@@ -43,7 +43,7 @@ Feature: Email update
     Given I visit the Confirm email update page
     When I enter too easy password and confirmation password
       And I press 'Sign in' button
-    Then I should see 'Enter a password at least 12 characters long, including at least 1 upper case letter, 1 number, and a special character' 2 times
+    Then I should see 'Enter a password at least 12 characters long including at least 1 upper case letter, 1 number and a special character' 2 times
     When I enter reused old password
       And I press 'Sign in' button
     Then I should see 'You have already used that password, choose a new one' 2 times

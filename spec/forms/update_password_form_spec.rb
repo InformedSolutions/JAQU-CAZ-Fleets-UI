@@ -69,7 +69,10 @@ describe UpdatePasswordForm, type: :model do
     end
 
     it 'has a proper password message' do
-      expect(subject.errors[:password]).to include(I18n.t('new_password_form.errors.password_complexity'))
+      expect(subject.errors[:password]).to include(
+        'Enter a password at least 12 characters long including at least 1 upper case letter, 1 number and '\
+        'a special character'
+      )
     end
   end
 

@@ -43,7 +43,7 @@ class UpdatePasswordForm < NewPasswordForm
   def parse_422_error(code)
     case code
     when 'passwordNotValid'
-      errors.add(:password, :invalid, message: I18n.t('new_password_form.errors.password_complexity'))
+      errors.add(:password, :invalid, message: I18n.t('input_form.errors.password_complexity'))
     when 'oldPasswordInvalid'
       errors.add(:old_password, :invalid, message: I18n.t('update_password_form.errors.old_password_invalid'))
     when 'newPasswordReuse'
