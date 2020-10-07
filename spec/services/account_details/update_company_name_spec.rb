@@ -69,7 +69,7 @@ describe AccountDetails::UpdateCompanyName do
     context 'when company name is not unique' do
       it 'raises `UnableToCreateAccountException` exception' do
         expect { subject }.to raise_error(
-          UnableToCreateAccountException, I18n.t('company_name.errors.duplicate')
+          UnableToCreateAccountException, I18n.t('company_name.errors.duplicate_alt')
         )
       end
     end
