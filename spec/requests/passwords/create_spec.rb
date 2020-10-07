@@ -22,15 +22,15 @@ describe 'PasswordsController - POST #create' do
   context 'with a valid token in the session' do
     before do
       add_to_session(reset_password_token: token)
-      allow(AccountsApi).to receive(:set_password).and_return(true)
+      allow(AccountsApi::Auth).to receive(:set_password).and_return(true)
     end
 
     it 'redirects to the success page' do
       expect(subject).to redirect_to(success_passwords_path)
     end
 
-    it 'calls AccountsApi.set_password with right params' do
-      expect(AccountsApi).to receive(:set_password).with(token: token, password: password)
+    it 'calls AccountsApi::Auth.set_password with right params' do
+      expect(AccountsApi::Auth).to receive(:set_password).with(token: token, password: password)
       subject
     end
 
@@ -47,8 +47,8 @@ describe 'PasswordsController - POST #create' do
         expect(response).to render_template(:index)
       end
 
-      it 'does not call AccountsApi.set_password' do
-        expect(AccountsApi).not_to receive(:set_password)
+      it 'does not call AccountsApi::Auth.set_password' do
+        expect(AccountsApi::Auth).not_to receive(:set_password)
         subject
       end
 
@@ -65,7 +65,7 @@ describe 'PasswordsController - POST #create' do
 
     context 'when password is not complex enough' do
       before do
-        allow(AccountsApi).to receive(:set_password).and_raise(
+        allow(AccountsApi::Auth).to receive(:set_password).and_raise(
           BaseApi::Error422Exception.new(422, '', 'errorCode' => 'passwordNotValid')
         )
       end
@@ -75,8 +75,8 @@ describe 'PasswordsController - POST #create' do
         expect(response).to render_template(:index)
       end
 
-      it 'calls AccountsApi.set_password with right params' do
-        expect(AccountsApi).to receive(:set_password).with(token: token, password: password)
+      it 'calls AccountsApi::Auth.set_password with right params' do
+        expect(AccountsApi::Auth).to receive(:set_password).with(token: token, password: password)
         subject
       end
 
@@ -98,7 +98,7 @@ describe 'PasswordsController - POST #create' do
 
     context 'when old password is reused' do
       before do
-        allow(AccountsApi).to receive(:set_password).and_raise(
+        allow(AccountsApi::Auth).to receive(:set_password).and_raise(
           BaseApi::Error422Exception.new(422, '', 'errorCode' => 'newPasswordReuse')
         )
       end
@@ -108,8 +108,8 @@ describe 'PasswordsController - POST #create' do
         expect(response).to render_template(:index)
       end
 
-      it 'calls AccountsApi.set_password with right params' do
-        expect(AccountsApi).to receive(:set_password).with(token: token, password: password)
+      it 'calls AccountsApi::Auth.set_password with right params' do
+        expect(AccountsApi::Auth).to receive(:set_password).with(token: token, password: password)
         subject
       end
 
@@ -131,7 +131,7 @@ describe 'PasswordsController - POST #create' do
 
     context 'when token is invalid' do
       before do
-        allow(AccountsApi).to receive(:set_password).and_raise(
+        allow(AccountsApi::Auth).to receive(:set_password).and_raise(
           BaseApi::Error400Exception.new(400, '', {})
         )
       end
@@ -148,7 +148,7 @@ describe 'PasswordsController - POST #create' do
 
     context 'when api returns unknown errorCode' do
       before do
-        allow(AccountsApi).to receive(:set_password).and_raise(
+        allow(AccountsApi::Auth).to receive(:set_password).and_raise(
           BaseApi::Error422Exception.new(422, '', 'errorCode' => '')
         )
       end
@@ -158,8 +158,8 @@ describe 'PasswordsController - POST #create' do
         expect(response).to render_template(:index)
       end
 
-      it 'calls AccountsApi.set_password with right params' do
-        expect(AccountsApi).to receive(:set_password).with(token: token, password: password)
+      it 'calls AccountsApi::Auth.set_password with right params' do
+        expect(AccountsApi::Auth).to receive(:set_password).with(token: token, password: password)
         subject
       end
 

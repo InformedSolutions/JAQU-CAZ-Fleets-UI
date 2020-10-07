@@ -31,7 +31,7 @@ en:
       missing: '%{attribute} is required'
       invalid_format: '%{attribute} is in an invalid format'
       maximum_length: '%{attribute} is too long (maximum is 45 characters)'
-      password_complexity: '%{attribute} must be at least 12 characters long, include at least one upper case letter, a number, and a special character'
+      password_complexity: Enter a password at least 12 characters long, including at least 1 upper case letter, 1 number, and a special character
     labels:
       email: Enter your email address
       email_confirmation: Confirm your email address
@@ -64,7 +64,7 @@ en:
       password_not_equal: Enter a password and password confirmation that are the same
       password_missing: Enter your new password
       password_confirmation_missing: Confirm your new password
-      password_complexity: Password must be at least 12 characters long, include at least one upper case letter, a number, and a special character
+      password_complexity: Enter a password at least 12 characters long, including at least 1 upper case letter, 1 number, and a special character
   update_password_form:
     errors:
       old_password_missing: Enter your old password

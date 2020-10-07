@@ -10,8 +10,8 @@ describe 'UsersManagement::CreateUsersController - POST #add_permissions' do
 
   context 'correct permissions' do
     before do
-      allow(AccountsApi).to receive(:user_validations).and_return(true)
-      allow(AccountsApi).to receive(:user_invitations).and_return(true)
+      allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true)
+      allow(AccountsApi::Accounts).to receive(:user_invitations).and_return(true)
       mock_users
       sign_in manage_users_user
       add_to_session({ new_user: { name: 'New User', email: 'new_user@example.com' } })
@@ -33,7 +33,7 @@ describe 'UsersManagement::CreateUsersController - POST #add_permissions' do
 
     context 'when user email is duplicated' do
       before do
-        allow(AccountsApi).to receive(:user_validations).and_raise(
+        allow(AccountsApi::Accounts).to receive(:user_validations).and_raise(
           BaseApi::Error400Exception.new(400, '', '')
         )
       end

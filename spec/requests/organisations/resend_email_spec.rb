@@ -12,12 +12,12 @@ describe 'Organisations::OrganisationsController - GET #resend_email' do
 
   before do
     add_to_session(session_data)
-    allow(AccountsApi).to receive(:resend_verification).and_return(true)
+    allow(AccountsApi::Users).to receive(:resend_verification).and_return(true)
   end
 
   it 'calls AccountApi to resend the email' do
     subject
-    expect(AccountsApi).to have_received(:resend_verification)
+    expect(AccountsApi::Users).to have_received(:resend_verification)
   end
 
   it 'returns a redirect to email_sent' do
@@ -30,7 +30,7 @@ describe 'Organisations::OrganisationsController - GET #resend_email' do
 
     it 'does not call AccountApi to resend the email' do
       subject
-      expect(AccountsApi).not_to have_received(:resend_verification)
+      expect(AccountsApi::Users).not_to have_received(:resend_verification)
     end
 
     it 'returns a redirect to root_path' do

@@ -11,7 +11,7 @@ module Devise
       #
       # If the authentication fails you should return false
       def authentication(params)
-        user_data = AccountsApi.sign_in(
+        user_data = AccountsApi::Auth.sign_in(
           email: params[:email],
           password: params[:password]
         )

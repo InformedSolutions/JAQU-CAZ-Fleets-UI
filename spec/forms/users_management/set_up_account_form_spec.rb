@@ -20,13 +20,13 @@ describe UsersManagement::SetUpAccountForm, type: :model do
   context 'when passwords meet requirements and token is valid' do
     before do
       subject.valid?
-      allow(AccountsApi).to receive(:set_password).and_return(true)
+      allow(AccountsApi::Auth).to receive(:set_password).and_return(true)
     end
 
     it { is_expected.to be_valid }
 
     it 'makes an api call on submit' do
-      expect(AccountsApi)
+      expect(AccountsApi::Auth)
         .to receive(:set_password)
         .with(token: '27978cac-44fa-4d2e-bc9b-54fd12e37c69', password: 'Pa$$w0rd12345')
       subject.submit
@@ -37,13 +37,13 @@ describe UsersManagement::SetUpAccountForm, type: :model do
     let(:token) { '' }
 
     before do
-      allow(AccountsApi)
+      allow(AccountsApi::Auth)
         .to receive(:set_password)
         .and_raise(BaseApi::Error400Exception.new(400, '', {}))
     end
 
     it 'makes an api call on submit that raises an exception' do
-      expect(AccountsApi)
+      expect(AccountsApi::Auth)
         .to receive(:set_password)
         .with(token: '', password: 'Pa$$w0rd12345')
         .and_raise(BaseApi::Error400Exception.new(400, '', {}))
@@ -72,13 +72,13 @@ describe UsersManagement::SetUpAccountForm, type: :model do
     let(:confirmation) { 'pass' }
 
     before do
-      allow(AccountsApi)
+      allow(AccountsApi::Auth)
         .to receive(:set_password)
         .and_raise(BaseApi::Error422Exception.new(422, '', {}))
     end
 
     it 'makes an api call on submit that raises an exception' do
-      expect(AccountsApi)
+      expect(AccountsApi::Auth)
         .to receive(:set_password)
         .with(token: '27978cac-44fa-4d2e-bc9b-54fd12e37c69', password: 'pass')
         .and_raise(BaseApi::Error422Exception.new(422, '', {}))

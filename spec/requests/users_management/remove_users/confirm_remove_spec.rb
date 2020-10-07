@@ -57,7 +57,7 @@ describe 'UsersManagement::RemoveUsersController - POST #confirm_remove' do
       context 'when user is not exist in db' do
         before do
           sign_in manage_users_user
-          allow(AccountsApi).to receive(:delete_user)
+          allow(AccountsApi::Users).to receive(:delete_user)
             .and_raise(BaseApi::Error404Exception.new(404, '', {}))
         end
 
