@@ -82,6 +82,7 @@ en:
   company_name:
     errors:
       duplicate: The company name already exists. If you have forgotten your sign in details you can reset your password
+      duplicate_alternative: The company name already exists
       profanity: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.
       abuse: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.
   confirmation_form:

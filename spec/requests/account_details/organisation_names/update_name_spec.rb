@@ -36,7 +36,7 @@ describe 'AccountDetails::PrimaryUsersController - GET #update_name' do
       end
 
       it 'assigns error variable with a proper error message' do
-        expect(assigns(:error)).to eq(I18n.t('company_name.errors.duplicate'))
+        expect(assigns(:error)).to eq(I18n.t('company_name.errors.duplicate_alternative'))
       end
 
       it 'renders the view' do
