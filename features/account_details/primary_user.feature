@@ -15,7 +15,7 @@ Feature: Primary user account management
     When I fill in company name that contains 'abuse' and save changes
       Then I should see 'You have submitted a name containing language we don’t allow.' 2 times
     When I fill in company name that contains 'duplicate' and save changes
-      Then I should see 'The company name already exists.' 2 times
+      Then I should see 'The company name already exists' 2 times
     When I fill in company name with an invalid format and save changes
       Then I should see 'Enter company name in a valid format' 2 times
     When I fill a too long company name and save changes
