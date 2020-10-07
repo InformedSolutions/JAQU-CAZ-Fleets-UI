@@ -20,6 +20,7 @@ en:
     email_invalid_format: Enter your email address in a valid format
   login_form:
     email_missing: Enter your email address
+    email_pending_change: You need to verify the link in the email we sent before trying to sign in
     password_missing: Enter your password
     invalid_email: Enter your email address in a valid format
     incorrect: The email or password you entered is incorrect

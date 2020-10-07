@@ -16,7 +16,7 @@ module AccountsApi
       #
       # ==== Example
       #
-      #     user_attributes = AccountsApi.sign_in(email: 'test@example.com', password: 'test')
+      #     user_attributes = AccountsApi::Auth.sign_in(email: 'test@example.com', password: 'test')
       #     user = User.serialize_from_api(user_attributes)
       #
       # ==== Result
@@ -148,7 +148,7 @@ module AccountsApi
       #
       # ==== Example
       #
-      #    AccountsApi.initiate_password_reset(email: 'test@example.com')
+      #    AccountsApi::Auth.initiate_password_reset(email: 'test@example.com')
       #
       # ==== Result
       #
@@ -201,7 +201,7 @@ module AccountsApi
       #
       # ==== Example
       #
-      #    AccountsApi::Users.confirm_email(
+      #    AccountsApi::Auth.confirm_email(
       #       token: '27978cac-44fa-4d2e-bc9b-54fd12e37c69',
       #       password: 'Password1234!'
       #    )

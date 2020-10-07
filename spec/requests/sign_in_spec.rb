@@ -84,6 +84,27 @@ describe 'User signing in' do
     end
   end
 
+  context 'when pending email change is given' do
+    before do
+      allow(AccountsApi::Auth)
+        .to receive(:sign_in)
+        .and_raise(BaseApi::Error401Exception.new(
+                     401,
+                     '',
+                     'errorCode' => 'pendingEmailChange'
+                   ))
+    end
+
+    it 'renders login view' do
+      expect(subject).to render_template(:new)
+    end
+
+    it 'shows email error message twice' do
+      subject
+      expect(body_scan('You need to verify the link in the email we sent before trying to sign in')).to eq(1)
+    end
+  end
+
   context 'when no email is given' do
     let(:email) { '' }
 
