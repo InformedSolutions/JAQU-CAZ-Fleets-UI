@@ -17,7 +17,7 @@ Feature: Password update
     When I fill invalid old password and press 'Save changes'
       Then I should see 'The password you entered is incorrect' 2 times
     When I fill in a password not complex enough and press 'Save changes'
-      Then I should see 'Enter a password at least 12 characters long, including at least 1 upper case letter, 1 number, and a special character' 2 times
+      Then I should see 'Enter a password at least 12 characters long including at least 1 upper case letter, 1 number and a special character' 2 times
     When I fill in a password that was used before and press 'Save changes'
       Then I should see 'You have already used that password, choose a new one' 2 times
     When I fill passwords that do not match and press 'Save changes'
