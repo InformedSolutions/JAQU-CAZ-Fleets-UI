@@ -38,7 +38,7 @@ module Organisations
     # Performs the API call to verification endpoint.
     # raise `UserAlreadyConfirmedException` exception if user already confirmed
     def perform_api_call
-      AccountsApi.verify_user(token: token)
+      AccountsApi::Accounts.verify_user(token: token)
       :success
     rescue BaseApi::Error422Exception => e
       error_code = e.body['errorCode']

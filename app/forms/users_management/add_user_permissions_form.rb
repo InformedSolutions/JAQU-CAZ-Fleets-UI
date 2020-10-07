@@ -38,13 +38,21 @@ module UsersManagement
 
     # API request to create user invitation
     def invite_user_api_call
-      new_user_data = {
+      AccountsApi::Accounts.user_invitations(
+        account_id: account_id,
+        user_id: user_id,
+        new_user_data: new_user_data
+      )
+    end
+
+    # user data hash
+    def new_user_data
+      {
         name: name,
         email: email,
         permissions: permissions,
         verification_url: verification_url
       }
-      AccountsApi.user_invitations(account_id: account_id, user_id: user_id, new_user_data: new_user_data)
     end
   end
 end

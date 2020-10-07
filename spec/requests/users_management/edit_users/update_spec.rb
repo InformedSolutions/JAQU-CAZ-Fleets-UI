@@ -42,7 +42,7 @@ describe 'UsersManagement::EditUsersController - PATCH #update' do
 
       context 'when user is not exist in db' do
         before do
-          allow(AccountsApi).to receive(:update_user)
+          allow(AccountsApi::Users).to receive(:update_user)
             .and_raise(BaseApi::Error404Exception.new(404, '', {}))
         end
 

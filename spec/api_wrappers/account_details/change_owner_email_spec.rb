@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-describe 'AccountDetails::Api.update_owner_email - PUT' do
+describe 'AccountsApi::Auth.update_owner_email - PUT' do
   subject do
-    AccountDetails::Api.update_owner_email(
+    AccountsApi::Auth.update_owner_email(
       account_user_id: account_user_id,
       new_email: new_email,
       confirm_url: confirm_url

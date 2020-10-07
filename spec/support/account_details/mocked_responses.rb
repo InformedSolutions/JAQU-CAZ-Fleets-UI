@@ -6,7 +6,7 @@ module AccountDetails
   module MockedResponses
     def mock_account_details
       api_response = read_response('account_details/user.json')
-      allow(AccountDetails::Api).to receive(:account_details).and_return(api_response)
+      allow(AccountsApi::Users).to receive(:account_details).and_return(api_response)
     end
   end
 end
