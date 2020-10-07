@@ -40,7 +40,7 @@ module Devise
       def authenticate_user(resource, auth_params)
         # remote_authentication method is defined in Devise::Models::RemoteAuthenticatable
         #
-        # validate is a method defined in Devise::Strategies::Authenticatable. It takes
+        # Validate is a method defined in Devise::Strategies::Authenticatable. It takes
         # a block which must return a boolean value.
         #
         # If the block returns true the resource will be logged in
@@ -51,18 +51,23 @@ module Devise
         else
           add_unauthorized_errors
         end
-      rescue BaseApi::Error401Exception, BaseApi::Error400Exception
-        add_unauthorized_errors
+      rescue BaseApi::Error401Exception, BaseApi::Error400Exception => e
+        add_unauthorized_errors(error_code: e.body['errorCode'])
       rescue BaseApi::Error422Exception
         add_unconfirmed_errors
       end
 
-      def add_unauthorized_errors
-        # Sets errors with base error to display in the error summary
-        errors.add(:base, I18n.t('login_form.incorrect'))
+      # Sets errors with base error to display in the error summary
+      def add_unauthorized_errors(error_code: nil)
+        if error_code == 'pendingEmailChange'
+          errors.add(:base, I18n.t('login_form.email_pending_change'))
+        else
+          errors.add(:base, I18n.t('login_form.incorrect'))
+        end
         fail!(:invalid)
       end
 
+      # Sets errors with email error to display in the error summary
       def add_unconfirmed_errors
         errors.add(:email, I18n.t('login_form.email_unconfirmed'))
         fail!(:invalid)
