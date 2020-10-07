@@ -87,7 +87,8 @@ describe UsersManagement::SetUpAccountForm, type: :model do
 
     it 'has correct password fields message' do
       subject.submit
-      error_message = I18n.t('new_password_form.errors.password_complexity')
+      error_message = 'Enter a password at least 12 characters long including at least 1 upper case letter, '\
+                      '1 number and a special character'
       expect(subject.errors.messages[:password]).to include(error_message)
       expect(subject.errors.messages[:password_confirmation]).to include(error_message)
     end
