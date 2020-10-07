@@ -56,7 +56,8 @@ describe AccountDetails::UpdateEmail do
 
         it 'has a proper error message' do
           expect(subject.errors[:password].first.include?(
-                   'Enter a password at least 12 characters long, including at least 1 upper case letter'
+                   'Enter a password at least 12 characters long including at least 1 upper case letter, '\
+                   '1 number and a special character'
                  )).to be_truthy
         end
       end

@@ -44,8 +44,10 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
     it 'provides proper error messages' do
       errors = {
         token: nil,
-        password: I18n.t('new_password_form.errors.password_complexity'),
-        password_confirmation: I18n.t('new_password_form.errors.password_complexity')
+        password: 'Enter a password at least 12 characters long including at least 1 upper case letter, '\
+                   '1 number and a special character',
+        password_confirmation: 'Enter a password at least 12 characters long including at least 1 upper case'\
+                   ' letter, 1 number and a special character'
       }
 
       expect(flash[:errors]).to eq(errors)

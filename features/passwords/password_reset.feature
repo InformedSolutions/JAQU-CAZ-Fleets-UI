@@ -35,7 +35,7 @@ Feature: Password reset
     Given I visit passwords
     When I enter too easy password and confirmation
       And I press 'Update password' button
-    Then I should see 'Enter a password at least 12 characters long, including at least 1 upper case letter, 1 number, and a special character' 2 times
+    Then I should see 'Enter a password at least 12 characters long including at least 1 upper case letter, 1 number and a special character' 2 times
     When I try to reuse old password
       And I press 'Update password' button
     Then I should see 'You have already used that password, choose a new one' 2 times
