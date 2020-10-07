@@ -57,7 +57,7 @@ module AccountDetails
     def handle_422_error(enum)
       case enum
       when 'duplicate'
-        I18n.t('company_name.errors.duplicate_alt')
+        I18n.t('company_name.errors.duplicate_alternative')
       when 'profanity'
         I18n.t('company_name.errors.profanity')
       when 'abuse'
