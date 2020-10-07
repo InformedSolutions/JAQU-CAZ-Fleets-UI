@@ -99,6 +99,18 @@ When('I enter invalid email format') do
   click_button 'Continue'
 end
 
+When('I enter pending email change') do
+  allow(AccountsApi::Auth).to receive(:sign_in).and_raise(BaseApi::Error401Exception.new(
+                                                            401,
+                                                            '',
+                                                            'errorCode' => 'pendingEmailChange'
+                                                          ))
+  fill_in('user_email', with: 'user@example.com')
+  fill_in('user_password', with: '12345678')
+
+  click_button 'Continue'
+end
+
 Then('I change my IP') do
   allow_any_instance_of(ActionDispatch::Request)
     .to receive(:remote_ip)
