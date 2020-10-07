@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'AccountsApi::Accounts.create_account - POST' do
+describe 'AccountsApi::Users.resend_verification - POST' do
   subject do
     AccountsApi::Users.resend_verification(
       account_id: account_id,

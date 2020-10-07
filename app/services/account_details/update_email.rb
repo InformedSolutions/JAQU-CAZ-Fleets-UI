@@ -61,7 +61,7 @@ module AccountDetails
       when 'expired', 'invalid'
         [I18n.t('token_form.token_invalid')]
       else
-        'Something went wrong'
+        ['Something went wrong']
       end
     end
   end

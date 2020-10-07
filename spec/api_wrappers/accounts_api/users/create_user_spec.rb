@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'AccountsApi::Accounts.create_account - POST' do
+describe 'AccountsApi::Users.create_user - POST' do
   subject do
     AccountsApi::Users.create_user(
       account_id: account_id,

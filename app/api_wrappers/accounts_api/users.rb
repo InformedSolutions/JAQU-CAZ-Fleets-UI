@@ -21,8 +21,8 @@ module AccountsApi
       # ==== Example
       #
       #     user_attributes = AccountsApi.users(
-      #       company_name: 'Test Inc.', e
-      #       mail: 'test@example.com',
+      #       company_name: 'Test Inc.',
+      #       email: 'test@example.com',
       #       password: 'test',
       #       verification_url: 'http://exmaple.url'
       #     )
