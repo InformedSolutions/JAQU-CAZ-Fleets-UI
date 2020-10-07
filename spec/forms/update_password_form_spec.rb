@@ -23,13 +23,13 @@ describe UpdatePasswordForm, type: :model do
 
   context '.submit valid form' do
     before do
-      allow(AccountsApi).to receive(:update_password).and_return(true)
+      allow(AccountsApi::Auth).to receive(:update_password).and_return(true)
       subject.submit
     end
 
     it 'calls AccountsApi with correct parameters' do
       body = { accountUserId: user_id, oldPassword: old_password, newPassword: password }
-      allow(AccountsApi).to receive(:update_password).with(body: body).and_return(true)
+      allow(AccountsApi::Auth).to receive(:update_password).with(body: body).and_return(true)
     end
   end
 
@@ -48,7 +48,7 @@ describe UpdatePasswordForm, type: :model do
 
   context 'when old password is invalid' do
     before do
-      allow(AccountsApi).to receive(:update_password).and_raise(
+      allow(AccountsApi::Auth).to receive(:update_password).and_raise(
         BaseApi::Error422Exception.new(422, '', 'errorCode' => 'oldPasswordInvalid')
       )
       subject.submit
@@ -62,7 +62,7 @@ describe UpdatePasswordForm, type: :model do
 
   context 'when new password is not complex enough' do
     before do
-      allow(AccountsApi).to receive(:update_password).and_raise(
+      allow(AccountsApi::Auth).to receive(:update_password).and_raise(
         BaseApi::Error422Exception.new(422, '', 'errorCode' => 'passwordNotValid')
       )
       subject.submit
@@ -75,7 +75,7 @@ describe UpdatePasswordForm, type: :model do
 
   context 'when old password is reused' do
     before do
-      allow(AccountsApi).to receive(:update_password).and_raise(
+      allow(AccountsApi::Auth).to receive(:update_password).and_raise(
         BaseApi::Error422Exception.new(422, '', 'errorCode' => 'newPasswordReuse')
       )
       subject.submit
@@ -88,7 +88,7 @@ describe UpdatePasswordForm, type: :model do
 
   context 'when api returns unknown errorCode' do
     before do
-      allow(AccountsApi).to receive(:update_password).and_raise(
+      allow(AccountsApi::Auth).to receive(:update_password).and_raise(
         BaseApi::Error422Exception.new(422, '', 'errorCode' => 'code')
       )
       subject.submit

@@ -22,7 +22,7 @@ describe UsersManagement::AccountUsers do
     end
 
     it 'calls AccountsApi with proper params' do
-      expect(AccountsApi).to receive(:users).with(account_id: @uuid)
+      expect(AccountsApi::Users).to receive(:users).with(account_id: @uuid)
       subject
     end
   end
@@ -46,7 +46,7 @@ describe UsersManagement::AccountUsers do
     end
 
     it 'calls AccountsApi with proper params' do
-      expect(AccountsApi).to receive(:users).with(account_id: @uuid)
+      expect(AccountsApi::Users).to receive(:users).with(account_id: @uuid)
       subject
     end
   end

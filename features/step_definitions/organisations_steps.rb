@@ -44,7 +44,7 @@ Then('I enter a long company name') do
 end
 
 And('I enter the account details') do
-  allow(AccountsApi).to receive(:create_user).and_return(read_response('create_user.json'))
+  allow(AccountsApi::Users).to receive(:create_user).and_return(read_response('create_user.json'))
   fill_account_details
 end
 
@@ -60,11 +60,11 @@ And('I enter the account details with not uniq email address') do
 end
 
 Then('I want to resend email verification') do
-  allow(AccountsApi).to receive(:resend_verification).and_return(true)
+  allow(AccountsApi::Users).to receive(:resend_verification).and_return(true)
 end
 
 And('I receive verification email') do
-  expect(AccountsApi).to have_received(:resend_verification)
+  expect(AccountsApi::Users).to have_received(:resend_verification)
 end
 
 When('I go to the email verified page') do

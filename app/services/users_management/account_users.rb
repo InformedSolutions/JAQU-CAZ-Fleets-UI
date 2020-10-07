@@ -51,7 +51,7 @@ module UsersManagement
 
     # Call the api go get all users
     def api_call
-      @api_call ||= AccountsApi.users(account_id: account_id)
+      @api_call ||= AccountsApi::Users.users(account_id: account_id)
     end
 
     # Checks if user owner or removed

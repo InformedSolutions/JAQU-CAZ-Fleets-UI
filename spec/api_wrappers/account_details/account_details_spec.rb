@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Api.account_details - GET' do
-  subject { AccountDetails::Api.account_details(account_user_id: account_user_id) }
+  subject { AccountsApi::Users.account_details(account_user_id: account_user_id) }
 
   let(:account_user_id) { @uuid }
   let(:url) { "/users/#{account_user_id}" }

@@ -25,3 +25,25 @@ Feature: Email update
       And I fill in email with valid email address
       And I press 'Save changes' button
       Then I should be on the verification email sent page
+
+  Scenario: Changing email address
+    Given I visit the Confirm email update page
+    Then I should see 'Your email address has been updated'
+    When I enter only password
+      And I press 'Sign in' button
+    Then I should see "Confirm your new password" 2 times
+    When I enter not matching password and confirmation
+      And I press 'Sign in' button
+    Then I should see "Enter a password and password confirmation that are the same" 3 times
+    When I enter valid password and confirmation
+      And I press 'Sign in' button
+    Then I should be on the Dashboard page
+
+  Scenario: Changing email address when not enough complex or reused password
+    Given I visit the Confirm email update page
+    When I enter too easy password and confirmation password
+      And I press 'Sign in' button
+    Then I should see 'Enter a password at least 12 characters long, including at least 1 upper case letter, 1 number, and a special character' 2 times
+    When I enter reused old password
+      And I press 'Sign in' button
+    Then I should see 'You have already used that password, choose a new one' 2 times

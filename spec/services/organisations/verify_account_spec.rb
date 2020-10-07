@@ -7,18 +7,18 @@ describe Organisations::VerifyAccount do
 
   let(:token) { 'd9ffd832-c22e-49e7-9261-b6c6619e9d97' }
 
-  before { allow(AccountsApi).to receive(:verify_user).and_return(true) }
+  before { allow(AccountsApi::Accounts).to receive(:verify_user).and_return(true) }
 
   it { is_expected.to eq :success }
 
-  it 'calls AccountsApi.verify_user with proper params' do
-    expect(AccountsApi).to receive(:verify_user).with(token: token)
+  it 'calls AccountsApi::Accounts.verify_user with proper params' do
+    expect(AccountsApi::Accounts).to receive(:verify_user).with(token: token)
     subject
   end
 
   context 'when API responds with an error' do
     before do
-      allow(AccountsApi)
+      allow(AccountsApi::Accounts)
         .to receive(:verify_user)
         .and_raise(BaseApi::Error404Exception.new(404, 'User not found', {}))
     end
@@ -28,7 +28,7 @@ describe Organisations::VerifyAccount do
 
   context 'when API responds with 422 error' do
     before do
-      allow(AccountsApi)
+      allow(AccountsApi::Accounts)
         .to receive(:verify_user)
         .and_raise(BaseApi::Error422Exception.new(422, 'User already confirmed',
                                                   'errorCode' => error_code))

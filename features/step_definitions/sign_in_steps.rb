@@ -52,14 +52,14 @@ Then('I am redirected to the unauthenticated root page') do
 end
 
 When('I enter invalid credentials') do
-  allow(AccountsApi)
+  allow(AccountsApi::Auth)
     .to receive(:sign_in)
     .and_raise(BaseApi::Error401Exception.new(401, '', {}))
   fill_sign_in_form
 end
 
 When('I enter unconfirmed email') do
-  allow(AccountsApi)
+  allow(AccountsApi::Auth)
     .to receive(:sign_in)
     .and_raise(BaseApi::Error422Exception.new(422, '', {}))
   fill_sign_in_form

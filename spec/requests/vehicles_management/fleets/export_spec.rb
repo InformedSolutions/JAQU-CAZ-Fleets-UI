@@ -9,7 +9,7 @@ describe 'FleetsController - GET #export' do
     let(:file_url) { 'https://example.com/bucket-name/file.csv' }
 
     before do
-      allow(AccountsApi).to receive(:csv_exports).and_return(file_url)
+      allow(AccountsApi::Accounts).to receive(:csv_exports).and_return(file_url)
       sign_in manage_vehicles_user
       subject
     end

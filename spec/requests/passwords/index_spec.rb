@@ -8,7 +8,7 @@ describe 'PasswordsController - GET #index' do
   let(:token) { @uuid }
 
   before do
-    allow(AccountsApi).to receive(:validate_password_reset).and_return(true)
+    allow(AccountsApi::Auth).to receive(:validate_password_reset).and_return(true)
   end
 
   it 'returns a 200 OK status' do
@@ -26,8 +26,8 @@ describe 'PasswordsController - GET #index' do
     expect(session[:reset_password_token]).to eq(token)
   end
 
-  it 'calls AccountsApi.validate_password_reset' do
-    expect(AccountsApi).to receive(:validate_password_reset).with(token: token)
+  it 'calls AccountsApi::Auth.validate_password_reset' do
+    expect(AccountsApi::Auth).to receive(:validate_password_reset).with(token: token)
     subject
   end
 
@@ -41,7 +41,7 @@ describe 'PasswordsController - GET #index' do
 
   context 'when token is invalid' do
     before do
-      allow(AccountsApi)
+      allow(AccountsApi::Auth)
         .to receive(:validate_password_reset)
         .and_raise(
           BaseApi::Error400Exception.new(400, '', {})

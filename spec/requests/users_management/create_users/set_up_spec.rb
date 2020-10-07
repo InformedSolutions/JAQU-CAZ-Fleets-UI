@@ -8,7 +8,7 @@ describe 'UsersManagement::CreateUsersController - GET #set_up' do
   let(:token) { '27978cac-44fa-4d2e-bc9b-54fd12e37c69' }
   let(:account) { '546badb2-7ad8-43ab-a8de-da41a74a5744' }
 
-  before { allow(AccountsApi).to receive(:account).and_return({ accountName: 'Company name' }) }
+  before { allow(AccountsApi::Accounts).to receive(:account).and_return({ accountName: 'Company name' }) }
 
   it 'does not require login' do
     subject
@@ -17,7 +17,7 @@ describe 'UsersManagement::CreateUsersController - GET #set_up' do
 
   context 'when company uuid is provided and is correct' do
     it 'makes an api call to get company name' do
-      expect(AccountsApi).to receive(:account).and_return({ accountName: 'Company name' })
+      expect(AccountsApi::Accounts).to receive(:account).and_return({ accountName: 'Company name' })
       subject
     end
 
@@ -29,11 +29,13 @@ describe 'UsersManagement::CreateUsersController - GET #set_up' do
 
   context 'when company uuid is provided but not found' do
     before do
-      allow(AccountsApi).to receive(:account).and_raise(BaseApi::Error404Exception.new(404, '', {}))
+      allow(AccountsApi::Accounts).to receive(:account).and_raise(BaseApi::Error404Exception.new(404, '', {}))
     end
 
     it 'makes an api call to get company name' do
-      expect(AccountsApi).to receive(:account).and_raise(BaseApi::Error404Exception.new(404, '', {}))
+      expect(AccountsApi::Accounts).to receive(:account).and_raise(
+        BaseApi::Error404Exception.new(404, '', {})
+      )
       subject
     end
 
@@ -51,7 +53,7 @@ describe 'UsersManagement::CreateUsersController - GET #set_up' do
     let(:account) { nil }
 
     it 'does not make an api call' do
-      expect(AccountsApi).to_not receive(:account)
+      expect(AccountsApi::Accounts).to_not receive(:account)
       subject
     end
 
