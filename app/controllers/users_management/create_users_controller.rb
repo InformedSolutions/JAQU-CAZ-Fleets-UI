@@ -99,7 +99,7 @@ module UsersManagement
     def set_up
       return handle_missing_invalid_params unless params[:account] && params[:token]
 
-      account = AccountsApi.account(account_id: params[:account])&.symbolize_keys
+      account = AccountsApi::Accounts.account(account_id: params[:account])&.symbolize_keys
       @company_name = account[:accountName]&.possessive
     rescue BaseApi::Error404Exception
       handle_missing_invalid_params

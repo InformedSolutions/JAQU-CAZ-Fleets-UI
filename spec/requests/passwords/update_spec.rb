@@ -23,14 +23,14 @@ describe 'PasswordsController - PATCH #update' do
     before { sign_in create_user(user_id: user_id) }
 
     context 'when correct parameters are provided' do
-      before { allow(AccountsApi).to receive(:update_password).and_return(true) }
+      before { allow(AccountsApi::Auth).to receive(:update_password).and_return(true) }
 
       it 'redirects to the success page' do
         expect(subject).to redirect_to(dashboard_path)
       end
 
-      it 'calls AccountsApi.set_password with right params' do
-        expect(AccountsApi).to receive(:update_password).with(
+      it 'calls AccountsApi::Auth.set_password with right params' do
+        expect(AccountsApi::Auth).to receive(:update_password).with(
           user_id: user_id,
           old_password: old_password,
           new_password: password
@@ -43,7 +43,7 @@ describe 'PasswordsController - PATCH #update' do
       let(:old_password) { 'invalid_password' }
 
       before do
-        allow(AccountsApi).to receive(:update_password).and_raise(
+        allow(AccountsApi::Auth).to receive(:update_password).and_raise(
           BaseApi::Error422Exception.new(422, '', 'errorCode' => 'oldPasswordInvalid')
         )
         subject
@@ -65,7 +65,7 @@ describe 'PasswordsController - PATCH #update' do
       let(:password_confirmation) { '12345' }
 
       before do
-        allow(AccountsApi).to receive(:update_password).and_raise(
+        allow(AccountsApi::Auth).to receive(:update_password).and_raise(
           BaseApi::Error422Exception.new(422, '', 'errorCode' => 'passwordNotValid')
         )
         subject
@@ -76,7 +76,10 @@ describe 'PasswordsController - PATCH #update' do
       end
 
       it 'assigns a proper error message' do
-        expect(assigns(:errors)[:password]).to include(I18n.t('new_password_form.errors.password_complexity'))
+        expect(assigns(:errors)[:password]).to include(
+          'Enter a password at least 12 characters long including at least 1 upper case letter, 1 number '\
+          'and a special character'
+        )
       end
     end
 
@@ -85,7 +88,7 @@ describe 'PasswordsController - PATCH #update' do
       let(:password_confirmation) { 'new_password1234!' }
 
       before do
-        allow(AccountsApi).to receive(:update_password).and_raise(
+        allow(AccountsApi::Auth).to receive(:update_password).and_raise(
           BaseApi::Error422Exception.new(422, '', 'errorCode' => 'newPasswordReuse')
         )
         subject
@@ -111,8 +114,8 @@ describe 'PasswordsController - PATCH #update' do
         expect(response).to render_template(:edit)
       end
 
-      it 'does not call AccountsApi.set_password' do
-        expect(AccountsApi).not_to receive(:update_password)
+      it 'does not call AccountsApi::Auth.set_password' do
+        expect(AccountsApi::Auth).not_to receive(:update_password)
       end
 
       it 'assigns correct error message' do

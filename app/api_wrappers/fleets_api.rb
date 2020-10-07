@@ -5,7 +5,7 @@
 # Wraps methods regarding fleet management.
 # See {AccountsApi}[rdoc-ref:AccountsApi] for user related actions.
 #
-class FleetsApi < AccountsApi
+class FleetsApi < AccountsApi::Base
   class << self
     ##
     # Calls +/v1/accounts/register-csv-from-s3/jobs+ endpoint with +POST+ method

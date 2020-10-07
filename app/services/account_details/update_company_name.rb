@@ -41,7 +41,7 @@ module AccountDetails
 
     # Performs company name update by calling +/v1/accounts/:accountId+ with +PATCH+ method
     def perform_api_call
-      AccountsApi.update_company_name(account_id: account_id, company_name: company_name)
+      AccountsApi::Accounts.update_company_name(account_id: account_id, company_name: company_name)
     rescue BaseApi::Error422Exception => e
       parse_422_error(e.body['errorCode'])
     end

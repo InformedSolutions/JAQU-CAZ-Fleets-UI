@@ -32,3 +32,28 @@ end
 Then('I should be on the verification email sent page') do
   expect(page).to have_current_path(email_sent_primary_users_path)
 end
+
+When('I visit the Confirm email update page') do
+  mock_vehicles_in_fleet
+  mock_users
+  mock_direct_debit_disabled
+  mock_account_details
+  allow(AccountsApi::Auth).to receive(:confirm_email).and_return(true)
+
+  login_owner
+  visit confirm_email_primary_users_path(token: SecureRandom.uuid)
+end
+
+When('I enter too easy password and confirmation password') do
+  fill_in_passwords
+  allow(AccountsApi::Auth)
+    .to receive(:confirm_email)
+    .and_raise(BaseApi::Error422Exception.new(422, '', 'errorCode' => 'passwordNotValid'))
+end
+
+When('I enter reused old password') do
+  fill_in_passwords
+  allow(AccountsApi::Auth)
+    .to receive(:confirm_email)
+    .and_raise(BaseApi::Error422Exception.new(422, '', 'errorCode' => 'newPasswordReuse'))
+end

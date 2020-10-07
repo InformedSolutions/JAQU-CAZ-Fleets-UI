@@ -141,7 +141,7 @@ module Organisations
     end
 
     def resend_email
-      AccountsApi.resend_verification(
+      AccountsApi::Users.resend_verification(
         account_id: new_account['account_id'],
         user_id: new_account['user_id'],
         verification_url: email_verification_organisations_url

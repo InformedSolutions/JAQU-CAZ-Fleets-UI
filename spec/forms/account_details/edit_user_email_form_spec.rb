@@ -6,7 +6,7 @@ describe AccountDetails::EditUserEmailForm, type: :model do
   subject { described_class.new(email: email) }
 
   context 'when email is valid' do
-    before { allow(AccountsApi).to receive(:user_validations).and_return(true) }
+    before { allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true) }
 
     let(:email) { 'valid@email.com' }
 
@@ -14,7 +14,7 @@ describe AccountDetails::EditUserEmailForm, type: :model do
   end
 
   context 'when email is not present' do
-    before { allow(AccountsApi).to receive(:user_validations).and_return(true) }
+    before { allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true) }
 
     let(:email) { '' }
 
@@ -29,7 +29,7 @@ describe AccountDetails::EditUserEmailForm, type: :model do
   end
 
   context 'when email is invalid format' do
-    before { allow(AccountsApi).to receive(:user_validations).and_return(true) }
+    before { allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true) }
 
     let(:email) { 'invalid-format' }
 
@@ -45,7 +45,7 @@ describe AccountDetails::EditUserEmailForm, type: :model do
 
   context 'when email is duplicated' do
     before do
-      allow(AccountsApi)
+      allow(AccountsApi::Accounts)
         .to receive(:user_validations)
         .and_raise(BaseApi::Error400Exception.new(400, '', ''))
     end
