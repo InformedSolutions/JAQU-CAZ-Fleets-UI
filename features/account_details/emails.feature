@@ -26,7 +26,7 @@ Feature: Email update
       And I press 'Save changes' button
       Then I should be on the verification email sent page
 
-  Scenario: Changing email address
+  Scenario: Changing email address when is logged in
     Given I visit the Confirm email update page
     Then I should see 'Your email address has been updated'
     When I enter only password
@@ -35,6 +35,12 @@ Feature: Email update
     When I enter not matching password and confirmation
       And I press 'Sign in' button
     Then I should see "Enter a password and password confirmation that are the same" 3 times
+    When I enter valid password and confirmation
+      And I press 'Sign in' button
+    Then I should be on the Dashboard page
+
+  Scenario: Changing email address when is not logged in
+    Given I visit the Confirm email update page when is not logged in
     When I enter valid password and confirmation
       And I press 'Sign in' button
     Then I should be on the Dashboard page

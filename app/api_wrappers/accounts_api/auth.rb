@@ -218,9 +218,8 @@ module AccountsApi
       #
       def confirm_email(token:, password:)
         log_action('Setting a new email address')
-        body = { token: token, password: password }.to_json
-        request(:put, '/auth/email/change-confirm', body: body)
-        true
+        body = { emailChangeVerificationToken: token, password: password }.to_json
+        request(:put, '/auth/email/change-confirm', body: body)['newEmail']
       end
     end
   end
