@@ -65,8 +65,6 @@ Feature: Uploads
       And I should be on the calculating chargeability page
       And I press 'Return to Your account' link
     Then I press 'Make a payment' link
-      And I select 'Birmingham'
-    Then I press the Continue
       And I should be on the calculating chargeability page
     Then I press 'Return to Your account' link
       And My upload is finished
