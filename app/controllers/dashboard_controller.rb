@@ -64,13 +64,6 @@ class DashboardController < ApplicationController
     session[:submission_method] = nil
   end
 
-  # clear make payments inputs and release lock on caz for current user
-  def clear_make_payment_history
-    release_lock_on_caz
-    session[:vrn] = nil
-    session[:new_payment] = nil
-  end
-
   # clear manage users inputs
   def clear_manage_users_history
     session[:new_user] = nil
