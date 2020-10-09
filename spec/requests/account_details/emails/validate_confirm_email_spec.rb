@@ -15,42 +15,60 @@ describe 'AccountsDetails::EmailsController - GET #validate_confirm_email' do
     )
   end
 
-  context 'when user is an owner' do
-    before do
-      stub = instance_double('AccountDetails::UpdateEmail',
-                             valid?: valid?,
-                             errors: [])
-      allow(AccountDetails::UpdateEmail).to receive(:call).and_return(stub)
-      sign_in create_owner
-      subject
-    end
+  before do
+    stub = instance_double('AccountDetails::UpdateEmail',
+                           valid?: valid?,
+                           errors: [],
+                           new_user_email: email,
+                           password: 'password')
+    allow(AccountDetails::UpdateEmail).to receive(:call).and_return(stub)
+  end
 
-    let(:valid?) { true }
+  let(:valid?) { true }
+  let(:email) { 'john.doe@example.com' }
 
-    context 'when params are valid' do
-      it 'redirects to the dashboard' do
-        expect(response).to redirect_to(dashboard_path)
-      end
-    end
-
-    context 'when params are not valid' do
-      let(:valid?) { false }
-
-      it 'returns a 200 OK status' do
-        expect(response).to have_http_status(:ok)
+  context 'when user is logged in' do
+    context 'and is an owner' do
+      before do
+        sign_in create_owner
+        subject
       end
 
-      it 'renders the view' do
-        expect(response).to render_template(:confirm_email)
+      context 'and params are valid' do
+        it 'redirects to the dashboard page' do
+          expect(response).to redirect_to(dashboard_path)
+        end
+      end
+
+      context 'and params are not valid' do
+        let(:valid?) { false }
+
+        it 'returns a 200 OK status' do
+          expect(response).to have_http_status(:ok)
+        end
+
+        it 'renders the view' do
+          expect(response).to render_template(:confirm_email)
+        end
       end
     end
   end
 
-  context 'when user is not an owner' do
-    before { sign_in create_user }
+  context 'when user is not logged in' do
+    before do
+      allow(AccountsApi::Auth).to receive(:confirm_email).and_return(email)
+      allow(AccountsApi::Auth).to receive(:sign_in).and_return(
+        'email' => email,
+        'accountUserId' => @uuid,
+        'accountId' => @uuid,
+        'accountName' => 'Royal Mail',
+        'owner' => true
+      )
+      subject
+    end
 
-    it 'redirects to the not found page' do
-      expect(subject).to redirect_to(not_found_path)
+    it 'redirects to the dashboard page' do
+      expect(response).to redirect_to(dashboard_path)
     end
   end
 end
