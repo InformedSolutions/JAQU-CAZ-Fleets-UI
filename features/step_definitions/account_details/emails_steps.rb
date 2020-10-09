@@ -38,9 +38,27 @@ When('I visit the Confirm email update page') do
   mock_users
   mock_direct_debit_disabled
   mock_account_details
-  allow(AccountsApi::Auth).to receive(:confirm_email).and_return(true)
+  allow(AccountsApi::Auth).to receive(:confirm_email).and_return('john.doe@example.com')
 
   login_owner
+  visit confirm_email_primary_users_path(token: SecureRandom.uuid)
+end
+
+When('I visit the Confirm email update page when is not logged in') do
+  mock_vehicles_in_fleet
+  mock_users
+
+  allow(AccountsApi::Auth).to receive(:confirm_email).and_return('john.doe@example.com')
+  allow(AccountsApi::Auth)
+    .to receive(:sign_in)
+    .and_return(
+      'email' => 'john.doe@example.com',
+      'accountUserId' => @uuid,
+      'accountId' => @uuid,
+      'accountName' => 'Royal Mail',
+      'owner' => true
+    )
+
   visit confirm_email_primary_users_path(token: SecureRandom.uuid)
 end
 

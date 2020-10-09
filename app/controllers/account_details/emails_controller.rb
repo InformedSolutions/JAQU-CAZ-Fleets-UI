@@ -8,8 +8,11 @@ module AccountDetails
   #
   class EmailsController < ApplicationController
     include CheckPermissions
+    include Devise::Models::RemoteAuthenticatable
 
-    before_action -> { check_permissions(current_user.owner == true) }
+    skip_before_action :authenticate_user!, only: %i[confirm_email validate_confirm_email]
+    before_action -> { check_permissions(current_user.owner == true) }, except:
+      %i[confirm_email validate_confirm_email]
     before_action :set_user_details, only: :edit_email
 
     ##
@@ -76,7 +79,7 @@ module AccountDetails
     # * +token+ - uuid, required in the query
     #
     def confirm_email
-      # renders static page
+      @token = params[:token]
     end
 
     ##
@@ -99,7 +102,7 @@ module AccountDetails
         token: params[:token]
       )
       if service.valid?
-        redirect_to dashboard_path
+        sign_in_and_redirect(service)
       else
         render_confirm_email(service.errors)
       end
@@ -121,7 +124,7 @@ module AccountDetails
       AccountsApi::Auth.update_owner_email(
         account_user_id: current_user.user_id,
         new_email: email.downcase,
-        confirm_url: primary_users_account_details_url
+        confirm_url: confirm_email_primary_users_url
       )
     end
 
@@ -130,6 +133,20 @@ module AccountDetails
       @token = params[:token]
       @errors = errors
       render :confirm_email
+    end
+
+    # Redirects to the dashboard page if user already logged in
+    # If not, calling api and sign in via devise helper method before redirect
+    def sign_in_and_redirect(service)
+      return redirect_to dashboard_path if current_user
+
+      user = authentication({
+                              email: service.new_user_email,
+                              password: service.password,
+                              login_ip: request.remote_ip
+                            })
+      sign_in(user)
+      redirect_to dashboard_path
     end
   end
 end
