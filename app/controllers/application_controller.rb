@@ -159,7 +159,7 @@ class ApplicationController < ActionController::Base
     session[:vrn] = nil
     last_path = request.referer || []
     return if last_path.include?(matrix_payments_path) || last_path.include?(in_progress_payments_path)
-    
+
     session[:new_payment] = nil
   end
 end
