@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'User signing in' do
   subject { post user_session_path(params) }
 
-  let(:email) { 'test@example.com' }
+  let(:email) { 'Test@Example.com' }
   let(:password) { '12345678' }
   let(:params) { { user: { email: email, password: password } } }
 
@@ -148,9 +148,7 @@ describe 'User signing in' do
       let(:password) { 'P@$$w0rd12345!' }
 
       it 'calls AccountApi.sign_in with proper params' do
-        expect(AccountsApi::Auth)
-          .to receive(:sign_in)
-          .with(email: email, password: password)
+        expect(AccountsApi::Auth).to receive(:sign_in).with(email: email, password: password)
         subject
       end
 

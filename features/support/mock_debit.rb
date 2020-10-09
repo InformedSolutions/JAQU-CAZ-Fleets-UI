@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# helper methods for direct debits flow
 module MockDebit
   def mock_api_endpoints(caz_mandates = 'caz_mandates')
     mock_clean_air_zones

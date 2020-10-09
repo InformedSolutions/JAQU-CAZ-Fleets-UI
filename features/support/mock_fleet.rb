@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# helper methods for manage vehicles flow
 module MockFleet
   def mock_empty_fleet
     mock_fleet

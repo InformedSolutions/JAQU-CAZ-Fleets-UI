@@ -4,6 +4,7 @@
 # Module used to improve session management
 #
 module SessionManipulation
+  # Base class used to improve session management
   class BaseManipulator < BaseService
     include PaymentsHelper
 

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# View helpers for make payments flow
 module PaymentsHelper
   # Gets data about the new account from the session
   def new_account_data
