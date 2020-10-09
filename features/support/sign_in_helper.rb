@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# helper methods for logging in users
 module SignInHelper
   def login_user(options)
     user = new_user(options)

@@ -2,21 +2,20 @@
 
 module Devise
   module Models
+    # Module allow remote authentication with devise, used in User.rb
     module RemoteAuthenticatable
       extend ActiveSupport::Concern
 
       # If the authentication is successful it should return a resource instance
       # If the authentication fails it should return false
       def authentication(params)
-        user_data = AccountsApi::Auth.sign_in(
-          email: params[:email],
-          password: params[:password]
-        )
+        user_data = AccountsApi::Auth.sign_in(email: params[:email], password: params[:password])
         user = User.serialize_from_api(user_data)
         user.login_ip = params[:login_ip]
         user
       end
 
+      # Devise module
       module ClassMethods
         # Overridden methods from Devise::Models::Authenticatable
         # This method is called from Warden::SessionSerializer in devise

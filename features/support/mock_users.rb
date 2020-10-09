@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# helper methods for manage users flow
 module MockUsers
   def mock_users
     allow(AccountsApi::Users).to receive(:users).and_return(users_api_response)

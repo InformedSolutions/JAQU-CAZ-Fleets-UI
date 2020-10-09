@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# View helpers for manage vehicles flow
 module FleetsHelper
   # returns true if selected confirm_fleet_check in session equals provided value
   # method used in VehiclesManagement::Fleet Check step during Sign up

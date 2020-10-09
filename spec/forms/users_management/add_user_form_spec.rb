@@ -8,7 +8,7 @@ describe UsersManagement::AddUserForm, type: :model do
   let(:account_id) { create_user.account_id }
   let(:new_user_data) { { name: name, email: email } }
   let(:name) { 'New User Name' }
-  let(:email) { 'new_user@example.com' }
+  let(:email) { 'New_user@Example.com' }
 
   describe 'valid?' do
     before { allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true) }

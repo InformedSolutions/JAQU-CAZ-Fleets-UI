@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+##
+# Base controller class. Contains rescue block for API errors and common functions.
+# Also, contains some basic endpoints.
+#
 class ApplicationController < ActionController::Base
   # protects applications against CSRF
   protect_from_forgery prepend: true
