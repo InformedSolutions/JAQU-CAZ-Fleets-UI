@@ -16,11 +16,10 @@ module Payments
       matrix submit review select_payment_method no_chargeable_vehicles in_progress
     ]
     before_action :check_job_status, only: %i[index local_authority matrix]
+    before_action :clear_make_payment_history, only: %i[index]
     before_action :release_lock_on_caz, only: %i[success failure]
     before_action :assign_zone_and_dates, only: %i[matrix]
     before_action :assign_debit, only: %i[select_payment_method]
-
-    before_action :clear_make_payment_history, only: %i[index]
     before_action :check_new_payment_data, only: %i[review confirm_review]
 
     ##

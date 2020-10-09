@@ -157,6 +157,9 @@ class ApplicationController < ActionController::Base
   def clear_make_payment_history
     release_lock_on_caz
     session[:vrn] = nil
+    last_path = request.referer || []
+    return if last_path.include?(matrix_payments_path) || last_path.include?(in_progress_payments_path)
+    
     session[:new_payment] = nil
   end
 end
