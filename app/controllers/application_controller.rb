@@ -152,4 +152,11 @@ class ApplicationController < ActionController::Base
     response.headers['Pragma'] = 'no-cache'
     response.headers['Expires'] = 'Mon, 01 Jan 1990 00:00:00 GMT'
   end
+
+  # clear make payments inputs and release lock on caz for current user
+  def clear_make_payment_history
+    release_lock_on_caz
+    session[:vrn] = nil
+    session[:new_payment] = nil
+  end
 end

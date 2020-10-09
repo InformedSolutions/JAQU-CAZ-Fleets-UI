@@ -14,7 +14,6 @@ module SessionManipulation
     #
     def call
       session[:initiated_payment] = session[:new_payment]
-      session[:new_payment] = {}
     end
   end
 end
