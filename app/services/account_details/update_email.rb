@@ -7,7 +7,7 @@ module AccountDetails
   # Service used to validate password and perform request to API which updates the email address
   #
   class UpdateEmail < BaseService
-    attr_reader :errors
+    attr_reader :errors, :new_user_email, :password
 
     ##
     # Initializer method
@@ -32,7 +32,7 @@ module AccountDetails
     def valid?
       form = NewPasswordForm.new(password: password, password_confirmation: password_confirmation)
       if form.valid?
-        api_call
+        @new_user_email = api_call
       else
         @errors = form.errors.messages
         false
@@ -41,7 +41,7 @@ module AccountDetails
 
     private
 
-    attr_reader :password, :password_confirmation, :token
+    attr_reader :password_confirmation, :token
 
     # Calls AccountsApi::Auth.confirm_email with given password and the token
     def api_call
