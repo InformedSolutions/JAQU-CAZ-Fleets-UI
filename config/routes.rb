@@ -110,7 +110,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'direct_debits', path: '/' dog
+  scope module: 'direct_debits', path: '/' do
     resources :debits, only: %i[index new create] do
       collection do
         get :first_mandate
