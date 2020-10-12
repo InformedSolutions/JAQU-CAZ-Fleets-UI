@@ -38,7 +38,7 @@
                                class: 'govuk-input govuk-!-width-two-thirds',
                                value: @user.account_name
 
-        = submit_tag 'Save changes', class: 'govuk-button', 'data-module': 'govuk-button'
+        = submit_tag 'Save changes', class: 'govuk-button', 'data-module': 'govuk-button', id: 'save-changes'
 
         %p
-          = link_to 'Exit without saving', primary_users_account_details_path
+          = link_to 'Exit without saving', primary_users_account_details_path, class: 'govuk-link', id: 'exit'
