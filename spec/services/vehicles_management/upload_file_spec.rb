@@ -72,6 +72,20 @@ describe VehiclesManagement::UploadFile do
           expect { subject }.to raise_exception(CsvUploadException, I18n.t('csv.errors.base'))
         end
       end
+
+      context 'when S3 raises a lambda timeout exception' do
+        before do
+          lambda_timeout_error = 'Lambda timeout exception. Please contact administrator to get assistance'
+
+          allow_any_instance_of(Aws::S3::Object)
+            .to receive(:upload_file)
+            .and_raise(Aws::S3::Errors::ServiceError.new('', lambda_timeout_error))
+        end
+
+        it 'raises a proper exception' do
+          expect { subject }.to raise_exception(CsvUploadException, I18n.t('csv.errors.size_too_big'))
+        end
+      end
     end
   end
 end
