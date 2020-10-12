@@ -10,10 +10,10 @@
         .govuk-summary-list__row
           %dt.govuk-summary-list__key
             Name
-          %dd.govuk-summary-list__value
+          %dd.govuk-summary-list__value{id: 'name'}
             = @user.name
           %dd.govuk-summary-list__actions
-            = link_to edit_name_non_primary_users_path, class: 'govuk-link' do
+            = link_to edit_name_non_primary_users_path, class: 'govuk-link', id: 'edit-name' do
               Change
               %span.govuk-visually-hidden
                 name
@@ -21,7 +21,7 @@
         .govuk-summary-list__row
           %dt.govuk-summary-list__key
             Email address
-          %dd.govuk-summary-list__value
+          %dd.govuk-summary-list__value{id: 'email'}
             = @user.email
           %dd.govuk-summary-list__actions
 
@@ -31,7 +31,7 @@
           %dd.govuk-summary-list__value
             ***********
           %dd.govuk-summary-list__actions
-            = link_to edit_password_path, class: 'govuk-link' do
+            = link_to edit_password_path, class: 'govuk-link', id: 'edit-password' do
               Change
               %span.govuk-visually-hidden
                 password
