@@ -61,6 +61,14 @@ When('I upload a csv file whose size is too big') do
   click_button 'Upload file'
 end
 
+When('My upload results with lambda timeout') do
+  allow(VehiclesManagement::UploadFile)
+    .to receive(:call)
+    .and_raise(CsvUploadException.new(I18n.t('csv.errors.size_too_big')))
+  attach_valid_csv_file
+  click_button 'Upload file'
+end
+
 private
 
 def attach_valid_csv_file
