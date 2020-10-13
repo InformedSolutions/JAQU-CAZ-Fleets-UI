@@ -46,6 +46,18 @@ describe 'DirectDebits::DebitsController - POST #initiate' do
         expect(response).to redirect_to(failure_debits_path)
       end
     end
+
+    context 'when api returns 422 status' do
+      before do
+        allow(DebitsApi).to receive(:create_payment)
+          .and_raise(BaseApi::Error422Exception.new(422, '', ''))
+        subject
+      end
+
+      it 'redirects to the failure dd payment page' do
+        expect(response).to redirect_to(failure_debits_path)
+      end
+    end
   end
 
   it_behaves_like 'incorrect permissions'
