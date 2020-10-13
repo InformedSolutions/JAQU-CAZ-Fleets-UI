@@ -101,6 +101,23 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
             expect(REDIS.hget(upload_job_redis_key, 'job_id')).to be_nil
           end
         end
+
+        describe 'FAILURE - lambda timeout' do
+          let(:status) { 'FAILURE' }
+          let(:errors) { ['Lambda timeout exception. Please contact administrator to get assistance'] }
+
+          it 'renders the upload page' do
+            expect(response).to render_template(:index)
+          end
+
+          it 'assigns errors' do
+            expect(assigns[:job_errors]).to eq([I18n.t('csv.errors.size_too_big')])
+          end
+
+          it 'deletes job data from redis' do
+            expect(REDIS.hget(upload_job_redis_key, 'job_id')).to be_nil
+          end
+        end
       end
     end
   end
