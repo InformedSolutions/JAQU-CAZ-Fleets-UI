@@ -88,7 +88,7 @@ module VehiclesManagement
       raise CsvUploadException, I18n.t('csv.errors.base')
     rescue Aws::S3::Errors::ServiceError => e
       log_error e
-      raise CsvUploadException, format_error_message(e.message)
+      raise CsvUploadException, I18n.t('csv.errors.base')
     end
 
     # Uploading file to AWS S3.
@@ -108,11 +108,6 @@ module VehiclesManagement
 
     def metadata
       { 'account-user-id': user.user_id, 'account-id': user.account_id }
-    end
-
-    # Formats exception error message
-    def format_error_message(error)
-      error.include?('Lambda timeout') ? I18n.t('csv.errors.size_too_big') : I18n.t('csv.errors.base')
     end
 
     # Attributes used internally to save values.
