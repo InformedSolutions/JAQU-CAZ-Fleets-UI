@@ -13,17 +13,13 @@ describe PaymentsHelper do
     end
 
     context 'when date is in the session' do
-      before do
-        session[:new_payment] = { details: { @vrn => { dates: [date, '2019-11-05'] } } }
-      end
+      before { session[:new_payment] = { details: { @vrn => { dates: [date, '2019-11-05'] } } } }
 
       it { is_expected.to be_truthy }
     end
 
     context 'when date is not in the session' do
-      before do
-        session[:new_payment] = { details: { @vrn => { dates: %w[2019-11-04 2019-11-05] } } }
-      end
+      before { session[:new_payment] = { details: { @vrn => { dates: %w[2019-11-04 2019-11-05] } } } }
 
       it { is_expected.to be_falsey }
     end
@@ -44,6 +40,20 @@ describe PaymentsHelper do
       let(:dates) { [date, '2019-11-05'] }
 
       it { is_expected.to be_truthy }
+    end
+  end
+
+  describe '.parse_date' do
+    it 'returns a proper value' do
+      expect(helper.parse_date(date)).to eq('Sunday 03 November 2019')
+    end
+  end
+
+  describe '.single_vrn_parsed_charge' do
+    let(:dates) { %w[2019-11-04 2019-11-05] }
+
+    it 'returns a proper value' do
+      expect(helper.single_vrn_parsed_charge(dates, 5)).to eq('£10.00')
     end
   end
 end

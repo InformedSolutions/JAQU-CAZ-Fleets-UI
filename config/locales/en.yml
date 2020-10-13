@@ -9,7 +9,7 @@ en:
   company_name_form:
     company_name_missing: Enter your company name
     company_name_invalid_format: Enter company name in a valid format
-    company_name_invalid_length: Enter a company name that is less than 180 characters
+    company_name_invalid_length: Enter a company name that is 180 characters or less
   email_and_password_form:
     email_missing: Enter your email address
     email_confirmation_missing: Confirm your email address
@@ -31,7 +31,7 @@ en:
       missing: '%{attribute} is required'
       invalid_format: '%{attribute} is in an invalid format'
       maximum_length: '%{attribute} is too long (maximum is 45 characters)'
-      password_complexity: '%{attribute} must be at least 12 characters long, include at least one upper case letter, a number, and a special character'
+      password_complexity: Enter a password at least 12 characters long including at least 1 upper case letter, 1 number and a special character
     labels:
       email: Enter your email address
       email_confirmation: Confirm your email address
@@ -64,7 +64,6 @@ en:
       password_not_equal: Enter a password and password confirmation that are the same
       password_missing: Enter your new password
       password_confirmation_missing: Confirm your new password
-      password_complexity: Password must be at least 12 characters long, include at least one upper case letter, a number, and a special character
   update_password_form:
     errors:
       old_password_missing: Enter your old password
@@ -83,6 +82,7 @@ en:
   company_name:
     errors:
       duplicate: The company name already exists. If you have forgotten your sign in details you can reset your password
+      duplicate_alternative: The company name already exists
       profanity: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.
       abuse: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.
   confirmation_form:
@@ -120,3 +120,10 @@ en:
   edit_user_name_form:
     errors:
       name_missing: Enter your name
+  edit_user_email_form:
+    labels:
+      email: Email address
+    errors:
+      email_missing: Enter an email address
+      email_duplicated: Email address already exists
+      email_invalid_format: Enter an email address in a valid format

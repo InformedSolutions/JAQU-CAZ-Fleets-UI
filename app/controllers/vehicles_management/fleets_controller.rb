@@ -133,6 +133,18 @@ module VehiclesManagement
       redirect_to after_removal_redirect_path(@fleet)
     end
 
+    ##
+    # Downloads a csv file from AWS S3
+    #
+    # ==== Path
+    #
+    #     GET /fleets/export
+    #
+    def export
+      file_url = AccountsApi::Accounts.csv_exports(account_id: current_user.account_id)
+      redirect_to file_url
+    end
+
     private
 
     # Creates instant variable with fleet object

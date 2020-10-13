@@ -22,7 +22,7 @@ module UsersManagement
 
     # Checks if email is unique
     def email_unique?
-      AccountsApi.user_validations(account_id: account_id, name: name, email: email)
+      AccountsApi::Accounts.user_validations(account_id: account_id, name: name, email: email)
       true
     rescue BaseApi::Error400Exception => e
       log_error(e)

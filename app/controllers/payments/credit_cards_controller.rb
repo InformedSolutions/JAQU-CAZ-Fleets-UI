@@ -62,7 +62,7 @@ module Payments
 
     # Checks if +new_payment_data+ present if not returns +initiated_payment_data+
     def payment_data
-      helpers.new_payment_data.presence || helpers.initiated_payment_data
+      helpers.new_payment_data[:caz_id] ? helpers.new_payment_data : helpers.initiated_payment_data
     end
   end
 end

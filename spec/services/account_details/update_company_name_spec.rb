@@ -16,7 +16,7 @@ describe AccountDetails::UpdateCompanyName do
       allow(Organisations::CompanyNameForm)
         .to receive(:new)
         .and_return(instance_double(Organisations::CompanyNameForm, valid?: valid))
-      allow(AccountsApi).to receive(:update_company_name).and_return(true)
+      allow(AccountsApi::Accounts).to receive(:update_company_name).and_return(true)
     end
 
     it 'calls Organisations::CompanyNameForm with proper params' do
@@ -24,8 +24,8 @@ describe AccountDetails::UpdateCompanyName do
       subject
     end
 
-    it 'calls AccountsApi.create_account with proper params' do
-      expect(AccountsApi)
+    it 'calls AccountsApi::Accounts.create_account with proper params' do
+      expect(AccountsApi::Accounts)
         .to receive(:update_company_name)
         .with(account_id: account_id, company_name: company_name)
       subject
@@ -69,7 +69,7 @@ describe AccountDetails::UpdateCompanyName do
     context 'when company name is not unique' do
       it 'raises `UnableToCreateAccountException` exception' do
         expect { subject }.to raise_error(
-          UnableToCreateAccountException, I18n.t('company_name.errors.duplicate')
+          UnableToCreateAccountException, I18n.t('company_name.errors.duplicate_alternative')
         )
       end
     end

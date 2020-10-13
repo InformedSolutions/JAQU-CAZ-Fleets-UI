@@ -36,6 +36,11 @@ When('I fill in company name with an invalid format and save changes') do
   click_button 'Save changes'
 end
 
+When('I fill a too long company name and save changes') do
+  fill_in_company_name('a' * 181)
+  click_button 'Save changes'
+end
+
 And('I should be on the primary user Account Details page') do
   expect(page).to have_current_path(primary_users_account_details_path)
 end
@@ -45,11 +50,11 @@ def fill_in_company_name(string)
 end
 
 def mock_422_invalid_name_exception(error_code)
-  allow(AccountsApi)
+  allow(AccountsApi::Accounts)
     .to receive(:update_company_name)
     .and_raise(BaseApi::Error422Exception.new(422, '', 'errorCode' => error_code))
 end
 
 def mock_valid_name_call
-  allow(AccountsApi).to receive(:update_company_name).and_return(true)
+  allow(AccountsApi::Accounts).to receive(:update_company_name).and_return(true)
 end

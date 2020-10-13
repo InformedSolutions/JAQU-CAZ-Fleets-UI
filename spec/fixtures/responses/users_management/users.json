@@ -1,4 +1,5 @@
 {
+    "multiPayerAccount": true,
     "users": [
         {
             "accountUserId": "4fedcde2-d18d-4f49-8f71-f9fac3f38158",

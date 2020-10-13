@@ -99,7 +99,7 @@ Feature: Organisations
     Given I go to the create account page
     Then I enter a long company name
       And I press the Continue
-    Then I should see "Enter a company name that is less than 180 characters"
+    Then I should see "Enter a company name that is 180 characters or less"
 
   Scenario: View email verified page
     Given I navigate to a Dashboard page

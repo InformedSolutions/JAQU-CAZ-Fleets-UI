@@ -11,7 +11,7 @@ describe 'UsersManagement::CreateUsersController - POST #create' do
 
   context 'correct permissions' do
     before do
-      allow(AccountsApi).to receive(:user_validations).and_return(true)
+      allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true)
       mock_users
       sign_in manage_users_user
       add_to_session({ new_user: { name: name, email: email } })

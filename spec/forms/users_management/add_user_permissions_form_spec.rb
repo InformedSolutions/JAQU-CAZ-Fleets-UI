@@ -23,7 +23,7 @@ describe UsersManagement::AddUserPermissionsForm, type: :model do
   let(:permissions) { ['MANAGE_USERS'] }
 
   describe 'valid?' do
-    before { allow(AccountsApi).to receive(:user_validations).and_return(true) }
+    before { allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true) }
 
     it { is_expected.to be_valid }
 
@@ -42,7 +42,7 @@ describe UsersManagement::AddUserPermissionsForm, type: :model do
   end
 
   describe '.submit' do
-    before { allow(AccountsApi).to receive(:user_invitations).and_return(true) }
+    before { allow(AccountsApi::Accounts).to receive(:user_invitations).and_return(true) }
 
     it 'returns true' do
       expect(subject.submit).to eq(true)
@@ -51,8 +51,8 @@ describe UsersManagement::AddUserPermissionsForm, type: :model do
 
   describe '.email_not_duplicated' do
     before do
-      allow(AccountsApi).to receive(:user_invitations).and_return(true)
-      allow(AccountsApi).to receive(:user_validations).and_raise(
+      allow(AccountsApi::Accounts).to receive(:user_invitations).and_return(true)
+      allow(AccountsApi::Accounts).to receive(:user_validations).and_raise(
         BaseApi::Error400Exception.new(400, '', '')
       )
     end

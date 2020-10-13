@@ -47,3 +47,5 @@ Feature: Dashboard
       And I should not see 'Make a payment' link
       And I should not see 'Manage users' link
       And I should not see 'Your payment history' link
+    When I navigate to a Dashboard page without any payers users
+      And I should not see 'Royal Mail payment history' link

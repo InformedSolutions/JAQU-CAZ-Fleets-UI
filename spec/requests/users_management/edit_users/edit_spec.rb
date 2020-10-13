@@ -18,7 +18,7 @@ describe 'UsersManagement::EditUsersController - GET #edit' do
 
     context 'when user is not exist in db' do
       before do
-        allow(AccountsApi).to receive(:user)
+        allow(AccountsApi::Users).to receive(:user)
           .and_raise(BaseApi::Error404Exception.new(404, '', {}))
       end
 

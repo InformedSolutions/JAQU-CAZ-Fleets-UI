@@ -29,6 +29,11 @@ When('I navigate to a Dashboard page with Direct Debits enabled') do
   visit dashboard_path
 end
 
+When('I navigate to a Dashboard page without any payers users') do
+  mock_empty_users_list
+  visit dashboard_path
+end
+
 When('I navigate to a Dashboard page with {string} permission') do |permission|
   mock_direct_debit_enabled
   mock_vehicles_in_fleet
@@ -72,8 +77,4 @@ When('I navigate to a Dashboard page with one vehicle in the fleet') do
   mock_debits('inactive_mandates')
   mock_users
   visit dashboard_path
-end
-
-And('I should be on the Dashboard page') do
-  expect(page).to have_current_path(dashboard_path)
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ##
-# Class used to validate form rendered on the +app/views/passwords/index.html.haml+
+# Class used to validate form rendered on the +app/views/passwords/index.html.haml+ or on the +app/views/account_details/emails/confirm_email.html.haml+
 class NewPasswordForm < BaseForm
   attr_accessor :password, :password_confirmation
 

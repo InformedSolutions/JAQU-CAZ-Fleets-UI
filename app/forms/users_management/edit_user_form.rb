@@ -25,7 +25,7 @@ module UsersManagement
 
     # Call api to update user permissions
     def submit
-      AccountsApi.update_user(
+      AccountsApi::Users.update_user(
         account_id: account_id,
         account_user_id: account_user_id,
         permissions: permissions
