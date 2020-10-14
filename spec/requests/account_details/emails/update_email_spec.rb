@@ -2,13 +2,14 @@
 
 require 'rails_helper'
 
-describe 'AccountDetails::EmailsController - GET #update' do
+describe 'AccountDetails::EmailsController - GET #update_email' do
   subject { get update_email_primary_users_path, params: params }
 
+  before { sign_in user }
+
+  let(:user) { create_owner }
   let(:params) { { email: email } }
   let(:email) { 'carl.gustav@jung.com' }
-
-  before { sign_in create_owner }
 
   context 'when params are valid' do
     context 'when user is successfully updated' do
@@ -27,12 +28,20 @@ describe 'AccountDetails::EmailsController - GET #update' do
       end
     end
 
-    context 'when params are not valid' do
-      let(:email) { '' }
+    context 'when user save no changes' do
+      let(:email) { user.email }
 
-      it 'renders the view' do
-        expect(subject).to render_template(:edit_email)
+      it 'redirects to the account details page' do
+        expect(subject).to redirect_to(primary_users_account_details_path)
       end
+    end
+  end
+
+  context 'when params are not valid' do
+    let(:email) { '' }
+
+    it 'renders the view' do
+      expect(subject).to render_template(:edit_email)
     end
   end
 end
