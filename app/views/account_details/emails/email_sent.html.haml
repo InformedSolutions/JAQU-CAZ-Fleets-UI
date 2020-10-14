@@ -20,4 +20,7 @@
           %li check your spam or junk folders
           %li check you have entered the correct email
           %li
-            = link_to("resend the email", resend_email_primary_users_path)
+            = link_to("resend the email",
+                      resend_email_primary_users_path,
+                      id: 'resend-link',
+                      onclick: "this.classList.add('disabled-link')")
