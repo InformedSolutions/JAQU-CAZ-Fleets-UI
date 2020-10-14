@@ -6,7 +6,7 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      = render 'shared/error_summary',error_msg_div: '#company_name-error', error_msg: "#{@error}" if @error
+      = render 'shared/error_summary', error_msg_div: '#company_name-error', error_msg: "#{@error}" if @error
 
       %h1.govuk-heading-l
         = title_and_header
