@@ -32,6 +32,7 @@ describe 'AccountDetails::EmailsController - GET #update_email' do
 
       it 'renders the edit page' do
         expect(subject).to render_template(:edit)
+      end
       it 'redirects to the account details page' do
         expect(subject).to redirect_to(primary_users_account_details_path)
       end
