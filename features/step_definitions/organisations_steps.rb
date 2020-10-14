@@ -77,3 +77,11 @@ def fill_account_details
   fill_in('organisations_password', with: 'CboD9%1Q')
   fill_in('organisations_password_confirmation', with: 'CboD9%1Q')
 end
+
+And('I should be on the Company creation page') do
+  expect_path(organisations_path)
+end
+
+And('I should be on the Fleet check page') do
+  expect_path(fleet_check_organisations_path)
+end
