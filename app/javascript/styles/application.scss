@@ -60,3 +60,9 @@ html {
 .hidden {
   display: none;
 }
+
+.disabled-link {
+  opacity: 0.6;
+  pointer-events: none;
+  user-select: none;
+}
