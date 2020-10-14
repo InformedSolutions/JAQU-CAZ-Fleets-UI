@@ -31,14 +31,14 @@ module AccountDetails
     #
     # ==== Path
     #
-    #    :GET /non_primary_users/update_email
+    #    :GET /primary_users/update_email
     #
     def update_email
-      form = AccountDetails::EditUserEmailForm.new(account_id: current_user.account_id, email: params[:email])
+      return redirect_to primary_users_account_details_path if current_user.email == email_params
+
+      form = AccountDetails::EditUserEmailForm.new(account_id: current_user.account_id, email: email_params)
       if form.valid?
-        update_owner_email(form.email)
-        session[:owners_new_email] = form.email
-        redirect_to email_sent_primary_users_path
+        update_email_and_redirect(form)
       else
         @errors = form.errors.messages
         render :edit_email
@@ -123,7 +123,7 @@ module AccountDetails
     def update_owner_email(email)
       AccountsApi::Auth.update_owner_email(
         account_user_id: current_user.user_id,
-        new_email: email.downcase,
+        new_email: email,
         confirm_url: confirm_email_primary_users_url
       )
     end
@@ -147,6 +147,18 @@ module AccountDetails
                             })
       sign_in(user)
       redirect_to dashboard_path
+    end
+
+    # Update user email and redirect to the email send page
+    def update_email_and_redirect(form)
+      update_owner_email(form.email)
+      session[:owners_new_email] = form.email
+      redirect_to email_sent_primary_users_path
+    end
+
+    # downcase email params
+    def email_params
+      params[:email].downcase
     end
   end
 end
