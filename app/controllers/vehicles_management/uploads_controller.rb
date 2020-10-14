@@ -130,14 +130,9 @@ module VehiclesManagement
     # Handles failed scenario after CSV processing
     def handle_failed_processing(job)
       clear_upload_job_data
-      @job_errors = job[:errors].map { |error| format_error_message(error) }
+      @job_errors = job[:errors]
       @vehicles_present = !current_user.fleet.empty?
       render :index
-    end
-
-    # Formats failed scenario error message
-    def format_error_message(error)
-      error.include?('Lambda timeout') ? I18n.t('csv.errors.size_too_big') : error
     end
   end
 end
