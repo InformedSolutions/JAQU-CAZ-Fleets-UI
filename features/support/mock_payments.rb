@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# helper methods for make payments flow
 module MockPayments
   def mock_requests_to_payments_api_with(return_url: '/')
     mock_payment_creation(return_url: return_url)

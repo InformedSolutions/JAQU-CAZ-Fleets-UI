@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+##
+# Controller class for the home page
+#
 class DashboardController < ApplicationController
   include CheckPermissions
   include CazLock

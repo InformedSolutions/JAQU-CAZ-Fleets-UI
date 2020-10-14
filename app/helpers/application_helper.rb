@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-##
 # Base module for helpers, generated automatically during new application creation
-#
 module ApplicationHelper
   # Returns name of service, eg. 'Fleets UI'.
   def service_name

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# helper methods for cucumber tests
 module Helpers
   # Reads provided file from +spec/fixtures/responses+ directory
   def read_response(filename)
