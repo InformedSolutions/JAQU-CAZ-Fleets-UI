@@ -9,7 +9,7 @@ Feature: Primary user account management
     Then I should see 'Update company name'
       And I should see my current company name already filled in input
     When I fill in company name with empty string and save changes
-      Then I should see 'Enter your company name' 2 times
+      Then I should see 'Enter the company name' 2 times
     When I fill in company name that contains 'profanity' and save changes
       Then I should see 'You have submitted a name containing language we don’t allow.' 2 times
     When I fill in company name that contains 'abuse' and save changes
