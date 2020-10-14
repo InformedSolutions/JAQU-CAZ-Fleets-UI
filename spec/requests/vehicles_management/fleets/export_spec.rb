@@ -9,11 +9,7 @@ describe 'FleetsController - GET #export' do
     let(:file_url) { 'https://example.com/bucket-name/file.csv' }
 
     before do
-<<<<<<< HEAD
-      allow(AccountsApi::Accounts).to receive(:csv_exports).and_return(file_url)
-=======
       allow(AccountsApi).to receive(:csv_exports).and_return(file_url)
->>>>>>> f478499... [CAZB-3163] Fleet CSV export button (#628)
       sign_in manage_vehicles_user
       subject
     end

@@ -30,18 +30,10 @@ describe 'AccountDetails::EmailsController - GET #update_email' do
     context 'when user save no changes' do
       let(:email) { user.email }
 
-<<<<<<< HEAD:spec/requests/account_details/emails/update_spec.rb
-<<<<<<< HEAD
-      it 'renders the view' do
-        expect(subject).to render_template(:edit_email)
-=======
       it 'renders the edit page' do
         expect(subject).to render_template(:edit)
->>>>>>> 83c4759... [CAZB-2856] Update email page (#617)
-=======
       it 'redirects to the account details page' do
         expect(subject).to redirect_to(primary_users_account_details_path)
->>>>>>> 4bca06e... [CAZB-2639] Redirect to the account details when save no changes (#654):spec/requests/account_details/emails/update_email_spec.rb
       end
     end
   end

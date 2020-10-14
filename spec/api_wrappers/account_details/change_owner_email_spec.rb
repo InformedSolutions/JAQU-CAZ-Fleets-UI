@@ -2,15 +2,9 @@
 
 require 'rails_helper'
 
-<<<<<<< HEAD
-describe 'AccountsApi::Auth.update_owner_email - PUT' do
-  subject do
-    AccountsApi::Auth.update_owner_email(
-=======
 describe 'AccountDetails::Api.update_owner_email - PUT' do
   subject do
     AccountDetails::Api.update_owner_email(
->>>>>>> 83c4759... [CAZB-2856] Update email page (#617)
       account_user_id: account_user_id,
       new_email: new_email,
       confirm_url: confirm_url

@@ -18,11 +18,7 @@ describe 'AccountsDetails::EmailsController - GET #edit_email' do
     end
 
     it 'renders the view' do
-<<<<<<< HEAD
-      expect(response).to render_template(:edit_email)
-=======
       expect(response).to render_template('account_details/emails/edit')
->>>>>>> 83c4759... [CAZB-2856] Update email page (#617)
     end
   end
 
