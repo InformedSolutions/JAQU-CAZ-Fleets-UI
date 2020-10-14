@@ -23,7 +23,7 @@
                    html: { autocomplete: :on, novalidate: 'novalidate', spellcheck: false }) do |f|
 
           .govuk-form-group{class: ('govuk-form-group--error' if @error)}
-            = f.label :company_name, 'Enter the company name', class: 'govuk-label'
+            = f.label :company_name, I18n.t('company_name_form.company_name_missing'), class: 'govuk-label'
 
             - if @error
               %span#company_name-error.govuk-error-message
