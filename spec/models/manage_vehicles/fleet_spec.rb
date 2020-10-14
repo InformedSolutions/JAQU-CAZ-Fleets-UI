@@ -18,7 +18,12 @@ describe VehiclesManagement::Fleet, type: :model do
 
     it 'calls FleetsApi.vehicles with proper params' do
       expect(FleetsApi).to(
-        receive(:vehicles).with(account_id: account_id, page: page, per_page: per_page)
+        receive(:vehicles).with(
+          account_id: account_id,
+          page: page,
+          per_page: per_page,
+          only_chargeable: false
+        )
       )
       vehicles
     end

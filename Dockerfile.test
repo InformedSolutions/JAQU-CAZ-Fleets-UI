@@ -1,5 +1,8 @@
 FROM ruby:2.7.2-alpine3.12
 
+# Checks coverage of I18n keys
+ENV I18N_COVERAGE true
+
 RUN apk add --no-cache --update build-base \
   linux-headers \
   tzdata \

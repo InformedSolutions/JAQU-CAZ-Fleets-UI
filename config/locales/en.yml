@@ -80,7 +80,6 @@ en:
       base: The selected file could not be uploaded – try again
       no_file: Select a CSV file to upload
       invalid_ext: The selected file must be in a .CSV format
-      size_too_big: The file you are uploading contains more than 50k vehicles, the maximum number allowed
   token_form:
     token_missing: Authorisation token is missing
     token_invalid: Authorisation token is invalid or has expired

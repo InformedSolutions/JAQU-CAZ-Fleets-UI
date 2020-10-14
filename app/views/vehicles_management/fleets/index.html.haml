@@ -53,7 +53,23 @@
                   = vehicle.formatted_charge(zone.id)
               %td.govuk-table__cell{scope: 'row'}
                 = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
+
       = render 'pagination'
+
+      = form_tag(fleets_path, method: :get) do
+        .govuk-form-group
+          %fieldset.govuk-fieldset{'aria-describedby': 'only_chargeable'}
+            %legend.govuk-visually-hidden Hide vehicles that are not charge in any Zone
+            .govuk-checkboxes
+              .govuk-checkboxes__item
+                = check_box_tag('only_chargeable',
+                               true,
+                               params['only_chargeable'],
+                               class: 'govuk-checkboxes__input',
+                               onclick: 'this.form.submit()')
+                = label_tag('only_chargeable',
+                            'Hide vehicles that are not charge in any Zone',
+                            class: 'govuk-label govuk-checkboxes__label')
 
       %p
         = link_to('Download a spreadsheet (CSV) of the charges you would pay to drive in all Clean Air Zones',

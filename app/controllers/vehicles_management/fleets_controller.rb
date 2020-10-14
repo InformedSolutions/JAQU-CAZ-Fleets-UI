@@ -50,8 +50,7 @@ module VehiclesManagement
     end
 
     ##
-    # Renders manage fleet page.
-    # If the fleet is empty, redirects to :submission_method
+    # Renders manage fleet page. If the fleet is empty, redirects to :submission_method
     #
     # ==== Path
     #
@@ -65,7 +64,7 @@ module VehiclesManagement
       return redirect_to submission_method_fleets_path if @fleet.empty?
 
       page = (params[:page] || 1).to_i
-      @pagination = @fleet.pagination(page: page)
+      @pagination = @fleet.pagination(page: page, only_chargeable: params[:only_chargeable])
       @zones = CleanAirZone.all
     rescue BaseApi::Error400Exception
       return redirect_to fleets_path unless page == 1

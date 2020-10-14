@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
               with: :render_server_unavailable
 
   # rescues `UserAlreadyConfirmedException` exception
-  rescue_from UserAlreadyConfirmedException, with: :redirect_to_sign_in
+  rescue_from UserAlreadyConfirmedException, with: :render_sign_in
 
   # enable basic HTTP authentication on production environment if HTTP_BASIC_PASSWORD variable present
   http_basic_authenticate_with name: ENV['HTTP_BASIC_USER'],
@@ -72,8 +72,8 @@ class ApplicationController < ActionController::Base
     sign_out_path
   end
 
-  # Logs exception and redirects to the sign in page
-  def redirect_to_sign_in(exception)
+  # Logs exception, adding errors and renders the sign in page
+  def render_sign_in(exception)
     Rails.logger.error "#{exception.class}: #{exception}"
 
     request.env['warden'].errors[:base] = [exception.message]
