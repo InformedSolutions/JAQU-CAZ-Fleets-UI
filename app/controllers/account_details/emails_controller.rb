@@ -119,15 +119,6 @@ module AccountDetails
       @user = AccountDetails::User.new(api_response)
     end
 
-    # Sends request to API with change email request
-    def update_owner_email(email)
-      AccountsApi::Auth.update_owner_email(
-        account_user_id: current_user.user_id,
-        new_email: email,
-        confirm_url: confirm_email_primary_users_url
-      )
-    end
-
     # Renders :confirm_email with assigned errors and token
     def render_confirm_email(errors)
       @token = params[:token]
@@ -159,6 +150,15 @@ module AccountDetails
     # downcase email params
     def email_params
       params[:email].downcase
+    end
+
+    # Sends request to API with change email request
+    def update_owner_email(email)
+      AccountsApi::Auth.update_owner_email(
+        account_user_id: current_user.user_id,
+        new_email: email,
+        confirm_url: confirm_email_primary_users_url
+      )
     end
   end
 end
