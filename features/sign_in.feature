@@ -73,3 +73,9 @@ Feature: Sign In
       And I should see 'Your account'
       And Cookie is created for my session
       And I should not see 'Create account' link
+
+  Scenario: Sign in with pending email change
+    Given I am on the Sign in page
+    When I enter pending email change
+    Then I remain on the current page
+      And I should see 'You need to verify the link in the email we sent before trying to sign in'

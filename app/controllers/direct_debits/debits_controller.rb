@@ -55,7 +55,7 @@ module DirectDebits
       details = DirectDebits::Details.new(create_direct_debit_payment)
       payment_details_to_session(details)
       redirect_to success_debits_path
-    rescue BaseApi::Error400Exception
+    rescue BaseApi::Error400Exception, BaseApi::Error422Exception
       redirect_to failure_debits_path
     end
 
