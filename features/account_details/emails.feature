@@ -11,19 +11,19 @@ Feature: Email update
       Then I should be on the primary user Account Details page
     When I enter change my email page
       And I fill in email with empty string
-      And I press 'Save changes' button
+      And I press 'Save and continue' button
       Then I should see 'Enter an email address' 2 times
     When I enter change my email page
       And I fill in email with email with invalid format
-      And I press 'Save changes' button
+      And I press 'Save and continue' button
       Then I should see 'Enter an email address in a valid format' 2 times
     When I enter change my email page
       And I fill in email with email with already taken email
-      And I press 'Save changes' button
+      And I press 'Save and continue' button
       Then I should see 'Email address already exists' 2 times
     When I enter change my email page
       And I fill in email with valid email address
-      And I press 'Save changes' button
+      And I press 'Save and continue' button
       Then I should be on the verification email sent page
 
   Scenario: Changing email address when is logged in
