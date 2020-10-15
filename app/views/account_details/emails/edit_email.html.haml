@@ -30,7 +30,8 @@
                 = f.label :email, t('edit_user_email_form.labels.email'), class: 'govuk-label'
                 = f.text_field :email, name: 'email', class: 'govuk-input govuk-!-width-two-thirds', value: @user.email
 
-        = submit_tag 'Save changes', class: 'govuk-button', 'data-module': 'govuk-button', id: 'save-changes'
+        %p We will send a confirmation email to the new address
+        = submit_tag 'Save and continue', class: 'govuk-button', 'data-module': 'govuk-button', id: 'save-changes'
 
         %p
           = link_to 'Exit without saving', primary_users_account_details_path, class: 'govuk-link', id: 'exit'
