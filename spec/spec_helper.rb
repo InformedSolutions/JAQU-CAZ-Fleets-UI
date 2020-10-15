@@ -4,11 +4,6 @@
 require 'webmock/rspec'
 # Checks code coverage
 require 'simplecov'
-# Checks coverage of I18n keys
-require 'i18n/coverage'
-
-# Run check only on CI
-I18n::Coverage.start if ENV['I18N_COVERAGE']
 
 SimpleCov.start 'rails' do
   # minimum coverage percentage expected

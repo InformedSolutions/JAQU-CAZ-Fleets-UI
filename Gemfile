@@ -43,7 +43,7 @@ group :test do
   gem 'capybara'
   gem 'cucumber-rails', require: false
   gem 'fakeredis'
-  gem 'i18n-coverage'
+  gem 'i18n-tasks'
   gem 'rack_session_access'
   gem 'rails-controller-testing'
   gem 'rubocop-rails'
