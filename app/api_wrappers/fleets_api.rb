@@ -163,7 +163,7 @@ class FleetsApi < AccountsApi::Base
     # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
-    def vehicles(account_id:, page:, per_page:, only_chargeable:)
+    def vehicles(account_id:, page:, per_page:, only_chargeable: false)
       log_action('Getting vehicles')
       query = {
         'pageNumber' => calculate_page_number(page),
