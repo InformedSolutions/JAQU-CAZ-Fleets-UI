@@ -70,7 +70,7 @@ Feature: Organisations
 
   Scenario: User wants to verify account with valid token
     Given I visit the verification link with a token status 'success'
-    Then I should see 'Your email address has been verified and your account has been activated.'
+    Then I should see 'Your email address has been verified and your business account has been activated.'
 
   Scenario: User wants to verify account with invalid token
     Given I visit the verification link with a token status 'invalid'
@@ -104,4 +104,4 @@ Feature: Organisations
   Scenario: View email verified page
     Given I navigate to a Dashboard page
     When I go to the email verified page
-    Then I should see 'Your account has been created'
+    Then I should see 'Your business account has been created'
