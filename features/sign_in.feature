@@ -48,7 +48,7 @@ Feature: Sign In
     When I request to sign out
       And  I am redirected to the Sign out page
       And I should see 'Sign out successful'
-      And I should see 'Sign back into your account' link
+      And I should see 'Sign back into the business account' link
     When I navigate to a Dashboard page
     Then I am redirected to the unauthenticated root page
       And I should see 'Sign In'
