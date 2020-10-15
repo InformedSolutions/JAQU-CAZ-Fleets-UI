@@ -15,6 +15,7 @@ class PaymentHistoryApi < PaymentsApi
     # * +account_id+ - uuid, id of the account
     # * +user_id+ - uuid, ID of the user
     # * +user_payments+ - boolean, to filter out company payments and show only users payments
+    # * +page+ - requested page of the results
     #
     # ==== Result
     #

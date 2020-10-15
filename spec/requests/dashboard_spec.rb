@@ -16,6 +16,7 @@ describe DashboardController do
         mock_fleet
         mock_users
         mock_debits
+        mock_direct_debit_enabled
         sign_in user
       end
 

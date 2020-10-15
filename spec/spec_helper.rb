@@ -4,10 +4,6 @@
 require 'webmock/rspec'
 # Checks code coverage
 require 'simplecov'
-# Checks coverage of I18n keys
-require 'i18n/coverage'
-
-I18n::Coverage.start
 
 SimpleCov.start 'rails' do
   # minimum coverage percentage expected
