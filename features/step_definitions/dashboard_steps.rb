@@ -35,6 +35,7 @@ When('I navigate to a Dashboard page without any payers users') do
 end
 
 When('I navigate to a Dashboard page with {string} permission') do |permission|
+  mock_actual_account_name
   mock_direct_debit_enabled
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
@@ -50,6 +51,7 @@ When('I navigate to a Dashboard page with all permissions assigned') do
 end
 
 Given('I visit Dashboard page without any users yet') do
+  mock_actual_account_name
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_empty_users_list
@@ -57,6 +59,7 @@ Given('I visit Dashboard page without any users yet') do
 end
 
 Given('I visit Dashboard page with few users already added') do
+  mock_actual_account_name
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_users

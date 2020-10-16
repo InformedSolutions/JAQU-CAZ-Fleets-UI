@@ -6,9 +6,7 @@ describe 'Organisations::OrganisationsController - GET #resend_email' do
   subject { get resend_email_organisations_path }
 
   let(:user) { create_user }
-  let(:session_data) do
-    { new_account: create_user.serializable_hash.merge(account_id: @uuid) }
-  end
+  let(:session_data) { { new_account: create_user.serializable_hash.merge(account_id: @uuid) } }
 
   before do
     add_to_session(session_data)

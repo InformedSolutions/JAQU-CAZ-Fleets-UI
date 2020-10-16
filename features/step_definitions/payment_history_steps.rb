@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Given('I visit the Company payment history page') do
+  mock_actual_account_name
   mock_vehicles_in_fleet
   mock_payment_history
   mock_users
@@ -17,6 +18,7 @@ Given('I go to the User payment history page') do
 end
 
 Given('I visit the User payment history page') do
+  mock_actual_account_name
   mock_users
   mock_vehicles_in_fleet
   mock_payment_history
@@ -106,6 +108,7 @@ def api_response
 end
 
 def mock_api_and_sign_in_user
+  mock_actual_account_name
   mock_vehicles_in_fleet
   mock_payment_history
   mock_payment_details_history

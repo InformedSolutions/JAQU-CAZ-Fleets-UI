@@ -10,22 +10,18 @@ describe 'User signing in' do
   let(:params) { { user: { email: email, password: password } } }
 
   before do
-    allow(AccountsApi::Auth)
-      .to receive(:sign_in)
-      .and_return(
-        'email' => email,
-        'accountUserId' => @uuid,
-        'accountId' => @uuid,
-        'accountName' => 'Royal Mail',
-        'owner' => false
-      )
+    allow(AccountsApi::Auth).to receive(:sign_in).and_return(
+      'email' => email,
+      'accountUserId' => @uuid,
+      'accountId' => @uuid,
+      'accountName' => 'Royal Mail',
+      'owner' => false
+    )
   end
 
   context 'when correct credentials given' do
     it 'calls AccountApi.sign_in with proper params' do
-      expect(AccountsApi::Auth)
-        .to receive(:sign_in)
-        .with(email: email, password: password)
+      expect(AccountsApi::Auth).to receive(:sign_in).with(email: email, password: password)
       subject
     end
 

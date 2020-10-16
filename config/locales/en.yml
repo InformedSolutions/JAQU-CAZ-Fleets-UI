@@ -8,7 +8,7 @@ en:
       name_missing: Enter the user's name
       permissions_missing: Select at least one permission type to continue
     hints:
-      email: This will be used to send an invite to create an account.
+      email: This will be used to send an invite to create a user.
     labels:
       email: Enter their email address
       name: Name
