@@ -1,7 +1,7 @@
 en:
   external_link: opens in a new window
   company_name_form:
-    company_name_missing: Enter your company name
+    company_name_missing: Enter the company name
     company_name_invalid_format: Enter company name in a valid format
     company_name_invalid_length: Enter a company name that is 180 characters or less
   email_and_password_form:
@@ -21,6 +21,11 @@ en:
     email_unconfirmed: Your email address is not confirmed
   la_form:
     la_missing: You must choose one Clean Air Zone
+  external_link: opens in a new window
+  fleet_check_form:
+    errors:
+      confirm_fleet_check: You must choose an answer
+  inactivity_logout: We have signed you out of the business account to keep it secure after it become inactive.
   input_form:
     errors:
       invalid_format: '%{attribute} is in an invalid format'
