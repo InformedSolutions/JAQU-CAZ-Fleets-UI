@@ -9,7 +9,7 @@ Feature: Fleets
     Then I should be on the first upload page
       And I should see 'First upload your vehicles'
     When I press the Continue
-      And I should see 'Add vehicles to your account'
+      And I should see 'Choose how to add vehicles to Royal Mail account'
 
   Scenario: Making a card payment with vehicles in fleet
     When I have vehicles in my fleet

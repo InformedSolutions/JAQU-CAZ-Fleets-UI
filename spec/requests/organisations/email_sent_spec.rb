@@ -5,9 +5,7 @@ require 'rails_helper'
 describe 'Organisations::OrganisationsController - GET #email_sent' do
   subject { get email_sent_organisations_path }
 
-  let(:session_data) do
-    { new_account: create_user.serializable_hash.merge(company_name: 'Company name') }
-  end
+  let(:session_data) { { new_account: create_user.serializable_hash.merge(company_name: 'Company name') } }
 
   before do
     add_to_session(session_data)

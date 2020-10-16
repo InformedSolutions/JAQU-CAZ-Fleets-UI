@@ -6,26 +6,20 @@ end
 
 When('I navigate to a Dashboard page') do
   mock_direct_debit_enabled
-  mock_vehicles_in_fleet
-  mock_debits('active_mandates')
-  mock_users
+  mock_api_on_dashboard
   visit dashboard_path
 end
 
 When('I navigate to a Dashboard page with Direct Debits disabled') do
   mock_direct_debit_disabled
-  mock_vehicles_in_fleet
-  mock_debits('active_mandates')
-  mock_users
+  mock_api_on_dashboard
   visit dashboard_path
 end
 
 When('I navigate to a Dashboard page with Direct Debits enabled') do
   allow(Rails.application.config.x).to receive(:method_missing).and_return('test')
   allow(Rails.application.config.x).to receive(:method_missing).with(:feature_direct_debits).and_return(false)
-  mock_vehicles_in_fleet
-  mock_debits('active_mandates')
-  mock_users
+  mock_api_on_dashboard
   visit dashboard_path
 end
 
@@ -36,20 +30,17 @@ end
 
 When('I navigate to a Dashboard page with {string} permission') do |permission|
   mock_direct_debit_enabled
-  mock_vehicles_in_fleet
-  mock_debits('active_mandates')
-  mock_users
+  mock_api_on_dashboard
   login_user(permissions: [permission])
 end
 
 When('I navigate to a Dashboard page with all permissions assigned') do
-  mock_vehicles_in_fleet
-  mock_debits('active_mandates')
-  mock_users
+  mock_api_on_dashboard
   login_owner
 end
 
 Given('I visit Dashboard page without any users yet') do
+  mock_actual_account_name
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_empty_users_list
@@ -57,9 +48,7 @@ Given('I visit Dashboard page without any users yet') do
 end
 
 Given('I visit Dashboard page with few users already added') do
-  mock_vehicles_in_fleet
-  mock_debits('active_mandates')
-  mock_users
+  mock_api_on_dashboard
   login_owner
 end
 
@@ -74,7 +63,16 @@ end
 When('I navigate to a Dashboard page with one vehicle in the fleet') do
   mock_direct_debit_enabled
   mock_one_vehicle_fleet
-  mock_debits('inactive_mandates')
   mock_users
+  mock_debits('inactive_mandates')
   visit dashboard_path
+end
+
+private
+
+def mock_api_on_dashboard
+  mock_actual_account_name
+  mock_vehicles_in_fleet
+  mock_debits('active_mandates')
+  mock_users
 end

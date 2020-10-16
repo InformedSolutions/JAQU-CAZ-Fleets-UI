@@ -3,16 +3,14 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      - if alert
-        = render 'shared/error_summary',
-          error_msg_div: '#confirm-delete-error',
-          error_msg: alert
+      = render 'shared/error_summary', error_msg_div: '#confirm-delete-error', error_msg: alert if alert
+
       = form_tag delete_fleets_path, method: :post do
         .govuk-form-group{class: ('govuk-form-group--error' if alert)}
           %fieldset.govuk-fieldset
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
               %h1.govuk-fieldset__heading
-                = "Do you want to remove the number plate #{@vehicle_registration} from your account?"
+                = "Do you want to remove the number plate #{@vehicle_registration} from #{current_user.actual_account_name} account?"
             - if alert
               %span#confirm-delete-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
