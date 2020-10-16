@@ -6,7 +6,6 @@ export default function (e, form) {
 
   const searchInput = document.getElementById("vrn-search");
   form.appendChild(createHiddenInput("payment[vrn_search]", searchInput.value));
-  form.appendChild(createHiddenInput("commit", "Search"));
   form.submit();
 }
 
