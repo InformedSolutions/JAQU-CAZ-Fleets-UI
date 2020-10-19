@@ -152,7 +152,6 @@ module Payments
     #    :GET /payments/review_details
     #
     def review_details
-      @zone = CleanAirZone.find(@zone_id)
       @details = helpers.vrn_to_pay(helpers.new_payment_data[:details])
     end
 
@@ -236,7 +235,6 @@ module Payments
     #   GET /payments/post_payment_details
     #
     def post_payment_details
-      @zone = CleanAirZone.find(@zone_id)
       @details = helpers.vrn_to_pay(helpers.initiated_payment_data[:details])
     end
 
