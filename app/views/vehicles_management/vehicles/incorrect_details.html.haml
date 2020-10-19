@@ -9,15 +9,15 @@
       %h1.govuk-heading-l
         = title_and_header
       %p
-        If your vehicle details are incorrect, you can update them with the 
+        If the vehicle details are incorrect, you can update them with the
         = succeed '.' do
           = external_link_to('DVLA', 
                              'https://www.gov.uk/change-vehicle-details-registration-certificate',
                              id: 'dvla-link')
       %p
-        You still need to pay a charge if you have driven, or are planning to drive, in the zone.
+        The charge still needs to be paid if you have driven, or are planning to drive, in the zone.
       %p
-        If your vehicle does meet emission standards, you can claim a refund when your registration details are updated. 
+        If the vehicle does meet emission standards, a refund can be claimed when the registration details are updated.
       %p
-        Continue to add the vehicle to your account.
+        Continue to add the vehicle to this account.
       = link_to 'Continue', local_exemptions_vehicles_path, class: 'govuk-button'
