@@ -6,6 +6,7 @@ Feature: Manage users
   Scenario: Visiting the manage users page
     Given I visit the Manage users page
     Then I should be on the Manage users page
+      And I should see 'Manage Royal Mail account users'
       And I should see 'Add another user'
       And I should see 'Change' link
 
