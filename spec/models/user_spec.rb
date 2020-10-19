@@ -3,9 +3,10 @@
 require 'rails_helper'
 
 describe User, type: :model do
-  subject { create_user(account_id: account_id) }
+  subject { create_user(account_id: account_id, user_id: user_id) }
 
   let(:account_id) { @uuid }
+  let(:user_id) { SecureRandom.uuid }
 
   describe '.fleet' do
     it 'returns a fleet object' do
@@ -30,6 +31,19 @@ describe User, type: :model do
       )
 
       subject.add_vehicle(vrn, vehicle_type)
+    end
+  end
+
+  describe '.actual_account_name' do
+    before { allow(AccountsApi::Users).to receive(:account_details).and_return('accountName' => 'Acc Name') }
+
+    it 'calls AccountsApi::Users.account_details with proper params' do
+      expect(AccountsApi::Users).to receive(:account_details).with(account_user_id: user_id)
+      subject.actual_account_name
+    end
+
+    it 'returns correct value' do
+      expect(subject.actual_account_name).to eq('Acc Name')
     end
   end
 end
