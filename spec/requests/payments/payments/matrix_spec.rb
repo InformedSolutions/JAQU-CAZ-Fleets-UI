@@ -45,7 +45,7 @@ describe 'PaymentsController - GET #matrix' do
           it 'assigns search value' do
             subject
             expect(assigns(:search)).to eq(search)
-          end     
+          end
 
           it 'calls charges_by_vrn with right params' do
             expect(fleet).to receive(:charges_by_vrn).with(zone_id: caz_id, vrn: search)
@@ -63,7 +63,7 @@ describe 'PaymentsController - GET #matrix' do
           end
 
           it 'assigns errors value' do
-            expect(assigns(:errors)).to eq(["Enter the number plate of the vehicle in a valid format"])
+            expect(assigns(:errors)).to eq(['Enter the number plate of the vehicle in a valid format'])
           end
         end
       end
