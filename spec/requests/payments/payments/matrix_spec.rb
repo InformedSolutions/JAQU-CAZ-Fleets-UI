@@ -37,13 +37,34 @@ describe 'PaymentsController - GET #matrix' do
       end
 
       context 'with search data' do
-        let(:search) { 'test' }
-
         before { add_to_session(payment_query: { search: search }) }
 
-        it 'assigns search value' do
-          subject
-          expect(assigns(:search)).to eq(search)
+        context 'with a valid search value' do
+          let(:search) { 'ABC123' }
+
+          it 'assigns search value' do
+            subject
+            expect(assigns(:search)).to eq(search)
+          end     
+
+          it 'calls charges_by_vrn with right params' do
+            expect(fleet).to receive(:charges_by_vrn).with(zone_id: caz_id, vrn: search)
+            subject
+          end
+        end
+
+        context 'with an invalid search value' do
+          let(:search) { 'test' }
+
+          before { subject }
+
+          it 'assigns search value' do
+            expect(assigns(:search)).to eq(search)
+          end
+
+          it 'assigns errors value' do
+            expect(assigns(:errors)).to eq(["Enter the number plate of the vehicle in a valid format"])
+          end
         end
       end
 

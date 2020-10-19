@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 describe 'PaymentsController - GET #index' do
-  subject { get payments_path }
+  subject { get payments_path, headers: { 'HTTP_REFERER': referer } }
+  
+  let(:referer) { 'http://www.example.com' }
 
   before { sign_in user }
 
@@ -26,6 +28,35 @@ describe 'PaymentsController - GET #index' do
 
       it 'renders the view' do
         expect(subject).to render_template(:index)
+      end
+
+      describe ':back_button_url variable' do
+        context 'when coming from payment success page' do
+          let(:referer) { 'http://www.example.com/payments/success' }
+
+          it 'has a correct value' do
+            subject
+            expect(assigns(:back_button_url)).to eq(success_payments_path)
+          end
+        end
+
+        context 'when coming from debits payment success page' do
+          let(:referer) { 'http://www.example.com/debits/success' }
+
+          it 'has a correct value' do
+            subject
+            expect(assigns(:back_button_url)).to eq(success_debits_path)
+          end
+        end
+
+        context 'when coming from in progress page' do
+          let(:referer) { 'http://www.example.com/payments/in_progress' }
+
+          it 'has a correct value' do
+            subject
+            expect(assigns(:back_button_url)).to eq(in_progress_payments_path)
+          end
+        end
       end
 
       context 'and with upload data in redis' do
