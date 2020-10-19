@@ -12,8 +12,8 @@
         = link_to('Account details',
             current_user.owner ? primary_users_account_details_path : non_primary_users_account_details_path,
             class: 'govuk-header__link', id: 'account-details')
-      %li.govuk-header__navigation-item{class: current_path?('#TODO-CAZB-3380')}
-        = link_to('Help', '#TODO-CAZB-3380', class: 'govuk-header__link', id: 'help')
+      %li.govuk-header__navigation-item{class: current_path?(help_path)}
+        = link_to('Help', help_path, class: 'govuk-header__link', id: 'navbar-help')
       %li.govuk-header__navigation-item
         = link_to('Sign out', destroy_user_session_path, method: :delete, class: 'govuk-header__link', id: 'sign-out')
     - else

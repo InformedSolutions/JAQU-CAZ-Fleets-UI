@@ -135,7 +135,7 @@ steps:
     commands:
       - bundle audit check --update
       - yarn run improved-yarn-audit --retry-on-network-failure
-      - brakeman
+      - brakeman --except LinkToHref
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -362,8 +362,8 @@ steps:
     pull: never
     commands:
       - bundle audit check --update
-      - yarn run improved-yarn-audit --exclude '1561' --retry-on-network-failure
-      - brakeman
+      - yarn run improved-yarn-audit --retry-on-network-failure
+      - brakeman --except LinkToHref
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -1097,7 +1097,7 @@ steps:
     commands:
       - bundle audit check --update
       - yarn run improved-yarn-audit --retry-on-network-failure
-      - brakeman
+      - brakeman --except LinkToHref
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock

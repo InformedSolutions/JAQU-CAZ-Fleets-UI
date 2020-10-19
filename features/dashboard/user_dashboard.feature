@@ -6,6 +6,7 @@ Feature: Dashboard
   Scenario: View dashboard page with `MANAGE_VEHICLES` permission
     Given I navigate to a Dashboard page with 'MANAGE_VEHICLES' permission
       And I should see 'Manage your vehicles' link
+      And I should see 'Help' link
       And I should not see 'Your Direct Debits' link
       And I should not see 'Make a payment' link
       And I should not see 'Manage users' link
@@ -15,6 +16,7 @@ Feature: Dashboard
   Scenario: View dashboard page with `MANAGE_MANDATES` permission
     Given I navigate to a Dashboard page with 'MANAGE_MANDATES' permission
       And I should see 'Your Direct Debits' link
+      And I should see 'Help' link
       And I should not see 'Manage your vehicles' link
       And I should not see 'Make a payment' link
       And I should not see 'Manage users' link
@@ -23,6 +25,7 @@ Feature: Dashboard
 
   Scenario: View dashboard page with `MAKE_PAYMENTS` permission
     Given I navigate to a Dashboard page with 'MAKE_PAYMENTS' permission
+      And I should see 'Help' link
       And I should see 'Make a payment' link
       And I should see 'Your payment history' link
       And I should not see 'Manage your vehicles' link
@@ -32,6 +35,7 @@ Feature: Dashboard
 
   Scenario: View dashboard page with `MANAGE_USERS` permission
     Given I navigate to a Dashboard page with 'MANAGE_USERS' permission
+      And I should see 'Help' link
       And I should see 'Manage users' link
       And I should not see 'Manage your vehicles' link
       And I should not see 'Your Direct Debits' link
@@ -41,6 +45,7 @@ Feature: Dashboard
 
   Scenario: View dashboard page with `VIEW_PAYMENTS` permission
     Given I navigate to a Dashboard page with 'VIEW_PAYMENTS' permission
+      And I should see 'Help' link
       And I should see 'Royal Mail payment history' link
       And I should not see 'Manage your vehicles' link
       And I should not see 'Your Direct Debits' link

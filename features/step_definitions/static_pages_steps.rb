@@ -9,3 +9,8 @@ end
 Then('I should be on the the Cookies page') do
   expect_path(cookies_path)
 end
+
+Then('I press navbar link Help') do
+  mock_clean_air_zones
+  find('#navbar-help').click
+end
