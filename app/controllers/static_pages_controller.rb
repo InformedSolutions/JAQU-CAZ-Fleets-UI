@@ -28,6 +28,16 @@ class StaticPagesController < ApplicationController
   end
 
   ##
+  # Renders the help page
+  #
+  # ==== Path
+  #    GET /help
+  #
+  def help
+    @zones = CleanAirZone.all
+  end
+
+  ##
   # Renders the privacy notice page
   #
   # ==== Path

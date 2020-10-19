@@ -118,4 +118,28 @@ describe CleanAirZone, type: :model do
       expect(subject.count).to eq(1)
     end
   end
+
+  describe '.charging_starts' do
+    context 'when caz name is Birmingham' do
+      it 'returns a proper value' do
+        expect(subject.charging_starts).to eq('1 June 2021')
+      end
+    end
+
+    context 'when caz name is Bath' do
+      let(:name) { 'Bath' }
+
+      it 'returns a proper value' do
+        expect(subject.charging_starts).to eq('15 March 2021')
+      end
+    end
+
+    context 'when another caz name' do
+      let(:name) { 'Leeds' }
+
+      it 'returns a proper value' do
+        expect(subject.charging_starts).to eq('Early 2021')
+      end
+    end
+  end
 end
