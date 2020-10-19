@@ -19,6 +19,7 @@ module UsersManagement
     #
     def index
       clear_new_user if request.referer&.include?(confirmation_users_path)
+      @account_name = current_user.actual_account_name
       @users = UsersManagement::AccountUsers.call(account_id: current_user.account_id,
                                                   user_id: current_user.user_id)
     end

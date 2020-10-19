@@ -40,7 +40,7 @@ Feature: Vehicles
     Then I should see 'Confirm the number plate is correct'
       And I should see 'There is a problem'
       And I should be on the vehicle not found page
-      And I check 'I confirm the number plate is correct and I want to add it to my account.'
+      And I check 'I confirm the number plate is correct and I want to add it to this account.'
     When I press the Continue to add vehicle
     Then I should be on the local vehicles exemptions page
     When I press 'Continue' button
