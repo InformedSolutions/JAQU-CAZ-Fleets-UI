@@ -10,8 +10,8 @@ describe 'PaymentsController - GET #review' do
       mock_clean_air_zones
       mock_fleet(create_chargeable_vehicles)
       sign_in create_user
-      add_to_session(new_payment: { caz_id: @uuid, 
-                                    details: { @vrn => { dates: ['2019-11-05', '2019-11-06'], charge: 50 } } })
+      add_to_session(new_payment: { caz_id: @uuid,
+                                    details: { @vrn => { dates: %w[2019-11-05 2019-11-06], charge: 50 } } })
     end
 
     it 'calls ComplianceCheckerApi for CAZ name' do

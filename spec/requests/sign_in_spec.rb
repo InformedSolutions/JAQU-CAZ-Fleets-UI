@@ -15,7 +15,8 @@ describe 'User signing in' do
       'accountUserId' => @uuid,
       'accountId' => @uuid,
       'accountName' => 'Royal Mail',
-      'owner' => false
+      'owner' => false,
+      'passwordUpdateTimestamp' => 65.days.ago.to_s
     )
   end
 
@@ -156,6 +157,11 @@ describe 'User signing in' do
       it 'sets login IP' do
         subject
         expect(controller.current_user.login_ip).to eq(@remote_ip)
+      end
+
+      it 'calculates days to password expiry' do
+        subject
+        expect(controller.current_user.days_to_password_expiry).to eq(25)
       end
     end
 
