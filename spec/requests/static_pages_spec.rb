@@ -3,14 +3,22 @@
 require 'rails_helper'
 
 describe StaticPagesController do
+  describe 'GET #accessibility_statement' do
+    subject { get accessibility_statement_path }
+
+    it_behaves_like 'a static page'
+  end
+
   describe 'GET #cookies' do
     subject { get cookies_path }
 
     it_behaves_like 'a static page'
   end
 
-  describe 'GET #accessibility_statement' do
-    subject { get accessibility_statement_path }
+  describe 'GET #help' do
+    subject { get help_path }
+
+    before { mock_clean_air_zones }
 
     it_behaves_like 'a static page'
   end
