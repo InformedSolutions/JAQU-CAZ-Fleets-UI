@@ -15,8 +15,5 @@ Metrics/BlockLength:
     - 'config/routes.rb'
     - 'config/environments/*.rb'
 
-Rails/HelperInstanceVariable:
-  Enabled: false
-
 Lint/MissingSuper:
   Enabled: false
