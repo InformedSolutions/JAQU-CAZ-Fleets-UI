@@ -7,6 +7,7 @@ describe 'UsersManagement::CreateUsersController - GET #new' do
 
   context 'correct permissions' do
     before do
+      mock_actual_account_name
       sign_in manage_users_user
     end
 

@@ -1,5 +1,22 @@
 en:
-  external_link: opens in a new window
+  add_new_user_form:
+    errors:
+      email_duplicated: Email address already exists
+      email_invalid_format: Enter the user’s email address in a valid format
+      email_missing: Enter the user's email address
+      name_missing: Enter the user's name
+      permissions_missing: Select at least one permission type to continue
+    hints:
+      email: This will be used to send an invite to create a user.
+    labels:
+      email: Enter their email address
+      name: Name
+  company_name:
+    errors:
+      abuse: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.
+      duplicate: The company name already exists. If you have forgotten your sign in details you can reset your password
+      duplicate_alternative: The company name already exists
+      profanity: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.
   company_name_form:
     company_name_missing: Enter the company name
     company_name_invalid_format: Enter company name in a valid format

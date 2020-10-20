@@ -10,22 +10,19 @@ describe 'User signing in' do
   let(:params) { { user: { email: email, password: password } } }
 
   before do
-    allow(AccountsApi::Auth)
-      .to receive(:sign_in)
-      .and_return(
-        'email' => email,
-        'accountUserId' => @uuid,
-        'accountId' => @uuid,
-        'accountName' => 'Royal Mail',
-        'owner' => false
-      )
+    allow(AccountsApi::Auth).to receive(:sign_in).and_return(
+      'email' => email,
+      'accountUserId' => @uuid,
+      'accountId' => @uuid,
+      'accountName' => 'Royal Mail',
+      'owner' => false,
+      'passwordUpdateTimestamp' => 65.days.ago.to_s
+    )
   end
 
   context 'when correct credentials given' do
     it 'calls AccountApi.sign_in with proper params' do
-      expect(AccountsApi::Auth)
-        .to receive(:sign_in)
-        .with(email: email, password: password)
+      expect(AccountsApi::Auth).to receive(:sign_in).with(email: email, password: password)
       subject
     end
 
@@ -160,6 +157,11 @@ describe 'User signing in' do
       it 'sets login IP' do
         subject
         expect(controller.current_user.login_ip).to eq(@remote_ip)
+      end
+
+      it 'calculates days to password expiry' do
+        subject
+        expect(controller.current_user.days_to_password_expiry).to eq(25)
       end
     end
 

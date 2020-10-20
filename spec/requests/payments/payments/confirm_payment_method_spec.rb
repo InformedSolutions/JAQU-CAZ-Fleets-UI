@@ -31,6 +31,18 @@ describe 'PaymentsController - POST #confirm_payment_method' do
         expect(response).to redirect_to(confirm_debits_path)
       end
     end
+
+    context 'when user does not select a method' do
+      let(:payment_method) { '' }
+
+      it 'rerenders the page' do
+        expect(response).to render_template(:select_payment_method)
+      end
+
+      it 'assigns correct error message' do
+        expect(assigns(:errors)).to eq('Choose Direct Debit or card payment')
+      end
+    end
   end
 
   it_behaves_like 'incorrect permissions'

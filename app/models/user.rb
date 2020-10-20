@@ -59,11 +59,6 @@ class User
     }
   end
 
-  # Returns associated fleet object
-  def fleet
-    @fleet ||= VehiclesManagement::Fleet.new(account_id)
-  end
-
   # Serializes User based on data from API
   def self.serialize_from_api(user_attributes)
     User.new(
@@ -77,17 +72,21 @@ class User
     )
   end
 
-  # Checks if user password has expired
-  # Returns boolean
-  def force_password_update?
-    days_to_password_expiry > 90
-  end
-
   # Calculates days to password expiry
   # Returns number
   def self.calculate_password_expiry(date)
     return if date.nil?
 
     90 - (Date.current.mjd - Date.parse(date).mjd)
+  end
+
+  # Returns associated fleet object
+  def fleet
+    @fleet ||= VehiclesManagement::Fleet.new(account_id)
+  end
+
+  # Get actual account name by calling user details endpoint
+  def actual_account_name
+    AccountsApi::Users.account_details(account_user_id: user_id)['accountName']
   end
 end

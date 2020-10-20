@@ -8,6 +8,7 @@ describe 'UsersManagement::UsersController - GET #index' do
   context 'correct permissions' do
     before do
       sign_in manage_users_user
+      mock_actual_account_name
       mock_users
     end
 

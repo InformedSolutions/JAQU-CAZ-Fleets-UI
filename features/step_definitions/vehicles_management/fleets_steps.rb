@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 Given('I have no vehicles in my fleet') do
+  mock_actual_account_name
   mock_users
   mock_empty_fleet
 end
 
 Given('I have no vehicles in my fleet and visit the manage vehicles page') do
+  mock_actual_account_name
   mock_empty_fleet
   mock_users
   login_user({ permissions: 'MANAGE_VEHICLES' })
@@ -27,6 +29,7 @@ When('I visit the manage vehicles page with payment permission') do
 end
 
 When('I visit the submission method page') do
+  mock_actual_account_name
   mock_vehicles_in_fleet
   mock_users
   login_user({ permissions: 'MANAGE_VEHICLES' })
@@ -54,6 +57,7 @@ Then('I should be on the upload page') do
 end
 
 When('I have vehicles in my fleet') do
+  mock_actual_account_name
   mock_users
   mock_clean_air_zones
   mock_vehicles_in_fleet
