@@ -19,11 +19,13 @@ When('I have one vehicle in my fleet') do
 end
 
 When('I visit the manage vehicles page') do
+  mock_actual_account_name
   login_user({ permissions: 'MANAGE_VEHICLES' })
   visit fleets_path
 end
 
 When('I visit the manage vehicles page with payment permission') do
+  mock_actual_account_name
   login_user({ permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS] })
   visit fleets_path
 end

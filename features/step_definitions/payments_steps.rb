@@ -2,6 +2,7 @@
 
 When('I visit the make payment page') do
   mock_debits
+  mock_actual_account_name
   login_user(permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS], account_id: account_id)
   visit payments_path
 end

@@ -2,6 +2,7 @@
 
 When('I visit the make payment page to pay by direct debit') do
   mock_debits
+  mock_actual_account_name
   login_user(permissions: %w[MAKE_PAYMENTS MANAGE_MANDATES], account_id: account_id)
   visit payments_path
 end
@@ -14,6 +15,7 @@ When('I have no mandates') do
 end
 
 When('I visit the Manage Direct Debit page') do
+  mock_actual_account_name
   login_user(permissions: 'MANAGE_MANDATES')
   visit debits_path
 end
@@ -45,6 +47,7 @@ Then('I should be on the Manage debits page') do
 end
 
 When('I visit the Add new mandate page') do
+  mock_actual_account_name
   login_user(permissions: 'MANAGE_MANDATES')
   visit new_debit_path
 end

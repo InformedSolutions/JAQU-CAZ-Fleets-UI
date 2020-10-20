@@ -7,7 +7,7 @@
   %ul#navigation.govuk-header__navigation{'aria-label': 'Top Level Navigation'}
     - if user_signed_in?
       %li.govuk-header__navigation-item{class: current_path?(authenticated_root_path)}
-        = link_to('Home', authenticated_root_path, class: 'govuk-header__link', id: 'home')
+        = link_to('Account home', authenticated_root_path, class: 'govuk-header__link', id: 'home')
       %li.govuk-header__navigation-item{class: current_path?(primary_users_account_details_path) || current_path?(non_primary_users_account_details_path)}
         = link_to('Account details',
             current_user.owner ? primary_users_account_details_path : non_primary_users_account_details_path,

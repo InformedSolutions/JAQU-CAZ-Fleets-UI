@@ -1,4 +1,4 @@
-- title_content = 'Manage your vehicles and view charges'
+- title_content = 'Manage vehicles and view charges'
 - title_and_header = flash[:success] ? "Upload successful - #{title_content}" : title_content
 - content_for(:title, title_and_header)
 
@@ -17,7 +17,7 @@
       %h1.govuk-heading-l
         = title_content
       %p
-        Charge information for your vehicles in each Clean Air Zone.
+        Charge information for vehicles in each Clean Air Zone.
       .govuk-inset-text
         %b Live
         \- you must pay a charge to drive in the zone
@@ -87,7 +87,7 @@
               What does undetermined mean?
           .govuk-details__text
             %p 
-              A charge could not be calculated based on your registration information.
+              We could not calculate a charge based on the number plate.
               If the details we hold are incorrect you should contact
               = succeed '.' do
                 = external_link_to('DVLA',
@@ -95,11 +95,13 @@
                                     id: 'update_record_link',
                                     class: 'govuk-link')
             %p
-              The charge still needs to be paid but must be done per individual vehicle.
-              = link_to('Use the Pay a Clean Air Zone charge service for an individual vehicle',
-                        single_vehicle_payment_link,
-                        id: 'pay_clean_air_zone_link',
-                        class: 'govuk-link')
+              The charge may still need to be paid for an individual vehicle.
+              A charge for a single vehicle can be
+              = external_link_to('paid',
+                                 single_vehicle_payment_link,
+                                 id: 'pay_clean_air_zone_link',
+                                 class: 'govuk-link')
+              before or after driving in a Clean Air Zone.
 
       %h2.govuk-heading-m Add vehicles
       %p
@@ -119,4 +121,4 @@
         = link_to('Make a payment', payments_path, id: 'payment-button', class: 'govuk-button', 'data-module': 'govuk-button')
       
       %p
-        = link_to('Return to Your account', dashboard_path, id: 'individual-payment', class: 'govuk-link')
+        = link_to('Return to Account home', dashboard_path, id: 'return-to-account', class: 'govuk-link')

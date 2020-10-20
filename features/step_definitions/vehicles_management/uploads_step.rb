@@ -31,10 +31,12 @@ Then('I should download the template') do
 end
 
 When('I am on the processing page') do
+  mock_actual_account_name
   mock_processing_page(large_fleet: true)
 end
 
 When('I am on the processing page and number of vehicles less than the threshold') do
+  mock_actual_account_name
   mock_processing_page(large_fleet: false)
 end
 

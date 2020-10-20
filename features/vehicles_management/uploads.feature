@@ -61,14 +61,14 @@ Feature: Uploads
       And I should see 'Uploading your vehicles'
     Then I press 'Return to Your account' link
       And I should be on the Dashboard page
-    Then I press 'Manage your vehicles' link
+    Then I press 'Manage vehicles and view charges' link
       And I should be on the calculating chargeability page
       And I press 'Return to Your account' link
     Then I press 'Make a payment' link
       And I should be on the calculating chargeability page
     Then I press 'Return to Your account' link
       And My upload is finished
-    Then I press 'Manage your vehicles' link
+    Then I press 'Manage vehicles and view charges' link
       And I should be on the manage vehicles page
       And I should see 'You have successfully uploaded 15 vehicles'
       And I visit the Dashboard page
