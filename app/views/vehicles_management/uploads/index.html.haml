@@ -7,5 +7,14 @@
         = render 'job_errors'
       - elsif alert
         = render 'shared/error_summary', error_msg_div: '#govuk-error-message', error_msg: alert
-      = render @vehicles_present ? 'reupload' : 'upload'
+
+      - if @vehicles_present
+        - title_and_header = "Replace and upload a new list of vehicles to #{current_user.actual_account_name} account"
+        %h1.govuk-heading-l= title_and_header
+      - else
+        - title_and_header = "Upload the vehicle list to #{current_user.actual_account_name} account"
+        %h1.govuk-heading-l= title_and_header
+
       = render 'description'
+
+      - content_for(:title, title_and_header)

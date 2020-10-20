@@ -1,9 +1,0 @@
-- title_and_header = "Replace and upload a new list of vehicles to #{current_user.actual_account_name} account"
-- content_for(:title, title_and_header)
-
-%h1.govuk-heading-l
-  =title_and_header
-%p
-  To add vehicles to this account, you can either use your own spreadsheet or
-  = succeed('.') do
-    = link_to('download a template (CSV, 1KB)', download_template_uploads_path)
