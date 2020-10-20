@@ -58,15 +58,15 @@ Feature: Uploads
     Then I should be on the local vehicles exemptions page
       And I press 'Continue' link
     Then I should be on the calculating chargeability page
-      And I should see 'Uploading your vehicles'
-    Then I press 'Return to Your account' link
+      And I should see 'Uploading vehicles' title
+    Then I press 'Return to Account home' link
       And I should be on the Dashboard page
     Then I press 'Manage your vehicles' link
       And I should be on the calculating chargeability page
-      And I press 'Return to Your account' link
+      And I press 'Return to Account home' link
     Then I press 'Make a payment' link
       And I should be on the calculating chargeability page
-    Then I press 'Return to Your account' link
+    Then I press 'Return to Account home' link
       And My upload is finished
     Then I press 'Manage your vehicles' link
       And I should be on the manage vehicles page

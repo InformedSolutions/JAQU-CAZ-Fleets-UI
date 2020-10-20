@@ -1,4 +1,8 @@
-%h1.govuk-heading-l Upload your vehicle list
+- title_and_header = 'Upload your vehicle list'
+- content_for(:title, title_and_header)
+
+%h1.govuk-heading-l
+  = title_and_header
 %p
   To add vehicles to your account, you can either use your own spreadsheet or
   = succeed('.') do

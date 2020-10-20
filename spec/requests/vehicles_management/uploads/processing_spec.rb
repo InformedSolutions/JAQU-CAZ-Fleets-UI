@@ -27,6 +27,7 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
       before do
         add_upload_job_to_redis(job_id: job_id, correlation_id: correlation_id, large_fleet: large_fleet)
         allow(FleetsApi).to receive(:job_status).and_return(status: status, errors: errors)
+        mock_actual_account_name
         mock_fleet(create_empty_fleet)
       end
 
