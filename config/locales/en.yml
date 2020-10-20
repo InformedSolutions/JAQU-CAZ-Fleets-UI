@@ -113,18 +113,6 @@ en:
     errors:
       confirmation_alert: Confirm you have checked if you are eligible for an exemption
   inactivity_logout: We have signed you out of your account to keep it secure after it became inactive.
-  add_new_user_form:
-    labels:
-      name: Name
-      email: Enter their email address
-    hints:
-      email: This will be used to send an invite to create an account.
-    errors:
-      name_missing: Enter the user's name
-      email_missing: Enter the user's email address
-      email_duplicated: Email address already exists
-      permissions_missing: Select at least one permission type to continue
-      email_invalid_format: Enter the user’s email address in a valid format
   remove_user:
     choose_answer: Select yes to remove the user
     removed: You have successfully removed %{full_user_name} from your account.
