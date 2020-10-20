@@ -8,13 +8,11 @@
       - elsif alert
         = render 'shared/error_summary', error_msg_div: '#govuk-error-message', error_msg: alert
 
-      - if @vehicles_present
-        - title_and_header = "Replace and upload a new list of vehicles to #{current_user.actual_account_name} account"
-        %h1.govuk-heading-l= title_and_header
+      - title_and_header = if @vehicles_present
+        - "Replace and upload a new list of vehicles to #{current_user.actual_account_name} account"
       - else
-        - title_and_header = "Upload the vehicle list to #{current_user.actual_account_name} account"
-        %h1.govuk-heading-l= title_and_header
-
-      = render 'description'
+        - "Upload the vehicle list to #{current_user.actual_account_name} account"
 
       - content_for(:title, title_and_header)
+      %h1.govuk-heading-l= title_and_header
+      = render 'description'
