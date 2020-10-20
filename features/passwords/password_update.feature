@@ -42,7 +42,7 @@ Feature: Password reset
     Given I navigate to a Dashboard page
       And I enter email and password that is about to expire in 0 days and press Continue
       And I should be on Update Password page
-    When I press 'Home' link
+    When I press 'Account home' link
       And I should be on Update Password page
     When I press 'Sign out' link
       And I enter email and password that is about to expire in -6 days and press Continue

@@ -3,6 +3,7 @@
 When('I visit the enter details page') do
   mock_vehicles_in_fleet
   mock_users
+  mock_actual_account_name
   login_user(permissions: 'MANAGE_VEHICLES')
   visit enter_details_vehicles_path
 end
