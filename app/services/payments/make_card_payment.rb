@@ -38,6 +38,7 @@ module Payments
 
     private
 
+    # Attributes reader
     attr_reader :return_url
   end
 end

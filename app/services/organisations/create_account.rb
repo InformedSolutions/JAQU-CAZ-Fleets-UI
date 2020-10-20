@@ -29,6 +29,7 @@ module Organisations
 
     private
 
+    # Attributes reader
     attr_reader :company_name, :confirm_fleet_check
 
     def validate_params

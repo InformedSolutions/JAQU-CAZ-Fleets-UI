@@ -35,6 +35,7 @@ module SessionManipulation
 
     private
 
+    # Attributes reader
     attr_reader :email, :payment_reference, :external_id
   end
 end

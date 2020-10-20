@@ -7,6 +7,7 @@ module AccountDetails
   # Service used to validate password and perform request to API which updates the email address
   #
   class UpdateEmail < BaseService
+    # Attributes reader
     attr_reader :errors, :new_user_email, :password
 
     ##
@@ -41,6 +42,7 @@ module AccountDetails
 
     private
 
+    # Attributes reader
     attr_reader :password_confirmation, :token
 
     # Calls AccountsApi::Auth.confirm_email with given password and the token

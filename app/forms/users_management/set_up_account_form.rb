@@ -40,6 +40,7 @@ module UsersManagement
 
     private
 
+    # Attributes reader
     attr_reader :token, :password, :password_confirmation
 
     # Checks if +password+ and +password_confirmation+ are same.

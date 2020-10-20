@@ -33,6 +33,7 @@ module Organisations
 
     private
 
+    # Attributes reader
     attr_reader :token
 
     # Performs the API call to verification endpoint.

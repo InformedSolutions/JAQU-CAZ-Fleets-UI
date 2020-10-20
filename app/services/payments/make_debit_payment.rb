@@ -40,6 +40,7 @@ module Payments
 
     private
 
+    # Attributes reader
     attr_reader :mandate_id, :account_id, :user_email
   end
 end

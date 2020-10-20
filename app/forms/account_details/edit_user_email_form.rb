@@ -6,6 +6,7 @@ module AccountDetails
   ##
   # This class is used to validate users email filled in +app/views/account_details/primary_users/edit_email.html.haml+
   class EditUserEmailForm < BaseForm
+    # Attributes accessor
     attr_accessor :account_id, :email
 
     # validates +email+ presence

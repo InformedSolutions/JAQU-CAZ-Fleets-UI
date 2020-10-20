@@ -11,6 +11,7 @@ module Payments
   #    @payment_details = Payments::Details.new(session[:vehicle_details])
   #
   class Details
+    # Attributes reader
     attr_reader :entries_paid, :total_charge
 
     ##
