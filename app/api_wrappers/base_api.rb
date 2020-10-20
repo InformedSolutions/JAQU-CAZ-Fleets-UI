@@ -9,6 +9,7 @@ class BaseApi
   # Uncomment for debug
   # debug_output $stdout
 
+  # The Content-Type header is used to indicate the media type of the resource
   CONTENT_TYPE = 'application/json'
 
   headers(

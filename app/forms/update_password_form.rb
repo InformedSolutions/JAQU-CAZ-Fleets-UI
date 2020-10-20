@@ -32,6 +32,7 @@ class UpdatePasswordForm < NewPasswordForm
 
   private
 
+  # Attributes reader
   attr_reader :user_id, :old_password, :password
 
   # Performs call to AccountsApi::Auth.update_password

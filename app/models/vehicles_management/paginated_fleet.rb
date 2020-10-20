@@ -7,6 +7,7 @@ module VehiclesManagement
   # Class used to display fleet on the manage vehicles page
   #
   class PaginatedFleet
+    # Attributes reader
     attr_reader :per_page, :page
 
     # Take data returned from the FleetsApi.vehicles
@@ -44,6 +45,7 @@ module VehiclesManagement
 
     private
 
+    # Attributes reader
     attr_reader :data
   end
 end

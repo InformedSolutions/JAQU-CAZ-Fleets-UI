@@ -29,6 +29,7 @@ module AccountDetails
 
     private
 
+    # Attributes reader
     attr_reader :account_id, :company_name
 
     # Company name validation

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+# Devise gem module
 module Devise
+  # A strategy is a place where you can put logic related to authentication. Any strategy inherits
+  # from Warden::Strategies::Base.
   module Strategies
     ##
     # Class responsible for validating user email and authenticating user.
@@ -37,9 +40,8 @@ module Devise
         false
       end
 
+      # Validate params and authenticate an user
       def authenticate_user(resource, auth_params)
-        # remote_authentication method is defined in Devise::Models::RemoteAuthenticatable
-        #
         # Validate is a method defined in Devise::Strategies::Authenticatable. It takes
         # a block which must return a boolean value.
         #

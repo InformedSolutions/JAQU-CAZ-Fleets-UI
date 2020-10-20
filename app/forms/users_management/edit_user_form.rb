@@ -39,6 +39,7 @@ module UsersManagement
 
     private
 
+    # Attributes reader
     attr_reader :account_id, :account_user_id, :permissions
   end
 end

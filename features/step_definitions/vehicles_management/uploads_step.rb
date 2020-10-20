@@ -31,6 +31,7 @@ Then('I should download the template') do
 end
 
 When('I am on the processing page') do
+  mock_actual_account_name
   mock_processing_page(large_fleet: true)
 end
 

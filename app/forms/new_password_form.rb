@@ -3,6 +3,7 @@
 ##
 # Class used to validate form rendered on the +app/views/passwords/index.html.haml+ or on the +app/views/account_details/emails/confirm_email.html.haml+
 class NewPasswordForm < BaseForm
+  # Attributes accessor
   attr_accessor :password, :password_confirmation
 
   validates :password, presence: { message: I18n.t('new_password_form.errors.password_missing') }

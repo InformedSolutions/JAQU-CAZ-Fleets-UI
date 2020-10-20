@@ -9,7 +9,9 @@ module Organisations
     # Attribute used internally
     attr_accessor :company_name
 
+    # Regexp used to validate the company name
     COMPANY_NAME_REGEX = %r{(^$|^[[:alpha:][0-9] /'\-&.]+)$}u.freeze
+    # Maximum length for company name
     MAX_COMPANY_NAME_LENGTH = 180
 
     # validates attributes to presence

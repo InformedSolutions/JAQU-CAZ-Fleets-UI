@@ -39,6 +39,7 @@ module Payments
 
     private
 
+    # Attributes reader
     attr_reader :charge_start_date
 
     # Create hash of dates
