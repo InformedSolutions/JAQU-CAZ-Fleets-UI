@@ -1,4 +1,4 @@
-- title_and_header = 'Your Direct Debits'
+- title_and_header = 'Direct Debits'
 - content_for(:title, title_and_header)
 
 = link_to 'Back', @back_button_url, class: 'govuk-back-link'
@@ -50,4 +50,4 @@
         %p
           You have created a Direct Debit for every Clean Air Zone.
       %p
-        = link_to 'Back to Your account', root_path
+        = link_to 'Return to Account home', root_path, id: 'return-to-account'
