@@ -42,6 +42,7 @@ Feature: Password reset
     Given I navigate to a Dashboard page
       And I enter email and password that is about to expire in 0 days and press Continue
       And I should be on Update Password page
+      And I should see 'Your password has expired, choose a new one.'
     When I press 'Account home' link
       And I should be on Update Password page
     When I press 'Sign out' link

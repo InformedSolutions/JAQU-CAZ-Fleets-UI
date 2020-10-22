@@ -7,23 +7,18 @@
   .govuk-grid-row
     .govuk-grid-column-two-thirds
       - if alert
-        = render 'shared/error_summary',
-                  error_msg_div: '#confirm-vehicle-details-error',
-                  error_msg: alert
+        = render 'shared/error_summary', error_msg_div: '#confirm-vehicle-details-error', error_msg: alert
 
       %h1.govuk-heading-xl
         = title_and_header
       %table.govuk-table
         %thead.govuk-table__head
           %td.govuk-table__header{colspan: 2, id: 'table-header'}
-          %h2.govuk-heading-m Vehicle Details
+          %h2.govuk-heading-m Vehicle details
         %tbody.govuk-table__body
           %tr.govuk-table__row
-            %td.govuk-table__cell{scope: 'row'} Vehicle registration
+            %td.govuk-table__cell{scope: 'row'} Number plate
             %th.govuk-table__cell{id: 'registration-number'}= @vehicle_details.registration_number
-          %tr.govuk-table__row
-            %td.govuk-table__cell{scope: 'row'} Vehicle type approval
-            %th.govuk-table__cell{id: 'type-approval'}= @vehicle_details.type_approval
           %tr.govuk-table__row
             %td.govuk-table__cell{scope: 'row'} CAZ vehicle type
             %th.govuk-table__cell{id: 'type'}= @vehicle_details.type
