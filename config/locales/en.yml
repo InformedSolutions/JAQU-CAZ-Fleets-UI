@@ -32,10 +32,12 @@ en:
   edit_user_email_form:
     errors:
       email_duplicated: Email address already exists
-      email_invalid_format: Enter an email address in a valid format
+      email_invalid_format: Email is in an invalid format
       email_missing: Enter an email address
+      emails_not_equal: Email address and email confirmation must be the same
     labels:
       email: Email address
+      email_confirmation: Confirm email address
   edit_user_name_form:
     errors:
       name_missing: Enter your name
