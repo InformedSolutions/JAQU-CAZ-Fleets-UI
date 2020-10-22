@@ -6,15 +6,14 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
+      = render 'shared/errors_summary', errors: @errors.sort.to_h if @errors
 
-      - if @errors
-        = render 'shared/errors_summary', errors: @errors.sort.to_h
+      %h1.govuk-heading-l= title_and_header
 
-      %h1.govuk-heading-l
-        = title_and_header
-
-      = form_for('passwords', url: edit_password_path, method: :patch,
-        html: {autocomplete: 'off', novalidate: 'novalidate'}) do |f|
+      = form_for('passwords',
+                 url: edit_password_path,
+                 method: :patch,
+                 html: {autocomplete: 'off', novalidate: 'novalidate'}) do |f|
 
         .govuk-form-group{class: ('govuk-form-group--error' if @errors && @errors[:old_password].present?)}
           = f.label :old_password, 'Old password', class: 'govuk-label'
