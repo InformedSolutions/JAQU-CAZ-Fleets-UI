@@ -34,10 +34,11 @@ module AccountDetails
     #    :GET /primary_users/update_email
     #
     def update_email
-      return redirect_to primary_users_account_details_path if current_user.email == email_params
+      form = AccountDetails::EditUserEmailForm.new(email_params)
 
-      form = AccountDetails::EditUserEmailForm.new(account_id: current_user.account_id, email: email_params)
-      if form.valid?
+      if form.current_email_reuse?
+        redirect_to primary_users_account_details_path
+      elsif form.valid?
         update_email_and_redirect(form)
       else
         @errors = form.errors.messages
@@ -149,7 +150,12 @@ module AccountDetails
 
     # downcase email params
     def email_params
-      params[:email].downcase
+      {
+        email: params[:email].downcase,
+        confirmation: params[:confirmation].downcase,
+        account_id: current_user.account_id,
+        current_email: current_user.email
+      }
     end
 
     # Sends request to API with change email request
