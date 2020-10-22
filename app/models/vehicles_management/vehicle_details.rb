@@ -60,11 +60,6 @@ module VehiclesManagement
       (compliance_api['type']&.downcase == 'null').to_s
     end
 
-    # Returns a string, eg. 'M1'.
-    def type_approval
-      string_field('typeApproval')
-    end
-
     # Returns a string, eg. 'i20'.
     def model
       string_field('model')
