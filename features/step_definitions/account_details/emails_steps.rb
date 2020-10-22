@@ -18,14 +18,16 @@ And('I fill in email with email with invalid format') do
   fill_in('primary_user_email', with: 'invalid-email')
 end
 
-When('I fill in email with email with already taken email') do
+When('I fill in email and confirmation with already taken email') do
   mock_failed_user_validation
   fill_in('primary_user_email', with: 'valid@email.com')
+  fill_in('primary_user_confirmation', with: 'valid@email.com')
 end
 
-When('I fill in email with valid email address') do
+When('I fill in email and confirmation with valid email address') do
   mock_successful_user_validation
   fill_in('primary_user_email', with: 'valid@email.com')
+  fill_in('primary_user_confirmation', with: 'valid@email.com')
   mock_owners_change_email
 end
 

@@ -6,6 +6,7 @@
 Rails.application.config.filter_parameters += %i[
   password
   email
+  confirmation
   user_id
   account_id
   account_name

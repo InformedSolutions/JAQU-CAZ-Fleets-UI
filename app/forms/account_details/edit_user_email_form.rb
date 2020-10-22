@@ -7,21 +7,40 @@ module AccountDetails
   # This class is used to validate users email filled in +app/views/account_details/primary_users/edit_email.html.haml+
   class EditUserEmailForm < BaseForm
     # Attributes accessor
-    attr_accessor :account_id, :email
+    attr_accessor :account_id, :current_email, :email, :confirmation
 
-    # validates +email+ presence
-    validates :email, presence: { message: I18n.t('edit_user_email_form.errors.email_missing') }
+    # validates +email+ and +confirmation+ presence
+    validates :email, :confirmation, presence: {
+      message: I18n.t('edit_user_email_form.errors.email_missing')
+    }
 
-    # validates +email+ format
-    validates :email, format: {
+    # validates +email+ and +confirmation+ format
+    validates :email, :confirmation, format: {
       with: EMAIL_FORMAT,
       message: I18n.t('edit_user_email_form.errors.email_invalid_format')
     }, allow_blank: true
 
+    validate :correct_email_confirmation
+
     # validates +email+ against duplication
-    validate :email_not_duplicated, if: -> { email.present? }
+    validate :email_not_duplicated, if: -> { email.present? && email == confirmation }
+
+    # Checks if user reused their current email
+    def current_email_reuse?
+      email == current_email && confirmation == current_email
+    end
 
     private
+
+    # Checks if +email+ and +confirmation+ are same.
+    # If not, add error message to +email+ and +confirmation+
+    def correct_email_confirmation
+      return if email == confirmation
+
+      error_message = I18n.t('edit_user_email_form.errors.emails_not_equal')
+      errors.add(:email, :invalid, message: error_message)
+      errors.add(:confirmation, :invalid, message: error_message)
+    end
 
     # Checks if +email+ are unique.
     # If not, add error message to +email+.

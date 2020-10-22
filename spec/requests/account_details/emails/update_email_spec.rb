@@ -8,8 +8,9 @@ describe 'AccountDetails::EmailsController - GET #update_email' do
   before { sign_in user }
 
   let(:user) { create_owner }
-  let(:params) { { email: email } }
+  let(:params) { { email: email, confirmation: confirmation } }
   let(:email) { 'carl.gustav@jung.com' }
+  let(:confirmation) { 'carl.gustav@jung.com' }
 
   context 'when params are valid' do
     context 'when user is successfully updated' do
@@ -30,6 +31,7 @@ describe 'AccountDetails::EmailsController - GET #update_email' do
 
     context 'when user save no changes' do
       let(:email) { user.email }
+      let(:confirmation) { user.email }
 
       it 'redirects to the account details page' do
         expect(subject).to redirect_to(primary_users_account_details_path)
