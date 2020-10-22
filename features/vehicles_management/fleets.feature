@@ -41,12 +41,12 @@ Feature: Fleets
       And I press 'list of vehicles' link
     Then I should be on the upload page
 
-  Scenario: Visiting the manage fleet page with vehicles in fleet with no paymnet permission
+  Scenario: Visiting the manage fleet page with vehicles in fleet with no payment permission
     When I have vehicles in my fleet
       And I visit the manage vehicles page
     Then I should be on the manage vehicles page
       And I should not see 'Make a payment' link
-    Then I press 'Return to Your account' link
+    Then I press 'Return to Account home' link
       And I should be on the Dashboard page
 
   Scenario: Visiting the manage fleet page with vehicles in fleet with payment permission

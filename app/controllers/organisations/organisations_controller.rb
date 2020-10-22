@@ -29,9 +29,8 @@ module Organisations
 
     ##
     # Validates submitted account name.
-    # If successful, redirects to {:new_credentials}
-    # [rdoc-ref:OrganisationsController.new_credentials]
-    # If no, redirects to {:new}[rdoc-ref:OrganisationsController.new]
+    # If successful, redirects to {:new_credentials}[rdoc-ref:new_credentials]
+    # If no, redirects to {:new}[rdoc-ref:new]
     #
     # ==== Path
     #
@@ -105,9 +104,8 @@ module Organisations
 
     ##
     # Validates submitted email and password.
-    # If successful, redirects to {email-sent}[rdoc-ref:OrganisationsController.email_sent]
-    # If no, redirects to {new_email_and_password}
-    # [rdoc-ref:OrganisationsController.new_email_and_password]
+    # If successful, redirects to {email_sent}[rdoc-ref:email_sent]
+    # If no, redirects to {new_email_and_password}[rdoc-ref:new_email_and_password]
     #
     # ==== Path
     #
@@ -134,12 +132,19 @@ module Organisations
     #
     # ==== Path
     #
-    #    :GET /fleets/organisation-account/email-sent
+    #    :GET /organisations/email_sent
     #
     def email_sent
       @email = User.new(new_account).email
     end
 
+    ##
+    # Resend email by clicking the button
+    #
+    # ==== Path
+    #
+    #    :GET /organisations/resend_email
+    #
     def resend_email
       AccountsApi::Users.resend_verification(
         account_id: new_account['account_id'],
@@ -157,7 +162,7 @@ module Organisations
     #
     # ==== Path
     #
-    #    :GET /fleets/organisation-account/email-verification
+    #    :GET /organisations/email_verification
     #
     # ==== Params
     # * +token+ - string, encrypted token with verification data
@@ -174,7 +179,7 @@ module Organisations
     #
     # ==== Path
     #
-    #    :GET /fleets/organisation-account/email-verified
+    #    :GET /organisations/email_verified
     #
     def email_verified
       @user = User.new

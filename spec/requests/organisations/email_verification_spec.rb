@@ -36,4 +36,12 @@ describe 'Organisations::OrganisationsController - GET #email_verification' do
       expect(response).to redirect_to(verification_expired_organisations_path)
     end
   end
+
+  context 'when verification is raised `UserAlreadyConfirmedException` exception' do
+    before { allow(Organisations::VerifyAccount).to receive(:call).and_raise(UserAlreadyConfirmedException) }
+
+    it 'renders the view' do
+      expect(subject).to render_template('devise/sessions/new')
+    end
+  end
 end

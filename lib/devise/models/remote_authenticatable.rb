@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+# Devise gem module
 module Devise
+  # A strategy is a place where you can put logic related to authentication. Any strategy inherits
+  # from Warden::Strategies::Base.
   module Models
     # Module allow remote authentication with devise, used in User.rb
     module RemoteAuthenticatable

@@ -56,4 +56,16 @@ describe PaymentsHelper do
       expect(helper.single_vrn_parsed_charge(dates, 5)).to eq('£10.00')
     end
   end
+
+  describe '.exemption_url_for' do
+    let(:caz) do
+      instance_double CleanAirZone,
+                      name: 'Leeds',
+                      exemption_url: 'www.example.com'
+    end
+
+    it 'returns a proper value' do
+      expect(helper.exemption_url_for(caz)).to include('Leeds City Council (opens in a new window)')
+    end
+  end
 end

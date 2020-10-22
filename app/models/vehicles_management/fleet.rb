@@ -18,10 +18,15 @@ module VehiclesManagement
 
     # Returns a VehiclesManagement::PaginatedFleet with vehicles associated with the account.
     # Includes data about page and total pages count.
-    def pagination(page:)
+    def pagination(page:, only_chargeable: false)
       per_page ||= 10
       @pagination ||= begin
-        data = FleetsApi.vehicles(account_id: account_id, page: page, per_page: per_page)
+        data = FleetsApi.vehicles(
+          account_id: account_id,
+          page: page,
+          per_page: per_page,
+          only_chargeable: only_chargeable
+        )
         VehiclesManagement::PaginatedFleet.new(data, page, per_page)
       end
     end

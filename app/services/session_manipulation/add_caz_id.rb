@@ -32,6 +32,7 @@ module SessionManipulation
 
     private
 
+    # Attributes reader
     attr_reader :session, :caz_id
   end
 end

@@ -8,6 +8,7 @@ describe 'VehiclesManagement::UploadsController - GET #index' do
   context 'correct permissions' do
     before do
       sign_in manage_vehicles_user
+      mock_actual_account_name
       mock_fleet
     end
 

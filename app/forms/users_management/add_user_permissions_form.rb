@@ -34,6 +34,7 @@ module UsersManagement
 
     private
 
+    # Attributes reader
     attr_reader :session, :permissions, :verification_url, :user_id
 
     # API request to create user invitation

@@ -15,6 +15,7 @@ module SessionManipulation
 
     private
 
+    # Attributes reader
     attr_reader :session, :params
   end
 end

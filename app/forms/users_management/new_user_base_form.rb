@@ -9,6 +9,7 @@ module UsersManagement
   class NewUserBaseForm < BaseForm
     private
 
+    # Attributes reader
     attr_reader :account_id, :name, :email
 
     # Checks if +email+ are unique.

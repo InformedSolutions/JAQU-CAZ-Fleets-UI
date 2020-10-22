@@ -27,6 +27,7 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
       before do
         add_upload_job_to_redis(job_id: job_id, correlation_id: correlation_id, large_fleet: large_fleet)
         allow(FleetsApi).to receive(:job_status).and_return(status: status, errors: errors)
+        mock_actual_account_name
         mock_fleet(create_empty_fleet)
       end
 
@@ -95,23 +96,6 @@ describe 'VehiclesManagement::UploadsController - GET #processing' do
 
           it 'assigns errors' do
             expect(assigns[:job_errors]).to eq(errors)
-          end
-
-          it 'deletes job data from redis' do
-            expect(REDIS.hget(upload_job_redis_key, 'job_id')).to be_nil
-          end
-        end
-
-        describe 'FAILURE - lambda timeout' do
-          let(:status) { 'FAILURE' }
-          let(:errors) { ['Lambda timeout exception. Please contact administrator to get assistance'] }
-
-          it 'renders the upload page' do
-            expect(response).to render_template(:index)
-          end
-
-          it 'assigns errors' do
-            expect(assigns[:job_errors]).to eq([I18n.t('csv.errors.size_too_big')])
           end
 
           it 'deletes job data from redis' do

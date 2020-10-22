@@ -10,18 +10,18 @@ Feature: Sign In
       And I should see 'Sign In'
       And I should not see 'Account' link
     Then I should enter fleet owner credentials and press the Continue
-    When I should see 'Your account'
+    When I should see 'Royal Mail account home'
       And Cookie is created for my session
       And I should not see 'Create account' link
 
   Scenario: View dashboard page with cookie that has not expired
     Given I have authentication cookie that has not expired
-    Then I should see 'Your account'
+    Then I should see 'Royal Mail account home'
 
   Scenario: View dashboard page with cookie that has expired
     Given I have authentication cookie that has expired
     When I visit the Dashboard page
-      And I should not see 'Your account'
+      And I should not see 'Royal Mail account home'
     Then I am redirected to the unauthenticated root page
       And I should see 'Sign In'
 
@@ -70,7 +70,7 @@ Feature: Sign In
     Then I remain on the current page
       And I should see 'Enter your email address in a valid format'
     Then I provide valid credentials and Continue
-      And I should see 'Your account'
+      And I should see 'Royal Mail account home'
       And Cookie is created for my session
       And I should not see 'Create account' link
 

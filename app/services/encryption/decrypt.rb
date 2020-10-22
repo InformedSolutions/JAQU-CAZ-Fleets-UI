@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+##
+# Module used for encrypting token sent to users.
 module Encryption
   # Service used to decrypt token
   #

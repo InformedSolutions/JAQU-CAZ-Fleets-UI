@@ -3,6 +3,7 @@
 ##
 # Form used to validate reset password token
 class TokenForm < BaseForm
+  # Attributes accessor
   attr_accessor :token
 
   validates :token, presence: { message: I18n.t('token_form.token_missing') }

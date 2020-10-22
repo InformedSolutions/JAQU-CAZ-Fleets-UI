@@ -83,5 +83,6 @@ class CleanAirZone
 
   private
 
+  # Attributes reader
   attr_reader :caz_data
 end

@@ -31,10 +31,12 @@ Then('I should download the template') do
 end
 
 When('I am on the processing page') do
+  mock_actual_account_name
   mock_processing_page(large_fleet: true)
 end
 
 When('I am on the processing page and number of vehicles less than the threshold') do
+  mock_actual_account_name
   mock_processing_page(large_fleet: false)
 end
 
@@ -58,14 +60,6 @@ end
 When('I upload a csv file whose size is too big') do
   attach_valid_csv_file
   allow_any_instance_of(ActionDispatch::Http::UploadedFile).to receive(:size).and_return(52_428_801)
-  click_button 'Upload file'
-end
-
-When('My upload results with lambda timeout') do
-  allow(VehiclesManagement::UploadFile)
-    .to receive(:call)
-    .and_raise(CsvUploadException.new(I18n.t('csv.errors.size_too_big')))
-  attach_valid_csv_file
   click_button 'Upload file'
 end
 
