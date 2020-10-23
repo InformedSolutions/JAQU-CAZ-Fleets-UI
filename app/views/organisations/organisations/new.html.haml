@@ -8,8 +8,7 @@
     .govuk-grid-column-two-thirds
       = render 'shared/error_summary', error_msg_div: '#company_name-error', error_msg: "#{@error}" if @error
 
-      %h1.govuk-heading-l
-        = title_and_header
+      %h1.govuk-heading-l= title_and_header
       %p
       %span#create-account-hint.govuk-hint
         Upload and pay the charge for multiple vehicles.
@@ -20,7 +19,7 @@
         = form_for('organisations',
                    url: organisations_path,
                    method: :post,
-                   html: { autocomplete: :on, novalidate: 'novalidate', spellcheck: false }) do |f|
+                   html: {autocomplete: :on, novalidate: 'novalidate', spellcheck: false}) do |f|
 
           .govuk-form-group{class: ('govuk-form-group--error' if @error)}
             = f.label :company_name, I18n.t('company_name_form.company_name_missing'), class: 'govuk-label'
@@ -36,3 +35,7 @@
                             value: session.dig('new_account', 'company_name')
 
           = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
+
+        %p
+          If you already have an account you can
+          = link_to('sign in', new_user_session_path, id: 'sign-in-button')
