@@ -9,9 +9,18 @@ module AccountDetails
     # Attributes accessor
     attr_accessor :account_id, :current_email, :email, :confirmation
 
+    # Maximum length for email address
+    MAX_EMAIL_LENGTH = 128
+
     # validates +email+ and +confirmation+ presence
     validates :email, :confirmation, presence: {
       message: I18n.t('edit_user_email_form.errors.email_missing')
+    }
+
+    # validates +email+ and +confirmation+ length
+    validates :email, :confirmation, length: {
+      maximum: MAX_EMAIL_LENGTH,
+      too_long: I18n.t('edit_user_email_form.errors.email_too_long')
     }
 
     # validates +email+ and +confirmation+ format
@@ -23,7 +32,7 @@ module AccountDetails
     validate :correct_email_confirmation
 
     # validates +email+ against duplication
-    validate :email_not_duplicated, if: -> { email.present? && email == confirmation }
+    validate :email_not_duplicated, if: :check_if_email_unique?
 
     # Checks if user reused their current email
     def current_email_reuse?
@@ -31,6 +40,11 @@ module AccountDetails
     end
 
     private
+
+    # Determines if email uniqueness should be checked
+    def check_if_email_unique?
+      email.present? && email == confirmation && email.length <= MAX_EMAIL_LENGTH
+    end
 
     # Checks if +email+ and +confirmation+ are same.
     # If not, add error message to +email+ and +confirmation+
