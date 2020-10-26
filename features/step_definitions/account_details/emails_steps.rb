@@ -81,7 +81,7 @@ end
 
 When('I enter correct passwords but the token is invalid') do
   fill_in_passwords
-  raise_422_confirm_exception('expired')
+  raise_422_confirm_exception('invalid')
 end
 
 def raise_422_confirm_exception(error_code = '')
