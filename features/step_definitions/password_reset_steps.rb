@@ -48,13 +48,11 @@ When('I enter not matching password and confirmation') do
 end
 
 When('I enter valid password and confirmation') do
-  password = 'password'
-  fill_in('passwords[password]', with: password)
-  fill_in('passwords[password_confirmation]', with: password)
+  fill_in_passwords
   token = find('#token', visible: false).value
   allow(AccountsApi)
     .to receive(:set_password)
-    .with(token: token, password: password)
+    .with(token: token, password: 'password')
     .and_return(true)
   click_button 'Update password'
 end
@@ -64,11 +62,22 @@ Then('I should be on the success page') do
 end
 
 When('I enter too easy password and confirmation') do
-  password = 'password'
-  fill_in('passwords[password]', with: password)
-  fill_in('passwords[password_confirmation]', with: password)
+  fill_in_passwords
   allow(AccountsApi)
     .to receive(:set_password)
-    .and_raise(BaseApi::Error422Exception.new(422, '', {}))
+    .and_raise(BaseApi::Error422Exception.new(422, '', 'errorCode' => 'passwordNotValid'))
   click_button 'Update password'
+end
+
+When('I try to reuse old password') do
+  fill_in_passwords
+  allow(AccountsApi)
+    .to receive(:set_password)
+    .and_raise(BaseApi::Error422Exception.new(422, '', 'errorCode' => 'newPasswordReuse'))
+  click_button 'Update password'
+end
+
+def fill_in_passwords
+  fill_in('passwords[password]', with: 'password')
+  fill_in('passwords[password_confirmation]', with: 'password')
 end

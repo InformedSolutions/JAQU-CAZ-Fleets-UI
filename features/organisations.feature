@@ -7,20 +7,20 @@ Feature: Organisations
   Scenario: User wants to create a company
     Given I go to the create account page
       And I should see "Create an account"
-      And I should see "Create account" link
+      And I should see "Create an account" link
     Then I press the Continue
       And I should see "Enter your company name"
     Then I enter a company name
       And I press the Continue
     Then I should see "How many vehicles do you manage or own?"
-      And I press the Back link
+      And I press 'Back' link
     Then I should see "Create an account"
       And I press the Continue
     Then I should see "How many vehicles do you manage or own?"
       And I choose "Two or more"
       And I press the Continue
     Then I should see "Sign in details"
-      And I should see "Create account" link
+      And I should see "Create an account" link
     Then I press the Continue
       And I should see "Enter your email address"
       And I should see "Enter your password"
@@ -37,7 +37,7 @@ Feature: Organisations
   Scenario: User tries to create invalid company
     Given I go to the create account page
       And I should see "Create an account"
-      And I should see "Create account" link
+      And I should see "Create an account" link
     Then I enter invalid company name
       And I press the Continue
       And I should see "Enter company name in a valid format"
@@ -54,7 +54,7 @@ Feature: Organisations
   Scenario: User wants to create a company for fleet with one vehicle
     Given I go to the create account page
       And I should see "Create an account"
-      And I should see "Create account" link
+      And I should see "Create an account" link
     Then I press the Continue
       And I should see "Enter your company name"
     Then I enter a company name
@@ -65,7 +65,7 @@ Feature: Organisations
       And I choose "Less than two"
       And I press the Continue
     Then I should see "Accounts are for multiple vehicles"
-      And I press the Back link
+      And I press 'Back' link
     Then I should see "How many vehicles do you manage or own?"
 
   Scenario: User wants to verify account with valid token

@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   # checks if a user is logged in
   before_action :authenticate_user!, except: %i[health build_id]
+  # checks if password is outdated
+  before_action :check_password_age, except: %i[health build_id]
 
   # rescues from API errors
   rescue_from Errno::ECONNREFUSED,
@@ -18,16 +20,13 @@ class ApplicationController < ActionController::Base
               with: :redirect_to_server_unavailable
 
   # rescues `UserAlreadyConfirmedException` exception
-  rescue_from UserAlreadyConfirmedException,
-              with: :redirect_to_sign_in
+  rescue_from UserAlreadyConfirmedException, with: :redirect_to_sign_in
 
   # enable basic HTTP authentication on production environment if HTTP_BASIC_PASSWORD variable present
   http_basic_authenticate_with name: ENV['HTTP_BASIC_USER'],
                                password: ENV['HTTP_BASIC_PASSWORD'],
                                except: %i[build_id health],
-                               if: lambda {
-                                     Rails.env.production? && ENV['HTTP_BASIC_PASSWORD'].present?
-                                   }
+                               if: -> { Rails.env.production? && ENV['HTTP_BASIC_PASSWORD'].present? }
 
   ##
   # Health endpoint
@@ -118,12 +117,35 @@ class ApplicationController < ActionController::Base
 
   # Checks if the user selected LA
   def check_la
-    @zone_id = helpers.new_payment_data[:la_id] || helpers.initiated_payment_data[:la_id]
+    @zone_id = helpers.new_payment_data[:caz_id] || helpers.initiated_payment_data[:caz_id]
     redirect_to payments_path unless @zone_id
   end
 
   # Creates an instance of DirectDebits::Debit class and assign it to +@debit+ variable
   def assign_debit
     @debit = DirectDebits::Debit.new(current_user.account_id)
+  end
+
+  # Checks if password is outdated
+  # If password is older than 89 days redirects to /passwords/edit
+  def check_password_age
+    return unless current_user && days_to_password_expiry
+
+    redirect_to edit_passwords_path if days_to_password_expiry <= 0
+  end
+
+  # Sets number of remaining days to password expiry
+  # Returns number or nil if password was already changed during existing session
+  def days_to_password_expiry
+    return if session[:password_updated]
+
+    current_user.days_to_password_expiry
+  end
+
+  # set headers for pages that should be refreshed every time
+  def set_cache_headers
+    response.headers['Cache-Control'] = 'no-cache, no-store'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = 'Mon, 01 Jan 1990 00:00:00 GMT'
   end
 end

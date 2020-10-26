@@ -24,12 +24,12 @@
             %p#caz-hint
               You need to set up a separate Direct Debit with each Clean Air Zone.
             %p
-              Clean Air Zones you don’t yet have a Direct Debit with will appear here.
+              Zones where the local authority supports Direct Debit payments, and you haven't set one up yet will appear here.
             .govuk-form-group
               .govuk-radios
                 - @zones.each do |mandate|
                   .govuk-radios__item
-                    %input.govuk-radios__input{name: 'local-authority',
+                    %input.govuk-radios__input{name: 'caz_id',
                                                type: 'radio',
                                                value: mandate.zone_id,
                                                id: mandate.zone_name.downcase}

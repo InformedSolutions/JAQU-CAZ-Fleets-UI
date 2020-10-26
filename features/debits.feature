@@ -4,7 +4,7 @@ Feature: Debits
   I want to manage my Direct Debits mandates
 
   Scenario: Making a successful Direct Debit payment with active mandate
-    When I have active mandates for selected CAZ
+    Given I have active mandates for selected CAZ
       And I visit the make payment page
       And I press the Continue
     Then I select 'Birmingham'
@@ -20,9 +20,13 @@ Feature: Debits
     Then I should see 'Confirm your payment'
       And I press 'Confirm payment' button
     Then I should see success message
+    When I press 'Pay for another Clean Air Zone' link
+    Then I press 'Back' link
+      Then I should see success message
+    And Second user starts payment in the same CAZ
 
   Scenario: Making a cancel Direct Debit payment with active mandate
-    When I have active mandates for selected CAZ
+    Given I have active mandates for selected CAZ
       And I visit the make payment page
       And I press the Continue
     Then I select 'Birmingham'
@@ -41,7 +45,7 @@ Feature: Debits
       And I should see 'Your payment has been cancelled'
 
   Scenario: Making a failure Direct Debit payment with active mandate
-    When I have active mandates for selected CAZ
+    Given I have active mandates for selected CAZ
       And I visit the make payment page
       And I press the Continue
     Then I select 'Birmingham'
@@ -66,7 +70,7 @@ Feature: Debits
       And I should see 'Set up new Direct Debit' link
       And I should not see 'You have created a Direct Debit for every Clean Air Zone.'
     Then I press `Set up new Direct Debit` button
-      And I should see 'Which Clean Air Zone do you need to set up a Direct Debit with?'
+      And I should see 'Zones where the local authority supports Direct Debit payments, and you haven\'t set one up yet will appear here.'
 
   Scenario: Visiting the manage Direct Debit page with all mandates
     When I have created all the possible mandates
@@ -82,3 +86,10 @@ Feature: Debits
       And I should see 'You must choose one Clean Air Zone' 2 times
     When I select 'Birmingham'
     Then I should have a new mandate added
+
+  Scenario: Adding a new mandate with disabled CAZ
+    Given I have inactive mandates for each CAZ but one of them is disabled
+    When I visit the add new mandate page
+    Then I should be on the add new mandate page
+      And I should see 'Leeds'
+      And I should not see 'Birmingham'

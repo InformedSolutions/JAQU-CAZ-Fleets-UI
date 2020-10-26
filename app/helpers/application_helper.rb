@@ -63,7 +63,7 @@ module ApplicationHelper
   # Generates a unique link for presentation on the vehicle management page that navigates a user
   # to the VRN entry page in IOD journey.
   def single_vehicle_payment_link
-    Rails.configuration.x.payments_ui_url + '/vehicles/enter_details'
+    "#{Rails.configuration.x.payments_ui_url}/vehicles/enter_details"
   end
 
   # rubocop:disable Style/AsciiComments
@@ -87,5 +87,10 @@ module ApplicationHelper
   # Returns formatted date, e.g. 'Thursday 30 April 2020'
   def formatted_date(date)
     date.strftime('%A %d %B %Y')
+  end
+
+  # Check if Direct Debit feature is enabled in configuration.
+  def direct_debits_enabled?
+    Rails.configuration.x.feature_direct_debits.to_s.downcase == 'true'
   end
 end

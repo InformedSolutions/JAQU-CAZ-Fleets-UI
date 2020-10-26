@@ -8,10 +8,10 @@ Rails.application.routes.draw do
   devise_scope(:user) { root to: 'sessions#new' }
 
   scope controller: 'logout' do
-    get 'sign-out', to: 'logout#sign_out_page'
+    get 'sign_out', to: 'logout#sign_out_page'
     post 'assign_logout_notice_back_url'
     get 'logout_notice'
-    get 'timedout-user'
+    get 'timedout_user'
   end
 
   resources :passwords, only: %i[index create] do
@@ -21,6 +21,8 @@ Rails.application.routes.draw do
       get :email_sent
       get :invalid
       get :success
+      get :edit
+      patch :update
     end
   end
 
@@ -77,6 +79,7 @@ Rails.application.routes.draw do
     resources :uploads, only: %i[index create] do
       collection do
         get :processing
+        get :calculating_chargeability
         get :download_template
       end
     end
@@ -97,6 +100,7 @@ Rails.application.routes.draw do
         post :select_payment_method, to: 'payments#confirm_payment_method'
         get :initiate, to: 'credit_cards#initiate'
         get :result, to: 'credit_cards#result'
+        get :in_progress
         get :success
         get :failure
         get :post_payment_details

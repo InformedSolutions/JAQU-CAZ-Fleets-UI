@@ -8,6 +8,9 @@ module DirectDebits
   #
   class DebitsController < ApplicationController
     include CheckPermissions
+    include CazLock
+
+    before_action -> { check_permissions(helpers.direct_debits_enabled?) }, only: %i[index new create]
     before_action -> { check_permissions(allow_manage_mandates?) }, only: %i[index new create]
     before_action -> { check_permissions(allow_make_payments?) }, except: %i[index new create]
     before_action :check_la, only: %i[confirm first_mandate]
@@ -15,6 +18,7 @@ module DirectDebits
     before_action :check_active_caz_mandates, only: %i[first_mandate]
     before_action :assign_back_button_url, only: %i[confirm index new first_mandate]
     before_action :clear_payment_method, only: %i[first_mandate initiate]
+    before_action :release_lock_on_caz, only: :success
 
     ##
     # Renders the confirm Direct Debit page
@@ -113,11 +117,11 @@ module DirectDebits
     #    POST /payments/debits
     #
     def create
-      form = LocalAuthorityForm.new(authority: params['local-authority'])
+      form = Payments::LocalAuthorityForm.new(caz_id: params['caz_id'])
       if form.valid?
-        create_debit_mandate(form.authority)
+        create_debit_mandate(form.caz_id)
       else
-        redirect_to new_debit_path, alert: confirmation_error(form, :authority)
+        redirect_to new_debit_path, alert: confirmation_error(form, :caz_id)
       end
     end
 

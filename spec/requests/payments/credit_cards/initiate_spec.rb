@@ -8,7 +8,7 @@ describe 'Payments::CreditCardsController - POST #initiate' do
   end
 
   before do
-    add_to_session(new_payment: { la_id: @uuid })
+    add_to_session(new_payment: { caz_id: @uuid })
     response = { 'paymentId' => @uuid, 'nextUrl' => '/payments/result' }
     allow(Payments::MakeCardPayment).to receive(:call).and_return(response)
     sign_in create_user

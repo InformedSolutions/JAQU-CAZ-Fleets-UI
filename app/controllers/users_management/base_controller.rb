@@ -8,6 +8,7 @@ module UsersManagement
   #
   class BaseController < ApplicationController
     include CheckPermissions
+
     rescue_from BaseApi::Error404Exception, with: :user_not_found
 
     private

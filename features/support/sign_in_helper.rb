@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module SignInHelper
-  def login_user(permissions:)
-    user = new_user(permissions: permissions)
+  def login_user(options)
+    user = new_user(options)
     allow_any_instance_of(User).to receive(:authentication).and_return(user)
     fill_sign_in_form
   end
@@ -37,7 +37,8 @@ module SignInHelper
       user_id: options[:user_id] || SecureRandom.uuid,
       account_id: options[:account_id] || SecureRandom.uuid,
       account_name: options[:account_name] || 'Royal Mail',
-      permissions: options[:permissions] || account_permissions
+      permissions: options[:permissions] || account_permissions,
+      days_to_password_expiry: options[:days_to_password_expiry] || 90
     }
   end
 

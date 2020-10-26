@@ -66,7 +66,7 @@ describe 'PasswordsController - POST #create' do
     context 'when password is not complex enough' do
       before do
         allow(AccountsApi).to receive(:set_password).and_raise(
-          BaseApi::Error422Exception.new(422, '', {})
+          BaseApi::Error422Exception.new(422, '', 'errorCode' => 'passwordNotValid')
         )
       end
 
@@ -93,6 +93,39 @@ describe 'PasswordsController - POST #create' do
       it 'assigns a proper error message' do
         subject
         expect(assigns(:errors)[:password]).to include(I18n.t('new_password_form.errors.password_complexity'))
+      end
+    end
+
+    context 'when old password is reused' do
+      before do
+        allow(AccountsApi).to receive(:set_password).and_raise(
+          BaseApi::Error422Exception.new(422, '', 'errorCode' => 'newPasswordReuse')
+        )
+      end
+
+      it 'renders :index' do
+        subject
+        expect(response).to render_template('passwords/index')
+      end
+
+      it 'calls AccountsApi.set_password with right params' do
+        expect(AccountsApi).to receive(:set_password).with(token: token, password: password)
+        subject
+      end
+
+      it 'assigns token' do
+        subject
+        expect(assigns(:token)).to eq(token)
+      end
+
+      it 'does not clear the token' do
+        subject
+        expect(session[:reset_password_token]).to eq(token)
+      end
+
+      it 'assigns a proper error message' do
+        subject
+        expect(assigns(:errors)[:password]).to include(I18n.t('update_password_form.errors.password_reused'))
       end
     end
 

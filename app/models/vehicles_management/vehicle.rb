@@ -25,7 +25,7 @@ module VehiclesManagement
 
     # Returns vehicle's registration number
     def vrn
-      data['registrationNumber']
+      data['vrn']
     end
 
     # Returns vehicle's type
@@ -40,10 +40,10 @@ module VehiclesManagement
 
     # Returns the charge for given CAZ in float
     def charge(caz_id)
-      compliance = data['complianceOutcomes'].find { |res| res['cleanAirZoneId'] == caz_id }
-      return nil unless compliance
+      cached_charge = data['cachedCharges'].find { |res| res['cazId'] == caz_id }
+      return nil if cached_charge.blank? || cached_charge['charge'].blank?
 
-      compliance['charge'] == 'null' ? nil : compliance['charge'].to_f
+      cached_charge['charge'].to_f
     end
 
     # Returns the parsed charge for given CAZ
