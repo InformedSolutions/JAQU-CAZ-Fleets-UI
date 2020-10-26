@@ -13,6 +13,10 @@ And('I fill in email with empty string') do
   fill_in('primary_user_email', with: '')
 end
 
+And('I fill in email that is too long') do
+  fill_in('primary_user_email', with: 'a' * 130)
+end
+
 And('I fill in email with email with invalid format') do
   mock_successful_user_validation
   fill_in('primary_user_email', with: 'invalid-email')

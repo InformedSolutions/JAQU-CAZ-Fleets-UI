@@ -109,6 +109,27 @@ describe AccountDetails::EditUserEmailForm, type: :model do
     end
   end
 
+  context 'when provided email is too long' do
+    before { allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true) }
+
+    let(:email) { "#{'a' * 129}@test.com" }
+    let(:confirmation) { "#{'a' * 129}@test.com" }
+
+    before { subject.valid? }
+
+    it { is_expected.not_to be_valid }
+
+    it 'has a proper email error message' do
+      expect(subject.errors.messages[:email]).to(
+        include(I18n.t('edit_user_email_form.errors.email_too_long'))
+      )
+    end
+
+    it 'has no confirmation error message' do
+      expect(subject.errors.messages[:confirmation]).to eq([])
+    end
+  end
+
   context 'when emails match but have invalid format' do
     before { allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true) }
 

@@ -18,6 +18,10 @@ Feature: Email update
       And I press 'Save and continue' button
       Then I should see 'Enter an email address' 3 times
     When I enter change my email page
+      And I fill in email that is too long
+      And I press 'Save and continue' button
+      Then I should see 'Enter an email address that is less than 129 characters' 2 times
+    When I enter change my email page
       And I fill in email with email with invalid format
       And I press 'Save and continue' button
       Then I should see 'Enter email in a valid format' 2 times
@@ -31,7 +35,7 @@ Feature: Email update
       And I press 'Save and continue' button
       Then I should be on the verification email sent page
 
-  Scenario: Changing email address when is logged in
+  Scenario: Confirming email address change when logged in
     Given I visit the Confirm email update page
     Then I should see 'Email address change'
     When I enter only password
@@ -44,13 +48,13 @@ Feature: Email update
       And I press 'Sign in' button
     Then I should be on the Dashboard page
 
-  Scenario: Changing email address when is not logged in
+  Scenario: Confirming email address change when not logged in
     Given I visit the Confirm email update page when is not logged in
     When I enter valid password and confirmation
       And I press 'Sign in' button
     Then I should be on the Dashboard page
 
-  Scenario: Changing email address when not enough complex or reused password or when token expired
+  Scenario: Confirming email address change when not enough complex or reused password or when token expired
     Given I visit the Confirm email update page
     When I enter too easy password and confirmation password
       And I press 'Sign in' button

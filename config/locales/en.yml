@@ -34,6 +34,7 @@ en:
       email_duplicated: Email address already exists
       email_invalid_format: Enter email in a valid format
       email_missing: Enter an email address
+      email_too_long: Enter an email address that is less than 129 characters
       emails_not_equal: Email address and email confirmation must be the same
     labels:
       email: Email address

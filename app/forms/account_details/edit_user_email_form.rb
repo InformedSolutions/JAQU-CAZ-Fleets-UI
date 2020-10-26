@@ -9,9 +9,18 @@ module AccountDetails
     # Attributes accessor
     attr_accessor :account_id, :current_email, :email, :confirmation
 
+    # Maximum length for email address
+    MAX_EMAIL_LENGTH = 128
+
     # validates +email+ and +confirmation+ presence
     validates :email, :confirmation, presence: {
       message: I18n.t('edit_user_email_form.errors.email_missing')
+    }
+
+    # validates +email+ length
+    validates :email, length: {
+      maximum: MAX_EMAIL_LENGTH,
+      too_long: I18n.t('edit_user_email_form.errors.email_too_long')
     }
 
     # validates +email+ and +confirmation+ format
