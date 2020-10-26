@@ -60,11 +60,7 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.1)
     aws-eventstream (1.1.0)
-<<<<<<< HEAD
-    aws-partitions (1.383.0)
-=======
     aws-partitions (1.385.0)
->>>>>>> e5ef07e... [CAZB-3257] Use only chargeable toggle when navigating through paged responses (#691)
     aws-sdk-core (3.109.1)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
