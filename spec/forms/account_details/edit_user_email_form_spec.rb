@@ -110,8 +110,8 @@ describe AccountDetails::EditUserEmailForm, type: :model do
   end
 
   context 'when provided email is too long' do
-    let(:email) { "#{'a' * 129}@test.com" }
-    let(:confirmation) { "#{'a' * 129}@test.com" }
+    let(:email) { "#{'a' * 120}@test.com" }
+    let(:confirmation) { "#{'a' * 120}@test.com" }
 
     before { subject.valid? }
 
