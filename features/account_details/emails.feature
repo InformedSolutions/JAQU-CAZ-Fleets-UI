@@ -33,7 +33,7 @@ Feature: Email update
 
   Scenario: Changing email address when is logged in
     Given I visit the Confirm email update page
-    Then I should see 'Your email address has been updated'
+    Then I should see 'Email address change'
     When I enter only password
       And I press 'Sign in' button
     Then I should see "Confirm your new password" 2 times
@@ -50,7 +50,7 @@ Feature: Email update
       And I press 'Sign in' button
     Then I should be on the Dashboard page
 
-  Scenario: Changing email address when not enough complex or reused password
+  Scenario: Changing email address when not enough complex or reused password or when token expired
     Given I visit the Confirm email update page
     When I enter too easy password and confirmation password
       And I press 'Sign in' button
@@ -58,3 +58,9 @@ Feature: Email update
     When I enter reused old password
       And I press 'Sign in' button
     Then I should see 'You have already used that password, choose a new one' 2 times
+    When I enter correct passwords but the token has expired
+      And I press 'Sign in' button
+    Then I should see 'The link has expired. Sign in and go to Account details' 2 times
+    When I enter correct passwords but the token is invalid
+      And I press 'Sign in' button
+    Then I should see 'The link has expired. Sign in and go to Account details' 2 times

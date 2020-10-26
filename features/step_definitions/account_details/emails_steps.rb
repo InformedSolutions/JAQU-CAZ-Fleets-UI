@@ -66,14 +66,26 @@ end
 
 When('I enter too easy password and confirmation password') do
   fill_in_passwords
-  allow(AccountsApi::Auth)
-    .to receive(:confirm_email)
-    .and_raise(BaseApi::Error422Exception.new(422, '', 'errorCode' => 'passwordNotValid'))
+  raise_422_confirm_exception('passwordNotValid')
 end
 
 When('I enter reused old password') do
   fill_in_passwords
+  raise_422_confirm_exception('newPasswordReuse')
+end
+
+When('I enter correct passwords but the token has expired') do
+  fill_in_passwords
+  raise_422_confirm_exception('expired')
+end
+
+When('I enter correct passwords but the token is invalid') do
+  fill_in_passwords
+  raise_422_confirm_exception('expired')
+end
+
+def raise_422_confirm_exception(error_code = '')
   allow(AccountsApi::Auth)
     .to receive(:confirm_email)
-    .and_raise(BaseApi::Error422Exception.new(422, '', 'errorCode' => 'newPasswordReuse'))
+    .and_raise(BaseApi::Error422Exception.new(422, '', 'errorCode' => error_code))
 end
