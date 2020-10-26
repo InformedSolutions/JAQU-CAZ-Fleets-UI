@@ -43,7 +43,7 @@ Feature: Uploads
     Then I should download the template
 
   Scenario: Successful upload
-    When I am on the processing page
+    When I am on the processing page and number of vehicles less than the threshold
       And My upload is finished
       And I reload the page
     Then I should be on the local vehicles exemptions page
