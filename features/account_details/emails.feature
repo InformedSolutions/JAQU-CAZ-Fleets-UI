@@ -20,7 +20,7 @@ Feature: Email update
     When I enter change my email page
       And I fill in email with email with invalid format
       And I press 'Save and continue' button
-      Then I should see 'Email is in an invalid format' 2 times
+      Then I should see 'Enter email in a valid format' 2 times
       Then I should see 'Enter an email address' 2 times
     When I enter change my email page
       And I fill in email and confirmation with already taken email
