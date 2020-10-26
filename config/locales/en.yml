@@ -52,11 +52,7 @@ en:
   fleet_check_form:
     errors:
       confirm_fleet_check: You must choose an answer
-<<<<<<< HEAD
   inactivity_logout: We have signed you out of the business account to keep it secure after it become inactive.
-=======
-  inactivity_logout: We have signed you out of your account to keep it secure after it became inactive.
->>>>>>> 92a08c3... [CAZB-3257] Add 'onlyChargeable' toggle on the Fleet management page (#662)
   input_form:
     errors:
       invalid_format: "%{attribute} is in an invalid format"
