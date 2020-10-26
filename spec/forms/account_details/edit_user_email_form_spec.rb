@@ -126,7 +126,9 @@ describe AccountDetails::EditUserEmailForm, type: :model do
     end
 
     it 'has no confirmation error message' do
-      expect(subject.errors.messages[:confirmation]).to eq([])
+      expect(subject.errors.messages[:confirmation]).to(
+        include(I18n.t('edit_user_email_form.errors.email_too_long'))
+      )
     end
   end
 

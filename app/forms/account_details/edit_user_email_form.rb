@@ -17,8 +17,8 @@ module AccountDetails
       message: I18n.t('edit_user_email_form.errors.email_missing')
     }
 
-    # validates +email+ length
-    validates :email, length: {
+    # validates +email+ and +confirmation+ length
+    validates :email, :confirmation, length: {
       maximum: MAX_EMAIL_LENGTH,
       too_long: I18n.t('edit_user_email_form.errors.email_too_long')
     }

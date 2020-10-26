@@ -20,7 +20,7 @@ Feature: Email update
     When I enter change my email page
       And I fill in email that is too long
       And I press 'Save and continue' button
-      Then I should see 'Enter an email address that is less than 129 characters' 2 times
+      Then I should see 'Enter an email address that is less than 129 characters' 3 times
     When I enter change my email page
       And I fill in email with email with invalid format
       And I press 'Save and continue' button
