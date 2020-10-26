@@ -45,7 +45,7 @@ describe 'AccountDetails::PrimaryUsersController - GET #update_name' do
     end
 
     context 'when form is invalid' do
-      let(:company_name) { '!!!' }
+      let(:company_name) { '!##' }
 
       before { subject }
 
