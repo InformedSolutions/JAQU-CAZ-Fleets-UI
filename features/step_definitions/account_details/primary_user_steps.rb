@@ -32,7 +32,7 @@ When('I fill in company name with a correct value and save changes') do
 end
 
 When('I fill in company name with an invalid format and save changes') do
-  fill_in_company_name('!!!')
+  fill_in_company_name('###')
   click_button 'Save changes'
 end
 
