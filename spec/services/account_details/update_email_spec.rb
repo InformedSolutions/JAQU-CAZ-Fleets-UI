@@ -80,7 +80,7 @@ describe AccountDetails::UpdateEmail do
         it { is_expected.not_to be_valid }
 
         it 'has a proper error message' do
-          expect(subject.errors[:password]).to include('Authorisation token is invalid or has expired')
+          expect(subject.errors[:password]).to include(I18n.t('update_password_form.errors.token_expired'))
         end
       end
 
@@ -90,7 +90,7 @@ describe AccountDetails::UpdateEmail do
         it { is_expected.not_to be_valid }
 
         it 'has a proper error message' do
-          expect(subject.errors[:password]).to include('Authorisation token is invalid or has expired')
+          expect(subject.errors[:password]).to include(I18n.t('update_password_form.errors.token_expired'))
         end
       end
 
