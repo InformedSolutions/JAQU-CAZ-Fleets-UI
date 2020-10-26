@@ -61,7 +61,7 @@ module AccountDetails
       when 'newPasswordReuse'
         [I18n.t('update_password_form.errors.password_reused')]
       when 'expired', 'invalid'
-        [I18n.t('token_form.token_invalid')]
+        [I18n.t('update_password_form.errors.token_expired')]
       else
         ['Something went wrong']
       end

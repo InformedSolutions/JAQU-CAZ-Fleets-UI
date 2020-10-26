@@ -104,6 +104,7 @@ en:
       old_password_invalid: The password you entered is incorrect
       old_password_missing: Enter your old password
       password_reused: You have already used that password, choose a new one
+      token_expired: The link has expired. Sign in and go to Account details to change your email address
   vehicle_not_found:
     errors:
       confirmation_alert: Confirm the number plate is correct
