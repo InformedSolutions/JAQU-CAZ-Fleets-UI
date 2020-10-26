@@ -13,4 +13,7 @@
 
 - if @search.present?
   %p
-    = link_to "Reset search", clear_search_payments_path, id: 'clear-search-link', class: 'govuk-link'
+    = link_to "Clear search (does not remove your selections)",
+              clear_search_payments_path,
+              id: 'clear-search-link',
+              class: 'govuk-link'
