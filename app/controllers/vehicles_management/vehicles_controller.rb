@@ -9,6 +9,7 @@ module VehiclesManagement
   #
   class VehiclesController < ApplicationController
     include CheckPermissions
+    include ChargeabilityCalculator
 
     before_action -> { check_permissions(allow_manage_vehicles?) }
     before_action :check_vrn, only: %i[details confirm_details exempt incorrect_details not_found
@@ -180,6 +181,7 @@ module VehiclesManagement
     #
     def local_exemptions
       @show_continue_link = session[:show_continue_button]
+      @large_fleet = large_fleet == 'true'
     end
 
     # Add vehicle with given VRN to the user's fleet

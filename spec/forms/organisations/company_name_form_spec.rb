@@ -40,8 +40,8 @@ describe Organisations::CompanyNameForm, type: :model do
     [
       'name with space',
       'UPPER CASES with 12 numbers',
-      'Ampersand & forward slash /',
-      "name with apostrophe ' && full stop...",
+      'Ampersand & forward slash / comma ,',
+      "name with apostrophe ' && full stop... exclamation mark !",
       'ěą śpórt cīnī gęń'
     ].each do |valid_name|
       let(:company_name) { valid_name }
