@@ -158,7 +158,7 @@ Rails.application.routes.draw do
 
         scope controller: 'emails' do
           get :edit_email
-          get :update_email
+          post :update_email
           get :email_sent
           get :resend_email
           get :confirm_email

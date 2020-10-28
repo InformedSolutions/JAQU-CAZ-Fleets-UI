@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'AccountDetails::EmailsController - GET #update_email' do
-  subject { get update_email_primary_users_path, params: params }
+describe 'AccountDetails::EmailsController - POST #update_email' do
+  subject { post update_email_primary_users_path, params: params }
 
   before { sign_in user }
 
