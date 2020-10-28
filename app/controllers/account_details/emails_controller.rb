@@ -31,7 +31,7 @@ module AccountDetails
     #
     # ==== Path
     #
-    #    :GET /primary_users/update_email
+    #    :POST /primary_users/update_email
     #
     def update_email
       form = AccountDetails::EditUserEmailForm.new(email_params)

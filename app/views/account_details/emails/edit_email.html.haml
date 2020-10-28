@@ -9,7 +9,7 @@
       - if @errors.present?
         = render 'shared/errors_summary', errors: @errors
 
-      = form_for('primary_user', url: update_email_primary_users_path, method: :get) do |f|
+      = form_for('primary_user', url: update_email_primary_users_path, method: :post) do |f|
         .govuk-form-group{class: ('govuk-form-group--error' if @errors.present?)}
           %fieldset.govuk-fieldset
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
