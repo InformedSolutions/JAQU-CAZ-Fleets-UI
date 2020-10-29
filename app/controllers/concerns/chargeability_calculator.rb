@@ -2,8 +2,6 @@
 
 # Module used to check upload job status
 module ChargeabilityCalculator
-  extend ActiveSupport::Concern
-
   private
 
   # Checks job status and depends on it adding a flash message and redirects to proper page

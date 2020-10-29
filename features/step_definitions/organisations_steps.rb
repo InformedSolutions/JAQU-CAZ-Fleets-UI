@@ -15,6 +15,7 @@ Given('I visit the verification link second time') do
 end
 
 Then('I enter a company name') do
+  mock_clean_air_zones
   stub_request(:post, /accounts/).to_return(
     status: 201,
     body: {
