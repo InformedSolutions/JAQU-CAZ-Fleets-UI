@@ -4,12 +4,14 @@ Given('I have no vehicles in my fleet') do
   mock_actual_account_name
   mock_users
   mock_empty_fleet
+  mock_clean_air_zones
 end
 
 Given('I have no vehicles in my fleet and visit the manage vehicles page') do
   mock_actual_account_name
   mock_empty_fleet
   mock_users
+  mock_clean_air_zones
   login_user({ permissions: 'MANAGE_VEHICLES' })
   visit fleets_path
 end
@@ -20,12 +22,14 @@ end
 
 When('I visit the manage vehicles page') do
   mock_actual_account_name
+  mock_clean_air_zones
   login_user({ permissions: 'MANAGE_VEHICLES' })
   visit fleets_path
 end
 
 When('I visit the manage vehicles page with payment permission') do
   mock_actual_account_name
+  mock_clean_air_zones
   login_user({ permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS] })
   visit fleets_path
 end
@@ -34,6 +38,7 @@ When('I visit the submission method page') do
   mock_actual_account_name
   mock_vehicles_in_fleet
   mock_users
+  mock_clean_air_zones
   login_user({ permissions: 'MANAGE_VEHICLES' })
   visit submission_method_fleets_path
 end

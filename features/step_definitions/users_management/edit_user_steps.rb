@@ -5,6 +5,7 @@ Given('I visit the Manage users page and want to edit user permissions') do
   mock_users
   mock_user_details
   mock_update_user
+  mock_clean_air_zones
   login_user(permissions: ['MANAGE_USERS'])
   visit users_path
 end

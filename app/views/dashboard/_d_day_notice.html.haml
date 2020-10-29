@@ -1,0 +1,9 @@
+- formatted_date = @bath_d_day_date&.strftime('%e %B %Y')
+
+.govuk-grid-row
+  .govuk-grid-column-full
+    .govuk-warning-text
+      %span.govuk-warning-text__icon !
+      %strong.govuk-warning-text__text
+        %span.govuk-warning-text__assistive Warning
+        = "Payment features will be enabled on this account when charging starts in Bath on #{formatted_date}"

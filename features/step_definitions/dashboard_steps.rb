@@ -44,6 +44,7 @@ Given('I visit Dashboard page without any users yet') do
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_empty_users_list
+  mock_clean_air_zones
   login_owner
 end
 
@@ -68,6 +69,18 @@ When('I navigate to a Dashboard page with one vehicle in the fleet') do
   visit dashboard_path
 end
 
+When('I navigate to a Dashboard page before Bath D day') do
+  mock_api_on_dashboard
+  mock_bath_d_day
+  login_owner
+end
+
+When('I navigate to a Dashboard page before Bath D day as a beta tester') do
+  mock_api_on_dashboard
+  mock_bath_d_day
+  login_user(owner: true, beta_tester: true)
+end
+
 private
 
 def mock_api_on_dashboard
@@ -75,4 +88,15 @@ def mock_api_on_dashboard
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_users
+  mock_clean_air_zones
+end
+
+def mock_bath_d_day
+  caz_list = [{
+    'cleanAirZoneId' => '5cd7441d-766f-48ff-b8ad-1809586fea37',
+    'name' => 'Bath',
+    'boundaryUrl' => 'http://www.bathnes.gov.uk/zonemaps',
+    'activeChargeStartDate' => '2021-03-15'
+  }]
+  mock_clean_air_zones(caz_list)
 end

@@ -7,6 +7,11 @@ module PaymentFeatures
     @payment_features_enabled = payment_features_enabled?
   end
 
+  # Returns Bath charge start date
+  def bath_d_day_date
+    CleanAirZone.all.find { |caz| caz.name == 'Bath' }&.active_charge_start_date
+  end
+
   # Determinate if current user is a beta tester or Bath payments has gone live
   def payment_features_enabled?
     current_user&.beta_tester || bath_live?
@@ -16,6 +21,6 @@ module PaymentFeatures
 
   # Checks if the current date is after the Bath payments has gone live
   def bath_live?
-    CleanAirZone.all.find { |caz| caz.name == 'Bath' }.active_charge_start_date.past?
+    bath_d_day_date&.past?
   end
 end

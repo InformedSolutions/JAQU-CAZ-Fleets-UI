@@ -16,6 +16,7 @@ end
 
 When('I visit the Manage Direct Debit page') do
   mock_actual_account_name
+  mock_clean_air_zones
   login_user(permissions: 'MANAGE_MANDATES')
   visit debits_path
 end
@@ -48,6 +49,7 @@ end
 
 When('I visit the Add new mandate page') do
   mock_actual_account_name
+  mock_clean_air_zones
   login_user(permissions: 'MANAGE_MANDATES')
   visit new_debit_path
 end

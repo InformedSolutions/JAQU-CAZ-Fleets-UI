@@ -63,3 +63,17 @@ Feature: Dashboard
       And I should see 'Make a payment' link
       And I should see 'Manage users' link
       And I should not see 'Set up a Direct Debit' link
+
+  Scenario: View dashboard page before Bath D day
+    Given I navigate to a Dashboard page before Bath D day
+      And I should see 'Payment features will be enabled on this account when charging starts in Bath on 15 March 2021'
+      And I should see 'Manage vehicles' link
+      And I should not see 'Make a payment' link
+      And I should not see 'Your payment history' link
+
+  Scenario: View dashboard page before Bath D day as a beta tester
+    Given I navigate to a Dashboard page before Bath D day as a beta tester
+      And I should not see 'Payment features will be enabled on this account'
+      And I should see 'Manage vehicles' link
+      And I should see 'Make a payment' link
+      And I should see 'Your payment history' link
