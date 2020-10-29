@@ -1,5 +1,6 @@
 - title_and_header = "#{current_user.actual_account_name} account home"
 - content_for(:title, title_and_header)
+- disable_payment_features = @disable_payment_features && (allow_make_payments? || allow_view_payment_history?)
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
@@ -7,11 +8,9 @@
 
       = render 'shared/banners'
 
-      %h1.govuk-heading-l
-        = title_and_header
+      %h1.govuk-heading-l= title_and_header
 
-      - if @days_count && @days_count <= 10
-        = render 'update_password_notice'
+      = render 'update_password_notice' if @days_count && @days_count <= 10
 
       %p
         This service works by you telling us the number of days your vehicles drive in a Clean Air Zone.
@@ -24,13 +23,14 @@
         .govuk-inset-text
           You need to add at least one more vehicle before making a payment.
 
+  = render 'd_day_notice' if disable_payment_features
+
   .govuk-grid-row
     = render 'manage_vehicles' if allow_manage_vehicles?
-    - if direct_debits_enabled? && allow_manage_mandates?
-      = render 'direct_debit'
-    - if @vehicles_count >= 2
-      = render 'make_payment' if allow_make_payments?
+    = render 'direct_debit' if direct_debits_enabled? && allow_manage_mandates?
     = render 'manage_users' if allow_manage_users?
-    = render 'user_payment_history' if allow_make_payments?
-    = render 'company_payment_history' if allow_view_payment_history? && @multi_payer_account
+    - if !disable_payment_features
+      = render 'make_payment' if allow_make_payments? && @vehicles_count >= 2
+      = render 'user_payment_history' if allow_make_payments?
+      = render 'company_payment_history' if allow_view_payment_history? && @multi_payer_account
     = render 'help'

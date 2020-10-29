@@ -6,6 +6,7 @@
 class DashboardController < ApplicationController
   include CheckPermissions
   include CazLock
+  include DisablePaymentFeatures
 
   before_action :set_cache_headers, only: %i[index]
   before_action :clear_input_history, only: :index
@@ -24,6 +25,9 @@ class DashboardController < ApplicationController
     @users_present = check_users(account_users)
     @multi_payer_account = account_users.multi_payer_account?
     @days_count = days_to_password_expiry
+
+    @d_day_date = bath_d_day_date
+    @disable_payment_features = disable_payment_features?
   end
 
   private
