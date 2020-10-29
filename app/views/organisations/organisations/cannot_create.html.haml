@@ -8,7 +8,7 @@
     .govuk-grid-column-two-thirds
       %h1.govuk-heading-l= title_and_header
       %p
-        - if @bath_live
+        - if @payment_features_enabled
           = succeed '.' do
             If you are only paying for 1 vehicle, the easiest and quickest option is to go to
             = link_to 'Pay a charge for a single vehicle', Rails.configuration.x.payments_ui_url

@@ -8,7 +8,7 @@ module Organisations
   #
   # rubocop:disable Metrics/ClassLength
   class OrganisationsController < ApplicationController
-    include DisablePaymentFeatures
+    include PaymentFeatures
 
     skip_before_action :authenticate_user!
     # checks if new_company account_id is present in session
@@ -16,8 +16,8 @@ module Organisations
     # checks if new account details is present in session
     before_action :check_account_details, only: %i[email_sent resend_email]
     # add data to session to render it in the text fields after using `Back` link
-    before_action :add_credentials_to_session, only: %i[create]
-    before_action :assign_bath_live, only: %i[cannot_create]
+    before_action :add_credentials_to_session, only: :create
+    before_action :assign_payment_enabled, only: :cannot_create
 
     ##
     # Renders the create account name page.
