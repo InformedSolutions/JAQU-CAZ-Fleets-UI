@@ -9,6 +9,7 @@ module VehiclesManagement
   class FleetsController < ApplicationController
     include CheckPermissions
     include ChargeabilityCalculator
+    include PaymentFeatures
 
     before_action -> { check_permissions(allow_manage_vehicles?) }
     before_action :assign_fleet
@@ -16,6 +17,28 @@ module VehiclesManagement
     before_action :set_cache_headers, only: :index
     before_action :check_job_status, only: :index
     before_action :clear_user_data, only: :index
+
+    ##
+    # Renders manage fleet page. If the fleet is empty, redirects to :submission_method
+    #
+    # ==== Path
+    #
+    #    :GET /fleets
+    #
+    # ==== Params
+    #
+    # * +page+ - used to paginate vehicles list, defaults to 1, present in the query params
+    #
+    def index
+      return redirect_to submission_method_fleets_path if @fleet.empty?
+
+      page = (params[:page] || 1).to_i
+      @pagination = @fleet.pagination(page: page, only_chargeable: params[:only_chargeable])
+      @zones = CleanAirZone.all
+      assign_payment_enabled
+    rescue BaseApi::Error400Exception
+      return redirect_to fleets_path unless page == 1
+    end
 
     ##
     # Renders submission method selection page
@@ -47,27 +70,6 @@ module VehiclesManagement
         @errors = form.errors
         render :submission_method
       end
-    end
-
-    ##
-    # Renders manage fleet page. If the fleet is empty, redirects to :submission_method
-    #
-    # ==== Path
-    #
-    #    :GET /fleets
-    #
-    # ==== Params
-    #
-    # * +page+ - used to paginate vehicles list, defaults to 1, present in the query params
-    #
-    def index
-      return redirect_to submission_method_fleets_path if @fleet.empty?
-
-      page = (params[:page] || 1).to_i
-      @pagination = @fleet.pagination(page: page, only_chargeable: params[:only_chargeable])
-      @zones = CleanAirZone.all
-    rescue BaseApi::Error400Exception
-      return redirect_to fleets_path unless page == 1
     end
 
     ##
