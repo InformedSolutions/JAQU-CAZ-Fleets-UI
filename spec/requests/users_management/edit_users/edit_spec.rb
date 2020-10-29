@@ -6,7 +6,10 @@ describe 'UsersManagement::EditUsersController - GET #edit' do
   subject { get edit_user_path(@uuid) }
 
   context 'correct permissions' do
-    before { sign_in manage_users_user }
+    before do
+      mock_clean_air_zones
+      sign_in manage_users_user
+    end
 
     context 'when user is exist in db' do
       before { mock_user_details }

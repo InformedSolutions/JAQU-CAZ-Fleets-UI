@@ -17,8 +17,9 @@
         .govuk-form-group{class: ('govuk-form-group--error' if errors)}
           %fieldset.govuk-fieldset
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
-              %h1.govuk-fieldset__heading
-                = title_and_header
+              %h1.govuk-fieldset__heading= title_and_header
+
+            = render 'd_day_notice' unless @payment_features_enabled
 
             %table.govuk-table
               %caption.govuk-table__caption User details
@@ -71,6 +72,7 @@
                                                checked: edit_user_permission?('MAKE_PAYMENTS')}
                 %label.govuk-label.govuk-checkboxes__label{for: 'make-payments-permission'}
                   Make payments
+                  = '(available when charging starts)' unless @payment_features_enabled
 
               .govuk-checkboxes__item
                 %input.govuk-checkboxes__input{name: 'edit_user[permissions][]',
@@ -89,5 +91,6 @@
                                                checked: edit_user_permission?('VIEW_PAYMENTS')}
                 %label.govuk-label.govuk-checkboxes__label{for: 'view-payments-permission'}
                   View payment history
+                  = '(available when charging starts)' unless @payment_features_enabled
 
         = submit_tag 'Save changes', class: 'govuk-button', 'data-module': 'govuk-button', id: 'save-changes'
