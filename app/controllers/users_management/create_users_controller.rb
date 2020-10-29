@@ -8,11 +8,14 @@ module UsersManagement
   #
   # rubocop:disable Metrics/ClassLength
   class CreateUsersController < BaseController
+    include PaymentFeatures
+
     before_action :authenticate_user!, except: %i[set_up confirm_set_up set_up_confirmation]
     before_action -> { check_permissions(allow_manage_users?) },
                   except: %i[set_up confirm_set_up set_up_confirmation]
     before_action :check_new_user, only: %i[add_permissions confirm_permissions]
     before_action :check_users_count, only: %i[new create]
+    before_action :assign_payment_enabled, only: :add_permissions
 
     ##
     # Renders add a user page
@@ -58,7 +61,7 @@ module UsersManagement
     #    GET /users/add-permissions
     #
     def add_permissions
-      # Renders add user permissions page
+      @bath_d_day_date = bath_d_day_date
     end
 
     ##

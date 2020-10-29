@@ -9,6 +9,7 @@ describe 'UsersManagement::CreateUsersController - GET #add_permissions' do
     before do
       sign_in manage_users_user
       add_to_session({ new_user: { email: 'new_user@example.com', name: 'New User' } })
+      mock_clean_air_zones
       mock_users
     end
 

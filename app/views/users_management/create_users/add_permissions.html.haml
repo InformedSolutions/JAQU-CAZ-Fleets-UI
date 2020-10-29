@@ -20,6 +20,8 @@
               %h1.govuk-fieldset__heading
                 = title_and_header
 
+            = render 'users_management/d_day_notice' unless @payment_features_enabled
+
             %span#permissions-hint.govuk-hint
               Select all that apply.
 
@@ -61,7 +63,9 @@
                                                checked: checked_permission?('MAKE_PAYMENTS'),
                                                'aria-describedby': 'make-payments-permission-hint'}
                 %label.govuk-label.govuk-checkboxes__label{for: 'make-payments-permission'}
-                  %b Make payments
+                  %b
+                    Make payments
+                    = '(available when charging starts)' unless @payment_features_enabled
                 %span#make-payments-permission-hint.govuk-hint.govuk-checkboxes__hint
                   By credit/debit card
                   - if direct_debits_enabled?
@@ -87,7 +91,9 @@
                                                checked: checked_permission?('VIEW_PAYMENTS'),
                                                'aria-describedby': 'view-payments-permission-hint'}
                 %label.govuk-label.govuk-checkboxes__label{for: 'view-payments-permission'}
-                  %b View payment history
+                  %b
+                    View payment history
+                    = '(available when charging starts)' unless @payment_features_enabled
                 %span#view-payments-permission-hint.govuk-hint.govuk-checkboxes__hint
                   View all charges paid by the company
 
