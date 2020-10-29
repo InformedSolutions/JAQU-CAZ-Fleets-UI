@@ -1,6 +1,6 @@
 - title_and_header = "#{current_user.actual_account_name} account home"
 - content_for(:title, title_and_header)
-- disable_payment_features = @disable_payment_features && (allow_make_payments? || allow_view_payment_history?)
+- disable_payment_features = !@payment_features_enabled && (allow_make_payments? || allow_view_payment_history?)
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row

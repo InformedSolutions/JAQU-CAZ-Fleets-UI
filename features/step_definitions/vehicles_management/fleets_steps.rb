@@ -22,6 +22,7 @@ end
 
 When('I visit the manage vehicles page') do
   mock_actual_account_name
+  mock_clean_air_zones
   login_user({ permissions: 'MANAGE_VEHICLES' })
   visit fleets_path
 end
