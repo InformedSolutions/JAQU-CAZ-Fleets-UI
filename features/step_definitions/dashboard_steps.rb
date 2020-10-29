@@ -44,6 +44,7 @@ Given('I visit Dashboard page without any users yet') do
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_empty_users_list
+  mock_clean_air_zones
   login_owner
 end
 
@@ -87,6 +88,7 @@ def mock_api_on_dashboard
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_users
+  mock_clean_air_zones
 end
 
 def mock_bath_d_day

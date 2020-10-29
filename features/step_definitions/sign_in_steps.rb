@@ -13,11 +13,13 @@ And('I provide valid credentials and Continue') do
   mock_debits('active_mandates')
   mock_users
   mock_actual_account_name
+  mock_clean_air_zones
   login_owner
 end
 
 Then('I should enter fleet owner credentials and press the Continue') do
   mock_actual_account_name
+  mock_clean_air_zones
   login_owner
 end
 
@@ -34,6 +36,7 @@ end
 When('I have authentication cookie that has not expired') do
   mock_api_responses
   mock_actual_account_name
+  mock_clean_air_zones
   visit new_user_session_path
   login_owner
 
@@ -77,6 +80,7 @@ Given('I have authentication cookie that has expired') do
   travel_to(20.minutes.ago) do
     mock_actual_account_name
     mock_api_responses
+    mock_clean_air_zones
     login_owner
   end
 
@@ -87,6 +91,7 @@ end
 
 Given('I am signed in') do
   mock_api_responses
+  mock_clean_air_zones
   login_owner
 end
 
