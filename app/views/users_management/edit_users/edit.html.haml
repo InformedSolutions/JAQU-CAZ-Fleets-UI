@@ -19,7 +19,7 @@
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
               %h1.govuk-fieldset__heading= title_and_header
 
-            = render 'd_day_notice' unless @payment_features_enabled
+            = render 'users_management/d_day_notice' unless @payment_features_enabled
 
             %table.govuk-table
               %caption.govuk-table__caption User details

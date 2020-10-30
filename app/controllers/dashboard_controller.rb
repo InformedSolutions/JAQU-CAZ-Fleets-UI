@@ -10,7 +10,10 @@ class DashboardController < ApplicationController
 
   before_action :set_cache_headers, only: %i[index]
   before_action :clear_input_history, only: :index
+
+  # Handle Bath D-Day notice
   before_action :assign_payment_enabled, only: :index
+  before_action :assign_bath_d_day_date, only: :index
 
   ##
   # Renders the dashboard page.
@@ -26,8 +29,6 @@ class DashboardController < ApplicationController
     @users_present = check_users(account_users)
     @multi_payer_account = account_users.multi_payer_account?
     @days_count = days_to_password_expiry
-
-    @bath_d_day_date = bath_d_day_date
   end
 
   private
