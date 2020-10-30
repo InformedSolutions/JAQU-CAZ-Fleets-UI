@@ -29,15 +29,11 @@ module AccountDetails
       message: I18n.t('edit_user_email_form.errors.email_invalid_format')
     }, allow_blank: true
 
+    # validates +email+ and +confirmation+ match
     validate :correct_email_confirmation
 
     # validates +email+ against duplication
     validate :email_not_duplicated, if: :check_if_email_unique?
-
-    # Checks if user reused their current email
-    def current_email_reuse?
-      email == current_email && confirmation == current_email
-    end
 
     private
 
