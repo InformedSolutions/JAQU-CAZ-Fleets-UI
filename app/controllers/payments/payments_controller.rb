@@ -34,7 +34,7 @@ module Payments
       return redirect_to first_upload_fleets_path if current_user.fleet.total_vehicles_count < 2
 
       @back_button_url = determinate_back_button_url
-      @zones = CleanAirZone.active
+      @zones = current_user.beta_tester ? CleanAirZone.all : CleanAirZone.active
     end
 
     ##
