@@ -7,9 +7,16 @@ module PaymentFeatures
     @payment_features_enabled = payment_features_enabled?
   end
 
+  # Assign +bath_d_day_date+ variable
+  def assign_bath_d_day_date
+    @bath_d_day_date = bath_d_day_date
+  end
+
   # Returns Bath charge start date
   def bath_d_day_date
     CleanAirZone.all.find { |caz| caz.name == 'Bath' }&.active_charge_start_date
+
+    Date.parse('15 March 2021')
   end
 
   # Determinate if current user is a beta tester or Bath payments has gone live
