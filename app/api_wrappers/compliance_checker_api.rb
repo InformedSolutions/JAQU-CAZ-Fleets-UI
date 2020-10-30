@@ -9,7 +9,7 @@
 # All methods are on the class level, so there is no initializer method.
 #
 class ComplianceCheckerApi < BaseApi
-  base_uri ENV.fetch('PAYMENTS_API_URL', 'localhost:3001') + '/v1/payments'
+  base_uri "#{ENV.fetch('PAYMENTS_API_URL', 'localhost:3001')}/v1/payments"
 
   class << self
     ##
@@ -48,7 +48,7 @@ class ComplianceCheckerApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def vehicle_details(vrn)
-      log_action 'Getting vehicle details'
+      log_action('Getting vehicle details')
       request(:get, "/vehicles/#{vrn}/details")
     end
 
@@ -76,7 +76,7 @@ class ComplianceCheckerApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def clean_air_zones
-      log_action 'Getting clean air zones'
+      log_action('Getting clean air zones')
       request(:get, '/clean-air-zones')['cleanAirZones']
     end
   end

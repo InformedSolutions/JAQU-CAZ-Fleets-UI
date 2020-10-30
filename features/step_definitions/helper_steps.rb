@@ -38,10 +38,6 @@ Then('I press {string} button') do |string|
   click_button string
 end
 
-Then('I press the Back link') do
-  click_link('Back')
-end
-
 Then('I should see {string} link') do |string|
   expect(page).to have_selector(:link_or_button, string)
 end
@@ -86,8 +82,18 @@ Then('I refresh current page') do
   visit current_url
 end
 
+private
+
 def mock_api_responses
   mock_vehicles_in_fleet
   mock_debits
   mock_users
+end
+
+def account_id
+  @account_id ||= SecureRandom.uuid
+end
+
+def second_user_id
+  @second_user_id ||= SecureRandom.uuid
 end

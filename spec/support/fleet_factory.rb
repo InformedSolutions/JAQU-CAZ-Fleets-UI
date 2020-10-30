@@ -21,7 +21,7 @@ module FleetFactory
   private
 
   def mocked_vehicles
-    vehicles_data = read_response('charges.json')['1']['vehicles']
+    vehicles_data = read_response('vehicles.json')['1']['vehicles']
     vehicles_data.map { |data| VehiclesManagement::Vehicle.new(data) }
   end
 

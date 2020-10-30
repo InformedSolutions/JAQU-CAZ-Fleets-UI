@@ -8,6 +8,7 @@ module PaymentHistory
   #
   class PaymentHistoryController < ApplicationController
     include CheckPermissions
+
     before_action -> { check_permissions(allow_view_payment_history?) }, only: :company_payment_history
     before_action -> { check_permissions(allow_make_payments?) }, only: :user_payment_history
     before_action -> { check_permissions(allow_view_details_history?) }, only: :payment_history_details
@@ -85,7 +86,7 @@ module PaymentHistory
 
     # Returns back link url, e.g '.../company_payment_history?page=3?back=true'
     def determinate_back_link_url(session_key, default_url, url)
-      BackLinkHistoryService.call(
+      PaymentHistory::BackLinkHistory.call(
         session: session,
         session_key: session_key,
         back_button: request.query_parameters['page']&.include?('back'),

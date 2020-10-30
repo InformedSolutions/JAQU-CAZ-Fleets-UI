@@ -3,6 +3,7 @@
     {
       "cazId": "87c17807-d6ec-4128-9174-9ce66cc5ed73",
       "cazName": "Leeds",
+      "directDebitEnabled": true,
       "mandates": [
         {
           "id": "5cd7441d-766f-48ff-b8ad-1809586fea37",
@@ -14,6 +15,7 @@
     {
       "cazId": "90fa62ca-c9dc-48b3-81c2-66b6f0d28b38",
       "cazName": "Birmingham",
+      "directDebitEnabled": true,
       "mandates": [
         {
           "id": "09b72307-e56a-4b61-802a-03eee58748ba",

@@ -32,7 +32,7 @@ module Organisations
     attr_reader :company_name, :confirm_fleet_check
 
     def validate_params
-      form = CompanyNameForm.new(company_name: company_name)
+      form = Organisations::CompanyNameForm.new(company_name: company_name)
       return if form.valid?
 
       raise InvalidCompanyNameException, form.first_error_message

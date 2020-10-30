@@ -31,14 +31,14 @@ en:
       missing: '%{attribute} is required'
       invalid_format: '%{attribute} is in an invalid format'
       maximum_length: '%{attribute} is too long (maximum is 45 characters)'
-      password_complexity: '%{attribute} must be at least 8 characters long, include at least 1 upper case letter and a number'
+      password_complexity: '%{attribute} must be at least 12 characters long, include at least one upper case letter, a number, and a special character'
     labels:
       email: 'Enter your email address'
       email_confirmation: 'Confirm your email address'
       password: 'Create a password'
       password_confirmation: 'Confirm password'
     hints:
-      password: 'Must be at least 8 characters long, include at least 1 upper case letter and a number'
+      password: 'Must be at least 12 characters long, include at least 1 upper case letter, a number and a special character'
   vrn_form:
     errors:
       vrn_missing: 'Enter the number plate of the vehicle'
@@ -46,7 +46,7 @@ en:
       vrn_too_long: 'The number plate of the vehicle is too long'
       vrn_too_short: 'The number plate of the vehicle is too short'
     messages:
-      multiple_vrns_added: 'You have successfully uploaded %{vrns_count} to your vehicle list.'
+      multiple_vrns_added: 'You have successfully uploaded %{vrns_count} vehicles to your vehicle list.'
       single_vrn_added: 'You have successfully added %{vrn} to your vehicle list.'
       single_vrn_removed: 'You have successfully removed %{vrn} from your vehicle list.'
       vrn_already_exists: '%{vrn} already exists in your vehicle list.'
@@ -64,7 +64,12 @@ en:
       password_not_equal: Enter a password and password confirmation that are the same
       password_missing: Enter your new password
       password_confirmation_missing: Confirm your new password
-      password_complexity: Enter a password at least 8 characters long, including at least 1 upper case letter and 1 number
+      password_complexity: Password must be at least 12 characters long, include at least one upper case letter, a number, and a special character
+  update_password_form:
+    errors:
+      old_password_missing: Enter your old password
+      old_password_invalid: The password you entered is incorrect
+      password_reused: You have already used that password, choose a new one
   submission_method_form:
     errors:
       submission_method_missing: Choose how to add vehicles to your account
@@ -96,7 +101,7 @@ en:
   payment_review:
     errors:
       confirmation_alert: Confirm you have checked if you are eligible for an exemption
-  inactivity_logout: You have been logged out due to inactivity
+  inactivity_logout: We have signed you out of your account to keep it secure after it became inactive.
   add_new_user_form:
     labels:
       name: Name

@@ -11,9 +11,9 @@ describe Organisations::CreateAccount do
 
   context 'when api returns correct response' do
     before do
-      allow(CompanyNameForm)
+      allow(Organisations::CompanyNameForm)
         .to receive(:new)
-        .and_return(instance_double(CompanyNameForm, valid?: valid))
+        .and_return(instance_double(Organisations::CompanyNameForm, valid?: valid))
       response = read_response('create_account.json')
       allow(AccountsApi).to receive(:create_account).and_return(response)
     end
@@ -22,8 +22,8 @@ describe Organisations::CreateAccount do
       expect(subject.class).to eq(String)
     end
 
-    it 'calls CompanyNameForm with proper params' do
-      expect(CompanyNameForm).to receive(:new).with(company_name: company_name)
+    it 'calls Organisations::CompanyNameForm with proper params' do
+      expect(Organisations::CompanyNameForm).to receive(:new).with(company_name: company_name)
       subject
     end
 
@@ -37,14 +37,13 @@ describe Organisations::CreateAccount do
 
   context 'when api throws exception' do
     let(:company_name_form_instance) do
-      instance_double(CompanyNameForm, valid?: valid, errors: errors, first_error_message: 'test')
+      instance_double(Organisations::CompanyNameForm,
+                      valid?: valid,
+                      errors: errors,
+                      first_error_message: 'test')
     end
 
-    before do
-      allow(CompanyNameForm)
-        .to receive(:new)
-        .and_return(company_name_form_instance)
-    end
+    before { allow(Organisations::CompanyNameForm).to receive(:new).and_return(company_name_form_instance) }
 
     context 'when params are not valid' do
       let(:valid) { false }
@@ -62,9 +61,9 @@ describe Organisations::CreateAccount do
     let(:error_code) { 'duplicate' }
 
     before do
-      allow(CompanyNameForm)
-        .to receive(:new)
-        .and_return(instance_double(CompanyNameForm, valid?: valid))
+      allow(Organisations::CompanyNameForm).to receive(:new).and_return(
+        instance_double(Organisations::CompanyNameForm, valid?: valid)
+      )
 
       stub_request(:post, /accounts/).to_return(
         status: 422,

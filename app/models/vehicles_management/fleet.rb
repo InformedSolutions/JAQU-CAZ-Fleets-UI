@@ -19,9 +19,10 @@ module VehiclesManagement
     # Returns a VehiclesManagement::PaginatedFleet with vehicles associated with the account.
     # Includes data about page and total pages count.
     def pagination(page:)
+      per_page ||= 10
       @pagination ||= begin
-                   data = PaymentsApi.charges(account_id: account_id, page: page)
-                   VehiclesManagement::PaginatedFleet.new(data)
+                   data = FleetsApi.vehicles(account_id: account_id, page: page, per_page: per_page)
+                   VehiclesManagement::PaginatedFleet.new(data, page, per_page)
                  end
     end
 
@@ -75,12 +76,12 @@ module VehiclesManagement
 
     # Checks if there are any vehicles in the fleet. Returns boolean.
     def empty?
-      FleetsApi.fleet_vehicles(account_id: account_id, page: 1, per_page: 1)['vrns'].empty?
+      FleetsApi.vehicles(account_id: account_id, page: 1, per_page: 1)['vehicles'].empty?
     end
 
     # Checks what is total count of stored vehicles.
     def total_vehicles_count
-      FleetsApi.fleet_vehicles(account_id: account_id, page: 1, per_page: 1)['totalVrnsCount']
+      FleetsApi.vehicles(account_id: account_id, page: 1, per_page: 1)['totalVehiclesCount']
     end
 
     # Checks if there are any chargeable vehicles in the provided clean air zone.

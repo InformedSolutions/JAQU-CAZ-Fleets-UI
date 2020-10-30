@@ -3,9 +3,10 @@
 require 'rails_helper'
 
 describe 'DirectDebits::DebitsController - POST #create' do
-  subject { post debits_path, params: { 'local-authority' => la_id } }
+  subject { post debits_path, params: { 'caz_id' => caz_id } }
+  before { mock_direct_debit_enabled }
 
-  let(:la_id) { @uuid }
+  let(:caz_id) { @uuid }
 
   context 'correct permissions' do
     let(:user) { manage_mandates_user }
@@ -28,7 +29,7 @@ describe 'DirectDebits::DebitsController - POST #create' do
       it 'adds a new mandate' do
         expect(DebitsApi).to receive(:create_mandate).with(
           account_id: user.account_id,
-          caz_id: la_id,
+          caz_id: caz_id,
           return_url: return_url
         )
         subject
@@ -36,7 +37,7 @@ describe 'DirectDebits::DebitsController - POST #create' do
     end
 
     context 'when the user does not select option' do
-      let(:la_id) { nil }
+      let(:caz_id) { nil }
 
       before { subject }
 
@@ -55,4 +56,16 @@ describe 'DirectDebits::DebitsController - POST #create' do
   end
 
   it_behaves_like 'incorrect permissions'
+
+  context 'when Direct Debits feature disabled' do
+    before do
+      sign_in manage_mandates_user
+      mock_direct_debit_disabled
+      subject
+    end
+
+    it 'redirects to not found page' do
+      expect(response).to redirect_to(not_found_path)
+    end
+  end
 end

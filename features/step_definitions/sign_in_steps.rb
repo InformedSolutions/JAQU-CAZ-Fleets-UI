@@ -89,7 +89,7 @@ Given('I am signed in') do
 end
 
 When('I request to sign out') do
-  click_link 'Sign Out'
+  click_link 'Sign out'
 end
 
 When('I enter invalid email format') do

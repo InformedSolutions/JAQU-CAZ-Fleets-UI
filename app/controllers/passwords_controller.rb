@@ -5,6 +5,9 @@
 #
 class PasswordsController < ApplicationController
   skip_before_action :authenticate_user!
+  skip_before_action :check_password_age
+  before_action :authenticate_user!, only: %i[edit update]
+
   before_action :validate_token, only: :create
 
   ##
@@ -122,6 +125,37 @@ class PasswordsController < ApplicationController
     # Renders static page
   end
 
+  ##
+  # Renders the update password page.
+  #
+  # ==== Path
+  #
+  #    :GET /passwords/edit
+  #
+  def edit
+    # Renders static page
+  end
+
+  ##
+  # Updates user password by calling AccountsApi.update_password
+  #
+  # ==== Path
+  #
+  #    :PATCH /passwords
+  #
+  def update
+    form = UpdatePasswordForm.new(
+      user_id: current_user.user_id,
+      old_password: params.dig(:passwords, :old_password),
+      password: params.dig(:passwords, :password),
+      password_confirmation: params.dig(:passwords, :password_confirmation)
+    )
+
+    return rerender_edit(form.errors.messages) unless form.valid? && form.submit
+
+    redirect_to_dashboard
+  end
+
   private
 
   ##
@@ -136,8 +170,8 @@ class PasswordsController < ApplicationController
   rescue BaseApi::Error400Exception
     session[:reset_password_token] = nil
     redirect_to invalid_passwords_path
-  rescue BaseApi::Error422Exception
-    rerender_index({ password: [I18n.t('new_password_form.errors.password_complexity')] })
+  rescue BaseApi::Error422Exception => e
+    rerender_index({ password: parse_422_error(e.body['errorCode']) })
   end
 
   # Renders :index with assigned errors and token
@@ -145,6 +179,12 @@ class PasswordsController < ApplicationController
     @token = params[:token]
     @errors = errors
     render :index
+  end
+
+  # Renders :edit with assigned errors
+  def rerender_edit(errors)
+    @errors = errors
+    render :edit
   end
 
   # Returns the list of permitted params
@@ -157,5 +197,21 @@ class PasswordsController < ApplicationController
     return if params[:token].present? && params[:token] == session[:reset_password_token]
 
     redirect_to invalid_passwords_path
+  end
+
+  # Sets session flag and redirects to dashboard after successful password update
+  def redirect_to_dashboard
+    session[:password_updated] = true
+    redirect_to dashboard_path
+  end
+
+  # Returns correct error message for 422 error
+  def parse_422_error(code)
+    case code
+    when 'passwordNotValid'
+      [I18n.t('new_password_form.errors.password_complexity')]
+    when 'newPasswordReuse'
+      [I18n.t('update_password_form.errors.password_reused')]
+    end
   end
 end

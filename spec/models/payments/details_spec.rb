@@ -13,7 +13,7 @@ describe Payments::Details, type: :model do
 
   let(:session_details) do
     {
-      la_id: zone_id,
+      caz_id: zone_id,
       external_id: id,
       user_email: email,
       payment_reference: reference

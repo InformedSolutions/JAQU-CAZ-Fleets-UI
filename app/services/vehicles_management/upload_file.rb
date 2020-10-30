@@ -7,6 +7,9 @@ module VehiclesManagement
   # Service used to upload fleet files to S3
   #
   class UploadFile < BaseService
+    # Attributes used externally
+    attr_reader :filename, :large_fleet
+
     ##
     # Initializer method.
     #
@@ -18,17 +21,15 @@ module VehiclesManagement
     def initialize(file:, user:)
       @file = file
       @user = user
-      @file_name = "fleet_#{user.user_id}_#{Time.current.to_i}"
-      @error = nil
+      @filename = "fleet_#{user.user_id}_#{Time.current.to_i}"
     end
 
-    # The caller method for the service. It invokes validating and uploading file to AWS S3
-    #
-    # Returns a boolean
+    # Invokes validating, uploading file to AWS S3, count number of vehicles and compare with threshold settings
     def call
       validate
       upload_to_s3
-      file_name
+      large_fleet?
+      self
     end
 
     private
@@ -39,7 +40,7 @@ module VehiclesManagement
     #
     # Returns a boolean.
     def validate
-      raise CsvUploadException, error if no_file_selected? || invalid_extname?
+      raise CsvUploadException, error if no_file_selected? || invalid_extname? || filesize_too_big?
     end
 
     # Checks if file is present.
@@ -62,13 +63,26 @@ module VehiclesManagement
       @error = I18n.t('csv.errors.invalid_ext')
     end
 
+    # Checks if file size not bigger than `Rails.configuration.x.csv_file_size_limit`
+    # Returns a boolean if filename is compliant with the naming rules
+    # Returns a string if not.
+    def filesize_too_big?
+      csv_file_size_limit = Rails.configuration.x.csv_file_size_limit
+      @error = "The CSV must be smaller than #{csv_file_size_limit}MB" if file.size > csv_file_size_limit.megabytes
+    end
+
+    # Count number of vehicles and compare with threshold settings
+    def large_fleet?
+      @large_fleet = LargeFleetThreshold.call(file: file)
+    end
+
     # Uploading file to AWS S3.
     #
     # Raise exception if upload failed
     #
     # Returns a boolean.
     def upload_to_s3
-      log_action 'Uploading file to S3'
+      log_action('Uploading file to S3')
       return true if aws_call
 
       raise CsvUploadException, I18n.t('csv.errors.base')
@@ -81,7 +95,7 @@ module VehiclesManagement
     #
     # Returns a boolean.
     def aws_call
-      s3_object = AMAZON_S3_CLIENT.bucket(bucket_name).object(file_name)
+      s3_object = AMAZON_S3_CLIENT.bucket(bucket_name).object(filename)
       s3_object.upload_file(file, metadata: metadata)
     end
 
@@ -93,13 +107,10 @@ module VehiclesManagement
     end
 
     def metadata
-      {
-        'account-user-id': user.user_id,
-        'account-id': user.account_id
-      }
+      { 'account-user-id': user.user_id, 'account-id': user.account_id }
     end
 
     # Attributes used internally to save values.
-    attr_reader :file, :error, :user, :file_name
+    attr_reader :file, :error, :user
   end
 end

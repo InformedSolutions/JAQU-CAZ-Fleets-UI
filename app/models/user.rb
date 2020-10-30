@@ -16,7 +16,8 @@ class User
   devise :timeoutable
 
   # User attributes
-  attr_accessor :email, :owner, :permissions, :user_id, :account_id, :account_name, :login_ip
+  attr_accessor :email, :owner, :permissions, :user_id, :account_id, :account_name, :login_ip,
+                :days_to_password_expiry
 
   # Delegates fleet methods to fleet
   delegate :vehicles, :add_vehicle, :remove_vehicle, :charges, :charges_by_vrn, to: :fleet
@@ -53,7 +54,8 @@ class User
       user_id: user_id,
       account_id: account_id,
       account_name: account_name,
-      login_ip: login_ip
+      login_ip: login_ip,
+      days_to_password_expiry: days_to_password_expiry
     }
   end
 
@@ -70,7 +72,22 @@ class User
       account_id: user_attributes['accountId'],
       account_name: user_attributes['accountName'],
       owner: user_attributes['owner'],
-      permissions: user_attributes['permissions']
+      permissions: user_attributes['permissions'],
+      days_to_password_expiry: calculate_days_to_password_expiry(user_attributes['passwordUpdateTimestamp'])
     )
+  end
+
+  # Checks if user password has expired
+  # Returns boolean
+  def force_password_update?
+    days_to_password_expiry > 90
+  end
+
+  # Calculates days to password expiry
+  # Returns number
+  def self.calculate_days_to_password_expiry(date)
+    return if date.nil?
+
+    90 - (Date.current.mjd - Date.parse(date).mjd)
   end
 end

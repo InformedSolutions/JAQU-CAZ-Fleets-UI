@@ -8,10 +8,14 @@ module VehiclesManagement
   #
   class FleetsController < ApplicationController
     include CheckPermissions
+    include ChargeabilityCalculator
+
     before_action -> { check_permissions(allow_manage_vehicles?) }
     before_action :assign_fleet
     before_action :check_vrn, only: %i[delete confirm_delete]
-    before_action :clear_show_continue_button, only: %i[index]
+    before_action :set_cache_headers, only: :index
+    before_action :check_job_status, only: :index
+    before_action :clear_user_data, only: :index
 
     ##
     # Renders submission method selection page
@@ -35,14 +39,14 @@ module VehiclesManagement
     # * +submission-method+ - manual or upload - selected submission method
     #
     def submit_method
-      form = SubmissionMethodForm.new(submission_method: params['submission-method'])
+      form = VehiclesManagement::SubmissionMethodForm.new(submission_method: params['submission-method'])
       session[:submission_method] = form.submission_method
-      unless form.valid?
+      if form.valid?
+        redirect_to form.manual? ? enter_details_vehicles_path : uploads_path
+      else
         @errors = form.errors
-        render :submission_method and return
+        render :submission_method
       end
-
-      redirect_to form.manual? ? enter_details_vehicles_path : uploads_path
     end
 
     ##
@@ -69,16 +73,16 @@ module VehiclesManagement
 
     ##
     # Verifies if user confirms to add another vehicle
-    # If yes, redirects to {upload vehicle}[rdoc-ref:FleetsController.upload]
+    # If yes, redirects to {upload vehicle}[rdoc-ref:upload]
     # If no, redirects to {dashboard page}[rdoc-ref:DashboardController.index]
-    # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:FleetsController.index]
+    # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:index]
     #
     # ==== Path
     #
     #    POST /fleets
     #
     def create
-      form = ConfirmationForm.new(params['confirm-vehicle-creation'])
+      form = VehiclesManagement::ConfirmationForm.new(params['confirm-vehicle-creation'])
       session[:confirm_vehicle_creation] = form.confirmation
       determinate_next_step(form)
     end
@@ -95,7 +99,7 @@ module VehiclesManagement
     end
 
     ##
-    # Assigns VRN to remove. Redirects to {delete view}[rdoc-ref:FleetsController.delete]
+    # Assigns VRN to remove. Redirects to {delete view}[rdoc-ref:delete]
     #
     # ==== Path
     #
@@ -137,7 +141,7 @@ module VehiclesManagement
     # * +confirm-delete+ - form confirmation, possible values: 'yes', 'no', nil
     #
     def confirm_delete
-      form = ConfirmationForm.new(confirm_delete_param)
+      form = VehiclesManagement::ConfirmationForm.new(confirm_delete_param)
       return redirect_to delete_fleets_path, alert: confirmation_error(form) unless form.valid?
 
       remove_vehicle if form.confirmed?
@@ -171,9 +175,9 @@ module VehiclesManagement
     end
 
     # Verifies if user confirms to add another vehicle
-    # If yes, redirects to {upload vehicle}[rdoc-ref:FleetsController.upload]
+    # If yes, redirects to {upload vehicle}[rdoc-ref:upload]
     # If no, redirects to {dashboard page}[rdoc-ref:DashboardController.index]
-    # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:FleetsController.index]
+    # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:index]
     def determinate_next_step(form)
       if form.valid?
         redirect_to form.confirmed? ? enter_details_vehicles_path : dashboard_path
@@ -196,9 +200,11 @@ module VehiclesManagement
       fleet.empty? ? dashboard_path : fleets_path
     end
 
+    # Clears upload job data
     # Clears show_continue_button from session when user lands on fleets page after end of CSV import
-    def clear_show_continue_button
-      session[:show_continue_button] = nil if session.dig(:show_continue_button) == true
+    def clear_user_data
+      clear_upload_job_data
+      session[:show_continue_button] = nil if session[:show_continue_button] == true
     end
   end
 end

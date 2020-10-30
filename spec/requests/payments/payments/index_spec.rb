@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - #index' do
+describe 'PaymentsController - GET #index' do
   subject { get payments_path }
 
   before { sign_in create_user }
@@ -21,7 +21,7 @@ describe 'PaymentsController - #index' do
 
     context 'with vehicles in fleet' do
       before do
-        mock_caz_list
+        mock_clean_air_zones
         mock_fleet
       end
 

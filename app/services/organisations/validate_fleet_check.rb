@@ -32,7 +32,7 @@ module Organisations
 
     # validate provided params.
     def validate_params
-      form = FleetCheckForm.new(confirm_fleet_check: confirm_fleet_check)
+      form = Organisations::FleetCheckForm.new(confirm_fleet_check: confirm_fleet_check)
       return if form.valid?
 
       raise InvalidFleetCheckException, form.first_error_message

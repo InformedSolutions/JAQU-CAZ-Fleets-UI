@@ -18,7 +18,7 @@ module MockFleet
   end
 
   def vehicles
-    vehicles_data = read_response('charges.json')['1']['vehicles']
+    vehicles_data = read_response('vehicles.json')['1']['vehicles']
     vehicles_data.map { |data| VehiclesManagement::Vehicle.new(data) }
   end
 
@@ -27,7 +27,7 @@ module MockFleet
   end
 
   def mock_unchargeable_vehicles
-    mock_fleet(vehicles, 1, mocked_unpaid_charges, 15, false)
+    mock_fleet(vehicles, 1, mocked_unpaid_charges, 15, chargeable_vehicles_in_caz: false)
   end
 
   private
@@ -37,7 +37,7 @@ module MockFleet
     page = 1,
     charges = mocked_charges,
     total_vehicles_count = 0,
-    chargeable_vehicles_in_caz = true
+    chargeable_vehicles_in_caz: true
   )
     @fleet = instance_double(VehiclesManagement::Fleet,
                              pagination: paginated_vehicles(vehicles, page),
@@ -68,6 +68,20 @@ module MockFleet
 
   def mocked_unpaid_charges
     VehiclesManagement::ChargeableFleet.new(read_response('chargeable_vehicles_with_unpaid_dates.json'))
+  end
+
+  def mock_direct_debit_enabled
+    allow(Rails.application.config.x).to receive(:method_missing).and_return('test')
+    allow(Rails.application.config.x).to(
+      receive(:method_missing).with(:feature_direct_debits).and_return('true')
+    )
+  end
+
+  def mock_direct_debit_disabled
+    allow(Rails.application.config.x).to receive(:method_missing).and_return('test')
+    allow(Rails.application.config.x).to(
+      receive(:method_missing).with(:feature_direct_debits).and_return('false')
+    )
   end
 end
 

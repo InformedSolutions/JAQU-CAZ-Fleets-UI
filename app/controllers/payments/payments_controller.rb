@@ -6,14 +6,19 @@ module Payments
   ##
   # Controller used to pay for fleet
   #
-  # rubocop:disable Metrics/ClassLength
-  class PaymentsController < ApplicationController
+  class PaymentsController < ApplicationController # rubocop:disable Metrics/ClassLength
     include CheckPermissions
+    include ChargeabilityCalculator
+    include CazLock
+
     before_action -> { check_permissions(allow_make_payments?) }
-    before_action :check_la, only: %i[matrix submit review select_payment_method no_chargeable_vehicles]
-    before_action :assign_back_button_url, only: %i[index select_payment_method]
+    before_action :check_la, only: %i[
+      matrix submit review select_payment_method no_chargeable_vehicles in_progress
+    ]
     before_action :assign_debit, only: %i[select_payment_method]
+    before_action :check_job_status, only: %i[matrix]
     before_action :assign_zone_and_dates, only: %i[matrix]
+    before_action :release_lock_on_caz, only: %i[success failure]
 
     ##
     # Renders payment page.
@@ -26,6 +31,7 @@ module Payments
     def index
       return redirect_to first_upload_fleets_path if current_user.fleet.total_vehicles_count < 2
 
+      @back_button_url = determinate_back_button_url
       @zones = CleanAirZone.active
     end
 
@@ -37,12 +43,11 @@ module Payments
     #    :POST /payments
     #
     def local_authority
-      form = LocalAuthorityForm.new(authority: la_params['local-authority'])
+      form = Payments::LocalAuthorityForm.new(caz_id: la_params['caz_id'])
       if form.valid?
-        SessionManipulation::AddLaId.call(session: session, params: la_params)
-        redirect_to determine_post_local_authority_redirect_path(form.authority)
+        determinate_lock_caz(form.caz_id)
       else
-        redirect_to payments_path, alert: confirmation_error(form, :authority)
+        redirect_to payments_path, alert: confirmation_error(form, :caz_id)
       end
     end
 
@@ -54,6 +59,7 @@ module Payments
     #    :GET /payments/matrix
     #
     def matrix
+      clear_upload_job_data
       @search = helpers.payment_query_data[:search]
       @errors = validate_search_params unless @search.nil?
       @charges = @errors || @search.nil? ? charges : charges_by_vrn
@@ -67,7 +73,7 @@ module Payments
     #    :GET /payments/no_chargeable_vehicles
     #
     # ==== Params
-    # * +la_id+ - id of the selected CAZ, required in the session
+    # * +caz_id+ - id of the selected CAZ, required in the session
     def no_chargeable_vehicles
       @clean_air_zone_name = CleanAirZone.find(@zone_id).name
     end
@@ -124,7 +130,8 @@ module Payments
     #    POST /payments/confirm_review
     #
     def confirm_review
-      form = PaymentReviewForm.new(params['confirm-not-exemption'])
+      form = Payments::PaymentReviewForm.new(params['confirm_not_exemption'])
+      session[:confirm_not_exemption] = params['confirm_not_exemption']
 
       if form.valid?
         redirect_to select_payment_method_payments_path
@@ -154,7 +161,9 @@ module Payments
     #    :GET /payments/select_payment_method
     #
     def select_payment_method
-      redirect_to initiate_payments_path if @debit.caz_mandates(@zone_id).nil?
+      return if helpers.direct_debits_enabled? && @debit.caz_mandates(@zone_id).present?
+
+      redirect_to initiate_payments_path
     end
 
     ##
@@ -168,7 +177,7 @@ module Payments
     #    :POST /payments/confirm_payment_method
     #
     # ==== Params
-    # * +la_id+ - id of the selected CAZ, required in the session
+    # * +caz_id+ - id of the selected CAZ, required in the session
     def confirm_payment_method
       session[:payment_method] = params['payment_method']
       case params['payment_method']
@@ -177,7 +186,7 @@ module Payments
       when 'false'
         redirect_to initiate_payments_path
       else
-        @errors = 'Choose Direct Debit or Card payment'
+        @errors = 'Choose Direct Debit or card payment'
         render :select_payment_method
       end
     end
@@ -192,7 +201,7 @@ module Payments
     # * +payment_reference+ - payment reference, required in the session
     # * +external_id+ - external payment id, required in the session
     # * +user_email+ - email of the user which performed the payment, required in the session
-    # * +la_id+ - selected local authority ID
+    # * +caz_id+ - selected local authority ID
     def success
       payments = helpers.initiated_payment_data
       @payment_details = Payments::Details.new(session_details: payments,
@@ -227,6 +236,17 @@ module Payments
       @details = helpers.vrn_to_pay(helpers.initiated_payment_data[:details])
     end
 
+    ##
+    # Render the payment in progress page
+    #
+    # ==== Path
+    #   GET /payments/in_progress
+    #
+    def in_progress
+      @user_locking_email = caz_lock_user_email
+      @zone = CleanAirZone.find(@zone_id)
+    end
+
     private
 
     # Check if provided VRN in search is valid
@@ -241,18 +261,14 @@ module Payments
     # Fetches charges with params saved in the session
     def charges
       query_data = helpers.payment_query_data
-      data = current_user.charges(zone_id: @zone_id, vrn: query_data[:vrn],
-                                  direction: query_data[:direction])
+      data = current_user.charges(zone_id: @zone_id, vrn: query_data[:vrn], direction: query_data[:direction])
       SessionManipulation::AddVehicleDetails.call(session: session, params: data.vehicle_list)
       data
     end
 
     # Fetches charges with vrn saved in session
     def charges_by_vrn
-      data = current_user.charges_by_vrn(
-        zone_id: @zone_id,
-        vrn: helpers.payment_query_data[:search]
-      )
+      data = current_user.charges_by_vrn(zone_id: @zone_id, vrn: helpers.payment_query_data[:search])
       SessionManipulation::AddVehicleDetails.call(session: session, params: data.vehicle_list)
       data
     end
@@ -263,9 +279,9 @@ module Payments
                     payment: [:vrn_search, :next_vrn, :previous_vrn, :vrn_list, { vehicles: {} }])
     end
 
-    # Permits local-authority
+    # Permits caz_id
     def la_params
-      params.permit('local-authority', :authenticity_token, :commit)
+      params.permit('caz_id', :authenticity_token, :commit)
     end
 
     # After selecting Clean Air Zone method checks if user has any chargeable
@@ -282,6 +298,19 @@ module Payments
       @dates = service.chargeable_dates
       @d_day_notice = service.d_day_notice
     end
+
+    # Returns back link url
+    def determinate_back_button_url
+      last_path = request.referer || []
+      if last_path.include?(success_payments_path)
+        success_payments_path
+      elsif last_path.include?(success_debits_path)
+        success_debits_path
+      elsif last_path.include?(in_progress_payments_path)
+        in_progress_payments_path
+      else
+        dashboard_path
+      end
+    end
   end
-  # rubocop:enable Metrics/ClassLength
 end

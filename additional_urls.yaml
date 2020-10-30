@@ -3,3 +3,5 @@ leeds:
   non_fleet: 'https://www.leeds.gov.uk/business/environmental-health-for-business/air-quality/support-for-taxis-and-private-hire-clean-air-charging-zone'
 birmingham:
   fleet: 'https://businessbreathes.co.uk/'
+bath:
+  fleet: 'http://www.bathnes.gov.uk/CAZsupport'

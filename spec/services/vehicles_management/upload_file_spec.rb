@@ -11,14 +11,16 @@ describe VehiclesManagement::UploadFile do
 
   describe '#call' do
     context 'with valid params' do
-      before do
-        allow_any_instance_of(Aws::S3::Object).to receive(:upload_file).and_return(true)
-      end
+      before { allow_any_instance_of(Aws::S3::Object).to receive(:upload_file).and_return(true) }
 
       it 'returns the proper file name' do
         freeze_time do
-          expect(subject).to eq("fleet_#{id}_#{Time.current.to_i}")
+          expect(subject.filename).to eq("fleet_#{id}_#{Time.current.to_i}")
         end
+      end
+
+      it 'returns proper value' do
+        expect(subject.large_fleet).to be_falsey
       end
     end
 
@@ -43,10 +45,16 @@ describe VehiclesManagement::UploadFile do
         end
       end
 
-      context 'when `S3UploadService` returns error' do
-        before do
-          allow_any_instance_of(Aws::S3::Object).to receive(:upload_file).and_return(false)
+      context 'when file size is too big' do
+        before { allow(file).to receive(:size).and_return(52_428_801) }
+
+        it 'raises exception' do
+          expect { subject }.to raise_exception(CsvUploadException)
         end
+      end
+
+      context 'when `S3UploadService` returns error' do
+        before { allow_any_instance_of(Aws::S3::Object).to receive(:upload_file).and_return(false) }
 
         it 'raises a proper exception' do
           expect { subject }.to raise_exception(CsvUploadException, I18n.t('csv.errors.base'))

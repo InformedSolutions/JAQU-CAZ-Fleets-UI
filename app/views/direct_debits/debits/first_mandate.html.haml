@@ -13,5 +13,5 @@
         If you wish to pay by card instead please click the back button.
 
       = form_for('payment', url: debits_path, method: :post) do |f|
-        = hidden_field_tag('local-authority', @zone_id)
+        = hidden_field_tag('caz_id', @zone_id)
         = f.submit 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
