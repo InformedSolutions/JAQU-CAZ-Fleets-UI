@@ -165,12 +165,8 @@ describe AccountDetails::EditUserEmailForm, type: :model do
       subject.valid?
     end
 
-    let(:email) { 'current@email.com' }
-    let(:confirmation) { 'current@email.com' }
-
-    it '.current_email_reuse? returns correct value' do
-      expect(subject.current_email_reuse?).to eq(true)
-    end
+    let(:email) { 'valid@email.com' }
+    let(:confirmation) { 'valid@email.com' }
 
     it 'has a proper email error message' do
       expect(subject.errors.messages[:email]).to(

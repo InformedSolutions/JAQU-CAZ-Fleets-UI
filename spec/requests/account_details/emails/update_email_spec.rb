@@ -29,12 +29,23 @@ describe 'AccountDetails::EmailsController - GET #update_email' do
       end
     end
 
-    context 'when user save no changes' do
+    context 'when user enters their current email' do
       let(:email) { user.email }
       let(:confirmation) { user.email }
 
-      it 'redirects to the account details page' do
-        expect(subject).to redirect_to(primary_users_account_details_path)
+      before do
+        allow(AccountsApi::Accounts)
+          .to receive(:user_validations)
+          .and_raise(BaseApi::Error400Exception.new(400, '', ''))
+      end
+
+      it 'renders the view' do
+        expect(subject).to render_template(:edit_email)
+      end
+
+      it 'assigns :error variable' do
+        subject
+        expect(assigns(:errors)).to include(email: [I18n.t('edit_user_email_form.errors.email_duplicated')])
       end
     end
   end

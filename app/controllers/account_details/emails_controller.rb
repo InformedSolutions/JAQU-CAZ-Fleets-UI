@@ -36,9 +36,7 @@ module AccountDetails
     def update_email
       form = AccountDetails::EditUserEmailForm.new(email_params)
 
-      if form.current_email_reuse?
-        redirect_to primary_users_account_details_path
-      elsif form.valid?
+      if form.valid?
         update_email_and_redirect(form)
       else
         @errors = form.errors.messages
