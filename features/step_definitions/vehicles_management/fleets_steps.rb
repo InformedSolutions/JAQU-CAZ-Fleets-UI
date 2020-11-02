@@ -93,6 +93,12 @@ When('I want to pay for CAZ which started charging {int} days ago') do |start_da
   mock_users
 end
 
+When('I want to pay for CAZ which start charging in next the month') do
+  mock_bath_d_day
+  mock_unpaid_vehicles_in_fleet
+  mock_users
+end
+
 When('I want to pay for active for charging CAZ') do
   caz_list = read_response('caz_list_active.json')['cleanAirZones']
   mock_clean_air_zones(caz_list)

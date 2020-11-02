@@ -96,7 +96,7 @@ def mock_bath_d_day
     'cleanAirZoneId' => '5cd7441d-766f-48ff-b8ad-1809586fea37',
     'name' => 'Bath',
     'boundaryUrl' => 'http://www.bathnes.gov.uk/zonemaps',
-    'activeChargeStartDate' => '2021-03-15'
+    'activeChargeStartDate' => Date.parse("#{Time.current.year + 1}-3-15").strftime('%Y-%m-%d')
   }]
   mock_clean_air_zones(caz_list)
 end
