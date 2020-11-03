@@ -119,7 +119,7 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the payment matrix page
       And I should see 'Next 7 days'
-      And I should not see 'Past'
+      And I should not see 'Previous days'
       And I should see 'The Clean Air Zone charge came into operation on'
 
   Scenario: Visiting the the matrix for caz which stared charging six days ago
@@ -176,3 +176,13 @@ Feature: Fleets
     Then I should be on the payment in progress page
       And I press 'Return to Your account' link
     Then I should be on the Dashboard page
+
+  Scenario: Visiting the matrix as a beta tester when d-day start in the next month
+    When I want to pay for CAZ which start charging in next the month
+      And I visit the make payment page as a beta tester
+      And I press the Continue
+    Then I select 'Bath'
+      And I press the Continue
+    Then I should be on the payment matrix page
+      And I should see 'Next 7 days'
+      And I should see 'Previous days'
