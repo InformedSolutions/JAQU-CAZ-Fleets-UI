@@ -31,7 +31,7 @@ Rails.application.configure do
     'X-Content-Type-Options' => 'nosniff',
     'X-XSS-Protection' => '1; mode=block',
     'Strict-Transport-Security' => 'max-age=31536000',
-    'Pragma' => 'no-store',
+    'Pragma' => 'no-cache',
     'X-UA-Compatible' => 'IE=Edge',
     'Access-Control-Allow-Origin' => '*'
   }
@@ -66,7 +66,7 @@ Rails.application.configure do
     # custom
     'Strict-Transport-Security' => 'max-age=31536000',
     'Pragma' => 'no-cache',
-    'Cache-Control' => 'public, s-maxage=31536000, max-age=15552000',
+    'Cache-Control' => 'no-store',
     'Expires' => 1.year.from_now.to_formatted_s(:rfc822).to_s,
     'Feature-Policy' => features.map { |f| "#{f} 'none'" }.join('; ')
   }
