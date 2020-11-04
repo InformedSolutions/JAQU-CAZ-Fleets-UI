@@ -18,10 +18,6 @@ Feature: Email update
       And I press 'Save and continue' button
       Then I should see 'Enter an email address' 3 times
     When I enter change my email page
-      And I fill in email that is too long
-      And I press 'Save and continue' button
-      Then I should see 'Enter an email address that is less than 129 characters' 3 times
-    When I enter change my email page
       And I fill in email with email with invalid format
       And I press 'Save and continue' button
       Then I should see 'Enter email in a valid format' 2 times

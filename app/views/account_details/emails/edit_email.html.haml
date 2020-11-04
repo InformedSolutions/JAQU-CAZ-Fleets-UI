@@ -6,15 +6,13 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      - if @errors.present?
-        = render 'shared/errors_summary', errors: @errors
+      = render 'shared/errors_summary', errors: @errors if @errors.present?
 
       = form_for('primary_user', url: update_email_primary_users_path, method: :post) do |f|
         .govuk-form-group{class: ('govuk-form-group--error' if @errors.present?)}
           %fieldset.govuk-fieldset
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
-              %h1.govuk-fieldset__heading
-                = title_and_header
+              %h1.govuk-fieldset__heading= title_and_header
 
             .govuk-form-group{class: ('govuk-form-group--error' if @errors[:email].present?)}
               = f.label :email, t('edit_user_email_form.labels.email'), class: 'govuk-label'
@@ -27,6 +25,7 @@
               = f.text_field :email,
                              name: 'email',
                              class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if @errors[:email].present?}",
+                             maxlength: 128,
                              value: @errors.present? ? params[:email] : current_user.email
 
             .govuk-form-group{class: ('govuk-form-group--error' if @errors[:confirmation].present?)}
@@ -40,6 +39,7 @@
               = f.text_field :confirmation,
                              name: 'confirmation',
                              class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if @errors[:confirmation].present?}",
+                             maxlength: 128,
                              value: params[:confirmation]
 
         %p We will send a confirmation email to the new address
