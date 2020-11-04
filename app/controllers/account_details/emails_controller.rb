@@ -35,7 +35,6 @@ module AccountDetails
     #
     def update_email
       form = AccountDetails::EditUserEmailForm.new(email_params)
-
       if form.valid?
         update_email_and_redirect(form)
       else
