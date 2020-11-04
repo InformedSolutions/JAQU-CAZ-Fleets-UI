@@ -73,7 +73,7 @@ module VehiclesManagement
 
     # Count number of vehicles and compare with threshold settings
     def large_fleet?
-      @large_fleet = LargeFleetThreshold.call(file: file)
+      @large_fleet = VehiclesManagement::LargeFleetThreshold.call(file: file)
     end
 
     # Uploading file to AWS S3.
