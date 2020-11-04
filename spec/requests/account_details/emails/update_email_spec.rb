@@ -48,6 +48,24 @@ describe 'AccountDetails::EmailsController - POST #update_email' do
         expect(assigns(:errors)).to include(email: [I18n.t('edit_user_email_form.errors.email_duplicated')])
       end
     end
+
+    context 'when api returns 400 status' do
+      before do
+        allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true)
+        allow(AccountsApi::Auth)
+          .to receive(:update_owner_email)
+          .and_raise(BaseApi::Error400Exception.new(400, '', ''))
+      end
+
+      it 'renders the view' do
+        expect(subject).to render_template(:edit_email)
+      end
+
+      it 'assigns :error variable' do
+        subject
+        expect(assigns(:errors)).to include(email: ['Enter email in a valid format'])
+      end
+    end
   end
 
   context 'when params are not valid' do

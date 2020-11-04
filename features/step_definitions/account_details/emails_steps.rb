@@ -20,14 +20,20 @@ end
 
 When('I fill in email and confirmation with already taken email') do
   mock_failed_user_validation
-  fill_in('primary_user_email', with: 'valid@email.com')
-  fill_in('primary_user_confirmation', with: 'valid@email.com')
+  fill_email_fields
+end
+
+When('I fill in email and confirmation when api email validation failed') do
+  allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true)
+  allow(AccountsApi::Auth)
+    .to receive(:update_owner_email)
+    .and_raise(BaseApi::Error400Exception.new(400, 'email is not valid', ''))
+  fill_email_fields
 end
 
 When('I fill in email and confirmation with valid email address') do
   mock_successful_user_validation
-  fill_in('primary_user_email', with: 'valid@email.com')
-  fill_in('primary_user_confirmation', with: 'valid@email.com')
+  fill_email_fields
   mock_owners_change_email
 end
 
@@ -88,4 +94,9 @@ def raise_422_confirm_exception(error_code = '')
   allow(AccountsApi::Auth)
     .to receive(:confirm_email)
     .and_raise(BaseApi::Error422Exception.new(422, '', 'errorCode' => error_code))
+end
+
+def fill_email_fields
+  fill_in('primary_user_email', with: 'valid@email.com')
+  fill_in('primary_user_confirmation', with: 'valid@email.com')
 end
