@@ -35,6 +35,13 @@ module AccountDetails
     # validates +email+ against duplication
     validate :email_not_duplicated, if: :check_if_email_unique?
 
+    # Add errors message to +email+ and +confirmation+
+    def add_invalid_email_errors
+      error_message = I18n.t('edit_user_email_form.errors.email_invalid_format')
+      errors.add(:email, :invalid, message: error_message)
+      errors.add(:confirmation, :invalid, message: error_message)
+    end
+
     private
 
     # Determines if email uniqueness should be checked
