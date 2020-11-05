@@ -25,7 +25,7 @@
               = f.text_field :email,
                              name: 'email',
                              class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if @errors[:email].present?}",
-                             maxlength: 128,
+                             maxlength: 129,
                              value: @errors.present? ? params[:email] : current_user.email
 
             .govuk-form-group{class: ('govuk-form-group--error' if @errors[:confirmation].present?)}
@@ -39,7 +39,7 @@
               = f.text_field :confirmation,
                              name: 'confirmation',
                              class: "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if @errors[:confirmation].present?}",
-                             maxlength: 128,
+                             maxlength: 129,
                              value: params[:confirmation]
 
         %p We will send a confirmation email to the new address
