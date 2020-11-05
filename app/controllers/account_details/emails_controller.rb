@@ -31,17 +31,18 @@ module AccountDetails
     #
     # ==== Path
     #
-    #    :GET /primary_users/update_email
+    #    :POST /primary_users/update_email
     #
     def update_email
       form = AccountDetails::EditUserEmailForm.new(email_params)
-
       if form.valid?
         update_email_and_redirect(form)
       else
-        @errors = form.errors.messages
-        render :edit_email
+        render_edit_email(form)
       end
+    rescue BaseApi::Error400Exception
+      form.add_invalid_email_errors
+      render_edit_email(form)
     end
 
     ##
@@ -163,6 +164,12 @@ module AccountDetails
         new_email: email,
         confirm_url: confirm_email_primary_users_url
       )
+    end
+
+    # Renders :edit_email with assigned errors
+    def render_edit_email(form)
+      @errors = form.errors.messages
+      render :edit_email
     end
   end
 end
