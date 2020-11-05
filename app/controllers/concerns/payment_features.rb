@@ -26,6 +26,6 @@ module PaymentFeatures
 
   # Checks if the current date is after the Bath payments has gone live
   def bath_live?
-    bath_d_day_date&.past?
+    !bath_d_day_date&.future?
   end
 end
