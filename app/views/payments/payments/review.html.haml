@@ -66,7 +66,7 @@
                   = precede '(' do
                     = succeed ').' do
                       Find out who can apply for an exemption in
-                      = external_link_to(@zone.name, exemption_url_for(@zone), id: 'exemption-link')
+                      = exemption_url_for(@zone)
 
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
 
