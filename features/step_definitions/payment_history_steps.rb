@@ -2,6 +2,7 @@
 
 Given('I visit the Company payment history page') do
   mock_api_on_payment_history
+  mock_clean_air_zones
   login_user(permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
   visit company_payment_history_path
 end
@@ -16,6 +17,7 @@ end
 
 Given('I visit the User payment history page') do
   mock_api_on_payment_history
+  mock_clean_air_zones
   login_user(permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
   visit user_payment_history_path
 end
@@ -104,6 +106,7 @@ end
 def mock_api_and_sign_in_user
   mock_api_on_payment_history
   mock_payment_details_history
+  mock_clean_air_zones
   login_user(permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
 end
 

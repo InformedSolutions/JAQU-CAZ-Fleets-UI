@@ -8,10 +8,16 @@ module UsersManagement
   #
   class EditUsersController < BaseController
     include UsersHelper
+    include PaymentFeatures
+
     before_action :authenticate_user!
     before_action -> { check_permissions(allow_manage_users?) }
     before_action -> { check_account_ownership?(account_user_id) }
     before_action :check_edit_user, only: %w[update]
+
+    # Handle Bath D-Day notice
+    before_action :assign_payment_enabled, only: :edit
+    before_action :assign_bath_d_day_date, only: :edit
 
     ##
     # Renders the manage user permissions page

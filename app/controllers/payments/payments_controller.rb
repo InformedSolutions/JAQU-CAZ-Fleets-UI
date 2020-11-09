@@ -34,7 +34,7 @@ module Payments
       return redirect_to first_upload_fleets_path if current_user.fleet.total_vehicles_count < 2
 
       @back_button_url = determinate_back_button_url
-      @zones = CleanAirZone.active
+      @zones = current_user.beta_tester ? CleanAirZone.all : CleanAirZone.active
     end
 
     ##
@@ -301,7 +301,7 @@ module Payments
     def assign_zone_and_dates
       @zone = CleanAirZone.find(@zone_id)
       service = Payments::PaymentDates.new(charge_start_date: @zone.active_charge_start_date)
-      @dates = service.chargeable_dates
+      @dates = current_user.beta_tester ? service.all_chargeable_dates : service.chargeable_dates
       @d_day_notice = service.d_day_notice
     end
 

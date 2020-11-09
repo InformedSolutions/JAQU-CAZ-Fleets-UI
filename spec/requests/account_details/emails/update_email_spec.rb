@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'AccountDetails::EmailsController - GET #update_email' do
-  subject { get update_email_primary_users_path, params: params }
+describe 'AccountDetails::EmailsController - POST #update_email' do
+  subject { post update_email_primary_users_path, params: params }
 
   before { sign_in user }
 
@@ -46,6 +46,24 @@ describe 'AccountDetails::EmailsController - GET #update_email' do
       it 'assigns :error variable' do
         subject
         expect(assigns(:errors)).to include(email: [I18n.t('edit_user_email_form.errors.email_duplicated')])
+      end
+    end
+
+    context 'when api returns 400 status' do
+      before do
+        allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true)
+        allow(AccountsApi::Auth)
+          .to receive(:update_owner_email)
+          .and_raise(BaseApi::Error400Exception.new(400, '', ''))
+      end
+
+      it 'renders the view' do
+        expect(subject).to render_template(:edit_email)
+      end
+
+      it 'assigns :error variable' do
+        subject
+        expect(assigns(:errors)).to include(email: ['Enter email in a valid format'])
       end
     end
   end

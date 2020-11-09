@@ -13,11 +13,6 @@ And('I fill in email with empty string') do
   fill_in('primary_user_email', with: '')
 end
 
-And('I fill in email that is too long') do
-  fill_in('primary_user_email', with: "#{'a' * 120}@test.com")
-  fill_in('primary_user_confirmation', with: "#{'a' * 120}@test.com")
-end
-
 And('I fill in email with email with invalid format') do
   mock_successful_user_validation
   fill_in('primary_user_email', with: 'invalid-email')
@@ -25,14 +20,20 @@ end
 
 When('I fill in email and confirmation with already taken email') do
   mock_failed_user_validation
-  fill_in('primary_user_email', with: 'valid@email.com')
-  fill_in('primary_user_confirmation', with: 'valid@email.com')
+  fill_email_fields
+end
+
+When('I fill in email and confirmation when api email validation failed') do
+  allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true)
+  allow(AccountsApi::Auth)
+    .to receive(:update_owner_email)
+    .and_raise(BaseApi::Error400Exception.new(400, 'email is not valid', ''))
+  fill_email_fields
 end
 
 When('I fill in email and confirmation with valid email address') do
   mock_successful_user_validation
-  fill_in('primary_user_email', with: 'valid@email.com')
-  fill_in('primary_user_confirmation', with: 'valid@email.com')
+  fill_email_fields
   mock_owners_change_email
 end
 
@@ -45,6 +46,7 @@ When('I visit the Confirm email update page') do
   mock_users
   mock_direct_debit_disabled
   mock_account_details
+  mock_clean_air_zones
   allow(AccountsApi::Auth).to receive(:confirm_email).and_return('john.doe@example.com')
 
   login_owner
@@ -54,6 +56,7 @@ end
 When('I visit the Confirm email update page when is not logged in') do
   mock_vehicles_in_fleet
   mock_users
+  mock_clean_air_zones
 
   allow(AccountsApi::Auth).to receive(:confirm_email).and_return('john.doe@example.com')
   allow(AccountsApi::Auth)
@@ -93,4 +96,9 @@ def raise_422_confirm_exception(error_code = '')
   allow(AccountsApi::Auth)
     .to receive(:confirm_email)
     .and_raise(BaseApi::Error422Exception.new(422, '', 'errorCode' => error_code))
+end
+
+def fill_email_fields
+  fill_in('primary_user_email', with: 'valid@email.com')
+  fill_in('primary_user_confirmation', with: 'valid@email.com')
 end
