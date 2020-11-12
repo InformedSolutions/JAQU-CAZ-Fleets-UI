@@ -66,3 +66,7 @@ html {
   pointer-events: none;
   user-select: none;
 }
+
+.dashboard-total-group:nth-child(3n+1) {
+  clear: left;
+}
