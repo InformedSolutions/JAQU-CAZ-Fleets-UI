@@ -188,6 +188,8 @@ class PasswordsController < ApplicationController
 
   # Returns the list of permitted params
   def email_address_params
+    params[:passwords].try(:[], :email_address)&.strip!
+
     params.require(:passwords).permit(:email_address)
   end
 
