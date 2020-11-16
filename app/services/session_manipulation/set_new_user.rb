@@ -12,7 +12,7 @@ module SessionManipulation
     def call
       session[:new_user] ||= {}
       session[:new_user]['name'] = params[:name]
-      session[:new_user]['email'] = params[:email]
+      session[:new_user]['email'] = params[:email]&.strip
     end
   end
 end
