@@ -235,6 +235,9 @@ module Organisations
 
     # Returns the list of permitted params
     def organisations_params
+      params[:organisations].try(:[], :email)&.strip!
+      params[:organisations].try(:[], :email_confirmation)&.strip!
+
       params.require(:organisations).permit(:email, :email_confirmation, :password,
                                             :password_confirmation)
     end
