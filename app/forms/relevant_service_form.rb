@@ -8,9 +8,6 @@
 #    redirect_to path if form.valid?
 #
 class RelevantServiceForm < BaseForm
-  validates :check_vehicle_option,
-            presence: { message: I18n.t('relevant_service_form.errors.missing_answer') }
-
   validates :check_vehicle_option, inclusion: {
     in: %w[single multiple], message: I18n.t('relevant_service_form.errors.missing_answer')
   }

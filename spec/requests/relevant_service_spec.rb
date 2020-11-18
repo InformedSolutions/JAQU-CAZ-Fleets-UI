@@ -10,8 +10,10 @@ describe RelevantServiceController do
   end
 
   describe 'POST #what_would_you_like_to_do' do
+    before { subject }
+
     subject do
-      post submit_what_would_you_like_to_do_path, params: {
+      post what_would_you_like_to_do_path, params: {
         check_vehicle_option: check_vehicle_option
       }
     end
@@ -20,11 +22,10 @@ describe RelevantServiceController do
       let(:check_vehicle_option) { 'single' }
 
       it 'returns a success response and redirect to vccs UI' do
-        subject
         expect(response).to have_http_status(:found)
         expect(response).to(
           redirect_to(
-            "#{Rails.configuration.x.check_air_standard_url}/vehicle_checkers/enter_details"
+            "#{Rails.configuration.x.check_air_standard_url}vehicle_checkers/enter_details"
           )
         )
       end
@@ -34,7 +35,6 @@ describe RelevantServiceController do
       let(:check_vehicle_option) { 'multiple' }
 
       it 'returns a success response and redirect to vccs UI' do
-        subject
         expect(response).to have_http_status(:found)
         expect(response).to(redirect_to(root_path))
       end
@@ -44,7 +44,6 @@ describe RelevantServiceController do
       let(:check_vehicle_option) { '' }
 
       it 'renders the form view' do
-        subject
         expect(response).to render_template(:what_would_you_like_to_do)
       end
     end

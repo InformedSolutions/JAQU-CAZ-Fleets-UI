@@ -203,8 +203,7 @@ Rails.application.routes.draw do
 
   scope controller: 'relevant_service' do
     get :what_would_you_like_to_do
-    post :what_would_you_like_to_do, to: 'relevant_service#submit_what_would_you_like_to_do',
-                                     as: 'submit_what_would_you_like_to_do'
+    post :what_would_you_like_to_do, to: 'relevant_service#submit_what_would_you_like_to_do'
   end
 
   match '/404', to: 'errors#not_found', via: :all

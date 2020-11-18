@@ -28,9 +28,7 @@ describe RelevantServiceForm, type: :model do
 
     it { is_expected.not_to be_valid }
 
-    before do
-      subject.valid?
-    end
+    before { subject.valid? }
 
     it 'has a proper error message' do
       expect(subject.errors.messages[:check_vehicle_option]).to include('You must choose an answer')
