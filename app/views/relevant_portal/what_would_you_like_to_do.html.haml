@@ -9,12 +9,10 @@
       %h1.govuk-heading-xl
         = title_and_header
 
-      %fieldset.govuk-fieldset{'aria-describedby': 'what-would-you-like-to-do-hint'}
-      %legend.govuk-visually-hidden Create account fields
-
-      = form_for('relevant_service', url: what_would_you_like_to_do_path, method: :post) do |f|
+      = form_for('relevant_portal', url: what_would_you_like_to_do_path, method: :post) do |f|
         .govuk-form-group{class: ('govuk-form-group--error' if alert.present?)}
           %fieldset.govuk-fieldset
+            %legend.govuk-visually-hidden What would you like to do
             - if alert.present?
               %span#check_vehicle_option-error.govuk-error-message
                 %span.govuk-visually-hidden Error:

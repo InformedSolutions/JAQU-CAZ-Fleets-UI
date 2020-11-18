@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe RelevantServiceController do
+describe RelevantPortalController do
   describe 'GET #what_would_you_like_to_do' do
     subject { get what_would_you_like_to_do_path }
 

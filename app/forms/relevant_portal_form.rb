@@ -4,12 +4,12 @@
 # Class used to validate data submitted on `What would you like to do?` page.
 #
 # ==== Usages
-#    form = RelevantServiceForm.new(check_vehicle_option: 'single')
+#    form = RelevantPortalForm.new(check_vehicle_option: 'single')
 #    redirect_to path if form.valid?
 #
-class RelevantServiceForm < BaseForm
+class RelevantPortalForm < BaseForm
   validates :check_vehicle_option, inclusion: {
-    in: %w[single multiple], message: I18n.t('relevant_service_form.errors.missing_answer')
+    in: %w[single multiple], message: I18n.t('relevant_portal_form.errors.missing_answer')
   }
 
   ##

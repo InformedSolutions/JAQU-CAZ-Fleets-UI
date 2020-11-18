@@ -88,7 +88,7 @@ en:
   payment_review:
     errors:
       confirmation_alert: Confirm you have checked if you are eligible for an exemption
-  relevant_service_form:
+  relevant_portal_form:
     errors:
       missing_answer: You must choose an answer
   remove_user:

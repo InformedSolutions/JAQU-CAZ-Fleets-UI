@@ -201,9 +201,9 @@ Rails.application.routes.draw do
     get :service_unavailable
   end
 
-  scope controller: 'relevant_service' do
+  scope controller: 'relevant_portal' do
     get :what_would_you_like_to_do
-    post :what_would_you_like_to_do, to: 'relevant_service#submit_what_would_you_like_to_do'
+    post :what_would_you_like_to_do, to: 'relevant_portal#submit_what_would_you_like_to_do'
   end
 
   match '/404', to: 'errors#not_found', via: :all

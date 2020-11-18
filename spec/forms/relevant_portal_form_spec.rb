@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe RelevantServiceForm, type: :model do
+describe RelevantPortalForm, type: :model do
   subject { described_class.new(check_vehicle_option) }
 
   let(:check_vehicle_option) { 'single' }

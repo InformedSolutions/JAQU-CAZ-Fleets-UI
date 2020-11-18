@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Given('I am on the Relevant Service form page') do
+Given('I am on the Relevant portal form page') do
   visit what_would_you_like_to_do_path
 end
 
