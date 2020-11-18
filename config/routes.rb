@@ -201,6 +201,12 @@ Rails.application.routes.draw do
     get :service_unavailable
   end
 
+  scope controller: 'relevant_service' do
+    get :what_would_you_like_to_do
+    post :what_would_you_like_to_do, to: 'relevant_service#submit_what_would_you_like_to_do',
+                                     as: 'submit_what_would_you_like_to_do'
+  end
+
   match '/404', to: 'errors#not_found', via: :all
   match '/422', to: 'errors#internal_server_error', via: :all
   match '/500', to: 'errors#internal_server_error', via: :all
