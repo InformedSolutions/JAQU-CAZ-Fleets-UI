@@ -88,6 +88,9 @@ en:
   payment_review:
     errors:
       confirmation_alert: Confirm you have checked if you are eligible for an exemption
+  relevant_portal_form:
+    errors:
+      missing_answer: You must choose an answer
   remove_user:
     choose_answer: Select yes to remove the user
     removed: You have successfully removed %{full_user_name} from your account.
