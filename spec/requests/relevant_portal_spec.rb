@@ -25,7 +25,7 @@ describe RelevantPortalController do
         expect(response).to have_http_status(:found)
         expect(response).to(
           redirect_to(
-            "#{Rails.configuration.x.check_air_standard_url}vehicle_checkers/enter_details"
+            "#{Rails.configuration.x.check_air_standard_url}/vehicle_checkers/enter_details"
           )
         )
       end
