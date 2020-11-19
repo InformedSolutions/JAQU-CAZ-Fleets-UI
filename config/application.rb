@@ -18,7 +18,8 @@ module FleetsUI
     # payments ui url
     config.x.payments_ui_url = ENV.fetch('PAYMENTS_UI_URL', 'dev.paycleanairzonecharge.co.uk')
     # vccs ui url
-    config.x.check_air_standard_url = ENV.fetch('COMPLIANCE_CHECKER_UI_URL', 'https://dev.cleanairzonevehiclecheck.co.uk/')
+    config.x.check_air_standard_url = ENV.fetch('COMPLIANCE_CHECKER_UI_URL',
+                                                'https://dev.cleanairzonevehiclecheck.co.uk')
     # service name for whole app
     config.x.service_name = 'Drive in a Clean Air Zone'
     # timeout the user session without activity.
