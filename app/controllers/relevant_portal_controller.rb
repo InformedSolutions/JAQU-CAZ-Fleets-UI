@@ -6,6 +6,7 @@
 class RelevantPortalController < ApplicationController
   skip_before_action :authenticate_user!
   skip_before_action :check_password_age
+  before_action :set_relevant_portal
 
   ##
   # Renders the form to check the relevant portal for the user
@@ -42,5 +43,10 @@ class RelevantPortalController < ApplicationController
     else
       root_path
     end
+  end
+
+  # Sets relevant portal variable to hide menu from the navbar.
+  def set_relevant_portal
+    @relevant_portal = true
   end
 end

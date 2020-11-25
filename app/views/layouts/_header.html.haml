@@ -9,5 +9,6 @@
           %span.govuk-header__logotype-text
             GOV.UK
     .govuk-header__content
-      = link_to service_name, root_path, class: 'govuk-header__link govuk-header__link--service-name'
-      = render 'layouts/navbar'
+      = link_to service_name, @relevant_portal ? '#' : root_path, class: 'govuk-header__link govuk-header__link--service-name'
+      - unless @relevant_portal
+        = render 'layouts/navbar'
