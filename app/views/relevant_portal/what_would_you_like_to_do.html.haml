@@ -8,7 +8,10 @@
     .govuk-grid-column-two-thirds
       %h1.govuk-heading-xl
         = title_and_header
-
+      - if alert
+        = render 'shared/error_summary',
+                  error_msg_div: '#check_vehicle_option-error',
+                  error_msg: "#{alert}"
       = form_for('relevant_portal', url: what_would_you_like_to_do_path, method: :post) do |f|
         .govuk-form-group{class: ('govuk-form-group--error' if alert.present?)}
           %fieldset.govuk-fieldset
