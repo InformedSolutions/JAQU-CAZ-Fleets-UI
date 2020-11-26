@@ -9,6 +9,7 @@ Feature: Relevant portal
       And I should not see 'Sign in'
       When I press 'Continue' button
     Then I should see 'You must choose an answer'
+      And I should see 'There is a problem'
       And I should not see 'Sign in'
       And I choose 'Check multiple vehicles'
       And I press 'Continue' button
