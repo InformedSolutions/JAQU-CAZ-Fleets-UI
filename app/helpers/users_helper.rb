@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-##
 # Module used for manage users flow
 module UsersHelper
   # Checks if current user `user_id` not equals to parameter `user_id`

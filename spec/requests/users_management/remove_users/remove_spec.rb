@@ -16,14 +16,14 @@ describe 'UsersManagement::RemoveUsersController - GET #remove' do
         end
 
         it 'renders the view' do
-          expect(subject).to render_template('remove')
+          expect(subject).to render_template(:remove)
         end
       end
 
       context 'when user want to delete his own account' do
         before { sign_in manage_users_user(user_id: @uuid) }
 
-        it 'redirects to users page' do
+        it 'redirects to the users page' do
           expect(subject).to redirect_to users_path
         end
       end
@@ -32,7 +32,7 @@ describe 'UsersManagement::RemoveUsersController - GET #remove' do
     context 'without edit user data in session' do
       before { sign_in manage_users_user }
 
-      it 'redirects to users page' do
+      it 'redirects to the users page' do
         expect(subject).to redirect_to users_path
       end
     end

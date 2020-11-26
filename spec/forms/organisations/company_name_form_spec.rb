@@ -18,7 +18,7 @@ describe Organisations::CompanyNameForm, type: :model do
     it 'has a proper error message' do
       subject.valid?
       expect(subject.errors.messages[:company_name]).to(
-        include(I18n.t('company_name_form.comapny_name_missing'))
+        include(I18n.t('company_name_form.company_name_missing'))
       )
     end
   end
@@ -40,8 +40,8 @@ describe Organisations::CompanyNameForm, type: :model do
     [
       'name with space',
       'UPPER CASES with 12 numbers',
-      'Ampersand & forward slash /',
-      "name with apostrophe ' && full stop...",
+      'Ampersand & forward slash / comma ,',
+      "name with apostrophe ' && full stop... exclamation mark !",
       'ěą śpórt cīnī gęń'
     ].each do |valid_name|
       let(:company_name) { valid_name }

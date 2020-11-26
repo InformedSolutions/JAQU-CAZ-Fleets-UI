@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# helper methods for logging in users
 module SignInHelper
   def login_user(options)
     user = new_user(options)
@@ -16,7 +17,7 @@ module SignInHelper
   def fill_sign_in_form
     allow_any_instance_of(ActionDispatch::Request).to receive(:remote_ip).and_return(remote_ip)
     visit new_user_session_path
-    fill_in('user_email', with: 'user@example.com')
+    fill_in('user_email', with: 'test@example.com')
     fill_in('user_password', with: 'password')
     click_button 'Continue'
   end

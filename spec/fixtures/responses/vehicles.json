@@ -105,7 +105,8 @@
     "perPage": 10,
     "page": 1,
     "pageCount": 2,
-    "totalVehiclesCount": 12
+    "totalVehiclesCount": 12,
+    "anyUndeterminedVehicles": false
   },
   "2": {
     "vehicles": [
@@ -133,6 +134,7 @@
     "perPage": 10,
     "page": 2,
     "pageCount": 2,
-    "totalVehiclesCount": 12
+    "totalVehiclesCount": 12,
+    "anyUndeterminedVehicles": true
   }
 }

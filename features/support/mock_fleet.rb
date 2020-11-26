@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# helper methods for manage vehicles flow
 module MockFleet
   def mock_empty_fleet
     mock_fleet
@@ -30,14 +31,19 @@ module MockFleet
     mock_fleet(vehicles, 1, mocked_unpaid_charges, 15, chargeable_vehicles_in_caz: false)
   end
 
+  def mock_undetermined_vehicles
+    mock_fleet(vehicles, 1, any_undetermined_vehicles: true)
+  end
+
   private
 
-  def mock_fleet(
+  def mock_fleet( # rubocop:disable Metrics/ParameterLists
     vehicles = [],
     page = 1,
     charges = mocked_charges,
     total_vehicles_count = 0,
-    chargeable_vehicles_in_caz: true
+    chargeable_vehicles_in_caz: true,
+    any_undetermined_vehicles: false
   )
     @fleet = instance_double(VehiclesManagement::Fleet,
                              pagination: paginated_vehicles(vehicles, page),
@@ -46,7 +52,8 @@ module MockFleet
                              empty?: vehicles.empty?,
                              charges: charges,
                              total_vehicles_count: total_vehicles_count,
-                             any_chargeable_vehicles_in_caz?: chargeable_vehicles_in_caz)
+                             any_chargeable_vehicles_in_caz?: chargeable_vehicles_in_caz,
+                             any_undetermined_vehicles: any_undetermined_vehicles)
     allow(VehiclesManagement::Fleet).to receive(:new).and_return(@fleet)
   end
 

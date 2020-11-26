@@ -45,7 +45,7 @@ describe 'UsersManagement::RemoveUsersController - POST #confirm_remove' do
           before { subject }
 
           it 'render the view' do
-            expect(response).to render_template('remove')
+            expect(response).to render_template(:remove)
           end
 
           it 'sets :alert flash message' do
@@ -57,7 +57,7 @@ describe 'UsersManagement::RemoveUsersController - POST #confirm_remove' do
       context 'when user is not exist in db' do
         before do
           sign_in manage_users_user
-          allow(AccountsApi).to receive(:delete_user)
+          allow(AccountsApi::Users).to receive(:delete_user)
             .and_raise(BaseApi::Error404Exception.new(404, '', {}))
         end
 
@@ -70,7 +70,7 @@ describe 'UsersManagement::RemoveUsersController - POST #confirm_remove' do
     context 'without edit user data in session' do
       before { sign_in manage_users_user }
 
-      it 'redirects to users page' do
+      it 'redirects to the users page' do
         expect(subject).to redirect_to users_path
       end
     end
@@ -78,7 +78,7 @@ describe 'UsersManagement::RemoveUsersController - POST #confirm_remove' do
     context 'when user want to delete his own account' do
       before { sign_in manage_users_user(user_id: @uuid) }
 
-      it 'redirects to users page' do
+      it 'redirects to the users page' do
         expect(subject).to redirect_to users_path
       end
     end

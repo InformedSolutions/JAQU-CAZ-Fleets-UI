@@ -31,10 +31,12 @@ Then('I should download the template') do
 end
 
 When('I am on the processing page') do
+  mock_actual_account_name
   mock_processing_page(large_fleet: true)
 end
 
 When('I am on the processing page and number of vehicles less than the threshold') do
+  mock_actual_account_name
   mock_processing_page(large_fleet: false)
 end
 
@@ -67,8 +69,9 @@ def attach_valid_csv_file
   attach_file(:file, File.join('spec', 'fixtures', 'uploads', 'fleet.csv'))
 end
 
-def mock_processing_page(large_fleet:)
+def mock_processing_page(large_fleet:) # rubocop:disable Metrics/MethodLength
   mock_vehicles_in_fleet
+  mock_users
   login_user(permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS], account_id: account_id)
   REDIS.hmset(
     "account_id_#{account_id}",

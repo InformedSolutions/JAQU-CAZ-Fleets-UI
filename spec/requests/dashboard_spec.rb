@@ -6,7 +6,7 @@ describe DashboardController do
   describe 'GET #index' do
     subject { get dashboard_path }
 
-    it 'returns redirect to the login page' do
+    it 'redirects to the login page' do
       subject
       expect(response).to redirect_to(new_user_session_path)
     end
@@ -16,6 +16,8 @@ describe DashboardController do
         mock_fleet
         mock_users
         mock_debits
+        mock_direct_debit_enabled
+        mock_actual_account_name
         sign_in user
       end
 
@@ -50,15 +52,17 @@ describe DashboardController do
     context 'when user is signed in with password that is about to expire in 8 days' do
       before do
         mock_fleet
+        mock_users
+        mock_actual_account_name
         sign_in create_user(
           permissions: [],
           days_to_password_expiry: 8
         )
       end
 
-      it 'returns http success' do
+      it 'returns a 200 OK status' do
         subject
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:ok)
       end
 
       it 'assigns @days_count variable' do
@@ -70,7 +74,7 @@ describe DashboardController do
     context 'when user enters the Dashboard with an outdated password' do
       before { sign_in create_user(permissions: [], days_to_password_expiry: -2) }
 
-      it 'redirects to edit password page' do
+      it 'redirects to the edit password page' do
         subject
         expect(response).to redirect_to(edit_passwords_path)
       end

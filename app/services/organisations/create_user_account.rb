@@ -47,7 +47,7 @@ module Organisations
     #
     # It returns a new User class instance.
     def perform_api_call
-      AccountsApi.create_user(
+      AccountsApi::Users.create_user(
         account_id: account_id,
         email: organisations_params[:email],
         password: organisations_params[:password],

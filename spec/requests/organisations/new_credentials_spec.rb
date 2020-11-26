@@ -10,7 +10,7 @@ describe 'Organisations::OrganisationsController - GET #new_credentials' do
     subject
   end
 
-  it 'returns an ok response' do
+  it 'returns a 200 OK status' do
     expect(response).to have_http_status(:ok)
   end
 end

@@ -8,7 +8,6 @@ module UsersManagement
   class AddUserPermissionsForm < NewUserBaseForm
     # validates +email+ against duplication
     validate :email_not_duplicated, if: -> { email.present? }
-
     # validates name attribute to presence
     validates :permissions, presence: { message: I18n.t('add_new_user_form.errors.permissions_missing') }
 
@@ -35,17 +34,26 @@ module UsersManagement
 
     private
 
+    # Attributes reader
     attr_reader :session, :permissions, :verification_url, :user_id
 
     # API request to create user invitation
     def invite_user_api_call
-      new_user_data = {
+      AccountsApi::Accounts.user_invitations(
+        account_id: account_id,
+        user_id: user_id,
+        new_user_data: new_user_data
+      )
+    end
+
+    # user data hash
+    def new_user_data
+      {
         name: name,
         email: email,
         permissions: permissions,
         verification_url: verification_url
       }
-      AccountsApi.user_invitations(account_id: account_id, user_id: user_id, new_user_data: new_user_data)
     end
   end
 end

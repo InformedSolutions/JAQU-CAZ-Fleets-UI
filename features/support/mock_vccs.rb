@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# helper methods for search vehicles flow
 module MockVccs
   def mock_vehicle_details
     vehicle_details = read_response('vehicle_details.json')

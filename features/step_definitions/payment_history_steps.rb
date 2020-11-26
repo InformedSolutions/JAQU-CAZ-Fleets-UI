@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 Given('I visit the Company payment history page') do
-  mock_vehicles_in_fleet
-  mock_payment_history
+  mock_api_on_payment_history
   login_user(permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
   visit company_payment_history_path
 end
@@ -16,18 +15,19 @@ Given('I go to the User payment history page') do
 end
 
 Given('I visit the User payment history page') do
-  mock_vehicles_in_fleet
-  mock_payment_history
+  mock_api_on_payment_history
   login_user(permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
   visit user_payment_history_path
 end
 
 Given('I want visit the Payments details page from Company payments history page') do
+  mock_users
   mock_api_and_sign_in_user
   visit company_payment_history_path
 end
 
 Given('I want visit the Payments details page from User payments history page') do
+  mock_users
   mock_api_and_sign_in_user
   visit user_payment_history_path
 end
@@ -102,8 +102,7 @@ def api_response
 end
 
 def mock_api_and_sign_in_user
-  mock_vehicles_in_fleet
-  mock_payment_history
+  mock_api_on_payment_history
   mock_payment_details_history
   login_user(permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
 end
@@ -111,4 +110,11 @@ end
 def mock_payment_details_history
   api_response = read_response('payment_history/payment_details.json')
   allow(PaymentHistoryApi).to receive(:payment_details).and_return(api_response)
+end
+
+def mock_api_on_payment_history
+  mock_actual_account_name
+  mock_vehicles_in_fleet
+  mock_payment_history
+  mock_users
 end

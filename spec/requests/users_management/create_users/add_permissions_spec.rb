@@ -13,7 +13,7 @@ describe 'UsersManagement::CreateUsersController - GET #add_permissions' do
     end
 
     it 'renders the view' do
-      expect(subject).to render_template('add_permissions')
+      expect(subject).to render_template(:add_permissions)
     end
   end
 

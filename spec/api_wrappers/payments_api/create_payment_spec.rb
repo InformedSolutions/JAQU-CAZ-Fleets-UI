@@ -30,14 +30,13 @@ describe 'PaymentsApi.create_payment' do
   let(:vrn) { 'CAS134' }
   let(:tariff_code) { 'BCC01-private-car' }
   let(:charge) { 18 }
-
-  let(:mock_path) { '/v1/payments' }
+  let(:url) { '/v1/payments' }
 
   context 'when the response status is :created (201)' do
     before do
-      stub_request(:post, /#{mock_path}/).to_return(
+      stub_request(:post, /#{url}/).to_return(
         status: 201,
-        body: { 'paymentId' => @uuid, 'nextUrl' => 'http://example.com' }.to_json
+        body: { 'paymentId': @uuid, 'nextUrl': 'http://example.com' }.to_json
       )
     end
 
@@ -47,20 +46,20 @@ describe 'PaymentsApi.create_payment' do
 
     it 'calls API with right params' do
       expect(subject)
-        .to have_requested(:post, /#{mock_path}/)
+        .to have_requested(:post, /#{url}/)
         .with(body: {
-                'cleanAirZoneId' => caz_id,
-                'returnUrl' => return_url,
-                'userId' => user_id,
-                'transactions' => transactions,
-                'telephonePayment' => false
+                cleanAirZoneId: caz_id,
+                returnUrl: return_url,
+                userId: user_id,
+                transactions: transactions,
+                telephonePayment: false
               })
     end
   end
 
   context 'when the response status is :internal_server_error (500)' do
     before do
-      stub_request(:post, /#{mock_path}/).to_return(
+      stub_request(:post, /#{url}/).to_return(
         status: 500,
         body: { message: 'Something went wrong' }.to_json
       )

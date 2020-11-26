@@ -12,10 +12,12 @@ And('I provide valid credentials and Continue') do
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_users
+  mock_actual_account_name
   login_owner
 end
 
 Then('I should enter fleet owner credentials and press the Continue') do
+  mock_actual_account_name
   login_owner
 end
 
@@ -31,6 +33,7 @@ end
 
 When('I have authentication cookie that has not expired') do
   mock_api_responses
+  mock_actual_account_name
   visit new_user_session_path
   login_owner
 
@@ -52,15 +55,13 @@ Then('I am redirected to the unauthenticated root page') do
 end
 
 When('I enter invalid credentials') do
-  allow(AccountsApi)
-    .to receive(:sign_in)
+  allow(AccountsApi::Auth).to receive(:sign_in)
     .and_raise(BaseApi::Error401Exception.new(401, '', {}))
   fill_sign_in_form
 end
 
 When('I enter unconfirmed email') do
-  allow(AccountsApi)
-    .to receive(:sign_in)
+  allow(AccountsApi::Auth).to receive(:sign_in)
     .and_raise(BaseApi::Error422Exception.new(422, '', {}))
   fill_sign_in_form
 end
@@ -74,6 +75,7 @@ Given('I have authentication cookie that has expired') do
   Rails.configuration.x.session_timeout = 15
 
   travel_to(20.minutes.ago) do
+    mock_actual_account_name
     mock_api_responses
     login_owner
   end
@@ -94,6 +96,18 @@ end
 
 When('I enter invalid email format') do
   fill_in('user_email', with: 'user.example.com')
+  fill_in('user_password', with: '12345678')
+
+  click_button 'Continue'
+end
+
+When('I enter pending email change') do
+  allow(AccountsApi::Auth).to receive(:sign_in).and_raise(BaseApi::Error401Exception.new(
+                                                            401,
+                                                            '',
+                                                            'errorCode' => 'pendingEmailChange'
+                                                          ))
+  fill_in('user_email', with: 'User@Example.com')
   fill_in('user_password', with: '12345678')
 
   click_button 'Continue'

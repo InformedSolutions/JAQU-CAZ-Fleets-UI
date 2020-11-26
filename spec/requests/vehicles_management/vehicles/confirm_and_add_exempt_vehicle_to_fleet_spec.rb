@@ -14,7 +14,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_and_add_exempt_v
     let(:user) { manage_vehicles_user(account_id: account_id) }
     let(:vehicle_type) { 'Car' }
 
-    it 'returns redirect to the login page' do
+    it 'redirects to the login page' do
       subject
       expect(response).to redirect_to(new_user_session_path)
     end
@@ -23,7 +23,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_and_add_exempt_v
       before { sign_in user }
 
       context 'without VRN in the session' do
-        it 'returns redirect to vehicles#enter_details' do
+        it 'redirects to vehicles#enter_details' do
           subject
           expect(response).to redirect_to(enter_details_vehicles_path)
         end
@@ -38,7 +38,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_and_add_exempt_v
         context 'when user does not confirm details' do
           let(:confirmation) { 'no' }
 
-          it 'redirects to incorrect details page' do
+          it 'redirects to the incorrect details page' do
             subject
             expect(response).to redirect_to(incorrect_details_vehicles_path)
           end
@@ -47,7 +47,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_and_add_exempt_v
         context 'when confirmation is empty' do
           let(:confirmation) { '' }
 
-          it 'redirects to confirm details page' do
+          it 'redirects to the confirm details page' do
             subject
             expect(response).to redirect_to(details_vehicles_path)
           end
@@ -82,7 +82,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_and_add_exempt_v
               expect(flash[:success]).to eq("You have successfully added #{@vrn} to your vehicle list.")
             end
 
-            it 'redirects to local vehicle exemptions' do
+            it 'redirects to the local vehicle exemptions' do
               expect(response).to redirect_to(fleets_path)
             end
           end

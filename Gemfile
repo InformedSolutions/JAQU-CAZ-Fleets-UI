@@ -3,9 +3,9 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.6'
+ruby '2.7.2'
 
-gem 'rails', '~> 6.0.3.3'
+gem 'rails', '~> 6.0.3.4'
 
 gem 'aws-sdk-s3'
 gem 'bootsnap', require: false
@@ -24,10 +24,8 @@ gem 'webpacker'
 group :development, :test do
   gem 'dotenv-rails'
   gem 'haml-rails'
-  gem 'jazz_fingers'
-  gem 'pry'
-  gem 'pry-rails'
   gem 'rspec-rails'
+  gem 'ruby_jard'
 end
 
 group :development do
@@ -45,12 +43,12 @@ group :test do
   gem 'capybara'
   gem 'cucumber-rails', require: false
   gem 'fakeredis'
+  gem 'i18n-tasks'
   gem 'rack_session_access'
   gem 'rails-controller-testing'
   gem 'rubocop-rails'
   gem 'scss_lint-govuk', require: false
   gem 'selenium-webdriver'
-  gem 'shoulda-matchers'
   gem 'show_me_the_cookies'
   gem 'simplecov', '~> 0.17.1', require: false
   gem 'webdrivers'

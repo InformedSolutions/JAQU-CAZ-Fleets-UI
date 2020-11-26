@@ -1,4 +1,4 @@
-- title_content = 'Manage your vehicles and view charges'
+- title_content = 'Manage vehicles and view charges'
 - title_and_header = flash[:success] ? "Upload successful - #{title_content}" : title_content
 - content_for(:title, title_and_header)
 
@@ -17,23 +17,15 @@
       %h1.govuk-heading-l
         = title_content
       %p
-        Charge information for your vehicles in each Clean Air Zone.
-      %p
-        %strong No charge -
-        you don't have to pay the charge in that Clean Air Zone as your vehicle meets its emissions standards.
-      %p
-        %strong Undetermined -
-        we could not calculate a charge based on your number plate. Contact
-        = external_link_to('DVLA',
-                           'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
-                           id: 'update_record_link')
-        to make sure it holds the correct information for you. The charge may still need to be paid for an individual vehicle.
-        You can
-        = external_link_to('pay a charge for a single vehicle',
-                           single_vehicle_payment_link,
-                           class: 'govuk-link',
-                           id: 'pay_clean_air_zone_link')
-        before or after driving in a Clean Air Zone.
+        Charge information for vehicles in each Clean Air Zone.
+      .govuk-inset-text
+        %b Live
+        \- you must pay a charge to drive in the zone
+        %br
+        %b Upcoming
+        \- you do not need to pay until charging starts, you can see the dates on the
+        = link_to('help page', help_path, class: 'govuk-link', id: 'help')
+
       %table.govuk-table
         %caption.govuk-table__caption
         %thead.govuk-table__head
@@ -59,51 +51,74 @@
                   = vehicle.formatted_charge(zone.id)
               %td.govuk-table__cell{scope: 'row'}
                 = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
-      = render 'pagination'
-      .govuk-inset-text
-        %b Live
-        \- you must pay a charge to drive in the zone
-        %br
-        %b Upcoming
-        \- charging will be starting soon. You can see the live dates are on the
-        = external_link_to('guidance page', 'https://www.gov.uk/guidance/driving-in-a-clean-air-zone#cleanairzones')
 
-      - if @pagination.total_vehicles_count >= 2
-        %p
-          You can then pay for the vehicles with a charge on the
-          = link_to('Make a payment', payments_path)
-          page.
+      = render 'pagination'
+
+      = form_tag(fleets_path, method: :get) do
+        .govuk-form-group
+          %fieldset.govuk-fieldset{'aria-describedby': 'only_chargeable'}
+            %legend.govuk-visually-hidden Hide vehicles that are not charge in any Zone
+            .govuk-checkboxes
+              .govuk-checkboxes__item
+                = check_box_tag('only_chargeable',
+                               true,
+                               params['only_chargeable'],
+                               class: 'govuk-checkboxes__input',
+                               onclick: 'this.form.submit()')
+                = label_tag('only_chargeable',
+                            'Hide vehicles that are not charged in any Zone',
+                            class: 'govuk-label govuk-checkboxes__label')
+
+      %p
+        = link_to('Download a spreadsheet (CSV) of the charges you would pay to drive in all Clean Air Zones',
+                  export_fleets_path,
+                  id: 'csv-export',
+                  class: 'govuk-link')
+
+      %p{id: 'csv-export__notice', style: 'display: none;'}
+        Your export is downloading...
+      
+      = javascript_pack_tag 'export_button_notice'
+
+      - if @fleet.any_undetermined_vehicles
+        %details.govuk-details{'data-module': 'govuk-details'}
+          %summary.govuk-details__summary
+            %span.govuk-details__summary-text
+              What does undetermined mean?
+          .govuk-details__text
+            %p 
+              We could not calculate a charge based on the number plate.
+              If the details we hold are incorrect you should contact
+              = succeed '.' do
+                = external_link_to('DVLA',
+                                    'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
+                                    id: 'update_record_link',
+                                    class: 'govuk-link')
+            %p
+              The charge may still need to be paid for an individual vehicle.
+              A charge for a single vehicle can be
+              = external_link_to('paid',
+                                 single_vehicle_payment_link,
+                                 id: 'pay_clean_air_zone_link',
+                                 class: 'govuk-link')
+              before or after driving in a Clean Air Zone.
 
       %h2.govuk-heading-m Add vehicles
       %p
-        You can add multiple vehicles by overriding this list with a
-        = link_to('new list of vehicles', uploads_path, id: 'reupload', class: 'govuk-link')
+        You can add multiple vehicles by overriding this list with a new
+        = succeed '.' do
+          = link_to('list of vehicles', uploads_path, id: 'reupload', class: 'govuk-link')
+      
       %p
-      = form_for fleets_path, method: :post do
-        .govuk-form-group{class: ('govuk-form-group--error' if alert)}
-          %fieldset.govuk-fieldset
-            %legend.govuk-fieldset__legend.govuk-fieldset__legend--s{for: 'confirm-vehicle-creation'}
-              Do you need to add a single vehicle?
-
-            - if alert
-              %span#confirm-vehicle-creation-error.govuk-error-message
-                %span.govuk-visually-hidden Error:
-                = I18n.t('confirmation_form.answer_missing')
-
-            .govuk-radios.govuk-radios--inline
-              .govuk-radios__item
-                %input#confirm-vehicle-creation-1.govuk-radios__input{name: 'confirm-vehicle-creation',
-                                                                      type: 'radio',
-                                                                      value: 'yes',
-                                                                      checked: session[:confirm_vehicle_creation] == 'yes'}
-                %label.govuk-label.govuk-radios__label{for: 'confirm-vehicle-creation-1'}
-                  Yes
-
-              .govuk-radios__item
-                %input#confirm-vehicle-creation-2.govuk-radios__input{name: 'confirm-vehicle-creation',
-                                                                      type: 'radio',
-                                                                      value: 'no'}
-                %label.govuk-label.govuk-radios__label{for: 'confirm-vehicle-creation-2'}
-                  No
-
-        = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
+        = succeed '.' do
+          = link_to('Add individual vehicles one by one',
+                    enter_details_vehicles_path,
+                    id: 'individual-payment',
+                    class: 'govuk-link')
+      
+      - if allow_make_payments? && @pagination.total_vehicles_count >= 2
+        %hr.govuk-section-break.govuk-section-break--m
+        = link_to('Make a payment', payments_path, id: 'payment-button', class: 'govuk-button', 'data-module': 'govuk-button')
+      
+      %p
+        = link_to('Return to Account home', dashboard_path, id: 'return-to-account', class: 'govuk-link')

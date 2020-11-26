@@ -15,13 +15,15 @@ module Payments
     before_action :check_la, only: %i[
       matrix submit review select_payment_method no_chargeable_vehicles in_progress
     ]
-    before_action :assign_debit, only: %i[select_payment_method]
-    before_action :check_job_status, only: %i[matrix]
-    before_action :assign_zone_and_dates, only: %i[matrix]
+    before_action :check_job_status, only: %i[index local_authority matrix]
+    before_action :clear_make_payment_history, only: %i[index]
     before_action :release_lock_on_caz, only: %i[success failure]
+    before_action :assign_zone_and_dates, only: %i[matrix]
+    before_action :assign_debit, only: %i[select_payment_method]
+    before_action :check_new_payment_data, only: %i[review confirm_review]
 
     ##
-    # Renders payment page.
+    # Renders the list of available local authorities
     # If the fleet is empty, redirects to {first_upload}[rdoc-ref:FleetsController.first_upload]
     #
     # ==== Path
@@ -59,6 +61,8 @@ module Payments
     #    :GET /payments/matrix
     #
     def matrix
+      return redirect_to in_progress_payments_path if caz_locked?
+
       clear_upload_job_data
       @search = helpers.payment_query_data[:search]
       @errors = validate_search_params unless @search.nil?
@@ -123,15 +127,15 @@ module Payments
 
     ##
     # Validates user has confirmed review payment.
-    # If it is valid, redirects to {select payment method page}[rdoc-ref:PaymentsController.select_payment_method]
-    # If not, renders {not found}[rdoc-ref:PaymentsController.review] with errors
+    # If it is valid, redirects to {select payment method page}[rdoc-ref:select_payment_method]
+    # If not, renders {not found}[rdoc-ref:review] with errors
     #
     # ==== Path
     #    POST /payments/confirm_review
     #
     def confirm_review
       form = Payments::PaymentReviewForm.new(params['confirm_not_exemption'])
-      session[:confirm_not_exemption] = params['confirm_not_exemption']
+      session[:new_payment]['confirm_not_exemption'] = params['confirm_not_exemption']
 
       if form.valid?
         redirect_to select_payment_method_payments_path
@@ -148,7 +152,6 @@ module Payments
     #    :GET /payments/review_details
     #
     def review_details
-      @zone = CleanAirZone.find(@zone_id)
       @details = helpers.vrn_to_pay(helpers.new_payment_data[:details])
     end
 
@@ -169,7 +172,7 @@ module Payments
     ##
     # Validate submit payment method and depending on the type, redirects to:
     #  {rdoc-ref:DirectDebitsController.confirm_direct_debit} if +direct_debit_method+ value is true
-    #  or call {rdoc-ref:PaymentsController.initiate_card_payment} method if +direct_debit_method+ value is false
+    #  or call {rdoc-ref:initiate_card_payment} method if +direct_debit_method+ value is false
     #  or render errors if +direct_debit_method+ value is null
     #
     # ==== Path
@@ -179,7 +182,7 @@ module Payments
     # ==== Params
     # * +caz_id+ - id of the selected CAZ, required in the session
     def confirm_payment_method
-      session[:payment_method] = params['payment_method']
+      session[:new_payment]['payment_method'] = params['payment_method']
       case params['payment_method']
       when 'true'
         redirect_to confirm_debits_path
@@ -232,18 +235,21 @@ module Payments
     #   GET /payments/post_payment_details
     #
     def post_payment_details
-      @zone = CleanAirZone.find(@zone_id)
       @details = helpers.vrn_to_pay(helpers.initiated_payment_data[:details])
     end
 
     ##
-    # Render the payment in progress page
+    # Render the payment in progress page. If CAZ is no longer locked redirects to payment matrix
     #
     # ==== Path
     #   GET /payments/in_progress
     #
     def in_progress
-      @user_locking_email = caz_lock_user_email
+      return determinate_lock_caz(@zone_id) unless caz_locked?
+
+      api_response = AccountsApi::Users.user(account_id: caz_lock_account_id,
+                                             account_user_id: caz_lock_user_id)
+      @user = UsersManagement::User.new(api_response)
       @zone = CleanAirZone.find(@zone_id)
     end
 
@@ -311,6 +317,11 @@ module Payments
       else
         dashboard_path
       end
+    end
+
+    # Redirects to local authority selection page when there is no payment data in session
+    def check_new_payment_data
+      return redirect_to payments_path if helpers.new_payment_data.blank?
     end
   end
 end

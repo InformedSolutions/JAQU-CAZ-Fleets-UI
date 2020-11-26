@@ -44,7 +44,7 @@ describe 'VehiclesManagement::UploadsController - POST #create' do
       context do
         before { subject }
 
-        it 'redirects to #processing' do
+        it 'redirects to the process uploading page' do
           expect(response).to redirect_to(processing_uploads_path)
         end
 
@@ -71,7 +71,7 @@ describe 'VehiclesManagement::UploadsController - POST #create' do
 
       before { subject }
 
-      it 'redirects to #index' do
+      it 'redirects to the upload page' do
         expect(response).to redirect_to(uploads_path)
       end
 

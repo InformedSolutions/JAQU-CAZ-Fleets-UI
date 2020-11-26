@@ -6,6 +6,7 @@ Feature: Manage users
   Scenario: Visiting the manage users page
     Given I visit the Manage users page
     Then I should be on the Manage users page
+      And I should see 'Manage Royal Mail account users'
       And I should see 'Add another user'
       And I should see 'Change' link
 
@@ -29,7 +30,7 @@ Feature: Manage users
   Scenario: Visiting the manage users page as an owner
     Given I visit the Manage users page as an owner
     Then I should be on the Manage users page
-      And I should not see 'user@example.com'
+      And I should not see 'test@example.com'
       And I should not see 'Change' link
 
   Scenario: Adding new user - nobody added user with the same email in the meantime
@@ -52,8 +53,6 @@ Feature: Manage users
     Then I should be on the Add user permissions page
     When I press 'Continue' button and new user email is still unique
     Then I should see 'Select at least one permission type to continue'
-    Then I press 'Cookies' link
-      And I press 'Back' link
     Then I should be on the Add user permissions page
       And I press 'Back' link
     Then I should be on the Add user page

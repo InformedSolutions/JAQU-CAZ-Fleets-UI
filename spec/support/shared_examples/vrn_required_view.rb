@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'a vrn required view' do
-  it 'returns redirect to the login page' do
+  it 'redirects to the login page' do
     subject
     expect(response).to redirect_to(new_user_session_path)
   end
@@ -10,7 +10,7 @@ RSpec.shared_examples 'a vrn required view' do
     before { sign_in create_user }
 
     context 'without VRN in the session' do
-      it 'returns redirect to no VRN path' do
+      it 'redirects to no VRN path' do
         subject
         expect(response).to redirect_to(no_vrn_path)
       end

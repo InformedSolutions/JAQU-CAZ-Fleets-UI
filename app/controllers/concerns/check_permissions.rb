@@ -2,8 +2,6 @@
 
 # Module used to check user permissions in controllers
 module CheckPermissions
-  extend ActiveSupport::Concern
-
   # Checks if user has a proper permissions
   # If not redirects to the not found page
   def check_permissions(value)

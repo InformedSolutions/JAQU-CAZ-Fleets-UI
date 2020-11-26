@@ -6,7 +6,7 @@ describe 'PaymentHistory::PaymentHistoryController - GET #payment_history_detail
   subject do
     get payment_history_details_path,
         params: { payment_id: @uuid },
-        headers: { 'HTTP_REFERER' => last_page }
+        headers: { 'HTTP_REFERER': last_page }
   end
 
   let(:last_page) { company_payment_history_path }
@@ -20,7 +20,7 @@ describe 'PaymentHistory::PaymentHistoryController - GET #payment_history_detail
     end
 
     it 'renders the view' do
-      expect(response).to render_template('payment_history_details')
+      expect(response).to render_template(:payment_history_details)
     end
 
     context 'when last visited page was the Company payment history page' do

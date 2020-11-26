@@ -8,7 +8,7 @@ describe TokenForm, type: :model do
   let(:token) { @uuid }
 
   before do
-    allow(AccountsApi).to receive(:validate_password_reset).and_return(true)
+    allow(AccountsApi::Auth).to receive(:validate_password_reset).and_return(true)
   end
 
   context 'when token is missing' do
@@ -24,7 +24,7 @@ describe TokenForm, type: :model do
     end
 
     it 'does not call API' do
-      expect(AccountsApi).not_to receive(:validate_password_reset)
+      expect(AccountsApi::Auth).not_to receive(:validate_password_reset)
       subject.valid?
     end
   end
@@ -35,14 +35,14 @@ describe TokenForm, type: :model do
     end
 
     it 'calls API' do
-      expect(AccountsApi).to receive(:validate_password_reset).with(token: token)
+      expect(AccountsApi::Auth).to receive(:validate_password_reset).with(token: token)
       subject.valid?
     end
   end
 
   context 'with invalid token' do
     before do
-      allow(AccountsApi).to receive(:validate_password_reset).and_raise(
+      allow(AccountsApi::Auth).to receive(:validate_password_reset).and_raise(
         BaseApi::Error400Exception.new(400, '', {})
       )
     end

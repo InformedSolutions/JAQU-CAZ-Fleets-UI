@@ -17,7 +17,7 @@ describe 'SessionsController  - DELETE #destroy' do
       subject
     end
 
-    it 'redirects to sign out page' do
+    it 'redirects to the sign out page' do
       expect(response).to redirect_to(sign_out_path)
     end
 
@@ -32,7 +32,7 @@ describe 'SessionsController  - DELETE #destroy' do
       subject
     end
 
-    it 'redirects to sign out page' do
+    it 'redirects to the sign out page' do
       expect(response).to redirect_to(sign_out_path)
     end
 

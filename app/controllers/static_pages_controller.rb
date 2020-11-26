@@ -6,8 +6,6 @@
 class StaticPagesController < ApplicationController
   skip_before_action :authenticate_user!
   skip_before_action :check_password_age
-  # assign back button path
-  before_action :assign_back_button_url, only: %i[accessibility_statement cookies privacy_notice]
 
   ##
   # Renders the accessibility statement page
@@ -27,6 +25,16 @@ class StaticPagesController < ApplicationController
   #
   def cookies
     # renders static page
+  end
+
+  ##
+  # Renders the help page
+  #
+  # ==== Path
+  #    GET /help
+  #
+  def help
+    @zones = CleanAirZone.all
   end
 
   ##

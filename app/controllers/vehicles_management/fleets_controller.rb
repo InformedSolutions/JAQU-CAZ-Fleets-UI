@@ -50,8 +50,7 @@ module VehiclesManagement
     end
 
     ##
-    # Renders manage fleet page.
-    # If the fleet is empty, redirects to :submission_method
+    # Renders manage fleet page. If the fleet is empty, redirects to :submission_method
     #
     # ==== Path
     #
@@ -65,26 +64,10 @@ module VehiclesManagement
       return redirect_to submission_method_fleets_path if @fleet.empty?
 
       page = (params[:page] || 1).to_i
-      @pagination = @fleet.pagination(page: page)
+      @pagination = @fleet.pagination(page: page, only_chargeable: params[:only_chargeable])
       @zones = CleanAirZone.all
     rescue BaseApi::Error400Exception
       return redirect_to fleets_path unless page == 1
-    end
-
-    ##
-    # Verifies if user confirms to add another vehicle
-    # If yes, redirects to {upload vehicle}[rdoc-ref:upload]
-    # If no, redirects to {dashboard page}[rdoc-ref:DashboardController.index]
-    # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:index]
-    #
-    # ==== Path
-    #
-    #    POST /fleets
-    #
-    def create
-      form = VehiclesManagement::ConfirmationForm.new(params['confirm-vehicle-creation'])
-      session[:confirm_vehicle_creation] = form.confirmation
-      determinate_next_step(form)
     end
 
     ##
@@ -149,6 +132,18 @@ module VehiclesManagement
       redirect_to after_removal_redirect_path(@fleet)
     end
 
+    ##
+    # Downloads a csv file from AWS S3
+    #
+    # ==== Path
+    #
+    #     GET /fleets/export
+    #
+    def export
+      file_url = AccountsApi::Accounts.csv_exports(account_id: current_user.account_id)
+      redirect_to file_url
+    end
+
     private
 
     # Creates instant variable with fleet object
@@ -172,18 +167,6 @@ module VehiclesManagement
     # Extract 'confirm-delete' from params
     def confirm_delete_param
       params['confirm-delete']
-    end
-
-    # Verifies if user confirms to add another vehicle
-    # If yes, redirects to {upload vehicle}[rdoc-ref:upload]
-    # If no, redirects to {dashboard page}[rdoc-ref:DashboardController.index]
-    # If form was not confirmed, redirects to {manage vehicles page}[rdoc-ref:index]
-    def determinate_next_step(form)
-      if form.valid?
-        redirect_to form.confirmed? ? enter_details_vehicles_path : dashboard_path
-      else
-        redirect_to fleets_path, alert: form.errors.messages[:confirmation].first
-      end
     end
 
     # Removes vehicle and sets successful flash message

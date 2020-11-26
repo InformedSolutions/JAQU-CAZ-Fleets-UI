@@ -9,7 +9,7 @@
       %h1.govuk-heading-l
         = title_and_header
       %p
-        = "#{@user_locking_email} is paying charges for #{@zone.name} Clean Air Zone."
+        = "#{@user.email} is paying charges for #{@zone&.name} Clean Air Zone."
       %p
         To avoid the possibility of you both paying the same charge, you need to wait till they have finished 
         before making your payment.

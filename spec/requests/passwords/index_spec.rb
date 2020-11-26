@@ -8,10 +8,10 @@ describe 'PasswordsController - GET #index' do
   let(:token) { @uuid }
 
   before do
-    allow(AccountsApi).to receive(:validate_password_reset).and_return(true)
+    allow(AccountsApi::Auth).to receive(:validate_password_reset).and_return(true)
   end
 
-  it 'returns an ok response' do
+  it 'returns a 200 OK status' do
     subject
     expect(response).to have_http_status(:ok)
   end
@@ -26,29 +26,29 @@ describe 'PasswordsController - GET #index' do
     expect(session[:reset_password_token]).to eq(token)
   end
 
-  it 'calls AccountsApi.validate_password_reset' do
-    expect(AccountsApi).to receive(:validate_password_reset).with(token: token)
+  it 'calls AccountsApi::Auth.validate_password_reset' do
+    expect(AccountsApi::Auth).to receive(:validate_password_reset).with(token: token)
     subject
   end
 
   context 'without the token' do
     let(:token) { nil }
 
-    it 'redirects to invalid page' do
+    it 'redirects to the invalid page' do
       expect(subject).to redirect_to(invalid_passwords_path)
     end
   end
 
   context 'when token is invalid' do
     before do
-      allow(AccountsApi)
+      allow(AccountsApi::Auth)
         .to receive(:validate_password_reset)
         .and_raise(
           BaseApi::Error400Exception.new(400, '', {})
         )
     end
 
-    it 'redirects to invalid page' do
+    it 'redirects to the invalid page' do
       expect(subject).to redirect_to(invalid_passwords_path)
     end
   end

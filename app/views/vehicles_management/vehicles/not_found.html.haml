@@ -10,7 +10,7 @@
       %h1.govuk-heading-xl Vehicle details could not be found
       %p
         Try
-        = link_to 'entering your details', enter_details_vehicles_path, class: 'govuk-link'
+        = link_to 'entering the details', enter_details_vehicles_path, class: 'govuk-link'
         again making sure you have not mixed up letters and numbers (for example, the letters
         %b I
         and
@@ -21,20 +21,20 @@
         %b 0
         ).
 
-      %h1.govuk-heading-m Check your registration details
+      %h1.govuk-heading-m Check the registration details
       %p
-        If the details still can not be found and you believe your vehicle should be registered in
+        If the details still can not be found and you believe the vehicle should be registered in
         the UK, you can
         = external_link_to('update the details',
                            'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
                            id: 'dvla-link')
-        the DVLA holds for your vehicle.
+        the DVLA holds for the vehicle.
 
       %p
         Confirm the number plate
         %b
           = @vrn
-        is correct and add it to your account.
+        is correct and add it to this account.
 
       = form_tag confirm_not_found_vehicles_path, method: :post do
         .govuk-form-group{class: ('govuk-form-group--error' if alert)}
@@ -54,5 +54,5 @@
                                                value: 'yes',
                                                id: 'confirm-registration'}
                 %label.govuk-label.govuk-checkboxes__label{for: 'confirm-registration'}
-                  I confirm the number plate is correct and I want to add it to my account.
+                  I confirm the number plate is correct and I want to add it to this account.
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

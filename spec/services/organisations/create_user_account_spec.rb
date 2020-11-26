@@ -33,7 +33,7 @@ describe Organisations::CreateUserAccount do
         allow(Organisations::EmailAndPasswordForm)
           .to receive(:new)
           .and_return(instance_double(Organisations::EmailAndPasswordForm, valid?: valid))
-        allow(AccountsApi).to receive(:create_user).and_return(read_response('create_user.json'))
+        allow(AccountsApi::Users).to receive(:create_user).and_return(read_response('create_user.json'))
       end
 
       it 'returns the User class' do
@@ -46,7 +46,7 @@ describe Organisations::CreateUserAccount do
       end
 
       it 'calls AccountsApi.users with proper params' do
-        expect(AccountsApi)
+        expect(AccountsApi::Users)
           .to receive(:create_user)
           .with(
             account_id: account_id,

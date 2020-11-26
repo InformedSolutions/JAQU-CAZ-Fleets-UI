@@ -7,12 +7,13 @@ describe 'VehiclesManagement::FleetsController - GET #submission_method' do
 
   context 'correct permissions' do
     before do
-      sign_in manage_vehicles_user
+      mock_actual_account_name
       mock_users
+      sign_in manage_vehicles_user
     end
 
     it 'renders the view' do
-      expect(subject).to render_template('submission_method')
+      expect(subject).to render_template(:submission_method)
     end
   end
 

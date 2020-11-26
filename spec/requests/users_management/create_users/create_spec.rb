@@ -11,14 +11,25 @@ describe 'UsersManagement::CreateUsersController - POST #create' do
 
   context 'correct permissions' do
     before do
-      add_to_session({ new_user: { name: name, email: email } })
-      sign_in manage_users_user
+      mock_actual_account_name
       mock_users
-      allow(AccountsApi).to receive(:user_validations).and_return(true)
+      allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true)
+      sign_in manage_users_user
+      add_to_session({ new_user: { name: name, email: email } })
     end
 
-    it 'redirects to add permissions page' do
-      expect(subject).to redirect_to(add_permissions_users_path)
+    context 'when params are valid' do
+      it 'redirects to the add permissions page' do
+        expect(subject).to redirect_to(add_permissions_users_path)
+      end
+    end
+
+    context 'when params are not valid' do
+      let(:name) { '' }
+
+      it 'renders the view' do
+        expect(subject).to render_template(:new)
+      end
     end
   end
 

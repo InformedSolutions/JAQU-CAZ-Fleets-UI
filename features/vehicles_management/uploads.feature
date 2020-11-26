@@ -6,7 +6,7 @@ Feature: Uploads
   Scenario: Uploading file with no vehicles in the fleet
     Given I have no vehicles in my fleet
       And I visit the upload page
-    Then I should see 'Upload your vehicle list'
+    Then I should see 'Upload the vehicle list to Royal Mail account' title
     When I press Upload file button
     Then I should see 'Select a CSV file to upload' 2 times
     When I attach a file
@@ -43,7 +43,7 @@ Feature: Uploads
     Then I should download the template
 
   Scenario: Successful upload
-    When I am on the processing page
+    When I am on the processing page and number of vehicles less than the threshold
       And My upload is finished
       And I reload the page
     Then I should be on the local vehicles exemptions page
@@ -58,19 +58,17 @@ Feature: Uploads
     Then I should be on the local vehicles exemptions page
       And I press 'Continue' link
     Then I should be on the calculating chargeability page
-      And I should see 'Uploading your vehicles'
-    Then I press 'Return to Your account' link
+      And I should see 'Uploading vehicles' title
+    Then I press 'Return to Account home' link
       And I should be on the Dashboard page
-    Then I press 'Manage your vehicles' link
+    Then I press 'Manage vehicles and view charges' link
       And I should be on the calculating chargeability page
-      And I press 'Return to Your account' link
+      And I press 'Return to Account home' link
     Then I press 'Make a payment' link
-      And I select 'Birmingham'
-    Then I press the Continue
       And I should be on the calculating chargeability page
-    Then I press 'Return to Your account' link
+    Then I press 'Return to Account home' link
       And My upload is finished
-    Then I press 'Manage your vehicles' link
+    Then I press 'Manage vehicles and view charges' link
       And I should be on the manage vehicles page
       And I should see 'You have successfully uploaded 15 vehicles'
       And I visit the Dashboard page
@@ -83,7 +81,7 @@ Feature: Uploads
     When I am on the processing page
       And My upload is failed with error: 'Some error message'
       And I reload the page
-    Then I should see 'Upload your vehicle list'
+    Then I should see 'Upload the vehicle list to Royal Mail account' title
       And I should see 'Some error message'
 
   Scenario: Upload a csv file whose size is too big

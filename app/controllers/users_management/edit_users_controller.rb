@@ -21,7 +21,8 @@ module UsersManagement
     #    GET /users/:id/edit
     #
     def edit
-      api_response = AccountsApi.user(account_id: current_user.account_id, account_user_id: account_user_id)
+      api_response = AccountsApi::Users.user(account_id: current_user.account_id,
+                                             account_user_id: account_user_id)
       SessionManipulation::SetEditUser.call(session: session, params: api_response)
       @user = UsersManagement::EditUser.new(api_response, account_user_id)
     end

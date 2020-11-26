@@ -10,13 +10,13 @@ class BaseService
   #
   # Accepts all arguments and passes them to the service initializer
   def self.call(**args)
-    new(args).call
+    new(**args).call
   end
 
   ##
   # Default initializer. May be overridden in each service
   #
-  def initialize(_options = {}); end # rubocop:disable Lint/UselessMethodDefinition
+  def initialize(_options = {}); end
 
   private
 

@@ -7,6 +7,7 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 module FleetsUI
+  # An Engine with the responsibility of coordinating the whole boot process.
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
@@ -29,5 +30,6 @@ module FleetsUI
     config.x.csv_file_size_limit = ENV.fetch('CSV_FILE_SIZE_LIMIT_MB', 50).to_i
     # Number of uploaded vehicles when we should change flow of compliance calculation
     config.x.large_fleet_threshold = ENV.fetch('LARGE_FLEET_THRESHOLD', 100).to_i
+    config.x.contact_form_link = ENV.fetch('CONTACT_FORM_LINK', 'https://contact-preprod.dvla.gov.uk/caz')
   end
 end

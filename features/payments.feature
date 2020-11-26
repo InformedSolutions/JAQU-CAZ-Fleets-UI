@@ -9,7 +9,7 @@ Feature: Fleets
     Then I should be on the first upload page
       And I should see 'First upload your vehicles'
     When I press the Continue
-      And I should see 'Add vehicles to your account'
+      And I should see 'Choose how to add vehicles to Royal Mail account'
 
   Scenario: Making a card payment with vehicles in fleet
     When I have vehicles in my fleet
@@ -29,7 +29,7 @@ Feature: Fleets
     When I select any date for vrn on the payment matrix
       And I press the Continue
     Then I should be on the confirm payment page
-      And I should see 'Review your payment' title
+      And I should see 'Review the payment' title
     When I click view details link
     Then I should be on the Charge details page
     When I press 'Return to review your payment' link
@@ -128,7 +128,7 @@ Feature: Fleets
       And I press the Continue
     Then I select 'Birmingham'
       And I press the Continue
-      And I should see "Why can't I see my dates?"
+      And I should see "I can't see the dates I want to pay for"
       And I should not see 'The Clean Air Zone charge came into operation on'
 
   Scenario: Checking selectable only active for charging CAZ list during payment.

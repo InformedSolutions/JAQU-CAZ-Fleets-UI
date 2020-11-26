@@ -81,10 +81,6 @@ Feature: Payment History
       And I should be on the Company payment history page number 3
     Then I press 'View details' link
       And I should be on the the Payment details history page
-    Then I press 'Cookies' link
-      And I should be on the the Cookies page
-    Then I press 'Back' link
-      And I should be on the the Payment details history page
       And I should see 'Payment made by'
       And I should see 'Print this page'
     Then I press 'Back' link
@@ -110,10 +106,6 @@ Feature: Payment History
       And I press 3 pagination button on the payment history page
       And I should be on the User payment history page number 3
     Then I press 'View details' link
-      And I should be on the the Payment details history page
-    Then I press 'Cookies' link
-      And I should be on the the Cookies page
-    Then I press 'Back' link
       And I should be on the the Payment details history page
       And I should not see 'Print this page'
     Then I press 'Back' link

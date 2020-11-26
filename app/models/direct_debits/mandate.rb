@@ -40,9 +40,12 @@ module DirectDebits
 
     # Returns mandate status
     def status
-      return nil if data['mandates'].empty?
+      return if data['mandates'].empty? || data.dig('mandates', 'status').nil?
 
-      data.dig('mandates', 'status')&.humanize
+      status = data.dig('mandates', 'status')
+      return 'Pending' if %w[pending_customer_approval pending_submission submitted].include?(status.downcase)
+
+      status.humanize
     end
 
     private

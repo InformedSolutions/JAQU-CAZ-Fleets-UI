@@ -7,7 +7,7 @@ describe 'PasswordsController - POST #validate' do
 
   let(:email_address) { 'email@example.com' }
 
-  before { allow(AccountsApi).to receive(:initiate_password_reset).and_return(true) }
+  before { allow(AccountsApi::Auth).to receive(:initiate_password_reset).and_return(true) }
 
   context 'with valid params' do
     it 'returns a redirect to email sent ' do
@@ -15,7 +15,7 @@ describe 'PasswordsController - POST #validate' do
     end
 
     it 'calls AccountsApi.initiate_password_reset' do
-      expect(AccountsApi)
+      expect(AccountsApi::Auth)
         .to receive(:initiate_password_reset)
         .with(email: email_address, reset_url: passwords_url)
       subject
@@ -27,7 +27,7 @@ describe 'PasswordsController - POST #validate' do
 
     it 'renders reset password view' do
       subject
-      expect(response).to render_template('passwords/reset')
+      expect(response).to render_template(:reset)
     end
   end
 end
