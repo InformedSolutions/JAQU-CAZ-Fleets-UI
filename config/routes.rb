@@ -93,6 +93,10 @@ Rails.application.routes.draw do
         get :no_chargeable_vehicles
         get :matrix
         post :matrix, to: 'payments#submit'
+        scope '/matrix' do
+          get :vrn_not_found, to: 'payments#vrn_not_found'
+          post :vrn_not_found, to: 'payments#submit_search'
+        end
         get :clear_search
         get :review
         post :confirm_review

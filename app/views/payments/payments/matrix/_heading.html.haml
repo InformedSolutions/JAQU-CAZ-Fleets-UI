@@ -1,11 +1,7 @@
-- if @search.present?
-  - title_and_header = "You searched for #{@search}"
-- else
-  - title_and_header = 'Which vehicles and days are you paying for?'
+- title_and_header = 'Which vehicles and days are you paying for?'
 - content_for(:title, title_and_header)
 
-%h1.govuk-heading-l
-  = title_and_header
+%h1.govuk-heading-l= title_and_header
 
 - if @charges.any_results?
   %p

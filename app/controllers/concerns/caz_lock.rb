@@ -13,7 +13,7 @@ module CazLock
       redirect_to in_progress_payments_path
     else
       lock_caz(caz_id)
-      redirect_to determine_post_local_authority_redirect_path(caz_id)
+      redirect_to determine_next_page(caz_id)
     end
   end
 
