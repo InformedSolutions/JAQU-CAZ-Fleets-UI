@@ -21,10 +21,16 @@
               %span#caz-selection-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
                 = alert
+
             %p#caz-hint
-              You need to set up a Direct Debit mandate with each zone to make single, one-off Direct Debit payments.
-            %p
-              These are not recurring payments.
+              What you need to know before setting up a mandate:
+
+              %ul.govuk-list.govuk-list--bullet
+                %li you need to set up a mandate with each zone
+                %li paying by Direct Debit means you make a single, one-off payments - they are not recurring payments
+                %li whoever makes the payment will be emailed a receipt
+                %li the creator of the mandate will also receive an email every time a Direct Debit payment is made to let them know when money will be taken from the bank account
+
             %p
               Zones you haven’t set up a Direct Debit mandate with and where
               the local authority supports this type of payment will appear here.
