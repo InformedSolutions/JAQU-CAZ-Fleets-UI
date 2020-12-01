@@ -25,7 +25,7 @@ describe DirectDebits::Mandate, type: :model do
   let(:zone_name) { 'Leeds' }
   let(:mandate_id) { @uuid }
   let(:reference) { '1626' }
-  let(:status) { 'pending' }
+  let(:status) { 'pending_submission' }
 
   describe '.zone_id' do
     it 'returns ID' do
@@ -46,8 +46,42 @@ describe DirectDebits::Mandate, type: :model do
   end
 
   describe '.status' do
-    it 'returns humanized status' do
-      expect(subject.status).to eq('Pending')
+    context 'when status is pending_submission' do
+      it 'returns a proper value' do
+        expect(subject.status).to eq('Pending')
+      end
+    end
+
+    context 'when status is pending_customer_approval' do
+      let(:status) { 'pending_customer_approval' }
+
+      it 'returns a proper value' do
+        expect(subject.status).to eq('Pending')
+      end
+    end
+
+    context 'when status is submitted' do
+      let(:status) { 'submitted' }
+
+      it 'returns a proper value' do
+        expect(subject.status).to eq('Pending')
+      end
+    end
+
+    context 'when status is active' do
+      let(:status) { 'active' }
+
+      it 'returns a proper value' do
+        expect(subject.status).to eq('Active')
+      end
+    end
+
+    context 'when status is nil' do
+      let(:status) { nil }
+
+      it 'returns a nil' do
+        expect(subject.status).to be_nil
+      end
     end
   end
 end

@@ -14,8 +14,9 @@ describe Organisations::CreateAccount do
       allow(Organisations::CompanyNameForm)
         .to receive(:new)
         .and_return(instance_double(Organisations::CompanyNameForm, valid?: valid))
-      response = read_response('create_account.json')
-      allow(AccountsApi).to receive(:create_account).and_return(response)
+      allow(AccountsApi::Accounts).to receive(:create_account).and_return(
+        read_response('create_account.json')
+      )
     end
 
     it 'returns the String class' do
@@ -27,10 +28,8 @@ describe Organisations::CreateAccount do
       subject
     end
 
-    it 'calls AccountsApi.create_account with proper params' do
-      expect(AccountsApi)
-        .to receive(:create_account)
-        .with(company_name: company_name)
+    it 'calls AccountsApi::Accounts.create_account with proper params' do
+      expect(AccountsApi::Accounts).to receive(:create_account).with(company_name: company_name)
       subject
     end
   end
@@ -50,9 +49,7 @@ describe Organisations::CreateAccount do
       let(:errors) { ActiveModel::Errors.new(['Some error']) }
 
       it 'raises `InvalidCompanyNameException` exception' do
-        expect { subject }.to raise_error(
-          InvalidCompanyNameException
-        )
+        expect { subject }.to raise_error(InvalidCompanyNameException)
       end
     end
   end
@@ -82,13 +79,29 @@ describe Organisations::CreateAccount do
       end
     end
 
+    context 'when company name has profanity term' do
+      let(:error_code) { 'profanity' }
+
+      it 'raises `UnableToCreateAccountException` exception' do
+        expect { subject }.to raise_error(
+          UnableToCreateAccountException, I18n.t('company_name.errors.profanity')
+        )
+      end
+    end
+
     context 'when company name has abusive term' do
       let(:error_code) { 'abuse' }
 
       it 'raises `UnableToCreateAccountException` exception' do
-        expect { subject }.to raise_error(
-          UnableToCreateAccountException, I18n.t('company_name.errors.abuse')
-        )
+        expect { subject }.to raise_error(UnableToCreateAccountException, I18n.t('company_name.errors.abuse'))
+      end
+    end
+
+    context 'when unknown code returns' do
+      let(:error_code) { 'unknown code' }
+
+      it 'raises `UnableToCreateAccountException` exception' do
+        expect { subject }.to raise_error(UnableToCreateAccountException, 'Something went wrong')
       end
     end
   end

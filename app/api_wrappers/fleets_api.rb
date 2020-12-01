@@ -5,7 +5,7 @@
 # Wraps methods regarding fleet management.
 # See {AccountsApi}[rdoc-ref:AccountsApi] for user related actions.
 #
-class FleetsApi < AccountsApi
+class FleetsApi < AccountsApi::Base
   class << self
     ##
     # Calls +/v1/accounts/register-csv-from-s3/jobs+ endpoint with +POST+ method
@@ -142,10 +142,7 @@ class FleetsApi < AccountsApi
     # * +account_id+ - ID of the account associated with the fleet
     # * +page+ - requested page of the results
     # * +per_page+ - number of vehicles per page, defaults to 10
-    #
-    # ==== Example
-    #
-    #    FleetsApi.vehicles(account_id: '1f30838f-69ee-4486-95b4-7dfcd5c6c67c', page: 1)
+    # * +only_chargeable+ - flag, to filter out non-charged vehicles
     #
     # ==== Result
     #
@@ -153,6 +150,7 @@ class FleetsApi < AccountsApi
     # * +vehicles+ - list of the vehicles
     # * +pageCount+ - number of available pages
     # * +totalVehiclesCount+ - total number of vehicles in the fleet
+    # * +anyUndeterminedVehicles+ - indicates if any of the vehicles is undetermined
     #
     # ==== Serialization
     #
@@ -165,9 +163,13 @@ class FleetsApi < AccountsApi
     # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
-    def vehicles(account_id:, page:, per_page:)
+    def vehicles(account_id:, page:, per_page:, only_chargeable: false)
       log_action('Getting vehicles')
-      query = { 'pageNumber' => calculate_page_number(page), 'pageSize' => per_page }
+      query = {
+        'pageNumber' => calculate_page_number(page),
+        'pageSize' => per_page,
+        'onlyChargeable' => only_chargeable
+      }
       request(:get, "/accounts/#{account_id}/vehicles", query: query)
     end
   end

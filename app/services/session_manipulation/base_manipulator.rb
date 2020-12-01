@@ -4,6 +4,7 @@
 # Module used to improve session management
 #
 module SessionManipulation
+  # Base class used to improve session management
   class BaseManipulator < BaseService
     include PaymentsHelper
 
@@ -14,6 +15,7 @@ module SessionManipulation
 
     private
 
+    # Attributes reader
     attr_reader :session, :params
   end
 end

@@ -7,7 +7,6 @@ class PasswordsController < ApplicationController
   skip_before_action :authenticate_user!
   skip_before_action :check_password_age
   before_action :authenticate_user!, only: %i[edit update]
-
   before_action :validate_token, only: :create
 
   ##
@@ -29,7 +28,7 @@ class PasswordsController < ApplicationController
 
   ##
   # Validates submitted email_address.
-  # If successful, redirects to {new_user_session}[rdoc-ref:Devise::SessionController.new]
+  # If successful, redirects to the {new_user_session}[rdoc-ref:Devise::SessionController.new]
   # If no, renders {reset} [rdoc-ref:PasswordsController.new]
   #
   # ==== Path
@@ -43,7 +42,7 @@ class PasswordsController < ApplicationController
   def validate
     form = ResetPasswordForm.new(email_address_params)
     if form.valid?
-      AccountsApi.initiate_password_reset(email: form.email_address, reset_url: passwords_url)
+      AccountsApi::Auth.initiate_password_reset(email: form.email_address, reset_url: passwords_url)
       redirect_to email_sent_passwords_path
     else
       @errors = form.errors.messages
@@ -63,7 +62,7 @@ class PasswordsController < ApplicationController
   end
 
   ##
-  # Validates the token by calling AccountsApi.validate_password_reset and renders new password form.
+  # Validates the token by calling AccountsApi::Auth.validate_password_reset and renders new password form.
   #
   # ==== Path
   #
@@ -81,7 +80,7 @@ class PasswordsController < ApplicationController
   end
 
   ##
-  # Sets a new password by calling AccountsApi.set_password
+  # Sets a new password by calling AccountsApi::Auth.set_password
   #
   # ==== Path
   #    :POST /passwords
@@ -137,7 +136,7 @@ class PasswordsController < ApplicationController
   end
 
   ##
-  # Updates user password by calling AccountsApi.update_password
+  # Updates user password by calling AccountsApi::Auth.update_password
   #
   # ==== Path
   #
@@ -159,12 +158,12 @@ class PasswordsController < ApplicationController
   private
 
   ##
-  # Calls AccountsApi.set_password with given password and the token
+  # Calls AccountsApi::Auth.set_password with given password and the token
   #
   # Escapes 400 and 422 exceptions
   #
   def new_password_call(password)
-    AccountsApi.set_password(token: params[:token], password: password)
+    AccountsApi::Auth.set_password(token: params[:token], password: password)
     session[:reset_password_token] = nil
     redirect_to success_passwords_path
   rescue BaseApi::Error400Exception
@@ -199,7 +198,7 @@ class PasswordsController < ApplicationController
     redirect_to invalid_passwords_path
   end
 
-  # Sets session flag and redirects to dashboard after successful password update
+  # Sets session flag and redirects to the dashboard after successful password update
   def redirect_to_dashboard
     session[:password_updated] = true
     redirect_to dashboard_path
@@ -209,9 +208,11 @@ class PasswordsController < ApplicationController
   def parse_422_error(code)
     case code
     when 'passwordNotValid'
-      [I18n.t('new_password_form.errors.password_complexity')]
+      [I18n.t('input_form.errors.password_complexity')]
     when 'newPasswordReuse'
       [I18n.t('update_password_form.errors.password_reused')]
+    else
+      'Something went wrong'
     end
   end
 end

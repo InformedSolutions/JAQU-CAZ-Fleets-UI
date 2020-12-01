@@ -1,4 +1,4 @@
-- title_and_header = 'Your account'
+- title_and_header = "#{current_user.actual_account_name} account home"
 - content_for(:title, title_and_header)
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
@@ -32,4 +32,5 @@
       = render 'make_payment' if allow_make_payments?
     = render 'manage_users' if allow_manage_users?
     = render 'user_payment_history' if allow_make_payments?
-    = render 'company_payment_history' if allow_view_payment_history?
+    = render 'company_payment_history' if allow_view_payment_history? && @multi_payer_account
+    = render 'help'

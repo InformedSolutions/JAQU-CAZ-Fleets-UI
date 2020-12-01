@@ -50,6 +50,7 @@ module PaymentHistory
 
     private
 
+    # Attributes reader
     attr_reader :data
   end
 end

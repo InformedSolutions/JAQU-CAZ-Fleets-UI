@@ -15,6 +15,13 @@ Feature: Fleets
       And I visit the manage vehicles page
     Then I should see 'Live' 3 times
     Then I should see 'Upcoming' 1 times
+    Then I should not see 'What does undetermined mean?'
+    Then I am able to export my data to CSV file
+
+  Scenario: Visiting the manage fleet page with undetermined vehicles in my fleet
+    When I have undetermined vehicles in my fleet
+      And I visit the manage vehicles page
+    Then I should see 'What does undetermined mean?'
 
   Scenario: No selection on the submission method page
     When I visit the submission method page
@@ -28,12 +35,26 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the enter details page
 
-  Scenario: Visiting the manage fleet page with vehicles in fleet
+  Scenario: Fleet override
+    When I have vehicles in my fleet
+      And I visit the manage vehicles page
+      And I press 'list of vehicles' link
+    Then I should be on the upload page
+
+  Scenario: Visiting the manage fleet page with vehicles in fleet with no payment permission
     When I have vehicles in my fleet
       And I visit the manage vehicles page
     Then I should be on the manage vehicles page
-    Then I press the Continue
-    Then I should see 'You must choose an answer'
+      And I should not see 'Make a payment' link
+    Then I press 'Return to Account home' link
+      And I should be on the Dashboard page
+
+  Scenario: Visiting the manage fleet page with vehicles in fleet with payment permission
+    When I have vehicles in my fleet
+      And I visit the manage vehicles page with payment permission
+    Then I should be on the manage vehicles page
+      And I press 'Make a payment' link
+      And I should be on the make a payment page
 
   Scenario: Removing vehicle from the fleet
     When I have vehicles in my fleet
@@ -70,10 +91,10 @@ Feature: Fleets
       And I visit the manage vehicles page
     Then I should see active '1' pagination button
       And I should see inactive '2' pagination button
-      And I should see inactive 'next-page' pagination button
-      And I should not see 'previous-page' pagination button
+      And I should see inactive 'next' pagination button
+      And I should not see 'previous' pagination button
     When I press 2 pagination button
     Then I should see active '2' pagination button
       And I should see inactive '1' pagination button
-      And I should see inactive 'previous-page' pagination button
-      And I should not see 'next-page' pagination button
+      And I should see inactive 'previous' pagination button
+      And I should not see 'next' pagination button

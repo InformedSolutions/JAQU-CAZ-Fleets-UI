@@ -7,6 +7,7 @@ module VehiclesManagement
   # Form used by FleetsController.submit_method to validate submitted method
   #
   class SubmissionMethodForm < BaseForm
+    # Attributes accessor
     attr_accessor :submission_method
 
     # Validates if the method is either +upload+ or +manual+

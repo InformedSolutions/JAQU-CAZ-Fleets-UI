@@ -7,10 +7,10 @@ module Payments
   # Controller used to pay by credit card
   #
   class CreditCardsController < ApplicationController
-    include CheckPermissions
     include CazLock
+    include CheckPermissions
 
-    # Makes a request to initiate card payment and redirects to response url
+    # Makes a request to initiate card payment and redirects to the response url
     #
     # ==== Path
     #     GET /payments/initiate
@@ -62,7 +62,7 @@ module Payments
 
     # Checks if +new_payment_data+ present if not returns +initiated_payment_data+
     def payment_data
-      helpers.new_payment_data.presence || helpers.initiated_payment_data
+      helpers.new_payment_data[:caz_id] ? helpers.new_payment_data : helpers.initiated_payment_data
     end
   end
 end

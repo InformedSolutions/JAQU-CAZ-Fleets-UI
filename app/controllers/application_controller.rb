@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+##
+# Base controller class. Contains rescue block for API errors and common functions.
+# Also, contains some basic endpoints.
+#
 class ApplicationController < ActionController::Base
   # protects applications against CSRF
   protect_from_forgery prepend: true
@@ -17,10 +21,10 @@ class ApplicationController < ActionController::Base
               BaseApi::Error422Exception,
               BaseApi::Error400Exception,
               BaseApi::Error404Exception,
-              with: :redirect_to_server_unavailable
+              with: :render_server_unavailable
 
   # rescues `UserAlreadyConfirmedException` exception
-  rescue_from UserAlreadyConfirmedException, with: :redirect_to_sign_in
+  rescue_from UserAlreadyConfirmedException, with: :render_sign_in
 
   # enable basic HTTP authentication on production environment if HTTP_BASIC_PASSWORD variable present
   http_basic_authenticate_with name: ENV['HTTP_BASIC_USER'],
@@ -68,8 +72,8 @@ class ApplicationController < ActionController::Base
     sign_out_path
   end
 
-  # Logs exception and redirects to sign in page
-  def redirect_to_sign_in(exception)
+  # Logs exception, adding errors and renders the sign in page
+  def render_sign_in(exception)
     Rails.logger.error "#{exception.class}: #{exception}"
 
     request.env['warden'].errors[:base] = [exception.message]
@@ -98,8 +102,8 @@ class ApplicationController < ActionController::Base
   end
 
   # Function used as a rescue from API errors.
-  # Logs the exception and redirects to ErrorsController#service_unavailable
-  def redirect_to_server_unavailable(exception)
+  # Logs the exception and renders service unavailable page
+  def render_server_unavailable(exception)
     Rails.logger.error "#{exception.class}: #{exception}"
 
     render template: 'errors/service_unavailable', status: :service_unavailable
@@ -127,7 +131,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Checks if password is outdated
-  # If password is older than 89 days redirects to /passwords/edit
+  # If password is older than 89 days redirects to the password edit page
   def check_password_age
     return unless current_user && days_to_password_expiry
 
@@ -145,7 +149,17 @@ class ApplicationController < ActionController::Base
   # set headers for pages that should be refreshed every time
   def set_cache_headers
     response.headers['Cache-Control'] = 'no-cache, no-store'
-    response.headers['Pragma'] = 'no-cache'
+    response.headers['Pragma'] = 'no-store'
     response.headers['Expires'] = 'Mon, 01 Jan 1990 00:00:00 GMT'
+  end
+
+  # clear make payments inputs and release lock on caz for current user
+  def clear_make_payment_history
+    release_lock_on_caz
+    session[:vrn] = nil
+    last_path = request.referer || []
+    return if last_path.include?(matrix_payments_path) || last_path.include?(in_progress_payments_path)
+
+    session[:new_payment] = nil
   end
 end

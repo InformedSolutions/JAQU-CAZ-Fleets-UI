@@ -1,20 +1,22 @@
-- title_and_header = 'Update your password'
+- title_and_header = 'Update password'
 - content_for(:title, title_and_header)
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
+      = render 'shared/errors_summary', errors: @errors.sort.to_h if @errors
 
-      - if @errors
-        = render 'shared/errors_summary', errors: @errors.sort.to_h
+      %h1.govuk-heading-l= title_and_header
 
-      %h1.govuk-heading-l
-        = title_and_header
-
-      = form_for('passwords', url: passwords_path, method: :patch,
-        html: {autocomplete: 'off', novalidate: 'novalidate'}) do |f|
+      = form_for('passwords',
+                 url: passwords_path,
+                 method: :patch,
+                 html: {autocomplete: 'off', novalidate: 'novalidate'}) do |f|
 
         .govuk-form-group{class: ('govuk-form-group--error' if @errors && @errors[:old_password].present?)}
+          - if current_user.days_to_password_expiry <= 0
+            %span.govuk-hint#password-hint
+              Your password has expired, choose a new one.
           = f.label :old_password, 'Enter your old password', class: 'govuk-label'
 
           - if @errors && @errors[:old_password].present?

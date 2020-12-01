@@ -29,8 +29,8 @@ describe 'Organisations::OrganisationsController - POST #submit_fleet_check' do
       subject
     end
 
-    it 'renders create company name view' do
-      expect(response).to render_template('organisations/fleet_check')
+    it 'renders the create company name view' do
+      expect(response).to render_template(:fleet_check)
     end
   end
 
@@ -43,7 +43,7 @@ describe 'Organisations::OrganisationsController - POST #submit_fleet_check' do
       subject
     end
 
-    it 'renders create company name view' do
+    it 'renders the create company name view' do
       expect(response).to redirect_to(cannot_create_organisations_path)
     end
   end

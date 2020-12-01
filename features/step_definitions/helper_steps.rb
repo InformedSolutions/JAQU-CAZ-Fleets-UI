@@ -27,7 +27,7 @@ Then('I press {string} link') do |string|
 end
 
 Then('I press the Continue') do
-  click_on 'Continue'
+  click_on('Continue')
 end
 
 Then('I press the Confirm') do
@@ -88,6 +88,7 @@ def mock_api_responses
   mock_vehicles_in_fleet
   mock_debits
   mock_users
+  mock_actual_account_name
 end
 
 def account_id

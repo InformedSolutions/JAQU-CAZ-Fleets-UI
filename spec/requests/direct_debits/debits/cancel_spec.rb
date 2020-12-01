@@ -6,19 +6,27 @@ describe 'DirectDebits::DebitsController - GET #cancel' do
   subject { get cancel_payments_path }
 
   context 'correct permissions' do
-    before do
-      add_to_session(new_payment: { caz_id: @uuid, details: {} })
-      mock_caz_mandates('caz_mandates')
-      sign_in create_user
-      subject
-    end
+    context 'and CAZ locked by current user' do
+      before do
+        add_to_session(new_payment: { caz_id: caz_id, details: {} })
+        sign_in create_user
+        subject
+      end
 
-    it 'returns 200' do
-      expect(response).to have_http_status(:success)
-    end
+      let(:user) { manage_mandates_user }
+      let(:caz_id) { @uuid }
 
-    it 'renders the cancel page' do
-      expect(response).to render_template('direct_debits/debits/cancel')
+      it 'returns a 200 OK status' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'renders the cancel page' do
+        expect(response).to render_template(:cancel)
+      end
+
+      it 'removes caz lock from redis' do
+        expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).to be_nil
+      end
     end
   end
 

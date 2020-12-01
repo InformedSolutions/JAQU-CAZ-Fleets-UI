@@ -4,8 +4,7 @@
 # Module used for make payments flow
 module Payments
   ##
-  # Service used to prepare parameters and make a call to service responsible
-  # for Direct Debit payment creation.
+  # Service used to prepare parameters and make a call to service responsible for Direct Debit payment creation.
   #
   class MakeDebitPayment < BasePayment
     ##
@@ -27,9 +26,7 @@ module Payments
 
     ##
     # The caller method for the service.
-    # Method calls +DebitsApi.create_payment+ method which performs an actual
-    # request to Payments API.
-    #
+    # Method calls +DebitsApi.create_payment+ method which performs an actual request to Payments API.
     def call
       DebitsApi.create_payment(
         account_id: account_id,
@@ -43,6 +40,7 @@ module Payments
 
     private
 
+    # Attributes reader
     attr_reader :mandate_id, :account_id, :user_email
   end
 end

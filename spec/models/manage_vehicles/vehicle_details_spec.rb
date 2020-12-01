@@ -6,22 +6,20 @@ describe VehiclesManagement::VehicleDetails, type: :model do
   subject(:compliance) { described_class.new(vrn) }
 
   let(:vrn) { 'CU57ABC' }
-  let(:type_approval) { 'M1' }
   let(:taxi_or_phv) { false }
   let(:type) { 'car' }
   let(:las) { %w[Leeds Birmingham] }
   let(:response) do
     {
-      'registration_number' => vrn,
-      'typeApproval' => type_approval,
-      'type' => type,
-      'make' => 'peugeot',
-      'model' => '208',
-      'colour' => 'grey',
-      'fuelType' => 'diesel',
-      'taxiOrPhv' => taxi_or_phv,
-      'licensingAuthoritiesNames' => las
-    }
+      registration_number: vrn,
+      type: type,
+      make: 'peugeot',
+      model: '208',
+      colour: 'grey',
+      fuelType: 'diesel',
+      taxiOrPhv: taxi_or_phv,
+      licensingAuthoritiesNames: las
+    }.stringify_keys
   end
 
   before { allow(ComplianceCheckerApi).to receive(:vehicle_details).with(vrn).and_return(response) }
@@ -84,36 +82,6 @@ describe VehiclesManagement::VehicleDetails, type: :model do
 
       it "returns a 'Yes'" do
         expect(subject.taxi_private_hire_vehicle).to eq('Yes')
-      end
-    end
-  end
-
-  describe '.type_approval' do
-    it 'returns a proper type approval' do
-      expect(subject.type_approval).to eq('M1')
-    end
-
-    context 'when key is not present' do
-      before { allow(ComplianceCheckerApi).to receive(:vehicle_details).with(vrn).and_return({}) }
-
-      it 'returns a nil' do
-        expect(subject.type_approval).to eq(nil)
-      end
-    end
-
-    context 'when value is empty' do
-      let(:type_approval) { ' ' }
-
-      it 'returns a nil' do
-        expect(subject.type_approval).to eq(nil)
-      end
-    end
-
-    context "when value is equal to 'null'" do
-      let(:type_approval) { 'null' }
-
-      it 'returns a nil' do
-        expect(subject.type_approval).to eq(nil)
       end
     end
   end

@@ -18,37 +18,42 @@ module VehiclesManagement
 
     # Returns a VehiclesManagement::PaginatedFleet with vehicles associated with the account.
     # Includes data about page and total pages count.
-    def pagination(page:)
+    def pagination(page:, only_chargeable: false)
       per_page ||= 10
       @pagination ||= begin
-                   data = FleetsApi.vehicles(account_id: account_id, page: page, per_page: per_page)
-                   VehiclesManagement::PaginatedFleet.new(data, page, per_page)
-                 end
+        data = FleetsApi.vehicles(
+          account_id: account_id,
+          page: page,
+          per_page: per_page,
+          only_chargeable: only_chargeable
+        )
+        VehiclesManagement::PaginatedFleet.new(data, page, per_page)
+      end
     end
 
     # Returns a VehiclesManagement::ChargeableFleet with vehicles associated with the account.
     def charges(zone_id:, vrn: nil, direction: nil)
       @charges ||= begin
-                     data = PaymentsApi.chargeable_vehicles(
-                       account_id: account_id,
-                       zone_id: zone_id,
-                       vrn: vrn,
-                       direction: direction
-                     )
-                     VehiclesManagement::ChargeableFleet.new(data)
-                   end
+        data = PaymentsApi.chargeable_vehicles(
+          account_id: account_id,
+          zone_id: zone_id,
+          vrn: vrn,
+          direction: direction
+        )
+        VehiclesManagement::ChargeableFleet.new(data)
+      end
     end
 
     # Returns a VehiclesManagement::ChargeableFleet with vehicles associated with the account for provided vrn.
     def charges_by_vrn(zone_id:, vrn:)
       @charges_by_vrn ||= begin
-                     data = PaymentsApi.chargeable_vehicle(
-                       account_id: account_id,
-                       zone_id: zone_id,
-                       vrn: vrn
-                     )
-                     VehiclesManagement::ChargeableFleet.new(data)
-                   end
+        data = PaymentsApi.chargeable_vehicle(
+          account_id: account_id,
+          zone_id: zone_id,
+          vrn: vrn
+        )
+        VehiclesManagement::ChargeableFleet.new(data)
+      end
     rescue BaseApi::Error404Exception
       VehiclesManagement::ChargeableFleet.new({})
     end
@@ -82,6 +87,12 @@ module VehiclesManagement
     # Checks what is total count of stored vehicles.
     def total_vehicles_count
       FleetsApi.vehicles(account_id: account_id, page: 1, per_page: 1)['totalVehiclesCount']
+    end
+
+    # Checks if there are any undetermined vehicles in the fleet.
+    # Return boolean.
+    def any_undetermined_vehicles
+      FleetsApi.vehicles(account_id: account_id, page: 1, per_page: 1)['anyUndeterminedVehicles']
     end
 
     # Checks if there are any chargeable vehicles in the provided clean air zone.

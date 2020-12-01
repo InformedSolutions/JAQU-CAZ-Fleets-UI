@@ -1,4 +1,4 @@
-- title_and_header = 'Add vehicles to your account'
+- title_and_header = "Choose how to add vehicles to #{current_user.actual_account_name} account"
 - content_for(:title, title_and_header)
 
 = link_to 'Back', dashboard_path, class: 'govuk-back-link'
@@ -19,12 +19,14 @@
               %h1.govuk-fieldset__heading
                 = title_and_header
             %span#submission-method-hint.govuk-hint
-              There are 2 methods to add vehicles to your account.
+              Vehicles will be shared across all users of this account.
+
             - if @errors.present?
               %span#submission-method-error.govuk-error-message
                 %span.govuk-visually-hidden
                   Error:
                 = @errors[:submission_method].first
+
             .govuk-radios
               .govuk-radios__item
                 %input#method-1.govuk-radios__input{name: 'submission-method',
@@ -34,9 +36,7 @@
                 %label.govuk-label.govuk-radios__label.govuk-label--s{for: 'method-1'}
                   File upload
                 %span.govuk-hint.govuk-radios__hint
-                  Upload a spreadsheet of all your number plates.
-                  %br
-                  Recommended for large numbers of vehicles.
+                  Upload a list of the vehicles you would like adding to the account.
 
               .govuk-radios__item
                 %input#method-2.govuk-radios__input{name: 'submission-method',
@@ -46,5 +46,6 @@
                 %label.govuk-label.govuk-radios__label.govuk-label--s{for: 'method-2'}
                   Individual
                 %span.govuk-hint.govuk-radios__hint
-                  Enter your number plates one by one.
+                  Enter the vehicles one by one.
+
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

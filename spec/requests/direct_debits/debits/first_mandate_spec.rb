@@ -18,7 +18,7 @@ describe 'DirectDebits::DebitsController - GET #first_mandate' do
       end
 
       it 'returns 200' do
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:ok)
       end
     end
 

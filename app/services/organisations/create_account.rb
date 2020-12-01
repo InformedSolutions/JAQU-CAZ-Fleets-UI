@@ -29,6 +29,7 @@ module Organisations
 
     private
 
+    # Attributes reader
     attr_reader :company_name, :confirm_fleet_check
 
     def validate_params
@@ -39,7 +40,7 @@ module Organisations
     end
 
     def perform_api_call
-      AccountsApi.create_account(company_name: company_name)
+      AccountsApi::Accounts.create_account(company_name: company_name)
     rescue BaseApi::Error422Exception => e
       parse_422_error(e.body['errorCode'])
     end

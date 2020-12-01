@@ -37,8 +37,8 @@ module PaymentHistory
       api_call['centralPaymentReference']
     end
 
-    # payment id from govuk payment db
-    def govuk_payment_id
+    # provider payment id
+    def provider_payment_id
       api_call['paymentProviderId']
     end
 

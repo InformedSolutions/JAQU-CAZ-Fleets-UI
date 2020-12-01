@@ -45,7 +45,7 @@ module UsersManagement
     # Calls api if user deletion confirmed or redirect to users page
     def process_user_deletion
       if confirmation == 'yes'
-        AccountsApi.delete_user(account_id: current_user.account_id, account_user_id: account_user_id)
+        AccountsApi::Users.delete_user(account_id: current_user.account_id, account_user_id: account_user_id)
         flash[:success] = I18n.t('remove_user.removed', full_user_name: full_user_name)
         redirect_to users_path
       else

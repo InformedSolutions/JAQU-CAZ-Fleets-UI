@@ -15,9 +15,9 @@ describe 'DirectDebits::DebitsController - GET #confirm' do
     context 'when zone have some active mandates' do
       before { mock_caz_mandates('caz_mandates') }
 
-      it 'returns 200' do
+      it 'returns a 200 OK status' do
         subject
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:ok)
       end
     end
 

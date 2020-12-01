@@ -31,5 +31,6 @@ class LoginForm
 
   private
 
+  # Attributes reader
   attr_reader :email, :password
 end

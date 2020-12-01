@@ -7,6 +7,7 @@ module PaymentHistory
   # Represents the virtual model of the payment history, used in +app/views/payment_history/payment_history_details.html.haml+.
   #
   class DetailsPayment
+    # Attributes accessor
     attr_accessor :vrn
 
     ##

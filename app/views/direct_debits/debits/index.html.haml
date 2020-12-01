@@ -1,4 +1,4 @@
-- title_and_header = 'Your Direct Debits'
+- title_and_header = 'Direct Debits'
 - content_for(:title, title_and_header)
 
 = link_to 'Back', @back_button_url, class: 'govuk-back-link'
@@ -42,7 +42,7 @@
         %strong Active
         \- Once set up it will take 2 days each time you pay.
       %p
-        Payments will appear on your bank statements as Driving in Clean Air Zone charge.
+        Payments will appear on your bank statements as Drive in a Clean Air Zone.
 
       - if @zones_without_mandate.present? && @mandates.present?
         = button_to('Set up new Direct Debit', new_debit_path, method: :get, class: 'govuk-button')
@@ -50,4 +50,4 @@
         %p
           You have created a Direct Debit for every Clean Air Zone.
       %p
-        = link_to 'Back to Your account', root_path
+        = link_to 'Return to Account home', root_path, id: 'return-to-account'

@@ -8,7 +8,7 @@ describe 'VehiclesManagement::VehicleController - POST #submit_details' do
   let(:vrn) { @vrn }
 
   context 'correct permissions' do
-    it 'returns redirect to the login page' do
+    it 'redirects to the login page' do
       subject
       expect(response).to redirect_to(new_user_session_path)
     end
@@ -20,7 +20,7 @@ describe 'VehiclesManagement::VehicleController - POST #submit_details' do
       end
 
       context 'when VrnForm is valid' do
-        it 'redirects to #details' do
+        it 'redirects to the vehicles details page' do
           expect(response).to redirect_to(details_vehicles_path)
         end
 
@@ -32,7 +32,7 @@ describe 'VehiclesManagement::VehicleController - POST #submit_details' do
       context 'when VrnForm is NOT valid' do
         let(:vrn) { nil }
 
-        it 'redirects to #confirm_details' do
+        it 'redirects to the enter details page' do
           expect(response).to render_template(:enter_details)
         end
 

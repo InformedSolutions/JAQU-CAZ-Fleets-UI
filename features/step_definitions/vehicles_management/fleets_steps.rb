@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
 Given('I have no vehicles in my fleet') do
+  mock_actual_account_name
+  mock_users
   mock_empty_fleet
 end
 
 Given('I have no vehicles in my fleet and visit the manage vehicles page') do
+  mock_actual_account_name
   mock_empty_fleet
+  mock_users
   login_user({ permissions: 'MANAGE_VEHICLES' })
   visit fleets_path
 end
@@ -15,12 +19,21 @@ When('I have one vehicle in my fleet') do
 end
 
 When('I visit the manage vehicles page') do
+  mock_actual_account_name
   login_user({ permissions: 'MANAGE_VEHICLES' })
   visit fleets_path
 end
 
+When('I visit the manage vehicles page with payment permission') do
+  mock_actual_account_name
+  login_user({ permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS] })
+  visit fleets_path
+end
+
 When('I visit the submission method page') do
+  mock_actual_account_name
   mock_vehicles_in_fleet
+  mock_users
   login_user({ permissions: 'MANAGE_VEHICLES' })
   visit submission_method_fleets_path
 end
@@ -46,10 +59,20 @@ Then('I should be on the upload page') do
 end
 
 When('I have vehicles in my fleet') do
+  mock_actual_account_name
+  mock_users
   mock_clean_air_zones
   mock_vehicles_in_fleet
   mock_caz_mandates
   mock_direct_debit_enabled
+end
+
+When('I have undetermined vehicles in my fleet') do
+  mock_clean_air_zones
+  mock_undetermined_vehicles
+  mock_caz_mandates
+  mock_direct_debit_enabled
+  mock_users
 end
 
 When('I want to pay for CAZ which started charging {int} days ago') do |start_days_ago|
@@ -62,20 +85,24 @@ When('I want to pay for CAZ which started charging {int} days ago') do |start_da
   }]
   mock_clean_air_zones(caz_list)
   mock_unpaid_vehicles_in_fleet
+  mock_users
 end
 
 When('I want to pay for active for charging CAZ') do
   caz_list = read_response('caz_list_active.json')['cleanAirZones']
   mock_clean_air_zones(caz_list)
   mock_unpaid_vehicles_in_fleet
+  mock_users
 end
 
 When('I have vehicles in my fleet that are not paid') do
+  mock_users
   mock_clean_air_zones
   mock_unpaid_vehicles_in_fleet
 end
 
 When('I have no chargeable vehicles in my fleet') do
+  mock_users
   mock_clean_air_zones
   mock_unchargeable_vehicles
 end
@@ -117,4 +144,8 @@ end
 When('I press {int} pagination button') do |selected_page|
   mock_vehicles_in_fleet(selected_page)
   page.find("#pagination-button-#{selected_page}").first('a').click
+end
+
+Then('I am able to export my data to CSV file') do
+  expect(page).to have_link('Download a spreadsheet (CSV)')
 end

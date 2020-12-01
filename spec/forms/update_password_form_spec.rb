@@ -23,13 +23,13 @@ describe UpdatePasswordForm, type: :model do
 
   context '.submit valid form' do
     before do
-      allow(AccountsApi).to receive(:update_password).and_return(true)
+      allow(AccountsApi::Auth).to receive(:update_password).and_return(true)
       subject.submit
     end
 
     it 'calls AccountsApi with correct parameters' do
       body = { accountUserId: user_id, oldPassword: old_password, newPassword: password }
-      allow(AccountsApi).to receive(:update_password).with(body: body).and_return(true)
+      allow(AccountsApi::Auth).to receive(:update_password).with(body: body).and_return(true)
     end
   end
 
@@ -48,7 +48,7 @@ describe UpdatePasswordForm, type: :model do
 
   context 'when old password is invalid' do
     before do
-      allow(AccountsApi).to receive(:update_password).and_raise(
+      allow(AccountsApi::Auth).to receive(:update_password).and_raise(
         BaseApi::Error422Exception.new(422, '', 'errorCode' => 'oldPasswordInvalid')
       )
       subject.submit
@@ -62,20 +62,23 @@ describe UpdatePasswordForm, type: :model do
 
   context 'when new password is not complex enough' do
     before do
-      allow(AccountsApi).to receive(:update_password).and_raise(
+      allow(AccountsApi::Auth).to receive(:update_password).and_raise(
         BaseApi::Error422Exception.new(422, '', 'errorCode' => 'passwordNotValid')
       )
       subject.submit
     end
 
     it 'has a proper password message' do
-      expect(subject.errors[:password]).to include(I18n.t('new_password_form.errors.password_complexity'))
+      expect(subject.errors[:password]).to include(
+        'Enter a password at least 12 characters long including at least 1 upper case letter, 1 number and '\
+        'a special character'
+      )
     end
   end
 
   context 'when old password is reused' do
     before do
-      allow(AccountsApi).to receive(:update_password).and_raise(
+      allow(AccountsApi::Auth).to receive(:update_password).and_raise(
         BaseApi::Error422Exception.new(422, '', 'errorCode' => 'newPasswordReuse')
       )
       subject.submit
@@ -83,6 +86,20 @@ describe UpdatePasswordForm, type: :model do
 
     it 'has a proper password message' do
       expect(subject.errors[:password]).to include(I18n.t('update_password_form.errors.password_reused'))
+    end
+  end
+
+  context 'when api returns unknown errorCode' do
+    before do
+      allow(AccountsApi::Auth).to receive(:update_password).and_raise(
+        BaseApi::Error422Exception.new(422, '', 'errorCode' => 'code')
+      )
+      subject.submit
+    end
+
+    it 'assigns a proper error message' do
+      expect(subject.errors[:password])
+        .to include('Something went wrong')
     end
   end
 end

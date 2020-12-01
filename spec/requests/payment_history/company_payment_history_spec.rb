@@ -7,13 +7,14 @@ describe 'PaymentHistory::PaymentHistoryController - GET #company_payment_histor
 
   context 'correct permissions' do
     before do
+      mock_actual_account_name
       api_response = read_response('payment_history/payments.json')['1']
       allow(PaymentHistoryApi).to receive(:payments).and_return(api_response)
       sign_in view_payment_history_user
     end
 
     it 'renders the view' do
-      expect(subject).to render_template('company_payment_history')
+      expect(subject).to render_template(:company_payment_history)
     end
 
     context 'and with invalid page' do

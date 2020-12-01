@@ -92,6 +92,7 @@ module PaymentHistory
       session[session_key]
     end
 
+    # Attributes reader
     attr_reader :session, :session_key, :back_button, :page, :default_url, :url
   end
 end

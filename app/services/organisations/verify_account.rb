@@ -33,12 +33,13 @@ module Organisations
 
     private
 
+    # Attributes reader
     attr_reader :token
 
     # Performs the API call to verification endpoint.
     # raise `UserAlreadyConfirmedException` exception if user already confirmed
     def perform_api_call
-      AccountsApi.verify_user(token: token)
+      AccountsApi::Accounts.verify_user(token: token)
       :success
     rescue BaseApi::Error422Exception => e
       error_code = e.body['errorCode']
@@ -49,7 +50,8 @@ module Organisations
     def handle_422_error(error_code)
       raise UserAlreadyConfirmedException if error_code == 'emailAlreadyVerified'
       return :invalid if error_code == 'invalid'
-      return :expired if error_code == 'expired'
+
+      :expired if error_code == 'expired'
     end
   end
 end

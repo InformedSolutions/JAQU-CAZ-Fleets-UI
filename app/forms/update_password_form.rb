@@ -32,24 +32,25 @@ class UpdatePasswordForm < NewPasswordForm
 
   private
 
+  # Attributes reader
   attr_reader :user_id, :old_password, :password
 
-  # Performs call to AccountsApi
+  # Performs call to AccountsApi::Auth.update_password
   def perform_api_call
-    AccountsApi.update_password(user_id: user_id,
-                                old_password: old_password,
-                                new_password: password)
+    AccountsApi::Auth.update_password(user_id: user_id, old_password: old_password, new_password: password)
   end
 
   # Returns correct error message for 422 error
   def parse_422_error(code)
     case code
     when 'passwordNotValid'
-      errors.add(:password, :invalid, message: I18n.t('new_password_form.errors.password_complexity'))
+      errors.add(:password, :invalid, message: I18n.t('input_form.errors.password_complexity'))
     when 'oldPasswordInvalid'
       errors.add(:old_password, :invalid, message: I18n.t('update_password_form.errors.old_password_invalid'))
     when 'newPasswordReuse'
       errors.add(:password, :invalid, message: I18n.t('update_password_form.errors.password_reused'))
+    else
+      errors.add(:password, :invalid, message: 'Something went wrong')
     end
   end
 end

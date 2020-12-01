@@ -52,6 +52,7 @@ module VehiclesManagement
 
     private
 
+    # Attributes reader
     attr_reader :data
 
     # Returns a hash with +results+ data

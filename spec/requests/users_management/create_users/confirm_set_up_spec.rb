@@ -18,9 +18,9 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
   let(:confirmation) { 'Pa$$w0rd123456' }
 
   context 'when provided with correct parameters and valid token' do
-    before { allow(AccountsApi).to receive(:set_password).and_return(true) }
+    before { allow(AccountsApi::Auth).to receive(:set_password).and_return(true) }
 
-    it 'redirects to set up confirmation page' do
+    it 'redirects to the set up confirmation page' do
       subject
       expect(response).to redirect_to(set_up_confirmation_users_path)
     end
@@ -31,7 +31,7 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
     let(:confirmation) { 'pass' }
 
     before do
-      allow(AccountsApi)
+      allow(AccountsApi::Auth)
         .to receive(:set_password)
         .and_raise(BaseApi::Error422Exception.new(422, '', {}))
       subject
@@ -44,8 +44,10 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
     it 'provides proper error messages' do
       errors = {
         token: nil,
-        password: I18n.t('new_password_form.errors.password_complexity'),
-        password_confirmation: I18n.t('new_password_form.errors.password_complexity')
+        password: 'Enter a password at least 12 characters long including at least 1 upper case letter, '\
+                   '1 number and a special character',
+        password_confirmation: 'Enter a password at least 12 characters long including at least 1 upper case'\
+                   ' letter, 1 number and a special character'
       }
 
       expect(flash[:errors]).to eq(errors)
@@ -57,7 +59,7 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
     let(:confirmation) { 'Pa$$w0rd123456' }
 
     before do
-      allow(AccountsApi)
+      allow(AccountsApi::Auth)
         .to receive(:set_password)
         .and_raise(BaseApi::Error400Exception.new(400, '', {}))
       subject
@@ -86,7 +88,7 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
     before { subject }
 
     it 'does not call API' do
-      expect(AccountsApi).to_not receive(:set_password)
+      expect(AccountsApi::Auth).to_not receive(:set_password)
     end
 
     it 'render the view' do

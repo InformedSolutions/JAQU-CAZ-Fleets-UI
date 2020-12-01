@@ -15,7 +15,15 @@ Rails.application.configure do
   config.consider_all_requests_local = true
 
   # Enable redis cache store for session
-  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] } if ENV['REDIS_URL']
+  if ENV['REDIS_URL']
+    config.cache_store = :redis_cache_store, {
+      url: ENV['REDIS_URL'],
+      error_handler: lambda do |response|
+        # Report errors to Sentry as warnings
+        Rails.logger.error "Unable to connect to Redis - #{response}"
+      end
+    }
+  end
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.

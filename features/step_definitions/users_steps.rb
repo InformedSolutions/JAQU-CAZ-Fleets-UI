@@ -4,7 +4,7 @@ Given('I am on the set up account page') do
   token = '27978cac-44fa-4d2e-bc9b-54fd12e37c69'
   account = 'd7d5f7fe-ca59-11ea-9d1f-07266045ba2b'
 
-  allow(AccountsApi).to receive(:account).and_return({ accountName: 'Tested company name' })
+  allow(AccountsApi::Accounts).to receive(:account).and_return({ accountName: 'Tested company name' })
 
   visit set_up_users_path(token: token, account: account)
 end
@@ -12,7 +12,7 @@ end
 Given('I am on the set up account page with invalid account uuid') do
   token = '27978cac-44fa-4d2e-bc9b-54fd12e37c69'
 
-  allow(AccountsApi).to receive(:account).and_raise(
+  allow(AccountsApi::Accounts).to receive(:account).and_raise(
     BaseApi::Error404Exception.new(404, '', {})
   )
 
@@ -40,17 +40,17 @@ end
 And('I provide exact but invalid passwords') do
   fill_in_password('invalid')
   fill_in_confirmation('invalid')
-  allow(AccountsApi).to receive(:set_password).and_raise(
+  allow(AccountsApi::Auth).to receive(:set_password).and_raise(
     BaseApi::Error422Exception.new(422, '', {})
   )
 end
 
 And('I have a valid token') do
-  allow(AccountsApi).to receive(:set_password).and_return(true)
+  allow(AccountsApi::Auth).to receive(:set_password).and_return(true)
 end
 
 And('I have an invalid token') do
-  allow(AccountsApi).to receive(:set_password).and_raise(
+  allow(AccountsApi::Auth).to receive(:set_password).and_raise(
     BaseApi::Error400Exception.new(400, '', {})
   )
 end

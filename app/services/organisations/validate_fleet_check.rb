@@ -28,6 +28,7 @@ module Organisations
 
     private
 
+    # Attributes reader
     attr_reader :confirm_fleet_check
 
     # validate provided params.

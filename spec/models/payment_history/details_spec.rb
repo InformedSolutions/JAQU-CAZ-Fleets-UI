@@ -34,9 +34,9 @@ describe PaymentHistory::Details, type: :model do
     end
   end
 
-  describe '.govuk_payment_id' do
+  describe '.provider_payment_id' do
     it 'returns a proper value' do
-      expect(subject.govuk_payment_id).to eq('gr4q4tedct2vqqo39uvb2o1ei4')
+      expect(subject.provider_payment_id).to eq('gr4q4tedct2vqqo39uvb2o1ei4')
     end
   end
 end

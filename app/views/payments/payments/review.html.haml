@@ -1,4 +1,4 @@
-- title_and_header = 'Review your payment'
+- title_and_header = 'Review the payment'
 - content_for(:title, title_and_header)
 
 = link_to 'Back', matrix_payments_path, class: 'govuk-back-link'
@@ -60,9 +60,9 @@
                                                type: 'checkbox',
                                                value: 'yes',
                                                id: 'confirm_not_exemption',
-                                               checked: session[:confirm_not_exemption] == 'yes'}
+                                               checked: session[:new_payment]['confirm_not_exemption'] == 'yes'}
                 %label.govuk-label.govuk-checkboxes__label{for: 'confirm_not_exemption'}
-                  I confirm my vehicles are not exempt from paying the #{@zone.name} Clean Air Zone Charge.
+                  I confirm the vehicles are not exempt from paying the #{@zone.name} Clean Air Zone Charge.
                   (Find out more about exemptions in #{exemption_url_for(@zone)})
         
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

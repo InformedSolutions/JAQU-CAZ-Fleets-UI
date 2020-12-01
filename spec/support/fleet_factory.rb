@@ -11,7 +11,8 @@ module FleetFactory
                     add_vehicle: true,
                     delete_vehicle: true,
                     empty?: vehicles.empty?,
-                    total_vehicles_count: total_vehicles_count)
+                    total_vehicles_count: total_vehicles_count,
+                    any_undetermined_vehicles: false)
   end
 
   def mock_fleet(fleet_instance = create_fleet)
