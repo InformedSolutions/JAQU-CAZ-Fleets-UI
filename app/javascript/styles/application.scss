@@ -62,9 +62,12 @@ html {
 }
 
 .disabled-link {
-  opacity: 0.6;
   pointer-events: none;
   user-select: none;
+
+  &.transparent {
+    opacity: 0.6;
+  }
 }
 
 .dashboard-total-group:nth-child(3n+1) {
