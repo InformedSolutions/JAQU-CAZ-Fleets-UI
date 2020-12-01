@@ -111,8 +111,9 @@ module VehiclesManagement
     def react_to_status(job)
       status = job[:status].upcase
 
-      return if status == 'RUNNING'
-      return if status == 'CHARGEABILITY_CALCULATION_IN_PROGRESS' && large_fleet == 'false'
+      if status == 'RUNNING' || status == 'CHARGEABILITY_CALCULATION_IN_PROGRESS' && large_fleet == 'false'
+        return render layout: 'disabled_links/application'
+      end
 
       if %w[CHARGEABILITY_CALCULATION_IN_PROGRESS SUCCESS].include?(status)
         redirect_to_local_exemptions
