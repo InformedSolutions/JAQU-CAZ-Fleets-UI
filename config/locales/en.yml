@@ -55,7 +55,7 @@ en:
   fleet_check_form:
     errors:
       confirm_fleet_check: You must choose an answer
-  inactivity_logout: We have signed you out of the business account to keep it secure after it become inactive.
+  inactivity_logout: We have signed you out of the business account to keep it secure after it became inactive.
   input_form:
     errors:
       invalid_format: "%{attribute} is in an invalid format"

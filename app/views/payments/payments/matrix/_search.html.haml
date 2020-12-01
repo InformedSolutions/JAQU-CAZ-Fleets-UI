@@ -1,8 +1,8 @@
 .govuk-form-group
   %label.govuk-label{for: 'vrn-search'}
     Search for a number plate
-  - if @errors.present?
-    = render 'payments/payments/matrix/vrn_input/errored', message: @errors.first
+  - if alert
+    = render 'payments/payments/matrix/vrn_input/errored', message: alert
   - else
     = render 'payments/payments/matrix/vrn_input/normal'
   %input{value: 'Search',

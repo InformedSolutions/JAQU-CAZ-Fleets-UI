@@ -29,7 +29,7 @@ module VehiclesManagement
     # Streaming file and count lines without load the whole file into memory
     # This operation not takes header into consideration
     def vehicles_count
-      `wc -l "#{file.path}"`.strip.split(' ')[0].to_i - 1
+      `wc -l "#{file.path}"`.strip.split[0].to_i - 1
     end
 
     private

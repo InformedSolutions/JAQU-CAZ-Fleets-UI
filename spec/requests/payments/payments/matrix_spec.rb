@@ -62,8 +62,8 @@ describe 'PaymentsController - GET #matrix' do
             expect(assigns(:search)).to eq(search)
           end
 
-          it 'assigns errors value' do
-            expect(assigns(:errors)).to eq(['Enter the number plate of the vehicle in a valid format'])
+          it 'assigns flash error message' do
+            expect(flash[:alert]).to eq('Enter the number plate of the vehicle in a valid format')
           end
         end
       end

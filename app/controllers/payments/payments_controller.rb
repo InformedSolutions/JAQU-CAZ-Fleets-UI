@@ -12,13 +12,12 @@ module Payments
     include CazLock
 
     before_action -> { check_permissions(allow_make_payments?) }
-    before_action :check_la, only: %i[
-      matrix submit review select_payment_method no_chargeable_vehicles in_progress
-    ]
-    before_action :check_job_status, only: %i[index local_authority matrix]
+    before_action :check_la, only: %i[matrix submit review select_payment_method no_chargeable_vehicles
+                                      in_progress vrn_not_found submit_search]
+    before_action :check_job_status, only: %i[index local_authority matrix vrn_not_found submit_search]
     before_action :clear_make_payment_history, only: %i[index]
     before_action :release_lock_on_caz, only: %i[success failure]
-    before_action :assign_zone_and_dates, only: %i[matrix]
+    before_action :assign_zone_and_dates, only: %i[matrix vrn_not_found]
     before_action :assign_debit, only: %i[select_payment_method]
     before_action :check_new_payment_data, only: %i[review confirm_review]
 
@@ -65,8 +64,36 @@ module Payments
 
       clear_upload_job_data
       @search = helpers.payment_query_data[:search]
-      @errors = validate_search_params unless @search.nil?
-      @charges = @errors || @search.nil? ? charges : charges_by_vrn
+      validate_and_search
+    end
+
+    ##
+    # Renders no results page when no vrn is found
+    #
+    # ==== Path
+    #
+    #    :GET /payments/matrix/vrn_not_found
+    #
+    def vrn_not_found
+      @search = helpers.payment_query_data[:search]
+    end
+
+    ##
+    # Validates a search form and redirects to the proper page
+    #
+    # ==== Path
+    #
+    #    :POST /payments/matrix/vrn_not_found
+    #
+    def submit_search
+      form = VrnForm.new(params.dig('payment', 'vrn_search'))
+      if form.valid?
+        session[:payment_query][:search] = form.vrn
+        redirect_to matrix_payments_path
+      else
+        assign_zone_and_dates
+        render_vrn_not_found(form)
+      end
     end
 
     ##
@@ -108,7 +135,6 @@ module Payments
     #
     def clear_search
       SessionManipulation::ClearVrnSearch.call(session: session)
-
       redirect_to matrix_payments_path
     end
 
@@ -261,7 +287,7 @@ module Payments
       return if form.valid?
 
       SessionManipulation::ClearVrnSearch.call(session: session)
-      form.errors.messages[:vrn]
+      form.error_message
     end
 
     # Fetches charges with params saved in the session
@@ -292,7 +318,7 @@ module Payments
 
     # After selecting Clean Air Zone method checks if user has any chargeable
     # vehicles and redirects him accordingly.
-    def determine_post_local_authority_redirect_path(zone_id)
+    def determine_next_page(zone_id)
       charges_exists = current_user.fleet.any_chargeable_vehicles_in_caz?(zone_id)
       charges_exists ? matrix_payments_path : no_chargeable_vehicles_payments_path
     end
@@ -321,7 +347,21 @@ module Payments
 
     # Redirects to local authority selection page when there is no payment data in session
     def check_new_payment_data
-      return redirect_to payments_path if helpers.new_payment_data.blank?
+      redirect_to payments_path if helpers.new_payment_data.blank?
+    end
+
+    # Validates search form and redirects to the proper page
+    def validate_and_search
+      flash.now[:alert] = validate_search_params unless @search.nil?
+      @charges = flash.alert || @search.nil? ? charges : charges_by_vrn
+      redirect_to vrn_not_found_payments_path if @search.present? && !@charges.any_results?
+    end
+
+    # Assigns errors and renders the vrn not found page
+    def render_vrn_not_found(form)
+      @search = form.vrn
+      flash.now[:alert] = form.error_message
+      render :vrn_not_found
     end
   end
 end
