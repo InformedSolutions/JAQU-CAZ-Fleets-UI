@@ -21,7 +21,7 @@ describe 'AccountsApi::Accounts.csv_exports - POST' do
       expect(WebMock).to have_requested(:post, /#{url}/).once
     end
 
-    it 'returns proper url' do
+    it 'returns a proper url' do
       expect(subject).to eq(file_url)
     end
   end

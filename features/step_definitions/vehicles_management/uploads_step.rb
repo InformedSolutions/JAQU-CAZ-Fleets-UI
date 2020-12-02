@@ -10,7 +10,7 @@ When('I attach a file') do
   stub = instance_double(
     'VehiclesManagement::UploadFile',
     filename: 'filename',
-    large_fleet: false
+    large_fleet?: false
   )
   allow(VehiclesManagement::UploadFile).to receive(:call).and_return(stub)
   allow(FleetsApi).to receive(:register_job).and_return('job_name')
@@ -62,6 +62,12 @@ end
 When('I upload a csv file whose size is too big') do
   attach_valid_csv_file
   allow_any_instance_of(ActionDispatch::Http::UploadedFile).to receive(:size).and_return(52_428_801)
+  click_button 'Upload file'
+end
+
+When('I upload a csv file whose fleet size is too big') do
+  attach_valid_csv_file
+  allow(VehiclesManagement::CountVehicles).to receive(:call).and_return(2_000_001)
   click_button 'Upload file'
 end
 

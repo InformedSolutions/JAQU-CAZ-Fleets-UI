@@ -19,7 +19,7 @@ describe 'VehiclesManagement::UploadsController - POST #create' do
       allow(SecureRandom).to receive(:uuid).and_return(correlation_id)
       stub = instance_double('VehiclesManagement::UploadFile',
                              filename: filename,
-                             large_fleet: large_fleet)
+                             large_fleet?: large_fleet)
       allow(VehiclesManagement::UploadFile).to receive(:call).and_return(stub)
       allow(FleetsApi).to receive(:register_job).and_return(job_id)
       sign_in user

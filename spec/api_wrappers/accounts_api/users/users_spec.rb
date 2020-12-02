@@ -19,14 +19,14 @@ describe 'AccountsApi::Users.users - GET' do
       expect(WebMock).to have_requested(:get, %r{accounts/#{account_id}/users})
     end
 
-    it 'returns proper fields' do
+    it 'returns a proper fields' do
       expect(subject.keys).to contain_exactly(
         'users',
         'multiPayerAccount'
       )
     end
 
-    it 'returns proper fields for users collection' do
+    it 'returns a proper fields for users collection' do
       expect(subject['users'].first.keys).to contain_exactly(
         'accountUserId',
         'name',

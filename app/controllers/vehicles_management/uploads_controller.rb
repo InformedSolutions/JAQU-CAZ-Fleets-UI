@@ -37,7 +37,7 @@ module VehiclesManagement
     #
     def create
       result = VehiclesManagement::UploadFile.call(file: params[:file], user: current_user)
-      register_job(result.filename, result.large_fleet)
+      register_job(filename: result.filename, large_fleet: result.large_fleet?)
       redirect_to processing_uploads_path
     end
 
@@ -97,7 +97,7 @@ module VehiclesManagement
 
     # Register upload job in the backend API.
     # Sets proper data to the redis
-    def register_job(filename, large_fleet)
+    def register_job(filename:, large_fleet:)
       correlation_id = SecureRandom.uuid
       job_id = FleetsApi.register_job(
         filename: filename,

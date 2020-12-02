@@ -16,7 +16,7 @@ describe 'AccountsApi::Accounts.create_account - POST' do
       )
     end
 
-    it 'returns proper fields' do
+    it 'returns a proper fields' do
       expect(subject.keys).to contain_exactly('accountId')
     end
 

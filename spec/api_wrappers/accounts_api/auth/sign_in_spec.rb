@@ -17,7 +17,7 @@ describe 'AccountsApi::Auth.sign_in - POST' do
       )
     end
 
-    it 'returns proper fields' do
+    it 'returns a proper fields' do
       expect(subject.keys).to contain_exactly(
         'accountId', 'accountName', 'accountUserId', 'owner', 'permissions', 'email'
       )
