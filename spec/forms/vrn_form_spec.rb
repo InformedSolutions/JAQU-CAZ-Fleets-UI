@@ -17,6 +17,7 @@ describe VrnForm, type: :model do
       expect(subject.vrn).to eq('ABC123')
     end
   end
+
   context 'when vrn is nil' do
     let(:vrn) { nil }
 

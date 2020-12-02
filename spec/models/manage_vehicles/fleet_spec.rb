@@ -22,7 +22,8 @@ describe VehiclesManagement::Fleet, type: :model do
           account_id: account_id,
           page: page,
           per_page: per_page,
-          only_chargeable: false
+          only_chargeable: false,
+          vrn: nil
         )
       )
       vehicles
