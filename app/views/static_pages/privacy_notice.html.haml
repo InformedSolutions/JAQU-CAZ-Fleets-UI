@@ -1,4 +1,4 @@
-- title_and_header = 'Drive in a Clean Air Zone'
+- title_and_header = 'Privacy notice'
 - content_for(:title, title_and_header)
 
 = render 'shared/js_back_link'
@@ -6,8 +6,7 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      %h1.govuk-heading-xl
-        = title_and_header
+      %h1.govuk-heading-xl= title_and_header
       %p
         The Drive in a Clean Air Zone (CAZ) service is operated
         by the Joint Air Quality Unit (JAQU), a team established
@@ -28,7 +27,7 @@
         %li
           %p
             Business account for multiple vehicles
-      %h1.govuk-heading-xl
+      %h2.govuk-heading-l
         Check if you’ll be charged to drive in a Clean Air Zone
       %p
         The purpose of the Check if you’ll be charged
@@ -54,7 +53,7 @@
         Euro Emission standard. This will support the service to correctly determine
         a vehicle’s compliance.
 
-      %h1.govuk-heading-xl
+      %h2.govuk-heading-l
         Pay a charge for a single vehicle
       %p
         The purpose of the Pay a charge for a single vehicle service
@@ -88,7 +87,7 @@
         the Local Authority use the information exchanged in the above scenarios
         and the data retention policies they apply.
 
-      %h1.govuk-heading-xl
+      %h2.govuk-heading-l
         Business account for multiple vehicles
       %p
         The purpose of the Business account for multiple vehicles service
@@ -136,7 +135,7 @@
         We retain your payment transactions for a period of 7 years in
         the service. These include the number plate(s) against which the payment is made.
 
-      %h1.govuk-heading-xl
+      %h2.govuk-heading-l
         General
       %p
         IP addresses will be captured when using this service;
@@ -212,8 +211,8 @@
         - dvla_link = 'https://www.gov.uk/government/publications/dvla-privacy-policy/dvla-privacy-policy'
         = link_to('DVLA', dvla_link, id: 'dvla-link')
       %p
-        - birmingham_link = 'https://www.birmingham.gov.uk/info/20076/pollution/1763/a_clean_air_zone_for_birmingham'
-        = link_to('Birmingham', birmingham_link, id: 'birmingham-link')
+        - bath_link = 'https://beta.bathnes.gov.uk/council-privacy-policy'
+        = link_to('Bath and North East Somerset privacy policy', bath_link, id: 'bath-link')
       %p
-        - leeds_link = 'https://www.leeds.gov.uk/business/environmental-health-for-business/air-quality'
-        = link_to('Leeds', leeds_link, id: 'leeds-link')
+        - birmingham_link = 'https://www.birmingham.gov.uk/info/20015/environment/2005/privacy_statement_-_environmental_health/2'
+        = link_to('Birmingham privacy policy', birmingham_link, id: 'birmingham-link')
