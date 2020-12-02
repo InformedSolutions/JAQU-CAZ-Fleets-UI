@@ -29,7 +29,7 @@ describe 'DebitsApi.create_mandate - POST' do
       expect(WebMock).to have_requested(:post, /#{url}/)
     end
 
-    it 'returns proper attributes' do
+    it 'returns a proper attributes' do
       expect(subject.keys).to contain_exactly('nextUrl', 'cleanAirZoneId')
     end
   end

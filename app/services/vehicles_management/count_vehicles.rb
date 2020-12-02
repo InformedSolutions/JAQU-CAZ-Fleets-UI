@@ -6,7 +6,7 @@ module VehiclesManagement
   ##
   # Service used to count number of vehicles and compare with threshold settings
   #
-  class LargeFleetThreshold < BaseService
+  class CountVehicles < BaseService
     ##
     # Initializer method
     #
@@ -23,7 +23,7 @@ module VehiclesManagement
     # Returns a boolean
     def call
       log_action('Counting number of vehicles in uploaded file')
-      vehicles_count >= Rails.configuration.x.large_fleet_threshold
+      vehicles_count
     end
 
     # Streaming file and count lines without load the whole file into memory

@@ -19,7 +19,7 @@ describe 'AccountsApi::Users.resend_verification - POST' do
   context 'when the response status is 200' do
     before { stub_request(:post, /#{url}/).to_return(status: 200) }
 
-    it 'returns proper fields' do
+    it 'returns a proper fields' do
       expect(subject).to be_truthy
     end
 

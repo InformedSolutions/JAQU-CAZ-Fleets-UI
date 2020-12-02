@@ -27,6 +27,8 @@ en:
   csv:
     errors:
       base: The selected file could not be uploaded – try again
+      file_size_too_big: The CSV must be smaller than %{file_size}MB
+      fleet_size_too_big: The file you are uploading contains more than 200k vehicles, the maximum number allowed
       invalid_ext: The selected file must be in a .CSV format
       no_file: Select a CSV file to upload
   edit_user_email_form:
