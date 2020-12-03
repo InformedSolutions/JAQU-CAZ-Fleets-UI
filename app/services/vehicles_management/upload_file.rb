@@ -81,7 +81,7 @@ module VehiclesManagement
 
     # Count number of vehicles and compare with max fleet size setting
     def fleet_size_too_big?
-      return unless vehicles_count >= Rails.configuration.x.max_fleet_size
+      return unless vehicles_count > Rails.configuration.x.max_fleet_size
 
       @error = I18n.t('csv.errors.fleet_size_too_big')
     end
