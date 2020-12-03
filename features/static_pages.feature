@@ -17,7 +17,7 @@ Feature: Static Pages
   Scenario: User sees privacy notice page
     Given I am on the Sign in page
     When I press footer link 'Privacy'
-    Then I should see 'Privacy notice' title
+    Then I should see 'Privacy Notice' title
 
   Scenario: User sees help page
     Given I navigate to a Dashboard page with '' permission
