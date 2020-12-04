@@ -7,18 +7,14 @@ describe 'PaymentsController - POST #submit_search' do
 
   let(:vrn) { 'ABC123' }
   let(:caz_id) { @uuid }
-  let(:account_id) { SecureRandom.uuid }
-  let(:user) { create_user(account_id: account_id) }
 
   context 'correct permissions' do
-    let(:fleet) { create_chargeable_vehicles }
-
-    before { sign_in user }
+    before { sign_in create_user }
 
     context 'with la in the session' do
       before do
         mock_clean_air_zones
-        mock_fleet(fleet)
+        mock_fleet(create_chargeable_vehicles)
         add_to_session(new_payment: { caz_id: caz_id }, payment_query: { search: vrn })
         subject
       end
@@ -40,8 +36,6 @@ describe 'PaymentsController - POST #submit_search' do
       context 'with an invalid params' do
         let(:vrn) { 'test' }
 
-        before { subject }
-
         it 'returns a 200 OK status' do
           expect(response).to have_http_status(:ok)
         end
@@ -58,8 +52,7 @@ describe 'PaymentsController - POST #submit_search' do
 
     context 'without la in the session' do
       it 'redirects to the index' do
-        subject
-        expect(response).to redirect_to(payments_path)
+        expect(subject).to redirect_to(payments_path)
       end
     end
   end

@@ -50,9 +50,10 @@ Rails.application.routes.draw do
   scope module: 'vehicles_management', path: '/' do
     resources :fleets, only: %i[index] do
       collection do
+        post :index, to: 'fleets#submit_search'
+        get :vrn_not_found, to: 'fleets#vrn_not_found'
         get :submission_method
         post :submission_method, to: 'fleets#submit_method'
-
         get :first_upload
         get :assign_delete
         get :delete

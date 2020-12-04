@@ -7,9 +7,7 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-full
-      - if alert
-        = render 'shared/error_summary', error_msg_div: '#confirm-vehicle-creation-error', error_msg: alert
-
+      = render 'shared/error' if alert
       = render 'shared/banners'
 
       %h1.govuk-heading-l= title_content
@@ -22,6 +20,8 @@
         %b Upcoming
         \- you do not need to pay until charging starts, you can see the dates on the
         = link_to('help page', help_path, class: 'govuk-link', id: 'help')
+
+      = render 'vehicles_management/fleets/search'
 
       %table.govuk-table
         %caption.govuk-table__caption
@@ -57,6 +57,7 @@
             %legend.govuk-visually-hidden Hide vehicles that are not charge in any Zone
             .govuk-checkboxes
               .govuk-checkboxes__item
+                = hidden_field_tag(:vrn, params[:vrn])
                 = check_box_tag('only_chargeable',
                                true,
                                params['only_chargeable'],
