@@ -6,34 +6,29 @@ describe 'PaymentsController - GET #vrn_not_found' do
   subject { get vrn_not_found_payments_path }
 
   let(:caz_id) { @uuid }
-  let(:account_id) { SecureRandom.uuid }
-  let(:user) { create_user(account_id: account_id) }
 
   context 'correct permissions' do
-    let(:fleet) { create_chargeable_vehicles }
-
-    before { sign_in user }
+    before { sign_in create_user }
 
     context 'with la in the session' do
       before do
         mock_clean_air_zones
-        mock_fleet(fleet)
+        mock_fleet(create_chargeable_vehicles)
         add_to_session(new_payment: { caz_id: caz_id }, payment_query: { search: search })
+        subject
       end
 
       let(:search) { 'ABC123' }
 
       it 'returns a 200 OK status' do
-        subject
         expect(response).to have_http_status(:ok)
       end
 
       it 'renders the view' do
-        expect(subject).to render_template(:vrn_not_found)
+        expect(response).to render_template(:vrn_not_found)
       end
 
       it 'assigns search value' do
-        subject
         expect(assigns(:search)).to eq(search)
       end
     end

@@ -7,7 +7,7 @@ module FleetFactory
 
   def create_fleet(vehicles = mocked_vehicles, total_vehicles_count = 45)
     instance_double(VehiclesManagement::Fleet,
-                    pagination: paginated_fleet(vehicles),
+                    pagination: paginated_fleet(vehicles, total_vehicles_count),
                     add_vehicle: true,
                     delete_vehicle: true,
                     empty?: vehicles.empty?,
@@ -26,7 +26,7 @@ module FleetFactory
     vehicles_data.map { |data| VehiclesManagement::Vehicle.new(data) }
   end
 
-  def paginated_fleet(vehicles)
+  def paginated_fleet(vehicles, total_vehicles_count)
     instance_double(
       VehiclesManagement::PaginatedFleet,
       vehicle_list: vehicles,
@@ -34,7 +34,7 @@ module FleetFactory
       total_pages: 5,
       range_start: 1,
       range_end: 5,
-      total_vehicles_count: 45
+      total_vehicles_count: total_vehicles_count
     )
   end
 end
