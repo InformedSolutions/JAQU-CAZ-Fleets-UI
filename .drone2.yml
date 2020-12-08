@@ -39,6 +39,14 @@ steps:
     image: selenium-jaqu
     pull: never
     environment:
+      BASEURL_CHARGE_SETTLEMENT_OAUTH: 'https://payments-userpool-dev.auth.eu-west-2.amazoncognito.com'
+      BASEURL_CHARGE_SETTLEMENT_API: 'https://dev-api.paycleanairzonecharge.co.uk'
+      CHARGE_SETTLEMENT_CLIENT_ID:
+        from_secret: charge_settlement_id
+      CHARGE_SETTLEMENT_CLIENT_SECRET:
+        from_secret:  charge_settlement_secret
+      CHARGE_SETTLEMENT_COGNITO_ID:
+        from_secret: charge_settlement_cognito_id
       BS_USERNAME:
         from_secret: browserstack_username
       BS_AUTHKEY:
@@ -46,7 +54,7 @@ steps:
       BASEURL_FLEETS: 'https://AccountsTestUser1:CleanAir99@dev-fleet.paycleanairzonecharge.co.uk/'
       VALID_USERNAME: 'tester@informed.com'
       VALID_PASSWORD: 'Tester123...'
-      BROWSER_SET: 'min'
+      BROWSER_SET: 'basic_auth'
       BUILD: FLEETS-UI-${DRONE_BUILD_NUMBER}
       LOCATION: browserstack
     commands:
@@ -1651,6 +1659,41 @@ name: fleet_ruby_secret
 get:
   path: /build-tools/drone
   name: fleetRubySecret
+
+---
+kind: secret
+name: charge_settlement_id
+get:
+  path: /build-tools/drone
+  name: chargeSettlementId
+
+---
+kind: secret
+name: charge_settlement_secret
+get:
+  path: /build-tools/drone
+  name: chargeSettlementSecret
+
+---
+kind: secret
+name: charge_settlement_cognito_id
+get:
+  path: /build-tools/drone
+  name: chargeSettlementCognitoId
+
+---
+kind: secret
+name: charge_settlement_id_St
+get:
+  path: /build-tools/drone
+  name: chargeSettlementIdSt
+
+---
+kind: secret
+name: charge_settlement_secret_St
+get:
+  path: /build-tools/drone
+  name: chargeSettlementSecretSt
 
 
   ################################################ End Secrets #########################################################
