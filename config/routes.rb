@@ -194,6 +194,7 @@ Rails.application.routes.draw do
     get :cookies
     get :help
     get :privacy_notice
+    get :terms_and_conditions
   end
 
   scope controller: 'application' do

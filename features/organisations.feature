@@ -10,6 +10,7 @@ Feature: Organisations
       And I should see 'Create an account' link
     Then I press the Continue
       And I should see 'Enter the company name'
+      And I should see 'By creating an account, you agree to Drive in a Clean Air Zone\'s Terms and conditions'
     Then I enter a company name
       And I press the Continue
     Then I should see 'How many vehicles do you want to add to the business account?' title
