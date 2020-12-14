@@ -46,4 +46,14 @@ class StaticPagesController < ApplicationController
   def privacy_notice
     # renders static page
   end
+
+  ##
+  # Renders the terms and conditions page
+  #
+  # ==== Path
+  #    GET /terms_and_conditions
+  #
+  def terms_and_conditions
+    # renders static page
+  end
 end
