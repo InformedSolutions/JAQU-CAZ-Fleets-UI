@@ -28,4 +28,10 @@ describe StaticPagesController do
 
     it_behaves_like 'a static page'
   end
+
+  describe 'GET #terms_and_conditions' do
+    subject { get terms_and_conditions_path }
+
+    it_behaves_like 'a static page'
+  end
 end
