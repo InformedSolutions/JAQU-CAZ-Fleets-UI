@@ -12,6 +12,8 @@ en:
     labels:
       email: Enter their email address
       name: Name
+  add_user:
+    success: You have successfully added %{full_user_name} to your account.
   company_name:
     errors:
       abuse: You have submitted a name containing language we don’t allow. Enter a name that is not offensive.

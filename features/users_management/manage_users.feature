@@ -62,6 +62,7 @@ Feature: Manage users
       And I should not see 'Back' link
     When I press 'Continue' link
     Then I should be on the Manage users page
+      And I should see 'You have successfully added New User Name to your account.'
 
   Scenario: Adding new user - somebody added user with the same email in the meantime
     Given I visit the Add user page after sign in
