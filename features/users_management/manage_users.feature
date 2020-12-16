@@ -15,7 +15,7 @@ Feature: Manage users
     Then I should be on the Manage users page
       And I should see 'Add another user' button
       And I should not see 'Change' link
-      And I should not see 'TBC'
+      And I should not see 'You have added the maximum amount of users to this business account.'
     Then I press 'Add another user' link
       And I should be on the Add user page
     Then I press 'Back' link
@@ -25,7 +25,7 @@ Feature: Manage users
     Given I visit the Manage users page with more then 10 users
     Then I should be on the Manage users page
       And I should not see 'Add another user' button
-      And I should see 'TBC'
+      And I should see 'You have added the maximum amount of users to this business account.'
 
   Scenario: Visiting the manage users page as an owner
     Given I visit the Manage users page as an owner
