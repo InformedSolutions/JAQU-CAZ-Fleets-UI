@@ -6,9 +6,10 @@ module VehiclesManagement
   ##
   # Controller used to manage fleet
   #
-  class FleetsController < ApplicationController
+  class FleetsController < ApplicationController # rubocop:disable Metrics/ClassLength
     include CheckPermissions
     include ChargeabilityCalculator
+    include PaymentFeatures
 
     before_action -> { check_permissions(allow_manage_vehicles?) }
     before_action :assign_fleet
@@ -16,6 +17,57 @@ module VehiclesManagement
     before_action :set_cache_headers, only: :index
     before_action :check_job_status, only: :index
     before_action :clear_user_data, only: :index
+
+    ##
+    # Renders manage fleet page. If the fleet is empty, redirects to :submission_method
+    #
+    # ==== Path
+    #
+    #    :GET /fleets
+    #
+    # ==== Params
+    #
+    # * +page+ - used to paginate vehicles list, defaults to 1, present in the query params
+    # * only_chargeable* - flag, to filter out non-charged vehicles
+    # * +vrn+ - alphanumeric character part of vrn number
+    #
+    def index
+      return redirect_to submission_method_fleets_path if @fleet.empty?
+
+      page = (params[:page] || 1).to_i
+      assign_variables(page)
+    rescue BaseApi::Error400Exception
+      return redirect_to fleets_path unless page == 1
+    end
+
+    ##
+    # Validates a search form and redirects to the proper page
+    #
+    # ==== Path
+    #
+    #    :POST /fleets/submit_search
+    #
+    def submit_search
+      form = VehiclesManagement::SearchVrnForm.new(params[:vrn])
+      @pagination = @fleet.pagination(vrn: form.vrn)
+
+      if form.valid? && @pagination.total_vehicles_count.zero?
+        return redirect_to vrn_not_found_fleets_path(vrn: form.vrn)
+      end
+
+      render_fleets_page(form)
+    end
+
+    ##
+    # Renders no search results page when no vrn is found
+    #
+    # ==== Path
+    #
+    #    :GET /fleets/vrn_not_found
+    #
+    def vrn_not_found
+      @search = params[:vrn]
+    end
 
     ##
     # Renders submission method selection page
@@ -47,27 +99,6 @@ module VehiclesManagement
         @errors = form.errors
         render :submission_method
       end
-    end
-
-    ##
-    # Renders manage fleet page. If the fleet is empty, redirects to :submission_method
-    #
-    # ==== Path
-    #
-    #    :GET /fleets
-    #
-    # ==== Params
-    #
-    # * +page+ - used to paginate vehicles list, defaults to 1, present in the query params
-    #
-    def index
-      return redirect_to submission_method_fleets_path if @fleet.empty?
-
-      page = (params[:page] || 1).to_i
-      @pagination = @fleet.pagination(page: page, only_chargeable: params[:only_chargeable])
-      @zones = CleanAirZone.all
-    rescue BaseApi::Error400Exception
-      return redirect_to fleets_path unless page == 1
     end
 
     ##
@@ -188,6 +219,26 @@ module VehiclesManagement
     def clear_user_data
       clear_upload_job_data
       session[:show_continue_button] = nil if session[:show_continue_button] == true
+    end
+
+    # Assign variables needed in :index view
+    def assign_variables(page)
+      @search = params[:vrn]
+      @pagination = @fleet.pagination(
+        page: page,
+        only_chargeable: params[:only_chargeable],
+        vrn: @search
+      )
+      @zones = CleanAirZone.all
+      assign_payment_enabled
+    end
+
+    # Renders :index with assigned zones and errors
+    def render_fleets_page(form)
+      @zones = CleanAirZone.all
+      @search = form.vrn
+      flash.now[:alert] = form.error_message if form.error_message
+      render :index
     end
   end
 end

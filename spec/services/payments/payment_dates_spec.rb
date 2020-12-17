@@ -120,4 +120,32 @@ describe Payments::PaymentDates do
       end
     end
   end
+
+  describe '.all_chargeable_dates' do
+    subject { service.all_chargeable_dates }
+
+    let(:charge_start_date) { 31.days.from_now }
+
+    it 'returns next and past dates' do
+      expect(subject.keys).to contain_exactly(:next, :past)
+    end
+
+    it 'returns 7 objects in :next block' do
+      expect(subject[:next].size).to eq(7)
+    end
+
+    it 'returns 6 objects in :past block' do
+      expect(subject[:past].size).to eq(6)
+    end
+
+    it 'returns a proper object' do
+      expect(subject[:next].first).to eq(
+        {
+          name: Date.current.strftime(described_class::DISPLAY_DATE_FORMAT),
+          value: Date.current.strftime(described_class::VALUE_DATE_FORMAT),
+          today: true
+        }
+      )
+    end
+  end
 end

@@ -45,7 +45,7 @@ describe 'DebitsApi.create_payment - POST' do
       )
     end
 
-    it 'returns proper attributes' do
+    it 'returns a proper attributes' do
       expect(subject.keys).to contain_exactly('paymentId', 'nextUrl')
     end
 

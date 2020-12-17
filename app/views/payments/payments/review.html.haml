@@ -62,8 +62,11 @@
                                                id: 'confirm_not_exemption',
                                                checked: session[:new_payment]['confirm_not_exemption'] == 'yes'}
                 %label.govuk-label.govuk-checkboxes__label{for: 'confirm_not_exemption'}
-                  I confirm the vehicles are not exempt from paying the #{@zone.name} Clean Air Zone Charge.
-                  (Find out more about exemptions in #{exemption_url_for(@zone)})
-        
+                  I confirm I do not have an exemption from the #{@zone.name} Clean Air Zone charge.
+                  = precede '(' do
+                    = succeed ').' do
+                      Find out who can apply for an exemption in
+                      = exemption_url_for(@zone)
+
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
 

@@ -43,7 +43,7 @@ describe DirectDebits::Debit, type: :model do
         expect(subject).to all(be_a(DirectDebits::Mandate))
       end
 
-      it 'returns proper count of enabled cazes' do
+      it 'returns a proper count of enabled cazes' do
         expect(subject.count).to be(1)
       end
 

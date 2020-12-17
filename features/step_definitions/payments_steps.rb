@@ -7,6 +7,13 @@ When('I visit the make payment page') do
   visit payments_path
 end
 
+When('I visit the make payment page as a beta tester') do
+  mock_debits
+  mock_actual_account_name
+  login_user(permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS], account_id: account_id, beta_tester: true)
+  visit payments_path
+end
+
 Then('I should be on the first upload page') do
   expect_path(first_upload_fleets_path)
 end

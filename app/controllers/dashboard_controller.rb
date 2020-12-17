@@ -6,9 +6,14 @@
 class DashboardController < ApplicationController
   include CheckPermissions
   include CazLock
+  include PaymentFeatures
 
   before_action :set_cache_headers, only: %i[index]
   before_action :clear_input_history, only: :index
+
+  # Handle Bath D-Day notice
+  before_action :assign_payment_enabled, only: :index
+  before_action :assign_bath_d_day_date, only: :index
 
   ##
   # Renders the dashboard page.

@@ -65,7 +65,7 @@ describe PaymentsHelper do
     end
 
     it 'returns a proper value' do
-      expect(helper.exemption_url_for(caz)).to include('Leeds City Council (opens in a new window)')
+      expect(helper.exemption_url_for(caz)).to include('Leeds (opens in a new window)')
     end
   end
 end

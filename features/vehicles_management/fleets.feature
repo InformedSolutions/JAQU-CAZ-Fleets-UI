@@ -13,7 +13,7 @@ Feature: Fleets
   Scenario: Visiting the manage fleet page with not empty fleet
     When I have vehicles in my fleet
       And I visit the manage vehicles page
-    Then I should see 'Live' 3 times
+    Then I should see 'Live' 4 times
     Then I should see 'Upcoming' 1 times
     Then I should not see 'What does undetermined mean?'
     Then I am able to export my data to CSV file

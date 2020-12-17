@@ -41,8 +41,14 @@
       %p
         %strong Active
         \- Once set up it will take 2 days each time you pay.
-      %p
-        Payments will appear on your bank statements as Drive in a Clean Air Zone.
+
+      %ul.govuk-list.govuk-list--bullet
+        %li payments will appear on bank statements as Drive in a Clean Air Zone
+        %li whoever makes the payment will be emailed a receipt
+        %li
+          the creator of the mandate will also receive an email every time a Direct Debit payment is made
+          to let them know when money will be taken from the bank account
+
 
       - if @zones_without_mandate.present? && @mandates.present?
         = button_to('Set up new Direct Debit', new_debit_path, method: :get, class: 'govuk-button')

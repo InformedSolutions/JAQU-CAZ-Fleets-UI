@@ -18,7 +18,7 @@ describe 'AccountsApi::Accounts.account - GET' do
       expect(WebMock).to have_requested(:get, %r{accounts/#{account_id}})
     end
 
-    it 'returns proper fields' do
+    it 'returns a proper fields' do
       expect(subject.keys).to contain_exactly('accountName')
     end
 

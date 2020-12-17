@@ -21,7 +21,7 @@ describe 'PaymentHistoryApi.payments' do
       expect(WebMock).to have_requested(:get, url)
     end
 
-    it 'returns proper fields' do
+    it 'returns a proper fields' do
       expect(subject.keys).to contain_exactly(
         'centralPaymentReference',
         'paymentProviderId',

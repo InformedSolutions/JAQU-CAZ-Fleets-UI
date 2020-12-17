@@ -1,4 +1,4 @@
-- title_and_header = 'Which Clean Air Zone do you need to set up a Direct Debit with?'
+- title_and_header = 'Choose which zone to set up a Direct Debit with'
 - content_for(:title, title_and_header)
 
 = link_to 'Back', @back_button_url, class: 'govuk-back-link'
@@ -21,10 +21,19 @@
               %span#caz-selection-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
                 = alert
+
             %p#caz-hint
-              You need to set up a separate Direct Debit with each Clean Air Zone.
+              What you need to know before setting up a mandate:
+
+              %ul.govuk-list.govuk-list--bullet
+                %li you need to set up a mandate with each zone
+                %li paying by Direct Debit means you make single, one-off payments - they are not recurring payments
+                %li whoever makes the payment will be emailed a receipt
+                %li the creator of the mandate will also receive an email every time a Direct Debit payment is made to let them know when money will be taken from the bank account
+
             %p
-              Zones where the local authority supports Direct Debit payments, and you haven't set one up yet will appear here.
+              Zones you haven’t set up a Direct Debit mandate with and where
+              the local authority supports this type of payment will appear here.
             .govuk-form-group
               .govuk-radios
                 - @zones.each do |mandate|

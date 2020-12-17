@@ -150,8 +150,8 @@ module AccountDetails
     # downcase email params
     def email_params
       {
-        email: params[:email].downcase,
-        confirmation: params[:confirmation].downcase,
+        email: params[:email].downcase.strip,
+        confirmation: params[:confirmation].downcase.strip,
         account_id: current_user.account_id,
         current_email: current_user.email
       }

@@ -163,13 +163,14 @@ class FleetsApi < AccountsApi::Base
     # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
-    def vehicles(account_id:, page:, per_page:, only_chargeable: false)
+    def vehicles(account_id:, page:, per_page:, only_chargeable: false, vrn: nil)
       log_action('Getting vehicles')
       query = {
         'pageNumber' => calculate_page_number(page),
         'pageSize' => per_page,
-        'onlyChargeable' => only_chargeable
-      }
+        'onlyChargeable' => only_chargeable,
+        'query' => vrn
+      }.compact
       request(:get, "/accounts/#{account_id}/vehicles", query: query)
     end
   end

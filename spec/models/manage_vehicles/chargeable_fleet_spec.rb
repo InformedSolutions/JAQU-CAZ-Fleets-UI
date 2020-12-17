@@ -22,7 +22,7 @@ describe VehiclesManagement::ChargeableFleet, type: :model do
       expect(subject.vehicle_list).to all(be_a(VehiclesManagement::ChargeableVehicle))
     end
 
-    it 'returns proper number of vehicles' do
+    it 'returns a proper number of vehicles' do
       expect(subject.vehicle_list.size).to eq(vehicles_data.size)
     end
   end
