@@ -21,7 +21,7 @@
         \- you do not need to pay until charging starts, you can see the dates on the
         = link_to('help page', help_path, class: 'govuk-link', id: 'help')
 
-      = render 'vehicles_management/fleets/search'
+      -# = render 'vehicles_management/fleets/search'
 
       %table.govuk-table
         %caption.govuk-table__caption
@@ -47,7 +47,7 @@
                 %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
                   = vehicle.formatted_charge(zone.id)
               %td.govuk-table__cell{scope: 'row'}
-                = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn))
+                = link_to('Remove', assign_delete_fleets_path(vrn: vehicle.vrn), id: "remove_#{vehicle.vrn}")
 
       = render 'pagination'
 
