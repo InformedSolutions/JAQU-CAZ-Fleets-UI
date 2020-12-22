@@ -27,7 +27,7 @@ Feature: Fleets
       And I should see 'Check a box for each vehicle and date it drove in a Clean Air Zone.'
       And I should see 'If you have already paid for a date, it will show as Paid.'
     When I select any date for vrn on the payment matrix
-      And I press the Continue
+      And I press the 'Review payment' button
     Then I should be on the confirm payment page
       And I should see 'Review the payment' title
     When I click view details link
@@ -63,7 +63,7 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the payment matrix page
     When I select any date for vrn on the payment matrix
-      And I press the Continue
+      And I press the 'Review payment' button
     Then I should be on the confirm payment page
       And I want to confirm my payment without any active Direct Debit mandate
       And I confirm that my vehicles are not exempt from payment
@@ -78,7 +78,7 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the payment matrix page
     When I select any date for vrn on the payment matrix
-      And I press the Continue
+      And I press the 'Review payment' button
     Then I should be on the confirm payment page
       And I want to confirm my payment when Direct Debits are disabled
       And I confirm that my vehicles are not exempt from payment

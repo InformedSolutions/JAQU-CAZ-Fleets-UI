@@ -38,6 +38,10 @@ Then('I press {string} button') do |string|
   click_button string
 end
 
+Then('I press the {string} button') do |string|
+  click_on(string)
+end
+
 Then('I should see {string} link') do |string|
   expect(page).to have_selector(:link_or_button, string)
 end

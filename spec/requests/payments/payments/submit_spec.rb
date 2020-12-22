@@ -20,7 +20,7 @@ describe 'PaymentsController - POST #submit' do
 
   let(:next_vrn) { 'CU1234' }
   let(:prev_vrn) { 'CAS123' }
-  let(:commit) { 'Continue' }
+  let(:commit) { 'Review payment' }
   let(:dates) { ['2020-03-08'] }
   let(:search) { 'test' }
 
