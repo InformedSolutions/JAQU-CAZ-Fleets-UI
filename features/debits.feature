@@ -11,7 +11,7 @@ Feature: Debits
       And I press the Continue
     Then I click Next 7 days tab
       And I select any date for vrn on the payment matrix
-      And I press the Continue
+      And I press the 'Review payment' button
     Then I want to confirm my payment
       And I confirm that my vehicles are not exempt from payment
       And I press the Continue
@@ -33,7 +33,7 @@ Feature: Debits
       And I press the Continue
     Then I click Next 7 days tab
       And I select any date for vrn on the payment matrix
-      And I press the Continue
+      And I press the 'Review payment' button
     Then I want to confirm my payment
       And I confirm that my vehicles are not exempt from payment
       And I press the Continue
@@ -54,7 +54,7 @@ Feature: Debits
       And I press the Continue
     Then I click Next 7 days tab
       And I select any date for vrn on the payment matrix
-      And I press the Continue
+      And I press the 'Review payment' button
     Then I want to confirm my payment
       And I press the Continue
     Then I should be on the confirm payment page
