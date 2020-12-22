@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Given('I go to the create account page') do
-  visit organisations_path
+  visit create_account_path
 end
 
 Given('I visit the verification link with a token status {string}') do |string|
@@ -80,9 +80,9 @@ def fill_account_details
 end
 
 And('I should be on the Company creation page') do
-  expect_path(organisations_path)
+  expect_path(create_account_path)
 end
 
 And('I should be on the Fleet check page') do
-  expect_path(fleet_check_organisations_path)
+  expect_path(how_many_vehicles_organisations_path)
 end

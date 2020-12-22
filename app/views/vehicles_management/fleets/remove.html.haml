@@ -5,7 +5,7 @@
     .govuk-grid-column-two-thirds
       = render 'shared/error_summary', error_msg_div: '#confirm-delete-error', error_msg: alert if alert
 
-      = form_tag delete_fleets_path, method: :post do
+      = form_tag remove_fleets_path, method: :post do
         .govuk-form-group{class: ('govuk-form-group--error' if alert)}
           %fieldset.govuk-fieldset
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--l

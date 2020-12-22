@@ -16,7 +16,7 @@ module Payments
                                       in_progress vrn_not_found submit_search]
     before_action :check_job_status, only: %i[index local_authority matrix vrn_not_found submit_search]
     before_action :clear_make_payment_history, only: %i[index]
-    before_action :release_lock_on_caz, only: %i[success failure]
+    before_action :release_lock_on_caz, only: %i[success unsuccessful]
     before_action :assign_zone_and_dates, only: %i[matrix vrn_not_found]
     before_action :assign_debit, only: %i[select_payment_method]
     before_action :check_new_payment_data, only: %i[review confirm_review]
@@ -157,7 +157,7 @@ module Payments
     # If not, renders {not found}[rdoc-ref:review] with errors
     #
     # ==== Path
-    #    POST /payments/confirm_review
+    #    :POST /payments/confirm_review
     #
     def confirm_review
       form = Payments::PaymentReviewForm.new(params['confirm_not_exemption'])
@@ -224,7 +224,7 @@ module Payments
     # Renders page after successful payment
     #
     # ==== Path
-    #   GET /payments/success
+    #   :GET /payments/success
     #
     # ==== Params
     # * +payment_reference+ - payment reference, required in the session
@@ -242,12 +242,12 @@ module Payments
     # Render page after unsuccessful payment
     #
     # ==== Path
-    #   GET /payments/failure
+    #   :GET /payments/unsuccessful
     #
     # ==== Params
     # * +payment_reference+ - payment reference, required in the session
     # * +external_id+ - external payment id, required in the session
-    def failure
+    def unsuccessful
       data = helpers.initiated_payment_data
       @payment_details = Payments::Details.new(session_details: data,
                                                entries_paid: helpers.days_to_pay(data[:details]),
@@ -258,7 +258,7 @@ module Payments
     # Render page with payment details.
     #
     # ==== Path
-    #   GET /payments/post_payment_details
+    #   :GET /payments/post_payment_details
     #
     def post_payment_details
       @details = helpers.vrn_to_pay(helpers.initiated_payment_data[:details])
@@ -268,7 +268,7 @@ module Payments
     # Render the payment in progress page. If CAZ is no longer locked redirects to payment matrix
     #
     # ==== Path
-    #   GET /payments/in_progress
+    #   :GET /payments/in_progress
     #
     def in_progress
       return determinate_lock_caz(@zone_id) unless caz_locked?

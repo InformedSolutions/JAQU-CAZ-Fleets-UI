@@ -10,7 +10,7 @@ Layout/LineLength:
   IgnoredPatterns: ['(\A|\s)#']
 
 Metrics/BlockLength:
-  ExcludedMethods: ['describe', 'context']
+  IgnoredMethods: ['describe', 'context']
   Exclude:
     - 'config/routes.rb'
     - 'config/environments/*.rb'

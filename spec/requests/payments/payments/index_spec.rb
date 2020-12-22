@@ -41,7 +41,7 @@ describe 'PaymentsController - GET #index' do
         end
 
         context 'when coming from debits payment success page' do
-          let(:referer) { 'http://www.example.com/debits/success' }
+          let(:referer) { 'http://www.example.com/direct_debits/success' }
 
           it 'has a correct value' do
             subject
