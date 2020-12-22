@@ -7,17 +7,13 @@ class VrnForm < BaseForm
   # Submitted vehicle registration number
   attr_reader :vrn
 
-  validates :vrn, presence: {
-    message: I18n.t('vrn_form.errors.vrn_missing')
-  }
-
+  validates :vrn, presence: { message: I18n.t('vrn_form.errors.vrn_missing') }
   validates :vrn, length: {
     minimum: 2,
     maximum: 7,
     too_short: I18n.t('vrn_form.errors.vrn_too_short'),
     too_long: I18n.t('vrn_form.errors.vrn_too_long')
   }
-
   validate :validate_format
 
   ##
@@ -28,6 +24,11 @@ class VrnForm < BaseForm
   # * +vrn+ - string, eg. 'CU57ABC'
   def initialize(vrn)
     @vrn = vrn&.upcase&.delete(' ')
+  end
+
+  # returns first error message from the errors collection
+  def error_message
+    errors.messages.values.flatten.first
   end
 
   private

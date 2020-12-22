@@ -19,7 +19,7 @@ describe 'PaymentsApi.payment_status' do
       )
     end
 
-    it 'returns proper fields' do
+    it 'returns a proper fields' do
       expect(subject.keys).to contain_exactly('paymentId', 'status', 'userEmail')
     end
   end

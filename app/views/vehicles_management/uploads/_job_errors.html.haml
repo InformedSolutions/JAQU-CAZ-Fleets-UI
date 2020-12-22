@@ -8,4 +8,4 @@
     %ul.govuk-list.govuk-error-summary__list
       - @job_errors.each do |error|
         %li.custom-csv-error
-          = error
+          = error.html_safe

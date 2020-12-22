@@ -27,6 +27,8 @@ en:
   csv:
     errors:
       base: The selected file could not be uploaded – try again
+      file_size_too_big: The CSV must be smaller than %{file_size}MB
+      fleet_size_too_big: The file you are uploading contains more than 200k vehicles, the maximum number allowed
       invalid_ext: The selected file must be in a .CSV format
       no_file: Select a CSV file to upload
   edit_user_email_form:
@@ -55,7 +57,7 @@ en:
   fleet_check_form:
     errors:
       confirm_fleet_check: You must choose an answer
-  inactivity_logout: We have signed you out of the business account to keep it secure after it become inactive.
+  inactivity_logout: We have signed you out of the business account to keep it secure after it became inactive.
   input_form:
     errors:
       invalid_format: "%{attribute} is in an invalid format"
@@ -88,6 +90,9 @@ en:
   payment_review:
     errors:
       confirmation_alert: Confirm you have checked if you are eligible for an exemption
+  relevant_portal_form:
+    errors:
+      missing_answer: You must choose an answer
   remove_user:
     choose_answer: Select yes to remove the user
     removed: You have successfully removed %{full_user_name} from your account.

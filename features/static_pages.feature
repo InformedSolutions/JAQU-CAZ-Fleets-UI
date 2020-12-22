@@ -17,7 +17,13 @@ Feature: Static Pages
   Scenario: User sees privacy notice page
     Given I am on the Sign in page
     When I press footer link 'Privacy'
-    Then I should see 'Drive in a Clean Air Zone' title
+    Then I should see 'Privacy Notice' title
+
+  Scenario: User sees terms and conditions page
+    Given I am on the Sign in page
+    Then I should see 'Terms and conditions' link
+    When I press footer link 'Terms and conditions'
+    Then I should see 'Terms and conditions' title
 
   Scenario: User sees help page
     Given I navigate to a Dashboard page with '' permission

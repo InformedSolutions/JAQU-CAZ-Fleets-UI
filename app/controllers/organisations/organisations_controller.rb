@@ -8,13 +8,16 @@ module Organisations
   #
   # rubocop:disable Metrics/ClassLength
   class OrganisationsController < ApplicationController
+    include PaymentFeatures
+
     skip_before_action :authenticate_user!
     # checks if new_company account_id is present in session
     before_action :check_account_id, only: %i[new_credentials create email_sent]
     # checks if new account details is present in session
     before_action :check_account_details, only: %i[email_sent resend_email]
     # add data to session to render it in the text fields after using `Back` link
-    before_action :add_credentials_to_session, only: %i[create]
+    before_action :add_credentials_to_session, only: :create
+    before_action :assign_payment_enabled, only: :cannot_create
 
     ##
     # Renders the create account name page.
@@ -232,6 +235,9 @@ module Organisations
 
     # Returns the list of permitted params
     def organisations_params
+      params[:organisations].try(:[], :email)&.strip!
+      params[:organisations].try(:[], :email_confirmation)&.strip!
+
       params.require(:organisations).permit(:email, :email_confirmation, :password,
                                             :password_confirmation)
     end

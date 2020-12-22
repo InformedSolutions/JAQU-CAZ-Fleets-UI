@@ -14,7 +14,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
     context 'with empty fleet' do
       before { mock_fleet(create_empty_fleet) }
 
-      it 'redirects to the  #submission_method' do
+      it 'redirects to the #submission_method' do
         subject
         expect(response).to redirect_to submission_method_fleets_path
       end

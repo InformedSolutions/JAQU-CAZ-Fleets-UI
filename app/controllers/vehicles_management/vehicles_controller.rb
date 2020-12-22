@@ -102,8 +102,8 @@ module VehiclesManagement
     # * +confirm-vehicle+ - user confirmation of vehicle details, 'yes' or 'no', required in the query
     #
     # ==== Validations
-    # * +vrn+ - lack of VRN redirects to the{enter_details}[rdoc-ref:VehiclesController.enter_details]
-    # * +confirm-vehicle+ - lack of it redirects to {incorrect details}[rdoc-ref:VehiclesController.incorrect_details]
+    # * +vrn+ - lack of VRN redirects to the{enter_details}[rdoc-ref:enter_details]
+    # * +confirm-vehicle+ - lack of it redirects to {incorrect details}[rdoc-ref:incorrect_details]
     #
     def confirm_and_add_exempt_vehicle_to_fleet
       form = VehiclesManagement::ConfirmationForm.new(confirmation)
@@ -112,7 +112,6 @@ module VehiclesManagement
 
       add_to_current_users_fleet
       clear_session
-
       redirect_to fleets_path
     end
 
@@ -160,8 +159,8 @@ module VehiclesManagement
 
     ##
     # Validates user has confirmed VRN not found is correct.
-    # If it is valid, redirects to  {manage vehicles page}[rdoc-ref:FleetsController.index]
-    # If not, renders {not found}[rdoc-ref:VehiclesController.not_found] with errors
+    # If it is valid, redirects to {manage vehicles page}[rdoc-ref:FleetsController.index]
+    # If not, renders {not found}[rdoc-ref:not_found] with errors
     #
     # ==== Path
     #    POST /vehicles/confirm_not_found
@@ -224,7 +223,7 @@ module VehiclesManagement
       params['confirm-vehicle']
     end
 
-    # Redirects to {vehicle not found}[rdoc-ref:VehiclesController.unrecognised_vehicle]
+    # Redirects to {vehicle not found}[rdoc-ref:unrecognised_vehicle]
     def vehicle_not_found
       redirect_to not_found_vehicles_path
     end

@@ -18,6 +18,7 @@ describe DashboardController do
         mock_debits
         mock_direct_debit_enabled
         mock_actual_account_name
+        mock_clean_air_zones
         sign_in user
       end
 
@@ -54,6 +55,7 @@ describe DashboardController do
         mock_fleet
         mock_users
         mock_actual_account_name
+        mock_clean_air_zones
         sign_in create_user(
           permissions: [],
           days_to_password_expiry: 8

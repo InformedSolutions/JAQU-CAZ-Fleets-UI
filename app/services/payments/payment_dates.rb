@@ -37,6 +37,16 @@ module Payments
       charge_start_date.between?(Time.zone.today - 6.days, Time.zone.today)
     end
 
+    # Build the list of all available dates and return them, e.g.
+    # {:past=>[{:name=>"Wed 27 May", :value=>"2020-05-27", :today=>false}],
+    # :next=>[{:name=>"Fri 29 May", :value=>"2020-05-29", :today=>true}, ]}
+    def all_chargeable_dates
+      {
+        past: (Time.zone.today - 6.days..Time.zone.yesterday).map { |date| parse(date) },
+        next: (Time.zone.today..(Time.zone.today + 6.days)).map { |date| parse(date) }
+      }
+    end
+
     private
 
     # Attributes reader

@@ -4,11 +4,11 @@
 # Module used for manage vehicles flow
 module VehiclesManagement
   ##
-  # Service used to upload fleet files to S3
+  # Service used to validate and upload csv file to S3
   #
   class UploadFile < BaseService
     # Attributes used externally
-    attr_reader :filename, :large_fleet
+    attr_reader :filename
 
     ##
     # Initializer method.
@@ -28,8 +28,12 @@ module VehiclesManagement
     def call
       validate
       upload_to_s3
-      large_fleet?
       self
+    end
+
+    # Count number of vehicles and compare with threshold setting
+    def large_fleet?
+      vehicles_count >= Rails.configuration.x.large_fleet_threshold
     end
 
     private
@@ -40,7 +44,9 @@ module VehiclesManagement
     #
     # Returns a boolean.
     def validate
-      raise CsvUploadException, error if no_file_selected? || invalid_extname? || filesize_too_big?
+      return unless no_file_selected? || invalid_extname? || filesize_too_big? || fleet_size_too_big?
+
+      raise CsvUploadException, error
     end
 
     # Checks if file is present.
@@ -68,12 +74,21 @@ module VehiclesManagement
     # Returns a string if not.
     def filesize_too_big?
       csv_file_size_limit = Rails.configuration.x.csv_file_size_limit
-      @error = "The CSV must be smaller than #{csv_file_size_limit}MB" if file.size > csv_file_size_limit.megabytes
+      return unless file.size > csv_file_size_limit.megabytes
+
+      @error = I18n.t('csv.errors.file_size_too_big', file_size: csv_file_size_limit)
     end
 
-    # Count number of vehicles and compare with threshold settings
-    def large_fleet?
-      @large_fleet = VehiclesManagement::LargeFleetThreshold.call(file: file)
+    # Count number of vehicles and compare with max fleet size setting
+    def fleet_size_too_big?
+      return unless vehicles_count > Rails.configuration.x.max_fleet_size
+
+      @error = I18n.t('csv.errors.fleet_size_too_big')
+    end
+
+    # Count number of vehicles
+    def vehicles_count
+      @vehicles_count ||= VehiclesManagement::CountVehicles.call(file: file)
     end
 
     # Uploading file to AWS S3.
@@ -110,7 +125,7 @@ module VehiclesManagement
       { 'account-user-id': user.user_id, 'account-id': user.account_id }
     end
 
-    # Attributes used internally to save values.
+    # Attributes used internally to read values
     attr_reader :file, :error, :user
   end
 end

@@ -6,7 +6,7 @@
   .govuk-grid-row
     .govuk-grid-column-full
 
-      = render 'payments/payments/matrix/errors'
+      = render 'shared/error' if alert
       = render 'payments/payments/matrix/heading'
       = render 'payments/payments/matrix/details'
 
@@ -18,15 +18,12 @@
             = hidden_field_tag('payment[vrn_list]', @charges.vehicle_list.map(&:vrn).join(','))
             = hidden_field_tag('allSelectedCheckboxesCount', selected_dates_count)
             .govuk-tabs{'data-module': 'govuk-tabs'}
-              - if @search && !@charges.any_results?
-                = render 'payments/payments/matrix/no_chargeable_vehicles'
-              - else
-                = render 'payments/payments/matrix/tabs'
-                - if @dates[:past].present?
-                  = render 'payments/payments/matrix/past_week_tab', form: f
-                = render 'payments/payments/matrix/next_week_tab', form: f
-                = render 'payments/payments/matrix/pagination', form: f
-                = render 'payments/payments/matrix/search'
+              = render 'payments/payments/matrix/tabs'
+              - if @dates[:past].present?
+                = render 'payments/payments/matrix/past_week_tab', form: f
+              = render 'payments/payments/matrix/next_week_tab', form: f
+              = render 'payments/payments/matrix/pagination', form: f
+              = render 'payments/payments/matrix/search'
             - if @charges.any_results?
               .govuk-form-group
                 = f.submit 'Continue', class: 'govuk-button', id: 'continue-matrix-button', 'data-module': 'govuk-button'

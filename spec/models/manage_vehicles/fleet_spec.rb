@@ -22,7 +22,8 @@ describe VehiclesManagement::Fleet, type: :model do
           account_id: account_id,
           page: page,
           per_page: per_page,
-          only_chargeable: false
+          only_chargeable: false,
+          vrn: nil
         )
       )
       vehicles
@@ -157,7 +158,7 @@ describe VehiclesManagement::Fleet, type: :model do
 
     let(:vehicle_type) { 'car' }
 
-    context 'when api returns proper status' do
+    context 'when api returns a proper status' do
       before { allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true) }
 
       it 'calls AccountsApi.vehicles with proper params' do

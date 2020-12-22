@@ -40,7 +40,7 @@ describe 'PaymentsApi.create_payment' do
       )
     end
 
-    it 'returns proper attributes' do
+    it 'returns a proper attributes' do
       expect(subject.keys).to contain_exactly('paymentId', 'nextUrl')
     end
 

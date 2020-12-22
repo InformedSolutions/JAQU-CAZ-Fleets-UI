@@ -11,9 +11,20 @@ describe SessionManipulation::SetNewUser do
   let(:email) { 'john.doe@example.com' }
   let(:name) { 'John Doe' }
 
-  it 'sets new_user email in session' do
-    subject
-    expect(session[:new_user]['email']).to eq(email)
+  describe 'for email' do
+    it 'sets new_user email in session' do
+      subject
+      expect(session[:new_user]['email']).to eq(email)
+    end
+
+    context 'when email contains whitespaces' do
+      let(:email) { ' john.doe@example.com ' }
+
+      it 'sets new_user email without whitespaces in session' do
+        subject
+        expect(session[:new_user]['email']).to eq(email.strip)
+      end
+    end
   end
 
   it 'sets new_user name in session' do

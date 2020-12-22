@@ -13,6 +13,11 @@
       %span#create-account-hint.govuk-hint
         Upload and pay the charge for multiple vehicles.
 
+      %p
+        = succeed '.' do
+          By creating an account, you agree to Drive in a Clean Air Zone's
+          = link_to 'Terms and conditions', terms_and_conditions_path, class: 'govuk-link'
+
       %fieldset.govuk-fieldset{'aria-describedby': 'create-account-hint'}
         %legend.govuk-visually-hidden Create account fields
 

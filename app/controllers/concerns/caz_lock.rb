@@ -13,7 +13,7 @@ module CazLock
       redirect_to in_progress_payments_path
     else
       lock_caz(caz_id)
-      redirect_to determine_post_local_authority_redirect_path(caz_id)
+      redirect_to determine_next_page(caz_id)
     end
   end
 
@@ -49,7 +49,7 @@ module CazLock
 
   # Returns string, e.g. "caz_lock_aba44322-38bf-43f7-96d0-4a1afa9f4963_5cd7441d-766f-48ff-b8ad-1809586fea37"
   def caz_lock_redis_key
-    "caz_lock_#{current_user.account_id}_#{caz_id_in_session}"
+    "caz_lock_#{current_user&.account_id}_#{caz_id_in_session}"
   end
 
   # Returns CAZ UUID from the session
@@ -59,7 +59,7 @@ module CazLock
 
   # Checks if current user is locked caz
   def current_user_payment?
-    current_user.user_id == caz_lock_user_id
+    current_user&.user_id == caz_lock_user_id
   end
 
   # Returns user_id for Caz lock process

@@ -17,7 +17,7 @@ class User
 
   # User attributes
   attr_accessor :email, :owner, :permissions, :user_id, :account_id, :account_name, :login_ip,
-                :days_to_password_expiry
+                :days_to_password_expiry, :beta_tester
 
   # Delegates fleet methods to fleet
   delegate :add_vehicle, :charges, :charges_by_vrn, to: :fleet
@@ -46,7 +46,7 @@ class User
   #   user = User.new()email = 'example@email.com'
   #   user #<User email: example@email.com, owner: false, ...>
   #   user.serializable_hash #{:email=>"example@email.com", :owner=>false, ...}
-  def serializable_hash(_options = nil)
+  def serializable_hash(_options = nil) # rubocop:disable Metrics/MethodLength
     {
       email: email,
       owner: owner,
@@ -55,7 +55,8 @@ class User
       account_id: account_id,
       account_name: account_name,
       login_ip: login_ip,
-      days_to_password_expiry: days_to_password_expiry
+      days_to_password_expiry: days_to_password_expiry,
+      beta_tester: beta_tester
     }
   end
 
@@ -68,7 +69,8 @@ class User
       account_name: user_attributes['accountName'],
       owner: user_attributes['owner'],
       permissions: user_attributes['permissions'],
-      days_to_password_expiry: calculate_password_expiry(user_attributes['passwordUpdateTimestamp'])
+      days_to_password_expiry: calculate_password_expiry(user_attributes['passwordUpdateTimestamp']),
+      beta_tester: user_attributes['betaTester']
     )
   end
 

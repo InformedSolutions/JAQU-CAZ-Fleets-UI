@@ -73,7 +73,7 @@ module ApplicationHelper
 
   # Transforms text to match id format, eg. 'Test String' => 'test-string'
   def transform_to_id(text)
-    text.to_s.downcase.split(' ').join('-')
+    text.to_s.downcase.split.join('-')
   end
 
   # Returns formatted date, e.g. 'Thursday 30 April 2020'
