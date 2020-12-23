@@ -26,7 +26,7 @@ Then('I visit the Payment method page') do
 end
 
 Then('I should be on the Add new mandate page') do
-  expect_path(new_debit_path)
+  expect_path(set_up_debits_path)
 end
 
 When('I have created mandates') do
@@ -51,7 +51,7 @@ When('I visit the Add new mandate page') do
   mock_actual_account_name
   mock_clean_air_zones
   login_user(permissions: 'MANAGE_MANDATES')
-  visit new_debit_path
+  visit set_up_debits_path
 end
 
 Then('I press `Set up new Direct Debit` button') do
@@ -85,7 +85,7 @@ Then('I should be on the Cancel payment page') do
 end
 
 Then('I should be on the Payment unsuccessful page') do
-  expect_path(failure_debits_path)
+  expect_path(unsuccessful_debits_path)
 end
 
 Given('I have inactive mandates for each CAZ but one of them is disabled') do

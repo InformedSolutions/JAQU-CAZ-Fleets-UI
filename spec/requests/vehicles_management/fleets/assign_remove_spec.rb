@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'VehiclesManagement::FleetsController - GET #assign_delete' do
-  subject { get assign_delete_fleets_path(vrn: vrn) }
+  subject { get assign_remove_fleets_path(vrn: vrn) }
 
   let(:vrn) { @vrn }
 
@@ -20,8 +20,8 @@ describe 'VehiclesManagement::FleetsController - GET #assign_delete' do
       end
 
       context 'when vrn is given' do
-        it 'redirects to #delete' do
-          expect(response).to redirect_to(delete_fleets_path)
+        it 'redirects to #remove' do
+          expect(response).to redirect_to(remove_fleets_path)
         end
 
         it 'sets vrn in the session' do

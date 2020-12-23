@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'DirectDebits::DebitsController - GET #failure' do
-  subject { get failure_debits_path }
+describe 'DirectDebits::DebitsController - GET #unsuccessful' do
+  subject { get unsuccessful_debits_path }
 
   context 'correct permissions' do
     context 'and CAZ locked by current user' do
@@ -22,7 +22,7 @@ describe 'DirectDebits::DebitsController - GET #failure' do
       end
 
       it 'renders the view' do
-        expect(subject).to render_template(:failure)
+        expect(subject).to render_template(:unsuccessful)
       end
 
       it 'removes caz lock from redis' do

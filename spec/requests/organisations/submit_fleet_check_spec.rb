@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-describe 'Organisations::OrganisationsController - POST #submit_fleet_check' do
+describe 'Organisations::OrganisationsController - POST #submit_how_many_vehicles' do
   subject do
-    post fleet_check_organisations_path, params: {
+    post how_many_vehicles_organisations_path, params: {
       organisations: { confirm_fleet_check: 'less_than_two' }
     }
   end
@@ -30,7 +30,7 @@ describe 'Organisations::OrganisationsController - POST #submit_fleet_check' do
     end
 
     it 'renders the create company name view' do
-      expect(response).to render_template(:fleet_check)
+      expect(response).to render_template(:how_many_vehicles)
     end
   end
 

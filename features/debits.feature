@@ -46,7 +46,7 @@ Feature: Debits
     When I press the Continue
     Then I should be on the Payment unsuccessful page
 
-  Scenario: Making a failure Direct Debit payment with active mandate
+  Scenario: Making a unsuccessful Direct Debit payment with active mandate
     Given I have active mandates for selected CAZ
       And I visit the make payment page to pay by direct debit
       And I press the Continue
