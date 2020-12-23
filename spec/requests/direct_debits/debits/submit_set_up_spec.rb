@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'DirectDebits::DebitsController - POST #create' do
-  subject { post debits_path, params: { caz_id: caz_id } }
+describe 'DirectDebits::DebitsController - POST #set_up' do
+  subject { post set_up_debits_path, params: { caz_id: caz_id } }
 
   let(:caz_id) { @uuid }
   let(:user) { manage_mandates_user }
@@ -42,7 +42,7 @@ describe 'DirectDebits::DebitsController - POST #create' do
       before { subject }
 
       it 'redirects to the new' do
-        expect(response).to redirect_to(new_debit_path)
+        expect(response).to redirect_to(set_up_debits_path)
       end
 
       it 'sets alert message' do

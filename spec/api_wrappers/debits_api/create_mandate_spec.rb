@@ -13,7 +13,7 @@ describe 'DebitsApi.create_mandate - POST' do
   end
 
   let(:account_id) { @uuid }
-  let(:return_url) { 'http://ex.com/debits/complete_setup?redirect_flow_id=RE0002VT8ZDTEM1PE4T8W730KBDFH54X' }
+  let(:return_url) { 'http://ex.com/direct_debits/complete_setup?redirect_flow_id=RE0002VT8ZDTEM1PE4T8W730K' }
   let(:url) { "/payments/accounts/#{account_id}/direct-debit-mandates" }
 
   context 'when the response status is 201' do

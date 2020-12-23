@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'DirectDebits::DebitsController - GET #new' do
-  subject { get new_debit_path }
+describe 'DirectDebits::DebitsController - GET #set_up' do
+  subject { get set_up_debits_path }
 
   before { mock_direct_debit_enabled }
 

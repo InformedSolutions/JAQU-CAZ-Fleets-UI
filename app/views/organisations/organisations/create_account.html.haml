@@ -22,7 +22,7 @@
         %legend.govuk-visually-hidden Create account fields
 
         = form_for('organisations',
-                   url: organisations_path,
+                   url: create_account_path,
                    method: :post,
                    html: {autocomplete: :on, novalidate: 'novalidate', spellcheck: false}) do |f|
 
