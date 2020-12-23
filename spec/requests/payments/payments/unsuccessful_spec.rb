@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - GET #failure' do
-  subject { get failure_payments_path }
+describe 'PaymentsController - GET #unsuccessful' do
+  subject { get unsuccessful_payments_path }
 
   context 'correct permissions' do
     let(:payment_data) do

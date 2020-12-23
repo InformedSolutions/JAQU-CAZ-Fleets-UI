@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'Organisations::OrganisationsController - POST #create' do
-  subject { post new_credentials_organisations_path, params: params }
+describe 'Organisations::OrganisationsController - POST #sign_in_details' do
+  subject { post sign_in_details_organisations_url, params: params }
 
   let(:params) { { organisations: organization_params } }
   let(:organization_params) do
@@ -51,7 +51,7 @@ describe 'Organisations::OrganisationsController - POST #create' do
 
       it 'redirects the account details view' do
         subject
-        expect(response).to render_template(:new_credentials)
+        expect(response).to render_template(:sign_in_details)
       end
     end
   end

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'VehiclesManagement::FleetsController - POST #confirm_delete' do
-  subject { post delete_fleets_path, params: { 'confirm-delete': confirmation } }
+  subject { post remove_fleets_path, params: { 'confirm-delete': confirmation } }
 
   let(:confirmation) { 'yes' }
 
@@ -81,7 +81,7 @@ describe 'VehiclesManagement::FleetsController - POST #confirm_delete' do
           before { subject }
 
           it 'redirects to the delete' do
-            expect(response).to redirect_to(delete_fleets_path)
+            expect(response).to redirect_to(remove_fleets_path)
           end
 
           it 'flashes a right alert' do

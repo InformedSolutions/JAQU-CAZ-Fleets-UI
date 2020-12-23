@@ -40,15 +40,15 @@ When('I visit the submission method page') do
   mock_users
   mock_clean_air_zones
   login_user({ permissions: 'MANAGE_VEHICLES' })
-  visit submission_method_fleets_path
+  visit choose_method_fleets_path
 end
 
 Then('I should be on the submission method page') do
-  expect(page).to have_current_path(submission_method_fleets_path)
+  expect(page).to have_current_path(choose_method_fleets_path)
 end
 
 Then('I should be able to check CAZ charging statuses') do
-  expect(page).to have_current_path(submission_method_fleets_path)
+  expect(page).to have_current_path(choose_method_fleets_path)
 end
 
 When('I select manual entry') do
@@ -123,7 +123,7 @@ Then('I should be on the manage vehicles page') do
 end
 
 Then('I should be on the delete vehicle page') do
-  expect(page).to have_current_path(delete_fleets_path)
+  expect(page).to have_current_path(remove_fleets_path)
 end
 
 Then('I should have deleted the vehicle') do
