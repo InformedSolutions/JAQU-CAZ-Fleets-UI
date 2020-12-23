@@ -1,7 +1,7 @@
 - title_and_header = 'Sign in details'
 - content_for(:title, title_and_header)
 
-= link_to 'Back', fleet_check_organisations_path, class: 'govuk-back-link'
+= link_to 'Back', how_many_vehicles_organisations_path, class: 'govuk-back-link'
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
@@ -17,12 +17,11 @@
           .govuk-error-summary__body
             %ul.govuk-list.govuk-error-summary__list
               %li
-                -# Remove duplicated messages `Email and email address confirmation must be the same`
                 - remove_duplicated_messages(@errors).each_with_index do |error, index|
                   %li.custom-csv-error
                     = link_to(error.first, "##{error.second}-error", id: "#{error.second}-#{index}")
 
-      = form_for('organisations', url: new_credentials_organisations_path, method: :post,
+      = form_for('organisations', url: sign_in_details_organisations_path, method: :post,
         html: { autocomplete: :on, novalidate: true, spellcheck: false }) do |f|
 
         %fieldset.govuk-fieldset

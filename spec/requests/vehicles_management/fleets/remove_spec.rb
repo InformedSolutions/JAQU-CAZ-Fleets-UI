@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'VehiclesManagement::FleetsController - GET #delete' do
-  subject { get delete_fleets_path }
+  subject { get remove_fleets_path }
 
   before { mock_actual_account_name }
 

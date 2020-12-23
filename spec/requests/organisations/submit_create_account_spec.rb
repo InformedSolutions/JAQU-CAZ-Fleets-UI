@@ -2,17 +2,13 @@
 
 require 'rails_helper'
 
-describe 'Organisations::OrganisationsController - POST #set_name' do
-  subject do
-    post organisations_path, params: { organisations: { company_name: company_name } }
-  end
+describe 'Organisations::OrganisationsController - POST #create_account' do
+  subject { post create_account_path, params: { organisations: { company_name: company_name } } }
 
   let(:company_name) { 'Company Name' }
 
   context 'with valid params' do
-    before do
-      allow(Organisations::CreateAccount).to receive(:call).and_return(@uuid)
-    end
+    before { allow(Organisations::CreateAccount).to receive(:call).and_return(@uuid) }
 
     context 'when account_id not present in session' do
       it 'returns a found response' do
@@ -75,13 +71,12 @@ describe 'Organisations::OrganisationsController - POST #set_name' do
     let(:errors) { { company_name: 'Sample Error' } }
 
     before do
-      allow(Organisations::CreateAccount).to(receive(:call)
-        .and_raise(InvalidCompanyNameException, errors))
+      allow(Organisations::CreateAccount).to(receive(:call).and_raise(InvalidCompanyNameException, errors))
       subject
     end
 
-    it 'redirects the create company name view' do
-      expect(response).to render_template(:new)
+    it 'renders the view' do
+      expect(response).to render_template(:create_account)
     end
   end
 
@@ -89,13 +84,12 @@ describe 'Organisations::OrganisationsController - POST #set_name' do
     let(:errors) { { company_name: 'Sample Error' } }
 
     before do
-      allow(Organisations::CreateAccount).to(receive(:call)
-        .and_raise(UnableToCreateAccountException, errors))
+      allow(Organisations::CreateAccount).to(receive(:call).and_raise(UnableToCreateAccountException, errors))
       subject
     end
 
-    it 'renders the create company name view' do
-      expect(response).to  render_template(:new)
+    it 'renders the view' do
+      expect(response).to render_template(:create_account)
     end
   end
 end

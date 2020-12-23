@@ -1,7 +1,7 @@
 - title_and_header = 'How many vehicles do you want to add to the business account?'
 - content_for(:title, title_and_header)
 
-= link_to 'Back', organisations_path, class: 'govuk-back-link'
+= link_to 'Back', create_account_path, class: 'govuk-back-link'
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
@@ -13,7 +13,7 @@
       %fieldset.govuk-fieldset{'aria-describedby': 'create-account-hint'}
         %legend.govuk-visually-hidden Create account fields
 
-        = form_for('organisations', url: fleet_check_organisations_path, method: :post,
+        = form_for('organisations', url: how_many_vehicles_organisations_path, method: :post,
             html: { autocomplete: :on, novalidate: 'novalidate', spellcheck: false }) do |f|
           .govuk-form-group{class: ('govuk-form-group--error' if @error)}
             %fieldset.govuk-fieldset

@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'Organisations::OrganisationsController - GET #new_credentials' do
-  subject { get new_credentials_organisations_url }
+describe 'Organisations::OrganisationsController - GET #sign_in_details' do
+  subject { get sign_in_details_organisations_path }
 
   before do
     add_to_session(new_account: { 'account_id': @uuid })
