@@ -120,7 +120,7 @@ module Payments
     #
     def submit
       SessionManipulation::AddPaymentDetails.call(session: session, params: payment_params)
-      return redirect_to review_payments_path if params[:commit] == 'Continue'
+      return redirect_to review_payments_path if params[:commit] == 'Review payment'
 
       SessionManipulation::AddQueryDetails.call(session: session, params: payment_params)
       redirect_to matrix_payments_path
