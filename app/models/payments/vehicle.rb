@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 ##
-# Module used for manage vehicles flow
-module VehiclesManagement
+# Module used for make payments flow
+module Payments
   ##
   # Represents the virtual model of the vehicle from PaymentsApi.chargeable_vehicles endpoint.
   #
-  class ChargeableVehicle
+  class Vehicle
     # Initializer method.
     #
     # ==== Params

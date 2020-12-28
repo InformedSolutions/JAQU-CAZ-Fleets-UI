@@ -68,6 +68,7 @@ When('I have vehicles in my fleet') do
   mock_users
   mock_clean_air_zones
   mock_vehicles_in_fleet
+  mock_chargeable_vehicles
   mock_caz_mandates
   mock_direct_debit_enabled
 end
@@ -89,32 +90,37 @@ When('I want to pay for CAZ which started charging {int} days ago') do |start_da
     'activeChargeStartDate' => active_charge_start_date.to_s
   }]
   mock_clean_air_zones(caz_list)
-  mock_unpaid_vehicles_in_fleet
+  mock_vehicles_in_fleet
+  mock_chargeable_vehicles
   mock_users
 end
 
 When('I want to pay for CAZ which start charging in next the month') do
   mock_bath_d_day
-  mock_unpaid_vehicles_in_fleet
+  mock_vehicles_in_fleet
+  mock_chargeable_vehicles
   mock_users
 end
 
 When('I want to pay for active for charging CAZ') do
   caz_list = read_response('caz_list_active.json')['cleanAirZones']
   mock_clean_air_zones(caz_list)
-  mock_unpaid_vehicles_in_fleet
+  mock_vehicles_in_fleet
+  mock_chargeable_vehicles
   mock_users
 end
 
 When('I have vehicles in my fleet that are not paid') do
   mock_users
   mock_clean_air_zones
-  mock_unpaid_vehicles_in_fleet
+  mock_vehicles_in_fleet
+  mock_paid_chargeable_vehicles
 end
 
 When('I have no chargeable vehicles in my fleet') do
   mock_users
   mock_clean_air_zones
+  mock_vehicles_in_fleet
   mock_unchargeable_vehicles
 end
 

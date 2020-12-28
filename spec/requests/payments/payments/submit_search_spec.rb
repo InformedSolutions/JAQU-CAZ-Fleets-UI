@@ -14,7 +14,7 @@ describe 'PaymentsController - POST #submit_search' do
     context 'with la in the session' do
       before do
         mock_clean_air_zones
-        mock_fleet(create_chargeable_vehicles)
+        mock_chargeable_vehicles
         add_to_session(new_payment: { caz_id: caz_id }, payment_query: { search: vrn })
         subject
       end

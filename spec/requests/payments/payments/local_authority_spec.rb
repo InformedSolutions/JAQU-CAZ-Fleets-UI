@@ -12,9 +12,9 @@ describe 'PaymentsController - POST #local_authority' do
     let(:chargeable_vehicles_exists) { true }
 
     before do
-      fleet_mock = instance_double('VehiclesManagement::Fleet',
-                                   any_chargeable_vehicles_in_caz?: chargeable_vehicles_exists)
-      allow(VehiclesManagement::Fleet).to receive(:new).and_return(fleet_mock)
+      vehicles = instance_double('Payments::PaginatedVehicles',
+                                 any_results?: chargeable_vehicles_exists)
+      allow_any_instance_of(Payments::ChargeableVehicles).to receive(:pagination).and_return(vehicles)
       sign_in user
     end
 

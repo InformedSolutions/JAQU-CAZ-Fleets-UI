@@ -186,3 +186,19 @@ Feature: Fleets
     Then I should be on the payment matrix page
       And I should see 'Next 7 days'
       And I should see 'Previous days'
+
+  Scenario: Pagination
+    When I have vehicles in my fleet
+      And I visit the make payment page
+    When I select 'Birmingham'
+      And I press the Continue
+    Then I should be on the payment matrix page
+    Then I should see active '1' pagination button
+      And I should see inactive '2' pagination button
+      And I should see inactive 'next' pagination button
+      And I should not see 'previous' pagination button
+    When I press 2 pagination button
+    Then I should see active '2' pagination button
+      And I should see inactive '1' pagination button
+      And I should see inactive 'previous' pagination button
+      And I should not see 'next' pagination button

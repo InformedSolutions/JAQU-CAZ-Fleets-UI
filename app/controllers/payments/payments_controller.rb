@@ -63,8 +63,10 @@ module Payments
       return redirect_to in_progress_payments_path if caz_locked?
 
       clear_upload_job_data
-      @search = helpers.payment_query_data[:search]
-      validate_and_search
+      @page = (params[:page] || 1).to_i
+      assign_variables
+    rescue BaseApi::Error400Exception
+      return redirect_to matrix_payments_path unless @page == 1
     end
 
     ##
@@ -281,30 +283,6 @@ module Payments
 
     private
 
-    # Check if provided VRN in search is valid
-    def validate_search_params
-      form = VrnForm.new(@search)
-      return if form.valid?
-
-      SessionManipulation::ClearVrnSearch.call(session: session)
-      form.error_message
-    end
-
-    # Fetches charges with params saved in the session
-    def charges
-      query_data = helpers.payment_query_data
-      data = current_user.charges(zone_id: @zone_id, vrn: query_data[:vrn], direction: query_data[:direction])
-      SessionManipulation::AddVehicleDetails.call(session: session, params: data.vehicle_list)
-      data
-    end
-
-    # Fetches charges with vrn saved in session
-    def charges_by_vrn
-      data = current_user.charges_by_vrn(zone_id: @zone_id, vrn: helpers.payment_query_data[:search])
-      SessionManipulation::AddVehicleDetails.call(session: session, params: data.vehicle_list)
-      data
-    end
-
     # Permits all the form params
     def payment_params
       params.permit(:authenticity_token, :commit, :allSelectedCheckboxesCount,
@@ -319,7 +297,8 @@ module Payments
     # After selecting Clean Air Zone method checks if user has any chargeable
     # vehicles and redirects him accordingly.
     def determine_next_page(zone_id)
-      charges_exists = current_user.fleet.any_chargeable_vehicles_in_caz?(zone_id)
+      charges_exists = Payments::ChargeableVehicles.new(current_user.account_id, zone_id)
+                                                   .pagination.any_results?
       charges_exists ? matrix_payments_path : no_chargeable_vehicles_payments_path
     end
 
@@ -329,6 +308,30 @@ module Payments
       service = Payments::PaymentDates.new(charge_start_date: @zone.active_charge_start_date)
       @dates = current_user.beta_tester ? service.all_chargeable_dates : service.chargeable_dates
       @d_day_notice = service.d_day_notice
+    end
+
+    # Assign variables needed in :matrix view
+    def assign_variables
+      @search = helpers.payment_query_data[:search]
+      flash.now[:alert] = validate_search_params unless @search.nil?
+      assign_pagination
+      redirect_to vrn_not_found_payments_path if @search.present? && !@pagination.any_results?
+    end
+
+    # Check if provided VRN in search is valid
+    def validate_search_params
+      form = VrnForm.new(@search)
+      return if form.valid?
+
+      SessionManipulation::ClearVrnSearch.call(session: session)
+      form.error_message
+    end
+
+    # Make api call and add vehicles to session
+    def assign_pagination
+      service = Payments::ChargeableVehicles.new(current_user.account_id, @zone_id)
+      @pagination = service.pagination(page: @page, only_chargeable: params[:only_chargeable], vrn: @search)
+      SessionManipulation::AddVehicleDetails.call(session: session, params: @pagination.vehicle_list)
     end
 
     # Returns back link url
@@ -348,13 +351,6 @@ module Payments
     # Redirects to local authority selection page when there is no payment data in session
     def check_new_payment_data
       redirect_to payments_path if helpers.new_payment_data.blank?
-    end
-
-    # Validates search form and redirects to the proper page
-    def validate_and_search
-      flash.now[:alert] = validate_search_params unless @search.nil?
-      @charges = flash.alert || @search.nil? ? charges : charges_by_vrn
-      redirect_to vrn_not_found_payments_path if @search.present? && !@charges.any_results?
     end
 
     # Assigns errors and renders the vrn not found page
