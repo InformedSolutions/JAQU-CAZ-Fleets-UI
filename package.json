@@ -2,7 +2,7 @@
   "name": "jaqu-caz-fleets-ui",
   "private": true,
   "dependencies": {
-    "@ministryofjustice/frontend": "^0.0.22",
+    "@ministryofjustice/frontend": "^0.0.23",
     "@rails/actioncable": "^6.1.0",
     "@rails/activestorage": "^6.1.0",
     "@rails/ujs": "^6.1.0",
