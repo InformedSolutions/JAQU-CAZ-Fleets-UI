@@ -125,8 +125,7 @@ class PaymentsApi < BaseApi
     #
     def payment_status(payment_id:, caz_name:)
       log_action("Getting a payment status with id: #{payment_id}")
-      request(:put, "/payments/#{payment_id}",
-              body: payment_status_body(caz_name))
+      request(:put, "/payments/#{payment_id}", body: payment_status_body(caz_name))
     end
 
     private
@@ -144,9 +143,7 @@ class PaymentsApi < BaseApi
 
     # Returns parsed JSON of the payment status reconciliation parameters with proper keys
     def payment_status_body(caz_name)
-      {
-        cleanAirZoneName: caz_name
-      }.to_json
+      { cleanAirZoneName: caz_name }.to_json
     end
 
     # Returns parsed JSON with proper keys
@@ -156,7 +153,7 @@ class PaymentsApi < BaseApi
         'pageNumber' => calculate_page_number(page),
         'pageSize' => per_page,
         'onlyChargeable' => only_chargeable,
-        'query' => vrn
+        'query' => vrn&.upcase
       }.compact
     end
   end

@@ -100,12 +100,24 @@ Feature: Fleets
       And I should not see 'If you have already paid for a date, it will show as Paid.'
 
   Scenario: Trying to pay in CAZ without chargeable vehicles
-    When I have no chargeable vehicles in my fleet
+    When I have no chargeable vehicles
       And I visit the make payment page
     Then I select 'Birmingham'
       And I press the Continue
-    Then I should be on the no chargeable vehicles page
+    Then I should be on the No chargeable vehicles page
       And I should see 'No chargeable vehicles in the Birmingham'
+    Then I press 'Back' link
+      And I should be on the make a payment page
+    Then I press 'Back' link
+      And I should be on the Dashboard page
+
+  Scenario: Trying to pay in CAZ with all undetermined vehicles
+    When I have all undetermined vehicles
+      And I visit the make payment page
+    Then I select 'Birmingham'
+      And I press the Continue
+    Then I should be on the Undetermined vehicles page
+      And I should see 'You can not use this service to pay the Birmingham Clean Air Zone'
     Then I press 'Back' link
       And I should be on the make a payment page
     Then I press 'Back' link

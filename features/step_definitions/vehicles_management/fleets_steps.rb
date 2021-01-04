@@ -75,7 +75,7 @@ end
 
 When('I have undetermined vehicles in my fleet') do
   mock_clean_air_zones
-  mock_undetermined_vehicles
+  mock_undetermined_vehicles_in_fleet
   mock_caz_mandates
   mock_direct_debit_enabled
   mock_users
@@ -117,11 +117,18 @@ When('I have vehicles in my fleet that are not paid') do
   mock_paid_chargeable_vehicles
 end
 
-When('I have no chargeable vehicles in my fleet') do
+When('I have no chargeable vehicles') do
   mock_users
   mock_clean_air_zones
   mock_vehicles_in_fleet
   mock_unchargeable_vehicles
+end
+
+When('I have all undetermined vehicles') do
+  mock_users
+  mock_clean_air_zones
+  mock_vehicles_in_fleet
+  mock_undetermined_vehicles
 end
 
 Then('I should be on the manage vehicles page') do

@@ -92,6 +92,7 @@ Rails.application.routes.draw do
       collection do
         post :local_authority
         get :no_chargeable_vehicles
+        get :undetermined_vehicles
         get :matrix, path: 'which_days'
         post :matrix, to: 'payments#submit', path: 'which_days'
         scope '/matrix' do
