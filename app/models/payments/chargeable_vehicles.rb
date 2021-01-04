@@ -20,7 +20,7 @@ module Payments
 
     # Returns a Payments::PaginatedVehicles with chargeable vehicles associated with the account.
     # Includes data about page and total pages count.
-    def pagination(page: 1, per_page: 10, only_chargeable: false, only_determined: false, vrn: nil) # rubocop:disable Metrics/MethodLength
+    def pagination(page: 1, per_page: 10, only_chargeable: false, vrn: nil) # rubocop:disable Metrics/MethodLength
       @pagination ||= begin
         data = PaymentsApi.chargeable_vehicles(
           account_id: account_id,
@@ -28,7 +28,6 @@ module Payments
           page: page,
           per_page: per_page,
           only_chargeable: only_chargeable,
-          only_determined: only_determined,
           vrn: vrn
         )
         Payments::PaginatedVehicles.new(data, page, per_page)

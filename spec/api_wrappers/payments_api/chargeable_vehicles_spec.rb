@@ -10,7 +10,6 @@ describe 'PaymentsApi.chargeable_vehicles' do
       page: page,
       per_page: per_page,
       only_chargeable: only_chargeable,
-      only_determined: only_determined,
       vrn: nil
     )
   end
@@ -20,7 +19,6 @@ describe 'PaymentsApi.chargeable_vehicles' do
   let(:page) { 5 }
   let(:per_page) { 10 }
   let(:only_chargeable) { 'false' }
-  let(:only_determined) { 'false' }
   let(:url) { "accounts/#{id}/chargeable-vehicles" }
 
   before do
@@ -35,7 +33,7 @@ describe 'PaymentsApi.chargeable_vehicles' do
     subject
     expect(WebMock).to have_requested(
       :get,
-      /#{url}\?cleanAirZoneId=#{zone_id}&onlyChargeable=#{only_chargeable}&onlyDetermined=#{only_determined}&pageNumber=#{page - 1}&pageSize=#{per_page}/
+      /#{url}\?cleanAirZoneId=#{zone_id}&onlyChargeable=#{only_chargeable}&pageNumber=#{page - 1}&pageSize=#{per_page}/
     )
   end
   # rubocop:enable Layout/LineLength

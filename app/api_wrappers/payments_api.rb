@@ -18,7 +18,6 @@ class PaymentsApi < BaseApi
     # * +page+ - requested page of the results
     # * +per_page+ - number of vehicles per page, defaults to 10
     # * +only_chargeable+ - flag, to filter out non-charged vehicles
-    # * +only_determined+ - flag, to filter out non-undetermined vehicles
     # * +vrn+ - vehicle registration number, search parameter
     #
     # ==== Result
@@ -35,9 +34,9 @@ class PaymentsApi < BaseApi
     # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
-    def chargeable_vehicles(account_id:, zone_id:, page:, per_page:, only_chargeable:, only_determined:, vrn:) # rubocop:disable Metrics/ParameterLists
+    def chargeable_vehicles(account_id:, zone_id:, page:, per_page:, only_chargeable:, vrn:) # rubocop:disable Metrics/ParameterLists
       log_action('Getting the list of chargeable vehicles')
-      query = chargeable_vehicles_body(zone_id, page, per_page, only_chargeable, only_determined, vrn)
+      query = chargeable_vehicles_body(zone_id, page, per_page, only_chargeable, vrn)
       request(:get, "/accounts/#{account_id}/chargeable-vehicles", query: query)
     end
 
@@ -150,13 +149,13 @@ class PaymentsApi < BaseApi
       }.to_json
     end
 
-    def chargeable_vehicles_body(zone_id, page, per_page, only_chargeable, only_determined, vrn) # rubocop:disable Metrics/ParameterLists
+    # Returns parsed JSON with proper keys
+    def chargeable_vehicles_body(zone_id, page, per_page, only_chargeable, vrn)
       {
         'cleanAirZoneId' => zone_id,
         'pageNumber' => calculate_page_number(page),
         'pageSize' => per_page,
         'onlyChargeable' => only_chargeable,
-        'onlyDetermined' => only_determined,
         'query' => vrn
       }.compact
     end

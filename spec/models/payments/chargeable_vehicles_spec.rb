@@ -23,7 +23,6 @@ describe Payments::ChargeableVehicles, type: :model do
           page: page,
           per_page: per_page,
           only_chargeable: false,
-          only_determined: false,
           vrn: nil
         )
       )
