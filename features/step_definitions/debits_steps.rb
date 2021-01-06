@@ -54,9 +54,9 @@ When('I visit the Add new mandate page') do
   visit set_up_debits_path
 end
 
-Then('I press `Set up new Direct Debit` button') do
+Then('I press `Set up new Direct Debit` link') do
   mock_debits_api_call('inactive_mandates')
-  click_button('Set up new Direct Debit')
+  click_on('Set up new Direct Debit')
 end
 
 Then('I am creating a new mandate and redirecting to the complete setup endpoint') do

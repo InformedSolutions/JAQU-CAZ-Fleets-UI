@@ -51,7 +51,7 @@
 
 
       - if @zones_without_mandate.present? && @mandates.present?
-        '= link_to('Set up new Direct Debit', set_up_debits_path, id: 'set-up-button', class: 'govuk-button', 'data-module: 'govuk-button')'
+        = link_to('Set up new Direct Debit', set_up_debits_path, id: 'set-up-button', class: 'govuk-button', 'data-module': 'govuk-button')
       - else
         %p
           You have created a Direct Debit for every Clean Air Zone.
