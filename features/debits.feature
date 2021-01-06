@@ -71,7 +71,7 @@ Feature: Debits
     Then I should be on the Manage debits page
       And I should see 'Set up new Direct Debit' link
       And I should not see 'You have created a Direct Debit for every Clean Air Zone.'
-    Then I press 'Set up new Direct Debit' button
+    Then I press 'Set up new Direct Debit' link
       And I should see 'What you need to know before setting up a mandate:'
 
   Scenario: Visiting the manage Direct Debit page with all mandates
