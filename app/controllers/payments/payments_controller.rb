@@ -348,7 +348,7 @@ module Payments
     # Make api call and add vehicles to session
     def assign_pagination
       service = Payments::ChargeableVehicles.new(current_user.account_id, @zone_id)
-      @pagination = service.pagination(page: @page, only_chargeable: params[:only_chargeable], vrn: @search)
+      @pagination = service.pagination(page: @page, vrn: @search)
       SessionManipulation::AddVehicleDetails.call(session: session, params: @pagination.vehicle_list)
     end
 

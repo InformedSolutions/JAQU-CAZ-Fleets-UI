@@ -22,7 +22,6 @@ describe Payments::ChargeableVehicles, type: :model do
           zone_id: zone_id,
           page: page,
           per_page: per_page,
-          only_chargeable: false,
           vrn: nil
         )
       )
