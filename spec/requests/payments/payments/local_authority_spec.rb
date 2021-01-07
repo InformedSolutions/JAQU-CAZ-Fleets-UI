@@ -9,14 +9,13 @@ describe 'PaymentsController - POST #local_authority' do
   let(:user) { make_payments_user }
 
   context 'correct permissions' do
-    let(:chargeable_vehicles_exists) { true }
+    let(:total_vehicles_count) { 3 }
     let(:any_undetermined_vehicles) { false }
 
     before do
-      vehicles = instance_double('Payments::PaginatedVehicles',
-                                 any_results?: chargeable_vehicles_exists,
-                                 any_undetermined_vehicles: any_undetermined_vehicles)
-      allow_any_instance_of(Payments::ChargeableVehicles).to receive(:pagination).and_return(vehicles)
+      allow(PaymentsApi).to receive(:chargeable_vehicles)
+        .and_return({ 'totalVehiclesCount' => total_vehicles_count,
+                      'anyUndeterminedVehicles' => any_undetermined_vehicles })
       sign_in user
     end
 
@@ -31,7 +30,7 @@ describe 'PaymentsController - POST #local_authority' do
         end
 
         context 'when user has no chargeable and no undetermined vehicles in the selected CAZ' do
-          let(:chargeable_vehicles_exists) { false }
+          let(:total_vehicles_count) { 0 }
 
           it 'redirects to the no chargeable vehicles page' do
             expect(response).to redirect_to(no_chargeable_vehicles_payments_path)
@@ -39,7 +38,7 @@ describe 'PaymentsController - POST #local_authority' do
         end
 
         context 'when user has no chargeable and undetermined vehicles in the selected CAZ' do
-          let(:chargeable_vehicles_exists) { false }
+          let(:total_vehicles_count) { 0 }
           let(:any_undetermined_vehicles) { true }
 
           it 'redirects to the undetermined vehicles page' do

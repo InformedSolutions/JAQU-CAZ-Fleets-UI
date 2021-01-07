@@ -57,7 +57,7 @@ describe 'PaymentsController - GET #matrix' do
           end
 
           context 'with an invalid search value' do
-            let(:search) { 'test' }
+            let(:search) { 'ABCDE$%' }
 
             before { subject }
 

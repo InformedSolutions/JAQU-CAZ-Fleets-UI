@@ -34,7 +34,6 @@ class PaymentsApi < BaseApi
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def chargeable_vehicles(account_id:, zone_id:, page:, per_page:, vrn:)
-      log_action('Getting the list of chargeable vehicles')
       query = chargeable_vehicles_body(zone_id, page, per_page, vrn)
       request(:get, "/accounts/#{account_id}/chargeable-vehicles", query: query)
     end

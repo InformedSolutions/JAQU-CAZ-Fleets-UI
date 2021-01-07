@@ -14,7 +14,6 @@ module Payments
     def paginated_vehicles
       instance_double(Payments::PaginatedVehicles,
                       vehicle_list: mocked_chargeable_vehicles,
-                      any_results?: true,
                       all_days_unpaid?: false,
                       page: 1,
                       total_pages: 5,

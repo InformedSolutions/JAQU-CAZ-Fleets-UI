@@ -34,7 +34,7 @@ describe 'PaymentsController - POST #submit_search' do
       end
 
       context 'with an invalid params' do
-        let(:vrn) { 'test' }
+        let(:vrn) { 'ABCDE$%' }
 
         it 'returns a 200 OK status' do
           expect(response).to have_http_status(:ok)

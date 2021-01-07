@@ -57,7 +57,7 @@ module Payments
     #
     # ==== Path
     #
-    #    :GET /payments/matrix
+    #    :GET /payments/which_days
     #
     def matrix
       return redirect_to in_progress_payments_path if caz_locked?
@@ -74,7 +74,7 @@ module Payments
     #
     # ==== Path
     #
-    #    :GET /payments/matrix/vrn_not_found
+    #    :GET /payments/which_days/vrn_not_found
     #
     def vrn_not_found
       @search = helpers.payment_query_data[:search]
@@ -85,10 +85,10 @@ module Payments
     #
     # ==== Path
     #
-    #    :POST /payments/matrix/vrn_not_found
+    #    :POST /payments/which_days/vrn_not_found
     #
     def submit_search
-      form = VrnForm.new(params.dig('payment', 'vrn_search'))
+      form = SearchVrnForm.new(params.dig('payment', 'vrn_search'))
       if form.valid?
         session[:payment_query][:search] = form.vrn
         redirect_to matrix_payments_path
@@ -116,7 +116,7 @@ module Payments
     #
     # ==== Path
     #
-    #    :GET /payments/undetermined
+    #    :GET /payments/undetermined_vehicles
     #
     # ==== Params
     # * +caz_id+ - id of the selected CAZ, required in the session
@@ -126,12 +126,11 @@ module Payments
 
     ##
     # Saves payment and query details.
-    # If commit value equals 'Continue' redirects to :review,
-    # else redirects to matrix with new query data.
+    # If commit value equals 'Continue' redirects to :review, else redirects to matrix with new query data.
     #
     # ==== Path
     #
-    #    :POST /payments/submit
+    #    :POST /payments/which_days
     #
     def submit
       SessionManipulation::AddPaymentDetails.call(session: session, params: payment_params)
@@ -177,7 +176,6 @@ module Payments
     def confirm_review
       form = Payments::PaymentReviewForm.new(params['confirm_not_exemption'])
       session[:new_payment]['confirm_not_exemption'] = params['confirm_not_exemption']
-
       if form.valid?
         redirect_to select_payment_method_payments_path
       else
@@ -310,10 +308,10 @@ module Payments
     # After selecting Clean Air Zone method checks if user has any chargeable or any undetermined vehicles
     # and redirects him accordingly.
     def determine_next_page(zone_id)
-      results = Payments::ChargeableVehicles.new(current_user.account_id, zone_id).pagination
-      if !results.any_results? && !results.any_undetermined_vehicles
+      results = Payments::ChargeableVehicles.new(current_user.account_id, zone_id)
+      if results.account_vehicles_count.zero? && !results.any_undetermined_vehicles
         no_chargeable_vehicles_payments_path
-      elsif !results.any_results? && results.any_undetermined_vehicles
+      elsif results.account_vehicles_count.zero? && results.any_undetermined_vehicles
         undetermined_vehicles_payments_path
       else
         matrix_payments_path
@@ -333,16 +331,16 @@ module Payments
       @search = helpers.payment_query_data[:search]
       flash.now[:alert] = validate_search_params unless @search.nil?
       assign_pagination
-      redirect_to vrn_not_found_payments_path if @search.present? && !@pagination.any_results?
+      redirect_to vrn_not_found_payments_path if @search.present? && @pagination.total_vehicles_count.zero?
     end
 
     # Check if provided VRN in search is valid
     def validate_search_params
-      form = VrnForm.new(@search)
+      form = SearchVrnForm.new(@search)
       return if form.valid?
 
       SessionManipulation::ClearVrnSearch.call(session: session)
-      form.error_message
+      form.first_error_message
     end
 
     # Make api call and add vehicles to session
@@ -374,7 +372,7 @@ module Payments
     # Assigns errors and renders the vrn not found page
     def render_vrn_not_found(form)
       @search = form.vrn
-      flash.now[:alert] = form.error_message
+      flash.now[:alert] = form.first_error_message
       render :vrn_not_found
     end
   end

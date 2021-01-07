@@ -15,11 +15,9 @@ SimpleCov.start 'rails' do
   # minimum coverage percentage expected
   minimum_coverage 100
   # ignore next folders and files
-  # rubocop:disable Layout/SpaceBeforeBrackets
   add_filter %w[
     app/models/application_record.rb
     lib/
     config/
   ]
-  # rubocop:enable Layout/SpaceBeforeBrackets
 end

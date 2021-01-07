@@ -99,25 +99,5 @@ describe Payments::PaginatedVehicles, type: :model do
         expect(subject.all_days_unpaid?).to be_truthy
       end
     end
-
-    describe '.any_results?' do
-      it { expect(subject.any_results?).to be_truthy }
-
-      context 'without any results' do
-        let(:vehicles_data) { { 'results': [] } }
-
-        it { expect(subject.any_results?).to be_falsey }
-      end
-    end
-
-    describe '.any_undetermined_vehicles' do
-      it { expect(subject.any_undetermined_vehicles).to be_falsey }
-
-      context 'when value is true' do
-        let(:any_undetermined_vehicles) { true }
-
-        it { expect(subject.any_undetermined_vehicles).to be_truthy }
-      end
-    end
   end
 end
