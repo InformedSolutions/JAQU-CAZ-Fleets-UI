@@ -329,24 +329,26 @@ module Payments
     # Assign variables needed in :matrix view
     def assign_variables
       @search = helpers.payment_query_data[:search]
-      flash.now[:alert] = validate_search_params unless @search.nil?
-      assign_pagination
-      redirect_to vrn_not_found_payments_path if @search.present? && @pagination.total_vehicles_count.zero?
+      @search ? validate_search_params : assign_pagination
     end
 
-    # Check if provided VRN in search is valid
+    # Check if provided VRN in search is valid and them make api call
     def validate_search_params
       form = SearchVrnForm.new(@search)
-      return if form.valid?
-
-      SessionManipulation::ClearVrnSearch.call(session: session)
-      form.first_error_message
+      if form.valid?
+        assign_pagination(form.vrn)
+        redirect_to vrn_not_found_payments_path if @pagination.total_vehicles_count.zero?
+      else
+        SessionManipulation::ClearVrnSearch.call(session: session)
+        flash.now[:alert] = form.first_error_message if form.first_error_message
+        assign_pagination
+      end
     end
 
     # Make api call and add vehicles to session
-    def assign_pagination
+    def assign_pagination(search = nil)
       service = Payments::ChargeableVehicles.new(current_user.account_id, @zone_id)
-      @pagination = service.pagination(page: @page, vrn: @search)
+      @pagination = service.pagination(page: @page, vrn: search)
       SessionManipulation::AddVehicleDetails.call(session: session, params: @pagination.vehicle_list)
     end
 
