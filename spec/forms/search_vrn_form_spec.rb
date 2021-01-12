@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe VehiclesManagement::SearchVrnForm, type: :model do
+describe SearchVrnForm, type: :model do
   subject { described_class.new(vrn) }
 
   let(:vrn) { 'ABC123' }
@@ -24,12 +24,18 @@ describe VehiclesManagement::SearchVrnForm, type: :model do
     it_behaves_like 'an invalid VrnForm', I18n.t('vrn_form.errors.vrn_missing')
   end
 
-  describe '.error_message' do
+  context 'when vrn is invalid' do
+    let(:vrn) { 'ABCDE$%' }
+
+    it_behaves_like 'an invalid VrnForm', 'Enter the number plate of the vehicle in a valid format'
+  end
+
+  describe '.first_error_message' do
     let(:vrn) { nil }
 
     it 'returns a proper value' do
       subject.valid?
-      expect(subject.error_message).to eq('Enter the number plate of the vehicle')
+      expect(subject.first_error_message).to eq('Enter the number plate of the vehicle')
     end
   end
 end
