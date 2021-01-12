@@ -48,10 +48,8 @@ module VehiclesManagement
     #    :POST /manage_vehicles/submit_search
     #
     def submit_search
-      form = VehiclesManagement::SearchVrnForm.new(params[:vrn])
-      @pagination = @fleet.pagination(vrn: form.vrn)
-
-      if form.valid? && @pagination.total_vehicles_count.zero?
+      form = SearchVrnForm.new(params[:vrn])
+      if form.valid? && @fleet.pagination(vrn: form.vrn).total_vehicles_count.zero?
         return redirect_to vrn_not_found_fleets_path(vrn: form.vrn)
       end
 
@@ -237,7 +235,8 @@ module VehiclesManagement
     def render_fleets_page(form)
       @zones = CleanAirZone.all
       @search = form.vrn
-      flash.now[:alert] = form.error_message if form.error_message
+      @pagination = @fleet.pagination
+      flash.now[:alert] = form.first_error_message if form.first_error_message
       render :index
     end
   end
