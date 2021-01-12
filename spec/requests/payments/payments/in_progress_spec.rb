@@ -15,17 +15,18 @@ describe 'PaymentsController - GET #in_progress' do
     before do
       sign_in user
       mock_clean_air_zones
-      mock_chargeable_vehicles
       add_to_session(new_payment: { caz_id: caz_id })
     end
 
     context 'with la in the session and with no CAZ lock' do
       before do
+        allow(PaymentsApi).to receive(:chargeable_vehicles).and_return({ 'totalVehiclesCount' => 3,
+                                                                         'anyUndeterminedVehicles' => false })
         add_caz_lock_to_redis(user)
         subject
       end
 
-      it 'returns a 302 FOUND status' do
+      it 'returns a 302 found status' do
         expect(response).to have_http_status(:found)
       end
 

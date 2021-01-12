@@ -19,8 +19,7 @@ module Payments
 
     # Returns an array of Payments::Vehicle model instances
     def vehicle_list
-      @vehicle_list ||= (data.dig('chargeableAccountVehicles', 'results') || [])
-                        .map { |vehicle_data| Payments::Vehicle.new(vehicle_data) }
+      @vehicle_list ||= (results || []).map { |vehicle_data| Payments::Vehicle.new(vehicle_data) }
     end
 
     # Returns the number of available pages
@@ -49,16 +48,6 @@ module Payments
       return false unless results
 
       (results.map { |value| value['paidDates'] }).flatten.empty?
-    end
-
-    # Check if any results are present?
-    def any_results?
-      results.present?
-    end
-
-    # Checks if there are any undetermined vehicles
-    def any_undetermined_vehicles
-      data['anyUndeterminedVehicles']
     end
 
     private

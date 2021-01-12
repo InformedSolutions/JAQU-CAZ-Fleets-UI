@@ -7,6 +7,7 @@ module VehiclesManagement
   # Represents the virtual model of the fleet.
   #
   class Fleet
+    include LogAction
     # Initializer method.
     #
     # ==== Params
@@ -18,8 +19,9 @@ module VehiclesManagement
 
     # Returns a VehiclesManagement::PaginatedFleet with vehicles associated with the account.
     # Includes data about page and total pages count.
-    def pagination(page: 1, per_page: 10, only_chargeable: false, vrn: nil)
+    def pagination(page: 1, per_page: 10, only_chargeable: false, vrn: nil) # rubocop:disable Metrics/MethodLength
       @pagination ||= begin
+        log_action('Getting paginated vehicles in the fleet')
         data = FleetsApi.vehicles(
           account_id: account_id,
           page: page,
@@ -54,23 +56,31 @@ module VehiclesManagement
 
     # Checks if there are any vehicles in the fleet. Returns boolean.
     def empty?
-      FleetsApi.vehicles(account_id: account_id, page: 1, per_page: 1)['vehicles'].empty?
+      log_action('Checking if there are any vehicles in the fleet')
+      api_call['vehicles'].empty?
     end
 
     # Checks what is total count of stored vehicles.
     def total_vehicles_count
-      FleetsApi.vehicles(account_id: account_id, page: 1, per_page: 1)['totalVehiclesCount']
+      log_action('Getting the total count of stored vehicles in the fleet')
+      api_call['totalVehiclesCount']
     end
 
     # Checks if there are any undetermined vehicles in the fleet.
     # Return boolean.
     def any_undetermined_vehicles
-      FleetsApi.vehicles(account_id: account_id, page: 1, per_page: 1)['anyUndeterminedVehicles']
+      log_action('Checking if there are any undetermined vehicles in the fleet')
+      api_call['anyUndeterminedVehicles']
     end
 
     private
 
     # Reader for Account ID from backend DB
     attr_reader :account_id
+
+    # Make api call to get vehicles in the fleet
+    def api_call
+      FleetsApi.vehicles(account_id: account_id, page: 1, per_page: 1)
+    end
   end
 end

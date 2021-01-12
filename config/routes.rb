@@ -91,14 +91,14 @@ Rails.application.routes.draw do
     resources :payments, only: :index do
       collection do
         post :local_authority
-        get :no_chargeable_vehicles
-        get :undetermined_vehicles
-        get :matrix, path: 'which_days'
-        post :matrix, to: 'payments#submit', path: 'which_days'
-        scope '/matrix' do
-          get :vrn_not_found, to: 'payments#vrn_not_found'
+        scope '/which_days' do
+          get :matrix
+          post :matrix, to: 'payments#submit'
+          get :vrn_not_found
           post :vrn_not_found, to: 'payments#submit_search'
         end
+        get :no_chargeable_vehicles
+        get :undetermined_vehicles
         get :clear_search
         get :review
         post :confirm_review

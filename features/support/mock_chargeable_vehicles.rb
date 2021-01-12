@@ -14,12 +14,16 @@ module MockChargeableVehicles
 
   def mock_unchargeable_vehicles
     allow(PaymentsApi).to receive(:chargeable_vehicles)
-      .and_return({ 'chargeableAccountVehicles' => { 'results' => [] } })
+      .and_return({ 'chargeableAccountVehicles' => { 'results' => [] }, 'totalVehiclesCount' => 0 })
   end
 
   def mock_undetermined_vehicles
     allow(PaymentsApi).to receive(:chargeable_vehicles)
-      .and_return({ 'chargeableAccountVehicles' => { 'results' => [] }, 'anyUndeterminedVehicles' => true })
+      .and_return({
+                    'chargeableAccountVehicles' => { 'results' => [] },
+                    'anyUndeterminedVehicles' => true,
+                    'totalVehiclesCount' => 0
+                  })
   end
 end
 

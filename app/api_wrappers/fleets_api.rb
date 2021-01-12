@@ -164,7 +164,6 @@ class FleetsApi < AccountsApi::Base
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def vehicles(account_id:, page:, per_page:, only_chargeable: false, vrn: nil)
-      log_action('Getting vehicles')
       query = {
         'pageNumber' => calculate_page_number(page),
         'pageSize' => per_page,
