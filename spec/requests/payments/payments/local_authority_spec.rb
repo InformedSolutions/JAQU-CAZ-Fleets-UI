@@ -10,10 +10,12 @@ describe 'PaymentsController - POST #local_authority' do
 
   context 'correct permissions' do
     let(:chargeable_vehicles_exists) { true }
+    let(:any_undetermined_vehicles) { false }
 
     before do
       vehicles = instance_double('Payments::PaginatedVehicles',
-                                 any_results?: chargeable_vehicles_exists)
+                                 any_results?: chargeable_vehicles_exists,
+                                 any_undetermined_vehicles: any_undetermined_vehicles)
       allow_any_instance_of(Payments::ChargeableVehicles).to receive(:pagination).and_return(vehicles)
       sign_in user
     end
@@ -22,17 +24,26 @@ describe 'PaymentsController - POST #local_authority' do
       context 'without upload data in redis' do
         before { subject }
 
-        context 'when user has chargeable vehicles in the selected CAZ' do
+        context 'when user has chargeable and no undetermined vehicles in the selected CAZ' do
           it 'redirects to the matrix' do
             expect(response).to redirect_to(matrix_payments_path)
           end
         end
 
-        context 'when user has no chargeable vehicles in the selected CAZ' do
+        context 'when user has no chargeable and no undetermined vehicles in the selected CAZ' do
           let(:chargeable_vehicles_exists) { false }
 
           it 'redirects to the no chargeable vehicles page' do
             expect(response).to redirect_to(no_chargeable_vehicles_payments_path)
+          end
+        end
+
+        context 'when user has no chargeable and undetermined vehicles in the selected CAZ' do
+          let(:chargeable_vehicles_exists) { false }
+          let(:any_undetermined_vehicles) { true }
+
+          it 'redirects to the undetermined vehicles page' do
+            expect(response).to redirect_to(undetermined_vehicles_payments_path)
           end
         end
 

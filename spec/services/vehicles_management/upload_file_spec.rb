@@ -5,7 +5,7 @@ require 'rails_helper'
 describe VehiclesManagement::UploadFile do
   subject { described_class.call(file: file, user: create_user(user_id: id)) }
 
-  let(:file) { fixture_file_upload(file_path) }
+  let(:file) { Rack::Test::UploadedFile.new(file_path) }
   let(:file_path) { File.join('spec', 'fixtures', 'uploads', 'fleet.csv') }
   let(:id) { @uuid }
 
@@ -14,9 +14,7 @@ describe VehiclesManagement::UploadFile do
   describe '#call' do
     context 'with valid params' do
       it 'returns the proper file name' do
-        freeze_time do
-          expect(subject.filename).to eq("fleet_#{id}_#{Time.current.to_i}")
-        end
+        freeze_time { expect(subject.filename).to eq("fleet_#{id}_#{Time.current.to_i}") }
       end
 
       it 'returns a proper value' do

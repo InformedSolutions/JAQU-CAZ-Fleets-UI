@@ -12,10 +12,12 @@ describe Payments::PaginatedVehicles, type: :model do
     {
       'chargeableAccountVehicles' => vehicles_data,
       'pageCount' => (size / per_page.to_f).ceil,
-      'totalVehiclesCount' => size
+      'totalVehiclesCount' => size,
+      'anyUndeterminedVehicles' => any_undetermined_vehicles
     }
   end
   let(:vehicles_data) { read_response('payments/chargeable_vehicles.json')['1']['chargeableAccountVehicles'] }
+  let(:any_undetermined_vehicles) { false }
 
   describe '.page' do
     it 'returns page value' do
@@ -105,6 +107,16 @@ describe Payments::PaginatedVehicles, type: :model do
         let(:vehicles_data) { { 'results': [] } }
 
         it { expect(subject.any_results?).to be_falsey }
+      end
+    end
+
+    describe '.any_undetermined_vehicles' do
+      it { expect(subject.any_undetermined_vehicles).to be_falsey }
+
+      context 'when value is true' do
+        let(:any_undetermined_vehicles) { true }
+
+        it { expect(subject.any_undetermined_vehicles).to be_truthy }
       end
     end
   end

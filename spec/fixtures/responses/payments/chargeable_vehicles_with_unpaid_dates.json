@@ -24,5 +24,6 @@
   "perPage": 10,
   "page": 1,
   "pageCount": 1,
-  "totalVehiclesCount": 3
+  "totalVehiclesCount": 3,
+  "anyUndeterminedVehicles": false
 }

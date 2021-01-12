@@ -13,7 +13,7 @@ module Payments
 
     before_action -> { check_permissions(allow_make_payments?) }
     before_action :check_la, only: %i[matrix submit review select_payment_method no_chargeable_vehicles
-                                      in_progress vrn_not_found submit_search]
+                                      undetermined_vehicles in_progress vrn_not_found submit_search]
     before_action :check_job_status, only: %i[index local_authority matrix vrn_not_found submit_search]
     before_action :clear_make_payment_history, only: %i[index]
     before_action :release_lock_on_caz, only: %i[success unsuccessful]
@@ -108,6 +108,19 @@ module Payments
     # ==== Params
     # * +caz_id+ - id of the selected CAZ, required in the session
     def no_chargeable_vehicles
+      @clean_air_zone_name = CleanAirZone.find(@zone_id).name
+    end
+
+    ##
+    # Renders page informing users that they have no chargeable and undetermined vehicles in the selected zone
+    #
+    # ==== Path
+    #
+    #    :GET /payments/undetermined
+    #
+    # ==== Params
+    # * +caz_id+ - id of the selected CAZ, required in the session
+    def undetermined_vehicles
       @clean_air_zone_name = CleanAirZone.find(@zone_id).name
     end
 
@@ -294,12 +307,17 @@ module Payments
       params.permit('caz_id', :authenticity_token, :commit)
     end
 
-    # After selecting Clean Air Zone method checks if user has any chargeable
-    # vehicles and redirects him accordingly.
+    # After selecting Clean Air Zone method checks if user has any chargeable or any undetermined vehicles
+    # and redirects him accordingly.
     def determine_next_page(zone_id)
-      charges_exists = Payments::ChargeableVehicles.new(current_user.account_id, zone_id)
-                                                   .pagination.any_results?
-      charges_exists ? matrix_payments_path : no_chargeable_vehicles_payments_path
+      results = Payments::ChargeableVehicles.new(current_user.account_id, zone_id).pagination
+      if !results.any_results? && !results.any_undetermined_vehicles
+        no_chargeable_vehicles_payments_path
+      elsif !results.any_results? && results.any_undetermined_vehicles
+        undetermined_vehicles_payments_path
+      else
+        matrix_payments_path
+      end
     end
 
     # Assigns +zone+, +dates+ and +d_day_notice+
@@ -330,7 +348,7 @@ module Payments
     # Make api call and add vehicles to session
     def assign_pagination
       service = Payments::ChargeableVehicles.new(current_user.account_id, @zone_id)
-      @pagination = service.pagination(page: @page, only_chargeable: params[:only_chargeable], vrn: @search)
+      @pagination = service.pagination(page: @page, vrn: @search)
       SessionManipulation::AddVehicleDetails.call(session: session, params: @pagination.vehicle_list)
     end
 

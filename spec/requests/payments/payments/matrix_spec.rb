@@ -29,7 +29,7 @@ describe 'PaymentsController - GET #matrix' do
 
         it 'calls :pagination with right params' do
           expect_any_instance_of(Payments::ChargeableVehicles).to receive(:pagination)
-            .with(only_chargeable: nil, page: 1, vrn: nil)
+            .with(page: 1, vrn: nil)
           subject
         end
 
@@ -51,7 +51,7 @@ describe 'PaymentsController - GET #matrix' do
 
             it 'calls :pagination with right params' do
               expect_any_instance_of(Payments::ChargeableVehicles).to receive(:pagination)
-                .with(only_chargeable: nil, page: 1, vrn: search)
+                .with(page: 1, vrn: search)
               subject
             end
           end

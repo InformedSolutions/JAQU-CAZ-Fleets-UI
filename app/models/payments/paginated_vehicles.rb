@@ -56,6 +56,11 @@ module Payments
       results.present?
     end
 
+    # Checks if there are any undetermined vehicles
+    def any_undetermined_vehicles
+      data['anyUndeterminedVehicles']
+    end
+
     private
 
     # Attributes reader

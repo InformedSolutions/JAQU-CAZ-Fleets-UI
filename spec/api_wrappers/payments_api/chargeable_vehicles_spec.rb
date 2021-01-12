@@ -9,7 +9,6 @@ describe 'PaymentsApi.chargeable_vehicles' do
       zone_id: zone_id,
       page: page,
       per_page: per_page,
-      only_chargeable: only_chargeable,
       vrn: nil
     )
   end
@@ -18,7 +17,6 @@ describe 'PaymentsApi.chargeable_vehicles' do
   let(:zone_id) { @uuid }
   let(:page) { 5 }
   let(:per_page) { 10 }
-  let(:only_chargeable) { 'false' }
   let(:url) { "accounts/#{id}/chargeable-vehicles" }
 
   before do
@@ -28,13 +26,11 @@ describe 'PaymentsApi.chargeable_vehicles' do
     )
   end
 
-  # rubocop:disable Layout/LineLength
   it 'calls API with proper query data' do
     subject
     expect(WebMock).to have_requested(
       :get,
-      /#{url}\?cleanAirZoneId=#{zone_id}&onlyChargeable=#{only_chargeable}&pageNumber=#{page - 1}&pageSize=#{per_page}/
+      /#{url}\?cleanAirZoneId=#{zone_id}&pageNumber=#{page - 1}&pageSize=#{per_page}/
     )
   end
-  # rubocop:enable Layout/LineLength
 end

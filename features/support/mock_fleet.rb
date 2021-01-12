@@ -23,7 +23,7 @@ module MockFleet
     allow(VehiclesManagement::Fleet).to receive(:new).and_raise(BaseApi::Error500Exception.new(503, '', {}))
   end
 
-  def mock_undetermined_vehicles
+  def mock_undetermined_vehicles_in_fleet
     mock_fleet(vehicles, 1, any_undetermined_vehicles: true)
   end
 

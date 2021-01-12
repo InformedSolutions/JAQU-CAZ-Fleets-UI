@@ -16,6 +16,11 @@ module MockChargeableVehicles
     allow(PaymentsApi).to receive(:chargeable_vehicles)
       .and_return({ 'chargeableAccountVehicles' => { 'results' => [] } })
   end
+
+  def mock_undetermined_vehicles
+    allow(PaymentsApi).to receive(:chargeable_vehicles)
+      .and_return({ 'chargeableAccountVehicles' => { 'results' => [] }, 'anyUndeterminedVehicles' => true })
+  end
 end
 
 World(MockChargeableVehicles)
