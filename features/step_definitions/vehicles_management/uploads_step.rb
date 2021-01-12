@@ -46,6 +46,7 @@ When('My upload is finished') do
   allow(FleetsApi).to receive(:job_status).and_return(status: 'SUCCESS')
   mock_clean_air_zones
   mock_vehicles_in_fleet
+  mock_chargeable_vehicles
 end
 
 When('My upload is calculating') do

@@ -31,33 +31,6 @@ module VehiclesManagement
       end
     end
 
-    # Returns a VehiclesManagement::ChargeableFleet with vehicles associated with the account.
-    def charges(zone_id:, vrn: nil, direction: nil)
-      @charges ||= begin
-        data = PaymentsApi.chargeable_vehicles(
-          account_id: account_id,
-          zone_id: zone_id,
-          vrn: vrn,
-          direction: direction
-        )
-        VehiclesManagement::ChargeableFleet.new(data)
-      end
-    end
-
-    # Returns a VehiclesManagement::ChargeableFleet with vehicles associated with the account for provided vrn.
-    def charges_by_vrn(zone_id:, vrn:)
-      @charges_by_vrn ||= begin
-        data = PaymentsApi.chargeable_vehicle(
-          account_id: account_id,
-          zone_id: zone_id,
-          vrn: vrn
-        )
-        VehiclesManagement::ChargeableFleet.new(data)
-      end
-    rescue BaseApi::Error404Exception
-      VehiclesManagement::ChargeableFleet.new({})
-    end
-
     # Adds a new vehicle to the fleet. Returns boolean.
     #
     # ==== Params
@@ -93,12 +66,6 @@ module VehiclesManagement
     # Return boolean.
     def any_undetermined_vehicles
       FleetsApi.vehicles(account_id: account_id, page: 1, per_page: 1)['anyUndeterminedVehicles']
-    end
-
-    # Checks if there are any chargeable vehicles in the provided clean air zone.
-    # Return boolean.
-    def any_chargeable_vehicles_in_caz?(zone_id)
-      charges(zone_id: zone_id).any_results?
     end
 
     private
