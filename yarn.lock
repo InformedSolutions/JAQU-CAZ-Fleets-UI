@@ -828,10 +828,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@ministryofjustice/frontend@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-0.1.0.tgz#2a15cf7f5e8bafd8299d3914df43749b924daafe"
-  integrity sha512-tSU5IVpGanH0FD7XpXAgJTn3hCsCpHTVj25/msW4UoBGhGewHxVI+BIEmJMYDWor1K1nL3HRf1EeBsJqDS937A==
+"@ministryofjustice/frontend@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-0.2.0.tgz#7b99f7986a37ba12d715c06b958eb2650de64069"
+  integrity sha512-qWVSvwijdFRdPhBV+9SWgoG92gQKcIZa1JPj3uQYoesfI+nnwKIaNJVIb1aAfHAvKQLTRvJjGfUuRNPdsdDzZA==
   dependencies:
     moment "^2.27.0"
 
