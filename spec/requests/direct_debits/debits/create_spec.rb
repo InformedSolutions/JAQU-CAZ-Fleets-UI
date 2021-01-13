@@ -60,12 +60,14 @@ describe 'DirectDebits::DebitsController - POST #create' do
   context 'when Direct Debits feature disabled' do
     before do
       mock_direct_debit_disabled
+      mock_debits
+      allow(DebitsApi).to receive(:create_mandate).and_return(read_response('debits/create_mandate.json'))
       sign_in user
       subject
     end
 
-    it 'redirects to the not found page' do
-      expect(response).to redirect_to(not_found_path)
+    it 'redirects to the :complete_setup endpoint' do
+      expect(response).to redirect_to(/#{complete_setup_debits_path}/)
     end
   end
 end

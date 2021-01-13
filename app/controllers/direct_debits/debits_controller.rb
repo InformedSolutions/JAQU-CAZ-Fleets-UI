@@ -10,9 +10,6 @@ module DirectDebits
     include CazLock
     include CheckPermissions
 
-    before_action -> { check_permissions(helpers.direct_debits_enabled?) }, only: %i[
-      index new create complete_setup
-    ]
     before_action -> { check_permissions(allow_manage_mandates?) }, only: %i[index new create complete_setup]
     before_action -> { check_permissions(allow_make_payments?) }, except: %i[index new create complete_setup]
     before_action :check_la, only: %i[confirm first_mandate]
