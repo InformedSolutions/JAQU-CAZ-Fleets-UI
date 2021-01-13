@@ -29,13 +29,15 @@ module VehiclesManagement
     #
     # * +page+ - used to paginate vehicles list, defaults to 1, present in the query params
     # * only_chargeable* - flag, to filter out non-charged vehicles
+    # * +page_size+ - integer value, to manipulate number of vehices on the page
     # * +vrn+ - alphanumeric character part of vrn number
     #
     def index
       return redirect_to choose_method_fleets_path if @fleet.empty?
 
       page = (params[:page] || 1).to_i
-      assign_variables(page)
+      per_page = (params[:per_page] || 10).to_i
+      assign_variables(page, per_page)
     rescue BaseApi::Error400Exception
       return redirect_to fleets_path unless page == 1
     end
@@ -217,13 +219,13 @@ module VehiclesManagement
     end
 
     # Assign variables needed in :index view
-    def assign_variables(page)
+    def assign_variables(page, per_page)
       @search = params[:vrn]
       form = SearchVrnForm.new(@search)
       if form.valid?
-        fetch_pagination_and_zones(page, @search)
+        fetch_pagination_and_zones(page, per_page, @search)
       else
-        fetch_pagination_and_zones(page)
+        fetch_pagination_and_zones(page, per_page)
       end
       assign_payment_enabled
     end
@@ -237,8 +239,13 @@ module VehiclesManagement
     end
 
     # Make api calls
-    def fetch_pagination_and_zones(page = 1, vrn = nil)
-      @pagination = @fleet.pagination(page: page, only_chargeable: params[:only_chargeable], vrn: vrn)
+    def fetch_pagination_and_zones(page = 1, per_page = 10, vrn = nil)
+      @pagination = @fleet.pagination(
+        page: page,
+        per_page: per_page,
+        only_chargeable: params[:only_chargeable],
+        vrn: vrn
+      )
       @zones = CleanAirZone.all
     end
   end

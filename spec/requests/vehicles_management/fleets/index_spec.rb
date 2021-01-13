@@ -39,6 +39,10 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
           expect(assigns(:pagination).page).to eq(1)
         end
 
+        it 'sets default per_page value to 10' do
+          expect(assigns(:pagination).per_page).to eq(10)
+        end
+
         it 'not sets :success flash message' do
           expect(flash[:success]).to be_nil
         end
