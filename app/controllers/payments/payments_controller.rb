@@ -132,7 +132,7 @@ module Payments
     #
     #    :POST /payments/which_days
     #
-    def submit
+    def submit # rubocop:disable Metrics/AbcSize
       SessionManipulation::AddPaymentDetails.call(session: session, params: payment_params)
       return redirect_to review_payments_path if params[:commit] == 'Review payment'
 
