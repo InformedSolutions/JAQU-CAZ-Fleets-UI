@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 describe 'VehiclesManagement::FleetsController - GET #index' do
-  subject { get fleets_path }
+  subject { get fleets_path, params: { vrn: vrn } }
+
+  let(:vrn) { nil }
 
   context 'correct permissions' do
     before { sign_in user }
@@ -118,6 +120,40 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
 
         it 'deletes job data from redis' do
           expect(REDIS.hget(upload_job_redis_key, 'job_id')).to be_nil
+        end
+      end
+
+      context 'with search vrn' do
+        before { allow(FleetsApi).to receive(:vehicles).and_return(read_response('vehicles.json')['1']) }
+
+        context 'with invalid search vrn format' do
+          let(:vrn) { 'ABCDE$%' }
+
+          it 'calls FleetsApi.vehicles with proper params' do
+            expect(FleetsApi).to receive(:vehicles).with(
+              account_id: user.account_id,
+              page: 1,
+              per_page: 10,
+              only_chargeable: nil,
+              vrn: nil
+            )
+            subject
+          end
+        end
+
+        context 'with valid search vrn format' do
+          let(:vrn) { 'ABCD123' }
+
+          it 'calls FleetsApi.vehicles with proper params' do
+            expect(FleetsApi).to receive(:vehicles).with(
+              account_id: user.account_id,
+              page: 1,
+              per_page: 10,
+              only_chargeable: nil,
+              vrn: vrn
+            )
+            subject
+          end
         end
       end
     end
