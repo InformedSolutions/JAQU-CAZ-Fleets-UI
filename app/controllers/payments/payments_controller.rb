@@ -132,12 +132,12 @@ module Payments
     #
     #    :POST /payments/which_days
     #
-    def submit
+    def submit # rubocop:disable Metrics/AbcSize
       SessionManipulation::AddPaymentDetails.call(session: session, params: payment_params)
       return redirect_to review_payments_path if params[:commit] == 'Review payment'
 
       SessionManipulation::AddQueryDetails.call(session: session, params: payment_params)
-      redirect_to matrix_payments_path
+      redirect_to matrix_payments_path(page: (params[:commit].to_i.positive? ? params[:commit].to_i : 1))
     end
 
     ##
@@ -297,7 +297,7 @@ module Payments
     # Permits all the form params
     def payment_params
       params.permit(:authenticity_token, :commit, :allSelectedCheckboxesCount,
-                    payment: [:vrn_search, :next_vrn, :previous_vrn, :vrn_list, { vehicles: {} }])
+                    payment: [:vrn_search, :vrn_list, { vehicles: {} }])
     end
 
     # Permits caz_id
