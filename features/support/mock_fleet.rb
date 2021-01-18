@@ -29,12 +29,13 @@ module MockFleet
 
   private
 
-  def mock_fleet(vehicles = [],
+  def mock_fleet(vehicles = [], # rubocop:disable Metrics/ParameterLists
                  page = 1,
                  total_vehicles_count = 0,
+                 per_page = 10,
                  any_undetermined_vehicles: false)
     @fleet = instance_double(VehiclesManagement::Fleet,
-                             pagination: paginated_vehicles(vehicles, page),
+                             pagination: paginated_vehicles(vehicles, page, per_page),
                              add_vehicle: true,
                              delete_vehicle: true,
                              empty?: vehicles.empty?,
@@ -43,11 +44,12 @@ module MockFleet
     allow(VehiclesManagement::Fleet).to receive(:new).and_return(@fleet)
   end
 
-  def paginated_vehicles(vehicles, page)
+  def paginated_vehicles(vehicles, page, per_page)
     instance_double(
       VehiclesManagement::PaginatedFleet,
       vehicle_list: vehicles,
       page: page,
+      per_page: per_page,
       total_pages: 2,
       range_start: 1,
       range_end: 10,

@@ -31,6 +31,7 @@ module FleetFactory
       VehiclesManagement::PaginatedFleet,
       vehicle_list: vehicles,
       page: 1,
+      per_page: 10,
       total_pages: 5,
       range_start: 1,
       range_end: 5,
