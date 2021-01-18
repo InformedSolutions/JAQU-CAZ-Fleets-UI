@@ -14,7 +14,7 @@ module VehiclesManagement
     def initialize(data, page, per_page)
       @data = data
       @page = page
-      @per_page = per_page
+      @per_page = per_page || 10
     end
 
     # Returns an array of VehiclesManagement::Vehicle model instances
