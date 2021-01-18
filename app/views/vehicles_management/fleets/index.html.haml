@@ -69,10 +69,9 @@
 
                 = select_tag('per_page',
                             options_for_select([10, 20, 30, 40, 50], params[:per_page]),
-                            class: 'govuk-select moj-pagination__results',
-                            style: 'float: right',
+                            class: 'govuk-select moj-pagination__results results-per-page-select',
                             onchange: 'this.form.submit()')
-                = label_tag('per_page', 'Results per page', class: 'govuk-label moj-pagination__results', style: 'float: right')
+                = label_tag('per_page', 'Results per page', class: 'govuk-label moj-pagination__results results-per-page-select')
 
       %p
         = link_to('Download a spreadsheet (CSV) of the charges you would pay to drive in all Clean Air Zones',
