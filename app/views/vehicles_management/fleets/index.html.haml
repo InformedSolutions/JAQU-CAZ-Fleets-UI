@@ -13,6 +13,9 @@
       %h1.govuk-heading-l= title_content
       %p
         Charge information for vehicles in each Clean Air Zone.
+        Find out how we
+        = succeed '.' do
+          = link_to('calculate charges', help_path, class: 'govuk-link', id: 'help')
       .govuk-inset-text
         %b Live
         \- you must pay a charge to drive in the zone
