@@ -196,7 +196,8 @@ module DirectDebits
         account_id: current_user.account_id,
         caz_id: caz_id,
         return_url: complete_setup_debits_url,
-        session_id: session.id.to_s
+        session_id: session.id.to_s,
+        account_user_id: current_user.user_id
       )
       redirect_to result['nextUrl']
     end
