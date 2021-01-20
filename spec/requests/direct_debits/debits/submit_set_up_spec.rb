@@ -28,6 +28,7 @@ describe 'DirectDebits::DebitsController - POST #set_up' do
       it 'adds a new mandate' do
         expect(DebitsApi).to receive(:create_mandate).with(
           account_id: user.account_id,
+          account_user_id: user.user_id,
           caz_id: caz_id,
           return_url: complete_setup_debits_url,
           session_id: anything
