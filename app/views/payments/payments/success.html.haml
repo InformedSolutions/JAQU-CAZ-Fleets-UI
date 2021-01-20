@@ -42,6 +42,14 @@
           %dd.govuk-summary-list__actions
             = link_to 'View details', post_payment_details_payments_path
 
+      %p
+        You may be able to claim a
+        = external_link_to('refund',
+                           'https://www.gov.uk/guidance/driving-in-a-clean-air-zone',
+                           id: 'refund')
+        in certain circumstances.
+        Contact the local authority in the area you're driving in to find out more.
+
       %h2.govuk-heading-m Alternatives to paying the charge
       %p
         If you own, lease or operate vehicles that do not meet the emissions standards,
