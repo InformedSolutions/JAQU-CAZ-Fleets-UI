@@ -25,11 +25,10 @@ describe Payments::Details, type: :model do
   let(:reference) { @uuid }
   let(:id) { @uuid }
   let(:email) { 'test@example.com' }
-  let(:caz_stub) { instance_double 'CleanAirZone', name: 'Leeds' }
 
-  before { allow(CleanAirZone).to receive(:find).and_return(caz_stub) }
+  before { mock_clean_air_zones }
 
-  it { expect(subject.caz_name).to eq('Leeds') }
+  it { expect(subject.clean_air_zone).to be_an_instance_of(CleanAirZone) }
   it { expect(subject.user_email).to eq(email) }
   it { expect(subject.reference).to eq(reference) }
   it { expect(subject.external_id).to eq(id) }
