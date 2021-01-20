@@ -72,6 +72,7 @@ module DirectDebits
       @payment_details = Payments::Details.new(session_details: payments,
                                                entries_paid: helpers.days_to_pay(payments[:details]),
                                                total_charge: helpers.total_to_pay(payments[:details]))
+      render 'payments/payments/success'
     end
 
     ##
