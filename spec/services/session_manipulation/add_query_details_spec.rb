@@ -7,7 +7,7 @@ describe SessionManipulation::AddQueryDetails do
 
   let(:id) { @uuid }
   let(:params) { { commit: commit, payment: { vrn_search: search } }.with_indifferent_access }
-  let(:commit) { 'Search' }
+  let(:commit) { 'SEARCH' }
   let(:search) { 'test' }
   let(:session) { {} }
 
@@ -17,13 +17,19 @@ describe SessionManipulation::AddQueryDetails do
     expect(session[:payment_query]).to eq({ search: search })
   end
 
-  context 'when commit is Search' do
-    let(:commit) { 'Search' }
+  context 'when commit is `SEARCH`' do
+    let(:commit) { 'SEARCH' }
 
     it 'saves the search value' do
-      expect(session[:payment_query]).to eq(
-        { search: search }
-      )
+      expect(session[:payment_query]).to eq({ search: search })
+    end
+  end
+
+  context 'when commit is `CLEARSEARCH`' do
+    let(:commit) { 'CLEARSEARCH' }
+
+    it 'clears the search value' do
+      expect(session[:payment_query]).to be_empty
     end
   end
 end

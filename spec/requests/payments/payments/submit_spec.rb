@@ -44,7 +44,7 @@ describe 'PaymentsController - POST #submit' do
       end
 
       context 'when commit is search' do
-        let(:commit) { 'Search' }
+        let(:commit) { 'SEARCH' }
 
         it 'redirects to :matrix' do
           expect(subject).to redirect_to(matrix_payments_path(page: 1))
