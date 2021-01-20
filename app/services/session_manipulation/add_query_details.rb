@@ -12,14 +12,15 @@ module SessionManipulation
     # Instance level +call+ method
     #
     def call
-      session[:payment_query] = {}
-      add_search_vrn if params[:commit].upcase == 'SEARCH'
+      session[:payment_query] = {} if params[:commit] == 'CLEARSEARCH'
+      add_search_vrn if params[:commit] == 'SEARCH'
     end
 
     private
 
     # Saves search value to session
     def add_search_vrn
+      session[:payment_query] = {}
       session[:payment_query][:search] = params.dig(:payment, :vrn_search)
     end
   end
