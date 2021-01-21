@@ -75,7 +75,7 @@ Feature: Organisations
 
   Scenario: User wants to verify account with invalid token
     Given I visit the verification link with a token status 'invalid'
-    Then I should see 'Your account verification failed'
+    Then I should see 'Account verification failed'
 
   Scenario: User wants to verify account with expired token
     Given I visit the verification link with a token status 'expired'
