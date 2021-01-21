@@ -51,8 +51,9 @@ module VehiclesManagement
     #
     def submit_search
       form = SearchVrnForm.new(params[:vrn])
-      if form.valid? && @fleet.pagination(vrn: form.vrn).total_vehicles_count.zero?
-        return redirect_to vrn_not_found_fleets_path(vrn: form.vrn)
+      per_page = (params[:per_page] || 10).to_i
+      if form.valid? && @fleet.pagination(vrn: form.vrn, per_page: per_page).total_vehicles_count.zero?
+        return redirect_to vrn_not_found_fleets_path(vrn: form.vrn, per_page: per_page)
       end
 
       render_fleets_page(form)

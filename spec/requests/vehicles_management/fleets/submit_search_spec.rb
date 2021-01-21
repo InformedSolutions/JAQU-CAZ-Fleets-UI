@@ -40,7 +40,7 @@ describe 'FleetsController - POST #submit_details' do
         end
 
         it 'redirects to the vrn not found page' do
-          expect(response).to redirect_to(vrn_not_found_fleets_path(vrn: vrn))
+          expect(response).to redirect_to(vrn_not_found_fleets_path(vrn: vrn, per_page: 10))
         end
       end
     end
