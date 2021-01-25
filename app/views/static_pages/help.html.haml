@@ -38,7 +38,7 @@
         %ul.govuk-list-govuk-list--bullet
           %li
             %p
-              = link_to(zone.name, zone.exemption_url, id: "#{zone.name.downcase}-exemption")
+              = external_link_to(zone.name, zone.exemption_url, id: "#{zone.name.downcase}-exemption")
 
       %h3.govuk-heading-s National
       %p Vehicles that do not have to pay the charge as they are automatically entitled to a national exemption:
