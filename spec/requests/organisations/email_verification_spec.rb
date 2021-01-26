@@ -38,10 +38,17 @@ describe 'Organisations::OrganisationsController - GET #email_verification' do
   end
 
   context 'when verification is raised `UserAlreadyConfirmedException` exception' do
-    before { allow(Organisations::VerifyAccount).to receive(:call).and_raise(UserAlreadyConfirmedException) }
+    before do
+      allow(Organisations::VerifyAccount).to receive(:call).and_raise(UserAlreadyConfirmedException)
+      subject
+    end
 
     it 'renders the view' do
-      expect(subject).to render_template('devise/sessions/new')
+      expect(response).to render_template('devise/sessions/new')
+    end
+
+    it 'sets correct error to flash[:errors]' do
+      expect(flash[:errors]).to eq({ base: ['User already confirmed'] })
     end
   end
 end
