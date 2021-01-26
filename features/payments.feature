@@ -43,7 +43,7 @@ Feature: Fleets
       And I should be on the confirm payment page
     Then I press the Continue
       And I should be on the Select payment method page
-      And I select 'Card payment'
+      And I select 'card payment'
       And I press the Continue
     Then I should be on the success payment page
       And I should see success message
