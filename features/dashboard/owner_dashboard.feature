@@ -66,7 +66,7 @@ Feature: Dashboard
 
   Scenario: View dashboard page before Bath D day
     Given I navigate to a Dashboard page before Bath D day
-      And I should see 'Payment features will be enabled on this account when charging starts in Bath on 15 March'
+      And I should see 'We will add new features when charging starts on 15 March allowing you to pay to drive in Bath.'
       And I should see 'Manage vehicles' link
       And I should not see 'Make a payment' link
       And I should not see 'Your payment history' link
