@@ -197,7 +197,7 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the payment matrix page
       And I should see 'Next 7 days'
-      And I should see 'Previous days'
+      And I should see 'Past 6 days'
 
   Scenario: Pagination
     When I have vehicles in my fleet
