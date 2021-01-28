@@ -48,10 +48,8 @@ module VehiclesManagement
     #    :POST /fleets/submit_search
     #
     def submit_search
-      form = VehiclesManagement::SearchVrnForm.new(params[:vrn])
-      @pagination = @fleet.pagination(vrn: form.vrn)
-
-      if form.valid? && @pagination.total_vehicles_count.zero?
+      form = SearchVrnForm.new(params[:vrn])
+      if form.valid? && @fleet.pagination(vrn: form.vrn).total_vehicles_count.zero?
         return redirect_to vrn_not_found_fleets_path(vrn: form.vrn)
       end
 
@@ -203,10 +201,7 @@ module VehiclesManagement
     # Removes vehicle and sets successful flash message
     def remove_vehicle
       @fleet.delete_vehicle(vrn)
-      flash[:success] = I18n.t(
-        'vrn_form.messages.single_vrn_removed',
-        vrn: session[:vrn]
-      )
+      flash[:success] = I18n.t('vrn_form.messages.single_vrn_removed', vrn: session[:vrn])
     end
 
     # Returns redirect path after successful removal of vehicle from the fleet
@@ -224,21 +219,27 @@ module VehiclesManagement
     # Assign variables needed in :index view
     def assign_variables(page)
       @search = params[:vrn]
-      @pagination = @fleet.pagination(
-        page: page,
-        only_chargeable: params[:only_chargeable],
-        vrn: @search
-      )
-      @zones = CleanAirZone.all
+      form = SearchVrnForm.new(@search)
+      if form.valid?
+        fetch_pagination_and_zones(page, @search)
+      else
+        fetch_pagination_and_zones(page)
+      end
       assign_payment_enabled
     end
 
     # Renders :index with assigned zones and errors
     def render_fleets_page(form)
-      @zones = CleanAirZone.all
       @search = form.vrn
-      flash.now[:alert] = form.error_message if form.error_message
+      fetch_pagination_and_zones
+      flash.now[:alert] = form.first_error_message if form.first_error_message
       render :index
+    end
+
+    # Make api calls
+    def fetch_pagination_and_zones(page = 1, vrn = nil)
+      @pagination = @fleet.pagination(page: page, only_chargeable: params[:only_chargeable], vrn: vrn)
+      @zones = CleanAirZone.all
     end
   end
 end

@@ -169,7 +169,7 @@ class FleetsApi < AccountsApi::Base
         'pageNumber' => calculate_page_number(page),
         'pageSize' => per_page,
         'onlyChargeable' => only_chargeable,
-        'query' => vrn
+        'query' => vrn&.upcase
       }.compact
       request(:get, "/accounts/#{account_id}/vehicles", query: query)
     end
