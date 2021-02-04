@@ -76,7 +76,7 @@ class ApplicationController < ActionController::Base
   def render_sign_in(exception)
     Rails.logger.error "#{exception.class}: #{exception}"
 
-    request.env['warden'].errors[:base] = [exception.message]
+    flash[:errors] = { base: [exception.message] }
     render 'devise/sessions/new'
   end
 
