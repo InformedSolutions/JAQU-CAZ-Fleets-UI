@@ -19,7 +19,7 @@ describe PaymentHistory::Payment, type: :model do
   let(:payment_id) { @uuid }
   let(:date) { '2020-08-1' }
   let(:payer_name) { 'Administrator' }
-  let(:caz_name) {'Bath'}
+  let(:caz_name) { 'Bath' }
   let(:entries_count) { 1 }
   let(:total_paid) { 61 }
 
