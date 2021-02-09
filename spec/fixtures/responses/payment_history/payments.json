@@ -6,7 +6,7 @@
         "payment_date": "2020-08-1",
         "entriesCount": 1,
         "totalPaid": 61,
-        "cazName": "Leeds",
+        "cazName": "Bath",
         "payerName": "Administrator"
       },
       {
@@ -14,7 +14,7 @@
         "payment_date": "2020-08-2",
         "entriesCount": 2,
         "totalPaid": 62,
-        "cazName": "Leeds",
+        "cazName": "Bath",
         "payerName": "Administrator"
       },
             {
@@ -22,7 +22,7 @@
         "payment_date": "2020-08-3",
         "entriesCount": 3,
         "totalPaid": 63,
-        "cazName": "Leeds",
+        "cazName": "Bath",
         "payerName": "Administrator"
       },
       {
@@ -30,7 +30,7 @@
         "payment_date": "2020-08-4",
         "entriesCount": 4,
         "totalPaid": 64,
-        "cazName": "Leeds",
+        "cazName": "Bath",
         "payerName": "Administrator"
       },
             {
@@ -38,7 +38,7 @@
         "payment_date": "2020-08-5",
         "entriesCount": 5,
         "totalPaid": 65,
-        "cazName": "Leeds",
+        "cazName": "Bath",
         "payerName": "Administrator"
       },
       {
@@ -46,7 +46,7 @@
         "payment_date": "2020-08-6",
         "entriesCount": 6,
         "totalPaid": 66,
-        "cazName": "Leeds",
+        "cazName": "Bath",
         "payerName": "Administrator"
       },
             {
@@ -54,7 +54,7 @@
         "payment_date": "2020-08-7",
         "entriesCount": 7,
         "totalPaid": 67,
-        "cazName": "Leeds",
+        "cazName": "Bath",
         "payerName": "Administrator"
       },
       {
@@ -62,7 +62,7 @@
         "payment_date": "2020-08-8",
         "entriesCount": 8,
         "totalPaid": 68,
-        "cazName": "Leeds",
+        "cazName": "Bath",
         "payerName": "Administrator"
       },
             {
@@ -70,7 +70,7 @@
         "payment_date": "2020-08-9",
         "entriesCount": 9,
         "totalPaid": 68,
-        "cazName": "Leeds",
+        "cazName": "Bath",
         "payerName": "Administrator"
       },
       {
@@ -78,7 +78,7 @@
         "payment_date": "2020-08-10",
         "entriesCount": 10,
         "totalPaid": 69,
-        "cazName": "Leeds",
+        "cazName": "Bath",
         "payerName": "Administrator"
       }
     ],
@@ -94,7 +94,7 @@
         "payment_date": "2020-08-11",
         "entriesCount": 13,
         "totalPaid": 73,
-        "cazName": "Leeds",
+        "cazName": "Bath",
         "payerName": "Administrator"
       },
       {
@@ -102,7 +102,7 @@
         "payment_date": "2020-08-12",
         "entriesCount": 14,
         "totalPaid": 74,
-        "cazName": "Leeds",
+        "cazName": "Bath",
         "payerName": "Administrator"
       }
     ],

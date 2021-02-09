@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'PaymentsApi.payment_status' do
-  subject { PaymentsApi.payment_status(payment_id: id, caz_name: 'leeds') }
+  subject { PaymentsApi.payment_status(payment_id: id, caz_name: 'Bath') }
 
   let(:id) { @uuid }
 

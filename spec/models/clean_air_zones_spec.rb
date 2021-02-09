@@ -143,10 +143,10 @@ describe CleanAirZone, type: :model do
     end
 
     context 'when another caz name' do
-      let(:name) { 'Leeds' }
+      let(:name) { 'Birmingham' }
 
       it 'returns a proper value' do
-        expect(subject.charging_starts).to eq('Early 2021')
+        expect(subject.charging_starts).to eq('1 June 2021')
       end
     end
   end
