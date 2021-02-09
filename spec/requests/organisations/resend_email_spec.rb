@@ -24,7 +24,7 @@ describe 'Organisations::OrganisationsController - GET #resend_email' do
   end
 
   context 'without new_account data in the session' do
-    let(:session_data) { { new_account: { 'account_id': @uuid } } }
+    let(:session_data) { { new_account: { account_id: @uuid } } }
 
     it 'does not call AccountApi to resend the email' do
       subject

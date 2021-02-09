@@ -36,7 +36,7 @@ describe 'PaymentsApi.create_payment' do
     before do
       stub_request(:post, /#{url}/).to_return(
         status: 201,
-        body: { 'paymentId': @uuid, 'nextUrl': 'http://example.com' }.to_json
+        body: { paymentId: @uuid, nextUrl: 'http://example.com' }.to_json
       )
     end
 

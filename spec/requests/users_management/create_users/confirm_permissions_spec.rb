@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'UsersManagement::CreateUsersController - POST #add_permissions' do
   subject { post add_permissions_users_path, params: params.stringify_keys }
 
-  let(:params) { { new_user: { 'permissions': permissions } } }
+  let(:params) { { new_user: { permissions: permissions } } }
   let(:permissions) { %w[MANAGE_USERS] }
 
   context 'correct permissions' do

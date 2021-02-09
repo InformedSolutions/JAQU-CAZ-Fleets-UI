@@ -4,9 +4,7 @@ require 'rails_helper'
 
 describe 'PaymentHistory::PaymentHistoryController - GET #payment_history_details' do
   subject do
-    get payment_history_details_path,
-        params: { payment_id: @uuid },
-        headers: { 'HTTP_REFERER': last_page }
+    get payment_history_details_path, params: { payment_id: @uuid }, headers: { HTTP_REFERER: last_page }
   end
 
   let(:last_page) { company_payment_history_path }

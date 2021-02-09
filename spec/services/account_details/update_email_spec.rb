@@ -46,7 +46,7 @@ describe AccountDetails::UpdateEmail do
       before do
         stub_request(:put, /#{url}/).to_return(
           status: 422,
-          body: { 'message': '', 'errorCode': error_code }.to_json
+          body: { message: '', errorCode: error_code }.to_json
         )
         subject.valid?
       end

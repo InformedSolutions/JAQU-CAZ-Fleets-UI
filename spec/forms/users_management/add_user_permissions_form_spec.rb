@@ -14,9 +14,9 @@ describe UsersManagement::AddUserPermissionsForm, type: :model do
   let(:user) { create_user }
   let(:new_user_data) do
     {
-      'name': 'New User Name',
-      'email': 'new_user@example.com',
-      'permissions': permissions
+      name: 'New User Name',
+      email: 'new_user@example.com',
+      permissions: permissions
     }
   end
   let(:verification_url) { 'http://www.example.com/users/set_up' }

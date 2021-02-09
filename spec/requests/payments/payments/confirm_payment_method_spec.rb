@@ -11,8 +11,8 @@ describe 'PaymentsController - POST #confirm_payment_method' do
     before do
       add_to_session(new_payment: { caz_id: @uuid, details: {} })
       allow(PaymentsApi).to receive(:create_payment).and_return(
-        'paymentId': @uuid,
-        'nextUrl': result_payments_path
+        paymentId: @uuid,
+        nextUrl: result_payments_path
       )
       sign_in create_user
       subject

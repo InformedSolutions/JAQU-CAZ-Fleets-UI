@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'PaymentsController - GET #index' do
-  subject { get payments_path, headers: { 'HTTP_REFERER': referer } }
+  subject { get payments_path, headers: { HTTP_REFERER: referer } }
 
   let(:referer) { 'http://www.example.com' }
 

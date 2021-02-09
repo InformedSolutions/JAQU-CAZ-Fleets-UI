@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'UsersManagement::CreateUsersController - POST #create' do
   subject { post users_path, params: params }
 
-  let(:params) { { new_user: { 'name': name, 'email': email } } }
+  let(:params) { { new_user: { name: name, email: email } } }
   let(:name) { 'New User' }
   let(:email) { 'new_user@example.com' }
 
