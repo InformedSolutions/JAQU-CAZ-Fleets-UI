@@ -105,11 +105,11 @@ Then('Second user can now pay for Birmingham') do
   end
 end
 
-Then('After 16 minutes second user can pay for Leeds too') do
+Then('After 16 minutes second user can pay for Bath too') do
   travel(16.minutes) do
     sign_in_second_user
     visit payments_path
-    choose('Leeds')
+    choose('Bath')
     click_on('Continue')
     expect_path(matrix_payments_path)
   end

@@ -150,7 +150,7 @@ Feature: Fleets
     Then I should be on the make a payment page
       And I should see 'Which Clean Air Zone do you need to pay for?'
       And I should see 'Birmingham'
-      And I should not see 'Leeds'
+      And I should not see 'Bath'
 
   Scenario: Making a payment and block payment for second user in selected CAZ
     When I have vehicles in my fleet
@@ -161,11 +161,11 @@ Feature: Fleets
       And Second user is blocked from making a payment in the same CAZ
       And I press 'Back' link
     Then I should be on the make a payment page
-      And I select 'Leeds'
+      And I select 'Bath'
       And I press the Continue
     Then I should be on the payment matrix page
       And Second user can now pay for Birmingham
-    Then After 16 minutes second user can pay for Leeds too
+    Then After 16 minutes second user can pay for Bath too
 
   Scenario: Making a payment when another user started payment process in the same caz
     When I have vehicles in my fleet
