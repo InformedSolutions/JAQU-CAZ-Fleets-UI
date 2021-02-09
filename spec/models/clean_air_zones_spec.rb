@@ -106,7 +106,7 @@ describe CleanAirZone, type: :model do
     end
 
     it 'returns only active CleanAirZone' do
-      expect(subject.count).to eq(2)
+      expect(subject.count).to eq(3)
     end
   end
 
