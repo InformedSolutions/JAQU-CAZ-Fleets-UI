@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe 'DirectDebits::DebitsController - GET #index' do
+describe 'DirectDebits::DebitsController - GET #index', type: :request do
   subject { get debits_path }
 
   before { mock_direct_debit_enabled }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before { sign_in manage_mandates_user }
 
     context 'when zones have the active mandates' do

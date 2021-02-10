@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'PaymentHistory::PaymentHistoryController - GET #company_payment_history' do
+describe 'PaymentHistory::PaymentHistoryController - GET #company_payment_history', type: :request do
   subject { get company_payment_history_path, params: { page: 2 } }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before do
       mock_actual_account_name
       api_response = read_response('payment_history/payments.json')['1']
@@ -17,7 +17,7 @@ describe 'PaymentHistory::PaymentHistoryController - GET #company_payment_histor
       expect(subject).to render_template(:company_payment_history)
     end
 
-    context 'and with invalid page' do
+    context 'with with invalid page' do
       before do
         allow(PaymentHistoryApi).to receive(:payments).and_raise(
           BaseApi::Error400Exception.new(400, '', {})

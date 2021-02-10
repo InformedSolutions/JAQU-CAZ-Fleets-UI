@@ -33,13 +33,8 @@ describe 'AccountsApi::Accounts.user_invitations - POST' do
     end
 
     it 'calls API with proper body' do
-      body = {
-        isAdministeredBy: user_id,
-        email: email,
-        name: name,
-        verificationUrl: verification_url,
-        permissions: permissions
-      }.to_json
+      body = { isAdministeredBy: user_id, email: email, name: name, verificationUrl: verification_url,
+               permissions: permissions }.to_json
       subject
       expect(WebMock).to have_requested(:post, /#{url}/).with(body: body).once
     end

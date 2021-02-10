@@ -2,13 +2,13 @@
 
 require 'rails_helper'
 
-describe 'UsersManagement::EditUsersController - PATCH #update' do
+describe 'UsersManagement::EditUsersController - PATCH #update', type: :request do
   subject { patch user_path(@uuid), params: params }
 
   let(:params) { { edit_user: permissions } }
   let(:permissions) { { permissions: %w[MAKE_PAYMENTS] } }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     context 'with edit user data in session' do
       before do
         sign_in manage_users_user

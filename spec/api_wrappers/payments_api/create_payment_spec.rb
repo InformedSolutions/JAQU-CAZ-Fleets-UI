@@ -36,7 +36,7 @@ describe 'PaymentsApi.create_payment' do
     before do
       stub_request(:post, /#{url}/).to_return(
         status: 201,
-        body: { 'paymentId': @uuid, 'nextUrl': 'http://example.com' }.to_json
+        body: { paymentId: @uuid, nextUrl: 'http://example.com' }.to_json
       )
     end
 
@@ -45,15 +45,13 @@ describe 'PaymentsApi.create_payment' do
     end
 
     it 'calls API with right params' do
-      expect(subject)
-        .to have_requested(:post, /#{url}/)
-        .with(body: {
-                cleanAirZoneId: caz_id,
-                returnUrl: return_url,
-                userId: user_id,
-                transactions: transactions,
-                telephonePayment: false
-              })
+      expect(subject).to have_requested(:post, /#{url}/).with(body: {
+                                                                cleanAirZoneId: caz_id,
+                                                                returnUrl: return_url,
+                                                                userId: user_id,
+                                                                transactions: transactions,
+                                                                telephonePayment: false
+                                                              })
     end
   end
 

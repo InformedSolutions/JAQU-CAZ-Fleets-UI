@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe 'FleetsApi.job_status' do
   subject { FleetsApi.job_status(job_id: job_id, correlation_id: id) }
+
   let(:url) { %r{accounts/register-csv-from-s3/jobs/#{job_id}} }
   let(:id) { @uuid }
   let(:job_id) { @uuid }

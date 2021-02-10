@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Build ID' do
+describe 'Build ID', type: :request do
   subject { get build_id_path }
 
   it 'returns 200' do

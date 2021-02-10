@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Organisations::OrganisationsController - GET #how_many_vehicles' do
+describe 'Organisations::OrganisationsController - GET #how_many_vehicles', type: :request do
   subject { get how_many_vehicles_organisations_path }
 
   it 'returns a 200 OK status' do

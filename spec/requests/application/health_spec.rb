@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Health check' do
+describe 'Health check', type: :request do
   subject { get health_path }
 
   it 'returns 200' do

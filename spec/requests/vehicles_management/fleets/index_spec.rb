@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe 'VehiclesManagement::FleetsController - GET #index' do
+describe 'VehiclesManagement::FleetsController - GET #index', type: :request do
   subject { get fleets_path, params: { vrn: vrn } }
 
   let(:vrn) { nil }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before { sign_in user }
 
     let(:user) { manage_vehicles_user }
@@ -25,7 +25,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
     context 'with vehicles in fleet' do
       before { mock_clean_air_zones }
 
-      context 'and without upload data in redis' do
+      context 'with without upload data in redis' do
         before do
           mock_fleet
           subject
@@ -56,7 +56,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
           subject
         end
 
-        context 'and when status is SUCCESS' do
+        context 'with when status is SUCCESS' do
           let(:status) { 'SUCCESS' }
 
           it 'renders manage vehicles page' do
@@ -68,7 +68,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
           end
         end
 
-        context 'and when status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
+        context 'with when status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
           let(:status) { 'CHARGEABILITY_CALCULATION_IN_PROGRESS' }
 
           it 'redirects to the calculating chargeability page' do
@@ -80,7 +80,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
           end
         end
 
-        context 'and when status is RUNNING' do
+        context 'with when status is RUNNING' do
           let(:status) { 'RUNNING' }
 
           it 'redirects to the process uploading page' do
@@ -92,7 +92,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
           end
         end
 
-        context 'and when status is unknown' do
+        context 'with when status is unknown' do
           let(:status) { 'UNKNOWN' }
 
           it 'renders manage vehicles page' do
@@ -109,7 +109,7 @@ describe 'VehiclesManagement::FleetsController - GET #index' do
         end
       end
 
-      context 'and when api returns 404 status' do
+      context 'with when api returns 404 status' do
         before do
           add_upload_job_to_redis
           mock_fleet

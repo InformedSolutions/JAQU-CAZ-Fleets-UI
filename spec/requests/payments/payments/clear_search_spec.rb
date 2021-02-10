@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - GET #clear_serach' do
+describe 'PaymentsController - GET #clear_serach', type: :request do
   subject { get clear_search_payments_path }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before do
       mock_clean_air_zones
       mock_chargeable_vehicles
