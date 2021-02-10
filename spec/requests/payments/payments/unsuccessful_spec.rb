@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - GET #unsuccessful' do
+describe 'PaymentsController - GET #unsuccessful', type: :request do
   subject { get unsuccessful_payments_path }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     let(:payment_data) do
       { caz_id: @uuid,
         details: { 'PAY001' =>

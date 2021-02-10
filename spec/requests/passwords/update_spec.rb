@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PasswordsController - PATCH #update' do
+describe 'PasswordsController - PATCH #update', type: :request do
   subject do
     patch passwords_path,
           params: {

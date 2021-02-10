@@ -20,15 +20,8 @@ describe 'Api.account_details - GET' do
     end
 
     it 'returns a proper fields' do
-      expect(subject.keys).to contain_exactly(
-        'accountId',
-        'accountName',
-        'accountUserId',
-        'email',
-        'name',
-        'owner',
-        'removed'
-      )
+      expect(subject.keys).to contain_exactly('accountId', 'accountName', 'accountUserId', 'email',
+                                              'name', 'owner', 'removed')
     end
 
     context 'when the response status is 404' do

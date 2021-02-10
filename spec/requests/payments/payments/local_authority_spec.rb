@@ -2,13 +2,13 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - POST #local_authority' do
+describe 'PaymentsController - POST #local_authority', type: :request do
   subject { post local_authority_payments_path, params: { caz_id: caz_id } }
 
   let(:caz_id) { @uuid }
   let(:user) { make_payments_user }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     let(:total_vehicles_count) { 3 }
     let(:any_undetermined_vehicles) { false }
 
@@ -60,7 +60,7 @@ describe 'PaymentsController - POST #local_authority' do
 
         let(:upload_job_redis_key) { "account_id_#{user.account_id}" }
 
-        context 'and when status is SUCCESS' do
+        context 'with when status is SUCCESS' do
           let(:status) { 'SUCCESS' }
 
           it 'redirects to the matrix page' do
@@ -72,7 +72,7 @@ describe 'PaymentsController - POST #local_authority' do
           end
         end
 
-        context 'and when status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
+        context 'with when status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
           let(:status) { 'CHARGEABILITY_CALCULATION_IN_PROGRESS' }
 
           it 'redirects to the calculating chargeability page' do
@@ -84,7 +84,7 @@ describe 'PaymentsController - POST #local_authority' do
           end
         end
 
-        context 'and when status is RUNNING' do
+        context 'with when status is RUNNING' do
           let(:status) { 'RUNNING' }
 
           it 'redirects to the process uploading page' do
@@ -96,7 +96,7 @@ describe 'PaymentsController - POST #local_authority' do
           end
         end
 
-        context 'and when status is unknown' do
+        context 'with when status is unknown' do
           let(:status) { 'UNKNOWN' }
 
           it 'redirects to the matrix page' do
@@ -144,7 +144,7 @@ describe 'PaymentsController - POST #local_authority' do
       end
 
       it 'not removes caz lock from redis' do
-        expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).to_not be_nil
+        expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).not_to be_nil
       end
     end
 
@@ -160,7 +160,7 @@ describe 'PaymentsController - POST #local_authority' do
       end
 
       it 'not removes caz lock from redis' do
-        expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).to_not be_nil
+        expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).not_to be_nil
       end
     end
   end

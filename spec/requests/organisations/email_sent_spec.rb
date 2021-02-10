@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Organisations::OrganisationsController - GET #email_sent' do
+describe 'Organisations::OrganisationsController - GET #email_sent', type: :request do
   subject { get email_sent_organisations_path }
 
   let(:session_data) { { new_account: create_user.serializable_hash.merge(company_name: 'Company name') } }

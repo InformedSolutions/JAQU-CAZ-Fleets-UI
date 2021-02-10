@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe DashboardController do
+describe DashboardController, type: :request do
   describe 'GET #index' do
     subject { get dashboard_path }
 
@@ -24,7 +24,7 @@ describe DashboardController do
 
       let(:user) { create_user(permissions: %w[MAKE_PAYMENTS MANAGE_MANDATES MANAGE_VEHICLES MANAGE_USERS]) }
 
-      context 'should clear manage users session' do
+      context 'with cleaning manage users session' do
         before do
           add_to_session(new_user: { name: user.account_name, email: user.email })
           subject

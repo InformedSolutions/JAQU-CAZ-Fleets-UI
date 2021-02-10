@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'AccountDetails::PasswordsController - PATCH #update' do
+describe 'AccountDetails::PasswordsController - PATCH #update', type: :request do
   subject do
     patch edit_password_path,
           params: {

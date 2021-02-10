@@ -50,16 +50,10 @@ describe 'DebitsApi.create_payment - POST' do
     end
 
     it 'calls API with right params' do
-      expect(subject)
-        .to have_requested(:post, /#{url}/)
-        .with(body: {
-                accountId: account_id,
-                cleanAirZoneId: caz_id,
-                userId: user_id,
-                userEmail: user_email,
-                mandateId: mandate_id,
-                transactions: transactions
-              })
+      expect(subject).to have_requested(:post, /#{url}/).with(
+        body: { accountId: account_id, cleanAirZoneId: caz_id, userId: user_id, userEmail: user_email,
+                mandateId: mandate_id, transactions: transactions }
+      )
     end
   end
 

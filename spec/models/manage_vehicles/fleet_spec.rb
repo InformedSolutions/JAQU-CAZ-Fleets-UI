@@ -17,15 +17,13 @@ describe VehiclesManagement::Fleet, type: :model do
     before { allow(FleetsApi).to receive(:vehicles).and_return(vehicles_data) }
 
     it 'calls FleetsApi.vehicles with proper params' do
-      expect(FleetsApi).to(
-        receive(:vehicles).with(
-          account_id: account_id,
-          page: page,
-          per_page: per_page,
-          only_chargeable: false,
-          vrn: nil
-        )
-      )
+      expect(FleetsApi).to(receive(:vehicles).with(
+                             account_id: account_id,
+                             page: page,
+                             per_page: per_page,
+                             only_chargeable: false,
+                             vrn: nil
+                           ))
       vehicles
     end
 
@@ -85,7 +83,7 @@ describe VehiclesManagement::Fleet, type: :model do
 
     context 'when some vehicles returned' do
       it 'returns false' do
-        expect(subject.empty?).to be_falsey
+        expect(subject).not_to be_empty
       end
     end
 
@@ -93,7 +91,7 @@ describe VehiclesManagement::Fleet, type: :model do
       let(:vehicles_data) { { 'vehicles' => [] } }
 
       it 'returns true' do
-        expect(subject.empty?).to be_truthy
+        expect(subject).to be_empty
       end
     end
   end

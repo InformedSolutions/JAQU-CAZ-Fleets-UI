@@ -23,13 +23,8 @@ describe 'PaymentHistoryApi.payments' do
 
     it 'returns a proper fields' do
       expect(subject.keys).to contain_exactly(
-        'centralPaymentReference',
-        'paymentProviderId',
-        'paymentDate',
-        'totalPaid',
-        'telephonePayment',
-        'payerName',
-        'lineItems'
+        'centralPaymentReference', 'paymentProviderId', 'paymentDate', 'totalPaid', 'telephonePayment',
+        'payerName', 'lineItems'
       )
     end
   end

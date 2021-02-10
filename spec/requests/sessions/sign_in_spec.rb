@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'User signing in' do
+describe 'User signing in', type: :request do
   subject { post user_session_path(params) }
 
   let(:email) { 'Test@Example.com' }

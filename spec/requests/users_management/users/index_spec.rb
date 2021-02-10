@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'UsersManagement::UsersController - GET #index' do
+describe 'UsersManagement::UsersController - GET #index', type: :request do
   subject { get users_path }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before do
       sign_in manage_users_user
       mock_actual_account_name

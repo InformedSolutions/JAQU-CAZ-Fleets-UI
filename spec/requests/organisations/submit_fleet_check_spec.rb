@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Organisations::OrganisationsController - POST #submit_how_many_vehicles' do
+describe 'Organisations::OrganisationsController - POST #submit_how_many_vehicles', type: :request do
   subject do
     post how_many_vehicles_organisations_path, params: {
       organisations: { confirm_fleet_check: 'less_than_two' }

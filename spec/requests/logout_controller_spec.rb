@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe LogoutController do
+describe LogoutController, type: :request do
   describe 'GET #sign_out' do
     subject { get sign_out_path }
 
@@ -15,6 +15,7 @@ describe LogoutController do
     subject { post assign_logout_notice_back_url_path(params: params) }
 
     let(:params) { { logout_notice_back_url: root_path } }
+
     before { subject }
 
     it 'assigns correct value to session' do

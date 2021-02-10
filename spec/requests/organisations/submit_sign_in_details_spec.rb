@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Organisations::OrganisationsController - POST #sign_in_details' do
+describe 'Organisations::OrganisationsController - POST #sign_in_details', type: :request do
   subject { post sign_in_details_organisations_url, params: params }
 
   let(:params) { { organisations: organization_params } }

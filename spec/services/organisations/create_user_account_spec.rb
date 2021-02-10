@@ -28,7 +28,7 @@ describe Organisations::CreateUserAccount do
   let(:valid) { true }
 
   context 'when api returns correct response' do
-    context 'and form valid' do
+    context 'with form valid' do
       before do
         allow(Organisations::EmailAndPasswordForm)
           .to receive(:new)
@@ -46,19 +46,17 @@ describe Organisations::CreateUserAccount do
       end
 
       it 'calls AccountsApi.users with proper params' do
-        expect(AccountsApi::Users)
-          .to receive(:create_user)
-          .with(
-            account_id: account_id,
-            email: email,
-            password: password,
-            verification_url: verification_url
-          )
+        expect(AccountsApi::Users).to receive(:create_user).with(
+          account_id: account_id,
+          email: email,
+          password: password,
+          verification_url: verification_url
+        )
         subject
       end
     end
 
-    context 'and form not valid' do
+    context 'with form not valid' do
       before do
         allow(Organisations::EmailAndPasswordForm)
           .to receive(:new)

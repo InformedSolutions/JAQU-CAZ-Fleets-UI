@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe RelevantPortalController do
+describe RelevantPortalController, type: :request do
   describe 'GET #what_would_you_like_to_do' do
     subject { get what_would_you_like_to_do_path }
 
@@ -10,9 +10,9 @@ describe RelevantPortalController do
   end
 
   describe 'POST #what_would_you_like_to_do' do
-    before { subject }
-
     subject { post what_would_you_like_to_do_path, params: { check_vehicle_option: check_vehicle_option } }
+
+    before { subject }
 
     context 'with selected `single` option' do
       let(:check_vehicle_option) { 'single' }
@@ -28,7 +28,7 @@ describe RelevantPortalController do
       end
     end
 
-    context 'with selected `single` option' do
+    context 'with selected `multiple` option' do
       let(:check_vehicle_option) { 'multiple' }
 
       it 'returns a found response' do

@@ -84,19 +84,19 @@ describe Payments::PaginatedVehicles, type: :model do
   end
 
   describe '.all_dates_unpaid?' do
-    context 'not all days are unpaid' do
+    context 'when not all days are unpaid' do
       it 'returns false' do
-        expect(subject.all_days_unpaid?).to be_falsey
+        expect(subject).not_to be_all_days_unpaid
       end
     end
 
-    context 'all days are unpaid' do
+    context 'when all days are unpaid' do
       let(:vehicles_data) do
         read_response('payments/chargeable_vehicles_with_unpaid_dates.json')['chargeableAccountVehicles']
       end
 
       it 'returns true' do
-        expect(subject.all_days_unpaid?).to be_truthy
+        expect(subject).to be_all_days_unpaid
       end
     end
   end

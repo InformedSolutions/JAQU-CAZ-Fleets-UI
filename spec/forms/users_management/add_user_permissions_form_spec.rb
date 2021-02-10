@@ -27,7 +27,7 @@ describe UsersManagement::AddUserPermissionsForm, type: :model do
 
     it { is_expected.to be_valid }
 
-    context 'empty permissions' do
+    context 'when empty permissions' do
       let(:permissions) { [] }
 
       it { is_expected.not_to be_valid }

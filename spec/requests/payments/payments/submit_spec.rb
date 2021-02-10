@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - POST #submit' do
+describe 'PaymentsController - POST #submit', type: :request do
   subject { post matrix_payments_path, params: params }
 
   let(:params) do
@@ -20,7 +20,7 @@ describe 'PaymentsController - POST #submit' do
   let(:dates) { ['2020-03-08'] }
   let(:search) { 'test' }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before { sign_in create_user }
 
     it 'redirects to the :index' do

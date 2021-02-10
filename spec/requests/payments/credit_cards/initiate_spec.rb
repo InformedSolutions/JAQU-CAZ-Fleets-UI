@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Payments::CreditCardsController - POST #initiate' do
+describe 'Payments::CreditCardsController - POST #initiate', type: :request do
   subject do
     get initiate_payments_path
   end

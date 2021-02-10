@@ -135,12 +135,13 @@ describe AccountDetails::EditUserEmailForm, type: :model do
   end
 
   context 'when emails match but have invalid format' do
-    before { allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true) }
-
     let(:email) { 'invalid-format' }
     let(:confirmation) { 'invalid-format' }
 
-    before { subject.valid? }
+    before do
+      allow(AccountsApi::Accounts).to receive(:user_validations).and_return(true)
+      subject.valid?
+    end
 
     it { is_expected.not_to be_valid }
 

@@ -102,7 +102,7 @@ describe CleanAirZone, type: :model do
     end
 
     it 'returns an array of CleanAirZone instances' do
-      expect(subject).to all(be_a(CleanAirZone))
+      expect(subject).to all(be_a(described_class))
     end
 
     it 'returns only active CleanAirZone' do
@@ -119,7 +119,7 @@ describe CleanAirZone, type: :model do
     end
 
     it 'returns an array of CleanAirZone instances' do
-      expect(subject).to all(be_a(CleanAirZone))
+      expect(subject).to all(be_a(described_class))
     end
 
     it 'returns only active CleanAirZone' do
