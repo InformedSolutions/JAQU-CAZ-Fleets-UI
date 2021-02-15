@@ -2,13 +2,13 @@
   "name": "jaqu-caz-fleets-ui",
   "private": true,
   "dependencies": {
-    "@ministryofjustice/frontend": "^0.1.0",
-    "@rails/actioncable": "^6.1.1",
-    "@rails/activestorage": "^6.1.1",
-    "@rails/ujs": "^6.1.1",
+    "@ministryofjustice/frontend": "^0.2.1",
+    "@rails/actioncable": "^6.1.2",
+    "@rails/activestorage": "^6.1.2",
+    "@rails/ujs": "^6.1.2",
     "@rails/webpacker": "^5.2.1",
-    "core-js": "^3.8.2",
-    "govuk-frontend": "^3.10.2",
+    "core-js": "^3.8.3",
+    "govuk-frontend": "^3.11.0",
     "improved-yarn-audit": "^2.3.2",
     "rails-erb-loader": "^5.5.2",
     "regenerator-runtime": "^0.13.7"
@@ -16,6 +16,6 @@
   "version": "0.1.0",
   "devDependencies": {
     "pa11y": "^5.3.0",
-    "webpack-dev-server": "^3.11.1"
+    "webpack-dev-server": "^3.11.2"
   }
 }

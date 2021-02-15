@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe 'VehiclesManagement::FleetsController - POST #confirm_delete' do
+describe 'VehiclesManagement::FleetsController - POST #confirm_delete', type: :request do
   subject { post remove_fleets_path, params: { 'confirm-delete': confirmation } }
 
   let(:confirmation) { 'yes' }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     let(:fleet) { create_fleet }
 
     it 'redirects to the login page' do
@@ -30,34 +30,31 @@ describe 'VehiclesManagement::FleetsController - POST #confirm_delete' do
         before { add_to_session(vrn: @vrn) }
 
         context 'when user confirms subject' do
+          before { subject }
+
           it 'calls VehiclesManagement::Fleet#delete_vehicle' do
-            expect(fleet).to receive(:delete_vehicle).with(@vrn)
+            expect(fleet).to have_received(:delete_vehicle).with(@vrn)
+          end
+
+          it 'redirects to the fleets page' do
+            expect(response).to redirect_to(fleets_path)
+          end
+
+          it 'clears vrn in the session' do
+            expect(session[:vrn]).to eq(nil)
+          end
+
+          it 'sets :success notification in flash' do
+            expect(flash[:success]).to eq('You have successfully removed ABC123 from your vehicle list.')
+          end
+        end
+
+        context 'when it was the last vehicle' do
+          before { mock_fleet(create_empty_fleet) }
+
+          it 'redirects to the dashboard' do
             subject
-          end
-
-          context do
-            before { subject }
-
-            it 'redirects to the fleets page' do
-              expect(response).to redirect_to(fleets_path)
-            end
-
-            it 'clears vrn in the session' do
-              expect(session[:vrn]).to eq(nil)
-            end
-
-            it 'sets :success notification in flash' do
-              expect(flash[:success]).to eq('You have successfully removed ABC123 from your vehicle list.')
-            end
-          end
-
-          context 'when it was the last vehicle' do
-            before { mock_fleet(create_empty_fleet) }
-
-            it 'redirects to the dashboard' do
-              subject
-              expect(response).to redirect_to(dashboard_path)
-            end
+            expect(response).to redirect_to(dashboard_path)
           end
         end
 

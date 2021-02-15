@@ -18,7 +18,7 @@ describe VehiclesManagement::UploadFile do
       end
 
       it 'returns a proper value' do
-        expect(subject.large_fleet?).to be_falsey
+        expect(subject).not_to be_large_fleet
       end
     end
 
@@ -84,13 +84,13 @@ describe VehiclesManagement::UploadFile do
     before { allow(VehiclesManagement::CountVehicles).to receive(:call).and_return(5) }
 
     context 'when uploaded file is less than threshold' do
-      it { expect(subject.large_fleet?).to be_falsey }
+      it { expect(subject).not_to be_large_fleet }
     end
 
     context 'when uploaded file is not less than threshold' do
       before { Rails.configuration.x.large_fleet_threshold = 5 }
 
-      it { expect(subject.large_fleet?).to be_truthy }
+      it { expect(subject).to be_large_fleet }
     end
   end
 end

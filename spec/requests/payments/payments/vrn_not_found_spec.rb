@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - GET #vrn_not_found' do
+describe 'PaymentsController - GET #vrn_not_found', type: :request do
   subject { get vrn_not_found_payments_path }
 
   let(:caz_id) { @uuid }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before { sign_in create_user }
 
     context 'with la in the session' do

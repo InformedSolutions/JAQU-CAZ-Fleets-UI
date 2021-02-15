@@ -10,9 +10,6 @@ module DirectDebits
     include CazLock
     include CheckPermissions
 
-    before_action -> { check_permissions(helpers.direct_debits_enabled?) }, only: %i[
-      index set_up submit_set_up complete_setup
-    ]
     before_action lambda {
                     check_permissions(allow_manage_mandates?)
                   }, only: %i[index set_up submit_set_up complete_setup]
@@ -75,6 +72,7 @@ module DirectDebits
       @payment_details = Payments::Details.new(session_details: payments,
                                                entries_paid: helpers.days_to_pay(payments[:details]),
                                                total_charge: helpers.total_to_pay(payments[:details]))
+      render 'payments/payments/success'
     end
 
     ##
@@ -199,7 +197,8 @@ module DirectDebits
         account_id: current_user.account_id,
         caz_id: caz_id,
         return_url: complete_setup_debits_url,
-        session_id: session.id.to_s
+        session_id: session.id.to_s,
+        account_user_id: current_user.user_id
       )
       redirect_to result['nextUrl']
     end

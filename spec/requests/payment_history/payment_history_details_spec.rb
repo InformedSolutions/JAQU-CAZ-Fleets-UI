@@ -2,16 +2,14 @@
 
 require 'rails_helper'
 
-describe 'PaymentHistory::PaymentHistoryController - GET #payment_history_details' do
+describe 'PaymentHistory::PaymentHistoryController - GET #payment_history_details', type: :request do
   subject do
-    get payment_history_details_path,
-        params: { payment_id: @uuid },
-        headers: { 'HTTP_REFERER': last_page }
+    get payment_history_details_path, params: { payment_id: @uuid }, headers: { HTTP_REFERER: last_page }
   end
 
   let(:last_page) { company_payment_history_path }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before do
       api_response = read_response('payment_history/payment_details.json')
       allow(PaymentHistoryApi).to receive(:payment_details).and_return(api_response)

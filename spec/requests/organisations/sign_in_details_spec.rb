@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-describe 'Organisations::OrganisationsController - GET #sign_in_details' do
+describe 'Organisations::OrganisationsController - GET #sign_in_details', type: :request do
   subject { get sign_in_details_organisations_path }
 
   before do
-    add_to_session(new_account: { 'account_id': @uuid })
+    add_to_session(new_account: { account_id: @uuid })
     subject
   end
 

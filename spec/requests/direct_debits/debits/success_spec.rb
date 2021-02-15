@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'DirectDebits::DebitsController - GET #success' do
+describe 'DirectDebits::DebitsController - GET #success', type: :request do
   subject { get success_debits_path }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before do
       mock_clean_air_zones
       add_to_session(initiated_payment: {
@@ -18,7 +18,6 @@ describe 'DirectDebits::DebitsController - GET #success' do
 
     let(:user) { make_payments_user }
     let(:caz_id) { @uuid }
-
     let(:details) do
       {
         'CU12345' =>
@@ -32,7 +31,7 @@ describe 'DirectDebits::DebitsController - GET #success' do
     end
 
     it 'renders the view' do
-      expect(subject).to render_template(:success)
+      expect(subject).to render_template('payments/payments/success')
     end
 
     context 'when CAZ locked by current user' do

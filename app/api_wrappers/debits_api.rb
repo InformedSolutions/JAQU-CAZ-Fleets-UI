@@ -104,19 +104,21 @@ class DebitsApi < PaymentsApi
     # * +caz_id+ - uuid, ID of the CAZ
     # * +return_url+ - URL where GoCardless should redirect after the payment is done
     # * +session_id+ - actively logged in user's session token
+    # * +account_user_id+ - uuid, id of the user account
     #
     # ==== Result
     #
     # Returned payment details will have the following fields:
     # * +nextUrl+ - string, path where user should be redirected
     #
-    def create_mandate(account_id:, caz_id:, return_url:, session_id:)
+    def create_mandate(account_id:, caz_id:, return_url:, session_id:, account_user_id:)
       log_action('Adding a mandate to account')
 
       body = {
         cleanAirZoneId: caz_id,
         returnUrl: return_url,
-        sessionId: session_id
+        sessionId: session_id,
+        accountUserId: account_user_id
       }.to_json
 
       request(:post, "/payments/accounts/#{account_id}/direct-debit-mandates", body: body)

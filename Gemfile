@@ -5,7 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.2'
 
-gem 'rails', '~> 6.1.1'
+gem 'rails', '~> 6.1.2.1'
 
 gem 'aws-sdk-s3'
 gem 'bootsnap', require: false
@@ -47,6 +47,7 @@ group :test do
   gem 'rack_session_access'
   gem 'rails-controller-testing'
   gem 'rubocop-rails'
+  gem 'rubocop-rspec'
   gem 'scss_lint-govuk', require: false
   gem 'selenium-webdriver'
   gem 'show_me_the_cookies'

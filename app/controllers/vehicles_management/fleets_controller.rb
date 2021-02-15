@@ -29,13 +29,15 @@ module VehiclesManagement
     #
     # * +page+ - used to paginate vehicles list, defaults to 1, present in the query params
     # * only_chargeable* - flag, to filter out non-charged vehicles
+    # * +page_size+ - integer value, to manipulate number of vehices on the page
     # * +vrn+ - alphanumeric character part of vrn number
     #
     def index
       return redirect_to choose_method_fleets_path if @fleet.empty?
 
       page = (params[:page] || 1).to_i
-      assign_variables(page)
+      per_page = (params[:per_page] || 10).to_i
+      assign_variables(page, per_page)
     rescue BaseApi::Error400Exception
       return redirect_to fleets_path unless page == 1
     end
@@ -49,8 +51,9 @@ module VehiclesManagement
     #
     def submit_search
       form = SearchVrnForm.new(params[:vrn])
-      if form.valid? && @fleet.pagination(vrn: form.vrn).total_vehicles_count.zero?
-        return redirect_to vrn_not_found_fleets_path(vrn: form.vrn)
+      per_page = (params[:per_page] || 10).to_i
+      if form.valid? && @fleet.pagination(vrn: form.vrn, per_page: per_page).total_vehicles_count.zero?
+        return redirect_to vrn_not_found_fleets_path(vrn: form.vrn, per_page: per_page)
       end
 
       render_fleets_page(form)
@@ -201,10 +204,7 @@ module VehiclesManagement
     # Removes vehicle and sets successful flash message
     def remove_vehicle
       @fleet.delete_vehicle(vrn)
-      flash[:success] = I18n.t(
-        'vrn_form.messages.single_vrn_removed',
-        vrn: session[:vrn]
-      )
+      flash[:success] = I18n.t('vrn_form.messages.single_vrn_removed', vrn: session[:vrn])
     end
 
     # Returns redirect path after successful removal of vehicle from the fleet
@@ -220,24 +220,34 @@ module VehiclesManagement
     end
 
     # Assign variables needed in :index view
-    def assign_variables(page)
+    def assign_variables(page, per_page)
       @search = params[:vrn]
-      @pagination = @fleet.pagination(
-        page: page,
-        only_chargeable: params[:only_chargeable],
-        vrn: @search
-      )
-      @zones = CleanAirZone.all
+      form = SearchVrnForm.new(@search)
+      if form.valid?
+        fetch_pagination_and_zones(page, per_page, @search)
+      else
+        fetch_pagination_and_zones(page, per_page)
+      end
       assign_payment_enabled
     end
 
     # Renders :index with assigned zones and errors
     def render_fleets_page(form)
-      @zones = CleanAirZone.all
       @search = form.vrn
-      @pagination = @fleet.pagination
+      fetch_pagination_and_zones
       flash.now[:alert] = form.first_error_message if form.first_error_message
       render :index
+    end
+
+    # Make api calls
+    def fetch_pagination_and_zones(page = 1, per_page = 10, vrn = nil)
+      @pagination = @fleet.pagination(
+        page: page,
+        per_page: per_page,
+        only_chargeable: params[:only_chargeable],
+        vrn: vrn
+      )
+      @zones = CleanAirZone.all
     end
   end
 end

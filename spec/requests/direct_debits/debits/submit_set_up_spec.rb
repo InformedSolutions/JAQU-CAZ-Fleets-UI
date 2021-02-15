@@ -2,13 +2,13 @@
 
 require 'rails_helper'
 
-describe 'DirectDebits::DebitsController - POST #set_up' do
+describe 'DirectDebits::DebitsController - POST #set_up', type: :request do
   subject { post set_up_debits_path, params: { caz_id: caz_id } }
 
   let(:caz_id) { @uuid }
   let(:user) { manage_mandates_user }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before do
       mock_direct_debit_enabled
       sign_in user
@@ -28,6 +28,7 @@ describe 'DirectDebits::DebitsController - POST #set_up' do
       it 'adds a new mandate' do
         expect(DebitsApi).to receive(:create_mandate).with(
           account_id: user.account_id,
+          account_user_id: user.user_id,
           caz_id: caz_id,
           return_url: complete_setup_debits_url,
           session_id: anything
@@ -60,12 +61,14 @@ describe 'DirectDebits::DebitsController - POST #set_up' do
   context 'when Direct Debits feature disabled' do
     before do
       mock_direct_debit_disabled
+      mock_debits
+      allow(DebitsApi).to receive(:create_mandate).and_return(read_response('debits/create_mandate.json'))
       sign_in user
       subject
     end
 
-    it 'redirects to the not found page' do
-      expect(response).to redirect_to(not_found_path)
+    it 'redirects to the :complete_setup endpoint' do
+      expect(response).to redirect_to(/#{complete_setup_debits_path}/)
     end
   end
 end
