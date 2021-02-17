@@ -6,6 +6,7 @@ Feature: Relevant portal
   Scenario: User has multiple vehicles to check
     Given I am on the Relevant portal form page
     Then I should see 'What would you like to do?'
+      And I should not see 'beta This is a new service – your feedback'
       And I should see 'Check a single vehicle'
       And I should see 'Pay a charge for a single vehicle'
       And I should not see 'Sign in'
