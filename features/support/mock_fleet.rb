@@ -45,16 +45,10 @@ module MockFleet
   end
 
   def paginated_vehicles(vehicles, page, per_page)
-    instance_double(
-      VehiclesManagement::PaginatedFleet,
-      vehicle_list: vehicles,
-      page: page,
-      per_page: per_page,
-      total_pages: 2,
-      range_start: 1,
-      range_end: 10,
-      total_vehicles_count: 15
-    )
+    instance_double(VehiclesManagement::PaginatedFleet,
+                    vehicle_list: vehicles, page: page, per_page: per_page, total_pages: 2,
+                    range_start: 1, range_end: 10, total_vehicles_count: 15,
+                    results_per_page: [10, 20, 30, 40, 50])
   end
 
   def mock_direct_debit_enabled
