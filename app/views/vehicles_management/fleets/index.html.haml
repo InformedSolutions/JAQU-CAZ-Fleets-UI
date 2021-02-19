@@ -80,7 +80,8 @@
         = link_to('Download a spreadsheet (CSV) of the charges you would pay to drive in all Clean Air Zones',
                   export_fleets_path,
                   id: 'csv-export',
-                  class: 'govuk-link')
+                  class: 'govuk-link',
+                  download: true)
 
       %p{id: 'csv-export__notice', style: 'display: none;'}
         Your export is downloading...
