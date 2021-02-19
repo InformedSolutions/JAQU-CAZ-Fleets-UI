@@ -15,7 +15,7 @@
       - unless page == total_pages
         = render 'pagination_button', button_text: 'Next', page: page + 1, form_class: 'next'
 
-  - unless page > total_pages
+  - unless @pagination.total_vehicles_count <= 10 || page > total_pages
     %p.moj-pagination__results
       Showing
       %b
