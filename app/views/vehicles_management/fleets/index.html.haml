@@ -52,7 +52,7 @@
               %td.govuk-table__cell{scope: 'row'}
                 = link_to('Remove', assign_remove_fleets_path(vrn: vehicle.vrn), id: "remove_#{vehicle.vrn}")
 
-      = render 'pagination'
+      = render 'pagination' if @pagination.total_vehicles_count > 10
 
       = form_tag(fleets_path, method: :get) do
         .govuk-form-group
