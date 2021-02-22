@@ -28,8 +28,8 @@ module VehiclesManagement
     # ==== Params
     #
     # * +page+ - used to paginate vehicles list, defaults to 1, present in the query params
-    # * only_chargeable* - flag, to filter out non-charged vehicles
-    # * +page_size+ - integer value, to manipulate number of vehices on the page
+    # * +only_chargeable+ - flag, to filter out non-charged vehicles
+    # * +page_size+ - integer value, to manipulate number of vehicles on the page
     # * +vrn+ - alphanumeric character part of vrn number
     #
     def index
