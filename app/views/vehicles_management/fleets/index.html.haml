@@ -72,9 +72,9 @@
 
                 - if @pagination.total_vehicles_count > 10
                   = select_tag('per_page',
-                              options_for_select(@pagination.results_per_page, params[:per_page]),
-                              class: 'govuk-select moj-pagination__results results-per-page-select',
-                              onchange: 'this.form.submit()')
+                               options_for_select(@pagination.results_per_page, params[:per_page]),
+                               class: 'govuk-select moj-pagination__results results-per-page-select',
+                               onchange: 'this.form.submit()')
                   = label_tag('per_page', 'Results per page', class: 'govuk-label moj-pagination__results results-per-page-select')
 
       %p

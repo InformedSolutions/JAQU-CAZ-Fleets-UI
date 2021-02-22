@@ -7,9 +7,13 @@ describe VehiclesManagement::UploadFile do
 
   let(:file) { Rack::Test::UploadedFile.new(file_path) }
   let(:file_path) { File.join('spec', 'fixtures', 'uploads', 'fleet.csv') }
-  let(:id) { @uuid }
+  let(:id) { SecureRandom.uuid }
+  let(:upload_file) { true }
 
-  before { allow_any_instance_of(Aws::S3::Object).to receive(:upload_file).and_return(true) }
+  before do
+    mock = instance_double(Aws::S3::Object, upload_file: upload_file)
+    allow(Aws::S3::Object).to receive(:new).and_return(mock)
+  end
 
   describe '#call' do
     context 'with valid params' do
@@ -59,7 +63,7 @@ describe VehiclesManagement::UploadFile do
       end
 
       context 'when `S3UploadService` returns error' do
-        before { allow_any_instance_of(Aws::S3::Object).to receive(:upload_file).and_return(false) }
+        let(:upload_file) { false }
 
         it 'raises a proper exception' do
           expect { subject }.to raise_exception(CsvUploadException, I18n.t('csv.errors.base'))
@@ -68,9 +72,7 @@ describe VehiclesManagement::UploadFile do
 
       context 'when S3 raises an exception' do
         before do
-          allow_any_instance_of(Aws::S3::Object)
-            .to receive(:upload_file)
-            .and_raise(Aws::S3::Errors::MultipartUploadError.new('', ''))
+          allow(Aws::S3::Object).to receive(:new).and_raise(Aws::S3::Errors::MultipartUploadError.new('', ''))
         end
 
         it 'raises a proper exception' do

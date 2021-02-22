@@ -47,6 +47,8 @@ GEM
     activerecord (6.1.3)
       activemodel (= 6.1.3)
       activesupport (= 6.1.3)
+    activerecord-nulldb-adapter (0.7.0)
+      activerecord (>= 5.2.0, < 6.3)
     activestorage (6.1.3)
       actionpack (= 6.1.3)
       activejob (= 6.1.3)
@@ -64,7 +66,7 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.2)
     aws-eventstream (1.1.0)
-    aws-partitions (1.427.0)
+    aws-partitions (1.429.0)
     aws-sdk-core (3.112.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -217,7 +219,7 @@ GEM
     mimemagic (0.3.5)
     mini_mime (1.0.2)
     mini_portile2 (2.5.0)
-    minitest (5.14.3)
+    minitest (5.14.4)
     msgpack (1.4.2)
     multi_test (0.1.2)
     multi_xml (0.6.0)
@@ -290,7 +292,7 @@ GEM
       ffi (~> 1.0)
     rdoc (6.3.0)
     redis (4.2.5)
-    regexp_parser (2.0.3)
+    regexp_parser (2.1.1)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -420,6 +422,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-nulldb-adapter
   aws-sdk-s3
   better_errors
   binding_of_caller

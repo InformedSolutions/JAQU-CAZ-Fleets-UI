@@ -64,8 +64,8 @@ describe 'VehiclesManagement::UploadsController - POST #create', type: :request 
       let(:alert) { 'alert message' }
 
       it 'does not trigger job' do
-        expect(FleetsApi).not_to receive(:register_job)
         subject
+        expect(FleetsApi).not_to have_received(:register_job)
       end
 
       it 'redirects to the upload page' do

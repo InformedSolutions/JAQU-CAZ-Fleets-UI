@@ -6,10 +6,12 @@ describe 'VehiclesManagement::VehicleController - GET #details', type: :request 
   subject { get details_vehicles_path }
 
   context 'when correct permissions' do
+    let(:vrn) { 'ABC123' }
+
     context 'with vrn in session is required' do
       before do
         vehicle_details = read_response('vehicle_details.json')
-        allow(ComplianceCheckerApi).to receive(:vehicle_details).with(@vrn).and_return(vehicle_details)
+        allow(ComplianceCheckerApi).to receive(:vehicle_details).with(vrn).and_return(vehicle_details)
       end
 
       let(:no_vrn_path) { enter_details_vehicles_path }
@@ -19,7 +21,7 @@ describe 'VehiclesManagement::VehicleController - GET #details', type: :request 
 
     context 'when user is signed in' do
       before do
-        add_to_session(vrn: @vrn)
+        add_to_session(vrn: vrn)
         sign_in manage_vehicles_user
       end
 

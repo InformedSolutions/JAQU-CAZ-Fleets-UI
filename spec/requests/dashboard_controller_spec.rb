@@ -42,7 +42,7 @@ describe DashboardController, type: :request do
           subject
         end
 
-        let(:caz_id) { @uuid }
+        let(:caz_id) { SecureRandom.uuid }
 
         it 'removes caz lock from redis' do
           expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).to be_nil

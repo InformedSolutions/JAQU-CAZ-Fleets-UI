@@ -45,7 +45,7 @@ module SignInHelper
   end
 
   def account_permissions
-    %w[MANAGE_VEHICLES MANAGE_MANDATES MAKE_PAYMENTS MANAGE_USERS]
+    %w[MANAGE_VEHICLES MANAGE_MANDATES MAKE_PAYMENTS MANAGE_USERS VIEW_PAYMENTS]
   end
 
   def remote_ip

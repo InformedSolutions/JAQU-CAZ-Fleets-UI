@@ -6,9 +6,9 @@ describe 'FleetsApi.register_job' do
   subject { FleetsApi.register_job(filename: filename, correlation_id: id, large_fleet: large_fleet) }
 
   let(:url) { %r{accounts/register-csv-from-s3/jobs} }
-  let(:id) { @uuid }
+  let(:id) { SecureRandom.uuid }
   let(:filename) { 'filename' }
-  let(:job_name) { @uuid }
+  let(:job_name) { SecureRandom.uuid }
   let(:large_fleet) { false }
 
   context 'when the response status is 200' do
