@@ -48,7 +48,7 @@
 
 
       - if @zones_without_mandate.present? && @mandates.present?
-        = button_to('Set up a new agreement', new_debit_path, method: :get, class: 'govuk-button')
+        = link_to('Set up a new agreement', set_up_debits_path, id: 'set-up-button', class: 'govuk-button', 'data-module': 'govuk-button')
       - else
         %p
           You have set up bank agreements for every Clean Air Zone.

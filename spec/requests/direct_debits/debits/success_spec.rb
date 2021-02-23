@@ -18,7 +18,6 @@ describe 'DirectDebits::DebitsController - GET #success' do
 
     let(:user) { make_payments_user }
     let(:caz_id) { @uuid }
-
     let(:details) do
       {
         'CU12345' =>
@@ -32,7 +31,7 @@ describe 'DirectDebits::DebitsController - GET #success' do
     end
 
     it 'renders the view' do
-      expect(subject).to render_template(:success)
+      expect(subject).to render_template('payments/payments/success')
     end
 
     context 'when CAZ locked by current user' do

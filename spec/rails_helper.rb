@@ -18,8 +18,7 @@ RSpec.configure do |config| # rubocop:disable Metrics/BlockLength
    StringCountHelper,
    AddToSession,
    AddToRedis,
-   FleetFactory,
-   ChargeableVehiclesFactory].each do |helper|
+   FleetFactory].each do |helper|
     config.include helper, type: :request
   end
 
@@ -31,7 +30,8 @@ RSpec.configure do |config| # rubocop:disable Metrics/BlockLength
     FixturesHelpers,
     MockedResponses,
     UsersManagement::MockedResponses,
-    AccountDetails::MockedResponses
+    AccountDetails::MockedResponses,
+    Payments::MockedResponses
   ].each do |helper|
     config.include helper
   end

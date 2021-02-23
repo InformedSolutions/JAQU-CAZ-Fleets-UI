@@ -8,7 +8,7 @@ describe 'PaymentsController - GET #no_chargeable_vehicles' do
   context 'correct permissions' do
     before do
       mock_clean_air_zones
-      mock_fleet(create_chargeable_vehicles)
+      mock_chargeable_vehicles
       sign_in create_user
       add_to_session(new_payment: { caz_id: @uuid })
     end

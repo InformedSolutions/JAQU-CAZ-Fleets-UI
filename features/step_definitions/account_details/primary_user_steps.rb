@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Given('I visit primary user Account Details page') do
+  mock_chargeable_vehicles
   mock_vehicles_in_fleet
   mock_users
   mock_debits

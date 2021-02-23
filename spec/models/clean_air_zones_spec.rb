@@ -8,6 +8,7 @@ describe CleanAirZone, type: :model do
   let(:data) do
     {
       name: name,
+      operatorName: operator_name,
       cleanAirZoneId: id,
       boundaryUrl: url,
       exemptionUrl: url,
@@ -15,6 +16,7 @@ describe CleanAirZone, type: :model do
     }.stringify_keys
   end
   let(:name) { 'Birmingham' }
+  let(:operator_name) { 'Bath and North East Somerset Council' }
   let(:id) { 'a49afb83-d1b3-48b6-b08b-5db8142045dc' }
   let(:url) { 'www.example.com' }
   let(:active_charge_start_date) { '2020-05-14' }
@@ -28,6 +30,12 @@ describe CleanAirZone, type: :model do
   describe '.name' do
     it 'returns a proper name' do
       expect(subject.name).to eq(name)
+    end
+  end
+
+  describe '.operator_name' do
+    it 'returns a proper value' do
+      expect(subject.operator_name).to eq(operator_name)
     end
   end
 
