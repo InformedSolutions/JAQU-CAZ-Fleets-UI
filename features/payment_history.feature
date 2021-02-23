@@ -6,7 +6,7 @@ Feature: Payment History
   Scenario: User sees company payment history
     Given I visit the Company payment history page
       And I should be on the the Company payment history page
-      And I should see 'Royal Mail payment history'
+      And I should see "Royal Mail's payment history"
       And I should see 'View details' link
       And I should see active "1" pagination button
       And I should not see "previous" pagination button
