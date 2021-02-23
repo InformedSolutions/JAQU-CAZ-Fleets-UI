@@ -1,4 +1,4 @@
-- title_and_header = "#{current_user.actual_account_name} account home".html_safe
+- title_and_header = sanitize("#{current_user.actual_account_name} account home")
 - content_for(:title, title_and_header)
 - disable_payment_features = !@payment_features_enabled && (allow_make_payments? || allow_view_payment_history?)
 
