@@ -77,7 +77,7 @@ module MockUsers
   end
 
   def mock_actual_account_name
-    allow_any_instance_of(User).to receive(:actual_account_name).and_return('Royal Mail')
+    allow_any_instance_of(User).to receive(:actual_account_name).and_return("Royal Mail's")
   end
 
   def uuid

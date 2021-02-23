@@ -1,4 +1,4 @@
-- title_and_header = "#{current_user.actual_account_name} payment history"
+- title_and_header = sanitize("#{current_user.actual_account_name} payment history")
 - content_for(:title, title_and_header)
 
 = link_to 'Back', @back_button_url, class: 'govuk-back-link'
