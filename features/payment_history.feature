@@ -98,6 +98,7 @@ Feature: Payment History
     Then I press 'Return to payment history' link
       And I should be on the Company payment history page number 1 when using back button
     Then I want visit the User payment history page and then the Payment details history page
+      And I should see 'Refund'
       And I press 'View details' link
       And I should not see 'Payment made by'
 
