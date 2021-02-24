@@ -27,6 +27,11 @@ class CleanAirZone
     caz_data[:name]
   end
 
+  # Returns a string, eg. 'Bath and North East Somerset'.
+  def operator_name
+    caz_data[:operator_name]
+  end
+
   # Returns a string, eg. 'www.example.com'.
   def boundary_url
     caz_data[:boundary_url]

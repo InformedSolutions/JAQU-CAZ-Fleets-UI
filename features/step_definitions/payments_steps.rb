@@ -26,8 +26,12 @@ Then('I should be on the payment matrix page') do
   expect_path(matrix_payments_path)
 end
 
-Then('I should be on the no chargeable vehicles page') do
+Then('I should be on the No chargeable vehicles page') do
   expect_path(no_chargeable_vehicles_payments_path)
+end
+
+Then('I should be on the Undetermined vehicles page') do
+  expect_path(undetermined_vehicles_payments_path)
 end
 
 When('I select any date for vrn on the payment matrix') do

@@ -11,7 +11,7 @@ Feature: Debits
       And I press the Continue
     Then I click Next 7 days tab
       And I select any date for vrn on the payment matrix
-      And I press the Continue
+      And I press the 'Review payment' button
     Then I want to confirm my payment
       And I confirm that my vehicles are not exempt from payment
       And I press the Continue
@@ -33,7 +33,7 @@ Feature: Debits
       And I press the Continue
     Then I click Next 7 days tab
       And I select any date for vrn on the payment matrix
-      And I press the Continue
+      And I press the 'Review payment' button
     Then I want to confirm my payment
       And I confirm that my vehicles are not exempt from payment
       And I press the Continue
@@ -46,7 +46,7 @@ Feature: Debits
     When I press the Continue
     Then I should be on the Payment unsuccessful page
 
-  Scenario: Making a failure Direct Debit payment with active mandate
+  Scenario: Making a unsuccessful Direct Debit payment with active mandate
     Given I have active mandates for selected CAZ
       And I visit the make payment page to pay by direct debit
       And I press the Continue
@@ -54,7 +54,7 @@ Feature: Debits
       And I press the Continue
     Then I click Next 7 days tab
       And I select any date for vrn on the payment matrix
-      And I press the Continue
+      And I press the 'Review payment' button
     Then I want to confirm my payment
       And I press the Continue
     Then I should be on the confirm payment page
@@ -71,7 +71,7 @@ Feature: Debits
     Then I should be on the Manage debits page
       And I should see 'Set up a new agreement' link
       And I should not see 'You have set up bank agreements for every Clean Air Zone.'
-    Then I press 'Set up a new agreement' button
+    Then I press 'Set up a new agreement' link
       And I should see 'What you need to know before setting up an agreement:'
 
   Scenario: Visiting the manage Direct Debit page with all mandates

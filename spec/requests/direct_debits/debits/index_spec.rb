@@ -24,7 +24,7 @@ describe 'DirectDebits::DebitsController - GET #index' do
 
       it 'redirects to the create debits page' do
         subject
-        expect(response).to redirect_to(new_debit_path)
+        expect(response).to redirect_to(set_up_debits_path)
       end
     end
   end

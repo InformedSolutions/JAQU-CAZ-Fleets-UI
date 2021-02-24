@@ -40,15 +40,15 @@ When('I visit the submission method page') do
   mock_users
   mock_clean_air_zones
   login_user({ permissions: 'MANAGE_VEHICLES' })
-  visit submission_method_fleets_path
+  visit choose_method_fleets_path
 end
 
 Then('I should be on the submission method page') do
-  expect(page).to have_current_path(submission_method_fleets_path)
+  expect(page).to have_current_path(choose_method_fleets_path)
 end
 
 Then('I should be able to check CAZ charging statuses') do
-  expect(page).to have_current_path(submission_method_fleets_path)
+  expect(page).to have_current_path(choose_method_fleets_path)
 end
 
 When('I select manual entry') do
@@ -68,13 +68,14 @@ When('I have vehicles in my fleet') do
   mock_users
   mock_clean_air_zones
   mock_vehicles_in_fleet
+  mock_chargeable_vehicles
   mock_caz_mandates
   mock_direct_debit_enabled
 end
 
 When('I have undetermined vehicles in my fleet') do
   mock_clean_air_zones
-  mock_undetermined_vehicles
+  mock_undetermined_vehicles_in_fleet
   mock_caz_mandates
   mock_direct_debit_enabled
   mock_users
@@ -89,33 +90,45 @@ When('I want to pay for CAZ which started charging {int} days ago') do |start_da
     'activeChargeStartDate' => active_charge_start_date.to_s
   }]
   mock_clean_air_zones(caz_list)
-  mock_unpaid_vehicles_in_fleet
+  mock_vehicles_in_fleet
+  mock_chargeable_vehicles
   mock_users
 end
 
 When('I want to pay for CAZ which start charging in next the month') do
   mock_bath_d_day
-  mock_unpaid_vehicles_in_fleet
+  mock_vehicles_in_fleet
+  mock_chargeable_vehicles
   mock_users
 end
 
 When('I want to pay for active for charging CAZ') do
   caz_list = read_response('caz_list_active.json')['cleanAirZones']
   mock_clean_air_zones(caz_list)
-  mock_unpaid_vehicles_in_fleet
+  mock_vehicles_in_fleet
+  mock_chargeable_vehicles
   mock_users
 end
 
 When('I have vehicles in my fleet that are not paid') do
   mock_users
   mock_clean_air_zones
-  mock_unpaid_vehicles_in_fleet
+  mock_vehicles_in_fleet
+  mock_paid_chargeable_vehicles
 end
 
-When('I have no chargeable vehicles in my fleet') do
+When('I have no chargeable vehicles') do
   mock_users
   mock_clean_air_zones
+  mock_vehicles_in_fleet
   mock_unchargeable_vehicles
+end
+
+When('I have all undetermined vehicles') do
+  mock_users
+  mock_clean_air_zones
+  mock_vehicles_in_fleet
+  mock_undetermined_vehicles
 end
 
 Then('I should be on the manage vehicles page') do
@@ -123,7 +136,7 @@ Then('I should be on the manage vehicles page') do
 end
 
 Then('I should be on the delete vehicle page') do
-  expect(page).to have_current_path(delete_fleets_path)
+  expect(page).to have_current_path(remove_fleets_path)
 end
 
 Then('I should have deleted the vehicle') do
