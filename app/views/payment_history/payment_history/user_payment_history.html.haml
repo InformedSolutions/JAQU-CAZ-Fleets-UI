@@ -26,7 +26,11 @@
                 %th.govuk-table__header{scope: 'row'}= payment.date
                 %td.govuk-table__cell= payment.caz_name
                 %td.govuk-table__cell= payment.entries_count
-                %td.govuk-table__cell= parse_charge(payment.total_paid)
+                %td.govuk-table__cell
+                  - if payment.refunded? || payment.charged_back?
+                    Refund
+                  - else
+                    = parse_charge(payment.total_paid)
                 %td.govuk-table__cell
                   = link_to payment_history_details_path(payment_id: payment.payment_id), class: 'govuk-link', id: "payment-#{index}" do
                     View details
