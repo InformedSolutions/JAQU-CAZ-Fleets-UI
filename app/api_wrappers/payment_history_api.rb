@@ -55,7 +55,19 @@ class PaymentHistoryApi < PaymentsApi
     # * +paymentProviderId+ - id of provider
     # * +totalPaid+ - amount of payment
     # * +telephonePayment+ - status of payment
-    # * +lineItems+* - array of objects
+    # * +lineItems+ - array of objects, history of payments for current payment reference
+    #   * +vrn+ - string, vrn number
+    #   * +caseReference+ - integer, central reference number of the payment
+    #   * +paymentStatus+ - status of payment, e.g. 'paid'
+    #   * +chargePaid+ - integer, total charge paid
+    #   * +travelDate+ - string, payment date format
+    # * +modificationHistory+ - refund or chargeback information
+    #   * +amount+ integer, charge paid
+    #   * +travelDate+ - string, date format
+    #   * +vrn+ - string, eg. 'CU57ABC'
+    #   * +caseReference+ - integer, central reference number of the payment
+    #   * +modificationTimestamp+ - string, payment date format in UTC time
+    #   * +entrantPaymentStatus+ - string, payment status e.g 'CHARGEBACK' or 'REFUNDED'
     #
     # ==== Exceptions
     #
