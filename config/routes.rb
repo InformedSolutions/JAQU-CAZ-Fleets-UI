@@ -187,8 +187,7 @@ Rails.application.routes.draw do
   end
 
   scope module: 'payment_history', path: '/', controller: 'payment_history' do
-    get :company_payment_history
-    get :user_payment_history
+    get :payment_history
     get :payment_history_details
   end
 

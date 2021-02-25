@@ -5,8 +5,7 @@ When('I visit the Dashboard page') do
 end
 
 When('I navigate to a Dashboard page') do
-  mock_direct_debit_enabled
-  mock_api_on_dashboard
+  mock_dd_and_api_on_dashboard
   visit dashboard_path
 end
 
@@ -29,9 +28,13 @@ When('I navigate to a Dashboard page without any payers users') do
 end
 
 When('I navigate to a Dashboard page with {string} permission') do |permission|
-  mock_direct_debit_enabled
-  mock_api_on_dashboard
+  mock_dd_and_api_on_dashboard
   login_user(permissions: [permission])
+end
+
+When('I navigate to a Dashboard page with {string} and {string} permissions') do |permission1, permission2|
+  mock_dd_and_api_on_dashboard
+  login_user(permissions: [permission1, permission2])
 end
 
 When('I navigate to a Dashboard page with all permissions assigned') do
@@ -99,4 +102,9 @@ def mock_bath_d_day
     'activeChargeStartDate' => Date.parse("#{Time.current.year + 1}-3-15").strftime('%Y-%m-%d')
   }]
   mock_clean_air_zones(caz_list)
+end
+
+def mock_dd_and_api_on_dashboard
+  mock_direct_debit_enabled
+  mock_api_on_dashboard
 end

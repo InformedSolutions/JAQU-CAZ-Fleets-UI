@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'PaymentsController - POST #local_authority', type: :request do
   subject { post local_authority_payments_path, params: { caz_id: caz_id } }
 
-  let(:caz_id) { @uuid }
+  let(:caz_id) { SecureRandom.uuid }
   let(:user) { make_payments_user }
 
   context 'when correct permissions' do

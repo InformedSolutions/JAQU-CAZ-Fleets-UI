@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'PaymentsController - GET #vrn_not_found', type: :request do
   subject { get vrn_not_found_payments_path }
 
-  let(:caz_id) { @uuid }
+  let(:caz_id) { mocked_uuid }
 
   context 'when correct permissions' do
     before { sign_in create_user }

@@ -7,7 +7,8 @@ describe 'DirectDebits::DebitsController - POST #initiate', type: :request do
 
   context 'when correct permissions' do
     before do
-      add_to_session(new_payment: { caz_id: @uuid, payment_id: @uuid, details: details })
+      add_to_session(new_payment: { caz_id: SecureRandom.uuid, payment_id: SecureRandom.uuid,
+                                    details: details })
       sign_in make_payments_user
     end
 

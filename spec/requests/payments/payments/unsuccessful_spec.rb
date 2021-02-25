@@ -7,7 +7,7 @@ describe 'PaymentsController - GET #unsuccessful', type: :request do
 
   context 'when correct permissions' do
     let(:payment_data) do
-      { caz_id: @uuid,
+      { caz_id: SecureRandom.uuid,
         details: { 'PAY001' =>
                    { vrn: 'PAY001',
                      charge: 50.0,

@@ -6,15 +6,15 @@ describe 'DebitsApi.create_mandate - POST' do
   subject do
     DebitsApi.create_mandate(
       account_id: account_id,
-      caz_id: @uuid,
+      caz_id: SecureRandom.uuid,
       return_url: return_url,
       session_id: 'a724ed38b864e7490c91f9c06142ef9a',
       account_user_id: account_user_id
     )
   end
 
-  let(:account_user_id) { @uuid }
-  let(:account_id) { @uuid }
+  let(:account_user_id) { SecureRandom.uuid }
+  let(:account_id) { SecureRandom.uuid }
   let(:return_url) { 'http://ex.com/direct_debits/complete_setup?redirect_flow_id=RE0002VT8ZDTEM1PE4T8W730K' }
   let(:url) { "/payments/accounts/#{account_id}/direct-debit-mandates" }
 

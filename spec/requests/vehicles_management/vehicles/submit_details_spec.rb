@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'VehiclesManagement::VehicleController - POST #submit_details', type: :request do
   subject { post enter_details_vehicles_path, params: { vrn: vrn } }
 
-  let(:vrn) { @vrn }
+  let(:vrn) { mocked_vrn }
 
   context 'when correct permissions' do
     it 'redirects to the login page' do

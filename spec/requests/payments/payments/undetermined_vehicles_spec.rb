@@ -10,12 +10,12 @@ describe 'PaymentsController - GET #undetermined_vehicles', type: :request do
       mock_clean_air_zones
       mock_chargeable_vehicles
       sign_in create_user
-      add_to_session(new_payment: { caz_id: @uuid })
+      add_to_session(new_payment: { caz_id: mocked_uuid })
     end
 
     it 'calls ComplianceCheckerApi for CAZ name' do
-      expect(ComplianceCheckerApi).to receive(:clean_air_zones)
       subject
+      expect(ComplianceCheckerApi).to have_received(:clean_air_zones)
     end
 
     it 'assigns :clean_air_zone_name variable' do

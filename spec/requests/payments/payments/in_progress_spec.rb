@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'PaymentsController - GET #in_progress', type: :request do
   subject { get in_progress_payments_path }
 
-  let(:caz_id) { @uuid }
+  let(:caz_id) { SecureRandom.uuid }
   let(:account_id) { SecureRandom.uuid }
   let(:second_user_id) { SecureRandom.uuid }
   let(:user) { create_user(account_id: account_id, user_id: SecureRandom.uuid) }
