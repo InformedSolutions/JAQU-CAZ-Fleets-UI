@@ -47,6 +47,9 @@ Feature: Payment History
       And I should be on the the Payment details history page
       And I should see 'Payment made by'
       And I should see 'Print this page'
+      And I should see 'Refund'
+      And I should see 'Charge back'
+      And I should see 'Payment returned after the charge was disputed.'
     Then I press 'Back' link
       And I should be on the Payment history page number 3
     Then I press 2 pagination button on the payment history page
