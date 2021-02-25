@@ -10,8 +10,7 @@ Feature: Dashboard
       And I should not see 'Pay by bank account' link
       And I should not see 'Make a payment' link
       And I should not see 'Manage users' link
-      And I should not see "Royal Mail's payment history" link
-      And I should not see 'Your payment history' link
+      And I should not see 'Payment history' link
 
   Scenario: View dashboard page with `MANAGE_MANDATES` permission
     Given I navigate to a Dashboard page with 'MANAGE_MANDATES' permission
@@ -20,18 +19,17 @@ Feature: Dashboard
       And I should not see 'Manage vehicles and view charges' link
       And I should not see 'Make a payment' link
       And I should not see 'Manage users' link
-      And I should not see "Royal Mail's payment history" link
-      And I should not see 'Your payment history' link
+      And I should not see 'Payment history' link
 
   Scenario: View dashboard page with `MAKE_PAYMENTS` permission
     Given I navigate to a Dashboard page with 'MAKE_PAYMENTS' permission
       And I should see 'Help' link
       And I should see 'Make a payment' link
-      And I should see 'Your payment history' link
+      And I should see 'Payment history' link
+        And I should see 'View payments made by you.'
       And I should not see 'Manage vehicles and view charges' link
       And I should not see 'Pay by bank account' link
       And I should not see 'Manage users' link
-      And I should not see "Royal Mail's payment history" link
 
   Scenario: View dashboard page with `MANAGE_USERS` permission
     Given I navigate to a Dashboard page with 'MANAGE_USERS' permission
@@ -40,17 +38,20 @@ Feature: Dashboard
       And I should not see 'Manage vehicles and view charges' link
       And I should not see 'Pay by bank account' link
       And I should not see 'Make a payment' link
-      And I should not see "Royal Mail's payment history" link
-      And I should not see 'Your payment history' link
+      And I should not see 'Payment history' link
 
   Scenario: View dashboard page with `VIEW_PAYMENTS` permission
     Given I navigate to a Dashboard page with 'VIEW_PAYMENTS' permission
       And I should see 'Help' link
-      And I should see "Royal Mail's payment history" link
+      And I should see 'Payment history' link
+        And I should see 'View payments made by your team members.'
       And I should not see 'Manage vehicles and view charges' link
       And I should not see 'Pay by bank account' link
       And I should not see 'Make a payment' link
       And I should not see 'Manage users' link
-      And I should not see 'Your payment history' link
     When I navigate to a Dashboard page without any payers users
-      And I should not see "Royal Mail's payment history" link
+
+  Scenario: View dashboard page with `VIEW_PAYMENTS` permission
+    Given I navigate to a Dashboard page with 'MAKE_PAYMENTS' and 'VIEW_PAYMENTS' permissions
+      And I should see 'Payment history' link
+        And I should see 'View payments made by you and your team members.'

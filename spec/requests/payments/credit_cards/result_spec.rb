@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'Payments::CreditCardsController - GET #result', type: :request do
   subject { get result_payments_path }
 
-  let(:id) { @uuid }
+  let(:id) { SecureRandom.uuid }
   let(:details) do
     {
       'CU12345' =>

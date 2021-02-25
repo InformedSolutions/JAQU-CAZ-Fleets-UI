@@ -31,6 +31,14 @@
     = render 'manage_users' if allow_manage_users?
     - if !disable_payment_features
       = render 'make_payment' if allow_make_payments? && @vehicles_count >= 2
-      = render 'user_payment_history' if allow_make_payments?
-      = render 'company_payment_history' if allow_view_payment_history? && @multi_payer_account
+
+      - if allow_make_payments? && (allow_view_payment_history? && @multi_payer_account)
+        - link_description = 'View payments made by you and your team members.'
+      - elsif allow_make_payments?
+        - link_description = 'View payments made by you.'
+      - elsif allow_view_payment_history? && @multi_payer_account
+        - link_description = 'View payments made by your team members.'
+      - else
+      = render 'payment_history', link_description: link_description if link_description
+
     = render 'help'

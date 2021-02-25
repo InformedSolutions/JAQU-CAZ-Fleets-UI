@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'VehiclesManagement::FleetsController - GET #assign_delete', type: :request do
   subject { get assign_remove_fleets_path(vrn: vrn) }
 
-  let(:vrn) { @vrn }
+  let(:vrn) { mocked_vrn }
 
   context 'when correct permissions' do
     it 'redirects to the login page' do

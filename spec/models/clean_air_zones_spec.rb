@@ -85,7 +85,7 @@ describe CleanAirZone, type: :model do
     end
 
     context 'when another caz was selected' do
-      let(:another_id) { @uuid }
+      let(:another_id) { SecureRandom.uuid }
 
       it 'returns false' do
         expect(subject.checked?([another_id])).to eq(false)

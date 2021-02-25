@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 describe 'UsersManagement::RemoveUsersController - GET #remove', type: :request do
-  subject { get remove_user_path(@uuid) }
+  subject { get remove_user_path(user_id) }
+
+  let(:user_id) { SecureRandom.uuid }
 
   context 'when correct permissions' do
     context 'with edit user data in session' do
@@ -69,7 +71,7 @@ describe 'UsersManagement::RemoveUsersController - GET #remove', type: :request 
       end
 
       context 'when user want to delete his own account' do
-        before { sign_in manage_users_user(user_id: @uuid) }
+        before { sign_in manage_users_user(user_id: user_id) }
 
         it 'redirects to the users page' do
           expect(subject).to redirect_to users_path

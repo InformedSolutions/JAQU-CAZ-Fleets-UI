@@ -21,9 +21,9 @@ describe Payments::Details, type: :model do
   end
   let(:entries_paid) { 5 }
   let(:total_charge) { 150 }
-  let(:zone_id) { @uuid }
-  let(:reference) { @uuid }
-  let(:id) { @uuid }
+  let(:zone_id) { mocked_uuid }
+  let(:reference) { SecureRandom.uuid }
+  let(:id) { SecureRandom.uuid }
   let(:email) { 'test@example.com' }
 
   before { mock_clean_air_zones }

@@ -9,6 +9,7 @@ describe 'VehiclesManagement::FleetsController - POST #confirm_delete', type: :r
 
   context 'when correct permissions' do
     let(:fleet) { create_fleet }
+    let(:vrn) { 'ABC123' }
 
     it 'redirects to the login page' do
       subject
@@ -27,13 +28,13 @@ describe 'VehiclesManagement::FleetsController - POST #confirm_delete', type: :r
       end
 
       context 'with VRN in the session' do
-        before { add_to_session(vrn: @vrn) }
+        before { add_to_session(vrn: vrn) }
 
         context 'when user confirms subject' do
           before { subject }
 
           it 'calls VehiclesManagement::Fleet#delete_vehicle' do
-            expect(fleet).to have_received(:delete_vehicle).with(@vrn)
+            expect(fleet).to have_received(:delete_vehicle).with(vrn)
           end
 
           it 'redirects to the fleets page' do
@@ -67,8 +68,8 @@ describe 'VehiclesManagement::FleetsController - POST #confirm_delete', type: :r
           end
 
           it 'does not call VehiclesManagement::Fleet#delete_vehicle' do
-            expect(fleet).not_to receive(:delete_vehicle)
             subject
+            expect(fleet).not_to have_received(:delete_vehicle)
           end
         end
 

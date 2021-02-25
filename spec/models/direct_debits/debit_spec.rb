@@ -5,7 +5,7 @@ require 'rails_helper'
 describe DirectDebits::Debit, type: :model do
   subject(:debit) { described_class.new(account_id) }
 
-  let(:account_id) { @uuid }
+  let(:account_id) { SecureRandom.uuid }
 
   describe '.mandates' do
     subject { debit.mandates }
@@ -14,8 +14,8 @@ describe DirectDebits::Debit, type: :model do
       before { mock_debits }
 
       it 'calls DebitsApi.account_mandates with proper params' do
-        expect(DebitsApi).to receive(:mandates).with(account_id: account_id)
         subject
+        expect(DebitsApi).to have_received(:mandates).with(account_id: account_id)
       end
 
       it 'returns an array of DirectDebits::Mandate instances' do
@@ -58,11 +58,11 @@ describe DirectDebits::Debit, type: :model do
 
     before { mock_caz_mandates('caz_mandates') }
 
-    let(:zone_id) { @uuid }
+    let(:zone_id) { SecureRandom.uuid }
 
     it 'calls DebitsApi.caz_mandates with proper params' do
-      expect(DebitsApi).to receive(:caz_mandates).with(account_id: account_id, zone_id: zone_id)
       subject
+      expect(DebitsApi).to have_received(:caz_mandates).with(account_id: account_id, zone_id: zone_id)
     end
 
     it 'returns a hash' do

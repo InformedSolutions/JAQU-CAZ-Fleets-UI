@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe PaymentHistory::Details, type: :model do
-  subject { described_class.new(@uuid) }
+  subject { described_class.new(SecureRandom.uuid) }
 
   before do
     api_response = read_response('payment_history/payment_details.json')
