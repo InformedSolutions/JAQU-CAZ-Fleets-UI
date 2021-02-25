@@ -8,7 +8,8 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_details', type: 
   let(:confirmation) { 'yes' }
 
   context 'when correct permissions' do
-    let(:account_id) { @uuid }
+    let(:account_id) { SecureRandom.uuid }
+    let(:vrn) { 'ABC123' }
 
     it 'redirects to the login page' do
       subject
@@ -28,7 +29,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_details', type: 
       context 'with VRN in the session' do
         before do
           allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true)
-          add_to_session(vrn: @vrn)
+          add_to_session(vrn: vrn)
         end
 
         context 'when user confirms details' do

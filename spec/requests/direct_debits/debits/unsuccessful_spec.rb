@@ -15,7 +15,7 @@ describe 'DirectDebits::DebitsController - GET #unsuccessful', type: :request do
       end
 
       let(:user) { make_payments_user }
-      let(:caz_id) { @uuid }
+      let(:caz_id) { SecureRandom.uuid }
 
       it 'returns a 200 OK status' do
         expect(response).to have_http_status(:ok)

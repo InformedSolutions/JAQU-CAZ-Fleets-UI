@@ -134,14 +134,14 @@ describe 'VehiclesManagement::FleetsController - GET #index', type: :request do
           let(:vrn) { 'ABCDE$%' }
 
           it 'calls FleetsApi.vehicles with proper params' do
-            expect(FleetsApi).to receive(:vehicles).with(
+            subject
+            expect(FleetsApi).to have_received(:vehicles).with(
               account_id: user.account_id,
               page: 1,
               per_page: 10,
               only_chargeable: nil,
               vrn: nil
             )
-            subject
           end
         end
 
@@ -149,14 +149,14 @@ describe 'VehiclesManagement::FleetsController - GET #index', type: :request do
           let(:vrn) { 'ABCD123' }
 
           it 'calls FleetsApi.vehicles with proper params' do
-            expect(FleetsApi).to receive(:vehicles).with(
+            subject
+            expect(FleetsApi).to have_received(:vehicles).with(
               account_id: user.account_id,
               page: 1,
               per_page: 10,
               only_chargeable: nil,
               vrn: vrn
             )
-            subject
           end
         end
       end

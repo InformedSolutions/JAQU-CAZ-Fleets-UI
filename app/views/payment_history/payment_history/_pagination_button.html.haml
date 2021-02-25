@@ -11,7 +11,7 @@
 
 - else
   %li.moj-pagination__item{id: id, class: ("moj-pagination__item--#{form_class}" if form_class)}
-    = link_to(company_payment_history_path(page: page), class: 'moj-pagination__link') do
+    = link_to(payment_history_path(page: page, per_page: params[:per_page]), class: 'moj-pagination__link') do
       = button_text
       - if button_text.is_a?(Integer)
         %span.govuk-visually-hidden

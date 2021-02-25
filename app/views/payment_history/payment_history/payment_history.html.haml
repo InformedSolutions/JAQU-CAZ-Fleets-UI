@@ -1,4 +1,4 @@
-- title_and_header = sanitize("#{current_user.actual_account_name} payment history")
+- title_and_header = "Payment history"
 - content_for(:title, title_and_header)
 
 = link_to 'Back', @back_button_url, class: 'govuk-back-link'
@@ -12,7 +12,13 @@
       - unless @pagination.payments_list.empty?
         %table.govuk-table
           %caption.govuk-table__caption
+          - if allow_make_payments? && allow_view_payment_history?
             %p View payments made by you and your team members.
+          - elsif allow_make_payments?
+            %p View payments made by you.
+          - else
+            %p View payments made by your team members.
+
           %thead.govuk-table__head
             %tr.govuk-table__row
               %th.govuk-table__header{scope: 'col'} Date of payment
@@ -37,4 +43,17 @@
                   = link_to payment_history_details_path(payment_id: payment.payment_id), class: 'govuk-link', id: "payment-#{index}" do
                     View details
 
-        = render 'payment_history/payment_history/company/pagination'
+        - if @pagination.total_payments_count > 10
+          = render 'payment_history/payment_history/pagination'
+
+          = form_tag(payment_history_path, method: :get) do
+            .govuk-form-group
+              %fieldset.govuk-fieldset{'aria-describedby': 'per_page'}
+                %legend.govuk-visually-hidden Hide vehicles that are not charge in any Zone
+                .govuk-checkboxes
+                  .govuk-checkboxes__item
+                    = select_tag('per_page',
+                                 options_for_select(@pagination.results_per_page, params[:per_page]),
+                                 class: 'govuk-select moj-pagination__results results-per-page-select',
+                                 onchange: 'this.form.submit()')
+                    = label_tag('per_page', 'Results per page', class: 'govuk-label moj-pagination__results results-per-page-select')

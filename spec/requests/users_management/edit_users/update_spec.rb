@@ -3,10 +3,11 @@
 require 'rails_helper'
 
 describe 'UsersManagement::EditUsersController - PATCH #update', type: :request do
-  subject { patch user_path(@uuid), params: params }
+  subject { patch user_path(user_uuid), params: params }
 
   let(:params) { { edit_user: permissions } }
   let(:permissions) { { permissions: %w[MAKE_PAYMENTS] } }
+  let(:user_uuid) { SecureRandom.uuid }
 
   context 'when correct permissions' do
     context 'with edit user data in session' do
@@ -32,7 +33,7 @@ describe 'UsersManagement::EditUsersController - PATCH #update', type: :request 
         let(:permissions) { nil }
 
         it 'redirects to the edit user page' do
-          expect(response).to redirect_to(edit_user_path(@uuid))
+          expect(response).to redirect_to(edit_user_path(user_uuid))
         end
 
         it 'sets the proper error message' do

@@ -32,8 +32,8 @@ describe 'VehiclesManagement::UploadsController - GET #processing', type: :reque
       end
 
       it 'calls FleetsApi.job_status with proper params' do
-        expect(FleetsApi).to receive(:job_status).with(job_id: job_id, correlation_id: correlation_id)
         subject
+        expect(FleetsApi).to have_received(:job_status).with(job_id: job_id, correlation_id: correlation_id)
       end
 
       describe 'job status' do

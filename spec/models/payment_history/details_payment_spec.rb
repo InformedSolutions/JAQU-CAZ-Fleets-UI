@@ -4,7 +4,8 @@ require 'rails_helper'
 
 describe PaymentHistory::DetailsPayment, type: :model do
   subject do
-    described_class.new(vrn: @uuid, items: read_response('payment_history/payment_details.json')['lineItems'])
+    described_class.new(vrn: SecureRandom.uuid,
+                        items: read_response('payment_history/payment_details.json')['lineItems'])
   end
 
   describe '.dates' do

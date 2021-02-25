@@ -20,7 +20,7 @@ class DashboardController < ApplicationController
   #
   # ==== Path
   #
-  #    :GET /fleets/organisation-account/dashboard
+  #    :GET /dashboard
   #
   def index
     @vehicles_count = current_user.fleet.total_vehicles_count
@@ -43,10 +43,7 @@ class DashboardController < ApplicationController
 
   # Loads account users
   def load_account_users
-    UsersManagement::AccountUsers.new(
-      account_id: current_user.account_id,
-      user_id: current_user.user_id
-    )
+    UsersManagement::AccountUsers.new(account_id: current_user.account_id, user_id: current_user.user_id)
   end
 
   # Do not perform api call if user don't have permission
@@ -76,7 +73,6 @@ class DashboardController < ApplicationController
 
   # clear payments history back links
   def clear_payment_history
-    session[:company_back_link_history] = nil
-    session[:user_back_link_history] = nil
+    session[:back_link_history] = nil
   end
 end

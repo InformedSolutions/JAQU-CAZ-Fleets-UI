@@ -14,7 +14,7 @@ describe 'DirectDebits::DebitsController - GET #cancel', type: :request do
       end
 
       let(:user) { manage_mandates_user }
-      let(:caz_id) { @uuid }
+      let(:caz_id) { SecureRandom.uuid }
 
       it 'returns a 200 OK status' do
         expect(response).to have_http_status(:ok)

@@ -18,7 +18,7 @@ describe PaymentHistory::Payment, type: :model do
     }.stringify_keys
   end
 
-  let(:payment_id) { @uuid }
+  let(:payment_id) { SecureRandom.uuid }
   let(:date) { '2020-08-1' }
   let(:payer_name) { 'Administrator' }
   let(:caz_name) { 'Bath' }

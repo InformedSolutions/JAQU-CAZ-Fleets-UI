@@ -175,7 +175,7 @@ module AccountsApi
       #
       #    AccountsApi::Accounts.update_company_name(
       #       account_id: '27978cac-44fa-4d2e-bc9b-54fd12e37c69',
-      #       company_name: 'Royal Mail'
+      #       company_name: "Royal Mail's"
       #    )
       #
       # ==== Result

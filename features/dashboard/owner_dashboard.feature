@@ -77,4 +77,5 @@ Feature: Dashboard
       And I should not see 'Payment features will be enabled on this account'
       And I should see 'Manage vehicles' link
       And I should see 'Make a payment' link
-      And I should see 'Your payment history' link
+      And I should see 'Payment history' link
+      And I should see 'View payments made by you and your team members.'

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe UsersManagement::EmailFetcher do
   subject { described_class.new(account_id: account_id) }
 
-  let(:account_id) { @uuid }
+  let(:account_id) { SecureRandom.uuid }
   let(:existing_user_id) { '5cd7441d-766f-48ff-b8ad-1809586fea37' }
   let(:non_existing_user_id) { 'ee369462-63fe-4869-8ad9-0f02d03da1d6' }
 

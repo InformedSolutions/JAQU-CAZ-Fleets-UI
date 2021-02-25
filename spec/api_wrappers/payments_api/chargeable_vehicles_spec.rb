@@ -13,8 +13,8 @@ describe 'PaymentsApi.chargeable_vehicles' do
     )
   end
 
-  let(:id) { @uuid }
-  let(:zone_id) { @uuid }
+  let(:id) { SecureRandom.uuid }
+  let(:zone_id) { SecureRandom.uuid }
   let(:page) { 5 }
   let(:per_page) { 10 }
   let(:url) { "accounts/#{id}/chargeable-vehicles" }
