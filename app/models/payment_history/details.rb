@@ -7,6 +7,7 @@ module PaymentHistory
   # Represents the virtual model of the detailed payment history
   #
   class Details
+    include ::TimeZoneHelper
     # Initializer method.
     #
     # ==== Params
@@ -42,6 +43,14 @@ module PaymentHistory
       api_call['paymentProviderId']
     end
 
+    # Returns an array of PaymentsHistory::PaymentModification model instances
+    def payment_modifications
+      group_by_dates = api_call['modificationHistory'].group_by do |e|
+        parse_utc_date(e['modificationTimestamp']).in_time_zone.strftime('%d/%m/%Y')
+      end
+      group_by_types(group_by_dates)
+    end
+
     private
 
     # Reader for Payment ID from backend DB
@@ -50,6 +59,31 @@ module PaymentHistory
     # Calls the api go get all payment details
     def api_call
       @api_call ||= PaymentHistoryApi.payment_details(payment_id: payment_id)
+    end
+
+    # Group payment modification items by type and create
+    # `PaymentsHistory::PaymentModification` instances
+    def group_by_types(group_by_dates) # rubocop:disable Metrics/MethodLength
+      group_by_dates.map do |day, modifications|
+        {
+          day =>
+            {
+              'refunds' => prepare_payment_modification(modifications.select do |e|
+                e['entrantPaymentStatus'] == 'REFUNDED'
+              end),
+              'charges_back' => prepare_payment_modification(modifications.select do |e|
+                e['entrantPaymentStatus'] == 'CHARGEBACK'
+              end)
+            }
+        }
+      end
+    end
+
+    # Prepare payment modifications items with proper data format
+    def prepare_payment_modification(data)
+      data.map do |payment_modification|
+        PaymentHistory::PaymentModification.new(payment_modification)
+      end
     end
   end
 end

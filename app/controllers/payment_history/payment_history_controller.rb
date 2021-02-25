@@ -35,6 +35,7 @@ module PaymentHistory
     def payment_history_details
       @details =  PaymentHistory::Details.new(payment_id)
       @payments = @details.payments
+      @payment_modifications = @details.payment_modifications
       @back_button_url = determinate_back_link
     end
 
