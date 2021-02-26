@@ -65,7 +65,7 @@ When('I visit the Confirm email update page when is not logged in') do
       'email' => 'john.doe@example.com',
       'accountUserId' => @uuid,
       'accountId' => @uuid,
-      'accountName' => 'Royal Mail',
+      'accountName' => "Royal Mail's",
       'owner' => true
     )
 
