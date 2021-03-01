@@ -6,7 +6,7 @@ describe 'VehiclesManagement::UploadsController - POST #create' do
   subject { post uploads_path, params: { file: file } }
 
   let(:file_path) { File.join('spec', 'fixtures', 'uploads', 'fleet.csv') }
-  let(:file) { fixture_file_upload(file_path) }
+  let(:file) { Rack::Test::UploadedFile.new(file_path) }
 
   context 'correct permissions' do
     let(:user) { manage_vehicles_user }

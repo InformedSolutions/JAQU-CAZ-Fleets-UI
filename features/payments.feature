@@ -9,7 +9,7 @@ Feature: Fleets
     Then I should be on the first upload page
       And I should see 'First upload your vehicles'
     When I press the Continue
-      And I should see 'Choose how to add vehicles to Royal Mail account'
+      And I should see "Choose how to add vehicles to Royal Mail's account"
 
   Scenario: Making a card payment with vehicles in fleet
     When I have vehicles in my fleet
@@ -27,7 +27,7 @@ Feature: Fleets
       And I should see 'Check a box for each vehicle and date it drove in a Clean Air Zone.'
       And I should see 'If you have already paid for a date, it will show as Paid.'
     When I select any date for vrn on the payment matrix
-      And I press the Continue
+      And I press the 'Review payment' button
     Then I should be on the confirm payment page
       And I should see 'Review the payment' title
     When I click view details link
@@ -63,7 +63,7 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the payment matrix page
     When I select any date for vrn on the payment matrix
-      And I press the Continue
+      And I press the 'Review payment' button
     Then I should be on the confirm payment page
       And I want to confirm my payment without any active Direct Debit mandate
       And I confirm that my vehicles are not exempt from payment
@@ -78,7 +78,7 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the payment matrix page
     When I select any date for vrn on the payment matrix
-      And I press the Continue
+      And I press the 'Review payment' button
     Then I should be on the confirm payment page
       And I want to confirm my payment when Direct Debits are disabled
       And I confirm that my vehicles are not exempt from payment
@@ -100,12 +100,24 @@ Feature: Fleets
       And I should not see 'If you have already paid for a date, it will show as Paid.'
 
   Scenario: Trying to pay in CAZ without chargeable vehicles
-    When I have no chargeable vehicles in my fleet
+    When I have no chargeable vehicles
       And I visit the make payment page
     Then I select 'Birmingham'
       And I press the Continue
-    Then I should be on the no chargeable vehicles page
+    Then I should be on the No chargeable vehicles page
       And I should see 'No chargeable vehicles in the Birmingham'
+    Then I press 'Back' link
+      And I should be on the make a payment page
+    Then I press 'Back' link
+      And I should be on the Dashboard page
+
+  Scenario: Trying to pay in CAZ with all undetermined vehicles
+    When I have all undetermined vehicles
+      And I visit the make payment page
+    Then I select 'Birmingham'
+      And I press the Continue
+    Then I should be on the Undetermined vehicles page
+      And I should see 'You can not use this service to pay the Birmingham Clean Air Zone'
     Then I press 'Back' link
       And I should be on the make a payment page
     Then I press 'Back' link
@@ -185,4 +197,20 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the payment matrix page
       And I should see 'Next 7 days'
-      And I should see 'Previous days'
+      And I should see 'Past 6 days'
+
+  Scenario: Pagination
+    When I have vehicles in my fleet
+      And I visit the make payment page
+    When I select 'Birmingham'
+      And I press the Continue
+    Then I should be on the payment matrix page
+    Then I should see active '1' pagination button
+      And I should see inactive '2' pagination button
+      And I should see inactive 'next' pagination button
+      And I should not see 'previous' pagination button
+    When I press 2 pagination button
+    Then I should see active '2' pagination button
+      And I should see inactive '1' pagination button
+      And I should see inactive 'previous' pagination button
+      And I should not see 'next' pagination button

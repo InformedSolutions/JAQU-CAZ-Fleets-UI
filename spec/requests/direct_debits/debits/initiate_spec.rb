@@ -42,8 +42,8 @@ describe 'DirectDebits::DebitsController - POST #initiate' do
         subject
       end
 
-      it 'redirects to the failure dd payment page' do
-        expect(response).to redirect_to(failure_debits_path)
+      it 'redirects to the unsuccessful dd payment page' do
+        expect(response).to redirect_to(unsuccessful_debits_path)
       end
     end
 
@@ -54,8 +54,8 @@ describe 'DirectDebits::DebitsController - POST #initiate' do
         subject
       end
 
-      it 'redirects to the failure dd payment page' do
-        expect(response).to redirect_to(failure_debits_path)
+      it 'redirects to the unsuccessful dd payment page' do
+        expect(response).to redirect_to(unsuccessful_debits_path)
       end
     end
   end
