@@ -78,8 +78,9 @@ When('I navigate to a Dashboard page before Bath D day') do
   login_owner
 end
 
-When('I navigate to a Dashboard page before Bath D day as a beta tester') do
+When('I navigate to a Dashboard page before Bath D day as a beta tester and Direct Debit is disabled') do
   mock_api_on_dashboard
+  mock_direct_debit_disabled
   mock_bath_d_day
   login_user(owner: true, beta_tester: true)
 end
