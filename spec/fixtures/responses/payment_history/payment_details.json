@@ -77,7 +77,7 @@
     {
       "amount": 5000,
       "travelDate": "2021-02-14",
-      "vrn": "TST004",
+      "vrn": "TST008",
       "caseReference": "CR100000346",
       "modificationTimestamp": "2021-02-15T01:00:17",
       "entrantPaymentStatus": "CHARGEBACK"
@@ -85,7 +85,7 @@
     {
       "amount": 5000,
       "travelDate": "2021-02-15",
-      "vrn": "TST008",
+      "vrn": "TST004",
       "caseReference": "CR100000347",
       "modificationTimestamp": "2021-02-15T01:00:17",
       "entrantPaymentStatus": "CHARGEBACK"

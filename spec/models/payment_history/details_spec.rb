@@ -16,6 +16,16 @@ describe PaymentHistory::Details, type: :model do
     end
   end
 
+  describe '.payment_modifications' do
+    it 'returns an PaymentHistory::DetailsPayment instances' do
+      expect(subject.payments).to all(be_a(PaymentHistory::DetailsPayment))
+    end
+
+    it 'sorts alphabetically by vrn' do
+      expect(subject.payment_modifications[2].dig('15/02/2021', 'charges_back').first.vrn).to eq('TST004')
+    end
+  end
+
   describe '.payer_name' do
     it 'returns a proper value' do
       expect(subject.payer_name).to eq('John Doe')
