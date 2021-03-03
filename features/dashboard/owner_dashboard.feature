@@ -35,7 +35,8 @@ Feature: Dashboard
   Scenario: Owner wants to view dashboard with different IP address
     Given I navigate to a Dashboard page
     Then I should enter fleet owner credentials and press the Continue
-      And I should see 'Royal Mail account home'
+      And I should see "Royal Mail's account home" title
+      And I should see "Royal Mail's account home"
     Then I change my IP
       And I navigate to a Dashboard page
     Then I am redirected to the unauthenticated root page
