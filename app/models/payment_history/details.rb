@@ -79,9 +79,9 @@ module PaymentHistory
       end
     end
 
-    # Prepare payment modifications items with proper data format
+    # Prepare payment modifications items with proper data format and sort alphabetically by vrn
     def prepare_payment_modification(data)
-      data.map do |payment_modification|
+      data.sort_by { |e| e['vrn'] }.map do |payment_modification|
         PaymentHistory::PaymentModification.new(payment_modification)
       end
     end
