@@ -2,14 +2,14 @@
 
 require 'rails_helper'
 
-describe 'VehiclesManagement::VehicleController - POST #confirm_and_add_exempt_vehicle_to_fleet' do
+describe 'VehiclesManagement::VehicleController - POST #confirm_and_add_exempt_vehicle_to_fleet', type: :request do
   subject do
     post confirm_and_add_exempt_vehicle_to_fleet_vehicles_path, params: { 'confirm-vehicle' => confirmation }
   end
 
   let(:confirmation) { 'yes' }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     let(:account_id) { @uuid }
     let(:user) { manage_vehicles_user(account_id: account_id) }
     let(:vehicle_type) { 'Car' }

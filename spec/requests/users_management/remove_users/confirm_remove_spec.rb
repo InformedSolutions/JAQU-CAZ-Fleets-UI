@@ -2,13 +2,13 @@
 
 require 'rails_helper'
 
-describe 'UsersManagement::RemoveUsersController - POST #confirm_remove' do
+describe 'UsersManagement::RemoveUsersController - POST #confirm_remove', type: :request do
   subject { post remove_user_path(@uuid), params: params }
 
   let(:params) { { 'confirm-remove-user': confirmation } }
   let(:confirmation) { 'yes' }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     context 'with edit user data in session' do
       before { add_to_session(edit_user: { name: 'John Doe' }) }
 

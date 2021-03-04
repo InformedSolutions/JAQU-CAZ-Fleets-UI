@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'AccountDetails::EmailsController - POST #update_email' do
+describe 'AccountDetails::EmailsController - POST #update_email', type: :request do
   subject { post update_email_primary_users_path, params: params }
 
   before { sign_in user }

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Organisations::OrganisationsController - GET #create_account' do
+describe 'Organisations::OrganisationsController - GET #create_account', type: :request do
   subject { get create_account_path }
 
   it 'returns a 200 OK status' do

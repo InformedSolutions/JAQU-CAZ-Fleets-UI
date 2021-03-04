@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - GET #in_progress' do
+describe 'PaymentsController - GET #in_progress', type: :request do
   subject { get in_progress_payments_path }
 
   let(:caz_id) { @uuid }
@@ -11,7 +11,7 @@ describe 'PaymentsController - GET #in_progress' do
   let(:user) { create_user(account_id: account_id, user_id: SecureRandom.uuid) }
   let(:second_user) { create_user(account_id: account_id, user_id: second_user_id) }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before do
       sign_in user
       mock_clean_air_zones

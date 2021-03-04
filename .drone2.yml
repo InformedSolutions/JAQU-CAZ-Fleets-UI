@@ -142,8 +142,8 @@ steps:
     pull: never
     commands:
       - bundle audit check --update
-      - yarn run improved-yarn-audit --exclude '1589' --retry-on-network-failure
-      - brakeman --except LinkToHref
+      - yarn run improved-yarn-audit --retry-on-network-failure
+      - brakeman
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -360,6 +360,18 @@ steps:
     commands:
       - rubocop
       - scss-lint app/javascript
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+  # Invoke security analysis through Ruby libraries and yarn
+  - name: security tests (Ruby + Yarn)
+    image: test-fleet-frontend
+    pull: never
+    commands:
+      - bundle audit check --update
+      - yarn run improved-yarn-audit --exclude '1589' --retry-on-network-failure
+      - brakeman
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -1093,7 +1105,7 @@ steps:
     commands:
       - bundle audit check --update
       - yarn run improved-yarn-audit --exclude '1589' --retry-on-network-failure
-      - brakeman --except LinkToHref
+      - brakeman
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -1457,7 +1469,7 @@ steps:
   - name: await ecs rollout
     image: alpine:3.11.6
     environment:
-      build_id_url: https://multiple-vehiclecheck.drive-clean-air-zone.service.gov.uk/build_id
+      build_id_url: https://multiple-vehiclecheck-pay.drive-clean-air-zone.service.gov.uk/build_id
       SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::360470905865:role/jaqu-stagingServiceRole
       AWS_ACCESS_KEY_ID:
         from_secret: jaqu_staging_aws_access_key_id

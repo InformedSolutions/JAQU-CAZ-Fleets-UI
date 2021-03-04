@@ -60,8 +60,8 @@ describe AccountDetails::UpdateCompanyName do
       stub_request(:patch, /#{url}/).to_return(
         status: 422,
         body: {
-          "message": 'Submitted parameters are invalid',
-          "errorCode": error_code
+          message: 'Submitted parameters are invalid',
+          errorCode: error_code
         }.to_json
       )
     end

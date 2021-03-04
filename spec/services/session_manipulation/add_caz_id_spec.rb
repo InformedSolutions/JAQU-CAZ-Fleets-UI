@@ -17,7 +17,7 @@ describe SessionManipulation::AddCazId do
   context 'when there is other data in the session' do
     let(:session) { { new_payment: { caz_id: SecureRandom.uuid, details: { @vrn => [] } } } }
 
-    it 'it clears other data than caz_id' do
+    it 'clears other data than caz_id' do
       expect(session[:new_payment]).to eq({ caz_id: caz_id })
     end
   end

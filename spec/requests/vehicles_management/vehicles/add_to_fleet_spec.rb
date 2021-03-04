@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'VehiclesManagement::VehicleController - POST #add_to_fleet' do
+describe 'VehiclesManagement::VehicleController - POST #add_to_fleet', type: :request do
   subject { post add_to_fleet_vehicles_path }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     context 'when user is not signed in' do
       it 'redirects to the login page' do
         subject
@@ -24,28 +24,24 @@ describe 'VehiclesManagement::VehicleController - POST #add_to_fleet' do
         before do
           allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true)
           add_to_session(vrn: @vrn, vehicle_type: vehicle_type)
-        end
-
-        it 'adds the vehicle to the fleet' do
-          expect(FleetsApi).to receive(:add_vehicle_to_fleet)
-            .with(vrn: @vrn, vehicle_type: vehicle_type, account_id: account_id)
           subject
         end
 
-        context do
-          before { subject }
+        it 'adds the vehicle to the fleet' do
+          expect(FleetsApi).to have_received(:add_vehicle_to_fleet)
+            .with(vrn: @vrn, vehicle_type: vehicle_type, account_id: account_id)
+        end
 
-          it 'removes vrn from session' do
-            expect(session[:vrn]).to be_nil
-          end
+        it 'removes vrn from session' do
+          expect(session[:vrn]).to be_nil
+        end
 
-          it 'removes show_continue_button from session' do
-            expect(session[:show_continue_button]).to be_nil
-          end
+        it 'removes show_continue_button from session' do
+          expect(session[:show_continue_button]).to be_nil
+        end
 
-          it 'sets :success flash message' do
-            expect(flash[:success]).to eq("You have successfully added #{@vrn} to your vehicle list.")
-          end
+        it 'sets :success flash message' do
+          expect(flash[:success]).to eq("You have successfully added #{@vrn} to your vehicle list.")
         end
       end
 

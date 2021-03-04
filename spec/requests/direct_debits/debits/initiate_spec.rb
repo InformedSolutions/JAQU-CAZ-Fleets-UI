@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'DirectDebits::DebitsController - POST #initiate' do
+describe 'DirectDebits::DebitsController - POST #initiate', type: :request do
   subject { post initiate_debits_path }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before do
       add_to_session(new_payment: { caz_id: @uuid, payment_id: @uuid, details: details })
       sign_in make_payments_user

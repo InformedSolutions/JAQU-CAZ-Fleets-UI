@@ -2,13 +2,13 @@
 
 require 'rails_helper'
 
-describe 'DirectDebits::DebitsController - POST #set_up' do
+describe 'DirectDebits::DebitsController - POST #set_up', type: :request do
   subject { post set_up_debits_path, params: { caz_id: caz_id } }
 
   let(:caz_id) { @uuid }
   let(:user) { manage_mandates_user }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before do
       mock_direct_debit_enabled
       sign_in user

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Organisations::OrganisationsController - POST #sign_in_details' do
+describe 'Organisations::OrganisationsController - POST #sign_in_details', type: :request do
   subject { post sign_in_details_organisations_url, params: params }
 
   let(:params) { { organisations: organization_params } }
@@ -22,7 +22,7 @@ describe 'Organisations::OrganisationsController - POST #sign_in_details' do
   context 'with company name in the session' do
     before do
       allow(Organisations::CreateUserAccount).to receive(:call).and_return(user)
-      add_to_session(new_account: { 'account_id': account_id })
+      add_to_session(new_account: { account_id: account_id })
     end
 
     context 'with valid params' do

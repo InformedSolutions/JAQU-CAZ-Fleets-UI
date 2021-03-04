@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PasswordsController - GET #index' do
+describe 'PasswordsController - GET #index', type: :request do
   subject { get passwords_path(token: token) }
 
   let(:token) { @uuid }

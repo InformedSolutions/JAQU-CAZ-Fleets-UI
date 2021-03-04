@@ -117,15 +117,15 @@ RSpec.describe PaymentHistory::BackLinkHistory do
         }
       end
 
+      before { subject }
+
       it 'returns correct page' do
         expect(subject).to include('page=10')
       end
 
-      before { subject }
-
       it 'removes first step and adding next one' do
         expect(session[:company_back_link_history]).to include({ '11' => 1 })
-        expect(session[:company_back_link_history]).to_not include({ '1' => 1 })
+        expect(session[:company_back_link_history]).not_to include({ '1' => 1 })
       end
     end
 
@@ -149,16 +149,16 @@ RSpec.describe PaymentHistory::BackLinkHistory do
       end
       let(:back_button) { true }
 
+      before { subject }
+
       it 'returns correct page' do
         expect(subject).to include('page=9')
       end
 
-      before { subject }
-
       it 'not adding the next step' do
         expect(session[:company_back_link_history]).to include({ '1' => 1 })
         expect(session[:company_back_link_history]).to include({ '10' => 10 })
-        expect(session[:company_back_link_history]).to_not include({ '11' => 1 })
+        expect(session[:company_back_link_history]).not_to include({ '11' => 1 })
       end
     end
   end

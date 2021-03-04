@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe 'FleetsApi.remove_vehicle_from_fleet' do
   subject { FleetsApi.remove_vehicle_from_fleet(account_id: id, vrn: @vrn) }
+
   let(:id) { @uuid }
   let(:url) { %r{accounts/#{id}/vehicles/#{@vrn}} }
 

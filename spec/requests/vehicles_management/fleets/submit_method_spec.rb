@@ -2,13 +2,13 @@
 
 require 'rails_helper'
 
-describe 'VehiclesManagement::FleetsController - POST #submit_method' do
+describe 'VehiclesManagement::FleetsController - POST #submit_method', type: :request do
   subject { post choose_method_fleets_path, params: params }
 
   let(:params) { { 'submission-method': choose_method } }
   let(:choose_method) { 'upload' }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before do
       mock_actual_account_name
       sign_in manage_vehicles_user

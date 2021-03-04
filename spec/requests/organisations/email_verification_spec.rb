@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Organisations::OrganisationsController - GET #email_verification' do
+describe 'Organisations::OrganisationsController - GET #email_verification', type: :request do
   subject { get email_verification_organisations_path(token: token) }
 
   let(:token) { 'token' }

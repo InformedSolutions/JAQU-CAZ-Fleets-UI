@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - GET #review' do
+describe 'PaymentsController - GET #review', type: :request do
   subject { get review_payments_path }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before do
       mock_clean_air_zones
       mock_chargeable_vehicles

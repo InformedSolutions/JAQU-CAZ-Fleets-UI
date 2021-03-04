@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
+describe 'UsersManagement::CreateUsersController - POST #confirm_set_up', type: :request do
   subject { post set_up_users_path, params: { account_set_up: request_params } }
 
   let(:request_params) do
@@ -88,7 +88,7 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up' do
     before { subject }
 
     it 'does not call API' do
-      expect(AccountsApi::Auth).to_not receive(:set_password)
+      expect(AccountsApi::Auth).not_to receive(:set_password)
     end
 
     it 'render the view' do

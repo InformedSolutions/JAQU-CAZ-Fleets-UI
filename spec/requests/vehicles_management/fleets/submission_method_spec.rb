@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'VehiclesManagement::FleetsController - GET #choose_method' do
+describe 'VehiclesManagement::FleetsController - GET #choose_method', type: :request do
   subject { get choose_method_fleets_path }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before do
       mock_actual_account_name
       mock_users
