@@ -234,7 +234,7 @@ module AccountsApi
       #
       #   AccountsApi.close_account(
       #     account_id: '27978cac-44fa-4d2e-bc9b-54fd12e37c69',
-      #     reason: ''
+      #     reason: 'VEHICLES_COMPLIANT'
       #   )
       #
       # ==== Exceptions

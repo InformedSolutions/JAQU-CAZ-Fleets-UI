@@ -20,7 +20,7 @@ module AccountDetails
     #    GET /account_cancellation
     #
     def account_cancellation
-      # Renders static page
+      @form = AccountDetails::AccountCancellationForm.new
     end
 
     ##
@@ -28,16 +28,17 @@ module AccountDetails
     #
     # ==== Path
     #
-    #    POST /submit_cancellation
+    #    POST /account_cancellation
     #
     def submit_account_cancellation
-      form = AccountDetails::AccountCancellationForm.new(reason: params[:reason])
-      if form.valid?
-        AccountDetails::CloseAccount.call(account_id: current_user.account_id, reason: params[:reason])
+      @form = AccountDetails::AccountCancellationForm.new(reason: reason_param)
+      if @form.valid?
+        AccountDetails::CloseAccount.call(account_id: account_id, reason: reason_param)
         sign_out current_user
         redirect_to account_closed_path
       else
-        redirect_to account_cancellation_path, alert: confirmation_error(form, :reason)
+        flash.now[:alert] = @form.first_error_message
+        render :account_cancellation
       end
     end
 
@@ -49,6 +50,18 @@ module AccountDetails
     #   GET /account_closed
     def account_closed
       # TODO: CAZB-3736
+    end
+
+    private
+
+    # :reason param fetched from params
+    def reason_param
+      params[:reason]
+    end
+
+    # account_id associated with the current_user
+    def account_id
+      current_user.account_id
     end
   end
 end

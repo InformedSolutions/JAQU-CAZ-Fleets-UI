@@ -3,19 +3,11 @@
 
 = render 'shared/js_back_link'
 
-:ruby
-  closure_reasons = [
-    { name: 'VEHICLES_UPDATED_TO_NON_CHARGEABLE', value: 'The business has upgraded its vehicles and now none are subject to charge' },
-    { name: 'VEHICLES_NOT_CHARGED', value: 'The business were not charged in any live Clean Air Zone' },
-    { name: 'NOT_A_TRAVEL_DESTINATION', value: 'The business does not travel in the live Clean Air Zone' },
-    { name: 'NON_OPERATIONAL_BUSINESS', value: 'The business no longer operates' },
-    { name: 'OTHER', value: 'Other' }]
-
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
 
-      = form_tag submit_account_cancellation_path do
+      = form_tag account_cancellation_path do
         .govuk-form-group{class: ('govuk-form-group--error' if alert)}
           %fieldset.govuk-fieldset
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
@@ -28,15 +20,15 @@
                 = alert
 
             .govuk-radios
-              - closure_reasons.each do |reason|
+              - @form.closure_reasons.each do |reason|
                 .govuk-radios__item
                   %input.govuk-radios__input{name: 'reason',
                                             type: 'radio',
-                                            value: reason[:name],
-                                            id: "#{reason[:name].downcase}-id",
+                                            value: reason.keys.first,
+                                            id: "#{reason.keys.first.downcase}-id",
                                             checked: false}
-                  %label.govuk-label.govuk-radios__label{for: "#{reason[:name].downcase}-id"}
-                    = reason[:value]
+                  %label.govuk-label.govuk-radios__label{for: "#{reason.keys.first.downcase}-id"}
+                    = reason.values.first
 
         = submit_tag 'Close account', class: 'govuk-button', 'data-module': 'govuk-button'
 

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'AccountDetails::AccountCancellationsController - POST #submit_account_cancellation', type: :request do
-  subject { post submit_account_cancellation_path, params: params }
+  subject { post account_cancellation_path, params: params }
 
   before { sign_in create_owner }
 
@@ -20,7 +20,7 @@ describe 'AccountDetails::AccountCancellationsController - POST #submit_account_
       expect(AccountDetails::CloseAccount).to have_received(:call)
     end
 
-    it 'redirects to account_closed page' do
+    it 'renders to account_closed page' do
       expect(subject).to redirect_to(account_closed_path)
     end
   end
@@ -29,7 +29,7 @@ describe 'AccountDetails::AccountCancellationsController - POST #submit_account_
     let(:reason) { nil }
 
     it 'redirects back to account_cancellation page' do
-      expect(subject).to redirect_to(account_cancellation_path)
+      expect(subject).to render_template(:account_cancellation)
     end
   end
 end
