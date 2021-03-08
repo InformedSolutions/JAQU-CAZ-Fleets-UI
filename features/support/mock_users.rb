@@ -80,6 +80,10 @@ module MockUsers
     allow_any_instance_of(User).to receive(:actual_account_name).and_return("Royal Mail's")
   end
 
+  def mock_account_cancellation
+    allow(AccountsApi::Accounts).to receive(:close_account).and_return({})
+  end
+
   def uuid
     '6ffc41fd-ff2d-4cc1-a2a2-90006ae26446'
   end

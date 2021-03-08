@@ -1,5 +1,7 @@
 ---
 en:
+  account_cancellation_form:
+    reason_missing: You must choose an answer
   add_new_user_form:
     errors:
       email_duplicated: Email address already exists
