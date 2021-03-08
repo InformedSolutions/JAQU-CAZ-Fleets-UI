@@ -175,6 +175,12 @@ Rails.application.routes.draw do
       end
     end
 
+    scope controller: 'account_cancellations' do
+      get :account_cancellation
+      post :submit_account_cancellation
+      get :account_closed
+    end
+
     get :non_primary_users_account_details, to: 'non_primary_users#non_primary_account_details'
     resources :non_primary_users, only: %i[] do
       collection do
