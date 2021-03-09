@@ -242,6 +242,7 @@ module AccountsApi
       # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - bad request
       # * {404 Exception}[rdoc-ref:BaseApi::Error400Exception] - account does not exist
       # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+      #
       def close_account(account_id:, reason:)
         log_action('Closing account')
         body = { reason: reason }.to_json

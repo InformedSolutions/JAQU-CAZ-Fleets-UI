@@ -20,7 +20,7 @@ describe 'AccountDetails::AccountCancellationsController - POST #submit_account_
       expect(AccountDetails::CloseAccount).to have_received(:call)
     end
 
-    it 'renders to account_closed page' do
+    it 'redirects to account_closed page' do
       expect(subject).to redirect_to(account_closed_path)
     end
   end
@@ -28,7 +28,7 @@ describe 'AccountDetails::AccountCancellationsController - POST #submit_account_
   context 'when reason param is invalid' do
     let(:reason) { nil }
 
-    it 'redirects back to account_cancellation page' do
+    it 'renders the account_cancellation page' do
       expect(subject).to render_template(:account_cancellation)
     end
   end
