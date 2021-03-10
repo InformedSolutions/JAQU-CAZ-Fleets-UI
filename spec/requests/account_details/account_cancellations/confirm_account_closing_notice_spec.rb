@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'AccountsDetails::AccountCancellationsController - POST #confirm_account_closing_notice', type: :request do
+describe 'AccountsDetails::AccountCancellationsController - POST #account_closing_notice', type: :request do
   subject { post account_closing_notice_path, params: params }
 
   before { sign_in create_owner }
