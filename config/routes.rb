@@ -176,6 +176,8 @@ Rails.application.routes.draw do
     end
 
     scope controller: 'account_cancellations' do
+      get :account_closing_notice
+      post :account_closing_notice, to: 'account_cancellations#confirm_account_closing_notice'
       get :account_cancellation
       post :account_cancellation, to: 'account_cancellations#submit_account_cancellation'
       get :account_closed
