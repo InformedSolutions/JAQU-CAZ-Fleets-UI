@@ -78,7 +78,7 @@ module AccountDetails
     #
     #   GET /account_closed
     def account_closed
-      # TODO: CAZB-3736
+      # renders static page
     end
 
     private

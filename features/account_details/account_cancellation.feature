@@ -19,3 +19,4 @@ Feature: Primary user account cancellation
     When I select 'Other'
       And I press 'Close account' button
     Then I should be redirected to Account Closed page
+      And I should see 'Account closed'
