@@ -13,6 +13,35 @@ module AccountDetails
     skip_before_action :authenticate_user!, only: :account_closed
 
     ##
+    # Renders a page informing about account closing process and renders form with confirmation.
+    #
+    # ==== Path
+    #
+    #    GET /account_closing_notice
+    #
+    def account_closing_notice
+      # renders static page
+    end
+
+    ##
+    # Verifies the provided params and redirects either to account cancellation form or redirects back
+    # to primary user management page
+    #
+    # ==== Path
+    #
+    #    POST /account_closing_notice
+    #
+    def confirm_account_closing_notice
+      @form = AccountDetails::CancellationConfirmationForm.new(confirm_close_account_param)
+      if @form.valid?
+        redirect_to @form.confirmed? ? account_cancellation_path : primary_users_account_details_path
+      else
+        flash.now[:alert] = confirmation_error(@form)
+        render :account_closing_notice
+      end
+    end
+
+    ##
     # Renders the account cancellation form for the primary user.
     #
     # ==== Path
@@ -54,7 +83,12 @@ module AccountDetails
 
     private
 
-    # :reason param fetched from params
+    # Extract 'confirm-close-account' from params
+    def confirm_close_account_param
+      params['confirm-close-account']
+    end
+
+    # Extract 'reason' from params
     def reason_param
       params[:reason]
     end

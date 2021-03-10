@@ -7,6 +7,7 @@ Given('I visit primary user Account Details page') do
   mock_debits
   mock_account_details
   mock_clean_air_zones
+  mock_account_cancellation
 
   login_owner
   visit primary_users_account_details_path
