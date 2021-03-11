@@ -18,7 +18,15 @@ module MockVccs
 
   def mock_clean_air_zones(caz_list = nil)
     caz_list ||= read_response('caz_list.json')['cleanAirZones']
-    allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(caz_list)
+    stub = caz_list.map { |caz_data| CleanAirZone.new(caz_data) }.sort_by(&:name)
+    allow(CleanAirZone).to receive(:all).and_return(stub)
+  end
+
+  def mock_one_clean_air_zones
+    stub = [read_response('caz_list.json')['cleanAirZones'].first].map do |caz_data|
+      CleanAirZone.new(caz_data)
+    end.sort_by(&:name)
+    allow(CleanAirZone).to receive(:all).and_return(stub)
   end
 end
 

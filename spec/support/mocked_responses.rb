@@ -12,8 +12,9 @@ module MockedResponses
   end
 
   def mock_clean_air_zones
-    api_response = read_response('caz_list.json')['cleanAirZones']
-    allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(api_response)
+    caz_list ||= read_response('caz_list.json')['cleanAirZones']
+    stub = caz_list.map { |caz_data| CleanAirZone.new(caz_data) }.sort_by(&:name)
+    allow(CleanAirZone).to receive(:all).and_return(stub)
   end
 
   def mock_direct_debit_enabled

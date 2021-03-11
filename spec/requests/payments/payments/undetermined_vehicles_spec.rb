@@ -11,15 +11,14 @@ describe 'PaymentsController - GET #undetermined_vehicles', type: :request do
       mock_chargeable_vehicles
       sign_in create_user
       add_to_session(new_payment: { caz_id: mocked_uuid })
+      subject
     end
 
-    it 'calls ComplianceCheckerApi for CAZ name' do
-      subject
-      expect(ComplianceCheckerApi).to have_received(:clean_air_zones)
+    it 'calls CleanAirZone.all to find CAZ' do
+      expect(CleanAirZone).to have_received(:all)
     end
 
     it 'assigns :clean_air_zone_name variable' do
-      subject
       expect(assigns(:clean_air_zone_name)).to eq('Birmingham')
     end
   end

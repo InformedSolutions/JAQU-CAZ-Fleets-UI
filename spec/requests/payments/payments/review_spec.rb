@@ -13,25 +13,22 @@ describe 'PaymentsController - GET #review', type: :request do
       add_to_session(new_payment: { caz_id: mocked_uuid,
                                     details: { mocked_vrn => { dates: %w[2019-11-05 2019-11-06],
                                                                charge: 50 } } })
+      subject
     end
 
-    it 'calls ComplianceCheckerApi for CAZ name' do
-      subject
-      expect(ComplianceCheckerApi).to have_received(:clean_air_zones)
+    it 'calls CleanAirZone.all to find CAZ' do
+      expect(CleanAirZone).to have_received(:all)
     end
 
     it 'assigns :zone variable' do
-      subject
       expect(assigns(:zone).name).to eq('Birmingham')
     end
 
     it 'assigns :days_to_pay variable' do
-      subject
       expect(assigns(:days_to_pay)).to eq(2)
     end
 
     it 'assigns :total_to_pay variable' do
-      subject
       expect(assigns(:total_to_pay)).to eq(100)
     end
   end
