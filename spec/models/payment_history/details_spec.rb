@@ -14,6 +14,10 @@ describe PaymentHistory::Details, type: :model do
     it 'returns an PaymentHistory::DetailsPayment instances' do
       expect(subject.payments).to all(be_a(PaymentHistory::DetailsPayment))
     end
+
+    it 'returns details sorted by vrn' do
+      expect(subject.payments.map(&:vrn)).to eq(%w[AST003 TST003 TST004 TST008])
+    end
   end
 
   describe '.payment_modifications' do

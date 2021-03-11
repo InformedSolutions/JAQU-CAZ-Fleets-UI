@@ -18,9 +18,11 @@ module PaymentHistory
     end
 
     # Returns a sorted by vrn PaymentHistory::DetailsPayment with payments associated with the account
+    # and sort alphabetically by vrn
     def payments
       result = api_call['lineItems'].group_by { |key| key['vrn'] }
       result.map { |payment| PaymentHistory::DetailsPayment.new(vrn: payment.first, items: payment.second) }
+            .sort_by(&:vrn)
     end
 
     # payment made by
