@@ -48,7 +48,7 @@ module PaymentHistory
     # Returns an array of PaymentsHistory::PaymentModification model instances
     def payment_modifications
       group_by_dates = api_call['modificationHistory'].group_by do |e|
-        parse_utc_date(e['modificationTimestamp']).in_time_zone.strftime('%d/%m/%Y')
+        parse_utc_date(e['modificationTimestamp']).in_time_zone.strftime('%A %d %B %Y')
       end
       group_by_types(group_by_dates)
     end
