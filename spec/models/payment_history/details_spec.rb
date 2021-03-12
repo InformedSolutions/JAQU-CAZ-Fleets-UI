@@ -22,7 +22,8 @@ describe PaymentHistory::Details, type: :model do
     end
 
     it 'sorts alphabetically by vrn' do
-      expect(subject.payment_modifications[2].dig('15/02/2021', 'charges_back').first.vrn).to eq('TST004')
+      expect(subject.payment_modifications[2].dig('Monday 15 February 2021', 'charges_back').first.vrn)
+        .to eq('TST004')
     end
   end
 
