@@ -14,7 +14,7 @@ describe PaymentHistory::DetailsPayment, type: :model do
     end
 
     it 'returns a proper value' do
-      expect(subject.dates.first).to eq('Sunday 26th July 2020')
+      expect(subject.dates.first).to eq('Sunday 26 July 2020')
     end
   end
 
