@@ -114,8 +114,9 @@ describe CleanAirZone, type: :model do
     subject { described_class.active }
 
     before do
-      caz_list = read_response('caz_list_active.json')['cleanAirZones']
-      allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(caz_list)
+      caz_list ||= read_response('caz_list_active.json')['cleanAirZones']
+      stub = caz_list.map { |caz_data| described_class.new(caz_data) }.sort_by(&:name)
+      allow(described_class).to receive(:all).and_return(stub)
     end
 
     it 'returns an array of CleanAirZone instances' do
