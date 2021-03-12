@@ -73,6 +73,16 @@ When('I have vehicles in my fleet') do
   mock_direct_debit_enabled
 end
 
+When('I have vehicles in my fleet and only one CAZ is available') do
+  mock_actual_account_name
+  mock_users
+  mock_one_clean_air_zones
+  mock_vehicles_in_fleet
+  mock_chargeable_vehicles
+  mock_caz_mandates
+  mock_direct_debit_enabled
+end
+
 When('I have undetermined vehicles in my fleet') do
   mock_clean_air_zones
   mock_undetermined_vehicles_in_fleet
@@ -104,7 +114,7 @@ end
 
 When('I want to pay for active for charging CAZ') do
   caz_list = read_response('caz_list_active.json')['cleanAirZones']
-  mock_clean_air_zones(caz_list)
+  allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(caz_list)
   mock_vehicles_in_fleet
   mock_chargeable_vehicles
   mock_users
