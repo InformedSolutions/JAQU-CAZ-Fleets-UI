@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe 'VehiclesManagement::FleetsController - GET #assign_delete' do
+describe 'VehiclesManagement::FleetsController - GET #assign_delete', type: :request do
   subject { get assign_remove_fleets_path(vrn: vrn) }
 
   let(:vrn) { @vrn }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     it 'redirects to the login page' do
       subject
       expect(response).to redirect_to(new_user_session_path)

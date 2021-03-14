@@ -8,6 +8,7 @@ Feature: Sign In
     When I navigate to a Dashboard page
     Then I am redirected to the unauthenticated root page
       And I should see 'Sign In'
+      And I should see 'beta This is a new service – your feedback'
       And I should not see 'Account' link
     Then I should enter fleet owner credentials and press the Continue
     When I should see "Royal Mail's account home"

@@ -16,15 +16,13 @@ describe Payments::ChargeableVehicles, type: :model do
     before { allow(PaymentsApi).to receive(:chargeable_vehicles).and_return(vehicles_data) }
 
     it 'calls PaymentsApi.chargeable_vehicles with proper params' do
-      expect(PaymentsApi).to(
-        receive(:chargeable_vehicles).with(
-          account_id: account_id,
-          zone_id: zone_id,
-          page: page,
-          per_page: per_page,
-          vrn: nil
-        )
-      )
+      expect(PaymentsApi).to(receive(:chargeable_vehicles).with(
+                               account_id: account_id,
+                               zone_id: zone_id,
+                               page: page,
+                               per_page: per_page,
+                               vrn: nil
+                             ))
       subject
     end
 

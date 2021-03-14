@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-describe 'DirectDebits::DebitsController - GET #unsuccessful' do
+describe 'DirectDebits::DebitsController - GET #unsuccessful', type: :request do
   subject { get unsuccessful_debits_path }
 
-  context 'correct permissions' do
-    context 'and CAZ locked by current user' do
+  context 'when correct permissions' do
+    context 'with CAZ locked by current user' do
       before do
         add_caz_lock_to_redis(user)
         add_to_session(new_payment: { caz_id: caz_id })

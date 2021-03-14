@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'DirectDebits::DebitsController - GET #success' do
+describe 'DirectDebits::DebitsController - GET #success', type: :request do
   subject { get success_debits_path }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before do
       mock_clean_air_zones
       add_to_session(initiated_payment: {

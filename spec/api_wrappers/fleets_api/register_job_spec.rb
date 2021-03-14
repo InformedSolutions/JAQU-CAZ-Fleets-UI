@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe 'FleetsApi.register_job' do
   subject { FleetsApi.register_job(filename: filename, correlation_id: id, large_fleet: large_fleet) }
+
   let(:url) { %r{accounts/register-csv-from-s3/jobs} }
   let(:id) { @uuid }
   let(:filename) { 'filename' }

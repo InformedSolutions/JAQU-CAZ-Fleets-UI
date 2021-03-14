@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe 'DirectDebits::DebitsController - GET #set_up' do
+describe 'DirectDebits::DebitsController - GET #set_up', type: :request do
   subject { get set_up_debits_path }
 
   before { mock_direct_debit_enabled }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before { sign_in manage_mandates_user }
 
     context 'with available zones to add a new mandate' do

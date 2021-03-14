@@ -65,8 +65,8 @@ describe Organisations::CreateAccount do
       stub_request(:post, /accounts/).to_return(
         status: 422,
         body: {
-          "message": 'Submitted parameters are invalid',
-          "errorCode": error_code
+          message: 'Submitted parameters are invalid',
+          errorCode: error_code
         }.to_json
       )
     end

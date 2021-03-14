@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - GET #matrix' do
+describe 'PaymentsController - GET #matrix', type: :request do
   subject { get matrix_payments_path, params: { page: page } }
 
   let(:caz_id) { @uuid }
@@ -10,7 +10,7 @@ describe 'PaymentsController - GET #matrix' do
   let(:user) { create_user(account_id: account_id) }
   let(:page) { 1 }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before { sign_in user }
 
     context 'with la in the session' do
@@ -19,7 +19,7 @@ describe 'PaymentsController - GET #matrix' do
         add_to_session(new_payment: { caz_id: caz_id })
       end
 
-      context 'and api returns 200 status' do
+      context 'with api returns 200 status' do
         before { mock_chargeable_vehicles }
 
         it 'returns a 200 OK status' do
@@ -91,7 +91,7 @@ describe 'PaymentsController - GET #matrix' do
 
           let(:upload_job_redis_key) { "account_id_#{user.account_id}" }
 
-          context 'and when status is SUCCESS' do
+          context 'with when status is SUCCESS' do
             let(:status) { 'SUCCESS' }
 
             it 'renders the view' do
@@ -103,7 +103,7 @@ describe 'PaymentsController - GET #matrix' do
             end
           end
 
-          context 'and when status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
+          context 'with when status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
             let(:status) { 'CHARGEABILITY_CALCULATION_IN_PROGRESS' }
 
             it 'redirects to the calculating chargeability page' do
@@ -111,7 +111,7 @@ describe 'PaymentsController - GET #matrix' do
             end
           end
 
-          context 'and when status is RUNNING' do
+          context 'with when status is RUNNING' do
             let(:status) { 'RUNNING' }
 
             it 'redirects to the process uploading page' do
@@ -119,7 +119,7 @@ describe 'PaymentsController - GET #matrix' do
             end
           end
 
-          context 'and when status is unknown' do
+          context 'with when status is unknown' do
             let(:status) { 'UNKNOWN' }
 
             it 'renders the view' do
@@ -133,7 +133,7 @@ describe 'PaymentsController - GET #matrix' do
         end
       end
 
-      context 'and api returns 400 status' do
+      context 'with api returns 400 status' do
         before do
           allow(PaymentsApi).to receive(:chargeable_vehicles).and_raise(
             BaseApi::Error400Exception.new(400, '', {})

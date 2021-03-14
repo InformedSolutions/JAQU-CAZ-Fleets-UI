@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe 'VehiclesManagement::VehicleController - POST #confirm_not_found' do
+describe 'VehiclesManagement::VehicleController - POST #confirm_not_found', type: :request do
   subject { post confirm_not_found_vehicles_path, params: { 'confirm-registration': confirmation } }
 
   let(:confirmation) { 'yes' }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     let(:account_id) { @uuid }
 
     it 'redirects to the login page' do

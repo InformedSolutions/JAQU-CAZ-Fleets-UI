@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - GET #success' do
+describe 'PaymentsController - GET #success', type: :request do
   subject { get success_payments_path }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     let(:payment_data) do
       { caz_id: @uuid,
         details: { 'PAY001' =>

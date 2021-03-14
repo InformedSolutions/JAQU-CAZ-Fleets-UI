@@ -94,7 +94,7 @@ Feature: Debits
     Given I have inactive mandates for each CAZ but one of them is disabled
     When I visit the Add new mandate page
     Then I should be on the Add new mandate page
-      And I should see 'Leeds'
+      And I should see 'Bath'
       And I should not see 'Birmingham'
 
   Scenario: Adding a new mandate when api returns an error

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'User signing in' do
+describe 'User signing in', type: :request do
   subject { post user_session_path(params) }
 
   let(:email) { 'Test@Example.com' }
@@ -136,7 +136,7 @@ describe 'User signing in' do
   end
 
   describe 'when login is performed from account set up confirmation page' do
-    subject { post user_session_path(params), headers: { 'HTTP_REFERER': referer } }
+    subject { post user_session_path(params), headers: { HTTP_REFERER: referer } }
 
     let(:referer) { 'http://www.example.com/users/set_up_confirmation' }
 

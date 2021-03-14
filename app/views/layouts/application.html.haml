@@ -35,7 +35,8 @@
     = link_to 'Skip to main content', '#main-content', class: 'govuk-skip-link'
     = render 'layouts/header'
     .govuk-width-container
-      = render 'layouts/feedback_section'
+      - unless @relevant_portal
+        = render 'layouts/feedback_section'
       = yield
       = render 'layouts/timeout'
     = render 'layouts/footer'

@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'PaymentsController - GET #undetermined_vehicles' do
+describe 'PaymentsController - GET #undetermined_vehicles', type: :request do
   subject { get undetermined_vehicles_payments_path }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     before do
       mock_clean_air_zones
       mock_chargeable_vehicles

@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'UsersManagement::RemoveUsersController - GET #remove' do
+describe 'UsersManagement::RemoveUsersController - GET #remove', type: :request do
   subject { get remove_user_path(@uuid) }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     context 'with edit user data in session' do
       before { add_to_session(edit_user: { name: 'John Doe' }) }
 
@@ -34,7 +34,7 @@ describe 'UsersManagement::RemoveUsersController - GET #remove' do
             expect(assigns(:user_email)).to eq 'user@email.com'
           end
 
-          it 'assigns @user_email variable' do
+          it 'assigns @owner_email variable' do
             subject
             expect(assigns(:owner_email)).to eq 'owner@email.com'
           end
@@ -57,7 +57,7 @@ describe 'UsersManagement::RemoveUsersController - GET #remove' do
             expect(assigns(:user_email)).to eq nil
           end
 
-          it 'does not assign @user_email variable' do
+          it 'does not assign @owner_email variable' do
             subject
             expect(assigns(:owner_email)).to eq nil
           end

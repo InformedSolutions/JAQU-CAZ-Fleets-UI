@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'SessionsController  - DELETE #destroy' do
+describe 'SessionsController - DELETE #destroy', type: :request do
   subject { delete destroy_user_session_url }
 
   let(:user) { create_owner }
@@ -37,7 +37,7 @@ describe 'SessionsController  - DELETE #destroy' do
     end
 
     it 'not removes caz lock from redis' do
-      expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).to_not be_nil
+      expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).not_to be_nil
     end
   end
 end

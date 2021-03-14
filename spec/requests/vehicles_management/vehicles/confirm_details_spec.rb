@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe 'VehiclesManagement::VehicleController - POST #confirm_details' do
+describe 'VehiclesManagement::VehicleController - POST #confirm_details', type: :request do
   subject { post confirm_details_vehicles_path, params: { 'confirm-vehicle' => confirmation } }
 
   let(:confirmation) { 'yes' }
 
-  context 'correct permissions' do
+  context 'when correct permissions' do
     let(:account_id) { @uuid }
 
     it 'redirects to the login page' do
