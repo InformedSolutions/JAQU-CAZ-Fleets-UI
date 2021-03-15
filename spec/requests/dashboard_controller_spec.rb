@@ -115,6 +115,74 @@ describe DashboardController, type: :request do
       end
     end
 
+    context 'when user is signed in with VIEW_PAYMENTS permissions' do
+      context 'with already made payments' do
+        before do
+          mock_fleet
+          mock_users
+          mock_actual_account_name
+          mock_clean_air_zones
+          mock_payment_history
+          sign_in create_user(permissions: ['VIEW_PAYMENTS'], days_to_password_expiry: 8)
+          subject
+        end
+
+        it 'assigns @payments_present variable' do
+          expect(assigns(:payments_present)).to eq(true)
+        end
+      end
+
+      context 'without not made any payments' do
+        before do
+          mock_fleet
+          mock_users
+          mock_actual_account_name
+          mock_clean_air_zones
+          mock_empty_payment_history
+          sign_in create_user(permissions: ['VIEW_PAYMENTS'], days_to_password_expiry: 8)
+          subject
+        end
+
+        it 'assigns @payments_present variable' do
+          expect(assigns(:payments_present)).to eq(false)
+        end
+      end
+    end
+
+    context 'when user is signed in with MAKE_PAYMENTS permissions' do
+      context 'with already made payments' do
+        before do
+          mock_fleet
+          mock_users
+          mock_actual_account_name
+          mock_clean_air_zones
+          mock_payment_history
+          sign_in create_user(permissions: ['MAKE_PAYMENTS'], days_to_password_expiry: 8)
+          subject
+        end
+
+        it 'assigns @payments_present variable' do
+          expect(assigns(:payments_present)).to eq(true)
+        end
+      end
+
+      context 'without not made any payments' do
+        before do
+          mock_fleet
+          mock_users
+          mock_actual_account_name
+          mock_clean_air_zones
+          mock_empty_payment_history
+          sign_in create_user(permissions: ['MAKE_PAYMENTS'], days_to_password_expiry: 8)
+          subject
+        end
+
+        it 'assigns @payments_present variable' do
+          expect(assigns(:payments_present)).to eq(false)
+        end
+      end
+    end
+
     context 'when user enters the Dashboard with an outdated password' do
       before { sign_in create_user(permissions: [], days_to_password_expiry: -2) }
 
