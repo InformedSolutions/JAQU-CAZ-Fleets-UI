@@ -80,6 +80,7 @@ When('I have vehicles in my fleet') do
   mock_chargeable_vehicles
   mock_caz_mandates
   mock_direct_debit_enabled
+  mock_payment_history
 end
 
 When('I have vehicles in my fleet and only one CAZ is available') do
