@@ -26,7 +26,7 @@
 
   .govuk-grid-row
     = render 'manage_vehicles' if allow_manage_vehicles?
-    = render 'direct_debit' if direct_debits_enabled? && allow_manage_mandates?
+    = render 'direct_debit' if direct_debits_enabled? && allow_manage_mandates? && @all_dd_cazes_enabled
     = render 'manage_users' if allow_manage_users?
     - if !disable_payment_features
       = render 'make_payment' if allow_make_payments? && @vehicles_count >= 2
