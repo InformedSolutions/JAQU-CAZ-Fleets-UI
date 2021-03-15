@@ -45,6 +45,7 @@ When('I visit the Confirm email update page') do
   mock_vehicles_in_fleet
   mock_users
   mock_direct_debit_disabled
+  mock_debits
   mock_account_details
   mock_clean_air_zones
   mock_payment_history
@@ -58,6 +59,7 @@ When('I visit the Confirm email update page when is not logged in') do
   mock_vehicles_in_fleet
   mock_users
   mock_clean_air_zones
+  mock_debits
 
   allow(AccountsApi::Auth).to receive(:confirm_email).and_return('john.doe@example.com')
   allow(AccountsApi::Auth)

@@ -24,6 +24,7 @@ class DashboardController < ApplicationController
   #
   def index
     @vehicles_count = current_user.fleet.total_vehicles_count
+    @all_dd_cazes_enabled = all_dd_cazes_enabled
     @mandates_present = check_mandates
     account_users = load_account_users
     @users_present = check_users(account_users)
@@ -43,6 +44,13 @@ class DashboardController < ApplicationController
     else
       false
     end
+  end
+
+  # Calls api to check if at least one direct debit caz is enabled
+  def all_dd_cazes_enabled
+    Rails.logger.info "[#{self.class.name}] Getting enabled direct debit clean air zones"
+    DebitsApi.mandates(account_id: current_user.account_id)
+             .select { |caz| caz['directDebitEnabled'] == true }.present?
   end
 
   # Loads account users
