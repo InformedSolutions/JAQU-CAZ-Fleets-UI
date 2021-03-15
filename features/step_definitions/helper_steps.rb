@@ -93,6 +93,7 @@ def mock_api_responses
   mock_debits
   mock_users
   mock_actual_account_name
+  mock_payment_history
 end
 
 def account_id
