@@ -22,7 +22,7 @@ Feature: Dashboard
       And I should not see 'Payment history' link
 
   Scenario: View dashboard page with `MAKE_PAYMENTS` permission with payment history
-    Given I navigate to a Dashboard page with 'MAKE_PAYMENTS' permission and has payments in history
+    Given I navigate to a Dashboard page with 'MAKE_PAYMENTS' permission with payments in history
       And I should see 'Help' link
       And I should see 'Make a payment' link
       And I should see 'Payment history' link
@@ -32,7 +32,7 @@ Feature: Dashboard
       And I should not see 'Manage users' link
 
   Scenario: View dashboard page with `MAKE_PAYMENTS` permission without payment history
-    Given I navigate to a Dashboard page with 'MAKE_PAYMENTS' permission and does not have payments in history
+    Given I navigate to a Dashboard page with 'MAKE_PAYMENTS' permission without payments in history
       And I should see 'Help' link
       And I should see 'Make a payment' link
       And I should not see 'Payment history' link

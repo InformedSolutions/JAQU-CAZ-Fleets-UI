@@ -59,12 +59,12 @@ When('I navigate to a Dashboard page with all permissions assigned') do
   login_owner
 end
 
-When('I navigate to a Dashboard page with \'MAKE_PAYMENTS\' permission and has payments in history') do
+When('I navigate to a Dashboard page with \'MAKE_PAYMENTS\' permission with payments in history') do
   mock_api_on_dashboard
   login_user(permissions: ['MAKE_PAYMENTS'])
 end
 
-When('I navigate to a Dashboard page with \'MAKE_PAYMENTS\' permission and does not have payments in history') do
+When('I navigate to a Dashboard page with \'MAKE_PAYMENTS\' permission without payments in history') do
   mock_actual_account_name
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
