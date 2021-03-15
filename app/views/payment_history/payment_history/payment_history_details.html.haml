@@ -49,7 +49,7 @@
             = render 'payment_history/payment_history/payment_modifications', date: date, payment_modifications: type['refunds']
 
           - if type['charges_back'].present?
-            %h1.govuk-heading-m Charge back
+            %h1.govuk-heading-m Chargeback
             %p
               Payment returned after the charge was disputed.
             = render 'payment_history/payment_history/payment_modifications', date: date, payment_modifications: type['charges_back']
