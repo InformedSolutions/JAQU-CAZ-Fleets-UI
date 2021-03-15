@@ -29,6 +29,7 @@ class DashboardController < ApplicationController
     @users_present = check_users(account_users)
     @multi_payer_account = account_users.multi_payer_account?
     @days_count = days_to_password_expiry
+    @payments_present = check_payments
   end
 
   private
@@ -54,6 +55,24 @@ class DashboardController < ApplicationController
     return false unless allow_manage_users?
 
     account_users.filtered_users.any?
+  end
+
+  # Do not perform api call if user don't have permission
+  def check_payments
+    if allow_view_payment_history?
+      check_payments_present
+    elsif allow_make_payments?
+      check_payments_present(user_payments: true)
+    else
+      false
+    end
+  end
+
+  # Checks if payments assigned to account or user are present.
+  def check_payments_present(user_payments: false)
+    PaymentHistory::History.new(current_user.account_id, current_user.user_id, user_payments)
+                           .pagination(page: 0, per_page: 1)
+                           .total_payments_count.positive?
   end
 
   # clear user flow history from the session
