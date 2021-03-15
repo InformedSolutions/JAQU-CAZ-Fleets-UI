@@ -33,11 +33,13 @@ module DirectDebits
 
     # Returns an array of associated DirectDebits::Mandate instances in `active` or `pending_submission` statuses
     def active_mandates
+      Rails.logger.info "[#{self.class.name}] Getting active mandates"
       mandates.select { |mandate| select_active_statuses(mandate.status) }
     end
 
     # Returns an array of associated DirectDebits::Mandate instances without `active` or `pending_submission` statuses
     def inactive_mandates
+      Rails.logger.info "[#{self.class.name}] Getting inactive mandates"
       mandates.reject { |mandate| select_active_statuses(mandate.status) }
     end
 

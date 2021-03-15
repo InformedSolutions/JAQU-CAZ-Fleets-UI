@@ -5,6 +5,7 @@ Given('I have no vehicles in my fleet') do
   mock_users
   mock_empty_fleet
   mock_clean_air_zones
+  mock_debits
   mock_payment_history
 end
 
@@ -13,6 +14,7 @@ Given('I have no vehicles in my fleet and visit the manage vehicles page') do
   mock_empty_fleet
   mock_users
   mock_clean_air_zones
+  mock_debits
   mock_payment_history
   login_user({ permissions: 'MANAGE_VEHICLES' })
   visit fleets_path
@@ -46,6 +48,7 @@ When('I visit the submission method page') do
   mock_vehicles_in_fleet
   mock_users
   mock_clean_air_zones
+  mock_debits
   mock_payment_history
 
   login_user({ permissions: 'MANAGE_VEHICLES' })
@@ -78,6 +81,7 @@ When('I have vehicles in my fleet') do
   mock_clean_air_zones
   mock_vehicles_in_fleet
   mock_chargeable_vehicles
+  mock_debits
   mock_caz_mandates
   mock_direct_debit_enabled
   mock_payment_history
@@ -89,16 +93,18 @@ When('I have vehicles in my fleet and only one CAZ is available') do
   mock_one_clean_air_zones
   mock_vehicles_in_fleet
   mock_chargeable_vehicles
-  mock_caz_mandates
   mock_direct_debit_enabled
+  mock_debits
+  mock_caz_mandates
   mock_payment_history
 end
 
 When('I have undetermined vehicles in my fleet') do
   mock_clean_air_zones
   mock_undetermined_vehicles_in_fleet
-  mock_caz_mandates
   mock_direct_debit_enabled
+  mock_debits
+  mock_caz_mandates
   mock_users
   mock_payment_history
 end
