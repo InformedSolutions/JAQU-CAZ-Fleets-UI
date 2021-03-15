@@ -101,6 +101,7 @@ describe DashboardController, type: :request do
         mock_users
         mock_actual_account_name
         mock_clean_air_zones
+        mock_debits
         mock_payment_history
         sign_in create_user(permissions: [], days_to_password_expiry: 8)
         subject
@@ -123,6 +124,7 @@ describe DashboardController, type: :request do
           mock_actual_account_name
           mock_clean_air_zones
           mock_payment_history
+          mock_debits
           sign_in create_user(permissions: ['VIEW_PAYMENTS'], days_to_password_expiry: 8)
           subject
         end
@@ -138,6 +140,7 @@ describe DashboardController, type: :request do
           mock_users
           mock_actual_account_name
           mock_clean_air_zones
+          mock_debits
           mock_empty_payment_history
           sign_in create_user(permissions: ['VIEW_PAYMENTS'], days_to_password_expiry: 8)
           subject
@@ -157,6 +160,7 @@ describe DashboardController, type: :request do
           mock_actual_account_name
           mock_clean_air_zones
           mock_payment_history
+          mock_debits
           sign_in create_user(permissions: ['MAKE_PAYMENTS'], days_to_password_expiry: 8)
           subject
         end
@@ -173,6 +177,7 @@ describe DashboardController, type: :request do
           mock_actual_account_name
           mock_clean_air_zones
           mock_empty_payment_history
+          mock_debits
           sign_in create_user(permissions: ['MAKE_PAYMENTS'], days_to_password_expiry: 8)
           subject
         end

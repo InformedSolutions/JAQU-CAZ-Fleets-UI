@@ -90,7 +90,6 @@ class DebitsApi < PaymentsApi
     #     * +status+ - string, status of the mandate eg. 'active'
     #
     def mandates(account_id:)
-      log_action('Getting mandates')
       request(:get, "/payments/accounts/#{account_id}/direct-debit-mandates")['cleanAirZones']
     end
 
