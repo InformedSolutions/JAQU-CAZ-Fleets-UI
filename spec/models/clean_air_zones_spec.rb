@@ -110,8 +110,8 @@ describe CleanAirZone, type: :model do
     end
   end
 
-  describe '.active' do
-    subject { described_class.active }
+  describe '.active_cazes' do
+    subject { described_class.active_cazes }
 
     before do
       caz_list ||= read_response('caz_list_active.json')['cleanAirZones']

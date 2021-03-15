@@ -33,7 +33,7 @@ module Payments
       return redirect_to first_upload_fleets_path if current_user.fleet.total_vehicles_count < 2
 
       @back_button_url = determinate_back_button_url
-      @zones = current_user.beta_tester ? CleanAirZone.all : CleanAirZone.active
+      @zones = current_user.beta_tester ? CleanAirZone.all : CleanAirZone.active_cazes
     end
 
     ##
@@ -289,7 +289,7 @@ module Payments
       api_response = AccountsApi::Users.user(account_id: caz_lock_account_id,
                                              account_user_id: caz_lock_user_id)
       @user = UsersManagement::User.new(api_response)
-      @zones = CleanAirZone.all
+      @zones = CleanAirZone.active_cazes
       @zone = CleanAirZone.find(@zone_id)
     end
 
