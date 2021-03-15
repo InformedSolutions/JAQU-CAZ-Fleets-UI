@@ -64,8 +64,8 @@ class CleanAirZone
     ComplianceCheckerApi.clean_air_zones.map { |caz_data| new(caz_data) }.sort_by(&:name)
   end
 
-  # Fetches active for charging CAZs from ComplianceCheckerApi.clean_air_zones endpoint
-  def self.active
+  # Fetches active CAZs from ComplianceCheckerApi.clean_air_zones endpoint
+  def self.active_cazes
     log_action('Getting active clean air zones')
     all.reject { |caz| caz.active_charge_start_date.future? }
   end
