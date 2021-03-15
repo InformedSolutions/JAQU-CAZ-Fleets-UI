@@ -47,6 +47,7 @@ When('I visit the Confirm email update page') do
   mock_direct_debit_disabled
   mock_account_details
   mock_clean_air_zones
+  mock_payment_history
   allow(AccountsApi::Auth).to receive(:confirm_email).and_return('john.doe@example.com')
 
   login_owner

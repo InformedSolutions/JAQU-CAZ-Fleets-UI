@@ -15,6 +15,23 @@ When('I navigate to a Dashboard page with Direct Debits disabled') do
   visit dashboard_path
 end
 
+When('I navigate to a Dashboard page with payments history') do
+  mock_direct_debit_disabled
+  mock_api_on_dashboard
+  visit dashboard_path
+end
+
+When('I navigate to a Dashboard page with no payments history') do
+  mock_direct_debit_disabled
+  mock_actual_account_name
+  mock_vehicles_in_fleet
+  mock_debits('active_mandates')
+  mock_users
+  mock_empty_payment_history
+  mock_clean_air_zones
+  visit dashboard_path
+end
+
 When('I navigate to a Dashboard page with Direct Debits enabled') do
   allow(Rails.application.config.x).to receive(:method_missing).and_return('test')
   allow(Rails.application.config.x).to receive(:method_missing).with(:feature_direct_debits).and_return(false)
@@ -42,12 +59,28 @@ When('I navigate to a Dashboard page with all permissions assigned') do
   login_owner
 end
 
+When('I navigate to a Dashboard page with \'MAKE_PAYMENTS\' permission and has payments in history') do
+  mock_api_on_dashboard
+  login_user(permissions: ['MAKE_PAYMENTS'])
+end
+
+When('I navigate to a Dashboard page with \'MAKE_PAYMENTS\' permission and does not have payments in history') do
+  mock_actual_account_name
+  mock_vehicles_in_fleet
+  mock_debits('active_mandates')
+  mock_users
+  mock_empty_payment_history
+  mock_clean_air_zones
+  login_user(permissions: ['MAKE_PAYMENTS'])
+end
+
 Given('I visit Dashboard page without any users yet') do
   mock_actual_account_name
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_empty_users_list
   mock_clean_air_zones
+  mock_payment_history
   login_owner
 end
 
@@ -61,6 +94,7 @@ When('I navigate to a Dashboard page with empty fleets') do
   mock_empty_fleet
   mock_debits('inactive_mandates')
   mock_users
+  mock_payment_history
   visit dashboard_path
 end
 
@@ -68,6 +102,7 @@ When('I navigate to a Dashboard page with one vehicle in the fleet') do
   mock_direct_debit_enabled
   mock_one_vehicle_fleet
   mock_users
+  mock_payment_history
   mock_debits('inactive_mandates')
   visit dashboard_path
 end
@@ -92,6 +127,7 @@ def mock_api_on_dashboard
   mock_vehicles_in_fleet
   mock_debits('active_mandates')
   mock_users
+  mock_payment_history
   mock_clean_air_zones
 end
 

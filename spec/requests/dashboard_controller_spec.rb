@@ -18,6 +18,7 @@ describe DashboardController, type: :request do
         mock_debits
         mock_actual_account_name
         mock_clean_air_zones
+        mock_payment_history
         sign_in user
       end
 
@@ -100,6 +101,7 @@ describe DashboardController, type: :request do
         mock_users
         mock_actual_account_name
         mock_clean_air_zones
+        mock_payment_history
         sign_in create_user(permissions: [], days_to_password_expiry: 8)
         subject
       end

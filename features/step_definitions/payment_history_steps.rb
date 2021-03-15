@@ -52,6 +52,14 @@ def mock_payment_history(page = 1)
   allow(PaymentHistory::History).to receive(:new).and_return(create_history(page))
 end
 
+def mock_empty_payment_history
+  allow(PaymentHistory::History).to receive(:new).and_return(create_empty_history)
+end
+
+def create_empty_history
+  instance_double(PaymentHistory::History, pagination: empty_payments_history_page)
+end
+
 def create_history(page)
   instance_double(PaymentHistory::History, pagination: paginated_history(page))
 end
@@ -61,6 +69,14 @@ def paginated_history(page = 1)
     PaymentHistory::PaginatedPayment,
     payments_list: payments_list, page: page, total_pages: 5, range_start: 1, range_end: 10,
     total_payments_count: 52, results_per_page: [10, 20, 30, 40, 50]
+  )
+end
+
+def empty_payments_history_page
+  instance_double(
+    PaymentHistory::PaginatedPayment,
+    payments_list: [], page: 1, total_pages: 0, range_start: 1, range_end: 10,
+    total_payments_count: 0, results_per_page: [10, 20, 30, 40, 50]
   )
 end
 

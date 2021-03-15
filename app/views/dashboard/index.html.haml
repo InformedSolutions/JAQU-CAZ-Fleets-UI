@@ -1,7 +1,6 @@
 - title_and_header = raw("#{current_user.actual_account_name} account home")
 - content_for(:title, title_and_header)
 - disable_payment_features = !@payment_features_enabled && (allow_make_payments? || allow_view_payment_history?)
-
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
@@ -39,6 +38,6 @@
       - elsif allow_view_payment_history? && @multi_payer_account
         - link_description = 'View payments made by your team members.'
       - else
-      = render 'payment_history', link_description: link_description if link_description
+      = render 'payment_history', link_description: link_description if link_description && @payments_present
 
     = render 'help'

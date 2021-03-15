@@ -10,6 +10,7 @@ module MockDebit
     mock_caz_mandates(caz_mandates)
     mock_create_mandate
     mock_create_payment
+    mock_payment_history
     mock_users
   end
 
