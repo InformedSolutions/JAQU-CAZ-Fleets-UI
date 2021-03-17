@@ -24,7 +24,7 @@ module AccountDetails
       [
         { VEHICLES_UPDATED_TO_NON_CHARGEABLE:
             'The business has upgraded its vehicles and now none are subject to charge' },
-        { VEHICLES_NOT_CHARGED: 'The business were not charged in any live Clean Air Zone' },
+        { VEHICLES_NOT_CHARGED: 'The business vehicles were not charged in any live Clean Air Zone' },
         { NOT_A_TRAVEL_DESTINATION: 'The business does not travel in the live Clean Air Zone' },
         { NON_OPERATIONAL_BUSINESS: 'The business no longer operates' },
         { OTHER: 'Other' }
