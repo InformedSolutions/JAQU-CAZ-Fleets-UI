@@ -6,6 +6,12 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
+
+      - if alert
+        = render 'shared/error_summary',
+                  error_msg_div: '#confirm-close-account-error',
+                  error_msg: "#{alert}"
+
       %h1.govuk-heading-l= title_and_header
       %p
         You should only close the account if you are sure the company will no longer need it.
