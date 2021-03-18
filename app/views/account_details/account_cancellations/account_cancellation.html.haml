@@ -7,6 +7,11 @@
   .govuk-grid-row
     .govuk-grid-column-two-thirds
 
+      - if alert
+        = render 'shared/error_summary',
+                  error_msg_div: '#closure_reason-error',
+                  error_msg: "#{alert}"
+
       = form_tag account_cancellation_path do
         .govuk-form-group{class: ('govuk-form-group--error' if alert)}
           %fieldset.govuk-fieldset
