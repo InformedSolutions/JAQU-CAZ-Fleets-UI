@@ -32,6 +32,11 @@ describe 'PaymentsController - GET #matrix', type: :request do
           expect(assigns(:d_day_notice)).to eq(false)
         end
 
+        it 'assigns the @d_day_content_tab' do
+          subject
+          expect(assigns(:d_day_content_tab)).to eq('Past 6 days')
+        end
+
         context 'with search data' do
           before { add_to_session(payment_query: { search: search }) }
 
