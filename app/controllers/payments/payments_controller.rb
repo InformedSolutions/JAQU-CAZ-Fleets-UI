@@ -289,7 +289,7 @@ module Payments
       api_response = AccountsApi::Users.user(account_id: caz_lock_account_id,
                                              account_user_id: caz_lock_user_id)
       @user = UsersManagement::User.new(api_response)
-      @zones = CleanAirZone.active_cazes
+      @zones = current_user.beta_tester ? CleanAirZone.all : CleanAirZone.active_cazes
       @zone = CleanAirZone.find(@zone_id)
     end
 
