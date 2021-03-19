@@ -39,7 +39,7 @@ module PaymentsHelper
 
   # Loads selected vrns to pay
   def vrn_to_pay(details)
-    @vrn_to_pay ||= details.reject { |_k, vrn| vrn.symbolize_keys![:dates].empty? }
+    @vrn_to_pay ||= details.reject { |_k, vrn| vrn.symbolize_keys![:dates].empty? }.sort.to_h
   end
 
   # Calculates total amount to pay
