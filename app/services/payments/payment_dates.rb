@@ -18,18 +18,23 @@ module Payments
     # ==== Attributes
     # * +charge_start_date+ - date when CAZ started charging.
     #
-    def initialize(charge_start_date:)
+    def initialize(charge_start_date:, user_beta_tester:)
       @charge_start_date = charge_start_date
+      @user_beta_tester = user_beta_tester
     end
 
     # Build the list of dates and return them, e.g.
     # {:past=>[{:name=>"Wed 27 May", :value=>"2020-05-27", :today=>false}],
     # :next=>[{:name=>"Fri 29 May", :value=>"2020-05-29", :today=>true}, ]}
     def chargeable_dates
-      {
-        past: past_dates,
-        next: (Time.zone.today..(Time.zone.today + 6.days)).map { |date| parse(date) }
-      }
+      @chargeable_dates ||= if user_beta_tester
+                              all_chargeable_dates
+                            else
+                              {
+                                past: past_dates,
+                                next: (Time.zone.today..(Time.zone.today + 6.days)).map { |date| parse(date) }
+                              }
+                            end
     end
 
     # Checks if D-Day notice should be shown
@@ -37,20 +42,20 @@ module Payments
       charge_start_date.between?(Time.zone.today - 6.days, Time.zone.today)
     end
 
-    # Build the list of all available dates and return them, e.g.
-    # {:past=>[{:name=>"Wed 27 May", :value=>"2020-05-27", :today=>false}],
-    # :next=>[{:name=>"Fri 29 May", :value=>"2020-05-29", :today=>true}, ]}
-    def all_chargeable_dates
-      {
-        past: (Time.zone.today - 6.days..Time.zone.yesterday).map { |date| parse(date) },
-        next: (Time.zone.today..(Time.zone.today + 6.days)).map { |date| parse(date) }
-      }
+    # Dynamic content for past days tab on matrix page
+    def d_day_content_tab
+      days_count = chargeable_dates[:past].count
+      if days_count >= 6
+        'Past 6 days'
+      else
+        'Previous Days'
+      end
     end
 
     private
 
     # Attributes reader
-    attr_reader :charge_start_date
+    attr_reader :charge_start_date, :user_beta_tester
 
     # Create hash of dates
     def parse(date)
@@ -79,6 +84,16 @@ module Payments
     def past_end_date
       past_end_date = Time.zone.today - 1.day
       past_end_date < charge_start_date ? charge_start_date : past_end_date
+    end
+
+    # Build the list of all available dates and return them, e.g.
+    # {:past=>[{:name=>"Wed 27 May", :value=>"2020-05-27", :today=>false}],
+    # :next=>[{:name=>"Fri 29 May", :value=>"2020-05-29", :today=>true}, ]}
+    def all_chargeable_dates
+      {
+        past: (Time.zone.today - 6.days..Time.zone.yesterday).map { |date| parse(date) },
+        next: (Time.zone.today..(Time.zone.today + 6.days)).map { |date| parse(date) }
+      }
     end
   end
 end
