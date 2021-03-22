@@ -16,6 +16,7 @@ Feature: Fleets
       And I visit the manage vehicles page
     Then I should see 'Live' 4 times
     Then I should see 'Upcoming' 1 times
+    Then I should not see 'FutureCaz'
     Then I should not see 'What does undetermined mean?'
     Then I am able to export my data to CSV file
       And I should see 'Showing 1 to 10 of 15'
