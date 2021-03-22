@@ -247,7 +247,7 @@ module VehiclesManagement
         only_chargeable: params[:only_chargeable],
         vrn: vrn
       )
-      @zones = CleanAirZone.all
+      @zones = CleanAirZone.visible_cazes
     end
   end
 end

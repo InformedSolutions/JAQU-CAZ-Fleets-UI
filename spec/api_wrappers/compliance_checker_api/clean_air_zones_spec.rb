@@ -23,7 +23,8 @@ describe 'ComplianceCheckerApi.clean_air_zones' do
 
     it 'returns a proper fields' do
       expect(subject.first.keys).to(
-        contain_exactly('cleanAirZoneId', 'name', 'operatorName', 'boundaryUrl', 'activeChargeStartDate')
+        contain_exactly('activeChargeStartDate', 'active_charge_start_date_text', 'boundaryUrl',
+                        'cleanAirZoneId', 'display_from', 'display_order', 'name', 'operatorName')
       )
     end
 
