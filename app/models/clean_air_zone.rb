@@ -52,6 +52,21 @@ class CleanAirZone
     Date.parse(caz_data[:active_charge_start_date])
   end
 
+  # Returns text for active for date when CAZ started charging, eg. '1 June 2021'
+  def active_charge_start_date_text
+    caz_data[:active_charge_start_date_text]
+  end
+
+  # Returns date when CAZ is displayed on UI, eg. '2020-05-01'
+  def display_from
+    Date.parse(caz_data[:display_from])
+  end
+
+  # Returns order number of CAZ on the list, eg. 1
+  def display_order
+    caz_data[:display_order]
+  end
+
   # Check if clean air zone charge is live, eg. 'true'
   def live?
     !active_charge_start_date.future?
@@ -66,13 +81,19 @@ class CleanAirZone
   # Fetches all available CAZs from ComplianceCheckerApi.clean_air_zones endpoint
   def self.all
     log_action('Getting all clean air zones')
-    ComplianceCheckerApi.clean_air_zones.map { |caz_data| new(caz_data) }.sort_by(&:name)
+    ComplianceCheckerApi.clean_air_zones.map { |caz_data| new(caz_data) }.sort_by(&:display_order)
   end
 
   # Fetches active CAZs from ComplianceCheckerApi.clean_air_zones endpoint
   def self.active_cazes
     log_action('Getting active clean air zones')
     all.reject { |caz| caz.active_charge_start_date.future? }
+  end
+
+  # Fetches visible CAZs from ComplianceCheckerApi.clean_air_zones endpoint
+  def self.visible_cazes
+    log_action('Getting visible clean air zones')
+    all.reject { |caz| caz.display_from.future? }
   end
 
   # Finds a zone by given ID
