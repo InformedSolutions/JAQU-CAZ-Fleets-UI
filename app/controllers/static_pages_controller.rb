@@ -34,7 +34,7 @@ class StaticPagesController < ApplicationController
   #    GET /help
   #
   def help
-    @zones = CleanAirZone.all
+    @zones = CleanAirZone.visible_cazes
   end
 
   ##

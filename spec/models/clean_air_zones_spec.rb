@@ -171,25 +171,17 @@ describe CleanAirZone, type: :model do
   end
 
   describe '.charging_starts' do
-    context 'when caz name is Birmingham' do
-      it 'returns a proper value' do
-        expect(subject.charging_starts).to eq('1 June 2021')
+    context 'when active_charge_start_date is in the future' do
+      let(:active_charge_start_date) { Date.tomorrow.to_s }
+
+      it 'returns value from active_charge_start_date_text' do
+        expect(subject.charging_starts).to eq(subject.active_charge_start_date_text)
       end
     end
 
-    context 'when caz name is Bath' do
-      let(:name) { 'Bath' }
-
+    context 'when active_charge_start_date is not in the future' do
       it 'returns a proper value' do
-        expect(subject.charging_starts).to eq('15 March 2021')
-      end
-    end
-
-    context 'when another caz name' do
-      let(:name) { 'Birmingham' }
-
-      it 'returns a proper value' do
-        expect(subject.charging_starts).to eq('1 June 2021')
+        expect(subject.charging_starts).to eq('Now')
       end
     end
   end
