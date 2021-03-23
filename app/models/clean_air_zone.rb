@@ -102,16 +102,13 @@ class CleanAirZone
     all.find { |caz| caz.id == id }
   end
 
-  # Depend on CAZ name returns proper date
+  # Depend on active charge date returns proper value
   # Returns a string, e.g. '15 March 2021'
   def charging_starts
-    case name
-    when 'Bath'
-      '15 March 2021'
-    when 'Birmingham'
-      '1 June 2021'
+    if active_charge_start_date.future?
+      active_charge_start_date_text
     else
-      'Early 2021'
+      'Now'
     end
   end
 

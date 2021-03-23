@@ -6,9 +6,9 @@
       "operatorName": "Birmingham City Council",
       "boundaryUrl": "https://www.birmingham.gov.uk/info/20076/pollution/1763/a_clean_air_zone_for_birmingham/3",
       "activeChargeStartDate": "2020-05-14",
-      "active_charge_start_date_text": "",
-      "display_from": "2020-05-14",
-      "display_order": 1
+      "activeChargeStartDateText": "1 June 2021",
+      "displayFrom": "2020-05-14",
+      "displayOrder": 1
     },
     {
       "cleanAirZoneId": "eeb34ad2-a49e-4aef-8965-e0ed04a2e0cc",
@@ -16,9 +16,9 @@
       "operatorName": "Test City Council",
       "boundaryUrl": "https://www.birmingham.gov.uk/info/20076/pollution/1763/a_clean_air_zone_for_birmingham/3",
       "activeChargeStartDate": "2020-05-14",
-      "active_charge_start_date_text": "",
-      "display_from": "2020-05-14",
-      "display_order": 3
+      "activeChargeStartDateText": "1 April 2021",
+      "displayFrom": "2020-05-14",
+      "displayOrder": 3
     },
     {
       "cleanAirZoneId": "44590023-9b0f-450e-8a6a-feed267fea23",
@@ -26,9 +26,9 @@
       "operatorName": "Bath and North East Somerset Council",
       "boundaryUrl": "http://www.bathnes.gov.uk/zonemaps",
       "activeChargeStartDate": "2020-05-14",
-      "active_charge_start_date_text": "",
-      "display_from": "2020-05-14",
-      "display_order": 2
+      "activeChargeStartDateText": "Earyly 2021",
+      "displayFrom": "2020-05-14",
+      "displayOrder": 2
     },
     {
       "cleanAirZoneId": "1186eeb2-d48d-4fc4-80df-4356dca5510d",
@@ -36,9 +36,9 @@
       "operatorName": "Future Caz City Council",
       "boundaryUrl": "http://www.bathnes.gov.uk/zonemaps",
       "activeChargeStartDate": "2030-05-14",
-      "active_charge_start_date_text": "",
-      "display_from": "2030-05-14",
-      "display_order": 4
+      "activeChargeStartDateText": "",
+      "displayFrom": "2030-05-14",
+      "displayOrder": 4
     }
   ]
 }

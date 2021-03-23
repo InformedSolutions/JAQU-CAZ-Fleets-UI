@@ -30,4 +30,6 @@ Feature: Static Pages
       And I should see 'Help' 2 times
     When I press navbar link Help
     Then I should see 'Help' title
+      And I should not see 'FutureCaz'
+      And I should see 'Birmingham' 2 times
 
