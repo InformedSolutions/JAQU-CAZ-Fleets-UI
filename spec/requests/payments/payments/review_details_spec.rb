@@ -16,7 +16,7 @@ describe 'PaymentsController - GET #review_details', type: :request do
 
     before do
       sign_in create_user
-      add_to_session(new_payment: { caz_id: @uuid,
+      add_to_session(new_payment: { caz_id: SecureRandom.uuid,
                                     details: payment_details })
       subject
     end

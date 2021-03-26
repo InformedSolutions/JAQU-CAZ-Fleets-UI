@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'PaymentHistoryApi.payments' do
   subject { PaymentHistoryApi.payment_details(payment_id: payment_id) }
 
-  let(:payment_id) { @uuid }
+  let(:payment_id) { SecureRandom.uuid }
   let(:url) { %r{payments/#{payment_id}} }
 
   context 'when the response status is 200' do
@@ -24,7 +24,7 @@ describe 'PaymentHistoryApi.payments' do
     it 'returns a proper fields' do
       expect(subject.keys).to contain_exactly(
         'centralPaymentReference', 'paymentProviderId', 'paymentDate', 'totalPaid', 'telephonePayment',
-        'payerName', 'lineItems'
+        'payerName', 'lineItems', 'modificationHistory'
       )
     end
   end

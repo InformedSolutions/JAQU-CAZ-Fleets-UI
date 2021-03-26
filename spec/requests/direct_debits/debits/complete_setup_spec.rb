@@ -12,7 +12,7 @@ describe 'DirectDebits::DebitsController - GET #complete_setup', type: :request 
     end
 
     context 'when mandate_caz_id in session' do
-      before { add_to_session(mandate_caz_id: @uuid) }
+      before { add_to_session(mandate_caz_id: SecureRandom.uuid) }
 
       context 'with api returns 200 status' do
         before { allow(DebitsApi).to receive(:complete_mandate_creation).and_return({}) }

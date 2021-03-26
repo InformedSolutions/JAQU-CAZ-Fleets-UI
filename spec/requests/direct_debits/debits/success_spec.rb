@@ -8,16 +8,13 @@ describe 'DirectDebits::DebitsController - GET #success', type: :request do
   context 'when correct permissions' do
     before do
       mock_clean_air_zones
-      add_to_session(initiated_payment: {
-                       caz_id: caz_id,
-                       payment_id: 'gr4q4tedct2vqqo39uvb2o1ei4',
-                       details: details
-                     })
+      add_to_session(initiated_payment: { caz_id: caz_id, payment_id: 'gr4q4tedct2vqqo39uvb2o1ei4',
+                                          details: details })
       sign_in user
     end
 
     let(:user) { make_payments_user }
-    let(:caz_id) { @uuid }
+    let(:caz_id) { mocked_uuid }
     let(:details) do
       {
         'CU12345' =>

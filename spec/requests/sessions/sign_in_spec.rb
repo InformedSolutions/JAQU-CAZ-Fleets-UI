@@ -12,9 +12,9 @@ describe 'User signing in', type: :request do
   before do
     allow(AccountsApi::Auth).to receive(:sign_in).and_return(
       'email' => email,
-      'accountUserId' => @uuid,
-      'accountId' => @uuid,
-      'accountName' => 'Royal Mail',
+      'accountUserId' => SecureRandom.uuid,
+      'accountId' => SecureRandom.uuid,
+      'accountName' => "Royal Mail's",
       'owner' => false,
       'passwordUpdateTimestamp' => 65.days.ago.to_s
     )
@@ -22,8 +22,8 @@ describe 'User signing in', type: :request do
 
   context 'when correct credentials given' do
     it 'calls AccountApi.sign_in with proper params' do
-      expect(AccountsApi::Auth).to receive(:sign_in).with(email: email, password: password)
       subject
+      expect(AccountsApi::Auth).to have_received(:sign_in).with(email: email, password: password)
     end
 
     it 'redirects to the root path' do
@@ -33,7 +33,7 @@ describe 'User signing in', type: :request do
 
     it 'sets login IP' do
       subject
-      expect(controller.current_user.login_ip).to eq(@remote_ip)
+      expect(controller.current_user.login_ip).to eq('127.0.0.1')
     end
   end
 
@@ -145,8 +145,8 @@ describe 'User signing in', type: :request do
       let(:password) { 'P@$$w0rd12345!' }
 
       it 'calls AccountApi.sign_in with proper params' do
-        expect(AccountsApi::Auth).to receive(:sign_in).with(email: email, password: password)
         subject
+        expect(AccountsApi::Auth).to have_received(:sign_in).with(email: email, password: password)
       end
 
       it 'redirects to the root path' do
@@ -156,7 +156,7 @@ describe 'User signing in', type: :request do
 
       it 'sets login IP' do
         subject
-        expect(controller.current_user.login_ip).to eq(@remote_ip)
+        expect(controller.current_user.login_ip).to eq('127.0.0.1')
       end
 
       it 'calculates days to password expiry' do
@@ -176,7 +176,7 @@ describe 'User signing in', type: :request do
       end
 
       it 'does not call AccountApi.sign_in' do
-        expect(AccountsApi::Auth).not_to receive(:sign_in)
+        expect(AccountsApi::Auth).not_to have_received(:sign_in)
       end
     end
   end

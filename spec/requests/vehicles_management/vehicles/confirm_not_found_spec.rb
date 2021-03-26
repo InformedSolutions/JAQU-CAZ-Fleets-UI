@@ -8,7 +8,8 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_not_found', type
   let(:confirmation) { 'yes' }
 
   context 'when correct permissions' do
-    let(:account_id) { @uuid }
+    let(:account_id) { SecureRandom.uuid }
+    let(:vrn) { 'ABC123' }
 
     it 'redirects to the login page' do
       subject
@@ -19,7 +20,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_not_found', type
       before do
         sign_in manage_vehicles_user(account_id: account_id)
         allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true)
-        add_to_session(vrn: @vrn)
+        add_to_session(vrn: vrn)
         subject
       end
 

@@ -117,10 +117,6 @@ describe AccountDetails::EditUserEmailForm, type: :model do
 
     it { is_expected.not_to be_valid }
 
-    it 'does not check email uniqueness' do
-      expect(AccountsApi::Accounts).not_to receive(:user_validations)
-    end
-
     it 'has a proper email error message' do
       expect(subject.errors.messages[:email]).to(
         include(I18n.t('edit_user_email_form.errors.email_too_long'))

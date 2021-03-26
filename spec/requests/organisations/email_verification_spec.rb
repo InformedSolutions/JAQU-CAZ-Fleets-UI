@@ -15,8 +15,8 @@ describe 'Organisations::OrganisationsController - GET #email_verification', typ
   end
 
   it 'calls Organisations::VerifyAccount with proper params' do
-    expect(Organisations::VerifyAccount).to receive(:call).with(token: token)
     subject
+    expect(Organisations::VerifyAccount).to have_received(:call).with(token: token)
   end
 
   context 'when verification is invalid' do

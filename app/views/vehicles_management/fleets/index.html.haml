@@ -52,7 +52,7 @@
               %td.govuk-table__cell{scope: 'row'}
                 = link_to('Remove', assign_remove_fleets_path(vrn: vehicle.vrn), id: "remove_#{vehicle.vrn}")
 
-      = render 'pagination'
+      = render 'pagination' if @pagination.total_vehicles_count > 10
 
       = form_tag(fleets_path, method: :get) do
         .govuk-form-group
@@ -70,17 +70,19 @@
                             'Hide vehicles that are not charged in any Zone',
                             class: 'govuk-label govuk-checkboxes__label')
 
-                = select_tag('per_page',
-                            options_for_select([10, 20, 30, 40, 50], params[:per_page]),
-                            class: 'govuk-select moj-pagination__results results-per-page-select',
-                            onchange: 'this.form.submit()')
-                = label_tag('per_page', 'Results per page', class: 'govuk-label moj-pagination__results results-per-page-select')
+                - if @pagination.total_vehicles_count > 10
+                  = select_tag('per_page',
+                               options_for_select(@pagination.results_per_page, params[:per_page]),
+                               class: 'govuk-select moj-pagination__results results-per-page-select',
+                               onchange: 'this.form.submit()')
+                  = label_tag('per_page', 'Results per page', class: 'govuk-label moj-pagination__results results-per-page-select')
 
       %p
         = link_to('Download a spreadsheet (CSV) of the charges you would pay to drive in all Clean Air Zones',
                   export_fleets_path,
                   id: 'csv-export',
-                  class: 'govuk-link')
+                  class: 'govuk-link',
+                  download: true)
 
       %p{id: 'csv-export__notice', style: 'display: none;'}
         Your export is downloading...

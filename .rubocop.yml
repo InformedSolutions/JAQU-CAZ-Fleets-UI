@@ -5,7 +5,7 @@ require:
 inherit_from: ./lib/rubocop/blacklist.yml
 
 AllCops:
-  TargetRubyVersion: 2.7.2
+  TargetRubyVersion: 3.0.0
   NewCops: enable
 
 Layout/LineLength:
@@ -23,7 +23,7 @@ Lint/MissingSuper:
 
 # rubocop-rspec gem excludes
 RSpec/NamedSubject:
-   Enabled: false
+  Enabled: false
 
 RSpec/NestedGroups:
   Max: 6
@@ -32,7 +32,7 @@ RSpec/ExampleLength:
   Max: 8
 
 RSpec/MultipleMemoizedHelpers:
- Enabled: false
+  Enabled: false
 
 RSpec/DescribeClass:
   Exclude:
@@ -41,15 +41,3 @@ RSpec/DescribeClass:
 RSpec/FilePath:
   Exclude:
     - 'spec/models/**/*.rb'
-
-RSpec/AnyInstance:
-   Enabled: false
-
-RSpec/MessageSpies:
-   Enabled: false
-
-RSpec/InstanceVariable:
-   Enabled: false
-
-RSpec/MultipleExpectations:
-  Enabled: false

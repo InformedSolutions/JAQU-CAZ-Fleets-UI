@@ -8,7 +8,7 @@ describe 'Organisations::OrganisationsController - POST #create_account', type: 
   let(:company_name) { 'Company Name' }
 
   context 'with valid params' do
-    before { allow(Organisations::CreateAccount).to receive(:call).and_return(@uuid) }
+    before { allow(Organisations::CreateAccount).to receive(:call).and_return(SecureRandom.uuid) }
 
     context 'when account_id not present in session' do
       it 'returns a found response' do

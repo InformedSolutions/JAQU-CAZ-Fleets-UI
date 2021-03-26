@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'UsersManagement::EditUsersController - GET #edit', type: :request do
-  subject { get edit_user_path(@uuid) }
+  subject { get edit_user_path(SecureRandom.uuid) }
 
   context 'when correct permissions' do
     before do

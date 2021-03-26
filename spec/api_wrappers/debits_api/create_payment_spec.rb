@@ -15,7 +15,7 @@ describe 'DebitsApi.create_payment - POST' do
   end
 
   let(:user) { create_user }
-  let(:caz_id) { @uuid }
+  let(:caz_id) { SecureRandom.uuid }
   let(:account_id) { user.account_id }
   let(:user_id) { user.user_id }
   let(:mandate_id) { SecureRandom.uuid }
@@ -41,7 +41,7 @@ describe 'DebitsApi.create_payment - POST' do
     before do
       stub_request(:post, /#{url}/).to_return(
         status: 201,
-        body: { paymentId: @uuid, nextUrl: 'http://example.com' }.to_json
+        body: { paymentId: SecureRandom.uuid, nextUrl: 'http://example.com' }.to_json
       )
     end
 

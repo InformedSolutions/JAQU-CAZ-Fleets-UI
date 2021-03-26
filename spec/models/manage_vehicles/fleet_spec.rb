@@ -5,7 +5,8 @@ require 'rails_helper'
 describe VehiclesManagement::Fleet, type: :model do
   subject { described_class.new(account_id) }
 
-  let(:account_id) { @uuid }
+  let(:account_id) { SecureRandom.uuid }
+  let(:vrn) { 'ABC123' }
 
   describe '.pagination' do
     subject(:vehicles) { described_class.new(account_id).pagination(page: page) }
@@ -17,14 +18,14 @@ describe VehiclesManagement::Fleet, type: :model do
     before { allow(FleetsApi).to receive(:vehicles).and_return(vehicles_data) }
 
     it 'calls FleetsApi.vehicles with proper params' do
-      expect(FleetsApi).to(receive(:vehicles).with(
+      vehicles
+      expect(FleetsApi).to(have_received(:vehicles).with(
                              account_id: account_id,
                              page: page,
                              per_page: per_page,
                              only_chargeable: false,
                              vrn: nil
                            ))
-      vehicles
     end
 
     it 'returns a VehiclesManagement::PaginatedFleet' do
@@ -45,7 +46,7 @@ describe VehiclesManagement::Fleet, type: :model do
   end
 
   describe '.add_vehicle' do
-    subject { described_class.new(account_id).add_vehicle(@vrn, vehicle_type) }
+    subject { described_class.new(account_id).add_vehicle(vrn, vehicle_type) }
 
     let(:vehicle_type) { 'car' }
 
@@ -53,9 +54,9 @@ describe VehiclesManagement::Fleet, type: :model do
       before { allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true) }
 
       it 'calls AccountsApi.vehicles with proper params' do
-        expect(FleetsApi).to receive(:add_vehicle_to_fleet)
-          .with(vrn: @vrn, vehicle_type: vehicle_type, account_id: account_id)
         subject
+        expect(FleetsApi).to have_received(:add_vehicle_to_fleet)
+          .with(vrn: vrn, vehicle_type: vehicle_type, account_id: account_id)
       end
     end
 
@@ -77,8 +78,8 @@ describe VehiclesManagement::Fleet, type: :model do
     before { allow(FleetsApi).to receive(:vehicles).and_return(vehicles_data) }
 
     it 'calls AccountsApi.vehicles with proper params' do
-      expect(FleetsApi).to receive(:vehicles).with(account_id: account_id, page: 1, per_page: 1)
       subject.empty?
+      expect(FleetsApi).to have_received(:vehicles).with(account_id: account_id, page: 1, per_page: 1)
     end
 
     context 'when some vehicles returned' do
@@ -120,8 +121,8 @@ describe VehiclesManagement::Fleet, type: :model do
     before { allow(FleetsApi).to receive(:remove_vehicle_from_fleet).and_return(true) }
 
     it 'calls FleetsApi.remove_vehicle_from_fleet with proper params' do
-      expect(FleetsApi).to receive(:remove_vehicle_from_fleet).with(account_id: account_id, vrn: @vrn)
-      subject.delete_vehicle(@vrn)
+      subject.delete_vehicle(vrn)
+      expect(FleetsApi).to have_received(:remove_vehicle_from_fleet).with(account_id: account_id, vrn: vrn)
     end
   end
 
@@ -131,8 +132,8 @@ describe VehiclesManagement::Fleet, type: :model do
     before { allow(FleetsApi).to receive(:vehicles).and_return(vehicles_data) }
 
     it 'calls AccountsApi.vehicles with proper params' do
-      expect(FleetsApi).to receive(:vehicles).with(account_id: account_id, page: 1, per_page: 1)
       subject.total_vehicles_count
+      expect(FleetsApi).to have_received(:vehicles).with(account_id: account_id, page: 1, per_page: 1)
     end
 
     context 'when some vehicles returned' do

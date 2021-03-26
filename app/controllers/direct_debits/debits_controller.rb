@@ -103,7 +103,9 @@ module DirectDebits
 
     ##
     # Renders a selector to add a new mandate.
-    # If there is no possible new mandates, redirects to the #index
+    # If there is no possible to create a new mandate and no active mandates, redirects to the
+    # {rdoc-refDashboardController:index}
+    # If there is no possible to create a new mandate and some active mandates, redirects to the {rdoc-ref:index}
     #
     # ==== Path
     #
@@ -111,6 +113,8 @@ module DirectDebits
     #
     def set_up
       @zones = @debit.inactive_mandates
+
+      return redirect_to dashboard_path if @zones.empty? && @debit.active_mandates.empty?
 
       redirect_to debits_path if @zones.empty?
     end

@@ -6,7 +6,7 @@ describe 'AccountDetails::PrimaryUsersController - GET #update_name', type: :req
   subject { get update_name_primary_users_path(params: { company_name: company_name }) }
 
   let(:company_name) { 'Company Name' }
-  let(:account_id) { @uuid }
+  let(:account_id) { SecureRandom.uuid }
 
   context 'when user is an owner' do
     before { sign_in create_owner(account_id: account_id) }
@@ -55,10 +55,6 @@ describe 'AccountDetails::PrimaryUsersController - GET #update_name', type: :req
 
       it 'renders the view' do
         expect(response).to render_template(:edit_name)
-      end
-
-      it 'does not make an api call' do
-        expect(AccountsApi::Accounts).not_to receive(:update_company_name)
       end
     end
   end

@@ -9,9 +9,9 @@ describe 'PaymentsController - POST #submit', type: :request do
     {
       commit: commit,
       payment: {
-        vehicles: { @vrn => dates },
+        vehicles: { vrn => dates },
         vrn_search: search,
-        vrn_list: @vrn
+        vrn_list: vrn
       }
     }
   end
@@ -19,6 +19,7 @@ describe 'PaymentsController - POST #submit', type: :request do
   let(:commit) { 'Review payment' }
   let(:dates) { ['2020-03-08'] }
   let(:search) { 'test' }
+  let(:vrn) { 'ABC123' }
 
   context 'when correct permissions' do
     before { sign_in create_user }
@@ -29,7 +30,7 @@ describe 'PaymentsController - POST #submit', type: :request do
 
     context 'with caz_id and vehicle details in the session' do
       before do
-        add_to_session(new_payment: { caz_id: @uuid, details: { @vrn => { dates: [] } } })
+        add_to_session(new_payment: { caz_id: mocked_uuid, details: { vrn => { dates: [] } } })
         subject
       end
 
@@ -39,7 +40,7 @@ describe 'PaymentsController - POST #submit', type: :request do
         end
 
         it 'saves new payment data' do
-          expect(session[:new_payment]['details'][@vrn][:dates]).to eq(dates)
+          expect(session[:new_payment]['details'][vrn][:dates]).to eq(dates)
         end
       end
 
@@ -52,7 +53,7 @@ describe 'PaymentsController - POST #submit', type: :request do
 
         it 'saves new payment data' do
           subject
-          expect(session[:new_payment]['details'][@vrn][:dates]).to eq(dates)
+          expect(session[:new_payment]['details'][vrn][:dates]).to eq(dates)
         end
 
         it 'saves only search' do

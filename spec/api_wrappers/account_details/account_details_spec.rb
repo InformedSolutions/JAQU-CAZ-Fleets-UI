@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'Api.account_details - GET' do
   subject { AccountsApi::Users.account_details(account_user_id: account_user_id) }
 
-  let(:account_user_id) { @uuid }
+  let(:account_user_id) { SecureRandom.uuid }
   let(:url) { "/users/#{account_user_id}" }
 
   context 'when the response status is 200' do
