@@ -47,6 +47,11 @@ class CleanAirZone
     caz_data[:fleets_compliance_url]
   end
 
+  # Returns a string, eg. 'www.example.com'
+  def privacy_policy_url
+    caz_data[:privacy_policy_url]
+  end
+
   # Returns date when CAZ started charging, eg. '2020-05-01'
   def active_charge_start_date
     Date.parse(caz_data[:active_charge_start_date])
