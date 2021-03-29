@@ -26,6 +26,8 @@ describe StaticPagesController, type: :request do
   describe 'GET #privacy_notice' do
     subject { get privacy_notice_path }
 
+    before { mock_clean_air_zones }
+
     it_behaves_like 'a static page'
   end
 
