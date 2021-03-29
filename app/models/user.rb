@@ -70,7 +70,7 @@ class User
       owner: user_attributes['owner'],
       permissions: user_attributes['permissions'],
       days_to_password_expiry: calculate_password_expiry(user_attributes['passwordUpdateTimestamp']),
-      beta_tester: user_attributes['betaTester']
+      beta_tester: user_attributes['betaTester'] == true
     )
   end
 
