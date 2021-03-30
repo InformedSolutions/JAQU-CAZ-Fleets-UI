@@ -26,18 +26,21 @@ When('I have one vehicle in my fleet') do
 end
 
 When('I visit the manage vehicles page') do
-  mock_actual_account_name
-  mock_clean_air_zones
-  mock_payment_history
+  mock_fleets_api
 
   login_user({ permissions: 'MANAGE_VEHICLES' })
   visit fleets_path
 end
 
+When('I visit the manage vehicles page as a beta tester') do
+  mock_fleets_api
+
+  login_user({ permissions: 'MANAGE_VEHICLES', beta_tester: true })
+  visit fleets_path
+end
+
 When('I visit the manage vehicles page with payment permission') do
-  mock_actual_account_name
-  mock_clean_air_zones
-  mock_payment_history
+  mock_fleets_api
 
   login_user({ permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS] })
   visit fleets_path
@@ -206,4 +209,10 @@ end
 
 Then('I am able to export my data to CSV file') do
   expect(page).to have_link('Download a spreadsheet (CSV)')
+end
+
+def mock_fleets_api
+  mock_actual_account_name
+  mock_clean_air_zones
+  mock_payment_history
 end

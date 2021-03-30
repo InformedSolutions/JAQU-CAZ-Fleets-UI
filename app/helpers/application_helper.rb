@@ -89,6 +89,6 @@ module ApplicationHelper
 
   # Check if user is in a beta group or Direct Debit feature is enabled in configuration.
   def direct_debits_enabled?
-    current_user&.beta_tester || Rails.configuration.x.feature_direct_debits.to_s.downcase == 'true'
+    current_user.beta_tester || Rails.configuration.x.feature_direct_debits.to_s.downcase == 'true'
   end
 end

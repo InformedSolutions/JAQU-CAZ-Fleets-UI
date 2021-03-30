@@ -201,6 +201,7 @@ module AccountsApi
       # ==== Attributes
       #
       # * +account_id+ - uuid, ID of the account on backend DB
+      # * +user_beta_tester+ - boolean, status of user if he is in beta group
       #
       # ==== Example
       #
@@ -217,9 +218,10 @@ module AccountsApi
       # * {400 Exception}[rdoc-ref:BaseApi::Error400Exception] - bad request
       # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
       #
-      def csv_exports(account_id:)
+      def csv_exports(account_id:, user_beta_tester:)
         log_action('Downloading a csv file')
-        request(:post, "/accounts/#{account_id}/vehicles/csv-exports")['fileUrl']
+        body = { betaTester: user_beta_tester }.to_json
+        request(:post, "/accounts/#{account_id}/vehicles/csv-exports", body: body)['fileUrl']
       end
 
       ##

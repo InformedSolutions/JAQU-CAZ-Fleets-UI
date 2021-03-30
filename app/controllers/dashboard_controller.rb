@@ -39,7 +39,7 @@ class DashboardController < ApplicationController
   def check_mandates
     return false unless allow_manage_mandates?
 
-    if current_user&.beta_tester || Rails.configuration.x.feature_direct_debits.to_s.downcase == 'true'
+    if current_user.beta_tester || Rails.configuration.x.feature_direct_debits.to_s.downcase == 'true'
       DirectDebits::Debit.new(current_user.account_id).active_mandates.any?
     else
       false
@@ -48,7 +48,7 @@ class DashboardController < ApplicationController
 
   # Calls api to check if at least one direct debit caz is enabled for non beta testers
   def any_dd_cazes_enabled
-    return true if current_user&.beta_tester
+    return true if current_user.beta_tester
 
     Rails.logger.info "[#{self.class.name}] Getting enabled direct debit clean air zones"
     DebitsApi.mandates(account_id: current_user.account_id).any? { |caz| caz['directDebitEnabled'] == true }
