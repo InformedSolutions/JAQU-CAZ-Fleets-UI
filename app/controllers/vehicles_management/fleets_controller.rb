@@ -172,7 +172,10 @@ module VehiclesManagement
     #     GET /manage_vehicles/export
     #
     def export
-      file_url = AccountsApi::Accounts.csv_exports(account_id: current_user.account_id)
+      file_url = AccountsApi::Accounts.csv_exports(
+        account_id: current_user.account_id,
+        user_beta_tester: current_user.beta_tester
+      )
       redirect_to file_url
     end
 
@@ -247,7 +250,7 @@ module VehiclesManagement
         only_chargeable: params[:only_chargeable],
         vrn: vrn
       )
-      @zones = CleanAirZone.visible_cazes
+      @zones = current_user.beta_tester ? CleanAirZone.all : CleanAirZone.visible_cazes
     end
   end
 end

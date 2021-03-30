@@ -11,7 +11,7 @@ module DirectDebits
     #
     # ==== Params
     # * +account_id+ - Account ID from backend DB
-    # * +beta_tester+ - status of user if he is in beta group
+    # * +user_beta_tester+ - status of user if he is in beta group
     #
     def initialize(account_id, user_beta_tester: false)
       @account_id = account_id

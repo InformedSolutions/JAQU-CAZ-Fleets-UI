@@ -102,3 +102,10 @@ Feature: Fleets
       And I should see inactive '1' pagination button
       And I should see inactive 'previous' pagination button
       And I should not see 'next' pagination button
+
+  Scenario: A beta member user visits the Vehicle Management page
+    When I have vehicles in my fleet
+      And I visit the manage vehicles page as a beta tester
+    Then I should see 'Live' 4 times
+    Then I should see 'Upcoming' 2 times
+    Then I should see 'FutureCaz'
