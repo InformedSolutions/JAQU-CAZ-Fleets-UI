@@ -6,6 +6,14 @@ module MockedResponses
     allow(DebitsApi).to receive(:mandates).and_return(api_response)
   end
 
+  def mock_all_active_debits
+    mock_debits('all_active_mandates')
+  end
+
+  def mock_all_inactive_debits
+    mock_debits('all_inactive_mandates')
+  end
+
   def mock_caz_mandates(mocked_file = 'caz_mandates')
     api_response = read_response("debits/#{mocked_file}.json")['mandates']
     allow(DebitsApi).to receive(:caz_mandates).and_return(api_response)

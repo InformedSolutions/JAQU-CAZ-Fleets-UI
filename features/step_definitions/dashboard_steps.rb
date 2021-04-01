@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 When('I visit the Dashboard page') do
+  mock_debits
   visit dashboard_path
 end
 
@@ -41,6 +42,7 @@ end
 
 When('I navigate to a Dashboard page without any payers users') do
   mock_empty_users_list
+  mock_debits
   visit dashboard_path
 end
 

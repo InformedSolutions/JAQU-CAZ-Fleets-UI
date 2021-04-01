@@ -23,14 +23,17 @@ Then('I should be on the make a payment page') do
 end
 
 Then('I should be on the payment matrix page') do
+  mock_debits
   expect_path(matrix_payments_path)
 end
 
 Then('I should be on the No chargeable vehicles page') do
+  mock_debits
   expect_path(no_chargeable_vehicles_payments_path)
 end
 
 Then('I should be on the Undetermined vehicles page') do
+  mock_debits
   expect_path(undetermined_vehicles_payments_path)
 end
 
@@ -126,6 +129,7 @@ And('Second user starts payment in the same CAZ') do
 end
 
 Then('I should be on the payment in progress page') do
+  mock_debits
   expect_path(in_progress_payments_path)
 end
 

@@ -12,7 +12,7 @@ Feature: Dashboard
       And I should not see 'You need to upload all your number plates before making a payment.'
       And I should not see 'You need to add at least one more vehicle before making a payment.'
       And I should see 'Manage users' link
-      And I should see 'Pay by bank account' link
+      And I should see 'Bank payment agreements' link
 
   Scenario: View dashboard page with empty fleets
     Given I navigate to a Dashboard page with empty fleets
@@ -21,7 +21,7 @@ Feature: Dashboard
       And I should see 'Manage vehicles and view charges' link
       And I should not see 'Make a payment' link
       And I should see 'You need to upload all your number plates before making a payment.'
-      And I should see 'Pay by bank account' link
+      And I should see 'Set up bank payment agreement' link
 
   Scenario: View dashboard page with one vehicle in the fleets
     Given I navigate to a Dashboard page with one vehicle in the fleet
@@ -30,7 +30,7 @@ Feature: Dashboard
       And I should see 'Manage vehicles and view charges' link
       And I should not see 'Make a payment' link
       And I should see 'You need to add at least one more vehicle before making a payment.'
-      And I should see 'Pay by bank account' link
+      And I should see 'Set up bank payment agreement' link
 
   Scenario: Owner wants to view dashboard with different IP address
     Given I navigate to a Dashboard page
@@ -63,7 +63,7 @@ Feature: Dashboard
       And I should see 'Manage vehicles and view charges' link
       And I should see 'Make a payment' link
       And I should see 'Manage users' link
-      And I should not see 'Pay by bank account' link
+      And I should not see 'Set up bank payment agreement' link
 
   Scenario: View dashboard page before Bath D day
     Given I navigate to a Dashboard page before Bath D day
@@ -78,5 +78,5 @@ Feature: Dashboard
       And I should see 'Manage vehicles' link
       And I should see 'Make a payment' link
       And I should see 'Payment history' link
-      And I should see 'Pay by bank account' link
+      And I should see 'Bank payment agreements' link
       And I should see 'View payments made by you and your team members.'
