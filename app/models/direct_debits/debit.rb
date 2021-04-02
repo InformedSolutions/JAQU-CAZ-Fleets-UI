@@ -43,6 +43,16 @@ module DirectDebits
       mandates.reject { |mandate| select_active_statuses(mandate.status) }
     end
 
+    # Checks if all mandates are active, returns boolean, eg. true
+    def all_mandates_active?
+      inactive_mandates.empty? && any_mandate_active?
+    end
+
+    # Checks if any mandate is active, returns boolean, eg. true
+    def any_mandate_active?
+      active_mandates.any?
+    end
+
     # Calls {rdoc-ref:DebitsApi.caz_mandates} to fetch data.
     # Find the mandate in 'active' or `pending_submission` status
     #
