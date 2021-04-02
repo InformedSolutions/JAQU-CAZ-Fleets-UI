@@ -14,7 +14,7 @@ Feature: Dashboard
 
   Scenario: View dashboard page with `MANAGE_MANDATES` permission
     Given I navigate to a Dashboard page with 'MANAGE_MANDATES' permission
-      And I should see 'Pay by bank account' link
+      And I should see 'Bank payment agreements' link
       And I should see 'Help' link
       And I should not see 'Manage vehicles and view charges' link
       And I should not see 'Make a payment' link

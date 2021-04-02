@@ -66,5 +66,6 @@ Then('I should be on the local vehicles exemptions page') do
 end
 
 Then('I should be on the calculating chargeability page') do
+  mock_debits
   expect_path(calculating_chargeability_uploads_path)
 end

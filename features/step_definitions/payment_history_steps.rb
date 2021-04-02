@@ -9,6 +9,7 @@ Given('I visit the Company payment history page') do
 end
 
 Given('I go to the Company payment history page') do
+  mock_debits
   visit payment_history_path
 end
 
