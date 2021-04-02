@@ -1,12 +1,18 @@
 %article.dashboard-total-group.govuk-grid-column-one-third
-  - if @mandates_present
+  - if @all_mandates_active
     %p.govuk-body{class: 'govuk-!-font-size-16 govuk-!-margin-top-9'}
       %strong
-        = link_to('Pay by bank account', debits_path, id: 'direct-debit')
-    %p.govuk-body View the agreements you’ve previously set up.
+        = link_to('Bank payment agreements', debits_path, id: 'direct-debit')
+    %p.govuk-body View the agreements you’ve created.
+  - elsif @any_mandates_active
+    %p.govuk-body{class: 'govuk-!-font-size-16 govuk-!-margin-top-9'}
+      %strong
+        = link_to('Bank payment agreements', debits_path, id: 'direct-debit')
+    %p.govuk-body
+      View the agreements you’ve created or set up a new one.
   - else
     %p.govuk-body{class: 'govuk-!-font-size-16 govuk-!-margin-top-9'}
       %strong
-        = link_to('Pay by bank account', debits_path, id: 'direct-debit')
+        = link_to('Set up bank payment agreement', debits_path, id: 'direct-debit')
     %p.govuk-body
       Use your bank details to pay a charge as an alternative to paying by card.

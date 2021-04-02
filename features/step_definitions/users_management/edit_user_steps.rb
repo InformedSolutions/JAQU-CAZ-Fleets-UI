@@ -11,6 +11,7 @@ Given('I visit the Manage users page and want to edit user permissions') do
 end
 
 Then('I should be on the Manage user page') do
+  mock_debits
   expect(page).to have_current_path(edit_user_path(uuid))
 end
 

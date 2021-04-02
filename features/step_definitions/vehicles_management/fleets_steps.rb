@@ -169,6 +169,7 @@ When('I have all undetermined vehicles') do
 end
 
 Then('I should be on the manage vehicles page') do
+  mock_debits
   expect(page).to have_current_path(fleets_path)
 end
 

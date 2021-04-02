@@ -11,7 +11,7 @@ Feature: Payment History
       And I should see active "1" pagination button
       And I should not see "previous" pagination button
     Then I go to the Company payment history page
-       And I should see active "1" pagination button
+      And I should see active "1" pagination button
     Then I press 'Back' link
       And I should be on the Dashboard page
     Then I go to the Company payment history page
