@@ -72,6 +72,16 @@ class CleanAirZone
     caz_data[:display_order]
   end
 
+  # Returns a boolean informing if direct debit payments are available for CAZ
+  def direct_debit_enabled?
+    caz_data[:direct_debit_enabled]
+  end
+
+  # Returns a string informing when payments with direct debits are going to be launched
+  def direct_debit_start_date_text
+    caz_data[:direct_debit_start_date_text]
+  end
+
   # Check if clean air zone charge is live, eg. 'true'
   def live?
     !active_charge_start_date.future?
