@@ -17,6 +17,7 @@
             %th.govuk-table__header{scope: 'col'} CAZ
             %th.govuk-table__header{scope: 'col'} Map
             %th.govuk-table__header{scope: 'col'} Charging starts
+            %th.govuk-table__header{scope: 'col'} Set up bank payments
         %tbody.govuk-table__body
           - @zones.each do |zone|
             %tr.govuk-table__row
@@ -24,6 +25,11 @@
               %td.govuk-table__cell
                 = external_link_to('Zone boundary', zone.boundary_url, id: "#{zone.name.downcase}-map")
               %td.govuk-table__cell=zone.charging_starts
+              %td.govuk-table__cell
+                - if zone.direct_debit_enabled?
+                  = link_to 'Available Now', debits_path
+                - else
+                  = zone.direct_debit_start_date_text
 
       %h2.govuk-heading-m Exemptions
       %p There are some national and local exemptions from the charge.

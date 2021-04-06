@@ -15,7 +15,9 @@ describe CleanAirZone, type: :model do
       activeChargeStartDate: active_charge_start_date,
       activeChargeStartDateText: active_charge_start_date_text,
       displayOrder: display_order,
-      displayFrom: display_from
+      displayFrom: display_from,
+      directDebitEnabled: direct_debit_enabled,
+      directDebitStartDateText: direct_debit_start_date_text
     }.stringify_keys
   end
   let(:name) { 'Birmingham' }
@@ -26,6 +28,8 @@ describe CleanAirZone, type: :model do
   let(:active_charge_start_date_text) { '14th May 2020' }
   let(:display_order) { 1 }
   let(:display_from) { '2020-05-14' }
+  let(:direct_debit_start_date_text) { '4 May 2021' }
+  let(:direct_debit_enabled) { true }
 
   describe '.id' do
     it 'returns a proper id' do
@@ -78,6 +82,18 @@ describe CleanAirZone, type: :model do
   describe '.display_from' do
     it 'returns a proper date display_from' do
       expect(subject.display_from).to eq(Date.parse(display_from))
+    end
+  end
+
+  describe '.direct_debit_start_date_text' do
+    it 'returns a proper string from direct_debit_start_date_text' do
+      expect(subject.direct_debit_start_date_text).to eq(direct_debit_start_date_text)
+    end
+  end
+
+  describe '.direct_debit_enabled?' do
+    it 'returns a proper string from direct_debit_enabled' do
+      expect(subject.direct_debit_enabled?).to eq(direct_debit_enabled)
     end
   end
 
