@@ -8,7 +8,9 @@
       "activeChargeStartDate": "2020-05-14",
       "activeChargeStartDateText": "1 June 2021",
       "displayFrom": "2020-05-14",
-      "displayOrder": 1
+      "displayOrder": 1,
+      "directDebitEnabled": true,
+      "directDebitStartDateText": ""
     },
     {
       "cleanAirZoneId": "eeb34ad2-a49e-4aef-8965-e0ed04a2e0cc",
@@ -18,7 +20,9 @@
       "activeChargeStartDate": "2020-05-14",
       "activeChargeStartDateText": "1 April 2021",
       "displayFrom": "2020-05-14",
-      "displayOrder": 3
+      "displayOrder": 3,
+      "directDebitEnabled": false,
+      "directDebitStartDateText": "4 May 2021"
     },
     {
       "cleanAirZoneId": "44590023-9b0f-450e-8a6a-feed267fea23",
@@ -28,7 +32,9 @@
       "activeChargeStartDate": "2020-05-14",
       "activeChargeStartDateText": "Earyly 2021",
       "displayFrom": "2020-05-14",
-      "displayOrder": 2
+      "displayOrder": 2,
+      "directDebitEnabled": false,
+      "directDebitStartDateText": "4 May 2021"
     },
     {
       "cleanAirZoneId": "1186eeb2-d48d-4fc4-80df-4356dca5510d",
@@ -38,7 +44,9 @@
       "activeChargeStartDate": "2030-05-14",
       "activeChargeStartDateText": "",
       "displayFrom": "2030-05-14",
-      "displayOrder": 4
+      "displayOrder": 4,
+      "directDebitEnabled": true,
+      "directDebitStartDateText": ""
     }
   ]
 }

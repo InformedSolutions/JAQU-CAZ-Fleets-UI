@@ -17,6 +17,7 @@
             %th.govuk-table__header{scope: 'col'} CAZ
             %th.govuk-table__header{scope: 'col'} Map
             %th.govuk-table__header{scope: 'col'} Charging starts
+            %th.govuk-table__header{scope: 'col'} Set up bank payments
         %tbody.govuk-table__body
           - @zones.each do |zone|
             %tr.govuk-table__row
@@ -24,6 +25,11 @@
               %td.govuk-table__cell
                 = external_link_to('Zone boundary', zone.boundary_url, id: "#{zone.name.downcase}-map")
               %td.govuk-table__cell=zone.charging_starts
+              %td.govuk-table__cell
+                - if zone.direct_debit_enabled?
+                  = link_to 'Available Now', debits_path
+                - else
+                  = zone.direct_debit_start_date_text
 
       %h2.govuk-heading-m Exemptions
       %p There are some national and local exemptions from the charge.
@@ -80,6 +86,15 @@
                              'https://tfl.gov.uk/modes/driving/ultra-low-emission-zone',
                              class: 'govuk-link',
                              id: 'transport-for-london')
+
+      %h2.govuk-heading-m Refunds
+      %p
+        You may be able to claim a refund, for example if you paid the charge when you did not need to. Contact the local authority for the zone you paid the charge in to claim a refund:
+      %p
+        = external_link_to('Bath',
+                           'https://www.gov.uk/guidance/driving-in-a-clean-air-zone',
+                           class: 'govuk-link',
+                           id: 'refunds-bath')
 
       %h2.govuk-heading-m Important information about vehicle data
       %p The data accuracy of this service is always improving.

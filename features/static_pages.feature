@@ -34,3 +34,4 @@ Feature: Static Pages
     Then I should see 'Help' title
       And I should not see 'FutureCaz'
       And I should see 'Birmingham' 2 times
+      And I should see 'Available Now' link
