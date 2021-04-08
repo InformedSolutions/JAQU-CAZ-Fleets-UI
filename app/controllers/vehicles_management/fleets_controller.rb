@@ -37,7 +37,7 @@ module VehiclesManagement
 
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || 10).to_i
-      assign_variables(page, per_page)
+      assign_index_variables(page, per_page)
     rescue BaseApi::Error400Exception
       return redirect_to fleets_path unless page == 1
     end
@@ -223,7 +223,7 @@ module VehiclesManagement
     end
 
     # Assign variables needed in :index view
-    def assign_variables(page, per_page)
+    def assign_index_variables(page, per_page)
       @search = params[:vrn]
       form = SearchVrnForm.new(@search)
       if form.valid?
@@ -231,7 +231,15 @@ module VehiclesManagement
       else
         fetch_pagination_and_zones(page, per_page)
       end
+      assign_dynamic_caz_list_variables if true# @zones.count > 3
       assign_payment_enabled
+    end
+
+    def assign_dynamic_caz_list_variables
+      @selected_zones_ids = ['5cd7441d-766f-48ff-b8ad-1809586fea37', 'caf8f434-8f7c-47e9-9c1b-6b31611b2e78']
+      @selected_zones = @selected_zones_ids.index_with do |zone_id|
+        @zones.find { |zone| zone.id == zone_id }
+      end
     end
 
     # Renders :index with assigned zones and errors

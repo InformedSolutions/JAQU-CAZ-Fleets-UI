@@ -15,6 +15,19 @@ module FleetsHelper
     paginated_pages(current_page, total_pages)
   end
 
+  def manage_vehicle_caz_select_tag(zones, selected_zones_ids, zone_id)
+    selectable_zones = zones.reject { |z| selected_zones_ids.include?(z.id) && z.id != zone_id }
+                            .sort_by(&:name)
+
+    select_tag(
+      "zone_#{zone_id}",
+      options_for_select(selectable_zones.map { |m| ["#{m.name} #{m.live? ? '(Live)' : '(Future)'}", m.id] }, zone_id),
+      prompt: 'Select zone...',
+      class: 'govuk-select moj-pagination__results',
+      onchange: 'console.log("adas")'
+    )
+  end
+
   private
 
   # Return first pages for fleet pagination

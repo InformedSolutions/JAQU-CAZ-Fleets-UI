@@ -26,31 +26,10 @@
 
       = render 'vehicles_management/fleets/search'
 
-      %table.govuk-table
-        %caption.govuk-table__caption
-        %thead.govuk-table__head
-          %tr.govuk-table__row
-            %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'} Number plate
-            %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'} Type
-            - @zones.each do |zone|
-              %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'}
-                = zone.name
-                %br
-                = zone.live? ? '(Live)' : '(Future)'
-            %th.govuk-table__header{scope: 'col'}
-              .govuk-visually-hidden Actions
-        %tbody.govuk-table__body
-          - @pagination.vehicle_list.each do |vehicle|
-            %tr.govuk-table__row
-              %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
-                = vehicle.vrn
-              %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
-                = vehicle.type
-              - @zones.each do |zone|
-                %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
-                  = vehicle.formatted_charge(zone.id)
-              %td.govuk-table__cell{scope: 'row'}
-                = link_to('Remove', assign_remove_fleets_path(vrn: vehicle.vrn), id: "remove_#{vehicle.vrn}")
+      - if false # @zones.count <= 3
+        = render 'vehicles_management/fleets/static_table'
+      - else
+        = render 'vehicles_management/fleets/dynamic_table'
 
       = render 'pagination' if @pagination.total_vehicles_count > 10
 
