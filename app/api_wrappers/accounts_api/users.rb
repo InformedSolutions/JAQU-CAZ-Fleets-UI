@@ -92,6 +92,7 @@ module AccountsApi
       # * +name+ - string, name of the user
       # * +owner+ - boolean, determines if the user is owner
       # * +permissions+ - permission names of the user
+      # * +uiSelectedCaz+ - A list of cazes that was selected by user. Can be empty.
       #
       # ==== Exceptions
       #

@@ -38,8 +38,31 @@ module VehiclesManagement
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || 10).to_i
       assign_index_variables(page, per_page)
+      assign_dynamic_caz_list_variables if true # @zones.count > 3
+
     rescue BaseApi::Error400Exception
       return redirect_to fleets_path unless page == 1
+    end
+
+    def add_another_zone
+      # page = (params[:page] || 1).to_i
+      # per_page = (params[:per_page] || 10).to_i
+      # assign_index_variables(page, per_page)
+      # assign_dynamic_caz_list_variables(add_another_zone: true)
+      @selected_zones_ids = load_selected_zones
+      @selected_zones_ids << SecureRandom.uuid
+      session[:selected_zones_ids] = @selected_zones_ids
+
+      redirect_back(fallback_location: fleets_path)
+    end
+
+    def remove_selected_zone
+      session[:selected_zones_ids].delete(params[:id]) if params[:id].present?
+      # page = (params[:page] || 1).to_i
+      # per_page = (params[:per_page] || 10).to_i
+      # assign_index_variables(page, per_page)
+      # assign_dynamic_caz_list_variables()
+      redirect_back(fallback_location: fleets_path)
     end
 
     ##
@@ -231,15 +254,26 @@ module VehiclesManagement
       else
         fetch_pagination_and_zones(page, per_page)
       end
-      assign_dynamic_caz_list_variables if true# @zones.count > 3
       assign_payment_enabled
     end
 
-    def assign_dynamic_caz_list_variables
-      @selected_zones_ids = ['5cd7441d-766f-48ff-b8ad-1809586fea37', 'caf8f434-8f7c-47e9-9c1b-6b31611b2e78']
+    def assign_dynamic_caz_list_variables(add_another_zone: false)
+      @selected_zones_ids = load_selected_zones
+
+      @selected_zones_ids << SecureRandom.uuid if add_another_zone == true || @selected_zones_ids.empty?
+
       @selected_zones = @selected_zones_ids.index_with do |zone_id|
         @zones.find { |zone| zone.id == zone_id }
       end
+    end
+
+    def load_selected_zones
+      session[:selected_zones_ids] ||= AccountsApi::Users.user(
+        account_id: current_user.account_id,
+        account_user_id: current_user.user_id
+      )['uiSelectedCaz'].to_a
+      session[:selected_zones_ids]
+      # ['5cd7441d-766f-48ff-b8ad-1809586fea37', 'caf8f434-8f7c-47e9-9c1b-6b31611b2e78']
     end
 
     # Renders :index with assigned zones and errors

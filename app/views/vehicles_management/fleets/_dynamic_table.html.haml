@@ -8,11 +8,19 @@
         %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'}
           = manage_vehicle_caz_select_tag(@zones, @selected_zones_ids, zone_id)
           - if i.positive?
-            = link_to('X', '#')
+            = link_to('X', remove_selected_zone_fleets_path(id: zone_id,
+                                                 page: params[:page],
+                                                 only_chargeable: params[:only_chargeable],
+                                                 vrn: params[:vrn],
+                                                 per_page: params[:per_page]))
       %th.govuk-table__header{scope: 'col'}
         .govuk-visually-hidden Actions
         - if @selected_zones.count < 3
-          = link_to('Add another zone', '#')
+          = link_to('Add another zone',
+                    add_another_zone_fleets_path(page: params[:page],
+                                                 only_chargeable: params[:only_chargeable],
+                                                 vrn: params[:vrn],
+                                                 per_page: params[:per_page]))
   %tbody.govuk-table__body
     - @pagination.vehicle_list.each do |vehicle|
       %tr.govuk-table__row
