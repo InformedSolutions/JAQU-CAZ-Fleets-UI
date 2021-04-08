@@ -26,10 +26,11 @@
 
   .govuk-grid-row
     = render 'manage_vehicles' if allow_manage_vehicles?
-    = render 'direct_debit' if direct_debits_enabled? && allow_manage_mandates? && @any_dd_cazes_enabled
     = render 'manage_users' if allow_manage_users?
-    - if !disable_payment_features
-      = render 'make_payment' if allow_make_payments? && @vehicles_count >= 2
+    = render 'make_payment' if @payment_features_enabled && allow_make_payments? && @vehicles_count >= 2
+    = render 'direct_debit' if direct_debits_enabled? && allow_manage_mandates? && @any_dd_cazes_enabled
+
+    - if @payment_features_enabled
       - if allow_make_payments? && allow_view_payment_history?
         - link_description = 'View payments made by you and your team members.'
       - elsif allow_make_payments?
