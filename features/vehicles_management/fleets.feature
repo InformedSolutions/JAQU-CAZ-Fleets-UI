@@ -15,7 +15,7 @@ Feature: Fleets
     When I have vehicles in my fleet
       And I visit the manage vehicles page
     Then I should see 'Live' 4 times
-    Then I should see 'Upcoming' 1 times
+    Then I should see 'Future' 1 times
     Then I should not see 'FutureCaz'
     Then I should not see 'What does undetermined mean?'
     Then I am able to export my data to CSV file
@@ -107,5 +107,5 @@ Feature: Fleets
     When I have vehicles in my fleet
       And I visit the manage vehicles page as a beta tester
     Then I should see 'Live' 4 times
-    Then I should see 'Upcoming' 2 times
+    Then I should see 'Future' 3 times
     Then I should see 'FutureCaz'
