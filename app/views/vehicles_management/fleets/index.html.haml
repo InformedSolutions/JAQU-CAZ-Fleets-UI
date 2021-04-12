@@ -2,9 +2,7 @@
 - title_and_header = flash[:success] ? "Upload successful - #{title_content}" : title_content
 - content_for(:title, title_and_header)
 
-/ = back_link_to_dashboard
-
-= render 'shared/js_back_link'
+= back_link_to_dashboard
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
@@ -28,7 +26,7 @@
 
       = render 'vehicles_management/fleets/search'
 
-      - if false # @zones.count <= 3
+      - if @zones.count <= 3
         = render 'vehicles_management/fleets/static_table'
       - else
         = render 'vehicles_management/fleets/dynamic_table'

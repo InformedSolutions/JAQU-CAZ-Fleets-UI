@@ -1,4 +1,4 @@
-%table.govuk-table
+%table.govuk-table#dynamic-table
   %caption.govuk-table__caption
   %thead.govuk-table__head
     %tr.govuk-table__row
@@ -6,21 +6,15 @@
       %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'} Type
       - @selected_zones.each_with_index do |(zone_id, zone), i|
         %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'}
-          = manage_vehicle_caz_select_tag(@zones, @selected_zones_ids, zone_id)
+          = form_tag(select_zone_fleets_path, method: :post) do
+            = hidden_field_tag(:id, zone_id)
+            = manage_vehicle_caz_select_tag(@zones, @selected_zones_ids, zone_id)
           - if i.positive?
-            = link_to('X', remove_selected_zone_fleets_path(id: zone_id,
-                                                 page: params[:page],
-                                                 only_chargeable: params[:only_chargeable],
-                                                 vrn: params[:vrn],
-                                                 per_page: params[:per_page]))
+            = link_to('X', remove_selected_zone_fleets_path(id: zone_id))
       %th.govuk-table__header{scope: 'col'}
         .govuk-visually-hidden Actions
         - if @selected_zones.count < 3
-          = link_to('Add another zone',
-                    add_another_zone_fleets_path(page: params[:page],
-                                                 only_chargeable: params[:only_chargeable],
-                                                 vrn: params[:vrn],
-                                                 per_page: params[:per_page]))
+          = link_to('Add another zone', add_another_zone_fleets_path())
   %tbody.govuk-table__body
     - @pagination.vehicle_list.each do |vehicle|
       %tr.govuk-table__row

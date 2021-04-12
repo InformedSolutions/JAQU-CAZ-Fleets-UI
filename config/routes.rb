@@ -53,6 +53,7 @@ Rails.application.routes.draw do
         post :index, to: 'fleets#submit_search'
         get :add_another_zone, to: 'fleets#add_another_zone'
         get :remove_selected_zone, to: 'fleets#remove_selected_zone'
+        post :select_zone, to: 'fleets#select_zone'
         get :vrn_not_found, to: 'fleets#vrn_not_found'
         get :choose_method
         post :choose_method, to: 'fleets#submit_choose_method'

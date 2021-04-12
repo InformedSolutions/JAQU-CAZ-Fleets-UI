@@ -22,10 +22,39 @@ describe 'VehiclesManagement::FleetsController - GET #index', type: :request do
       end
     end
 
+    context 'when more than 3 active CAZ' do
+      before do
+        mock_more_than_3_clean_air_zones
+        mock_fleet
+        mock_user_details
+        allow(VehiclesManagement::DynamicCazes::SelectedCazes).to(
+          receive(:call).and_return(['5cd7441d-766f-48ff-b8ad-1809586fea37'])
+        )
+        subject
+      end
+
+      it 'does not update user through API' do
+        expect(VehiclesManagement::DynamicCazes::SelectedCazes).to have_received(:call)
+      end
+    end
+
+    context 'when less than or equal to 3 active CAZ' do
+      before do
+        mock_less_than_3_clean_air_zones
+        mock_fleet
+        allow(VehiclesManagement::DynamicCazes::SelectedCazes).to receive(:call).and_return({})
+        subject
+      end
+
+      it 'does not update user through API' do
+        expect(VehiclesManagement::DynamicCazes::SelectedCazes).not_to have_received(:call)
+      end
+    end
+
     context 'with vehicles in fleet' do
       before { mock_clean_air_zones }
 
-      context 'with without upload data in redis' do
+      context 'without upload data in redis' do
         before do
           mock_fleet
           subject
