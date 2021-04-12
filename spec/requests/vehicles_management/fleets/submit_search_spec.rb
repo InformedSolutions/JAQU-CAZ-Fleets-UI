@@ -27,6 +27,10 @@ describe 'FleetsController - POST #submit_details', type: :request do
         it 'renders the view' do
           expect(response).to render_template(:index)
         end
+
+        it 'assigns @payment_features_enabled variable' do
+          expect(assigns(:payment_features_enabled)).not_to be(nil)
+        end
       end
 
       context 'with vrn not found' do
