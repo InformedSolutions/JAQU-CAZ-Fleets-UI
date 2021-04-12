@@ -5,7 +5,7 @@ require 'rails_helper'
 describe SessionManipulation::AddQueryDetails do
   subject { described_class.call(params: params, session: session) }
 
-  let(:id) { @uuid }
+  let(:id) { SecureRandom.uuid }
   let(:params) { { commit: commit, payment: { vrn_search: search } }.with_indifferent_access }
   let(:commit) { 'SEARCH' }
   let(:search) { 'test' }

@@ -87,10 +87,6 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up', type: 
 
     before { subject }
 
-    it 'does not call API' do
-      expect(AccountsApi::Auth).not_to receive(:set_password)
-    end
-
     it 'render the view' do
       expect(response).to redirect_to(set_up_users_path)
     end

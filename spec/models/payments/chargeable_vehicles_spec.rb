@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Payments::ChargeableVehicles, type: :model do
   subject { described_class.new(account_id, zone_id).pagination(page: page) }
 
-  let(:account_id) { @uuid }
+  let(:account_id) { SecureRandom.uuid }
   let(:zone_id) { SecureRandom.uuid }
 
   describe '.pagination' do
@@ -16,14 +16,14 @@ describe Payments::ChargeableVehicles, type: :model do
     before { allow(PaymentsApi).to receive(:chargeable_vehicles).and_return(vehicles_data) }
 
     it 'calls PaymentsApi.chargeable_vehicles with proper params' do
-      expect(PaymentsApi).to(receive(:chargeable_vehicles).with(
+      subject
+      expect(PaymentsApi).to(have_received(:chargeable_vehicles).with(
                                account_id: account_id,
                                zone_id: zone_id,
                                page: page,
                                per_page: per_page,
                                vrn: nil
                              ))
-      subject
     end
 
     it 'returns Payments::PaginatedVehicles' do

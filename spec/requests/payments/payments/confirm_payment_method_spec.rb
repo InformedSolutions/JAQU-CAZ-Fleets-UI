@@ -9,9 +9,9 @@ describe 'PaymentsController - POST #confirm_payment_method', type: :request do
 
   context 'when correct permissions' do
     before do
-      add_to_session(new_payment: { caz_id: @uuid, details: {} })
+      add_to_session(new_payment: { caz_id: SecureRandom.uuid, details: {} })
       allow(PaymentsApi).to receive(:create_payment).and_return(
-        paymentId: @uuid,
+        paymentId: SecureRandom.uuid,
         nextUrl: result_payments_path
       )
       sign_in create_user

@@ -5,21 +5,18 @@
 module Payments
   module MockedResponses
     def mock_chargeable_vehicles
-      allow_any_instance_of(Payments::ChargeableVehicles).to receive(:pagination)
-        .and_return(paginated_vehicles)
+      mock = instance_double(Payments::ChargeableVehicles, pagination: paginated_vehicles)
+      allow(Payments::ChargeableVehicles).to receive(:new).and_return(mock)
     end
 
     private
 
     def paginated_vehicles
-      instance_double(Payments::PaginatedVehicles,
-                      vehicle_list: mocked_chargeable_vehicles,
-                      all_days_unpaid?: false,
-                      page: 1,
-                      total_pages: 5,
-                      range_start: 1,
-                      range_end: 5,
-                      total_vehicles_count: 45)
+      instance_double(
+        Payments::PaginatedVehicles,
+        vehicle_list: mocked_chargeable_vehicles, all_days_unpaid?: false, page: 1, total_pages: 5,
+        range_start: 1, range_end: 5, total_vehicles_count: 45
+      )
     end
 
     def mocked_chargeable_vehicles

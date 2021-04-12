@@ -54,7 +54,7 @@ steps:
       BASEURL_FLEETS: 'https://AccountsTestUser1:CleanAir99@dev-fleet.paycleanairzonecharge.co.uk/'
       VALID_USERNAME: 'tester@informed.com'
       VALID_PASSWORD: 'Tester123...'
-      BROWSER_SET: 'mid'
+      BROWSER_SET: 'basic_auth'
       BUILD: FLEETS-UI-${DRONE_BUILD_NUMBER}
       LOCATION: browserstack
     commands:

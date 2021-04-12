@@ -6,7 +6,7 @@ describe 'PaymentsController - POST #submit_search', type: :request do
   subject { post vrn_not_found_payments_path, params: { payment: { vrn_search: vrn } } }
 
   let(:vrn) { 'ABC123' }
-  let(:caz_id) { @uuid }
+  let(:caz_id) { mocked_uuid }
 
   context 'when correct permissions' do
     before { sign_in create_user }

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'DirectDebits::DebitsController - POST #set_up', type: :request do
   subject { post set_up_debits_path, params: { caz_id: caz_id } }
 
-  let(:caz_id) { @uuid }
+  let(:caz_id) { SecureRandom.uuid }
   let(:user) { manage_mandates_user }
 
   context 'when correct permissions' do
@@ -26,14 +26,14 @@ describe 'DirectDebits::DebitsController - POST #set_up', type: :request do
       end
 
       it 'adds a new mandate' do
-        expect(DebitsApi).to receive(:create_mandate).with(
+        subject
+        expect(DebitsApi).to have_received(:create_mandate).with(
           account_id: user.account_id,
           account_user_id: user.user_id,
           caz_id: caz_id,
           return_url: complete_setup_debits_url,
           session_id: anything
         )
-        subject
       end
     end
 
@@ -48,10 +48,6 @@ describe 'DirectDebits::DebitsController - POST #set_up', type: :request do
 
       it 'sets alert message' do
         expect(flash[:alert]).to eq(I18n.t('la_form.la_missing'))
-      end
-
-      it 'does not add a new mandate' do
-        expect(DebitsApi).not_to receive(:create_mandate)
       end
     end
   end

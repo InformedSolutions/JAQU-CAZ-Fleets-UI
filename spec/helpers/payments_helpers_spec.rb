@@ -3,23 +3,24 @@
 require 'rails_helper'
 
 describe PaymentsHelper do
+  let(:vrn) { 'ABC123' }
   let(:date) { '2019-11-03' }
 
   describe '.checked?' do
-    subject { helper.checked?(@vrn, date) }
+    subject { helper.checked?(vrn, date) }
 
     context 'when there is no date in the session' do
       it { is_expected.to be_falsey }
     end
 
     context 'when date is in the session' do
-      before { session[:new_payment] = { details: { @vrn => { dates: [date, '2019-11-05'] } } } }
+      before { session[:new_payment] = { details: { vrn => { dates: [date, '2019-11-05'] } } } }
 
       it { is_expected.to be_truthy }
     end
 
     context 'when date is not in the session' do
-      before { session[:new_payment] = { details: { @vrn => { dates: %w[2019-11-04 2019-11-05] } } } }
+      before { session[:new_payment] = { details: { vrn => { dates: %w[2019-11-04 2019-11-05] } } } }
 
       it { is_expected.to be_falsey }
     end

@@ -23,7 +23,7 @@ describe Organisations::CreateUserAccount do
   let(:user) { create_owner(email: email) }
   let(:email) { 'email@example.com' }
   let(:password) { '8NAOTpMkx2%9' }
-  let(:account_id) { @uuid }
+  let(:account_id) { SecureRandom.uuid }
   let(:verification_url) { 'www.example.com' }
   let(:valid) { true }
 
@@ -41,18 +41,18 @@ describe Organisations::CreateUserAccount do
       end
 
       it 'calls Organisations::EmailAndPasswordForm with proper params' do
-        expect(Organisations::EmailAndPasswordForm).to receive(:new).with(params)
         subject
+        expect(Organisations::EmailAndPasswordForm).to have_received(:new).with(params)
       end
 
       it 'calls AccountsApi.users with proper params' do
-        expect(AccountsApi::Users).to receive(:create_user).with(
+        subject
+        expect(AccountsApi::Users).to have_received(:create_user).with(
           account_id: account_id,
           email: email,
           password: password,
           verification_url: verification_url
         )
-        subject
       end
     end
 
