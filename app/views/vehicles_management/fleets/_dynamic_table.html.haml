@@ -1,0 +1,30 @@
+%table.govuk-table#dynamic-table
+  %caption.govuk-table__caption
+  %thead.govuk-table__head
+    %tr.govuk-table__row
+      %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'} Number plate
+      %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'} Type
+      - @selected_zones.each_with_index do |(zone_id, zone), i|
+        %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column'}
+          = form_tag(select_zone_fleets_path, method: :post) do
+            = hidden_field_tag(:id, zone_id)
+            = manage_vehicle_caz_select_tag(@zones, @selected_zones_ids, zone_id)
+          - if i.positive?
+            = link_to('X', remove_selected_zone_fleets_path(id: zone_id))
+      %th.govuk-table__header{scope: 'col'}
+        .govuk-visually-hidden Actions
+        - if @selected_zones.count < 3
+          = link_to('Add another zone', add_another_zone_fleets_path())
+  %tbody.govuk-table__body
+    - @pagination.vehicle_list.each do |vehicle|
+      %tr.govuk-table__row
+        %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
+          = vehicle.vrn
+        %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
+          = vehicle.type
+        - @selected_zones.each do |zone_id, zone|
+          %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column'}
+            - if zone.present?
+              = vehicle.formatted_charge(zone.id)
+        %td.govuk-table__cell{scope: 'row'}
+          = link_to('Remove', assign_remove_fleets_path(vrn: vehicle.vrn), id: "remove_#{vehicle.vrn}")

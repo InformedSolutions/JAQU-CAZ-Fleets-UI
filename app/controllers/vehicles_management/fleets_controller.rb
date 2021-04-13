@@ -37,9 +37,69 @@ module VehiclesManagement
 
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || 10).to_i
-      assign_variables(page, per_page)
+      assign_index_variables(page, per_page)
+      assign_dynamic_caz_list_variables if @zones.count > 3
     rescue BaseApi::Error400Exception
       return redirect_to fleets_path unless page == 1
+    end
+
+    ##
+    # Action adds another zone on the Vehicle Management page if there are more than 3 CAZ
+    # available. Redirect back to previous page.
+    #
+    # ==== Path
+    #
+    #    :GET /fleets/add_another_zone
+    #
+    def add_another_zone
+      VehiclesManagement::DynamicCazes::AddAnotherCaz.call(session: session)
+
+      redirect_back(fallback_location: fleets_path)
+    end
+
+    ##
+    # Action removes slelected zone on the Vehicle Management page if there are
+    # more than 3 CAZ available. Redirect back to previous page.
+    #
+    # ==== Path
+    #
+    #    :GET /fleets/remove_selected_zone
+    #
+    # ==== Params
+    #
+    # * +id+ - uuid of selected CAZ or of empty select box
+    #
+    def remove_selected_zone
+      if params[:id].present?
+        VehiclesManagement::DynamicCazes::RemoveSelectedCaz.call(
+          session: session, user: current_user, id: params[:id]
+        )
+      end
+
+      redirect_back(fallback_location: fleets_path)
+    end
+
+    ##
+    # Action changes selected zone on the Vehicle Management page if there are
+    # more than 3 CAZ available. Redirect back to previous page.
+    #
+    # ==== Path
+    #
+    #    :GET /fleets/select_zone
+    #
+    # ==== Params
+    #
+    # * +id+ - uuid of already CAZ or of empty select box
+    # * +selected_id+ - uuid of selected CAZ
+    #
+    def select_zone
+      if params[:id].present? && params[:selected_id].present?
+        VehiclesManagement::DynamicCazes::SelectCaz.call(
+          session: session, user: current_user, current_id: params[:id],
+          new_id: params[:selected_id]
+        )
+      end
+      redirect_back(fallback_location: fleets_path)
     end
 
     ##
@@ -224,7 +284,7 @@ module VehiclesManagement
     end
 
     # Assign variables needed in :index view
-    def assign_variables(page, per_page)
+    def assign_index_variables(page, per_page)
       @search = params[:vrn]
       form = SearchVrnForm.new(@search)
       if form.valid?
@@ -233,6 +293,17 @@ module VehiclesManagement
         fetch_pagination_and_zones(page, per_page)
       end
       assign_payment_enabled
+    end
+
+    # Assign variables related to selectable zones.
+    def assign_dynamic_caz_list_variables
+      @selected_zones_ids = VehiclesManagement::DynamicCazes::SelectedCazes.call(
+        session: session, user: current_user
+      )
+
+      @selected_zones = @selected_zones_ids.index_with do |zone_id|
+        @zones.find { |zone| zone.id == zone_id }
+      end
     end
 
     # Renders :index with assigned zones and errors
