@@ -10,9 +10,7 @@ describe VehiclesManagement::DynamicCazes::SelectedCazes do
   let(:selected_zones_in_sesssion) { session[:selected_zones_ids] }
   let(:user) { create_user }
 
-  before do
-    mock_user_details
-  end
+  before { mock_user_details }
 
   context 'when :selected_zones_ids is present in session' do
     let(:session) { { selected_zones_ids: [SecureRandom.uuid] } }
