@@ -56,6 +56,7 @@ module VehiclesManagement
         return redirect_to vrn_not_found_fleets_path(vrn: form.vrn, per_page: per_page)
       end
 
+      assign_payment_enabled
       render_fleets_page(form)
     end
 
