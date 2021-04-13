@@ -109,3 +109,22 @@ Feature: Fleets
     Then I should see 'Live' 4 times
     Then I should see 'Future' 3 times
     Then I should see 'FutureCaz'
+
+  Scenario: There is more than 3 active Cazes
+    When I have vehicles in my fleet and more than 3 CAZes are available
+      And I visit the manage vehicles page
+    Then I should see 'Add another zone'
+      And I should not see 'X' link
+    When I press 'Add another zone' link
+    Then I should see 'Add another zone'
+      And I should see 'X' link 1 times
+    When I press 'Add another zone' link
+    Then I should not see 'Add another zone'
+      And I should see 'X' link 2 times
+    When I press 'X' link
+    Then I should see 'Add another zone'
+      And I should see 'X' link 1 times
+    When I press 'X' link
+    Then I should see 'Add another zone'
+      And I should not see 'X' link
+      And I should not see 'Select zone...' link
