@@ -91,6 +91,19 @@ When('I have vehicles in my fleet') do
   mock_payment_history
 end
 
+When('I have vehicles in my fleet and more than 3 CAZes are available') do
+  mock_actual_account_name
+  mock_users
+  mock_more_than_3_clean_air_zones
+  mock_user_details
+  mock_vehicles_in_fleet
+  mock_chargeable_vehicles
+  mock_direct_debit_enabled
+  mock_debits
+  mock_caz_mandates
+  mock_payment_history
+end
+
 When('I have vehicles in my fleet and only one CAZ is available') do
   mock_actual_account_name
   mock_users
@@ -187,6 +200,7 @@ Then('I should not have deleted the vehicle') do
 end
 
 When('Fleet backend API is unavailable') do
+  mock_clean_air_zones
   mock_unavailable_fleet
 end
 
@@ -215,6 +229,5 @@ end
 
 def mock_fleets_api
   mock_actual_account_name
-  mock_clean_air_zones
   mock_payment_history
 end
