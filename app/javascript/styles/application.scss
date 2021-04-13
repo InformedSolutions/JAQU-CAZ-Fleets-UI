@@ -29,9 +29,13 @@ html {
   margin-bottom: 10px;
 }
 
-.vehicle-management-column {
+.vehicle-management-column-static {
   white-space: nowrap;
   width: 22.5%;
+}
+
+.vehicle-management-column-dynamic {
+  white-space: nowrap;
 }
 
 @media (max-width: 40.0525em) {
