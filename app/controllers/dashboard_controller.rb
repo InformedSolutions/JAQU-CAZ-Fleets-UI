@@ -105,6 +105,7 @@ class DashboardController < ApplicationController
   # clear manage vehicles inputs
   def clear_manage_vehicles_history
     session[:choose_method] = nil
+    session[:selected_zones_ids] = nil
   end
 
   # clear manage users inputs

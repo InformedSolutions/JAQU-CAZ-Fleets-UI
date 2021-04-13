@@ -24,6 +24,16 @@ module MockedResponses
     allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(api_response)
   end
 
+  def mock_less_than_3_clean_air_zones
+    api_response = read_response('caz_list_active.json')['cleanAirZones']
+    allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(api_response)
+  end
+
+  def mock_more_than_3_clean_air_zones
+    api_response = read_response('caz_list_more_than_3.json')['cleanAirZones']
+    allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(api_response)
+  end
+
   def mock_direct_debit_enabled
     allow(Rails.application.config.x).to receive(:method_missing).and_return('test')
     allow(Rails.application.config.x).to(

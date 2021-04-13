@@ -21,7 +21,7 @@ describe 'AccountsApi::Users.user - GET' do
     end
 
     it 'returns a proper fields' do
-      expect(subject.keys).to contain_exactly('name', 'email', 'owner', 'permissions')
+      expect(subject.keys).to contain_exactly('name', 'email', 'owner', 'permissions', 'uiSelectedCaz')
     end
 
     context 'when the response status is 404' do
