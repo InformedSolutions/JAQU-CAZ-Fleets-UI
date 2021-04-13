@@ -81,6 +81,7 @@ end
 When('I have vehicles in my fleet') do
   mock_actual_account_name
   mock_users
+  mock_user_details
   mock_clean_air_zones
   mock_vehicles_in_fleet
   mock_chargeable_vehicles

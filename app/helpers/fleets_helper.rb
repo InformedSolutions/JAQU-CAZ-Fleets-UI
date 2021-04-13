@@ -15,6 +15,24 @@ module FleetsHelper
     paginated_pages(current_page, total_pages)
   end
 
+  # returns select tag with selectable zones for Vehicle Management view
+  def manage_vehicle_caz_select_tag(zones, selected_zones_ids, zone_id)
+    selectable_zones = load_selectable_zones(zones, selected_zones_ids, zone_id)
+    select_tag(
+      'selected_id',
+      options_for_select(selectable_zones.map { |m| ["#{m.name} #{m.live? ? '(Live)' : '(Future)'}", m.id] }, zone_id),
+      prompt: selectable_zones.map(&:id).include?(zone_id) ? false : 'Select zone...',
+      class: 'govuk-select',
+      onchange: 'this.form.submit()'
+    )
+  end
+
+  # loads selectable zones from the list
+  def load_selectable_zones(zones, selected_zones_ids, zone_id)
+    zones.reject { |z| selected_zones_ids.include?(z.id) && z.id != zone_id }
+         .sort_by(&:name)
+  end
+
   private
 
   # Return first pages for fleet pagination
