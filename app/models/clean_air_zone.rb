@@ -93,6 +93,14 @@ class CleanAirZone
     checked_zones.include?(id)
   end
 
+  # returns simple hash with CAZ details
+  def to_h
+    {
+      'id' => id,
+      'name' => name
+    }
+  end
+
   # Fetches all available CAZs from ComplianceCheckerApi.clean_air_zones endpoint
   def self.all
     log_action('Getting all clean air zones')

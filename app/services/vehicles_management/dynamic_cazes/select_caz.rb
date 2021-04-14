@@ -15,26 +15,27 @@ module VehiclesManagement
       # ==== Attributes
       # * +session+ - the user's session
       # * +user+ - the logged in user
-      # * +current_id+ - id of CAZ which should be changed
-      # * +new_id+ - id of CAZ which should selected
+      # * +key+ - uuid key CAZ select box
+      # * +zone_id+ - uuid of selected CAZ
       #
-      def initialize(session:, user:, current_id:, new_id:)
+      def initialize(session:, user:, key:, zone_id:)
         @session = session
         @user = user
-        @current_id = current_id
-        @new_id = new_id
+        @key = key
+        @zone_id = zone_id
       end
 
-      # It removes UUID from the selected caz ids session.
+      # It updates the selected zone for select box
       def call
-        return if @current_id.blank? || @new_id.blank?
+        return if @key.blank? || @zone_id.blank?
 
-        index_of_current_zone = session[:selected_zones_ids].index(@current_id)
-        session[:selected_zones_ids][index_of_current_zone] = @new_id
+        session[:fleet_dynamic_zones][@key] = selected_zone
+        update_user_ui_selected_caz(session[:fleet_dynamic_zones])
+      end
 
-        zones = load_zones
-        ids_to_save_in_api = session[:selected_zones_ids].select { |z| zones.map(&:id).include?(z) }
-        update_user_ui_selected_caz(ids_to_save_in_api)
+      # load selected zone hash
+      def selected_zone
+        zones.find { |zone| zone.id == @zone_id }.to_h
       end
     end
   end

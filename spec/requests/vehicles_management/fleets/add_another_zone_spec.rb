@@ -21,6 +21,10 @@ describe 'VehiclesManagement::FleetsController - GET #add_another_zone', type: :
       it 'redirects to #remove' do
         expect(response).to redirect_to(fleets_path)
       end
+
+      it 'adds new empty select box for another caz to the session' do
+        expect(VehiclesManagement::DynamicCazes::AddAnotherCaz).to have_received(:call)
+      end
     end
   end
 

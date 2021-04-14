@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'VehiclesManagement::FleetsController - GET #remove_selected_zone', type: :request do
-  subject { get remove_selected_zone_fleets_path(id: SecureRandom.uuid) }
+  subject { get remove_selected_zone_fleets_path(key: SecureRandom.uuid) }
 
   context 'when correct permissions' do
     it 'redirects to the login page' do
@@ -20,6 +20,10 @@ describe 'VehiclesManagement::FleetsController - GET #remove_selected_zone', typ
 
       it 'redirects to #remove' do
         expect(response).to redirect_to(fleets_path)
+      end
+
+      it 'removes selected key from the session' do
+        expect(VehiclesManagement::DynamicCazes::RemoveSelectedCaz).to have_received(:call)
       end
     end
   end

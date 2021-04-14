@@ -7,16 +7,17 @@ describe VehiclesManagement::DynamicCazes::SelectedCazes do
     described_class.new(session: session, user: user).call
   end
 
-  let(:selected_zones_in_sesssion) { session[:selected_zones_ids] }
   let(:user) { create_user }
 
-  before { mock_user_details }
+  before { mock_clean_air_zones }
 
-  context 'when :selected_zones_ids is present in session' do
-    let(:session) { { selected_zones_ids: [SecureRandom.uuid] } }
+  context 'when :fleet_dynamic_zones is present in session' do
+    let(:session) { { fleet_dynamic_zones: { SecureRandom.uuid => {} } } }
+
+    before { mock_user_details }
 
     it 'returns array from session' do
-      expect(subject).to eq(session[:selected_zones_ids])
+      expect(subject).to eq(session[:fleet_dynamic_zones])
     end
 
     it 'does not call AccountsApi for the details' do
@@ -25,16 +26,43 @@ describe VehiclesManagement::DynamicCazes::SelectedCazes do
     end
   end
 
-  describe 'when current_id was not provided' do
+  context 'when :fleet_dynamic_zones is not present in session' do
     let(:session) { {} }
 
-    it 'returns array from AccountsApi' do
-      expect(subject).to eq(['5cd7441d-766f-48ff-b8ad-1809586fea37'])
+    context 'when user has already selected caz before' do
+      before { mock_user_details }
+
+      it 'returns one selected caz based on AccountsApi' do
+        expect(subject.count).to eq(1)
+      end
+
+      it 'returns loads selected cazes based on AccountsApi' do
+        expect(subject.first[1]).to eq(
+          { 'id' => '5cd7441d-766f-48ff-b8ad-1809586fea37', 'name' => 'Birmingham' }
+        )
+      end
+
+      it 'calls AccountsApi for the details' do
+        subject
+        expect(AccountsApi::Users).to have_received(:user)
+      end
     end
 
-    it 'calls AccountsApi for the details' do
-      subject
-      expect(AccountsApi::Users).to have_received(:user)
+    context 'when user has not selected caz before' do
+      before { mock_user_details_with_empty_selected_cases }
+
+      it 'returns one selected caz based on AccountsApi' do
+        expect(subject.count).to eq(1)
+      end
+
+      it 'returns loads selected cazes based on AccountsApi' do
+        expect(subject.first[1]).to be_blank
+      end
+
+      it 'calls AccountsApi for the details' do
+        subject
+        expect(AccountsApi::Users).to have_received(:user)
+      end
     end
   end
 end
