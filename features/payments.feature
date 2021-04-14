@@ -189,6 +189,18 @@ Feature: Fleets
       And I press 'Return to Your account' link
     Then I should be on the Dashboard page
 
+  Scenario: Making a payment when another user started payment process in the same caz
+    When I have vehicles in my fleet and only one CAZ is available
+      And Second user starts payment in the same CAZ
+    Then I visit the make payment page
+      And I select 'Birmingham'
+      And I press the Continue
+    Then I should be on the payment in progress page
+      And I should see 'Payment in progress'
+      And I should see 'Back'
+      And I should not see 'Pay for another Clean Air Zone'
+      And I should see 'Return to Your account'
+
   Scenario: Visiting the matrix as a beta tester when d-day start in the next month
     When I want to pay for CAZ which start charging in next the month
       And I visit the make payment page as a beta tester

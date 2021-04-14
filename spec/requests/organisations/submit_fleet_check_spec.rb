@@ -11,7 +11,7 @@ describe 'Organisations::OrganisationsController - POST #submit_how_many_vehicle
 
   context 'with valid params' do
     before do
-      allow(Organisations::ValidateFleetCheck).to receive(:call).and_return(@uuid)
+      allow(Organisations::ValidateFleetCheck).to receive(:call).and_return(SecureRandom.uuid)
       subject
     end
 

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'PaymentsController - GET #matrix', type: :request do
   subject { get matrix_payments_path, params: { page: page } }
 
-  let(:caz_id) { @uuid }
+  let(:caz_id) { mocked_uuid }
   let(:account_id) { SecureRandom.uuid }
   let(:user) { create_user(account_id: account_id) }
   let(:page) { 1 }
@@ -27,12 +27,6 @@ describe 'PaymentsController - GET #matrix', type: :request do
           expect(response).to have_http_status(:ok)
         end
 
-        it 'calls :pagination with right params' do
-          expect_any_instance_of(Payments::ChargeableVehicles).to receive(:pagination)
-            .with(page: 1, vrn: nil)
-          subject
-        end
-
         it 'assigns the @d_day_notice' do
           subject
           expect(assigns(:d_day_notice)).to eq(false)
@@ -44,15 +38,14 @@ describe 'PaymentsController - GET #matrix', type: :request do
           context 'with a valid search value' do
             let(:search) { 'ABC123' }
 
+            it 'returns a 200 OK status' do
+              subject
+              expect(response).to have_http_status(:ok)
+            end
+
             it 'assigns search value' do
               subject
               expect(assigns(:search)).to eq(search)
-            end
-
-            it 'calls :pagination with right params' do
-              expect_any_instance_of(Payments::ChargeableVehicles).to receive(:pagination)
-                .with(page: 1, vrn: search)
-              subject
             end
           end
 

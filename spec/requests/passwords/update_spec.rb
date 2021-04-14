@@ -30,12 +30,12 @@ describe 'PasswordsController - PATCH #update', type: :request do
       end
 
       it 'calls AccountsApi::Auth.set_password with right params' do
-        expect(AccountsApi::Auth).to receive(:update_password).with(
+        subject
+        expect(AccountsApi::Auth).to have_received(:update_password).with(
           user_id: user_id,
           old_password: old_password,
           new_password: password
         )
-        subject
       end
     end
 
@@ -112,10 +112,6 @@ describe 'PasswordsController - PATCH #update', type: :request do
 
       it 'renders the view' do
         expect(response).to render_template(:edit)
-      end
-
-      it 'does not call AccountsApi::Auth.set_password' do
-        expect(AccountsApi::Auth).not_to receive(:update_password)
       end
 
       it 'assigns correct error message' do

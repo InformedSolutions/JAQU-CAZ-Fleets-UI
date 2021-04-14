@@ -6,7 +6,7 @@ describe 'SessionsController - DELETE #destroy', type: :request do
   subject { delete destroy_user_session_url }
 
   let(:user) { create_owner }
-  let(:caz_id) { @uuid }
+  let(:caz_id) { SecureRandom.uuid }
 
   before { add_caz_lock_to_redis(user) }
 

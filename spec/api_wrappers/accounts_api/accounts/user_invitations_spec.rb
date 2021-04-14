@@ -12,7 +12,7 @@ describe 'AccountsApi::Accounts.user_invitations - POST' do
   end
 
   let(:account_id) { 'f1409c5e-3241-44b8-8224-8d40ee0fcac6' }
-  let(:user_id) { @uuid }
+  let(:user_id) { SecureRandom.uuid }
   let(:name) { 'John Doe' }
   let(:email) { 'john.doe@example.com' }
   let(:verification_url) { 'https://google.com' }

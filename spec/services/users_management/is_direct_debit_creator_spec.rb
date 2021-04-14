@@ -5,7 +5,7 @@ require 'rails_helper'
 describe UsersManagement::IsDirectDebitCreator do
   subject { described_class.call(account_id: account_id, account_user_id: account_user_id) }
 
-  let(:account_id) { @uuid }
+  let(:account_id) { SecureRandom.uuid }
   let(:existing_mandate_user_id) { '61c193b6-30b4-4fef-831f-7af7513e40e6' }
   let(:non_existing_mandate_user_id) { 'c72d54fd-e1f9-40d6-899d-d4dff4fc37bb' }
 

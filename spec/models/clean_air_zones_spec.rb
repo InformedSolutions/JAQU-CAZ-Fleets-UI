@@ -85,7 +85,7 @@ describe CleanAirZone, type: :model do
     end
 
     context 'when another caz was selected' do
-      let(:another_id) { @uuid }
+      let(:another_id) { SecureRandom.uuid }
 
       it 'returns false' do
         expect(subject.checked?([another_id])).to eq(false)
@@ -110,12 +110,13 @@ describe CleanAirZone, type: :model do
     end
   end
 
-  describe '.active' do
-    subject { described_class.active }
+  describe '.active_cazes' do
+    subject { described_class.active_cazes }
 
     before do
-      caz_list = read_response('caz_list_active.json')['cleanAirZones']
-      allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(caz_list)
+      caz_list ||= read_response('caz_list_active.json')['cleanAirZones']
+      stub = caz_list.map { |caz_data| described_class.new(caz_data) }.sort_by(&:name)
+      allow(described_class).to receive(:all).and_return(stub)
     end
 
     it 'returns an array of CleanAirZone instances' do

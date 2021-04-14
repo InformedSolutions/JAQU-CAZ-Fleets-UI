@@ -14,9 +14,9 @@ describe 'Organisations::OrganisationsController - POST #sign_in_details', type:
       password_confirmation: password
     }
   end
-  let(:user) { User.new(email: email, sub: @uuid) }
+  let(:user) { User.new(email: email, sub: SecureRandom.uuid) }
   let(:email) { 'email@example.com' }
-  let(:account_id) { @uuid }
+  let(:account_id) { SecureRandom.uuid }
   let(:password) { '8NAOTpMkx2%9' }
 
   context 'with company name in the session' do
@@ -32,14 +32,14 @@ describe 'Organisations::OrganisationsController - POST #sign_in_details', type:
       end
 
       it 'calls CreateAccountService with proper params' do
+        subject
         expect(Organisations::CreateUserAccount)
-          .to receive(:call)
+          .to have_received(:call)
           .with(
             organisations_params: strong_params(organization_params),
             account_id: account_id,
             verification_url: email_verification_organisations_url
           )
-        subject
       end
     end
 

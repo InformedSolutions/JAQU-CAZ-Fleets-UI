@@ -28,9 +28,7 @@ describe VehiclesManagement::ConfirmationForm, type: :model do
   context 'when confirmation is empty' do
     let(:confirmation) { '' }
 
-    before do
-      subject.valid?
-    end
+    before { subject.valid? }
 
     it { is_expected.not_to be_valid }
 

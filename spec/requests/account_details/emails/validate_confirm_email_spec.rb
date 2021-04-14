@@ -59,9 +59,9 @@ describe 'AccountsDetails::EmailsController - GET #validate_confirm_email', type
       allow(AccountsApi::Auth).to receive(:confirm_email).and_return(email)
       allow(AccountsApi::Auth).to receive(:sign_in).and_return(
         'email' => email,
-        'accountUserId' => @uuid,
-        'accountId' => @uuid,
-        'accountName' => 'Royal Mail',
+        'accountUserId' => SecureRandom.uuid,
+        'accountId' => SecureRandom.uuid,
+        'accountName' => "Royal Mail's",
         'owner' => true
       )
       subject

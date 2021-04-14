@@ -10,9 +10,9 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # load support folder
-Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
-RSpec.configure do |config| # rubocop:disable Metrics/BlockLength
+RSpec.configure do |config|
   # add helpers to request rspec classes
   [RequestSpecHelper,
    StringCountHelper,
@@ -27,20 +27,14 @@ RSpec.configure do |config| # rubocop:disable Metrics/BlockLength
     StrongParams,
     UsersFactory,
     ActiveSupport::Testing::TimeHelpers,
-    FixturesHelpers,
+    FixturesHelper,
     MockedResponses,
     UsersManagement::MockedResponses,
     AccountDetails::MockedResponses,
-    Payments::MockedResponses
+    Payments::MockedResponses,
+    PaymentHistory::MockedResponses
   ].each do |helper|
     config.include helper
-  end
-
-  config.before do
-    @vrn = 'ABC123'
-    @uuid = '5cd7441d-766f-48ff-b8ad-1809586fea37'
-    @remote_ip = '1.2.3.4'
-    allow_any_instance_of(ActionDispatch::Request).to receive(:remote_ip).and_return(@remote_ip)
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

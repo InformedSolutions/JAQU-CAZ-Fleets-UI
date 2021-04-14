@@ -6,7 +6,7 @@ describe 'Organisations::OrganisationsController - GET #sign_in_details', type: 
   subject { get sign_in_details_organisations_path }
 
   before do
-    add_to_session(new_account: { account_id: @uuid })
+    add_to_session(new_account: { account_id: SecureRandom.uuid })
     subject
   end
 

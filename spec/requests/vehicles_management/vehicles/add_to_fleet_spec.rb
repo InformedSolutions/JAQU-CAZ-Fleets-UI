@@ -14,22 +14,23 @@ describe 'VehiclesManagement::VehicleController - POST #add_to_fleet', type: :re
     end
 
     context 'when user is signed in' do
-      let(:account_id) { @uuid }
+      let(:account_id) { SecureRandom.uuid }
       let(:user) { manage_vehicles_user(account_id: account_id) }
       let(:vehicle_type) { 'Car' }
+      let(:vrn) { 'ABC123' }
 
       before { sign_in user }
 
       context 'without VRN previously added' do
         before do
           allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_return(true)
-          add_to_session(vrn: @vrn, vehicle_type: vehicle_type)
+          add_to_session(vrn: vrn, vehicle_type: vehicle_type)
           subject
         end
 
         it 'adds the vehicle to the fleet' do
           expect(FleetsApi).to have_received(:add_vehicle_to_fleet)
-            .with(vrn: @vrn, vehicle_type: vehicle_type, account_id: account_id)
+            .with(vrn: vrn, vehicle_type: vehicle_type, account_id: account_id)
         end
 
         it 'removes vrn from session' do
@@ -41,7 +42,7 @@ describe 'VehiclesManagement::VehicleController - POST #add_to_fleet', type: :re
         end
 
         it 'sets :success flash message' do
-          expect(flash[:success]).to eq("You have successfully added #{@vrn} to your vehicle list.")
+          expect(flash[:success]).to eq("You have successfully added #{vrn} to your vehicle list.")
         end
       end
 
@@ -52,8 +53,8 @@ describe 'VehiclesManagement::VehicleController - POST #add_to_fleet', type: :re
           allow(FleetsApi).to receive(:add_vehicle_to_fleet).and_raise(
             BaseApi::Error422Exception.new(422, '', message: message)
           )
-          add_to_session(vrn: @vrn, vehicle_type: vehicle_type)
-          user.add_vehicle(@vrn, vehicle_type)
+          add_to_session(vrn: vrn, vehicle_type: vehicle_type)
+          user.add_vehicle(vrn, vehicle_type)
           subject
         end
 
@@ -70,7 +71,7 @@ describe 'VehiclesManagement::VehicleController - POST #add_to_fleet', type: :re
         end
 
         it 'sets :warning flash message' do
-          expect(flash[:warning]).to eq("#{@vrn} already exists in your vehicle list.")
+          expect(flash[:warning]).to eq("#{vrn} already exists in your vehicle list.")
         end
       end
     end

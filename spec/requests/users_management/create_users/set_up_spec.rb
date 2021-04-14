@@ -47,11 +47,6 @@ describe 'UsersManagement::CreateUsersController - GET #set_up', type: :request 
   context 'when company uuid is not provided' do
     let(:account) { nil }
 
-    it 'does not make an api call' do
-      expect(AccountsApi::Accounts).not_to receive(:account)
-      subject
-    end
-
     it 'shows correct error' do
       subject
       expect(flash[:errors]).to eq({ token: I18n.t('token_form.token_invalid') })

@@ -72,9 +72,11 @@ Feature: Dashboard
       And I should not see 'Make a payment' link
       And I should not see 'Your payment history' link
 
-  Scenario: View dashboard page before Bath D day as a beta tester
-    Given I navigate to a Dashboard page before Bath D day as a beta tester
+  Scenario: View dashboard page before Bath D day as a beta tester and Direct Debit is disabled
+    Given I navigate to a Dashboard page before Bath D day as a beta tester and Direct Debit is disabled
       And I should not see 'Payment features will be enabled on this account'
       And I should see 'Manage vehicles' link
       And I should see 'Make a payment' link
-      And I should see 'Your payment history' link
+      And I should see 'Payment history' link
+      And I should see 'Pay by bank account' link
+      And I should see 'View payments made by you and your team members.'
