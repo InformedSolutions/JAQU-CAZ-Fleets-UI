@@ -38,7 +38,6 @@ module VehiclesManagement
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || 10).to_i
       assign_index_variables(page, per_page)
-      assign_dynamic_caz_list_variables if @zones.count > 3
     rescue BaseApi::Error400Exception
       return redirect_to fleets_path unless page == 1
     end
@@ -295,8 +294,8 @@ module VehiclesManagement
       assign_payment_enabled
     end
 
-    # Assign variables related to selectable zones.
-    def assign_dynamic_caz_list_variables
+    # Load selected zones from session or AccountsApi
+    def load_selected_zones
       @selected_zones = VehiclesManagement::DynamicCazes::SelectedCazes.call(
         session: session, user: current_user
       )
@@ -319,6 +318,7 @@ module VehiclesManagement
         vrn: vrn
       )
       @zones = current_user.beta_tester ? CleanAirZone.all : CleanAirZone.visible_cazes
+      load_selected_zones if @zones.count > 3
     end
   end
 end
