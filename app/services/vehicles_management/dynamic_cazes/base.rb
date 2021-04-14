@@ -16,12 +16,14 @@ module VehiclesManagement
       attr_reader :session, :user
 
       # Loads accessible zones for selected users
-      def load_zones
-        user.beta_tester ? CleanAirZone.all : CleanAirZone.visible_cazes
+      def zones
+        @zones ||= user.beta_tester ? CleanAirZone.all : CleanAirZone.visible_cazes
       end
 
       # Updates user details in AccountsApi
-      def update_user_ui_selected_caz(ui_selected_caz)
+      def update_user_ui_selected_caz(fleet_dynamic_zones)
+        ui_selected_caz = fleet_dynamic_zones.map { |_k, zone| zone.try(:[], 'id') }.reject(&:blank?)
+
         AccountsApi::Users.update_user(
           account_id: user.account_id,
           account_user_id: user.user_id,

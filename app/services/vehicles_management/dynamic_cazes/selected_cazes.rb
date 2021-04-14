@@ -26,18 +26,32 @@ module VehiclesManagement
         load_or_initialize_selected_cazes
 
         # create new empty caz select box if empty.
-        session[:selected_zones_ids] << SecureRandom.uuid if session[:selected_zones_ids].empty?
-        session[:selected_zones_ids]
+        if session[:fleet_dynamic_zones].empty?
+          session[:fleet_dynamic_zones].merge!({ SecureRandom.uuid => nil })
+        end
+        session[:fleet_dynamic_zones]
       end
 
       private
 
       # Loads users selected CAZes from session or AccountsApi.
       def load_or_initialize_selected_cazes
-        session[:selected_zones_ids] ||= AccountsApi::Users.user(
+        session[:fleet_dynamic_zones] ||= load_selected_zones
+      end
+
+      # Loads selected zones from the Api
+      def user_selected_zones_ids
+        AccountsApi::Users.user(
           account_id: user.account_id,
           account_user_id: user.user_id
         )['uiSelectedCaz'].to_a
+      end
+
+      # Prepares hash with selected zones
+      def load_selected_zones
+        user_selected_zones_ids.map do |zone_id|
+          [SecureRandom.uuid, zones.find { |zone| zone.id == zone_id }.to_h]
+        end.to_h
       end
     end
   end
