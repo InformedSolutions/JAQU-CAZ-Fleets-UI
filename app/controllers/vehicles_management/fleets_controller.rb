@@ -67,12 +67,12 @@ module VehiclesManagement
     #
     # ==== Params
     #
-    # * +id+ - uuid of selected CAZ or of empty select box
+    # * +key+ - uuid key of CAZ select box
     #
     def remove_selected_zone
-      if params[:id].present?
+      if params[:key].present?
         VehiclesManagement::DynamicCazes::RemoveSelectedCaz.call(
-          session: session, user: current_user, id: params[:id]
+          session: session, user: current_user, key: params[:key]
         )
       end
 
@@ -89,14 +89,14 @@ module VehiclesManagement
     #
     # ==== Params
     #
-    # * +id+ - uuid of already CAZ or of empty select box
-    # * +selected_id+ - uuid of selected CAZ
+    # * +key+ - uuid key CAZ select box
+    # * +zone_id+ - uuid of selected CAZ
     #
     def select_zone
-      if params[:id].present? && params[:selected_id].present?
+      if params[:key].present? && params[:zone_id].present?
         VehiclesManagement::DynamicCazes::SelectCaz.call(
-          session: session, user: current_user, current_id: params[:id],
-          new_id: params[:selected_id]
+          session: session, user: current_user, key: params[:key],
+          zone_id: params[:zone_id]
         )
       end
       redirect_back(fallback_location: fleets_path)
@@ -297,13 +297,9 @@ module VehiclesManagement
 
     # Assign variables related to selectable zones.
     def assign_dynamic_caz_list_variables
-      @selected_zones_ids = VehiclesManagement::DynamicCazes::SelectedCazes.call(
+      @selected_zones = VehiclesManagement::DynamicCazes::SelectedCazes.call(
         session: session, user: current_user
       )
-
-      @selected_zones = @selected_zones_ids.index_with do |zone_id|
-        @zones.find { |zone| zone.id == zone_id }
-      end
     end
 
     # Renders :index with assigned zones and errors

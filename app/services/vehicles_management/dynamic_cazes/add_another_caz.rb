@@ -21,7 +21,7 @@ module VehiclesManagement
 
       # It adds new UUID to create empty select box for another caz.
       def call
-        session[:selected_zones_ids] << SecureRandom.uuid
+        session[:fleet_dynamic_zones].merge!({ SecureRandom.uuid => nil })
       end
     end
   end

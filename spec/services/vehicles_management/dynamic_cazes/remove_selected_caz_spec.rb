@@ -3,12 +3,18 @@
 require 'rails_helper'
 
 describe VehiclesManagement::DynamicCazes::RemoveSelectedCaz do
-  subject { described_class.new(session: session, user: user, id: selected_zone_id).call }
+  subject { described_class.new(session: session, user: user, key: key).call }
 
-  let(:selected_zones_in_sesssion) { session[:selected_zones_ids] }
-  let(:existing_zone_id) { SecureRandom.uuid }
-  let(:selected_zone_id) { existing_zone_id }
-  let(:session) { { selected_zones_ids: [existing_zone_id, SecureRandom.uuid] } }
+  let(:bath_key) { SecureRandom.uuid }
+  let(:empty_key) { SecureRandom.uuid }
+  let(:session) { { fleet_dynamic_zones: fleet_dynamic_zones } }
+  let(:fleet_dynamic_zones) do
+    {
+      empty_key => {},
+      bath_key => { 'id' => '44590023-9b0f-450e-8a6a-feed267fea23', 'name' => 'Bath' },
+      SecureRandom.uuid => {}
+    }
+  end
   let(:user) { create_user }
 
   before do
@@ -17,16 +23,16 @@ describe VehiclesManagement::DynamicCazes::RemoveSelectedCaz do
     subject
   end
 
-  describe 'when id was already in selected_zones_ids list' do
-    context 'with id from existisng CAZ' do
-      let(:existing_zone_id) { '5cd7441d-766f-48ff-b8ad-1809586fea37' } # Birmingham
+  describe 'when key was already in fleet_dynamic_zones list' do
+    context 'with assigned zone' do
+      let(:key) { bath_key }
 
       it 'removes it from the session' do
-        expect(session[:selected_zones_ids].count).to eq(1)
+        expect(session[:fleet_dynamic_zones].count).to eq(2)
       end
 
       it 'removes exact id from the session' do
-        expect(session[:selected_zones_ids]).not_to include(selected_zone_id)
+        expect(session[:fleet_dynamic_zones].keys).not_to include(key)
       end
 
       it 'updates user through API' do
@@ -34,13 +40,15 @@ describe VehiclesManagement::DynamicCazes::RemoveSelectedCaz do
       end
     end
 
-    context 'with id with' do
+    context 'without assigned zone' do
+      let(:key) { empty_key }
+
       it 'removes it from the session' do
-        expect(session[:selected_zones_ids].count).to eq(1)
+        expect(session[:fleet_dynamic_zones].count).to eq(2)
       end
 
       it 'removes exact id from the session' do
-        expect(session[:selected_zones_ids]).not_to include(selected_zone_id)
+        expect(session[:fleet_dynamic_zones]).not_to include(empty_key)
       end
 
       it 'does not update user through API' do
@@ -49,11 +57,11 @@ describe VehiclesManagement::DynamicCazes::RemoveSelectedCaz do
     end
   end
 
-  describe 'when id was not present in selected_zones_ids list' do
-    let(:selected_zone_id) { SecureRandom.uuid }
+  describe 'when id was not present in fleet_dynamic_zones list' do
+    let(:key) { SecureRandom.uuid }
 
     it 'does not remove any id from the session' do
-      expect(session[:selected_zones_ids].count).to eq(2)
+      expect(session[:fleet_dynamic_zones].count).to eq(3)
     end
 
     it 'does not update user through API' do
@@ -61,11 +69,11 @@ describe VehiclesManagement::DynamicCazes::RemoveSelectedCaz do
     end
   end
 
-  describe 'when id was not provided' do
-    let(:selected_zone_id) { nil }
+  describe 'when key was not provided' do
+    let(:key) { nil }
 
     it 'does not remove any id from the session' do
-      expect(session[:selected_zones_ids].count).to eq(2)
+      expect(session[:fleet_dynamic_zones].count).to eq(3)
     end
 
     it 'does not update user through API' do
