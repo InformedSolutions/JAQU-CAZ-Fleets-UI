@@ -33,7 +33,7 @@ describe 'VehiclesManagement::FleetsController - GET #index', type: :request do
         subject
       end
 
-      it 'does not update user through API' do
+      it 'does loads selecetd cazes from the api' do
         expect(VehiclesManagement::DynamicCazes::SelectedCazes).to have_received(:call)
       end
     end
@@ -46,7 +46,7 @@ describe 'VehiclesManagement::FleetsController - GET #index', type: :request do
         subject
       end
 
-      it 'does not update user through API' do
+      it 'does not load selected cazes from the api' do
         expect(VehiclesManagement::DynamicCazes::SelectedCazes).not_to have_received(:call)
       end
     end

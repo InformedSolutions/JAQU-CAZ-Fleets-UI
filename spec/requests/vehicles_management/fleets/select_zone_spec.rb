@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'VehiclesManagement::FleetsController - POST #select_zone', type: :request do
-  subject { post select_zone_fleets_path(id: SecureRandom.uuid, selected_id: SecureRandom.uuid) }
+  subject { post select_zone_fleets_path(key: SecureRandom.uuid, zone_id: SecureRandom.uuid) }
 
   context 'when correct permissions' do
     it 'redirects to the login page' do
@@ -20,6 +20,10 @@ describe 'VehiclesManagement::FleetsController - POST #select_zone', type: :requ
 
       it 'redirects to #remove' do
         expect(response).to redirect_to(fleets_path)
+      end
+
+      it 'changes seleced zone in the session' do
+        expect(VehiclesManagement::DynamicCazes::SelectCaz).to have_received(:call)
       end
     end
   end

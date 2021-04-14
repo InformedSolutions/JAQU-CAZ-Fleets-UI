@@ -15,31 +15,22 @@ module VehiclesManagement
       # ==== Attributes
       # * +session+ - the user's session
       # * +user+ - the logged in user
-      # * +id+ - the id of CAZ to be removed
+      # * +key+ - the key of CAZ in hash to be removed
       #
-      def initialize(session:, user:, id:)
+      def initialize(session:, user:, key:)
         @session = session
         @user = user
-        @id = id
+        @key = key
       end
 
       # It removes UUID from the selected caz ids session.
       def call
-        return if @id.blank? || session[:selected_zones_ids].exclude?(@id)
+        return if @key.blank? || session[:fleet_dynamic_zones].keys.exclude?(@key)
 
-        session[:selected_zones_ids].delete(@id)
-        update_user_details
-      end
+        removed_zone_id = session.dig(:fleet_dynamic_zones, @key, 'id')
+        session[:fleet_dynamic_zones].except!(@key)
 
-      private
-
-      # update user details if needed.
-      def update_user_details
-        zones = load_zones
-        return unless zones.map(&:id).include?(@id)
-
-        ids_to_save_in_api = session[:selected_zones_ids].select { |z| zones.map(&:id).include?(z) }
-        update_user_ui_selected_caz(ids_to_save_in_api)
+        update_user_ui_selected_caz(session[:fleet_dynamic_zones]) if removed_zone_id.present?
       end
     end
   end
