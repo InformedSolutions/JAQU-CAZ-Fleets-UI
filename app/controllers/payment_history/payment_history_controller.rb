@@ -9,7 +9,9 @@ module PaymentHistory
   class PaymentHistoryController < ApplicationController
     include CheckPermissions
 
-    before_action -> { check_permissions(allow_view_details_history?) }, only: :payment_history_details
+    before_action lambda {
+                    check_permissions(allow_view_details_history?)
+                  }, only: %i[payment_history_details initiate_payment_history_download]
 
     ##
     # Renders the payment history page
@@ -37,6 +39,22 @@ module PaymentHistory
       @payments = @details.payments
       @payment_modifications = @details.payment_modifications
       @back_button_url = determinate_back_link
+    end
+
+    ##
+    # Performs an API call to initiate the payment history download process.
+    #
+    # ==== Path
+    #
+    #    :GET /initiate_payment_history_download
+    #
+    def initiate_payment_history_download
+      PaymentHistory::InitiatePaymentHistoryExport.call(
+        user: current_user,
+        filtered_export: !allow_view_payment_history?
+      )
+
+      redirect_to payment_history_downloading_path
     end
 
     ##

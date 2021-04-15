@@ -4,9 +4,10 @@ Feature: Payment History Download
   I want to download payment history
 
   Scenario: User downloads payments history
-    # TODO: Initiation of download should be added here
-    Given I start download payments history process
-      And I should see 'Downloading your payment history'
+    Given I visit payment history page to download CSV
+    Then I should see 'Download payment history (CSV)' link
+    When I press 'Download payment history (CSV)' link
+    Then I should see 'Downloading your payment history'
       And I should see 'Return to payment history' link
     Then I press 'Return to payment history' link
       And I should be on the the Company payment history page

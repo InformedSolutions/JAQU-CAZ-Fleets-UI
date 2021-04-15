@@ -43,17 +43,20 @@
                   = link_to payment_history_details_path(payment_id: payment.payment_id), class: 'govuk-link', id: "payment-#{index}" do
                     View details
 
-        - if @pagination.total_payments_count > 10
-          = render 'payment_history/payment_history/pagination'
+        = render 'payment_history/payment_history/pagination' if @pagination.total_payments_count > 10
 
-          = form_tag(payment_history_path, method: :get) do
-            .govuk-form-group
-              %fieldset.govuk-fieldset{'aria-describedby': 'per_page'}
-                %legend.govuk-visually-hidden Hide vehicles that are not charge in any Zone
-                .govuk-checkboxes
-                  .govuk-checkboxes__item
-                    = select_tag('per_page',
-                                 options_for_select(@pagination.results_per_page, params[:per_page]),
-                                 class: 'govuk-select moj-pagination__results results-per-page-select',
-                                 onchange: 'this.form.submit()')
-                    = label_tag('per_page', 'Results per page', class: 'govuk-label moj-pagination__results results-per-page-select')
+        = form_tag(payment_history_path, method: :get) do
+          .govuk-form-group
+            %fieldset.govuk-fieldset{'aria-describedby': 'per_page'}
+              = link_to('Download payment history (CSV)',
+                        initiate_payment_history_download_path,
+                        class: 'govuk-button govuk-button--secondary',
+                        id:'download-payment-history',
+                        'data-module': 'govuk-button')
+
+              - if @pagination.total_payments_count > 10
+                = select_tag('per_page',
+                              options_for_select(@pagination.results_per_page, params[:per_page]),
+                              class: 'govuk-select moj-pagination__results results-per-page-select',
+                              onchange: 'this.form.submit()')
+                = label_tag('per_page', 'Results per page', class: 'govuk-label moj-pagination__results results-per-page-select')
