@@ -39,6 +39,17 @@ module PaymentHistory
       @back_button_url = determinate_back_link
     end
 
+    ##
+    # Renders the information about starting download of payments history.
+    #
+    # ==== Path
+    #
+    #    :GET /payment_history_downloading
+    #
+    def payment_history_downloading
+      # renders static page
+    end
+
     private
 
     # Checks permissions and assigns paginated payment history
