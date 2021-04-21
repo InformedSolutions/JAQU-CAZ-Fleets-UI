@@ -19,12 +19,13 @@ Given('I want visit the Payments details page from Company payments history page
   visit payment_history_path
 end
 
-Given('I start download payments history process') do
+Given('I visit payment history page to download CSV') do
   mock_api_on_payment_history
   mock_clean_air_zones
   mock_debits
+  mock_payment_history_download_initialization
   login_user(permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
-  visit payment_history_downloading_path
+  visit payment_history_path
 end
 
 Then('I should be on the the Company payment history page') do
