@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe 'PaymentHistoryApi.payment_history_export' do
+describe 'AccountsApi::PaymentHistory.payment_history_export' do
   subject do
-    PaymentHistoryApi.payment_history_export(account_id: account_id, recipient_id: recipient_id,
-                                             filtered_user_id: filtered_user_id)
+    AccountsApi::PaymentHistory.payment_history_export(account_id: account_id, recipient_id: recipient_id,
+                                                       filtered_user_id: filtered_user_id)
   end
 
   let(:account_id) { SecureRandom.uuid }

@@ -44,7 +44,7 @@ module PaymentHistory
     # Performs an API call to initiate payment history download for selected user
     # from an organisation.
     def initiate_export_for_filtered_users
-      PaymentHistoryApi.payment_history_export(
+      AccountsApi::PaymentHistory.payment_history_export(
         account_id: account_id,
         recipient_id: recipient_id,
         filtered_user_id: recipient_id
@@ -54,7 +54,7 @@ module PaymentHistory
     # Performs an API call to initiate payment history download for all users
     # from an organisation.
     def initiate_export_for_all_users
-      PaymentHistoryApi.payment_history_export(
+      AccountsApi::PaymentHistory.payment_history_export(
         account_id: account_id,
         recipient_id: recipient_id
       )
