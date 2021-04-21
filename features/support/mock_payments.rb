@@ -20,7 +20,7 @@ module MockPayments
   end
 
   def mock_payment_history_download_initialization
-    allow(PaymentHistoryApi).to receive(:payment_history_export).and_return({})
+    allow(AccountsApi::PaymentHistory).to receive(:payment_history_export).and_return({})
   end
 end
 

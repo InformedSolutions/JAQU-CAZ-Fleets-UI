@@ -8,7 +8,7 @@ RSpec.describe PaymentHistory::InitiatePaymentHistoryExport do
   let(:user) { create_user }
 
   before do
-    allow(PaymentHistoryApi).to receive(:payment_history_export)
+    allow(AccountsApi::PaymentHistory).to receive(:payment_history_export)
     subject
   end
 
@@ -16,7 +16,7 @@ RSpec.describe PaymentHistory::InitiatePaymentHistoryExport do
     let(:filtered_export) { true }
 
     it 'calls initiate_export_for_filtered_users' do
-      expect(PaymentHistoryApi).to have_received(:payment_history_export)
+      expect(AccountsApi::PaymentHistory).to have_received(:payment_history_export)
         .with(account_id: user.account_id, recipient_id: user.user_id,
               filtered_user_id: user.user_id)
     end
@@ -26,7 +26,7 @@ RSpec.describe PaymentHistory::InitiatePaymentHistoryExport do
     let(:filtered_export) { false }
 
     it 'calls initiate_export_for_all_users' do
-      expect(PaymentHistoryApi).to have_received(:payment_history_export)
+      expect(AccountsApi::PaymentHistory).to have_received(:payment_history_export)
         .with(account_id: user.account_id, recipient_id: user.user_id)
     end
   end
