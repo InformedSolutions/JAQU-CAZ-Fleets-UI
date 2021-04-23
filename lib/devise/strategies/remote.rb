@@ -42,7 +42,7 @@ module Devise
         false
       end
 
-      # Validate params and authenticate an user
+      # Validate params and authenticate a user
       def authenticate_user(resource, auth_params)
         # Validate is a method defined in Devise::Strategies::Authenticatable. It takes
         # a block which must return a boolean value.
