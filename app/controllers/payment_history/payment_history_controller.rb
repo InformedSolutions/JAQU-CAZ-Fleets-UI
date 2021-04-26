@@ -10,8 +10,9 @@ module PaymentHistory
     include CheckPermissions
 
     before_action lambda {
-                    check_permissions(allow_view_details_history?)
-                  }, only: %i[payment_history_details initiate_payment_history_download]
+      check_permissions(allow_view_details_history?)
+    }, only: %i[payment_history_details initiate_payment_history_download payment_history_downloading
+                payment_history_download]
 
     ##
     # Renders the payment history page
@@ -66,6 +67,18 @@ module PaymentHistory
     #
     def payment_history_downloading
       # renders static page
+    end
+
+    ##
+    # Renders the page to allow a user to download a payments history file.
+    #
+    # ==== Path
+    #
+    #    :GET /payment_history_download
+    #
+    def payment_history_download
+      @file_url = session[:payment_history_file_url]
+      @file_name = PaymentHistory::ParseFileName.call(file_url: @file_url)
     end
 
     private

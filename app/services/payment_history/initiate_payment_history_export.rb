@@ -5,7 +5,7 @@
 module PaymentHistory
   ##
   # Class responsible for performing an API call to initiate payment history download
-  # process based on the probided parameters
+  # process based on the provided parameters
   class InitiatePaymentHistoryExport < BaseService
     ##
     # Initializer method
@@ -22,9 +22,9 @@ module PaymentHistory
 
     # Performs an API call with proper parameters
     def call
-      return initiate_export_for_filtered_users if filtered_export
+      return filtered_users if filtered_export
 
-      initiate_export_for_all_users
+      all_users
     end
 
     private
@@ -43,7 +43,7 @@ module PaymentHistory
 
     # Performs an API call to initiate payment history download for selected user
     # from an organisation.
-    def initiate_export_for_filtered_users
+    def filtered_users
       AccountsApi::PaymentHistory.payment_history_export(
         account_id: account_id,
         recipient_id: recipient_id,
@@ -53,7 +53,7 @@ module PaymentHistory
 
     # Performs an API call to initiate payment history download for all users
     # from an organisation.
-    def initiate_export_for_all_users
+    def all_users
       AccountsApi::PaymentHistory.payment_history_export(
         account_id: account_id,
         recipient_id: recipient_id

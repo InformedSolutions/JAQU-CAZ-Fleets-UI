@@ -202,6 +202,7 @@ Rails.application.routes.draw do
     get :payment_history_details
     get :initiate_payment_history_download
     get :payment_history_downloading
+    get :payment_history_download
   end
 
   scope controller: 'static_pages' do
