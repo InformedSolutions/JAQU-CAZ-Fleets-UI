@@ -12,7 +12,7 @@ module PaymentHistory
     before_action lambda {
       check_permissions(allow_view_details_history?)
     }, only: %i[payment_history_details initiate_payment_history_download payment_history_downloading
-                payment_history_download ]
+                payment_history_download]
 
     ##
     # Renders the payment history page
