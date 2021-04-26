@@ -12,7 +12,8 @@ module PaymentHistory
     before_action lambda {
       check_permissions(allow_view_details_history?)
     }, only: %i[payment_history_details initiate_payment_history_download payment_history_downloading
-                payment_history_download]
+                payment_history_download payment_history_link_expired
+                handle_payment_history_download_attempt]
 
     ##
     # Renders the payment history page
@@ -81,6 +82,35 @@ module PaymentHistory
       @file_name = PaymentHistory::ParseFileName.call(file_url: @file_url)
     end
 
+    ##
+    # Renders the page informing about expired URL.
+    #
+    # ==== Path
+    #
+    #   :GET /payment_history_link_expired
+    #
+    def payment_history_link_expired
+      # renders a static page
+    end
+
+    # Performs an API call to check the validity of the download URL and redirects accordingly.
+    #
+    # ==== Path
+    #
+    #   :GET /payment-history-export?exportId=87252eee-e861-4619-891e-30045908286c
+    #
+    def handle_payment_history_download_attempt
+      service = PaymentHistory::ExportStatus.new(account_id: current_user.account_id,
+                                                 job_id: export_id)
+
+      if service.link_active_for?(current_user)
+        session[:payment_history_file_url] = service.file_url
+        redirect_to payment_history_download_path
+      else
+        redirect_to payment_history_link_expired_path
+      end
+    end
+
     private
 
     # Checks permissions and assigns paginated payment history
@@ -115,6 +145,11 @@ module PaymentHistory
     # payment_id from params
     def payment_id
       params['payment_id']
+    end
+
+    # export_id from params
+    def export_id
+      params['exportId']
     end
 
     # Returns back link url, e.g '.../company_payment_history?page=3?back=true'

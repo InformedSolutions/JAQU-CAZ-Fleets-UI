@@ -1,0 +1,12 @@
+- title_and_header = 'Payment history link has expired'
+- content_for(:title, title_and_header)
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-full
+      %h1.govuk-heading-l
+        = title_and_header
+
+      %p The link you used has expired as it was only available for 7 days.
+
+      %p Go to payment history and get a new link using the download payment history button.
