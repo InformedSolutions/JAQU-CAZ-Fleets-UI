@@ -31,7 +31,7 @@ module AccountsApi
       def payment_history_export(account_id:, recipient_id:, filtered_user_id: nil)
         log_action('Initiating payment history download')
         body = { recipientAccountUserId: recipient_id }
-        body.merge!(filteredPaymentsForAccountsUserId: filtered_user_id) if filtered_user_id
+        body.merge!(filteredPaymentsForAccountUserId: filtered_user_id) if filtered_user_id
 
         request(:post, "/accounts/#{account_id}/payment-history-export", body: body.to_json)
       end
