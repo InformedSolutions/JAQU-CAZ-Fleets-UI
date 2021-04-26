@@ -28,6 +28,44 @@ Given('I visit payment history page to download CSV') do
   visit payment_history_path
 end
 
+Given('I am attempting to download payment history from a valid link') do
+  travel_to(Time.parse('2021-04-23T085031Z').utc)
+  mock_clean_air_zones
+  mock_api_on_payment_history
+  mock_debits
+  mock_payment_history_export_status
+  login_user(user_id: '8734fdc7-2e37-4053-830a-033eae54f735', permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
+  visit payment_history_export_path('exportId' => SecureRandom.uuid)
+end
+
+Given('I am attempting to download payment history from an expired link') do
+  travel_to(Time.parse('2021-04-24T085031Z').utc)
+  mock_clean_air_zones
+  mock_api_on_payment_history
+  mock_debits
+  mock_payment_history_export_status
+  login_user(user_id: '8734fdc7-2e37-4053-830a-033eae54f735', permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
+  visit payment_history_export_path('exportId' => SecureRandom.uuid)
+end
+
+Given('I am attempting to download payment history from other user link') do
+  travel_to(Time.parse('2021-04-23T085031Z').utc)
+  mock_clean_air_zones
+  mock_api_on_payment_history
+  mock_debits
+  mock_payment_history_export_status
+  login_user(permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
+  visit payment_history_export_path('exportId' => SecureRandom.uuid)
+end
+
+Then('I am redirected do download payment history page') do
+  expect_path(payment_history_download_path)
+end
+
+Then('I am redirected to link expired page') do
+  expect_path(payment_history_link_expired_path)
+end
+
 Then('I should be on the the Company payment history page') do
   expect_path(payment_history_path)
 end
