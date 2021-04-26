@@ -35,6 +35,31 @@ module AccountsApi
 
         request(:post, "/accounts/#{account_id}/payment-history-export", body: body.to_json)
       end
+
+      ##
+      # Calls +/v1/accounts/:accountId/payment-history-export/{jobId} endpoint with +GET+ method.
+      #
+      # ==== Attributes
+      #
+      # * +account_id+ - uuid, id of the account
+      # * +job_id+ - uuid, id of the CSV processing job
+      #
+      # ==== Result
+      #
+      # Returned vehicles details will have the following fields:
+      # * +recipientAccountUserId+ - uuid, ID of the account user who initiated the download
+      # * +fileUrl+ - string, pre-signed S3 URL to a file
+      # * +status+ - string, status of the job
+      #
+      # ==== Exceptions
+      #
+      # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
+      # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+      #
+      def payment_history_export_status(account_id:, job_id:)
+        log_action('Getting the CSV processing job status')
+        request(:get, "/accounts/#{account_id}/payment-history-export/#{job_id}")
+      end
     end
   end
 end
