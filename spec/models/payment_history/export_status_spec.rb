@@ -13,12 +13,6 @@ describe PaymentHistory::ExportStatus, type: :model do
       .and_return(read_response('payment_history/export_status.json'))
   end
 
-  describe '.recipient_account_user_id' do
-    it 'returns user id' do
-      expect(subject.recipient_account_user_id).to eq('8734fdc7-2e37-4053-830a-033eae54f735')
-    end
-  end
-
   describe '.file_url' do
     it 'returns file url ' do
       expect(subject.file_url).to eq('https://example.com/payments.csv?X-Amz-Date=20210423T085031Z&X-Amz-Expires=3600')

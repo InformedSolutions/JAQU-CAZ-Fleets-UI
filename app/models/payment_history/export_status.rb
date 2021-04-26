@@ -19,11 +19,6 @@ module PaymentHistory
       @job_id = job_id
     end
 
-    # Returns a string with UUID
-    def recipient_account_user_id
-      api_data['recipientAccountUserId']
-    end
-
     # Returns a string with AWS signed URL
     def file_url
       api_data['fileUrl']
@@ -34,14 +29,19 @@ module PaymentHistory
       Time.current.utc < signed_url_data.expires_at && recipient?(user)
     end
 
+    private
+
+    attr_reader :account_id, :job_id
+
     # Checks if the provided {User}[rdoc-ref:User] object is the recipient of the email
     def recipient?(user)
       recipient_account_user_id == user.user_id
     end
 
-    private
-
-    attr_reader :account_id, :job_id
+    # Returns a string with UUID
+    def recipient_account_user_id
+      api_data['recipientAccountUserId']
+    end
 
     # Performs an API call to receive payment history export status data.
     def api_data
