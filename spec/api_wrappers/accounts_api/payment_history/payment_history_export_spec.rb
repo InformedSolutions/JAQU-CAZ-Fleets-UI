@@ -30,7 +30,7 @@ describe 'AccountsApi::PaymentHistory.payment_history_export' do
 
     context 'when filtered_user_id is present' do
       it 'includes filtered_user_id in params' do
-        body = { recipientAccountUserId: recipient_id, filteredPaymentsForAccountsUserId: filtered_user_id }
+        body = { recipientAccountUserId: recipient_id, filteredPaymentsForAccountUserId: filtered_user_id }
         subject
         expect(WebMock).to have_requested(:post, /#{url}/).with(body: body)
       end
