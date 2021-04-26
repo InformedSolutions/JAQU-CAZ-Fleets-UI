@@ -200,6 +200,11 @@ Rails.application.routes.draw do
   scope module: 'payment_history', path: '/', controller: 'payment_history' do
     get :payment_history
     get :payment_history_details
+    get :initiate_payment_history_download
+    get :payment_history_downloading
+    get :payment_history_download
+    get :payment_history_link_expired
+    get 'payment-history-export', to: 'payment_history#handle_payment_history_download_attempt'
   end
 
   scope controller: 'static_pages' do

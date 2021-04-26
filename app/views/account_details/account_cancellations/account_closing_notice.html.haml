@@ -23,9 +23,12 @@
 
       %p
         Before you go remember to:
-
       %p
         %ul.govuk-list.govuk-list--bullet
+          - if allow_view_payment_history?
+            %li
+              download
+              = link_to 'payment history', payment_history_path, id: 'payment-history'
           %li
             cancel any payment agreements with your bank that have been set up for Clean Air Zone charges
           %li
