@@ -12,4 +12,7 @@ describe 'PaymentHistory::PaymentHistoryController - GET #payment_history_downlo
 
     it_behaves_like 'a static page'
   end
+
+  it_behaves_like 'incorrect permissions'
+  it_behaves_like 'a login required'
 end
