@@ -23,13 +23,9 @@ describe PaymentHistory::ExportStatus, type: :model do
     context 'when link is active and user is recipient' do
       let(:user) { create_user(user_id: '8734fdc7-2e37-4053-830a-033eae54f735') }
 
-      before do
-        travel_to Time.parse('2021-04-23T085031').utc
-      end
+      before { travel_to Time.parse('2021-04-23T085031').utc }
 
-      after do
-        travel_back
-      end
+      after { travel_to Time.parse('2021-04-23T085031').utc }
 
       it 'returns true' do
         expect(subject.link_active_for?(user)).to eq(true)
@@ -39,13 +35,9 @@ describe PaymentHistory::ExportStatus, type: :model do
     context 'when link is active and user is not a recipient' do
       let(:user) { create_user }
 
-      before do
-        travel_to Time.parse('2021-04-23T085031').utc
-      end
+      before { travel_to Time.parse('2021-04-23T085031').utc }
 
-      after do
-        travel_back
-      end
+      after { travel_back }
 
       it 'returns false' do
         expect(subject.link_active_for?(user)).to eq(false)
@@ -55,13 +47,9 @@ describe PaymentHistory::ExportStatus, type: :model do
     context 'when link is expired and user is a recipient' do
       let(:user) { create_user(user_id: '8734fdc7-2e37-4053-830a-033eae54f735') }
 
-      before do
-        travel_to Time.parse('2021-04-24T085031').utc
-      end
+      before { travel_to Time.parse('2021-04-24T085031').utc }
 
-      after do
-        travel_back
-      end
+      after { travel_back }
 
       it 'returns false' do
         expect(subject.link_active_for?(user)).to eq(false)
