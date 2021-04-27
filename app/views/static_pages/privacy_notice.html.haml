@@ -155,7 +155,7 @@
 
       - @zones.each do |zone|
         %p
-          = link_to("#{zone.name} privacy policy", zone.privacy_policy_url, id: "#{zone.name.downcase}-policy-link")
+          = link_to("#{zone.operator_name} privacy policy", zone.privacy_policy_url, id: "#{zone.name.downcase}-policy-link")
 
       %h2.govuk-heading-l
         Customer Contact Centre
