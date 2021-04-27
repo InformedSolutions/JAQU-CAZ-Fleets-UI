@@ -22,6 +22,20 @@ Feature: Vehicles
       And I press the Continue
     Then I should see 'Enter the number plate of the vehicle' 3 times
 
+  Scenario: Adding invalid vrn with leading zeros
+    When I visit the enter details page
+      And I enter invalid vrn with leading zeros
+      And I press the Continue
+    Then I should see 'Enter the number plate of the vehicle in a valid format' 2 times
+      And I should see '00AB' as 'vrn' value
+
+  Scenario: Adding valid vrn with leading zeros
+    When I visit the enter details page
+      And I enter valid vrn with leading zeros
+      And I press the Continue
+    Then I should be on the details page
+      And I should see 'Number plate CU57ABC'
+
   Scenario: Adding the exempt vehicle
     When I visit the enter details page
       And I enter exempt vrn
