@@ -14,9 +14,7 @@ describe 'AccountsApi::PaymentHistory.payment_history_export' do
   let(:url) { /payment-history-export/ }
 
   context 'when the response status is 200' do
-    before do
-      stub_request(:post, /#{url}/).to_return(status: 200, body: {}.to_json)
-    end
+    before { stub_request(:post, /#{url}/).to_return(status: 200, body: {}.to_json) }
 
     context 'when filtered_user_id is missing' do
       let(:filtered_user_id) { nil }
