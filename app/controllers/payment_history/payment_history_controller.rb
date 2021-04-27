@@ -97,7 +97,7 @@ module PaymentHistory
     #
     # ==== Path
     #
-    #   :GET /payment-history-export?exportId=87252eee-e861-4619-891e-30045908286c
+    #   :GET /payment_history_export?exportId=87252eee-e861-4619-891e-30045908286c
     #
     def handle_payment_history_download_attempt
       service = PaymentHistory::ExportStatus.new(account_id: current_user.account_id,
