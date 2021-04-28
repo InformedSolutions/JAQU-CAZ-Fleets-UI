@@ -8,10 +8,10 @@ Rails.application.routes.draw do
   devise_scope(:user) { root to: 'sessions#new' }
 
   scope controller: 'logout' do
-    get 'sign_out', to: 'logout#sign_out_page'
-    post 'assign_logout_notice_back_url'
-    get 'logout_notice'
-    get 'timedout_user'
+    get :sign_out, to: 'logout#sign_out_page'
+    post :assign_logout_notice_back_url
+    get :logout_notice
+    get :timedout_user
   end
 
   resources :passwords, only: %i[index create] do
@@ -204,7 +204,7 @@ Rails.application.routes.draw do
     get :payment_history_downloading
     get :payment_history_download
     get :payment_history_link_expired
-    get 'payment_history_export', to: 'payment_history#handle_payment_history_download_attempt'
+    get :payment_history_export, to: 'payment_history#handle_payment_history_download_attempt'
   end
 
   scope controller: 'static_pages' do
