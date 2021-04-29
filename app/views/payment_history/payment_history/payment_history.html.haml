@@ -48,7 +48,7 @@
         = form_tag(payment_history_path, method: :get) do
           .govuk-form-group
             %fieldset.govuk-fieldset{'aria-describedby': 'per_page'}
-              = link_to('Download payment history (CSV)',
+              = link_to('Request a download link (CSV)',
                         initiate_payment_history_download_path,
                         class: 'govuk-button govuk-button--secondary',
                         id:'download-payment-history',
