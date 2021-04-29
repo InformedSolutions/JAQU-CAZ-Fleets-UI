@@ -6,7 +6,7 @@ Feature: Payment History Download
   Scenario: User downloads payments history
     Given I visit payment history page to download CSV
     When I press 'Request a download link (CSV)' link
-    Then I should see 'Downloading your payment history'
+    Then I should see 'Preparing your payment history'
       And I should see 'Return to payment history' link
     Then I press 'Return to payment history' link
       And I should be on the the Company payment history page
