@@ -16,8 +16,10 @@ Feature: Static Pages
 
   Scenario: User sees privacy notice page
     Given I am on the Sign in page
-    When I press footer link 'Privacy'
+    When I press footer link Privacy
     Then I should see 'Privacy Notice' title
+      And I should not see 'FutureCaz'
+      And I should see 'Birmingham City Council privacy policy'
 
   Scenario: User sees terms and conditions page
     Given I am on the Sign in page
@@ -30,4 +32,6 @@ Feature: Static Pages
       And I should see 'Help' 2 times
     When I press navbar link Help
     Then I should see 'Help' title
-
+      And I should not see 'FutureCaz'
+      And I should see 'Birmingham' 2 times
+      And I should see 'Available Now' link

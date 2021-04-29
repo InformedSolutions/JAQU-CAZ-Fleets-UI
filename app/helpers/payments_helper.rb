@@ -37,19 +37,19 @@ module PaymentsHelper
     vehicle.paid_dates.include?(date)
   end
 
-  # Loads selected vrns to pay
-  def vrn_to_pay(details)
-    @vrn_to_pay ||= details.reject { |_k, vrn| vrn.symbolize_keys![:dates].empty? }
+  # Loads selected vehicles to pay
+  def vehicles_to_pay(details)
+    @vehicles_to_pay ||= details.reject { |_k, vrn| vrn.symbolize_keys![:dates].empty? }.sort.to_h
   end
 
   # Calculates total amount to pay
   def total_to_pay(details)
-    vrn_to_pay(details).sum { |_k, vrn| vrn[:dates].length * vrn[:charge] }
+    vehicles_to_pay(details).sum { |_k, vrn| vrn[:dates].length * vrn[:charge] }
   end
 
   # Collects all dates to pay
   def days_to_pay(details)
-    vrn_to_pay(details).collect { |_k, vrn| vrn[:dates] }.flatten.count
+    vehicles_to_pay(details).collect { |_k, vrn| vrn[:dates] }.flatten.count
   end
 
   # Parses date to expected format (e.g. 'Tuesday 3 March 2020')
@@ -61,11 +61,6 @@ module PaymentsHelper
   # Parses charge for single vehicle number
   def single_vrn_parsed_charge(dates, charge)
     parse_charge(dates.length * charge)
-  end
-
-  # Reads file with additional URLs
-  def external_urls
-    YAML.load_file('additional_urls.yaml')
   end
 
   # Transforms a date into more user friendly string such as '25 March 2020'.

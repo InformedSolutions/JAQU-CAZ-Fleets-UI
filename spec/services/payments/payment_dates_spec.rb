@@ -3,15 +3,97 @@
 require 'rails_helper'
 
 describe Payments::PaymentDates do
-  subject(:service) { described_class.new(charge_start_date: charge_start_date) }
+  subject(:service) do
+    described_class.new(charge_start_date: charge_start_date, user_beta_tester: user_beta_tester)
+  end
 
   let(:charge_start_date) { Time.zone.today }
+  let(:user_beta_tester) { false }
 
   describe '.chargeable_dates' do
     subject { service.chargeable_dates }
 
-    context 'when charge_start_date was before 6 days ago' do
-      let(:charge_start_date) { 10.days.ago }
+    context 'when user is not beta tester' do
+      context 'when charge_start_date was before 6 days ago' do
+        let(:charge_start_date) { 10.days.ago }
+
+        it 'returns next and past dates' do
+          expect(subject.keys).to contain_exactly(:next, :past)
+        end
+
+        it 'returns 7 objects in :next block' do
+          expect(subject[:next].size).to eq(7)
+        end
+
+        it 'returns 6 objects in :past block' do
+          expect(subject[:past].size).to eq(6)
+        end
+
+        it 'returns a proper object' do
+          expect(subject[:next].first).to eq(
+            {
+              name: Date.current.strftime(described_class::DISPLAY_DATE_FORMAT),
+              value: Date.current.strftime(described_class::VALUE_DATE_FORMAT),
+              today: true
+            }
+          )
+        end
+      end
+
+      context 'when charge_start_date was before 3 days ago' do
+        let(:charge_start_date) { Time.zone.today - 3.days }
+
+        it 'returns next and past dates' do
+          expect(subject.keys).to contain_exactly(:next, :past)
+        end
+
+        it 'returns 7 objects in :next block' do
+          expect(subject[:next].size).to eq(7)
+        end
+
+        it 'returns 6 objects in :past block' do
+          expect(subject[:past].size).to eq(3)
+        end
+
+        it 'returns a proper object' do
+          expect(subject[:next].first).to eq(
+            {
+              name: Date.current.strftime(described_class::DISPLAY_DATE_FORMAT),
+              value: Date.current.strftime(described_class::VALUE_DATE_FORMAT),
+              today: true
+            }
+          )
+        end
+      end
+
+      context 'when charge_start_date was before today ago' do
+        it 'returns next and past dates' do
+          expect(subject.keys).to contain_exactly(:next, :past)
+        end
+
+        it 'returns 7 objects in :next block' do
+          expect(subject[:next].size).to eq(7)
+        end
+
+        it 'returns 6 objects in :past block' do
+          expect(subject[:past]).to be_empty
+        end
+
+        it 'returns a proper object' do
+          expect(subject[:next].first).to eq(
+            {
+              name: Date.current.strftime(described_class::DISPLAY_DATE_FORMAT),
+              value: Date.current.strftime(described_class::VALUE_DATE_FORMAT),
+              today: true
+            }
+          )
+        end
+      end
+    end
+
+    context 'when user is beta tester' do
+      let(:charge_start_date) { 31.days.from_now }
+      let(:user_beta_tester) { true }
 
       it 'returns next and past dates' do
         expect(subject.keys).to contain_exactly(:next, :past)
@@ -23,56 +105,6 @@ describe Payments::PaymentDates do
 
       it 'returns 6 objects in :past block' do
         expect(subject[:past].size).to eq(6)
-      end
-
-      it 'returns a proper object' do
-        expect(subject[:next].first).to eq(
-          {
-            name: Date.current.strftime(described_class::DISPLAY_DATE_FORMAT),
-            value: Date.current.strftime(described_class::VALUE_DATE_FORMAT),
-            today: true
-          }
-        )
-      end
-    end
-
-    context 'when charge_start_date was before 3 days ago' do
-      let(:charge_start_date) { Time.zone.today - 3.days }
-
-      it 'returns next and past dates' do
-        expect(subject.keys).to contain_exactly(:next, :past)
-      end
-
-      it 'returns 7 objects in :next block' do
-        expect(subject[:next].size).to eq(7)
-      end
-
-      it 'returns 6 objects in :past block' do
-        expect(subject[:past].size).to eq(3)
-      end
-
-      it 'returns a proper object' do
-        expect(subject[:next].first).to eq(
-          {
-            name: Date.current.strftime(described_class::DISPLAY_DATE_FORMAT),
-            value: Date.current.strftime(described_class::VALUE_DATE_FORMAT),
-            today: true
-          }
-        )
-      end
-    end
-
-    context 'when charge_start_date was before today ago' do
-      it 'returns next and past dates' do
-        expect(subject.keys).to contain_exactly(:next, :past)
-      end
-
-      it 'returns 7 objects in :next block' do
-        expect(subject[:next].size).to eq(7)
-      end
-
-      it 'returns 6 objects in :past block' do
-        expect(subject[:past]).to be_empty
       end
 
       it 'returns a proper object' do
@@ -121,31 +153,23 @@ describe Payments::PaymentDates do
     end
   end
 
-  describe '.all_chargeable_dates' do
-    subject { service.all_chargeable_dates }
+  describe '.d_day_content_tab' do
+    subject { service.d_day_content_tab }
 
-    let(:charge_start_date) { 31.days.from_now }
+    context 'when #charge_start_date was 5 days ago' do
+      let(:charge_start_date) { Time.zone.today - 5.days }
 
-    it 'returns next and past dates' do
-      expect(subject.keys).to contain_exactly(:next, :past)
+      it 'returns a proper value' do
+        expect(service.d_day_content_tab).to eq('Previous Days')
+      end
     end
 
-    it 'returns 7 objects in :next block' do
-      expect(subject[:next].size).to eq(7)
-    end
+    context 'when #charge_start_date was 6 days ago' do
+      let(:charge_start_date) { Time.zone.today - 6.days }
 
-    it 'returns 6 objects in :past block' do
-      expect(subject[:past].size).to eq(6)
-    end
-
-    it 'returns a proper object' do
-      expect(subject[:next].first).to eq(
-        {
-          name: Date.current.strftime(described_class::DISPLAY_DATE_FORMAT),
-          value: Date.current.strftime(described_class::VALUE_DATE_FORMAT),
-          today: true
-        }
-      )
+      it 'returns a proper value' do
+        expect(service.d_day_content_tab).to eq('Past 6 days')
+      end
     end
   end
 end

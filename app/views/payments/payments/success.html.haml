@@ -58,7 +58,7 @@
       %p
         Find out about upgrades and retrofits for your vehicles by visiting
         = external_link_to("#{@payment_details.clean_air_zone.operator_name} website",
-                           external_urls[@payment_details.clean_air_zone.name.downcase]['fleet'],
+                           @payment_details.clean_air_zone.compliance_url,
                            id: 'council-website')
 
       = render 'shared/print_link'

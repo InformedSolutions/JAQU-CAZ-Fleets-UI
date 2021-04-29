@@ -11,7 +11,7 @@ module DirectDebits
     #
     # ==== Params
     # * +account_id+ - Account ID from backend DB
-    # * +beta_tester+ - status of user if he is in beta group
+    # * +user_beta_tester+ - status of user if he is in beta group
     #
     def initialize(account_id, user_beta_tester: false)
       @account_id = account_id
@@ -41,6 +41,16 @@ module DirectDebits
     def inactive_mandates
       Rails.logger.info "[#{self.class.name}] Getting inactive mandates"
       mandates.reject { |mandate| select_active_statuses(mandate.status) }
+    end
+
+    # Checks if all mandates are active, returns boolean, eg. true
+    def all_mandates_active?
+      inactive_mandates.empty? && any_mandate_active?
+    end
+
+    # Checks if any mandate is active, returns boolean, eg. true
+    def any_mandate_active?
+      active_mandates.any?
     end
 
     # Calls {rdoc-ref:DebitsApi.caz_mandates} to fetch data.

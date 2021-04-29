@@ -25,7 +25,8 @@ class DashboardController < ApplicationController
   def index
     @vehicles_count = current_user.fleet.total_vehicles_count
     @any_dd_cazes_enabled = any_dd_cazes_enabled
-    @mandates_present = check_mandates
+    @any_mandates_active = any_mandates_active?
+    @all_mandates_active = all_mandates_active?
     account_users = load_account_users
     @users_present = check_users(account_users)
     @multi_payer_account = account_users.multi_payer_account?
@@ -36,19 +37,28 @@ class DashboardController < ApplicationController
   private
 
   # Do not perform api call if user is not in a beta group or direct debits disabled or user don't have permission
-  def check_mandates
-    return false unless allow_manage_mandates?
+  def any_mandates_active?
+    return false unless allow_manage_mandates? || direct_debit_feature_enabled?
 
-    if current_user&.beta_tester || Rails.configuration.x.feature_direct_debits.to_s.downcase == 'true'
-      DirectDebits::Debit.new(current_user.account_id).active_mandates.any?
-    else
-      false
-    end
+    account_debits.any_mandate_active?
+  end
+
+  # When user has any active mandates and has no inactive mandates then all are active
+  def all_mandates_active?
+    return false unless allow_manage_mandates? || direct_debit_feature_enabled?
+
+    account_debits.all_mandates_active?
+  end
+
+  # Fetches and assigns debits associated with the current account
+  def account_debits
+    @account_debits ||= DirectDebits::Debit.new(current_user.account_id,
+                                                user_beta_tester: current_user.beta_tester)
   end
 
   # Calls api to check if at least one direct debit caz is enabled for non beta testers
   def any_dd_cazes_enabled
-    return true if current_user&.beta_tester
+    return true if current_user.beta_tester
 
     Rails.logger.info "[#{self.class.name}] Getting enabled direct debit clean air zones"
     DebitsApi.mandates(account_id: current_user.account_id).any? { |caz| caz['directDebitEnabled'] == true }
@@ -95,6 +105,7 @@ class DashboardController < ApplicationController
   # clear manage vehicles inputs
   def clear_manage_vehicles_history
     session[:choose_method] = nil
+    session[:fleet_dynamic_zones] = nil
   end
 
   # clear manage users inputs
@@ -105,5 +116,10 @@ class DashboardController < ApplicationController
   # clear payments history back links
   def clear_payment_history
     session[:back_link_history] = nil
+  end
+
+  # checks if DD feature is enabled
+  def direct_debit_feature_enabled?
+    current_user.beta_tester || Rails.configuration.x.feature_direct_debits.to_s.downcase == 'true'
   end
 end

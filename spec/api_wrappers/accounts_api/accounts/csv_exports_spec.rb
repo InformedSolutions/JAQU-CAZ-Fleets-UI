@@ -3,9 +3,10 @@
 require 'rails_helper'
 
 describe 'AccountsApi::Accounts.csv_exports - POST' do
-  subject { AccountsApi::Accounts.csv_exports(account_id: account_id) }
+  subject { AccountsApi::Accounts.csv_exports(account_id: account_id, user_beta_tester: user_beta_tester) }
 
   let(:account_id) { SecureRandom.uuid }
+  let(:user_beta_tester) { false }
   let(:url) { "/accounts/#{account_id}/vehicles/csv-exports" }
 
   context 'when call returns 201' do
@@ -18,7 +19,8 @@ describe 'AccountsApi::Accounts.csv_exports - POST' do
     end
 
     it 'calls API with proper body' do
-      expect(WebMock).to have_requested(:post, /#{url}/).once
+      body = { betaTester: user_beta_tester }
+      expect(WebMock).to have_requested(:post, /#{url}/).with(body: body).once
     end
 
     it 'returns a proper url' do

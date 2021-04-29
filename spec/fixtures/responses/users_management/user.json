@@ -2,5 +2,6 @@
   "name": "John Doe",
   "email": "test@example.com",
   "owner": false,
-  "permissions": ["VIEW_PAYMENTS"]
+  "permissions": ["VIEW_PAYMENTS"],
+  "uiSelectedCaz": [ "5cd7441d-766f-48ff-b8ad-1809586fea37" ]
 }

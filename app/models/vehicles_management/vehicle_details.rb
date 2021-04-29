@@ -93,29 +93,21 @@ module VehiclesManagement
     end
 
     ##
-    # Calls +/v1/compliance-checker/vehicles/:vrn/compliance+ endpoint with +GET+ method
-    # and returns compliance details of the requested vehicle for requested zones.
+    # Calls +/v1/vehicles/:vrn/details+ endpoint with +GET+ method
+    # and returns details of the requested vehicle.
     #
     # ==== Result
     #
-    # Returned compliance details will have following fields:
-    # * +registrationNumber+ - string, eg. 'CAS310'
-    # * +retrofitted+ - boolean
+    # Returned vehicles details will have the following fields:
+    # * +registrationNumber+
+    # * +type+ - string, eg. 'car'
+    # * +make+ - string, eg. 'Audi'
+    # * +colour+ - string, eg. 'red'
+    # * +fuelType+ - string, eg. 'diesel'
+    # * +taxiOrPhv+ - boolean, determines if the vehicle is a taxi or a PHV
+    # * +licensingAuthoritiesNames+ - array of strings, list of LA where vehicle is registered as a taxi
     # * +exempt+ - boolean, determines if the vehicle is exempt from charges
-    # * +complianceOutcomes+ - array of objects
-    #   * +cleanAirZoneId+ - UUID, this represents CAZ ID in the DB
-    #   * +name+ - string, eg. 'Birmingham'
-    #   * +charge+ - number, determines how much owner of the vehicle will have to pay in this CAZ
-    #   * +informationUrls+ - object containing CAZ dedicated info links
-    #     * +emissionsStandards+
-    #     * +mainInfo+
-    #     * +hoursOfOperation+
-    #     * +pricing+
-    #     * +exemptionOrDiscount+
-    #     * +payCaz+
-    #     * +becomeCompliant+
-    #     * +financialAssistance+
-    #     * +boundary+
+    #
     def compliance_api
       @compliance_api ||= ComplianceCheckerApi.vehicle_details(vrn)
     end

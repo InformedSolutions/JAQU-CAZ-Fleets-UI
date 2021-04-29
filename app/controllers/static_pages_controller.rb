@@ -34,7 +34,7 @@ class StaticPagesController < ApplicationController
   #    GET /help
   #
   def help
-    @zones = CleanAirZone.all
+    @zones = CleanAirZone.visible_cazes
   end
 
   ##
@@ -44,7 +44,7 @@ class StaticPagesController < ApplicationController
   #    GET /privacy_notice
   #
   def privacy_notice
-    # renders static page
+    @zones = CleanAirZone.visible_cazes
   end
 
   ##

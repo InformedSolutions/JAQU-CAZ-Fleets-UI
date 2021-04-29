@@ -176,7 +176,7 @@ describe 'PasswordsController - POST #create', type: :request do
         expect(session[:reset_password_token]).to eq(token)
       end
 
-      skip it 'assigns a proper error message' do
+      it 'assigns a proper error message' do
         subject
         expect(assigns(:errors)[:password]).to include('Something went wrong')
       end

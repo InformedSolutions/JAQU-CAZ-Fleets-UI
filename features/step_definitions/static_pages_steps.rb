@@ -6,6 +6,14 @@ When('I press footer link {string}') do |string|
   end
 end
 
+When('I press footer link Privacy') do
+  mock_clean_air_zones
+
+  within('footer.govuk-footer') do
+    click_link 'Privacy'
+  end
+end
+
 Then('I should be on the the Cookies page') do
   expect_path(cookies_path)
 end

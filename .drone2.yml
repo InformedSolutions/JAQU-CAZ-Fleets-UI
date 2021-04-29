@@ -86,15 +86,6 @@ volumes:
 
 steps:
 
-  # Clean agent images and containers to prevent disk space overuse
-  - name: clean agent
-    image: docker:19.03.11-git
-    commands:
-    - docker system prune -f
-    volumes:
-      - name: docker_sock
-        path: /var/run/docker.sock
-
   # Build docker image
   - name: build
     image: docker:19.03.11-git
@@ -177,12 +168,16 @@ steps:
       registry: 311075478274.dkr.ecr.eu-west-2.amazonaws.com
       dockerfile: Dockerfile.build
       region: eu-west-2
+      use_cache: true
       tags:
         - latest
         - ${DRONE_BUILD_NUMBER}
       build_args:
         - secret_key_base=${DRONE_COMMIT}
         - aws_region=eu-west-2
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
     when:
       event:
         - push
@@ -370,7 +365,7 @@ steps:
     pull: never
     commands:
       - bundle audit check --update
-      - yarn run improved-yarn-audit --exclude '1589' --retry-on-network-failure
+      - yarn run improved-yarn-audit --exclude '565' --retry-on-network-failure
       - brakeman
     volumes:
       - name: docker_sock
@@ -1104,7 +1099,7 @@ steps:
     pull: never
     commands:
       - bundle audit check --update
-      - yarn run improved-yarn-audit --exclude '1589' --retry-on-network-failure
+      - yarn run improved-yarn-audit  --retry-on-network-failure
       - brakeman
     volumes:
       - name: docker_sock
@@ -1435,7 +1430,7 @@ steps:
       SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::360470905865:role/jaqu-stagingServiceRole
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_3VN4h6MF2zsAEcJ
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_3VN4h6MF2zsAEcJcd .
       TF_VAR_enable_https_redirect: false
     when:
       event:

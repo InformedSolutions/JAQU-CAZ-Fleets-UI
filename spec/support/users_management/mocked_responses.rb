@@ -3,6 +3,8 @@
 ##
 # Module used for manage users flow
 module UsersManagement
+  ##
+  # Module used to mock user requests responses.
   module MockedResponses
     def mock_users
       api_response = read_response('users_management/users.json')
@@ -16,6 +18,12 @@ module UsersManagement
 
     def mock_user_details
       allow(AccountsApi::Users).to receive(:user).and_return(read_response('users_management/user.json'))
+    end
+
+    def mock_user_details_with_empty_selected_cases
+      allow(AccountsApi::Users).to(
+        receive(:user).and_return(read_response('users_management/user_with_empty_selected_cazes.json'))
+      )
     end
 
     def mock_second_user_details(account_id, user_id)

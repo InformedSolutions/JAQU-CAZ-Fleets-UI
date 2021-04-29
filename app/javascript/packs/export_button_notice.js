@@ -3,9 +3,9 @@ const btn = document.getElementById("csv-export");
 btn.addEventListener("click", () => {
   const message = document.getElementById("csv-export__notice");
   message.style.display = "block";
-  btn.className = "govuk-link disabled-link";
+  btn.className = "govuk-button govuk-button--secondary govuk-button--disabled";
   setTimeout(() => {
-    btn.className = "govuk-link";
+    btn.className = "govuk-button govuk-button--secondary";
     message.style.display = "none";
   }, 5000);
 });
