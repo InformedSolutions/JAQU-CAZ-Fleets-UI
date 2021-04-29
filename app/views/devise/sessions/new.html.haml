@@ -8,7 +8,7 @@
       %h1.govuk-heading-xl= title_and_header
 
       = form_for(@user ||= User.new, as: @user, url: session_path(@user)) do |f|
-        = render 'shared/sign_in/error_summary', errors: errors
+        = render 'shared/sign_in/error_summary', errors: errors if errors.values.any?
 
         %p= flash[:notice]
 
