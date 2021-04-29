@@ -1,4 +1,4 @@
-- title_and_header = 'Downloading your payment history'
+- title_and_header = 'Preparing your payment history'
 - content_for(:title, title_and_header)
 
 = render 'shared/js_back_link'
@@ -8,6 +8,9 @@
     .govuk-grid-column-full
       %h1.govuk-heading-l= title_and_header
       %p
-        We will email you a link to download a CSV of your payment history shortly.
+        We are processing your file and will email you a link to download the results (CSV).
+      %p
+      %p
+        This can take some time depending on the size of your payment history. Any payments made on the account after this request will not be included.
       %p
         = link_to 'Return to payment history', payment_history_path
