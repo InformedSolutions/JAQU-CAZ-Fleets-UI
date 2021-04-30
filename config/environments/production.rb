@@ -125,6 +125,9 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   # config.active_record.dump_schema_after_migration = false
 
+  # Delete "X-Runtime" header to protect the app from the header timing attack.
+  Rails.application.config.middleware.delete(Rack::Runtime)
+
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
   # middleware. The `delay` is used to determine how long to wait after a write
