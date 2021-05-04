@@ -191,7 +191,7 @@ module Payments
     #    :GET /payments/review_details
     #
     def review_details
-      @details = helpers.vrn_to_pay(helpers.new_payment_data[:details])
+      @details = helpers.vehicles_to_pay(helpers.new_payment_data[:details])
     end
 
     ##
@@ -274,7 +274,7 @@ module Payments
     #   :GET /payments/post_payment_details
     #
     def post_payment_details
-      @details = helpers.vrn_to_pay(helpers.initiated_payment_data[:details])
+      @details = helpers.vehicles_to_pay(helpers.initiated_payment_data[:details])
     end
 
     ##
@@ -289,7 +289,7 @@ module Payments
       api_response = AccountsApi::Users.user(account_id: caz_lock_account_id,
                                              account_user_id: caz_lock_user_id)
       @user = UsersManagement::User.new(api_response)
-      @zones = CleanAirZone.active_cazes
+      @zones = current_user.beta_tester ? CleanAirZone.all : CleanAirZone.active_cazes
       @zone = CleanAirZone.find(@zone_id)
     end
 
@@ -322,9 +322,13 @@ module Payments
     # Assigns +zone+, +dates+ and +d_day_notice+
     def assign_zone_and_dates
       @zone = CleanAirZone.find(@zone_id)
-      service = Payments::PaymentDates.new(charge_start_date: @zone.active_charge_start_date)
-      @dates = current_user.beta_tester ? service.all_chargeable_dates : service.chargeable_dates
+      service = Payments::PaymentDates.new(
+        charge_start_date: @zone.active_charge_start_date,
+        user_beta_tester: current_user.beta_tester
+      )
+      @dates = service.chargeable_dates
       @d_day_notice = service.d_day_notice
+      @d_day_content_tab = service.d_day_content_tab
     end
 
     # Assign variables needed in :matrix view

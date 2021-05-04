@@ -46,6 +46,10 @@ Then('I should see {string} link') do |string|
   expect(page).to have_selector(:link_or_button, string)
 end
 
+Then('I should see {string} link {int} times') do |string, count|
+  expect(page).to have_selector(:link_or_button, string, count: count.to_i)
+end
+
 Then('I should not see {string} link') do |string|
   expect(page).not_to have_selector(:link_or_button, string)
 end

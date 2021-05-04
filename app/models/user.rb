@@ -17,7 +17,7 @@ class User
 
   # User attributes
   attr_accessor :email, :owner, :permissions, :user_id, :account_id, :account_name, :login_ip,
-                :days_to_password_expiry, :beta_tester
+                :days_to_password_expiry, :beta_tester, :ui_selected_caz
 
   # Delegates fleet methods to fleet
   delegate :add_vehicle, to: :fleet
@@ -62,16 +62,15 @@ class User
 
   # Serializes User based on data from API
   def self.serialize_from_api(user_attributes)
-    User.new(
-      email: user_attributes['email'],
-      user_id: user_attributes['accountUserId'],
-      account_id: user_attributes['accountId'],
-      account_name: user_attributes['accountName'],
-      owner: user_attributes['owner'],
-      permissions: user_attributes['permissions'],
-      days_to_password_expiry: calculate_password_expiry(user_attributes['passwordUpdateTimestamp']),
-      beta_tester: user_attributes['betaTester']
-    )
+    User.new(email: user_attributes['email'],
+             user_id: user_attributes['accountUserId'],
+             account_id: user_attributes['accountId'],
+             account_name: user_attributes['accountName'],
+             owner: user_attributes['owner'],
+             permissions: user_attributes['permissions'],
+             days_to_password_expiry: calculate_password_expiry(user_attributes['passwordUpdateTimestamp']),
+             beta_tester: user_attributes['betaTester'] == true,
+             ui_selected_caz: user_attributes['uiSelectedCAZ'])
   end
 
   # Calculates days to password expiry

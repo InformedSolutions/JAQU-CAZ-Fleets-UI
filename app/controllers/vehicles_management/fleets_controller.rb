@@ -37,9 +37,68 @@ module VehiclesManagement
 
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || 10).to_i
-      assign_variables(page, per_page)
+      assign_index_variables(page, per_page)
     rescue BaseApi::Error400Exception
       return redirect_to fleets_path unless page == 1
+    end
+
+    ##
+    # Action adds another zone on the Vehicle Management page if there are more than 3 CAZ
+    # available. Redirect back to previous page.
+    #
+    # ==== Path
+    #
+    #    :GET /fleets/add_another_zone
+    #
+    def add_another_zone
+      VehiclesManagement::DynamicCazes::AddAnotherCaz.call(session: session)
+
+      redirect_back(fallback_location: fleets_path)
+    end
+
+    ##
+    # Action removes slelected zone on the Vehicle Management page if there are
+    # more than 3 CAZ available. Redirect back to previous page.
+    #
+    # ==== Path
+    #
+    #    :GET /fleets/remove_selected_zone
+    #
+    # ==== Params
+    #
+    # * +key+ - uuid key of CAZ select box
+    #
+    def remove_selected_zone
+      if params[:key].present?
+        VehiclesManagement::DynamicCazes::RemoveSelectedCaz.call(
+          session: session, user: current_user, key: params[:key]
+        )
+      end
+
+      redirect_back(fallback_location: fleets_path)
+    end
+
+    ##
+    # Action changes selected zone on the Vehicle Management page if there are
+    # more than 3 CAZ available. Redirect back to previous page.
+    #
+    # ==== Path
+    #
+    #    :GET /fleets/select_zone
+    #
+    # ==== Params
+    #
+    # * +key+ - uuid key CAZ select box
+    # * +zone_id+ - uuid of selected CAZ
+    #
+    def select_zone
+      if params[:key].present? && params[:zone_id].present?
+        VehiclesManagement::DynamicCazes::SelectCaz.call(
+          session: session, user: current_user, key: params[:key],
+          zone_id: params[:zone_id]
+        )
+      end
+      redirect_back(fallback_location: fleets_path)
     end
 
     ##
@@ -56,6 +115,7 @@ module VehiclesManagement
         return redirect_to vrn_not_found_fleets_path(vrn: form.vrn, per_page: per_page)
       end
 
+      assign_payment_enabled
       render_fleets_page(form)
     end
 
@@ -172,7 +232,10 @@ module VehiclesManagement
     #     GET /manage_vehicles/export
     #
     def export
-      file_url = AccountsApi::Accounts.csv_exports(account_id: current_user.account_id)
+      file_url = AccountsApi::Accounts.csv_exports(
+        account_id: current_user.account_id,
+        user_beta_tester: current_user.beta_tester
+      )
       redirect_to file_url
     end
 
@@ -220,7 +283,7 @@ module VehiclesManagement
     end
 
     # Assign variables needed in :index view
-    def assign_variables(page, per_page)
+    def assign_index_variables(page, per_page)
       @search = params[:vrn]
       form = SearchVrnForm.new(@search)
       if form.valid?
@@ -229,6 +292,13 @@ module VehiclesManagement
         fetch_pagination_and_zones(page, per_page)
       end
       assign_payment_enabled
+    end
+
+    # Load selected zones from session or AccountsApi
+    def load_selected_zones
+      @selected_zones = VehiclesManagement::DynamicCazes::SelectedCazes.call(
+        session: session, user: current_user
+      )
     end
 
     # Renders :index with assigned zones and errors
@@ -247,7 +317,8 @@ module VehiclesManagement
         only_chargeable: params[:only_chargeable],
         vrn: vrn
       )
-      @zones = CleanAirZone.all
+      @zones = current_user.beta_tester ? CleanAirZone.all : CleanAirZone.visible_cazes
+      load_selected_zones if @zones.count > 3
     end
   end
 end

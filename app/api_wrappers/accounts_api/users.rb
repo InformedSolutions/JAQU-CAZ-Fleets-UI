@@ -92,6 +92,7 @@ module AccountsApi
       # * +name+ - string, name of the user
       # * +owner+ - boolean, determines if the user is owner
       # * +permissions+ - permission names of the user
+      # * +uiSelectedCaz+ - A list of cazes that was selected by user. Can be empty.
       #
       # ==== Exceptions
       #
@@ -111,6 +112,7 @@ module AccountsApi
       # * +account_id+ - uuid, id of the account
       # * +account_user_id+ - uuid, id of the user account
       # * +permissions+ - permission names of the user
+      # * +uiSelectedCaz+ - A list of cazes that was selected by user.
       #
       # ==== Result
       #
@@ -121,9 +123,10 @@ module AccountsApi
       # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account or user not found
       # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
       #
-      def update_user(account_id:, account_user_id:, permissions: nil, name: nil)
+      def update_user(account_id:, account_user_id:, permissions: nil, name: nil, ui_selected_caz: nil)
         log_action('Updating user permissions')
-        body = create_account_user_update_payload(permissions: permissions, name: name)
+        body = create_account_user_update_payload(permissions: permissions, name: name,
+                                                  ui_selected_caz: ui_selected_caz)
         request(:patch, "/accounts/#{account_id}/users/#{account_user_id}", body: body)
       end
 
@@ -221,10 +224,11 @@ module AccountsApi
       end
 
       # prepares json payload for patch user action
-      def create_account_user_update_payload(permissions:, name:)
+      def create_account_user_update_payload(permissions:, name:, ui_selected_caz:)
         {
           permissions: permissions,
-          name: name
+          name: name,
+          uiSelectedCaz: ui_selected_caz
         }.compact.to_json
       end
     end

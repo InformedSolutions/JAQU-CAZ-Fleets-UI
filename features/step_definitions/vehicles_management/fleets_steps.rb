@@ -26,18 +26,21 @@ When('I have one vehicle in my fleet') do
 end
 
 When('I visit the manage vehicles page') do
-  mock_actual_account_name
-  mock_clean_air_zones
-  mock_payment_history
+  mock_fleets_api
 
   login_user({ permissions: 'MANAGE_VEHICLES' })
   visit fleets_path
 end
 
+When('I visit the manage vehicles page as a beta tester') do
+  mock_fleets_api
+
+  login_user({ permissions: 'MANAGE_VEHICLES', beta_tester: true })
+  visit fleets_path
+end
+
 When('I visit the manage vehicles page with payment permission') do
-  mock_actual_account_name
-  mock_clean_air_zones
-  mock_payment_history
+  mock_fleets_api
 
   login_user({ permissions: %w[MANAGE_VEHICLES MAKE_PAYMENTS] })
   visit fleets_path
@@ -78,12 +81,26 @@ end
 When('I have vehicles in my fleet') do
   mock_actual_account_name
   mock_users
+  mock_user_details
   mock_clean_air_zones
   mock_vehicles_in_fleet
   mock_chargeable_vehicles
   mock_debits
   mock_caz_mandates
   mock_direct_debit_enabled
+  mock_payment_history
+end
+
+When('I have vehicles in my fleet and more than 3 CAZes are available') do
+  mock_actual_account_name
+  mock_users
+  mock_more_than_3_clean_air_zones
+  mock_user_details
+  mock_vehicles_in_fleet
+  mock_chargeable_vehicles
+  mock_direct_debit_enabled
+  mock_debits
+  mock_caz_mandates
   mock_payment_history
 end
 
@@ -166,6 +183,7 @@ When('I have all undetermined vehicles') do
 end
 
 Then('I should be on the manage vehicles page') do
+  mock_debits
   expect(page).to have_current_path(fleets_path)
 end
 
@@ -182,6 +200,7 @@ Then('I should not have deleted the vehicle') do
 end
 
 When('Fleet backend API is unavailable') do
+  mock_clean_air_zones
   mock_unavailable_fleet
 end
 
@@ -205,5 +224,10 @@ When('I press {int} pagination button') do |selected_page|
 end
 
 Then('I am able to export my data to CSV file') do
-  expect(page).to have_link('Download a spreadsheet (CSV)')
+  expect(page).to have_link('Download the results (CSV)')
+end
+
+def mock_fleets_api
+  mock_actual_account_name
+  mock_payment_history
 end

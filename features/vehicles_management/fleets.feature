@@ -15,7 +15,8 @@ Feature: Fleets
     When I have vehicles in my fleet
       And I visit the manage vehicles page
     Then I should see 'Live' 4 times
-    Then I should see 'Upcoming' 1 times
+    Then I should see 'Future' 1 times
+    Then I should not see 'FutureCaz'
     Then I should not see 'What does undetermined mean?'
     Then I am able to export my data to CSV file
       And I should see 'Showing 1 to 10 of 15'
@@ -101,3 +102,29 @@ Feature: Fleets
       And I should see inactive '1' pagination button
       And I should see inactive 'previous' pagination button
       And I should not see 'next' pagination button
+
+  Scenario: A beta member user visits the Vehicle Management page
+    When I have vehicles in my fleet
+      And I visit the manage vehicles page as a beta tester
+    Then I should see 'Live' 4 times
+    Then I should see 'Future' 3 times
+    Then I should see 'FutureCaz'
+
+  Scenario: There is more than 3 active Cazes
+    When I have vehicles in my fleet and more than 3 CAZes are available
+      And I visit the manage vehicles page
+    Then I should see 'Add another zone'
+      And I should not see 'X' link
+    When I press 'Add another zone' link
+    Then I should see 'Add another zone'
+      And I should see 'X' link 1 times
+    When I press 'Add another zone' link
+    Then I should not see 'Add another zone'
+      And I should see 'X' link 2 times
+    When I press 'X' link
+    Then I should see 'Add another zone'
+      And I should see 'X' link 1 times
+    When I press 'X' link
+    Then I should see 'Add another zone'
+      And I should not see 'X' link
+      And I should not see 'Select zone...' link

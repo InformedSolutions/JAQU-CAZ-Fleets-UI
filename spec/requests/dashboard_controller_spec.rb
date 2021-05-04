@@ -32,17 +32,63 @@ describe DashboardController, type: :request do
 
       context 'with user is not in a beta group' do
         context 'with Direct Debits feature enabled' do
-          before do
-            mock_direct_debit_enabled
-            subject
+          context 'when all mandates are active' do
+            before do
+              mock_direct_debit_enabled
+              mock_all_active_debits
+              subject
+            end
+
+            it 'clears the session' do
+              expect(session[:new_user]).to be_nil
+            end
+
+            it 'assigns :any_mandates_active variable' do
+              expect(assigns(:any_mandates_active)).to be_truthy
+            end
+
+            it 'assigns :all_mandates_active variable' do
+              expect(assigns(:all_mandates_active)).to be_truthy
+            end
           end
 
-          it 'clears the session' do
-            expect(session[:new_user]).to be_nil
+          context 'when not all mandates are active' do
+            before do
+              mock_direct_debit_enabled
+              subject
+            end
+
+            it 'clears the session' do
+              expect(session[:new_user]).to be_nil
+            end
+
+            it 'assigns :any_mandates_active variable' do
+              expect(assigns(:any_mandates_active)).to be_truthy
+            end
+
+            it 'assigns :all_mandates_active variable' do
+              expect(assigns(:all_mandates_active)).to be_falsey
+            end
           end
 
-          it 'assigns :mandates_present variable' do
-            expect(assigns(:mandates_present)).to be_truthy
+          context 'when no mandates are active' do
+            before do
+              mock_direct_debit_enabled
+              mock_all_inactive_debits
+              subject
+            end
+
+            it 'clears the session' do
+              expect(session[:new_user]).to be_nil
+            end
+
+            it 'assigns :any_mandates_active variable' do
+              expect(assigns(:any_mandates_active)).to be_falsey
+            end
+
+            it 'assigns :all_mandates_active variable' do
+              expect(assigns(:all_mandates_active)).to be_falsey
+            end
           end
         end
 
@@ -56,8 +102,12 @@ describe DashboardController, type: :request do
             expect(session[:new_user]).to be_nil
           end
 
-          it 'assigns :mandates_present variable' do
-            expect(assigns(:mandates_present)).to be_falsey
+          it 'assigns :any_mandates_active variable' do
+            expect(assigns(:any_mandates_active)).to be_truthy
+          end
+
+          it 'assigns :all_mandates_active variable' do
+            expect(assigns(:all_mandates_active)).to be_falsey
           end
         end
       end
@@ -75,8 +125,12 @@ describe DashboardController, type: :request do
           expect(session[:new_user]).to be_nil
         end
 
-        it 'assigns :mandates_present variable' do
-          expect(assigns(:mandates_present)).to be_truthy
+        it 'assigns :any_mandates_active variable' do
+          expect(assigns(:any_mandates_active)).to be_truthy
+        end
+
+        it 'assigns :all_mandates_active variable' do
+          expect(assigns(:all_mandates_active)).to be_falsey
         end
       end
 

@@ -47,6 +47,7 @@ end
 
 When('I enter valid password and confirmation') do
   fill_in_passwords
+  mock_debits
   mock_actual_account_name
   token = find('#token', visible: false).value
   allow(AccountsApi::Auth).to receive(:set_password).with(token: token, password: 'password').and_return(true)
