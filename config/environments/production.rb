@@ -74,6 +74,9 @@ Rails.application.configure do
     'Feature-Policy' => features.map { |f| "#{f} 'none'" }.join('; ')
   }
 
+  # Prevents against DNS rebinding and other Host header attacks.
+  Rails.application.config.hosts << ENV['HOST'] if ENV['HOST']
+
   # Store uploaded files on the local file system (see config/storage.yml for options).
   # config.active_storage.service = :local
 
@@ -121,6 +124,9 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   # config.active_record.dump_schema_after_migration = false
+
+  # Delete "X-Runtime" header to protect the app from the header timing attack.
+  Rails.application.config.middleware.delete(Rack::Runtime)
 
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
