@@ -109,14 +109,15 @@ module PaymentHistory
     #   :GET /payment_history_export?exportId=87252eee-e861-4619-891e-30045908286c
     #
     def handle_payment_history_download_attempt
-      service = PaymentHistory::ExportStatus.new(account_id: current_user.account_id,
-                                                 job_id: export_id)
+      service = assign_export_status_service
 
-      if service.link_active_for?(current_user)
+      if !service.link_accessible_for?(current_user)
+        redirect_to payment_history_link_no_access_path
+      elsif !service.link_active?
+        redirect_to payment_history_link_expired_path
+      else
         session[:payment_history_file_url] = service.file_url
         redirect_to payment_history_download_path
-      else
-        redirect_to payment_history_link_expired_path
       end
     end
 
@@ -139,6 +140,13 @@ module PaymentHistory
       @pagination = PaymentHistory::History.new(
         current_user.account_id, current_user.user_id, user_payments
       ).pagination(page: page_number, per_page: per_page)
+    end
+
+    # Assign Export status service to variable
+    def assign_export_status_service
+      PaymentHistory::ExportStatus.new(
+        account_id: current_user.account_id, job_id: export_id
+      )
     end
 
     # page number from params
