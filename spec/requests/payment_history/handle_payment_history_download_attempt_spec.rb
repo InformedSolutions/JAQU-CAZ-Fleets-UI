@@ -17,30 +17,51 @@ describe 'PaymentHistory::PaymentHistoryController - GET #handle_payment_history
 
   context 'when fileUrl is active for the current user' do
     let(:export_status_stub) do
-      instance_double('PaymentHistory::ExportStatus', link_active_for?: true, file_url: file_url)
+      instance_double('PaymentHistory::ExportStatus',
+                      link_active?: true, link_accessible_for?: true, file_url: file_url)
     end
 
+    before { subject }
+
     it 'redirects user to download page' do
-      expect(subject).to redirect_to(payment_history_download_path)
+      expect(response).to redirect_to(payment_history_download_path)
     end
 
     it 'sets :payment_history_file_url in session' do
-      subject
       expect(session[:payment_history_file_url]).to eq(file_url)
     end
   end
 
-  context 'when fileUrl not active for the current user' do
+  context 'when fileUrl active but not accessible for the current user' do
     let(:export_status_stub) do
-      instance_double('PaymentHistory::ExportStatus', link_active_for?: false)
+      instance_double('PaymentHistory::ExportStatus',
+                      link_active?: true, link_accessible_for?: false)
     end
 
+    before { subject }
+
     it 'redirects user to link expired page' do
-      expect(subject).to redirect_to(payment_history_link_expired_path)
+      expect(response).to redirect_to(payment_history_link_no_access_path)
     end
 
     it 'does not set :payment_history_file_url key in session' do
-      subject
+      expect(session[:payment_history_file_url]).to eq(nil)
+    end
+  end
+
+  context 'when fileUrl not active' do
+    let(:export_status_stub) do
+      instance_double('PaymentHistory::ExportStatus',
+                      link_active?: false, link_accessible_for?: true)
+    end
+
+    before { subject }
+
+    it 'redirects user to link expired page' do
+      expect(response).to redirect_to(payment_history_link_expired_path)
+    end
+
+    it 'does not set :payment_history_file_url key in session' do
       expect(session[:payment_history_file_url]).to eq(nil)
     end
   end
