@@ -204,6 +204,7 @@ Rails.application.routes.draw do
     get :payment_history_downloading
     get :payment_history_download
     get :payment_history_link_expired
+    get :payment_history_link_no_access
     get :payment_history_export, to: 'payment_history#handle_payment_history_download_attempt'
   end
 
