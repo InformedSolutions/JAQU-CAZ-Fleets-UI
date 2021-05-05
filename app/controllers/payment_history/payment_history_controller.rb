@@ -169,7 +169,7 @@ module PaymentHistory
       session[:company_payment_history] = true if request.referer&.include?(payment_history_path)
 
       payment_details_back_link = request.referer || payment_history_path
-      Security::RefererXssCheck.call(referer: payment_details_back_link)
+      Security::RefererXssHandler.call(referer: payment_details_back_link)
       session[:payment_details_back_link] = payment_details_back_link
     end
   end

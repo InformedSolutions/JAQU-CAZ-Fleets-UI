@@ -4,10 +4,10 @@
 # Module used for security checks.
 module Security
   ##
-  # Service used to prepare check if refere aws not affected with javascript included in the request.
+  # Service used to prepare check if referer was not affected with javascript included in the request.
   # It uses sanitized links with the referer to check if are correct.
   #
-  class RefererXssCheck < BaseService
+  class RefererXssHandler < BaseService
     ##
     # Initializer method.
     #
@@ -19,7 +19,9 @@ module Security
     end
 
     ##
-    # The caller method for the service.
+    # Creates html link and checks if referer was not affected with javascript included in the request.
+    # If yes, it raise `RefererXssException` exception.
+    # If not, return nil.
     def call
       referer_link = link_with_referer(referer)
       sanitized_referer_link = ActionController::Base.helpers.sanitize(referer_link)
@@ -30,9 +32,9 @@ module Security
 
     private
 
-    # method to create html link tag with referer url
+    # Method to create html link tag with referer url
     def link_with_referer(referer)
-      ActionController::Base.helpers.link_to 'test', referer
+      ActionController::Base.helpers.link_to('', referer)
     end
 
     # Attributes reader

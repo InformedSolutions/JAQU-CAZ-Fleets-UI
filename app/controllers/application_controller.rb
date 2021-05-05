@@ -113,7 +113,7 @@ class ApplicationController < ActionController::Base
   def assign_back_button_url
     @back_button_url = request.referer || root_path
 
-    Security::RefererXssCheck.call(referer: @back_button_url)
+    Security::RefererXssHandler.call(referer: @back_button_url)
   end
 
   # Gets data about the new payment from the session
