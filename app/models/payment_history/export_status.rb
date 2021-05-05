@@ -25,18 +25,18 @@ module PaymentHistory
     end
 
     # Calculates if an URL is still active and returns a boolean
-    def link_active_for?(user)
-      Time.current.utc < signed_url_data.expires_at && recipient?(user)
+    def link_active?
+      Time.current.utc < signed_url_data.expires_at
+    end
+
+    # Calculates if an URL is accessible for provided user
+    def link_accessible_for?(user)
+      recipient_account_user_id == user.user_id
     end
 
     private
 
     attr_reader :account_id, :job_id
-
-    # Checks if the provided {User}[rdoc-ref:User] object is the recipient of the email
-    def recipient?(user)
-      recipient_account_user_id == user.user_id
-    end
 
     # Returns a string with UUID
     def recipient_account_user_id
