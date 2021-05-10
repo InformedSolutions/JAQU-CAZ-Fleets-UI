@@ -122,7 +122,7 @@ steps:
     pull: never
     commands:
       - rubocop
-      - scss-lint app/javascript
+      - node_modules/.bin/stylelint 'app/javascript/**/*.(s)?scss'
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -354,7 +354,7 @@ steps:
     pull: never
     commands:
       - rubocop
-      - scss-lint app/javascript
+      - node_modules/.bin/stylelint 'app/javascript/**/*.(s)?scss'
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -627,7 +627,7 @@ steps:
     pull: never
     commands:
       - rubocop
-      - scss-lint app/javascript
+      - node_modules/.bin/stylelint 'app/javascript/**/*.(s)?scss'
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -1088,7 +1088,7 @@ steps:
     pull: never
     commands:
       - rubocop
-      - scss-lint app/javascript
+      - node_modules/.bin/stylelint 'app/javascript/**/*.(s)?scss'
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock

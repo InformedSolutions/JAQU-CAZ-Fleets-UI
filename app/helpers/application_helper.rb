@@ -33,9 +33,9 @@ module ApplicationHelper
     "govuk-input govuk-!-width-two-thirds #{'govuk-input--error' if field_error.present?}"
   end
 
-  # Returns a 'govuk-header__navigation-item--active' if current path equals a new path.
+  # Returns a proper css class name.
   def current_path?(path)
-    'govuk-header__navigation-item--active' if request.path_info == path
+    "hmrc-account-menu__link #{'hmrc-account-menu__link--active' if request.path_info == path}"
   end
 
   # Used for external inline links in the app.
