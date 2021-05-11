@@ -74,9 +74,6 @@ Rails.application.configure do
     'Feature-Policy' => features.map { |f| "#{f} 'none'" }.join('; ')
   }
 
-  # Prevents against DNS rebinding and other Host header attacks.
-  Rails.application.config.hosts << ENV['HOST'] if ENV['HOST']
-
   # Store uploaded files on the local file system (see config/storage.yml for options).
   # config.active_storage.service = :local
 
