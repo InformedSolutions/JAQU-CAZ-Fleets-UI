@@ -16,6 +16,7 @@ module Security
     #
     def initialize(request:, allowed_host:)
       @allowed_host = sanitize_host(allowed_host)
+      @origin_host = request.get_header('HTTP_HOST').to_s.sub(/:\d+\z/, '')
       @x_forwarded_host = load_header_value(request.x_forwarded_host)
       @x_forwarded_server = load_header_value(request.get_header('HTTP_X_FORWARDED_SERVER'))
       @x_host = load_header_value(request.get_header('HTTP_X_HOST'))
@@ -44,7 +45,8 @@ module Security
 
     # Checks if all provided hosts are allowed
     def hosts_allowed?
-      allowed?(@x_forwarded_host) && allowed?(@x_forwarded_server) && allowed?(@x_host)
+      allowed?(@origin_host) && allowed?(@x_forwarded_host) && allowed?(@x_forwarded_server) &&
+        allowed?(@x_host)
     end
 
     # Sanitize host string from the configuration
