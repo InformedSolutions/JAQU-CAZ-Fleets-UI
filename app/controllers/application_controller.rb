@@ -18,13 +18,14 @@ class ApplicationController < ActionController::Base
   # checks if password is outdated
   before_action :check_password_age, except: %i[health build_id]
 
-  # rescues from API errors
+  # rescues from API and security errors
   rescue_from Errno::ECONNREFUSED,
               SocketError,
               BaseApi::Error500Exception,
               BaseApi::Error422Exception,
               BaseApi::Error400Exception,
               BaseApi::Error404Exception,
+              InvalidHostException,
               with: :render_server_unavailable
 
   # rescues `UserAlreadyConfirmedException` exception
