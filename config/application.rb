@@ -36,5 +36,6 @@ module FleetsUI
     # Number of uploaded vehicles when we should not allow to upload csv
     config.x.max_fleet_size = 200_000
     config.x.contact_form_link = ENV.fetch('CONTACT_FORM_LINK', 'contact-preprod.dvla.gov.uk/caz')
+    config.x.host = ENV['HOST']
   end
 end
