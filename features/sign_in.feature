@@ -80,3 +80,10 @@ Feature: Sign In
     When I enter pending email change
     Then I remain on the current page
       And I should see 'You need to verify the link in the email we sent before trying to sign in'
+
+  Scenario: Visiting the manage users page after sign out
+    Given I visit the Manage users page
+    Then I should be on the Manage users page
+    When I request to sign out
+      And I visit the Manage users page when im sign out
+      And I should see 'You need to sign in or create an account before continuing'

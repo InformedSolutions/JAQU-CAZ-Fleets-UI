@@ -110,7 +110,6 @@ module PaymentHistory
     #
     def handle_payment_history_download_attempt
       service = assign_export_status_service
-
       if !service.link_accessible_for?(current_user)
         redirect_to payment_history_link_no_access_path
       elsif !service.link_active?

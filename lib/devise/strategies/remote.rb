@@ -14,7 +14,6 @@ module Devise
       # Method called by warden to authenticate a resource.
       def authenticate!
         params_auth_hash[:email]&.strip!
-
         return fail! unless validate_login_form
 
         # mapping.to is a wrapper over the resource model
