@@ -1,7 +1,7 @@
-- email_alert = errors[:email]
-.govuk-form-group{class: ('govuk-form-group--error' if email_alert.present?)}
+- email_alert = errors[:email] if errors
+.govuk-form-group{class: ('govuk-form-group--error' if email_alert)}
   = form.label :email, 'Email address', class: 'govuk-label'
-  - if email_alert.present?
+  - if email_alert
     %span#email-error.govuk-error-message
       %span.govuk-visually-hidden Error:
       = email_alert.first
@@ -9,4 +9,4 @@
                     autofocus: true,
                     autocomplete: 'email',
                     maxlength: 45,
-                    class:determinate_input_class(email_alert)
+                    class: determinate_input_class(email_alert)
