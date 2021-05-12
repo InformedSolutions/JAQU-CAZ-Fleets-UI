@@ -11,7 +11,9 @@ module PaymentHistory
 
     before_action lambda {
       check_permissions(allow_view_details_history?)
-    }, except: %i[payment_history]
+    }, only: %i[payment_history_details initiate_payment_history_download payment_history_downloading
+                payment_history_download payment_history_link_expired
+                handle_payment_history_download_attempt]
 
     ##
     # Renders the payment history page
@@ -88,17 +90,6 @@ module PaymentHistory
     #   :GET /payment_history_link_expired
     #
     def payment_history_link_expired
-      # renders a static page
-    end
-
-    ##
-    # Renders the page informing that user doesn't have access to view the link.
-    #
-    # ==== Path
-    #
-    #   :GET /payment_history_link_no_access
-    #
-    def payment_history_link_no_access
       # renders a static page
     end
 
