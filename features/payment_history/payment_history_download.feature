@@ -21,4 +21,4 @@ Feature: Payment History Download
 
   Scenario: User opens a valid link requested for other user
     Given I am attempting to download payment history from other user link
-    Then I am redirected to no access to link page
+    Then I am redirected to link expired page
