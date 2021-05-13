@@ -48,12 +48,6 @@
         = form_tag(payment_history_path, method: :get) do
           .govuk-form-group
             %fieldset.govuk-fieldset{'aria-describedby': 'per_page'}
-              = link_to('Request a download link (CSV)',
-                        initiate_payment_history_download_path,
-                        class: 'govuk-button govuk-button--secondary',
-                        id:'download-payment-history',
-                        'data-module': 'govuk-button')
-
               - if @pagination.total_payments_count > 10
                 = select_tag('per_page',
                               options_for_select(@pagination.results_per_page, params[:per_page]),
