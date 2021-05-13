@@ -66,10 +66,6 @@ Then('I am redirected to link expired page') do
   expect_path(payment_history_link_expired_path)
 end
 
-Then('I am redirected to no access to link page') do
-  expect_path(payment_history_link_no_access_path)
-end
-
 Then('I should be on the the Company payment history page') do
   expect_path(payment_history_path)
 end

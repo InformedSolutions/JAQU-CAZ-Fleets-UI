@@ -11,7 +11,9 @@ module PaymentHistory
 
     before_action lambda {
       check_permissions(allow_view_details_history?)
-    }, except: %i[payment_history]
+    }, only: %i[payment_history_details initiate_payment_history_download payment_history_downloading
+                payment_history_download payment_history_link_expired
+                handle_payment_history_download_attempt]
 
     ##
     # Renders the payment history page
@@ -91,17 +93,6 @@ module PaymentHistory
       # renders a static page
     end
 
-    ##
-    # Renders the page informing that user doesn't have access to view the link.
-    #
-    # ==== Path
-    #
-    #   :GET /payment_history_link_no_access
-    #
-    def payment_history_link_no_access
-      # renders a static page
-    end
-
     # Performs an API call to check the validity of the download URL and redirects accordingly.
     #
     # ==== Path
@@ -109,15 +100,14 @@ module PaymentHistory
     #   :GET /payment_history_export?exportId=87252eee-e861-4619-891e-30045908286c
     #
     def handle_payment_history_download_attempt
-      service = assign_export_status_service
+      service = PaymentHistory::ExportStatus.new(account_id: current_user.account_id,
+                                                 job_id: export_id)
 
-      if !service.link_accessible_for?(current_user)
-        redirect_to payment_history_link_no_access_path
-      elsif !service.link_active?
-        redirect_to payment_history_link_expired_path
-      else
+      if service.link_active_for?(current_user)
         session[:payment_history_file_url] = service.file_url
         redirect_to payment_history_download_path
+      else
+        redirect_to payment_history_link_expired_path
       end
     end
 
@@ -140,13 +130,6 @@ module PaymentHistory
       @pagination = PaymentHistory::History.new(
         current_user.account_id, current_user.user_id, user_payments
       ).pagination(page: page_number, per_page: per_page)
-    end
-
-    # Assign Export status service to variable
-    def assign_export_status_service
-      PaymentHistory::ExportStatus.new(
-        account_id: current_user.account_id, job_id: export_id
-      )
     end
 
     # page number from params
