@@ -10,6 +10,7 @@
     "core-js": "^3.11.0",
     "govuk-frontend": "^3.11.0",
     "improved-yarn-audit": "^2.3.2",
+    "postcss": "8.2.10",
     "rails-erb-loader": "^5.5.2",
     "regenerator-runtime": "^0.13.7"
   },
