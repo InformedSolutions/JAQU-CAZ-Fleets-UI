@@ -41,4 +41,10 @@ describe VrnForm, type: :model do
 
     it_behaves_like 'an invalid VrnForm', I18n.t('vrn_form.errors.vrn_invalid')
   end
+
+  context 'when VRN starts with 0' do
+    let(:vrn) { '00SGL6' }
+
+    it_behaves_like 'an invalid VrnForm', I18n.t('vrn_form.errors.vrn_invalid')
+  end
 end

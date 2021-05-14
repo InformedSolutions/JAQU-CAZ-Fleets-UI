@@ -18,7 +18,6 @@ describe VehiclesManagement::DynamicCazes::SelectCaz do
       SecureRandom.uuid => {}
     }
   end
-
   let(:user) { create_user }
 
   before do

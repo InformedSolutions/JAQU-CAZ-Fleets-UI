@@ -24,7 +24,7 @@
               %th.govuk-table__header{scope: 'col'} Date of payment
               %th.govuk-table__header{scope: 'col'} Payment made by
               %th.govuk-table__header{scope: 'col'} Clean Air Zone
-              %th.govuk-table__header{scope: 'col'} Entries paid for
+              %th.govuk-table__header{scope: 'col'} Days paid for
               %th.govuk-table__header{scope: 'col'} Total amount paid
               %th.govuk-table__header{scope: 'col'} Charge details
           %tbody.govuk-table__body
@@ -43,17 +43,14 @@
                   = link_to payment_history_details_path(payment_id: payment.payment_id), class: 'govuk-link', id: "payment-#{index}" do
                     View details
 
-        - if @pagination.total_payments_count > 10
-          = render 'payment_history/payment_history/pagination'
+        = render 'payment_history/payment_history/pagination' if @pagination.total_payments_count > 10
 
-          = form_tag(payment_history_path, method: :get) do
-            .govuk-form-group
-              %fieldset.govuk-fieldset{'aria-describedby': 'per_page'}
-                %legend.govuk-visually-hidden Hide vehicles that are not charge in any Zone
-                .govuk-checkboxes
-                  .govuk-checkboxes__item
-                    = select_tag('per_page',
-                                 options_for_select(@pagination.results_per_page, params[:per_page]),
-                                 class: 'govuk-select moj-pagination__results results-per-page-select',
-                                 onchange: 'this.form.submit()')
-                    = label_tag('per_page', 'Results per page', class: 'govuk-label moj-pagination__results results-per-page-select')
+        = form_tag(payment_history_path, method: :get) do
+          .govuk-form-group
+            %fieldset.govuk-fieldset{'aria-describedby': 'per_page'}
+              - if @pagination.total_payments_count > 10
+                = select_tag('per_page',
+                              options_for_select(@pagination.results_per_page, params[:per_page]),
+                              class: 'govuk-select moj-pagination__results results-per-page-select',
+                              onchange: 'this.form.submit()')
+                = label_tag('per_page', 'Results per page', class: 'govuk-label moj-pagination__results results-per-page-select')

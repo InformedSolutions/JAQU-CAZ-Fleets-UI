@@ -359,18 +359,6 @@ steps:
       - name: docker_sock
         path: /var/run/docker.sock
 
-  # Invoke security analysis through Ruby libraries and yarn
-  - name: security tests (Ruby + Yarn)
-    image: test-fleet-frontend
-    pull: never
-    commands:
-      - bundle audit check --update
-      - yarn run improved-yarn-audit --exclude '565' --retry-on-network-failure
-      - brakeman
-    volumes:
-      - name: docker_sock
-        path: /var/run/docker.sock
-
   # Push built image to ECR registry
   - name: publish image to ecr
     image: plugins/ecr

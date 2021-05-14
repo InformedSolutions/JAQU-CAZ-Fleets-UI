@@ -1,0 +1,5 @@
+{
+  "recipientAccountUserId": "8734fdc7-2e37-4053-830a-033eae54f735",
+  "fileUrl": "https://example.com/payments.csv?X-Amz-Date=20210423T085031Z&X-Amz-Expires=3600",
+  "status": "FINISHED_SUCCESS"
+}
