@@ -6,7 +6,7 @@ module PaymentHistory
   ##
   # Controller used to show detailed information about the all company and users payments
   #
-  class PaymentHistoryController < ApplicationController
+  class PaymentHistoryController < ApplicationController # rubocop:disable Metrics/ClassLength
     include CheckPermissions
 
     before_action lambda {
@@ -77,7 +77,7 @@ module PaymentHistory
     #
     def payment_history_download
       @file_url = session[:payment_history_file_url]
-      @file_name = PaymentHistory::ParseFileName.call(file_url: @file_url)
+      @file_name = session[:payment_history_file_name]
     end
 
     ##
@@ -108,16 +108,31 @@ module PaymentHistory
     #
     #   :GET /payment_history_export?exportId=87252eee-e861-4619-891e-30045908286c
     #
-    def handle_payment_history_download_attempt
+    def handle_payment_history_download_link
       service = assign_export_status_service
       if !service.link_accessible_for?(current_user)
         redirect_to payment_history_link_no_access_path
       elsif !service.link_active?
         redirect_to payment_history_link_expired_path
       else
-        session[:payment_history_file_url] = service.file_url
+        store_file_details_in_session(service)
         redirect_to payment_history_download_path
       end
+    end
+
+    # Performs an API call to check the validity of the download URL and send file.
+    #
+    # ==== Path
+    #
+    #   :GET /payment_history_export_download?exportId=87252eee-e861-4619-891e-30045908286c
+    #
+    def handle_payment_history_download_attempt
+      service = assign_export_status_service
+      unless service.link_accessible_for?(current_user) && service.link_active?
+        return redirect_back(fallback_location: payment_history_download_path)
+      end
+
+      send_data service.file_body.read, filename: service.file_url, type: service.file_content_type
     end
 
     private
@@ -187,6 +202,12 @@ module PaymentHistory
       payment_details_back_link = request.referer || payment_history_path
       Security::RefererXssHandler.call(referer: payment_details_back_link)
       session[:payment_details_back_link] = payment_details_back_link
+    end
+
+    # Store file details in the session
+    def store_file_details_in_session(service)
+      session[:payment_history_file_name] = service.file_url
+      session[:payment_history_file_url] = payment_history_export_download_path(exportId: export_id)
     end
   end
 end
