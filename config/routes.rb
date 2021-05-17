@@ -205,7 +205,8 @@ Rails.application.routes.draw do
     get :payment_history_download
     get :payment_history_link_expired
     get :payment_history_link_no_access
-    get :payment_history_export, to: 'payment_history#handle_payment_history_download_attempt'
+    get :payment_history_export, to: 'payment_history#handle_payment_history_download_link'
+    get :payment_history_export_download, to: 'payment_history#handle_payment_history_download_attempt'
   end
 
   scope controller: 'static_pages' do
