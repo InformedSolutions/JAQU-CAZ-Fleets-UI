@@ -14,6 +14,7 @@ require("@rails/ujs").start();
 
 import "../styles/application.scss";
 import "../src/govukFrontendAssets";
+import "../src/hmrcFrontendAssets";
 import govukFrontend from "govuk-frontend/govuk/all";
 import hmrcFrontend from "hmrc-frontend/hmrc/all";
 import initPrintLink from "../src/printLink/init";
