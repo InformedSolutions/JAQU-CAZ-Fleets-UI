@@ -37,5 +37,6 @@ module FleetsUI
     config.x.max_fleet_size = 200_000
     config.x.contact_form_link = ENV.fetch('CONTACT_FORM_LINK', 'contact-preprod.dvla.gov.uk/caz')
     config.x.host = ENV['HOST']
+    config.x.csv_payment_history_expiration_days = ENV.fetch('CSV_PAYMENT_HISTORY_EXPIRATION_DAYS', 7).to_i
   end
 end

@@ -34,16 +34,18 @@ Given('I am attempting to download payment history from a valid link') do
   mock_api_on_payment_history
   mock_debits
   mock_payment_history_export_status
+  mock_found_file_on_s3
   login_user(user_id: '8734fdc7-2e37-4053-830a-033eae54f735', permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
   visit payment_history_export_path('exportId' => SecureRandom.uuid)
 end
 
 Given('I am attempting to download payment history from an expired link') do
-  travel_to(Time.parse('2021-04-24T085031Z').utc)
+  travel_to(Time.parse('2021-07-24T085031Z').utc)
   mock_clean_air_zones
   mock_api_on_payment_history
   mock_debits
   mock_payment_history_export_status
+  mock_found_file_on_s3
   login_user(user_id: '8734fdc7-2e37-4053-830a-033eae54f735', permissions: %w[VIEW_PAYMENTS MAKE_PAYMENTS])
   visit payment_history_export_path('exportId' => SecureRandom.uuid)
 end
@@ -133,6 +135,12 @@ def empty_payments_history_page
   )
 end
 
+def found_s3_file
+  instance_double('Aws::S3::Types::GetObjectOutput',
+                  last_modified: Time.parse('2021-04-22T085031').utc,
+                  content_type: 'text/csv', body: 'file_body')
+end
+
 def payments_list
   api_response.map { |data| PaymentHistory::Payment.new(data) }
 end
@@ -159,4 +167,9 @@ def mock_api_on_payment_history
   mock_vehicles_in_fleet
   mock_payment_history
   mock_users
+end
+
+def mock_found_file_on_s3
+  mock = instance_double(Aws::S3::Object, get: found_s3_file)
+  allow(Aws::S3::Object).to receive(:new).and_return(mock)
 end
