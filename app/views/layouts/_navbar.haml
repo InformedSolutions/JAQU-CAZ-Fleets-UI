@@ -16,9 +16,10 @@
       -# Sub menu and back button classes declaration need it for proper loading hmrc javascript.
 
       %li
+        - account_details_path = current_user.owner ? primary_users_account_details_path : non_primary_users_account_details_path
         = link_to('Account details',
-                  current_user.owner ? primary_users_account_details_path : non_primary_users_account_details_path,
-                  class: (current_path?(primary_users_account_details_path) || current_path?(non_primary_users_account_details_path)),
+                  account_details_path,
+                  class: (current_path?(account_details_path)),
                   id: 'account-details')
       %li
         = link_to('Help', help_path, class: current_path?(help_path), id: 'navbar-help')
