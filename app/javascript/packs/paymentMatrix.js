@@ -1,8 +1,8 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-import initSearch from "../src/payment_matrix/initSearch";
-import initPaginationButton from "../src/payment_matrix/initPaginationButton";
-import preventContinue from "../src/payment_matrix/emptyMatrixContinuePrevention";
+import initSearch from "../src/paymentMatrix/initSearch";
+import initPaginationButton from "../src/paymentMatrix/initPaginationButton";
+import preventContinue from "../src/paymentMatrix/emptyMatrixContinuePrevention";
 
 window.addEventListener("DOMContentLoaded", () => {
   preventContinue();
