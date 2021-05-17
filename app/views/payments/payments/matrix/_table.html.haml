@@ -28,7 +28,7 @@
                                                  checked: checked?(vehicle.vrn, formatted_date_string(date[:value]))}
                   %label.govuk-label.govuk-checkboxes__label{for: id}
                     %span.govuk-visually-hidden
-                      = date[:value]
+                      = formatted_date_string(date[:value])
           - if direction.equal?(:past) && @dates[direction].count < 6
             %td.govuk-table__cell{colspan: 6 - @dates[direction].count}
 

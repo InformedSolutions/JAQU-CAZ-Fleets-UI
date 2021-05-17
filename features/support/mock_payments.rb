@@ -18,6 +18,16 @@ module MockPayments
     payment_status_response = read_response('payment_status.json')
     allow(PaymentsApi).to receive(:payment_status).and_return(payment_status_response)
   end
+
+  def mock_payment_history_download_initialization
+    allow(AccountsApi::PaymentHistory).to receive(:payment_history_export).and_return({})
+  end
+
+  def mock_payment_history_export_status
+    payment_history_export_status = read_response('/payment_history/export_status.json')
+    allow(AccountsApi::PaymentHistory).to receive(:payment_history_export_status)
+      .and_return(payment_history_export_status)
+  end
 end
 
 World(MockPayments)

@@ -16,8 +16,8 @@ RSpec.describe PaymentHistory::BackLinkHistory do
   let(:session) { {} }
   let(:back_button) { false }
   let(:page) { 1 }
-  let(:default_url) { 'http://www.example.com/dashboard' }
-  let(:url) { 'http://www.example.com/company_payment_history' }
+  let(:default_url) { 'https://www.example.com/dashboard' }
+  let(:url) { 'https://www.example.com/company_payment_history' }
 
   describe '#call' do
     context 'when session is empty and back button is false' do

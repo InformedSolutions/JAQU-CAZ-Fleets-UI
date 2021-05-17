@@ -32,9 +32,14 @@ class VrnForm < BaseForm
   def validate_format
     return if FORMAT_REGEXPS.any? do |reg|
       reg.match(vrn).present?
-    end
+    end && no_leading_zeros?
 
     errors.add(:vrn, I18n.t('vrn_form.errors.vrn_invalid'))
+  end
+
+  # Checks if VRN starts with '0'
+  def no_leading_zeros?
+    !vrn.starts_with?('0')
   end
 
   # Possible vrn formats
@@ -69,6 +74,10 @@ class VrnForm < BaseForm
     /^[A-Z]{3}[0-9]{2}[A-Z]$/, # AAA99A
     /^[0-9]{3}[A-Z]{3}$/, # 999AAA
     /^[A-Z]{2}[0-9]{4}$/, # AA9999
-    /^[0-9]{4}[A-Z]{2}$/ # 9999AA
+    /^[0-9]{4}[A-Z]{2}$/, # 9999AA
+
+    # The following regex is technically not valid, but is considered as valid
+    # due to the requirement which forces users not to include leading zeros.
+    /^[A-Z]{2,3}$/ # AA, AAA
   ].freeze
 end
