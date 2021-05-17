@@ -1,14 +1,9 @@
-$govuk-global-styles: true;
-$govuk-assets-path: '/packs/media/';
-$hmrc-assets-path: '~hmrc-frontend/hmrc/';
-$moj-assets-path: '/application/assets';
-
-@import '~govuk-frontend/govuk/all';
-@import '~hmrc-frontend/hmrc/all';
-@import '~@ministryofjustice/frontend/moj/all';
-@import 'cookie_control';
-@import 'custom_pagination';
-@import 'payment_summary';
+@import 'govuk-frontend';
+@import 'hmrc-frontend';
+@import 'ministryofjustice-frontend';
+@import 'cookie-control';
+@import 'custom-pagination';
+@import 'payment-summary';
 
 html {
   background-color: govuk-colour($colour: 'light-grey');

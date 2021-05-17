@@ -1,0 +1,7 @@
+$hmrc-assets-path: '/packs/media/';
+
+@import '~hmrc-frontend/hmrc/all';
+
+.hmrc-account-icon--home {
+  background-image: url("#{$hmrc-assets-path}images/icon-home.png");
+}
