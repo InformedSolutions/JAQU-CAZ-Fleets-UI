@@ -59,7 +59,7 @@ module PaymentHistory
 
     # Returns number of expiration days for file
     def file_expiration_days
-      Rails.configuration.x.csv_file_size_limit.days
+      Rails.configuration.x.csv_payment_history_expiration_days.days
     end
   end
 end

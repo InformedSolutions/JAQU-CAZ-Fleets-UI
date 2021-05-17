@@ -19,22 +19,15 @@ module PaymentHistory
 
     # Performs an API call with proper parameters
     def call
-      s3_object
+      AMAZON_S3_CLIENT.bucket(bucket_name).object(file_url).get
+    rescue Aws::S3::Errors::NoSuchKey
+      # return nil if file not found.
+      nil
     end
 
     private
 
     attr_reader :file_url
-
-    # Loads file from AWS S3.
-    #
-    # Returns a boolean.
-    def s3_object
-      @s3_object ||= AMAZON_S3_CLIENT.bucket(bucket_name).object(file_url).get
-    rescue Aws::S3::Errors::NoSuchKey
-      # return nil if file not found.
-      nil
-    end
 
     # AWS S3 Bucket Name.
     #

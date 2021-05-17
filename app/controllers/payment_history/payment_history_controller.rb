@@ -128,11 +128,12 @@ module PaymentHistory
     #
     def handle_payment_history_download_attempt
       service = assign_export_status_service
-      unless service.link_accessible_for?(current_user) && service.link_active?
-        return redirect_back(fallback_location: payment_history_download_path)
+      if service.link_accessible_for?(current_user) && service.link_active?
+        send_data service.file_body.read, filename: service.file_url,
+                                          type: service.file_content_type
+      else
+        redirect_back(fallback_location: payment_history_download_path)
       end
-
-      send_data service.file_body.read, filename: service.file_url, type: service.file_content_type
     end
 
     private
