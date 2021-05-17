@@ -37,6 +37,7 @@
     .govuk-width-container
       - unless @relevant_portal
         = render 'layouts/feedback_section'
+        = render 'layouts/navbar'
       = yield
       = render 'layouts/timeout'
     = render 'layouts/footer'
