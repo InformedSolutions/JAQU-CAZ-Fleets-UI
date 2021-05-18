@@ -1,4 +1,4 @@
-%nav#secondary-nav.hmrc-account-menu{"aria-label": 'Account', "data-module": 'hmrc-account-menu'}
+%nav#secondary-nav.hmrc-account-menu{'aria-label': 'Account', 'data-module': 'hmrc-account-menu'}
   - if user_signed_in?
     = link_to(authenticated_root_path, class: "hmrc-account-menu__link--home #{current_path?(authenticated_root_path)}", id: 'home') do
       %span.hmrc-account-icon.hmrc-account-icon--home Account home
@@ -7,8 +7,8 @@
               class: 'hmrc-account-menu__link hmrc-account-menu__link--menu js-hidden js-visible',
               'aria-expanded': false,
               'aria-hidden': true,
-              tabindex: "-1")
-    %ul.hmrc-account-menu__main.js-hidden
+              tabindex: '-1')
+    %ul.hmrc-account-menu__main
 
       -# Sub menu and back button classes declaration need it for proper loading hmrc javascript.
       .hmrc-account-menu__link--back{style: 'display: none' }
