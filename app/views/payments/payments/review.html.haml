@@ -9,7 +9,7 @@
       - if alert
         = render 'shared/error_summary',
                   error_msg_div: '#govuk-error-message',
-                  error_msg: alert
+                  error_msg: alert.values.first
 
       %h1.govuk-heading-l
         = title_and_header
@@ -43,30 +43,32 @@
           %dd.govuk-summary-list__actions
             = link_to('View details', review_details_payments_path)
 
-      = form_tag confirm_review_payments_path, method: :post do
-        .govuk-form-group{class: ('govuk-form-group--error' if alert)}
-          %fieldset.govuk-fieldset
-            %legend.govuk-visually-hidden
-              = I18n.t('payment_review.errors.confirmation_alert')
-
-            - if alert
-              %span#unrecognised-vehicle-error.govuk-error-message
-                %span.govuk-visually-hidden Error:
+      - if alert && alert[:limit_exceeded_alert]
+        = link_to 'Return to select vehicles and days', matrix_payments_path, class: 'govuk-link'
+      - else
+        = form_tag confirm_review_payments_path, method: :post do
+          .govuk-form-group{class: ('govuk-form-group--error' if alert && alert[:confirmation])}
+            %fieldset.govuk-fieldset
+              %legend.govuk-visually-hidden
                 = I18n.t('payment_review.errors.confirmation_alert')
 
-            .govuk-checkboxes
-              .govuk-checkboxes__item
-                %input.govuk-checkboxes__input{name: 'confirm_not_exemption',
-                                               type: 'checkbox',
-                                               value: 'yes',
-                                               id: 'confirm_not_exemption',
-                                               checked: session[:new_payment]['confirm_not_exemption'] == 'yes'}
-                %label.govuk-label.govuk-checkboxes__label{for: 'confirm_not_exemption'}
-                  I confirm I do not have an exemption from the #{@zone.name} Clean Air Zone charge.
-                  = precede '(' do
-                    = succeed ').' do
-                      Find out who can apply for an exemption in
-                      = exemption_url_for(@zone)
+              - if alert && alert[:confirmation]
+                %span#unrecognised-vehicle-error.govuk-error-message
+                  %span.govuk-visually-hidden Error:
+                  = I18n.t('payment_review.errors.confirmation_alert')
 
-        = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
+              .govuk-checkboxes
+                .govuk-checkboxes__item
+                  %input.govuk-checkboxes__input{name: 'confirm_not_exemption',
+                                                type: 'checkbox',
+                                                value: 'yes',
+                                                id: 'confirm_not_exemption',
+                                                checked: session[:new_payment]['confirm_not_exemption'] == 'yes'}
+                  %label.govuk-label.govuk-checkboxes__label{for: 'confirm_not_exemption'}
+                    I confirm I do not have an exemption from the #{@zone.name} Clean Air Zone charge.
+                    = precede '(' do
+                      = succeed ').' do
+                        Find out who can apply for an exemption in
+                        = exemption_url_for(@zone)
 
+          = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

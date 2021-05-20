@@ -94,6 +94,7 @@ en:
   payment_review:
     errors:
       confirmation_alert: Confirm you have checked if you are eligible for an exemption
+      limit_exceeded_alert: This payment exceeds the limit of £5,000. To pay for these vehicles, you will need to split them into separate transactions
   relevant_portal_form:
     errors:
       missing_answer: You must choose an answer
