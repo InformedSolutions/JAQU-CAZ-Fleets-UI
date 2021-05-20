@@ -163,6 +163,9 @@ module Payments
       @zone = CleanAirZone.find(@zone_id)
       @days_to_pay = helpers.days_to_pay(helpers.new_payment_data[:details])
       @total_to_pay = total_to_pay_from_session
+      return unless @total_to_pay > Payments::Constants::CHARGE_LIMIT
+
+      flash.now[:alert] = { limit_exceeded_alert: I18n.t('payment_review.errors.limit_exceeded_alert') }
     end
 
     ##
@@ -179,7 +182,7 @@ module Payments
       if form.valid?
         redirect_to select_payment_method_payments_path
       else
-        redirect_to review_payments_path, alert: confirmation_error(form)
+        redirect_to review_payments_path, alert: { confirmation: confirmation_error(form) }
       end
     end
 

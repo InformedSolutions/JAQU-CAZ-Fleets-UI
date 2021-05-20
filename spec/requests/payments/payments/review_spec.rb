@@ -34,6 +34,23 @@ describe 'PaymentsController - GET #review', type: :request do
       subject
       expect(assigns(:total_to_pay)).to eq(100)
     end
+
+    context 'when :total_to_pay is < Payments::Constants::CHARGE_LIMIT' do
+      it 'assings flash message' do
+        subject
+        expect(flash[:alert]).to eq(nil)
+      end
+    end
+
+    context 'when :total_to_pay is > Payments::Constants::CHARGE_LIMIT' do
+      before { stub_const('Payments::Constants::CHARGE_LIMIT', 0) }
+
+      it 'assings flash message' do
+        subject
+        expect(flash[:alert][:limit_exceeded_alert])
+          .to eq(I18n.t('payment_review.errors.limit_exceeded_alert'))
+      end
+    end
   end
 
   it_behaves_like 'incorrect permissions'

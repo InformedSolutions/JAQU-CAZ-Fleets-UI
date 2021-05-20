@@ -227,3 +227,15 @@ Feature: Fleets
       And I should see inactive '1' pagination button
       And I should see inactive 'previous' pagination button
       And I should not see 'next' pagination button
+
+  Scenario: Making a payment with charge that exceeds maximum charge limit
+    When I have vehicles in my fleet
+      And I visit the make payment page
+    Then I select 'Birmingham'
+      And I press the Continue
+    Then I should be on the payment matrix page
+    When I select so many dates that transaction charge amount exceeds limit
+      And I press the 'Review payment' button
+    Then I should be on the confirm payment page
+      And I should see 'Review the payment' title
+      And I should see 'This payment exceeds the limit of £5,000.'
