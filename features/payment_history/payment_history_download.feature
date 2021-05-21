@@ -5,13 +5,11 @@ Feature: Payment History Download
 
   Scenario: User downloads payments history
     Given I visit payment history page to download CSV
-      Then I should not see 'Request a download link (CSV)' link
-    # CAZB-4839: Removed button
-    # When I press 'Request a download link (CSV)' link
-    # Then I should see 'Preparing your payment history'
-    #   And I should see 'Return to payment history' link
-    # Then I press 'Return to payment history' link
-    #   And I should be on the the Company payment history page
+    When I press 'Request a download link (CSV)' link
+    Then I should see 'Preparing your payment history'
+      And I should see 'Return to payment history' link
+    Then I press 'Return to payment history' link
+      And I should be on the the Company payment history page
 
   Scenario: User opens a valid link from an email
     Given I am attempting to download payment history from a valid link
