@@ -1430,7 +1430,7 @@ steps:
       SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::360470905865:role/jaqu-stagingServiceRole
       GIT_PRIVATE_SSH:
         from_secret: jaqu_lower_github_private_key
-      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_3VN4h6MF2zsAEcJcd .
+      TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_3VN4h6MF2zsAEcJ
       TF_VAR_enable_https_redirect: false
     when:
       event:
