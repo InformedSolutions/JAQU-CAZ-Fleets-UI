@@ -9,18 +9,23 @@ class ApplicationController < ActionController::Base
   protect_from_forgery prepend: true
   # permits additional parameters before sign in
   before_action :configure_permitted_parameters, if: :devise_controller?
+  # check if host headers are valid
+  before_action :validate_host_headers!,
+                except: %i[health build_id],
+                if: -> { Rails.env.production? && Rails.configuration.x.host.present? }
   # checks if a user is logged in
   before_action :authenticate_user!, except: %i[health build_id]
   # checks if password is outdated
   before_action :check_password_age, except: %i[health build_id]
 
-  # rescues from API errors
+  # rescues from API and security errors
   rescue_from Errno::ECONNREFUSED,
               SocketError,
               BaseApi::Error500Exception,
               BaseApi::Error422Exception,
               BaseApi::Error400Exception,
               BaseApi::Error404Exception,
+              InvalidHostException,
               with: :render_server_unavailable
 
   # rescues `UserAlreadyConfirmedException` exception
@@ -137,6 +142,13 @@ class ApplicationController < ActionController::Base
 
     redirect_to edit_passwords_path if days_to_password_expiry <= 0
   end
+
+  # Checks if hosts were not manipulated
+  # :nocov:
+  def validate_host_headers!
+    Security::HostHeaderValidator.call(request: request, allowed_hosts: Rails.configuration.x.host)
+  end
+  # :nocov:
 
   # Sets number of remaining days to password expiry
   # Returns number or nil if password was already changed during existing session
