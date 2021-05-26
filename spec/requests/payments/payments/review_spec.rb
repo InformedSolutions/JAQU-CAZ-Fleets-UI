@@ -25,6 +25,11 @@ describe 'PaymentsController - GET #review', type: :request do
       expect(assigns(:zone).name).to eq('Birmingham')
     end
 
+    it 'assigns :direct_debit_enabled' do
+      subject
+      expect(assigns(:direct_debit_enabled)).to be_truthy
+    end
+
     it 'assigns :days_to_pay variable' do
       subject
       expect(assigns(:days_to_pay)).to eq(2)

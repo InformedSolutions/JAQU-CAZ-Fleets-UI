@@ -47,6 +47,8 @@
         = link_to 'Return to select vehicles and days', matrix_payments_path, class: 'govuk-link'
       - else
         = form_tag confirm_review_payments_path, method: :post do
+          = hidden_field_tag(:direct_debit_enabled, @direct_debit_enabled)
+
           .govuk-form-group{class: ('govuk-form-group--error' if alert && alert[:confirmation])}
             %fieldset.govuk-fieldset
               %legend.govuk-visually-hidden
