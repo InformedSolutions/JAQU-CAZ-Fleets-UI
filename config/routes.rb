@@ -212,7 +212,7 @@ Rails.application.routes.draw do
   scope controller: 'static_pages' do
     get :accessibility_statement
     get :cookies
-    get :help
+    get :support
     get :privacy_notice
     get :terms_and_conditions
   end

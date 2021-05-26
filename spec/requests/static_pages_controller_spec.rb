@@ -15,8 +15,8 @@ describe StaticPagesController, type: :request do
     it_behaves_like 'a static page'
   end
 
-  describe 'GET #help' do
-    subject { get help_path }
+  describe 'GET #support' do
+    subject { get support_path }
 
     before { mock_clean_air_zones }
 
