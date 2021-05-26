@@ -161,7 +161,7 @@ module Payments
     #
     def review
       @zone = CleanAirZone.find(@zone_id)
-      @direct_debit_enabled = @zone.direct_debit_enabled?
+      session[:new_payment]['direct_debit_enabled'] = @zone.direct_debit_enabled?
       @days_to_pay = helpers.days_to_pay(helpers.new_payment_data[:details])
       @total_to_pay = total_to_pay_from_session
       return unless @total_to_pay > Payments::Constants::CHARGE_LIMIT
@@ -207,6 +207,7 @@ module Payments
     #    :GET /payments/select_payment_method
     #
     def select_payment_method
+      redirect_to dashboard_path unless session.dig(:new_payment, 'direct_debit_enabled')
       return if helpers.direct_debits_enabled? && @debit.caz_mandates(@zone_id).present?
 
       redirect_to initiate_payments_path

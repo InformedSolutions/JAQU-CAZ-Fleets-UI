@@ -25,9 +25,9 @@ describe 'PaymentsController - GET #review', type: :request do
       expect(assigns(:zone).name).to eq('Birmingham')
     end
 
-    it 'assigns :direct_debit_enabled' do
+    it 'assigns correct value to session' do
       subject
-      expect(assigns(:direct_debit_enabled)).to be_truthy
+      expect(session.dig(:new_payment, 'direct_debit_enabled')).to be_truthy
     end
 
     it 'assigns :days_to_pay variable' do
@@ -41,7 +41,7 @@ describe 'PaymentsController - GET #review', type: :request do
     end
 
     context 'when :total_to_pay is < Payments::Constants::CHARGE_LIMIT' do
-      it 'assings flash message' do
+      it 'assigns flash message' do
         subject
         expect(flash[:alert]).to eq(nil)
       end
