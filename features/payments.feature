@@ -239,3 +239,16 @@ Feature: Fleets
     Then I should be on the confirm payment page
       And I should see 'Review the payment' title
       And I should see 'This payment exceeds the limit of £5,000.'
+
+  Scenario: Making a payment with the direct debit enabled flag for the Clean Air Zone remains set to false
+    When I have vehicles in my fleet
+      And I visit the make payment page
+    Then I select 'Birmingham'
+      And I press the Continue
+    Then I should be on the payment matrix page
+    When Direct debit enabled flag for the Clean Air Zone remains set to false
+      And I press the 'Review payment' button
+    Then I should be on the confirm payment page
+      And I confirm that my vehicles are not exempt from payment
+      And I press the Continue
+    Then I should be on the success payment page
