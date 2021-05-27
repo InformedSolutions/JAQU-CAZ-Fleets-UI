@@ -22,7 +22,7 @@
                   class: (current_path?(account_details_path)),
                   id: 'account-details')
       %li
-        = link_to('Help', help_path, class: current_path?(help_path), id: 'navbar-help')
+        = link_to('Support', support_path, class: current_path?(support_path), id: 'navbar-help')
       %li
         = link_to('Sign out', destroy_user_session_path, method: :delete, class: 'hmrc-account-menu__link', id: 'sign-out')
   - else

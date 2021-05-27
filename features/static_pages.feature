@@ -26,11 +26,11 @@ Feature: Static Pages
     When I press footer link 'Terms and conditions'
     Then I should see 'Terms and conditions' title
 
-  Scenario: User sees help page
+  Scenario: User sees support page
     Given I navigate to a Dashboard page with '' permission
-      And I should see 'Help' 2 times
+      And I should see 'Support' 3 times
     When I press navbar link Help
-    Then I should see 'Help' title
+    Then I should see 'Support' title
       And I should not see 'FutureCaz'
-      And I should see 'Birmingham' 2 times
+      And I should see 'Birmingham' 3 times
       And I should see 'Available Now' link

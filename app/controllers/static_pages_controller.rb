@@ -28,12 +28,12 @@ class StaticPagesController < ApplicationController
   end
 
   ##
-  # Renders the help page
+  # Renders the support page
   #
   # ==== Path
-  #    GET /help
+  #    GET /support
   #
-  def help
+  def support
     @zones = CleanAirZone.visible_cazes
   end
 
