@@ -7,6 +7,8 @@ module PaymentHistory
   # Represents the virtual model of the payment history, used in +app/views/payment_history/company_payment_history.html.haml+.
   #
   class Payment
+    include ApplicationHelper
+
     def initialize(data)
       @data = data.transform_keys { |key| key.underscore.to_sym }
     end
@@ -41,6 +43,22 @@ module PaymentHistory
       data[:total_paid]
     end
 
+    # Returns total amount paid value
+    def total_amount_paid
+      if unsuccessful?
+        'Unsuccessful'
+      elsif refunded? || charged_back?
+        'Refunded'
+      else
+        parse_charge(total_paid)
+      end
+    end
+
+    private
+
+    # Reader for data hash
+    attr_accessor :data
+
     # Returns a boolean, e.g. true
     def refunded?
       data[:is_refunded]
@@ -51,9 +69,9 @@ module PaymentHistory
       data[:is_chargedback]
     end
 
-    private
-
-    # Reader for data hash
-    attr_accessor :data
+    # Returns a boolean, e.g. true
+    def unsuccessful?
+      data[:is_unsuccessful]
+    end
   end
 end

@@ -9,7 +9,8 @@
         "cazName": "Bath",
         "payerName": "Administrator",
         "isRefunded": true,
-        "isChargedback": false
+        "isChargedback": false,
+        "isUnsuccessful": false
       },
       {
         "paymentId": "099bc2c7-fd7b-484e-86f2-68d2bbbc6f80",
@@ -19,7 +20,8 @@
         "cazName": "Bath",
         "payerName": "Administrator",
         "isRefunded": false,
-        "isChargedback": false
+        "isChargedback": false,
+        "isUnsuccessful": false
       },
             {
         "paymentId": "28926cce-6cff-49a7-a1cb-4311b746964b",
@@ -29,7 +31,8 @@
         "cazName": "Bath",
         "payerName": "Administrator",
         "isRefunded": false,
-        "isChargedback": false
+        "isChargedback": false,
+        "isUnsuccessful": false
       },
       {
         "paymentId": "f2be5a77-5a85-4d46-9aff-f1f9501b6c09",
@@ -39,7 +42,8 @@
         "cazName": "Bath",
         "payerName": "Administrator",
         "isRefunded": false,
-        "isChargedback": false
+        "isChargedback": false,
+        "isUnsuccessful": false
       },
             {
         "paymentId": "ffe73001-25ef-4444-9c20-3fe0a4f161f9",
@@ -49,7 +53,8 @@
         "cazName": "Bath",
         "payerName": "Administrator",
         "isRefunded": false,
-        "isChargedback": false
+        "isChargedback": false,
+        "isUnsuccessful": false
       },
       {
         "paymentId": "c6c141c2-0778-4e14-9194-b13d0534c154",
@@ -59,7 +64,8 @@
         "cazName": "Bath",
         "payerName": "Administrator",
         "isRefunded": false,
-        "isChargedback": false
+        "isChargedback": false,
+        "isUnsuccessful": false
       },
             {
         "paymentId": "ce51c071-aa71-4a18-a701-2a32d88c3de1",
@@ -69,7 +75,8 @@
         "cazName": "Bath",
         "payerName": "Administrator",
         "isRefunded": false,
-        "isChargedback": false
+        "isChargedback": false,
+        "isUnsuccessful": false
       },
       {
         "paymentId": "d44d8e5d-4bcb-4b4a-b3a6-930819275f6a",
@@ -79,7 +86,8 @@
         "cazName": "Bath",
         "payerName": "Administrator",
         "isRefunded": false,
-        "isChargedback": false
+        "isChargedback": false,
+        "isUnsuccessful": false
       },
             {
         "paymentId": "cf87d9dc-63d0-4db3-8458-1224279d7d3e",
@@ -89,7 +97,8 @@
         "cazName": "Bath",
         "payerName": "Administrator",
         "isRefunded": false,
-        "isChargedback": false
+        "isChargedback": false,
+        "isUnsuccessful": false
       },
       {
         "paymentId": "7180d976-6ff6-46bc-9fec-483ef376eec7",
@@ -99,7 +108,8 @@
         "cazName": "Bath",
         "payerName": "Administrator",
         "isRefunded": false,
-        "isChargedback": false
+        "isChargedback": false,
+        "isUnsuccessful": false
       }
     ],
     "perPage": 10,
@@ -117,7 +127,8 @@
         "cazName": "Bath",
         "payerName": "Administrator",
         "isRefunded": false,
-        "isChargedback": true
+        "isChargedback": true,
+        "isUnsuccessful": false
       },
       {
         "paymentId": "f84ed0b2-2637-4cd3-baf4-ab522ddfe307",
@@ -127,7 +138,8 @@
         "cazName": "Bath",
         "payerName": "Administrator",
         "isRefunded": false,
-        "isChargedback": true
+        "isChargedback": true,
+        "isUnsuccessful": false
       }
     ],
     "perPage": 10,
