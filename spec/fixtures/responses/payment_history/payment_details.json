@@ -105,6 +105,14 @@
       "caseReference": "CR100000349",
       "modificationTimestamp": "2021-02-16T01:00:17",
       "entrantPaymentStatus": "CHARGEBACK"
+    },
+    {
+      "amount": 5000,
+      "travelDate": "2021-02-16",
+      "vrn": "TST008",
+      "caseReference": "CR100000349",
+      "modificationTimestamp": "2021-02-16T01:00:17",
+      "entrantPaymentStatus": "FAILED"
     }
   ]
 }
