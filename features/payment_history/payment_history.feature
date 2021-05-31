@@ -31,7 +31,7 @@ Feature: Payment History
     Then I press 3 pagination button on the payment history page
       And I should be on the Payment history page number 3
     Then I press 'Back' link
-       And I should be on the Payment history page number 5 when using back button
+      And I should be on the Payment history page number 5 when using back button
     Then I press 'Back' link
       And I should be on the Payment history page number 3 when using back button
     Then I press 'Back' link
@@ -49,6 +49,7 @@ Feature: Payment History
       And I should see 'Print this page'
       And I should see 'Refund'
       And I should see 'Chargeback'
+      And I should see 'Unsuccessful'
       And I should see 'Payment returned after the charge was disputed.'
     Then I press 'Back' link
       And I should be on the Payment history page number 3
