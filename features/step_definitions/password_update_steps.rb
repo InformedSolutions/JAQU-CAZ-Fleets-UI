@@ -46,6 +46,15 @@ When('I fill in correct old and new password and press {string}') do |string|
   click_button string
 end
 
+When('I fill in incorrect old and new password too many times') do
+  mock_debits('active_mandates')
+  allow(AccountsApi::Auth).to receive(:update_password).and_raise(
+    BaseApi::Error401Exception.new(401, '', {})
+  )
+  fill_in_new_password
+  click_button 'Save changes'
+end
+
 def fill_in_new_password(old_password: nil, password: nil, password_confirmation: nil)
   fill_in('passwords[old_password]', with: old_password || 'old_password12345!')
   fill_in('passwords[password]', with: password || 'New_valid_password12345!@')

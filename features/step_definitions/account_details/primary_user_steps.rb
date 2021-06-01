@@ -14,6 +14,20 @@ Given('I visit primary user Account Details page') do
   visit primary_users_account_details_path
 end
 
+Given('I visit primary user Account Details page with many faild password updates') do
+  mock_chargeable_vehicles
+  mock_vehicles_in_fleet
+  mock_users
+  mock_debits
+  mock_account_details
+  mock_clean_air_zones
+  mock_account_cancellation
+  mock_payment_history
+
+  login_owner
+  visit primary_users_account_details_path
+end
+
 And('I should see my current company name already filled in input') do
   expect(find('.govuk-input').value).to eq("Royal Mail's")
 end
