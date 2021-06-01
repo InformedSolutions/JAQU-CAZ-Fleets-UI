@@ -13,7 +13,7 @@
         Enter your email address and password to sign in.
 
       = form_for(@user, as: @user, url: session_path(@user)) do |f|
-        = render 'shared/sign_in/error_summary', errors: errors
+        = render 'shared/sign_in/error_summary', errors: errors if errors.any?
         %fieldset.govuk-fieldset
           %legend.govuk-visually-hidden
             Submit your login credentials
