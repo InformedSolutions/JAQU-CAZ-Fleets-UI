@@ -6,7 +6,6 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      %h1.govuk-heading-xl= title_and_header
 
       - if alert
         = render 'shared/error_summary',
@@ -15,6 +14,12 @@
 
       = form_for('relevant_portal', url: what_would_you_like_to_do_path, method: :post) do |f|
         .govuk-form-group{class: ('govuk-form-group--error' if alert.present?)}
+          %legend.govuk-heading-xl= title_and_header
+          .govuk-inset-text
+            Birmingham Clean Air Zone launches on 1 June 2021. Payment and enforcement starts from 14 June 2021. 
+            Find out more on 
+            = external_link_to("Birmingham City Council Website", "https://brumbreathes.co.uk/getready")
+
           %fieldset.govuk-fieldset
             %legend.govuk-visually-hidden What would you like to do
 
