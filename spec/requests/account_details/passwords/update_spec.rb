@@ -137,5 +137,19 @@ describe 'AccountDetails::PasswordsController - PATCH #update', type: :request d
     end
   end
 
+  context 'when password update failed too many times' do
+    before do
+      allow(AccountsApi::Auth).to receive(:update_password).and_raise(
+        BaseApi::Error401Exception.new(401, '', {})
+      )
+      sign_in create_owner
+      subject
+    end
+
+    it 'redirects to the login page' do
+      expect(response).to redirect_to(new_user_session_path(account_locked: true))
+    end
+  end
+
   it_behaves_like 'a login required'
 end
