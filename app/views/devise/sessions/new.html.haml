@@ -14,6 +14,10 @@
       = form_for(@user ||= User.new, as: @user, url: session_path(@user)) do |f|
         = render 'shared/sign_in/error_summary', errors: errors if errors
 
+        - if params[:account_locked].present?
+          %h3.govuk-heading-s Your account is locked for 30 minutes
+          %p You have reached the maximum number of attempts to submit your password. Your account will be unlocked in 30 minutes.
+
         %p= flash[:notice]
 
         %fieldset.govuk-fieldset

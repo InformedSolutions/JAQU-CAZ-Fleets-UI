@@ -34,3 +34,10 @@ Feature: Password update
       And I want to change my password
     When I fill in correct old and new password and press 'Save changes'
       Then I should be on the non-primary user Account Details page
+
+  Scenario: Too many faild password update requests
+    Given I visit primary user Account Details page with many faild password updates
+      And I want to change my password
+      And I should be on account details update password page
+    When I fill in incorrect old and new password too many times
+      And I should see 'Your account is locked for 30 minutes'
