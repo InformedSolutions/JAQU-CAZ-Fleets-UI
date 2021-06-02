@@ -19,7 +19,7 @@ module Payments
     before_action :release_lock_on_caz, only: %i[success unsuccessful]
     before_action :assign_zone_and_dates, only: %i[matrix vrn_not_found]
     before_action :assign_debit, only: %i[select_payment_method]
-    before_action :check_new_payment_data, only: %i[review confirm_review]
+    before_action :check_new_payment_data, only: %i[review review_details confirm_review]
 
     ##
     # Renders the list of available local authorities
