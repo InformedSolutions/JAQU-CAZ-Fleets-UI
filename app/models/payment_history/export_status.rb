@@ -26,7 +26,8 @@ module PaymentHistory
 
     # Calculates if an URL is still active and returns a boolean
     def link_active?
-      file.present? && file.last_modified + file_expiration_days >= Time.current.utc
+      status == 'FINISHED_SUCCESS' && file.present? &&
+        file.last_modified + file_expiration_days >= Time.current.utc
     end
 
     # Calculates if an URL is accessible for provided user
@@ -60,6 +61,11 @@ module PaymentHistory
     # Returns number of expiration days for file
     def file_expiration_days
       Rails.configuration.x.csv_payment_history_expiration_days.days
+    end
+
+    # Returns a string with export status
+    def status
+      api_data['status']
     end
   end
 end

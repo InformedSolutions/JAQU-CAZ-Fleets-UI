@@ -75,6 +75,9 @@ module PaymentHistory
               end),
               'charges_back' => prepare_payment_modification(modifications.select do |e|
                 e['entrantPaymentStatus'] == 'CHARGEBACK'
+              end),
+              'failed' => prepare_payment_modification(modifications.select do |e|
+                e['entrantPaymentStatus'] == 'FAILED'
               end)
             }
         }

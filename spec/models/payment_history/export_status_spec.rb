@@ -14,10 +14,11 @@ describe PaymentHistory::ExportStatus, type: :model do
                     last_modified: Time.parse('2021-04-22T085031').utc,
                     content_type: file_content_type, body: file_body)
   end
+  let(:export_status_response) { read_response('payment_history/export_status.json') }
 
   before do
     allow(AccountsApi::PaymentHistory).to receive(:payment_history_export_status)
-      .and_return(read_response('payment_history/export_status.json'))
+      .and_return(export_status_response)
     allow(PaymentHistory::LoadFile).to receive(:call)
       .and_return(s3_file)
   end
@@ -29,27 +30,45 @@ describe PaymentHistory::ExportStatus, type: :model do
   end
 
   describe '.link_active?' do
-    context 'when link is active' do
-      let(:user) { create_user(user_id: '8734fdc7-2e37-4053-830a-033eae54f735') }
+    context 'when export is finished' do
+      context 'when link is active' do
+        let(:user) { create_user(user_id: '8734fdc7-2e37-4053-830a-033eae54f735') }
 
-      before { travel_to Time.parse('2021-04-23T085031').utc }
+        before { travel_to Time.parse('2021-04-23T085031').utc }
 
-      after { travel_to Time.parse('2021-04-23T085031').utc }
+        after { travel_to Time.parse('2021-04-23T085031').utc }
 
-      it 'returns true' do
-        expect(subject.link_active?).to eq(true)
+        it 'returns true' do
+          expect(subject.link_active?).to eq(true)
+        end
+      end
+
+      context 'when link is expired' do
+        let(:user) { create_user(user_id: '8734fdc7-2e37-4053-830a-033eae54f735') }
+
+        before { travel_to Time.parse('2021-07-24T085031').utc }
+
+        after { travel_back }
+
+        it 'returns false' do
+          expect(subject.link_active?).to eq(false)
+        end
       end
     end
 
-    context 'when link is expired' do
-      let(:user) { create_user(user_id: '8734fdc7-2e37-4053-830a-033eae54f735') }
+    context 'when export is not finished' do
+      let(:export_status_response) { read_response('payment_history/export_status_progress.json') }
 
-      before { travel_to Time.parse('2021-07-24T085031').utc }
+      context 'when link is active' do
+        let(:user) { create_user(user_id: '8734fdc7-2e37-4053-830a-033eae54f735') }
 
-      after { travel_back }
+        before { travel_to Time.parse('2021-04-23T085031').utc }
 
-      it 'returns false' do
-        expect(subject.link_active?).to eq(false)
+        after { travel_to Time.parse('2021-04-23T085031').utc }
+
+        it 'returns false' do
+          expect(subject.link_active?).to eq(false)
+        end
       end
     end
   end
