@@ -14,15 +14,40 @@ describe 'PaymentsController - GET #review_details', type: :request do
           dates: ['13 October 2020'] } }
     end
 
-    before do
-      sign_in create_user
-      add_to_session(new_payment: { caz_id: SecureRandom.uuid,
-                                    details: payment_details })
-      subject
+    let(:new_payment_session) do
+      {
+        new_payment: {
+          caz_id: SecureRandom.uuid,
+          details: payment_details
+        }
+      }
     end
 
-    it 'assigns :details variable' do
-      expect(assigns(:details)).to eq(payment_details)
+    context 'when there are no sufficient data in session' do
+      before do
+        sign_in create_user
+        subject
+      end
+
+      it 'does not assign :details variable' do
+        expect(assigns(:details)).to eq(nil)
+      end
+
+      it 'redirects to ' do
+        expect(response).to redirect_to(payments_path)
+      end
+    end
+
+    context 'when there are correct data in session' do
+      before do
+        sign_in create_user
+        add_to_session(new_payment_session)
+        subject
+      end
+
+      it 'assigns :details variable' do
+        expect(assigns(:details)).to eq(payment_details)
+      end
     end
   end
 
