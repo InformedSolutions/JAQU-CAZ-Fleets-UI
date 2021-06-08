@@ -47,6 +47,19 @@ describe 'AccountsApi::Auth.update_password - POST' do
     end
   end
 
+  context 'when the response status is 401' do
+    before do
+      stub_request(:post, url).to_return(
+        status: 401,
+        body: { message: 'Unauthorized', errorCode: 'Unauthorized' }.to_json
+      )
+    end
+
+    it 'raises Error401Exception' do
+      expect { subject }.to raise_exception(BaseApi::Error401Exception)
+    end
+  end
+
   context 'when the response status is 500' do
     before do
       stub_request(:post, url).to_return(
