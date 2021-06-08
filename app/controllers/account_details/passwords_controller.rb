@@ -28,16 +28,13 @@ module AccountDetails
     #    :PATCH /edit_password
     #
     def update
-      form = UpdatePasswordForm.new(
-        user_id: current_user.user_id,
-        old_password: params.dig(:passwords, :old_password),
-        password: params.dig(:passwords, :password),
-        password_confirmation: params.dig(:passwords, :password_confirmation)
-      )
-
+      form = load_update_password_form
       return rerender_edit(form.errors.messages) unless form.valid? && form.submit
 
       redirect_to account_management_url
+    rescue BaseApi::Error401Exception
+      sign_out(current_user)
+      redirect_to new_user_session_path(account_locked: true)
     end
 
     private
@@ -51,6 +48,16 @@ module AccountDetails
     # Current user account details page path
     def account_management_url
       current_user.owner ? primary_users_account_details_path : non_primary_users_account_details_path
+    end
+
+    # Loads UpdatePassworForm with appropriate params
+    def load_update_password_form
+      UpdatePasswordForm.new(
+        user_id: current_user.user_id,
+        old_password: params.dig(:passwords, :old_password),
+        password: params.dig(:passwords, :password),
+        password_confirmation: params.dig(:passwords, :password_confirmation)
+      )
     end
   end
 end
