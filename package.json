@@ -9,6 +9,8 @@
     "@rails/ujs": "^6.1.3",
     "@rails/webpacker": "^5.3.0",
     "core-js": "^3.12.1",
+    "css-select": "4.1.3",
+    "css-what": "5.0.1",
     "govuk-frontend": "^3.11.0",
     "hmrc-frontend": "^1.33.1",
     "improved-yarn-audit": "^2.3.2",
