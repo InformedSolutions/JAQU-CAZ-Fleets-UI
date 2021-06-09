@@ -11,6 +11,7 @@
 
     - if Rails.env.production? && ENV['COOKIE_CONTROL_API_KEY'] && ENV['COOKIE_CONTROL_PRODUCT']
       %script{crossorigin: 'anonymous',
+              nonce: true,
               src: 'https://cc.cdn.civiccomputing.com/9/cookieControl-9.1.min.js',
               type: 'text/javascript'}
       = render 'layouts/cookie_control'
