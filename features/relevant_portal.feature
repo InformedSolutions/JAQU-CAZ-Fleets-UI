@@ -10,6 +10,7 @@ Feature: Relevant portal
       And I should see 'Check a single vehicle'
       And I should see 'Pay a charge for a single vehicle'
       And I should not see 'Sign in'
+      And I should not see 'Cookies'
       When I press 'Continue' button
     Then I should see 'You must choose an answer'
       And I should see 'There is a problem'
