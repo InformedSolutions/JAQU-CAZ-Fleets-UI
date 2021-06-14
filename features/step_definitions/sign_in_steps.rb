@@ -34,16 +34,17 @@ And('Cookie is created for my session') do
   expect(cookie).to_not be_nil
 end
 
-When('I have authentication cookie that has not expired') do
+When('I successfully log in') do
   mock_api_responses
   mock_actual_account_name
   mock_clean_air_zones
   visit new_user_session_path
   login_owner
+end
 
-  cookie = get_me_the_cookie('_caz_fleets_session')
-  expect(cookie).to_not be_nil
-  expect(cookie[:expires] > Time.current).to be true
+When('I leave the website idle for 15 minutes') do
+  Rails.configuration.x.session_timeout = 15
+  travel_to(15.minutes.from_now)
 end
 
 Then('I am redirected to the Sign in page') do
@@ -72,22 +73,6 @@ end
 
 Then('I remain on the current page') do
   expect(page).to have_current_path(new_user_session_path)
-end
-
-Given('I have authentication cookie that has expired') do
-  # set default session_timeout
-  Rails.configuration.x.session_timeout = 15
-
-  travel_to(20.minutes.ago) do
-    mock_actual_account_name
-    mock_api_responses
-    mock_clean_air_zones
-    login_owner
-  end
-
-  cookie = get_me_the_cookie('_caz_fleets_session')
-  expect(cookie).to_not be_nil
-  expect(cookie[:expires] < Time.current).to be true
 end
 
 Given('I am signed in') do
