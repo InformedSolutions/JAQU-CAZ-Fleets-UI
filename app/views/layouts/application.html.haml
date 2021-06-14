@@ -8,8 +8,7 @@
     = csp_meta_tag
 
     = render 'layouts/gtm_script' if Rails.env.production? && ENV['GTM_ID']
-
-    - if Rails.env.production? && ENV['COOKIE_CONTROL_API_KEY'] && ENV['COOKIE_CONTROL_PRODUCT']
+    - if Rails.env.production? && ENV['COOKIE_CONTROL_API_KEY'] && ENV['COOKIE_CONTROL_PRODUCT'] && !request.path.include?(what_would_you_like_to_do_path)
       %script{crossorigin: 'anonymous',
               nonce: true,
               src: 'https://cc.cdn.civiccomputing.com/9/cookieControl-9.1.min.js',
