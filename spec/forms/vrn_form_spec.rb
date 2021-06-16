@@ -10,10 +10,10 @@ describe VrnForm, type: :model do
   it { is_expected.to be_valid }
   it { expect(subject.vrn).to eq(vrn) }
 
-  context 'when vrn includes spaces and small letters' do
-    let(:vrn) { 'AbC 12 3' }
+  context 'when vrn includes spaces and small letters and leading zeros' do
+    let(:vrn) { '00AbC 12 3' }
 
-    it 'removes spaces and upcases vrn' do
+    it 'removes spaces and leading zeros and upcases the vrn' do
       expect(subject.vrn).to eq('ABC123')
     end
   end
@@ -42,9 +42,13 @@ describe VrnForm, type: :model do
     it_behaves_like 'an invalid VrnForm', I18n.t('vrn_form.errors.vrn_invalid')
   end
 
-  context 'when VRN starts with 0' do
-    let(:vrn) { '00SGL6' }
+  context 'when VRN starts with 0 and is with 0 stripped' do
+    let(:vrn) { '009999A' }
 
-    it_behaves_like 'an invalid VrnForm', I18n.t('vrn_form.errors.vrn_invalid')
+    it { is_expected.to be_valid }
+
+    it 'removes leading zeros and upcases the vrn' do
+      expect(subject.vrn).to eq('9999A')
+    end
   end
 end

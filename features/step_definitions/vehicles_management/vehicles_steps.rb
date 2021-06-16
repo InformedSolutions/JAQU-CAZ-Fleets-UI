@@ -15,6 +15,15 @@ When('I enter vrn') do
   fill_in('vrn', with: 'CU57ABC')
 end
 
+When('I enter valid vrn with leading zeros') do
+  mock_vehicle_details
+  fill_in('vrn', with: '00CU57ABC')
+end
+
+When('I enter invalid vrn with leading zeros') do
+  fill_in('vrn', with: '00AB')
+end
+
 When('I enter exempt vrn') do
   mock_exempt_vehicle_details
   fill_in('vrn', with: 'CU57ABC')

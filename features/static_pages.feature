@@ -19,7 +19,6 @@ Feature: Static Pages
     When I press footer link Privacy
     Then I should see 'Privacy Notice' title
       And I should not see 'FutureCaz'
-      And I should see 'Birmingham City Council privacy policy'
 
   Scenario: User sees terms and conditions page
     Given I am on the Sign in page

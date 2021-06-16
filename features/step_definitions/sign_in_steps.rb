@@ -124,3 +124,7 @@ Then('I change my IP') do
     .to receive(:remote_ip)
     .and_return('4.3.2.1')
 end
+
+Given('I visit the Manage users page when im sign out') do
+  visit users_path
+end

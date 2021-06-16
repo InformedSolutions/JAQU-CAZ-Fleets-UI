@@ -227,6 +227,13 @@ Then('I am able to export my data to CSV file') do
   expect(page).to have_link('Download the results (CSV)')
 end
 
+When('Direct debit enabled flag for the Clean Air Zone remains set to false') do
+  api_response = read_response('caz_list.json')['cleanAirZones']
+  api_response.first['directDebitEnabled'] = false
+  allow(ComplianceCheckerApi).to receive(:clean_air_zones).and_return(api_response)
+  mock_requests_to_payments_api_with(return_url: result_payments_path)
+end
+
 def mock_fleets_api
   mock_actual_account_name
   mock_payment_history
