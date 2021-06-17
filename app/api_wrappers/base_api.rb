@@ -6,8 +6,9 @@
 # It includes {HTTParty gem}[https://github.com/jnunemaker/httparty]
 class BaseApi
   include HTTParty
-  # Uncomment for debug
-  # debug_output $stdout
+
+  # Normalize non-ascii URIs
+  uri_adapter Addressable::URI
 
   # The Content-Type header is used to indicate the media type of the resource
   CONTENT_TYPE = 'application/json'
