@@ -105,9 +105,7 @@ When('I enter pending email change') do
 end
 
 Then('I change my IP') do
-  allow_any_instance_of(ActionDispatch::Request)
-    .to receive(:remote_ip)
-    .and_return('4.3.2.1')
+  allow_any_instance_of(ActionDispatch::Request).to receive(:remote_ip).and_return('4.3.2.1')
 end
 
 Given('I visit the Manage users page when im sign out') do
