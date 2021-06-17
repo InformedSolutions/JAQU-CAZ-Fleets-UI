@@ -14,7 +14,7 @@ module VehiclesManagement
     before_action -> { check_permissions(allow_manage_vehicles?) }
     before_action :check_vrn, only: %i[details confirm_details exempt incorrect_details not_found
                                        confirm_and_add_exempt_vehicle_to_fleet]
-    before_action :assign_back_button_url, only: %i[enter_details local_exemptions]
+    before_action :assign_back_button_url, only: %i[enter_details]
 
     # 404 HTTP status from API means vehicle in not found in DLVA database. Redirects to the proper page.
     rescue_from BaseApi::Error404Exception, with: :vehicle_not_found
