@@ -21,6 +21,9 @@ Metrics/BlockLength:
 Lint/MissingSuper:
   Enabled: false
 
+Rails/EnvironmentVariableAccess:
+  Enabled: false
+
 # rubocop-rspec gem excludes
 RSpec/NamedSubject:
   Enabled: false

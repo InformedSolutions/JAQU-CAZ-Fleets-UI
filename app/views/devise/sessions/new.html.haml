@@ -1,6 +1,10 @@
 - title_and_header = 'Sign in'
 - content_for(:title, title_and_header)
-- errors = flash[:errors]&.symbolize_keys || {}
+
+- errors = if flash[:errors]&.compact.present?
+  - flash[:errors]
+- elsif alert
+  - { base: [alert] }
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
@@ -8,7 +12,7 @@
       %h1.govuk-heading-xl= title_and_header
 
       = form_for(@user ||= User.new, as: @user, url: session_path(@user)) do |f|
-        = render 'shared/sign_in/error_summary', errors: errors if errors.values.any?
+        = render 'shared/sign_in/error_summary', errors: errors if errors
 
         %p= flash[:notice]
 

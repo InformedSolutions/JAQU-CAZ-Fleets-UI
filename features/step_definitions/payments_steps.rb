@@ -41,6 +41,11 @@ When('I select any date for vrn on the payment matrix') do
   page.find('.govuk-checkboxes__input', match: :first).click
 end
 
+When('I select so many dates that transaction charge amount exceeds limit') do
+  stub_const('Payments::Constants::CHARGE_LIMIT', 0)
+  page.find('.govuk-checkboxes__input', match: :first).click
+end
+
 And('I confirm that my vehicles are not exempt from payment') do
   page.find('#confirm_not_exemption').click
 end

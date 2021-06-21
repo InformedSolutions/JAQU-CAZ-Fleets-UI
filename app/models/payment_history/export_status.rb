@@ -25,18 +25,20 @@ module PaymentHistory
     end
 
     # Calculates if an URL is still active and returns a boolean
-    def link_active_for?(user)
-      Time.current.utc < signed_url_data.expires_at && recipient?(user)
+    def link_active?
+      file.present? && file.last_modified + file_expiration_days >= Time.current.utc
     end
+
+    # Calculates if an URL is accessible for provided user
+    def link_accessible_for?(user)
+      recipient_account_user_id == user.user_id
+    end
+
+    delegate :body, :content_type, to: :file, prefix: true
 
     private
 
     attr_reader :account_id, :job_id
-
-    # Checks if the provided {User}[rdoc-ref:User] object is the recipient of the email
-    def recipient?(user)
-      recipient_account_user_id == user.user_id
-    end
 
     # Returns a string with UUID
     def recipient_account_user_id
@@ -45,13 +47,19 @@ module PaymentHistory
 
     # Performs an API call to receive payment history export status data.
     def api_data
-      @api_data ||= AccountsApi::PaymentHistory.payment_history_export_status(account_id: account_id,
-                                                                              job_id: job_id)
+      @api_data ||= AccountsApi::PaymentHistory.payment_history_export_status(
+        account_id: account_id, job_id: job_id
+      )
     end
 
-    # Wraps the received URL into AwsSignedUrl class
-    def signed_url_data
-      AwsSignedUrl.new(file_url)
+    # Performs an API call to receive payment history export status data.
+    def file
+      @file ||= PaymentHistory::LoadFile.call(file_url: file_url)
+    end
+
+    # Returns number of expiration days for file
+    def file_expiration_days
+      Rails.configuration.x.csv_payment_history_expiration_days.days
     end
   end
 end

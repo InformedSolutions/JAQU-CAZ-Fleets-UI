@@ -7,7 +7,7 @@ Feature: Sign In
     Given I have no authentication cookie
     When I navigate to a Dashboard page
     Then I am redirected to the unauthenticated root page
-      And I should see 'Sign In'
+      And I should see 'Sign in'
       And I should see 'beta This is a new service – your feedback'
       And I should not see 'Account' link
     Then I should enter fleet owner credentials and press the Continue
@@ -24,7 +24,7 @@ Feature: Sign In
     When I visit the Dashboard page
       And I should not see "Royal Mail's account home"
     Then I am redirected to the unauthenticated root page
-      And I should see 'Sign In'
+      And I should see 'Sign in'
 
   Scenario: Sign in with invalid credentials
     Given I am on the Sign in page
@@ -52,7 +52,7 @@ Feature: Sign In
       And I should see 'Sign back into the business account' link
     When I navigate to a Dashboard page
     Then I am redirected to the unauthenticated root page
-      And I should see 'Sign In'
+      And I should see 'Sign in'
 
   Scenario: Sign in with invalid email format
     Given I am on the Sign in page
@@ -80,3 +80,10 @@ Feature: Sign In
     When I enter pending email change
     Then I remain on the current page
       And I should see 'You need to verify the link in the email we sent before trying to sign in'
+
+  Scenario: Visiting the manage users page after sign out
+    Given I visit the Manage users page
+    Then I should be on the Manage users page
+    When I request to sign out
+      And I visit the Manage users page when im sign out
+      And I should see 'You need to sign in or create an account before continuing'

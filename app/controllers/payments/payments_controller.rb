@@ -161,8 +161,12 @@ module Payments
     #
     def review
       @zone = CleanAirZone.find(@zone_id)
+      assign_dd_enabled
       @days_to_pay = helpers.days_to_pay(helpers.new_payment_data[:details])
       @total_to_pay = total_to_pay_from_session
+      return unless @total_to_pay > Payments::Constants::CHARGE_LIMIT
+
+      flash.now[:alert] = { limit_exceeded_alert: I18n.t('payment_review.errors.limit_exceeded_alert') }
     end
 
     ##
@@ -177,9 +181,9 @@ module Payments
       form = Payments::PaymentReviewForm.new(params['confirm_not_exemption'])
       session[:new_payment]['confirm_not_exemption'] = params['confirm_not_exemption']
       if form.valid?
-        redirect_to select_payment_method_payments_path
+        redirect_to_proper_page
       else
-        redirect_to review_payments_path, alert: confirmation_error(form)
+        redirect_to review_payments_path, alert: { confirmation: confirmation_error(form) }
       end
     end
 
@@ -196,13 +200,14 @@ module Payments
 
     ##
     # Renders the select payment method page
-    # If no caz active mandates are present redirects to the initiate card payment page
+    # If caz direct debit disable is false or no active caz mandates are present redirects to the initiate card payment page.
     #
     # ==== Path
     #
     #    :GET /payments/select_payment_method
     #
     def select_payment_method
+      redirect_to dashboard_path unless session.dig(:new_payment, 'direct_debit_enabled')
       return if helpers.direct_debits_enabled? && @debit.caz_mandates(@zone_id).present?
 
       redirect_to initiate_payments_path
@@ -381,6 +386,21 @@ module Payments
       @search = form.vrn
       flash.now[:alert] = form.first_error_message
       render :vrn_not_found
+    end
+
+    # Depends on params redirects to the proper page.
+    def redirect_to_proper_page
+      if params['direct_debit_enabled'] == 'true'
+        redirect_to select_payment_method_payments_path
+      else
+        redirect_to initiate_payments_path
+      end
+    end
+
+    # Assign `direct_debit_enabled` to session
+    def assign_dd_enabled
+      session[:new_payment]['direct_debit_enabled'] =
+        current_user.beta_tester ? true : @zone.direct_debit_enabled?
     end
   end
 end

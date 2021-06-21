@@ -122,7 +122,7 @@ steps:
     pull: never
     commands:
       - rubocop
-      - scss-lint app/javascript
+      - node_modules/.bin/stylelint 'app/javascript/**/*.(s)?scss'
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -268,7 +268,7 @@ steps:
       build_id: ${DRONE_BUILD_NUMBER}
     commands:
       - apk add curl
-      - sh build_utils/check_build_number.sh
+      - sh ci-cd-resources/check_build_number.sh
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -354,7 +354,19 @@ steps:
     pull: never
     commands:
       - rubocop
-      - scss-lint app/javascript
+      - node_modules/.bin/stylelint 'app/javascript/**/*.(s)?scss'
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+  # Invoke security analysis through Ruby libraries and yarn
+  - name: security tests (Ruby + Yarn)
+    image: test-fleet-frontend
+    pull: never
+    commands:
+      - bundle audit check --update
+      - yarn run improved-yarn-audit --retry-on-network-failure
+      - brakeman
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -530,7 +542,7 @@ steps:
       build_id: ${DRONE_BUILD_NUMBER}
     commands:
       - apk add curl
-      - sh build_utils/check_build_number.sh
+      - sh ci-cd-resources/check_build_number.sh
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -615,7 +627,7 @@ steps:
     pull: never
     commands:
       - rubocop
-      - scss-lint app/javascript
+      - node_modules/.bin/stylelint 'app/javascript/**/*.(s)?scss'
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -791,7 +803,7 @@ steps:
       build_id: ${DRONE_BUILD_NUMBER}
     commands:
       - apk add curl
-      - sh build_utils/check_build_number.sh
+      - sh ci-cd-resources/check_build_number.sh
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -997,7 +1009,7 @@ steps:
       - TASKDEF=`aws ecs describe-services --profile target_acc --cluster accounts-cluster-sit --services accounts-sit-ecs-service | jq --raw-output '.services[0].taskDefinition'`
       - export build_id=`aws ecs describe-task-definition  --profile target_acc --task-definition $TASKDEF | jq --raw-output '.taskDefinition.containerDefinitions[0].image' | cut -f 2 -d ':'`
       - apk add curl
-      - sh build_utils/check_build_number.sh
+      - sh ci-cd-resources/check_build_number.sh
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -1076,7 +1088,7 @@ steps:
     pull: never
     commands:
       - rubocop
-      - scss-lint app/javascript
+      - node_modules/.bin/stylelint 'app/javascript/**/*.(s)?scss'
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -1087,7 +1099,7 @@ steps:
     pull: never
     commands:
       - bundle audit check --update
-      - yarn run improved-yarn-audit  --retry-on-network-failure
+      - yarn run improved-yarn-audit --retry-on-network-failure
       - brakeman
     volumes:
       - name: docker_sock
@@ -1264,7 +1276,7 @@ steps:
       build_id: ${DRONE_BUILD_NUMBER}
     commands:
       - apk add curl
-      - sh build_utils/check_build_number.sh
+      - sh ci-cd-resources/check_build_number.sh
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -1467,7 +1479,7 @@ steps:
       - TASKDEF=`aws ecs describe-services --profile target_acc --cluster accounts-cluster-preprod --services accounts-preprod-ecs-service | jq --raw-output '.services[0].taskDefinition'`
       - export build_id=`aws ecs describe-task-definition --profile target_acc --task-definition $TASKDEF | jq --raw-output '.taskDefinition.containerDefinitions[0].image' | cut -f 2 -d ':'`
       - apk add curl
-      - sh build_utils/check_build_number.sh
+      - sh ci-cd-resources/check_build_number.sh
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock

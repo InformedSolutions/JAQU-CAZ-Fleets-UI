@@ -12,6 +12,7 @@ describe CleanAirZone, type: :model do
       cleanAirZoneId: id,
       boundaryUrl: url,
       exemptionUrl: url,
+      privacyPolicyUrl: url,
       activeChargeStartDate: active_charge_start_date,
       activeChargeStartDateText: active_charge_start_date_text,
       displayOrder: display_order,
@@ -58,6 +59,12 @@ describe CleanAirZone, type: :model do
   describe '.exemption_url' do
     it 'returns a proper url' do
       expect(subject.exemption_url).to eq(url)
+    end
+  end
+
+  describe '.privacy_policy_url' do
+    it 'returns a proper url' do
+      expect(subject.privacy_policy_url).to eq(url)
     end
   end
 

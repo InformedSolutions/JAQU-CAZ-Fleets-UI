@@ -11,7 +11,7 @@ module Encryption
     KEY = ActiveSupport::KeyGenerator.new(
       ENV.fetch('SECRET_KEY_BASE')
     ).generate_key(
-      ENV.fetch('ENCRYPTION_SERVICE_SALT', 'aaaaaaaa'),
+      ENV.fetch('ENCRYPTION_SERVICE_SALT', 'default value'),
       ActiveSupport::MessageEncryptor.key_len
     ).freeze
 

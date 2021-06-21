@@ -45,7 +45,7 @@ module VehiclesManagement
     #
     def submit_details
       form = VrnForm.new(params[:vrn])
-      session[:vrn] = form.vrn
+
       determinate_next_step(form)
     end
 
@@ -239,8 +239,10 @@ module VehiclesManagement
     def determinate_next_step(form)
       if form.valid?
         redirect_to details_vehicles_path
+        session[:vrn] = form.vrn
       else
         @errors = form.errors.messages
+        session[:vrn] = params[:vrn]
         render :enter_details
       end
     end
