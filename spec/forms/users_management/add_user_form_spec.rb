@@ -40,6 +40,17 @@ describe UsersManagement::AddUserForm, type: :model do
       end
     end
 
+    context 'when invalid name format' do
+      let(:name) { '<img src=x>' }
+
+      it { is_expected.not_to be_valid }
+
+      it 'has a proper error message' do
+        subject.valid?
+        expect(subject.errors.messages[:name].join(',')).to include("Enter user's name in a valid format")
+      end
+    end
+
     context 'when invalid email format' do
       before { subject.valid? }
 
