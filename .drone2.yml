@@ -40,7 +40,7 @@ steps:
     pull: never
     environment:
       BASEURL_CHARGE_SETTLEMENT_OAUTH: 'https://payments-userpool-dev.auth.eu-west-2.amazoncognito.com'
-      BASEURL_CHARGE_SETTLEMENT_API: 'https://dev-api.paycleanairzonecharge.co.uk'
+      BASEURL_CHARGE_SETTLEMENT_API: 'https://dev-payments-api.cleanairzone.defra.gov.uk'
       CHARGE_SETTLEMENT_CLIENT_ID:
         from_secret: charge_settlement_id
       CHARGE_SETTLEMENT_CLIENT_SECRET:
@@ -51,7 +51,7 @@ steps:
         from_secret: browserstack_username
       BS_AUTHKEY:
         from_secret: browserstack_auth_key
-      BASEURL_FLEETS: 'https://AccountsTestUser1:CleanAir99@dev-fleet.paycleanairzonecharge.co.uk/'
+      BASEURL_FLEETS: 'https://AccountsTestUser1:CleanAir99@dev-accounts-web.cleanairzone.defra.gov.uk/'
       VALID_USERNAME: 'tester@informed.com'
       VALID_PASSWORD: 'Tester123...'
       BROWSER_SET: 'basic_auth'
@@ -264,7 +264,7 @@ steps:
   - name: await ecs rollout
     image: docker:19.03.11-git
     environment:
-      build_id_url: https://dev-fleet.paycleanairzonecharge.co.uk/build_id
+      build_id_url: https://dev-accounts-web.cleanairzone.defra.gov.uk/build_id
       build_id: ${DRONE_BUILD_NUMBER}
     commands:
       - apk add curl
@@ -294,7 +294,7 @@ steps:
     image: pa11y-ci
     pull: never
     environment:
-      BASE_URL: https://dev-fleet.paycleanairzonecharge.co.uk
+      BASE_URL: https://dev-accounts-web.cleanairzone.defra.gov.uk
     commands:
       - mkdir screenshots
       - /usr/local/bin/pa11y-ci -c ci-cd-resources/pa11y/.pa11yci.conf.js
