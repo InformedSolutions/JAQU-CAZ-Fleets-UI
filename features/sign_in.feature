@@ -15,15 +15,10 @@ Feature: Sign In
       And Cookie is created for my session
       And I should not see 'Create account' link
 
-  Scenario: View dashboard page with cookie that has not expired
-    Given I have authentication cookie that has not expired
-    Then I should see "Royal Mail's account home"
-
-  Scenario: View dashboard page with cookie that has expired
-    Given I have authentication cookie that has expired
-    When I visit the Dashboard page
-      And I should not see "Royal Mail's account home"
-    Then I am redirected to the unauthenticated root page
+  Scenario: View dashboard page after session timeout
+    Given I successfully log in
+      And I leave the website idle for 15 minutes
+    Then I visit the Dashboard page
       And I should see 'Sign in'
 
   Scenario: Sign in with invalid credentials

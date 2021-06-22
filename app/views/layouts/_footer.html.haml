@@ -4,9 +4,10 @@
       .govuk-footer__meta-item.govuk-footer__meta-item--grow
         %h2.govuk-visually-hidden Support links
         %ul.govuk-footer__inline-list
-          %li.govuk-footer__inline-list-item
-            %a.govuk-footer__link{href: cookies_path}
-              Cookies
+          - unless request.path.include?(what_would_you_like_to_do_path)
+            %li.govuk-footer__inline-list-item
+              %a.govuk-footer__link{href: cookies_path}
+                Cookies
           %li.govuk-footer__inline-list-item
             %a.govuk-footer__link{href: privacy_notice_path}
               Privacy
