@@ -7,6 +7,7 @@ class RelevantPortalController < ApplicationController
   skip_before_action :authenticate_user!
   skip_before_action :check_password_age
   before_action :set_relevant_portal
+  before_action :disable_cookies, only: :what_would_you_like_to_do
 
   ##
   # Renders the form to check the relevant portal for the user
@@ -51,5 +52,10 @@ class RelevantPortalController < ApplicationController
   # Sets relevant portal variable to hide menu from the navbar.
   def set_relevant_portal
     @relevant_portal = true
+  end
+
+  # Disable session cookies
+  def disable_cookies
+    request.session_options[:skip] = true
   end
 end
