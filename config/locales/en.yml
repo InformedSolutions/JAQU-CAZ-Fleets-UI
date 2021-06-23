@@ -7,6 +7,7 @@ en:
       email_duplicated: Email address already exists
       email_invalid_format: Enter the user’s email address in a valid format
       email_missing: Enter the user's email address
+      name_invalid: Enter user's name in a valid format
       name_missing: Enter the user's name
       permissions_missing: Select at least one permission type to continue
     hints:
