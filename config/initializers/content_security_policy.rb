@@ -10,6 +10,8 @@ if Rails.env.production?
   defaults = %i[self https]
   defaults.push(ENV['CLOUDFRONT_ENDPOINT']) if ENV['CLOUDFRONT_ENDPOINT']
   style_src_hashes = "'sha256-X9p4TjH/YcVnBPLQowyqjpYeRftuKwrxa9Esue0lXSQ='", # cookieControl.js
+                     "'sha256-2wbctP9QeeYIdN6tUTZfM2lRU20JjCKfxpcV0IqZTxU='", # cookieControl-9.1.min.js
+                     "'sha256-0GYrWdLqt3hLu7QGjIxFZNP1rxLWoAENWtxQqPkNd4k='", # cookieControl-9.1.min.js
                      "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='", # injectStylesIntoStyleTag.js
                      "'sha256-8pVwAUYxcGXdTLWRT3rSlBrFaRbBhU09dLDEUX3aViY='", # injectStylesIntoStyleTag.js
                      "'sha256-4kexDlKEb+max59mssfYaIiDhYMv63iHtgApfJsLl+I'" # injectStylesIntoStyleTag.js
