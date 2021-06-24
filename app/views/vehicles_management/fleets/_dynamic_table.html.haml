@@ -6,15 +6,25 @@
       %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column-dynamic'} Type
       - @selected_zones.each_with_index do |(key, zone), i|
         %th.govuk-table__header{scope: 'col', class: 'vehicle-management-column-dynamic'}
-          = form_tag(select_zone_fleets_path, method: :post) do
+          = form_tag(select_zone_fleets_path, method: :post, remote: true) do
             = hidden_field_tag(:key, key)
-            = manage_vehicle_caz_select_tag(@zones, zone.try(:[],'id'))
+            = manage_vehicle_caz_select_tag(@zones, zone.try(:[],'id'), key)
+            = submit_tag 'Change', id: "select_zone_button_#{key}", style: 'display: none'
           - if i.positive?
-            = link_to('X', remove_selected_zone_fleets_path(key: key))
+            = link_to('X', remove_selected_zone_fleets_path(key: key,
+                                                            page: params[:page],
+                                                            only_chargeable: params[:only_chargeable],
+                                                            vrn: params[:vrn],
+                                                            per_page: params[:per_page]), remote: true,
+                                                            data: {disable_with: '...'})
       %th.govuk-table__header{scope: 'col'}
         .govuk-visually-hidden Actions
         - if @selected_zones.count < 3
-          = link_to('Add another zone', add_another_zone_fleets_path())
+          = link_to('Add another zone', add_another_zone_fleets_path(page: params[:page],
+                                                            only_chargeable: params[:only_chargeable],
+                                                            vrn: params[:vrn],
+                                                            per_page: params[:per_page]), remote: true,
+                                                            data: {disable_with: '...'})
   %tbody.govuk-table__body
     - @pagination.vehicle_list.each do |vehicle|
       %tr.govuk-table__row

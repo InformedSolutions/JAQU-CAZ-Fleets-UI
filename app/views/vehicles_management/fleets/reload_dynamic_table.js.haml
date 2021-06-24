@@ -1,0 +1,4 @@
+var newContent = "#{escape_javascript(render 'vehicles_management/fleets/dynamic_table')}";
+var div = document.createElement('div');
+div.innerHTML = newContent.trim();
+document.getElementById("dynamic-table").replaceWith(div.firstChild);

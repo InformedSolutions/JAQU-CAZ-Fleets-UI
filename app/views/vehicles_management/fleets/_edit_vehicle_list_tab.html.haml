@@ -1,0 +1,13 @@
+%section.govuk-tabs__panel{id: 'edit-vehicle-list'}
+  %h2.govuk-heading-l Manage vehicles
+  %p
+    You can add multiple vehicles by overriding this list with a new
+    = succeed '.' do
+      = link_to('list of vehicles', uploads_path, id: 'reupload', class: 'govuk-link')
+
+  %p
+    = succeed '.' do
+      = link_to('Add individual vehicles one by one',
+                enter_details_vehicles_path,
+                id: 'individual-payment',
+                class: 'govuk-link')
