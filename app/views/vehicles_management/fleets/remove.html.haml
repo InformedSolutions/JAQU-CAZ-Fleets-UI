@@ -1,4 +1,4 @@
-- title_and_header = raw("Do you want to remove the number plate #{@vehicle_registration} from #{current_user.actual_account_name} account?")
+- title_and_header = raw("Remove #{@vehicle_registration}?")
 - content_for(:title, title_and_header)
 
 = link_to 'Back', fleets_path, class: 'govuk-back-link'
