@@ -15,24 +15,17 @@
       %p
         Try
         = link_to 'entering the details', enter_details_vehicles_path, class: 'govuk-link'
-        again making sure you have not mixed up letters and numbers (for example, the letters
-        %b I
-        and
-        %b O
-        with the numbers
-        %b 1
-        and
-        = succeed ")." do
-          %b 0
+        again making sure you have not mixed up letters and numbers. For example, the letters I and O with
+        the numbers 1 (one) and 0 (zero).
 
       %h1.govuk-heading-m Check the registration details
       %p
-        If the details still can not be found and you believe the vehicle should be registered in
-        the UK, you can
-        = external_link_to('update the details',
-                           'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
-                           id: 'dvla-link')
-        the DVLA holds for the vehicle.
+        = succeed '.' do
+          If we still can not find the vehicle details and you are sure it's registered in the UK, update the
+          details with
+          = external_link_to('DVLA',
+                             'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
+                             id: 'dvla-link')
 
       %p
         If your vehicle does meet emission standards, you can claim a
