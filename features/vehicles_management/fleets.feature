@@ -66,7 +66,7 @@ Feature: Fleets
     Then I should be on the delete vehicle page
       And I choose 'No'
       And I press the Continue
-    Then I should be on the manage vehicles page
+    Then I should be on the edit vehicles page
       And I should not have deleted the vehicle
       And I should not see 'You have successfully removed'
 
