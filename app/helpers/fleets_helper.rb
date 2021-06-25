@@ -16,13 +16,13 @@ module FleetsHelper
   end
 
   # returns select tag with zones for Vehicle Management view
-  def manage_vehicle_caz_select_tag(zones, zone_id)
+  def manage_vehicle_caz_select_tag(zones, zone_id, key)
     select_tag(
       'zone_id',
       options_for_select(zones.sort_by(&:name).map { |m| ["#{m.name} #{m.live? ? '(Live)' : '(Future)'}", m.id] }, zone_id),
       prompt: zones.map(&:id).include?(zone_id) ? false : 'Select zone...',
       class: 'govuk-select',
-      onchange: 'this.form.submit()'
+      onchange: "document.getElementById('select_zone_button_#{key}').click();"
     )
   end
 

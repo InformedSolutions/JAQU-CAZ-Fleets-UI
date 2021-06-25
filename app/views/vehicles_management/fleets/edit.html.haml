@@ -1,4 +1,4 @@
-- title_content = 'View charges'
+- title_content = 'Manage Vehicles'
 - title_and_header = flash[:success] ? "Upload successful - #{title_content}" : title_content
 - content_for(:title, title_and_header)
 
@@ -11,5 +11,5 @@
       = render 'shared/banners'
 
       .govuk-tabs
-        = render 'vehicles_management/fleets/tabs', selected_tab: 'view-charges'
-        = render 'vehicles_management/fleets/view_charges_tab', title_content: title_content
+        = render 'vehicles_management/fleets/tabs', selected_tab: 'edit-vehicle-list'
+        = render 'vehicles_management/fleets/edit_vehicle_list_tab', title_content: title_content
