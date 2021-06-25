@@ -112,7 +112,7 @@ module VehiclesManagement
         return redirect_to vrn_not_found_fleets_path(vrn: form.vrn, per_page: per_page)
       end
 
-      redirect_to_fleets_after_search(form)
+      redirect_to_proper_page(form)
     end
 
     ##
@@ -215,9 +215,13 @@ module VehiclesManagement
       form = VehiclesManagement::ConfirmationForm.new(confirm_delete_param)
       return redirect_to remove_fleets_path, alert: confirmation_error(form) unless form.valid?
 
-      remove_vehicle if form.confirmed?
-      session[:vrn] = nil
-      redirect_to after_removal_redirect_path(@fleet)
+      if form.confirmed?
+        remove_vehicle
+        session[:vrn] = nil
+        redirect_to after_removal_redirect_path(@fleet)
+      else
+        redirect_to edit_fleets_path
+      end
     end
 
     ##
@@ -293,7 +297,6 @@ module VehiclesManagement
     def assign_index_variables
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || 10).to_i
-
       @search = params[:vrn]
       form = SearchVrnForm.new(@search)
       if form.valid?
@@ -332,8 +335,8 @@ module VehiclesManagement
       load_selected_zones if @zones.count > 3
     end
 
-    # loads error from form if needed and redirect to fleets index with appropriate params
-    def redirect_to_fleets_after_search(form)
+    # Loads error from form if needed and redirect to fleets index with appropriate params
+    def redirect_to_proper_page(form)
       flash.now[:alert] = form.first_error_message if form.first_error_message
 
       redirect_to fleets_path(vrn: form.vrn)
