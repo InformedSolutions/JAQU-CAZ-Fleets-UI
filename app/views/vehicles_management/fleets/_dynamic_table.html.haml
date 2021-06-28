@@ -9,7 +9,7 @@
           = form_tag(select_zone_fleets_path, method: :post, remote: true) do
             = hidden_field_tag(:key, key)
             = manage_vehicle_caz_select_tag(@zones, zone.try(:[],'id'), key)
-            = submit_tag 'Change', id: "select_zone_button_#{key}", style: 'display: none'
+            = submit_tag 'Change', id: "select_zone_button_#{key}", class: 'hidden'
           - if i.positive?
             = link_to('X', remove_selected_zone_fleets_path(key: key,
                                                             page: params[:page],
