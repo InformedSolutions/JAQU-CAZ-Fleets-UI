@@ -22,11 +22,12 @@
         %th.govuk-table__header{scope: 'col'}
           .govuk-visually-hidden Actions
 
-          = link_to('Add another zone', add_another_zone_fleets_path(page: params[:page],
-                                                              only_chargeable: params[:only_chargeable],
-                                                            vrn: params[:vrn],
-                                                            per_page: params[:per_page]), remote: true,
-                                                            data: {disable_with: '...'})
+          = link_to('Add another zone',
+                    add_another_zone_fleets_path(page: params[:page],
+                                                 only_chargeable: params[:only_chargeable],
+                                                 vrn: params[:vrn],
+                                                 per_page: params[:per_page]), remote: true,
+                                                 data: {disable_with: '...'})
   %tbody.govuk-table__body
     - @pagination.vehicle_list.each do |vehicle|
       %tr.govuk-table__row
