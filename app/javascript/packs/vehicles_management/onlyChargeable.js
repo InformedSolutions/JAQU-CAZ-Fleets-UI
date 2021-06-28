@@ -1,6 +1,6 @@
-const form = document.getElementById("manage-vehicles-form");
-const onlyChargeableButton = document.getElementById("only-chargeable");
+const form = document.getElementById('manage-vehicles-form');
+const onlyChargeableButton = document.getElementById('only-chargeable');
 
-onlyChargeableButton.addEventListener("click", (e) => {
+onlyChargeableButton.addEventListener('click', () => {
   form.submit();
 });

@@ -1,35 +1,35 @@
-export default function () {
-  refereshContinueButtonDisability();
-  attachRecalculationToCheckboxes();
-}
+function refreshContinueButtonDisability() {
+  const allSelectedCheckboxesCount = document.getElementById('allSelectedCheckboxesCount');
+  const continueButton = document.getElementById('continue-matrix-button');
 
-function attachRecalculationToCheckboxes() {
-  var allCheckboxes = document.getElementsByClassName('govuk-checkboxes__input');
-
-  for(var checkbox of allCheckboxes) {
-    checkbox.addEventListener("click", (e) => { recalculateAllCheckedCheckboxesCount(e.target) });
+  if (continueButton != null) {
+    continueButton.disabled = parseInt(allSelectedCheckboxesCount.value, 10) === 0;
   }
 }
 
 function recalculateAllCheckedCheckboxesCount(target) {
-  var allSelectedCheckboxesCountInput = document.getElementById('allSelectedCheckboxesCount');
-  var allSelectedCheckboxesCount = parseInt(allSelectedCheckboxesCountInput.value);
+  const allSelectedCheckboxesCountInput = document.getElementById('allSelectedCheckboxesCount');
+  let allSelectedCheckboxesCount = parseInt(allSelectedCheckboxesCountInput.value, 10);
 
-  if(target.checked) {
-    allSelectedCheckboxesCount++;
+  if (target.checked) {
+    allSelectedCheckboxesCount += 1;
   } else {
-    allSelectedCheckboxesCount--;
+    allSelectedCheckboxesCount -= 1;
   }
 
   allSelectedCheckboxesCountInput.value = allSelectedCheckboxesCount;
-  refereshContinueButtonDisability()
+  refreshContinueButtonDisability();
 }
 
-function refereshContinueButtonDisability() {
-  var allSelectedCheckboxesCount = document.getElementById('allSelectedCheckboxesCount');
-  var continueButton = document.getElementById('continue-matrix-button');
+function attachRecalculationToCheckboxes() {
+  const allCheckboxes = document.getElementsByClassName('govuk-checkboxes__input');
 
-  if (continueButton != null) {
-    continueButton.disabled = parseInt(allSelectedCheckboxesCount.value) == 0;
-  }
+  Array.prototype.forEach.call(allCheckboxes, (checkbox) => {
+    checkbox.addEventListener('click', (e) => { recalculateAllCheckedCheckboxesCount(e.target); });
+  });
+}
+
+export default function emptyMatrixContinuePrevention() {
+  refreshContinueButtonDisability();
+  attachRecalculationToCheckboxes();
 }
