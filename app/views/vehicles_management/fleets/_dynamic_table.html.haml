@@ -17,11 +17,13 @@
                                                             vrn: params[:vrn],
                                                             per_page: params[:per_page]), remote: true,
                                                             data: {disable_with: '...'})
-      %th.govuk-table__header{scope: 'col'}
-        .govuk-visually-hidden Actions
-        - if @selected_zones.count < 3
+
+      - if @selected_zones.count < 3
+        %th.govuk-table__header{scope: 'col'}
+          .govuk-visually-hidden Actions
+
           = link_to('Add another zone', add_another_zone_fleets_path(page: params[:page],
-                                                            only_chargeable: params[:only_chargeable],
+                                                              only_chargeable: params[:only_chargeable],
                                                             vrn: params[:vrn],
                                                             per_page: params[:per_page]), remote: true,
                                                             data: {disable_with: '...'})
@@ -36,5 +38,5 @@
           %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column-dynamic'}
             - if zone.present?
               = vehicle.formatted_charge(zone['id'])
-        %td.govuk-table__cell{scope: 'row'}
-          = link_to('Remove', assign_remove_fleets_path(vrn: vehicle.vrn), id: "remove_#{vehicle.vrn}")
+        - if @selected_zones.count < 3
+          %td.govuk-table__cell{scope: 'row'}
