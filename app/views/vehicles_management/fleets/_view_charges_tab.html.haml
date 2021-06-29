@@ -23,7 +23,7 @@
 
   = render 'pagination' if @pagination.total_vehicles_count > 10
 
-  = form_tag(fleets_path, method: :get) do
+  = form_tag(fleets_path, method: :get, id: 'manage-vehicles-form') do
     .govuk-form-group
       %fieldset.govuk-fieldset{'aria-describedby': 'only_chargeable'}
         %legend.govuk-visually-hidden Hide vehicles that are not charge in any Zone
@@ -31,10 +31,10 @@
           .govuk-checkboxes__item
             = hidden_field_tag(:vrn, params[:vrn])
             = check_box_tag('only_chargeable',
-                           true,
-                           params['only_chargeable'],
-                           class: 'govuk-checkboxes__input',
-                           onclick: 'this.form.submit()')
+                            true,
+                            params['only_chargeable'],
+                            class: 'govuk-checkboxes__input',
+                            id: 'only-chargeable')
             = label_tag('only_chargeable',
                         'Hide vehicles that are not charged in any Zone',
                         class: 'govuk-label govuk-checkboxes__label')
@@ -43,7 +43,7 @@
               = select_tag('per_page',
                            options_for_select(@pagination.results_per_page, params[:per_page]),
                            class: 'govuk-select moj-pagination__results results-per-page-select',
-                           onchange: 'this.form.submit()')
+                           id: 'per-page-dropdown')
               = label_tag('per_page', 'Results per page', class: 'govuk-label moj-pagination__results results-per-page-select')
 
   %p
@@ -55,7 +55,6 @@
 
   %p{id: 'csv-export__notice', class: 'hidden'}
     Your export is downloading...
-
   = javascript_pack_tag 'exportButtonNotice'
 
   - if @fleet.any_undetermined_vehicles
@@ -75,3 +74,6 @@
                         single_vehicle_payment_link,
                         id: 'pay_clean_air_zone_link',
                         class: 'govuk-link')
+
+  = javascript_pack_tag 'vehicles_management/onlyChargeable'
+  = javascript_pack_tag 'vehicles_management/perPage'
