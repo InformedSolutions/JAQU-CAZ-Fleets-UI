@@ -160,14 +160,14 @@ class ApplicationController < ActionController::Base
     current_user.days_to_password_expiry
   end
 
-  # set headers for pages that should be refreshed every time
+  # Set headers for pages that should be refreshed every time.
   def set_cache_headers
     response.headers['Cache-Control'] = 'no-store'
     response.headers['Pragma'] = 'no-store'
     response.headers['Expires'] = 'Mon, 01 Jan 1990 00:00:00 GMT'
   end
 
-  # clear make payments inputs and release lock on caz for current user
+  # Clear make payments inputs and release lock on caz for current user.
   def clear_make_payment_history
     release_lock_on_caz
     session[:vrn] = nil

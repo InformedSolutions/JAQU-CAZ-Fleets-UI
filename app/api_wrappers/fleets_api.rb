@@ -109,7 +109,7 @@ class FleetsApi < AccountsApi::Base
     # ==== Attributes
     #
     # * +account_id+ - ID of the account associated with the fleet
-    # * +vrn+ - registration umber of the new vehicle
+    # * +vrn+ - registration number of the new vehicle
     #
     # ==== Example
     #
@@ -128,8 +128,27 @@ class FleetsApi < AccountsApi::Base
     # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
     #
     def remove_vehicle_from_fleet(vrn:, account_id:)
-      log_action('Removing vehicles from the fleet')
+      log_action('Removing vehicle from the fleet')
       request(:delete, "/accounts/#{account_id}/vehicles/#{vrn}")
+      true
+    end
+
+    ##
+    # Calls +/v1/accounts/:account_id/vehicles/:vrn+ endpoint with +DELETE+ method to remove the vehicles from the fleet.
+    #
+    # ==== Attributes
+    #
+    # * +account_id+ - ID of the account associated with the fleet
+    # * +vehicles+ - registration numbers
+    #
+    # ==== Exceptions
+    #
+    # * {404 Exception}[rdoc-ref:BaseApi::Error404Exception] - account not found
+    # * {500 Exception}[rdoc-ref:BaseApi::Error500Exception] - backend API error
+    #
+    def remove_vehicles_from_fleet(vehicles:, account_id:)
+      log_action('Removing vehicles from the fleet')
+      request(:delete, "/accounts/#{account_id}/vehicles", body: vehicles.to_json)
       true
     end
 

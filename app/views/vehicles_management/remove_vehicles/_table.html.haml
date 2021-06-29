@@ -1,0 +1,21 @@
+%table.govuk-table
+  %thead.govuk-table__head
+    %tr.govuk-table__row
+      %th.govuk-table__header{scope: 'col', colspan: 2}
+        Number plate
+  %tbody.govuk-table__body
+    - @pagination.vrn_list.each do |vrn|
+      %tr.govuk-table__row
+        %td.govuk-table__cell.vrn
+          = vrn
+
+        %td.govuk-table__cell
+          .govuk-checkboxes__item
+            %input.govuk-checkboxes__input{name: 'remove_vehicles[]',
+                                           value: vrn,
+                                           id: vrn,
+                                           type: 'checkbox',
+                                           checked: remove_vrn_checked?(vrn)}
+            %label.govuk-label.govuk-checkboxes__label{for: vrn}
+              %span.govuk-visually-hidden
+                = vrn

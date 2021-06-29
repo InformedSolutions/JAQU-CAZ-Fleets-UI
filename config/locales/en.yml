@@ -105,6 +105,10 @@ en:
   remove_user:
     choose_answer: Select yes to remove the user
     removed: You have successfully removed %{full_user_name} from your account.
+  remove_vehicles:
+    errors:
+      messages:
+        vrn_missing: You must select a vehicle
   reset_password_form:
     email_invalid_format: Enter your email address in a valid format
     email_missing: Enter your email address
@@ -131,6 +135,7 @@ en:
       vrn_too_short: The number plate of the vehicle is too short
     messages:
       multiple_vrns_added: You have successfully uploaded %{vrns_count} vehicles to your vehicle list.
+      multiple_vrns_removed: You have successfully removed %{number} vehicles from your vehicle list.
       single_vrn_added: You have successfully added %{vrn} to your vehicle list.
       single_vrn_removed: You have successfully removed %{vrn} from your vehicle list.
       vrn_already_exists: "%{vrn} already exists in your vehicle list."

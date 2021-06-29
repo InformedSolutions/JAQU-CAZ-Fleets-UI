@@ -18,12 +18,12 @@
                                  class: 'govuk-input govuk-input--width-10'}
 
     = submit_tag 'Search',
-              class: 'govuk-button govuk-button--secondary',
-              'data-module': 'govuk-button',
-              id: 'search-form-submit'
+                 class: 'govuk-button govuk-button--secondary',
+                 'data-module': 'govuk-button',
+                 id: 'search-form-submit'
     - if @search.present?
       %p
-        = link_to (@zones ? 'Clear search' : 'Reset search'),
-                fleets_path(per_page: params[:per_page] || 10),
-                id: 'reset-search-link',
-                class: 'govuk-link'
+        = link_to((@zones ? 'Clear search' : 'Reset search'),
+                  fleets_path(per_page: params[:per_page] || 10),
+                  id: 'reset-search-link',
+                  class: 'govuk-link')

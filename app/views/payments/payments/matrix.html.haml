@@ -10,8 +10,7 @@
 
       .govuk-form-group
         %fieldset.govuk-fieldset
-          %legend.govuk-visually-hidden
-            Which vehicles and days are you paying for?
+          %legend.govuk-visually-hidden Which vehicles and days are you paying for?
           = form_for('payment', url: matrix_payments_path, method: :post, html: { id: 'payment-form' }) do |f|
             = hidden_field_tag('payment[vrn_list]', @pagination.vehicle_list.map(&:vrn).join(','))
             = hidden_field_tag('allSelectedCheckboxesCount', selected_dates_count)

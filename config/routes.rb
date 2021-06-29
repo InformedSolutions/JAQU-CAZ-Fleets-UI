@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users, controllers: { sessions: 'sessions' }
+  devise_for :users, controllers: { sessions: :sessions }
 
   authenticated(:user) { root 'dashboard#index', as: :authenticated_root }
   get :dashboard, to: 'dashboard#index'
   devise_scope(:user) { root to: 'sessions#new' }
 
-  scope controller: 'logout' do
+  scope controller: :logout do
     get :sign_out, to: 'logout#sign_out_page'
     post :assign_logout_notice_back_url
     get :logout_notice
@@ -26,10 +26,9 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'organisations', path: '/' do
+  scope module: :organisations, path: '/' do
     get :create_account, to: 'organisations#create_account'
     post :create_account, to: 'organisations#submit_create_account'
-
     resources :organisations, only: %i[] do
       collection do
         get :how_many_vehicles
@@ -47,7 +46,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'vehicles_management', path: '/' do
+  scope module: :vehicles_management, path: '/' do
     resources :fleets, only: %i[index], path: 'manage_vehicles' do
       collection do
         post :index, to: 'fleets#submit_search'
@@ -58,6 +57,16 @@ Rails.application.routes.draw do
         get :choose_method
         post :choose_method, to: 'fleets#submit_choose_method'
         get :first_upload
+        scope controller: :remove_vehicles do
+          get :remove_vehicles
+          post :remove_vehicles, to: 'remove_vehicles#submit_remove_vehicles'
+          get :confirm_remove_vehicles
+          delete :confirm_remove_vehicles, to: 'remove_vehicles#delete_vehicles'
+          get :vehicles_to_remove_details
+          get :vehicle_not_found
+          post :vehicle_not_found, to: 'remove_vehicles#submit_search'
+          get :clear_search
+        end
         get :assign_remove
         get :remove
         post :remove, to: 'fleets#confirm_remove'
@@ -92,7 +101,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'payments', path: '/' do
+  scope module: :payments, path: '/' do
     resources :payments, only: :index do
       collection do
         post :local_authority
@@ -121,7 +130,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'direct_debits', path: '/' do
+  scope module: :direct_debits, path: '/' do
     resources :debits, only: %i[index], path: 'direct_debits' do
       collection do
         get :set_up
@@ -136,8 +145,8 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'users_management', path: '/' do
-    resources :users, controller: 'create_users', only: %i[new create] do
+  scope module: :users_management, path: '/' do
+    resources :users, controller: :create_users, only: %i[new create] do
       collection do
         get :index, to: 'users#index'
         get :add_permissions
@@ -147,7 +156,6 @@ Rails.application.routes.draw do
         post :set_up, to: 'create_users#confirm_set_up'
         get :set_up_confirmation
       end
-
       member do
         get :edit, to: 'edit_users#edit'
         patch :update, to: 'edit_users#update'
@@ -157,19 +165,17 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'account_details', path: '/' do
+  scope module: :account_details, path: '/' do
     get :edit_password, to: 'passwords#edit'
     patch :edit_password, to: 'passwords#update'
-
     get :primary_users_account_details, to: 'primary_users#primary_account_details'
     resources :primary_users, only: %i[] do
       collection do
-        scope controller: 'organisation_names' do
+        scope controller: :organisation_names do
           get :edit_name
           get :update_name
         end
-
-        scope controller: 'emails' do
+        scope controller: :emails do
           get :edit_email
           post :update_email
           get :email_sent
@@ -180,7 +186,7 @@ Rails.application.routes.draw do
       end
     end
 
-    scope controller: 'account_cancellations' do
+    scope controller: :account_cancellations do
       get :account_closing_notice
       post :account_closing_notice, to: 'account_cancellations#confirm_account_closing_notice'
       get :account_cancellation
@@ -191,7 +197,7 @@ Rails.application.routes.draw do
     get :non_primary_users_account_details, to: 'non_primary_users#non_primary_account_details'
     resources :non_primary_users, only: %i[] do
       collection do
-        scope controller: 'names' do
+        scope controller: :names do
           get :edit_name
           get :update_name
         end
@@ -199,7 +205,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'payment_history', path: '/', controller: 'payment_history' do
+  scope module: :payment_history, path: '/', controller: :payment_history do
     get :payment_history
     get :payment_history_details
     get :initiate_payment_history_download
@@ -211,7 +217,7 @@ Rails.application.routes.draw do
     get :payment_history_export_download, to: 'payment_history#handle_payment_history_download_attempt'
   end
 
-  scope controller: 'static_pages' do
+  scope controller: :static_pages do
     get :accessibility_statement
     get :cookies
     get :support
@@ -219,17 +225,17 @@ Rails.application.routes.draw do
     get :terms_and_conditions
   end
 
-  scope controller: 'application' do
+  scope controller: :application do
     get :build_id
     get :health
   end
 
-  scope controller: 'errors' do
+  scope controller: :errors do
     get :not_found
     get :service_unavailable
   end
 
-  scope controller: 'relevant_portal' do
+  scope controller: :relevant_portal do
     get :what_would_you_like_to_do
     post :what_would_you_like_to_do, to: 'relevant_portal#submit_what_would_you_like_to_do'
   end
