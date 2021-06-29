@@ -17,7 +17,7 @@ var config = {
             "url": "${BASE_URL}?your_account",
             "actions": [
                 "wait for element #ccc-dismiss-button to be visible",
-                "click element #ccc-dismiss-button ",
+                "click element #ccc-dismiss-button",
                 "wait for element #user_email to be visible",
                 "set field #user_email to tester@informed.com",
                 "set field #user_password to Tester123....",
