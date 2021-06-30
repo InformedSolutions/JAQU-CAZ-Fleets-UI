@@ -1,5 +1,4 @@
-- title_content = 'Manage Vehicles'
-- title_and_header = flash[:success] ? "Upload successful - #{title_content}" : title_content
+- title_and_header = 'Manage Vehicles'
 - content_for(:title, title_and_header)
 
 = render 'shared/js_back_link'
@@ -12,4 +11,4 @@
 
       .govuk-tabs
         = render 'vehicles_management/fleets/tabs', selected_tab: 'edit-vehicle-list'
-        = render 'vehicles_management/fleets/edit_vehicle_list_tab', title_content: title_content
+        = render 'vehicles_management/fleets/edit_vehicle_list_tab', title_and_header: title_and_header
