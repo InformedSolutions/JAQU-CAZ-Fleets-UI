@@ -8,12 +8,11 @@ function addPageNumber(page) {
   return input;
 }
 
-export default function initPaginationButton(page) {
+function addEventListeners(page) {
   const form = document.getElementById('payment-form');
-
-  const paginationButton = document.getElementById(`pagination-button-${page}`);
-  if (paginationButton) {
-    paginationButton.addEventListener('click', (e) => {
+  const paginationButtonActive = document.getElementById(`pagination-button-${page}`);
+  if (paginationButtonActive) {
+    paginationButtonActive.addEventListener('click', (e) => {
       form.appendChild(addPageNumber(page));
       submitForm(e, form);
     });
@@ -34,4 +33,15 @@ export default function initPaginationButton(page) {
       submitForm(e, form);
     });
   }
+}
+
+export default function initPaginationButtons() {
+  const allPageNumberButtons = document.getElementsByClassName('moj-pagination__link page-number');
+  Array.prototype.forEach.call(allPageNumberButtons, (btn) => {
+    const urlParams = new URLSearchParams(btn.href.split('?')[1]);
+    const page = urlParams.get('page');
+    btn.addEventListener('click', () => {
+      addEventListeners(page);
+    });
+  });
 }
