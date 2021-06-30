@@ -251,7 +251,7 @@ module VehiclesManagement
     end
 
     ##
-    # Validates a edit fleet form and redirects to the proper page
+    # Validates an edit fleet form and redirects to the proper page.
     #
     # ==== Path
     #
