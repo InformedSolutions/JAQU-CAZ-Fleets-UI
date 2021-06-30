@@ -39,11 +39,26 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the enter details page
 
-  Scenario: Fleet override
+  Scenario: Fleet add signle vehicle
     When I have vehicles in my fleet
       And I visit the manage vehicles page
       And I press 'Edit vehicle list' link
-      And I press 'list of vehicles' link
+    Then I should see 'Manage Vehicles'
+      And I press 'Continue' button
+    Then I should see 'You must choose an answer'
+      And I choose 'Add single vehicle'
+      And I press 'Continue' button
+    Then I should be on add signle vehicle page
+
+  Scenario: Fleet add multiple vehicles
+    When I have vehicles in my fleet
+      And I visit the manage vehicles page
+      And I press 'Edit vehicle list' link
+    Then I should see 'Manage Vehicles'
+      And I press 'Continue' button
+    Then I should see 'You must choose an answer'
+      And I choose 'Upload a new list'
+      And I press 'Continue' button
     Then I should be on the upload page
 
   Scenario: Backend API is unavailable

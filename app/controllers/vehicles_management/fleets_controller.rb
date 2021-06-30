@@ -250,6 +250,23 @@ module VehiclesManagement
       # renders static page with Manage Fleets tab
     end
 
+    ##
+    # Validates an edit fleet form and redirects to the proper page.
+    #
+    # ==== Path
+    #
+    #     POST /manage_vehicles/submit_edit
+    #
+    def submit_edit
+      form = UsersManagement::EditFleetForm.new(params[:edit_option])
+      if form.valid?
+        redirect_to determine_edit_fleet_path(params[:edit_option])
+      else
+        flash.now.alert = form.first_error_message
+        render :edit
+      end
+    end
+
     private
 
     # Creates instant variable with fleet object
@@ -340,6 +357,18 @@ module VehiclesManagement
       flash.now[:alert] = form.first_error_message if form.first_error_message
 
       redirect_to fleets_path(vrn: form.vrn)
+    end
+
+    # Determine path to edit fleet option.
+    def determine_edit_fleet_path(edit_option)
+      case edit_option
+      when 'add_single'
+        enter_details_vehicles_path
+      when 'add_multiple'
+        uploads_path
+      else
+        root_path # change to remove vehicles page
+      end
     end
   end
 end
