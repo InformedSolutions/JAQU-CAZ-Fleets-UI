@@ -20,6 +20,7 @@
     = render 'vehicles_management/fleets/static_table'
   - else
     = render 'vehicles_management/fleets/dynamic_table'
+    = javascript_pack_tag 'vehicles_management/cazDynamicSelect'
 
   = render 'pagination' if @pagination.total_vehicles_count > 10
 

@@ -21,8 +21,7 @@ module FleetsHelper
       'zone_id',
       options_for_select(zones.sort_by(&:name).map { |m| ["#{m.name} #{m.live? ? '(Live)' : '(Future)'}", m.id] }, zone_id),
       prompt: zones.map(&:id).include?(zone_id) ? false : 'Select zone...',
-      class: 'govuk-select',
-      onchange: "document.getElementById('select_zone_button_#{key}').click();"
+      class: 'govuk-select select-caz-tag', data: { key: key }
     )
   end
 
