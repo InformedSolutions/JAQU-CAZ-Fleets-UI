@@ -6,6 +6,12 @@ describe 'VehiclesManagement::FleetsController - GET #add_another_zone', type: :
   subject { get add_another_zone_fleets_path }
 
   context 'when correct permissions' do
+    before do
+      mock_more_than_3_clean_air_zones
+      mock_fleet
+      mock_user_details
+    end
+
     it 'redirects to the login page' do
       subject
       expect(response).to redirect_to(new_user_session_path)

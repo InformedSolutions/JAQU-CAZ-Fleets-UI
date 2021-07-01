@@ -1,0 +1,14 @@
+- title_and_header = 'Manage Vehicles'
+- content_for(:title, title_and_header)
+
+= render 'shared/js_back_link'
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-full
+      = render 'shared/error' if alert
+      = render 'shared/banners'
+
+      .govuk-tabs
+        = render 'vehicles_management/fleets/tabs', selected_tab: 'edit-vehicle-list'
+        = render 'vehicles_management/fleets/edit_vehicle_list_tab', title_and_header: title_and_header

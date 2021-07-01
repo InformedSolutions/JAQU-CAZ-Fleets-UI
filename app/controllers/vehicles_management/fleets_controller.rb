@@ -35,11 +35,9 @@ module VehiclesManagement
     def index
       return redirect_to choose_method_fleets_path if @fleet.empty?
 
-      page = (params[:page] || 1).to_i
-      per_page = (params[:per_page] || 10).to_i
-      assign_index_variables(page, per_page)
+      assign_index_variables
     rescue BaseApi::Error400Exception
-      return redirect_to fleets_path unless page == 1
+      return redirect_to fleets_path unless params[:page] == 1
     end
 
     ##
@@ -52,8 +50,7 @@ module VehiclesManagement
     #
     def add_another_zone
       VehiclesManagement::DynamicCazes::AddAnotherCaz.call(session: session)
-
-      redirect_back(fallback_location: fleets_path)
+      reload_dynamic_table
     end
 
     ##
@@ -74,8 +71,7 @@ module VehiclesManagement
           session: session, user: current_user, key: params[:key]
         )
       end
-
-      redirect_back(fallback_location: fleets_path)
+      reload_dynamic_table
     end
 
     ##
@@ -98,7 +94,8 @@ module VehiclesManagement
           zone_id: params[:zone_id]
         )
       end
-      redirect_back(fallback_location: fleets_path)
+
+      reload_dynamic_table
     end
 
     ##
@@ -115,8 +112,7 @@ module VehiclesManagement
         return redirect_to vrn_not_found_fleets_path(vrn: form.vrn, per_page: per_page)
       end
 
-      assign_payment_enabled
-      render_fleets_page(form)
+      redirect_to_proper_page(form)
     end
 
     ##
@@ -219,9 +215,13 @@ module VehiclesManagement
       form = VehiclesManagement::ConfirmationForm.new(confirm_delete_param)
       return redirect_to remove_fleets_path, alert: confirmation_error(form) unless form.valid?
 
-      remove_vehicle if form.confirmed?
-      session[:vrn] = nil
-      redirect_to after_removal_redirect_path(@fleet)
+      if form.confirmed?
+        remove_vehicle
+        session[:vrn] = nil
+        redirect_to after_removal_redirect_path(@fleet)
+      else
+        redirect_to edit_fleets_path
+      end
     end
 
     ##
@@ -237,6 +237,34 @@ module VehiclesManagement
         user_beta_tester: current_user.beta_tester
       )
       redirect_to file_url
+    end
+
+    ##
+    # Renders edit tab
+    #
+    # ==== Path
+    #
+    #     GET /manage_vehicles/edit
+    #
+    def edit
+      # renders static page with Manage Fleets tab
+    end
+
+    ##
+    # Validates an edit fleet form and redirects to the proper page.
+    #
+    # ==== Path
+    #
+    #     POST /manage_vehicles/submit_edit
+    #
+    def submit_edit
+      form = UsersManagement::EditFleetForm.new(params[:edit_option])
+      if form.valid?
+        redirect_to determine_edit_fleet_path(params[:edit_option])
+      else
+        flash.now.alert = form.first_error_message
+        render :edit
+      end
     end
 
     private
@@ -283,7 +311,9 @@ module VehiclesManagement
     end
 
     # Assign variables needed in :index view
-    def assign_index_variables(page, per_page)
+    def assign_index_variables
+      page = (params[:page] || 1).to_i
+      per_page = (params[:per_page] || 10).to_i
       @search = params[:vrn]
       form = SearchVrnForm.new(@search)
       if form.valid?
@@ -301,12 +331,13 @@ module VehiclesManagement
       )
     end
 
-    # Renders :index with assigned zones and errors
-    def render_fleets_page(form)
-      @search = form.vrn
-      fetch_pagination_and_zones
-      flash.now[:alert] = form.first_error_message if form.first_error_message
-      render :index
+    # reloads dynamic table on View Charges page using JS or redirect back to fleets page
+    def reload_dynamic_table
+      assign_index_variables
+      respond_to do |format|
+        format.js { render 'reload_dynamic_table' }
+        format.html { redirect_back(fallback_location: fleets_path) }
+      end
     end
 
     # Make api calls
@@ -319,6 +350,25 @@ module VehiclesManagement
       )
       @zones = current_user.beta_tester ? CleanAirZone.all : CleanAirZone.visible_cazes
       load_selected_zones if @zones.count > 3
+    end
+
+    # Loads error from form if needed and redirect to fleets index with appropriate params
+    def redirect_to_proper_page(form)
+      flash.now[:alert] = form.first_error_message if form.first_error_message
+
+      redirect_to fleets_path(vrn: form.vrn)
+    end
+
+    # Determine path to edit fleet option.
+    def determine_edit_fleet_path(edit_option)
+      case edit_option
+      when 'add_single'
+        enter_details_vehicles_path
+      when 'add_multiple'
+        uploads_path
+      else
+        root_path # change to remove vehicles page
+      end
     end
   end
 end

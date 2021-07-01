@@ -74,6 +74,10 @@ When('I select Bulk upload') do
   choose('File upload')
 end
 
+Then('I should be on add signle vehicle page') do
+  expect(page).to have_current_path(enter_details_vehicles_path)
+end
+
 Then('I should be on the upload page') do
   expect(page).to have_current_path(uploads_path)
 end
@@ -183,8 +187,11 @@ When('I have all undetermined vehicles') do
 end
 
 Then('I should be on the manage vehicles page') do
-  mock_debits
   expect(page).to have_current_path(fleets_path)
+end
+
+Then('I should be on the edit vehicles page') do
+  expect(page).to have_current_path(edit_fleets_path)
 end
 
 Then('I should be on the delete vehicle page') do

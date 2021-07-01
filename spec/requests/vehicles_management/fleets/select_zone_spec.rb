@@ -6,6 +6,12 @@ describe 'VehiclesManagement::FleetsController - POST #select_zone', type: :requ
   subject { post select_zone_fleets_path(key: SecureRandom.uuid, zone_id: SecureRandom.uuid) }
 
   context 'when correct permissions' do
+    before do
+      mock_more_than_3_clean_air_zones
+      mock_fleet
+      mock_user_details
+    end
+
     it 'redirects to the login page' do
       subject
       expect(response).to redirect_to(new_user_session_path)
