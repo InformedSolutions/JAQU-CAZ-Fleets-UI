@@ -13,7 +13,7 @@ module UsersManagement
     before_action :authenticate_user!
     before_action -> { check_permissions(allow_manage_users?) }
     before_action -> { check_account_ownership?(account_user_id) }
-    before_action :check_edit_user, only: %w[update]
+    before_action :check_edit_user, only: :update
 
     # Handle Bath D-Day notice
     before_action :assign_payment_enabled, only: :edit

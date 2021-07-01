@@ -11,7 +11,7 @@
     %ul.hmrc-account-menu__main
 
       -# Sub menu and back button classes declaration need it for proper loading hmrc javascript.
-      .hmrc-account-menu__link--back{style: 'display: none' }
+      .hmrc-account-menu__link--back.hidden
         %a#account-menu__main-2.hmrc-subnav
       -# Sub menu and back button classes declaration need it for proper loading hmrc javascript.
 
@@ -37,6 +37,6 @@
               id: 'new-account')
 
     -# Sub menu and back button classes declaration need it for proper loading hmrc javascript.
-    .hmrc-account-menu__link--menu.hmrc-account-menu__main.hmrc-account-menu__link--back{style: 'display: none' }
+    .hmrc-account-menu__link--menu.hmrc-account-menu__main.hmrc-account-menu__link--back.hidden
       %a#account-menu__main-2.hmrc-subnav
     -# Sub menu and back button classes declaration need it for proper loading hmrc javascript.

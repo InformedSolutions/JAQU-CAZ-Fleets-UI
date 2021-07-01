@@ -1,14 +1,10 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-import initSearch from "../src/paymentMatrix/initSearch";
-import initPaginationButton from "../src/paymentMatrix/initPaginationButton";
-import preventContinue from "../src/paymentMatrix/emptyMatrixContinuePrevention";
+/* eslint-disable func-names */
+import initSearch from '../src/paymentMatrix/initSearch';
+import initPaginationButtons from '../src/paymentMatrix/initPaginationButtons';
+import preventContinue from '../src/paymentMatrix/emptyMatrixContinuePrevention';
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener('DOMContentLoaded', () => {
   preventContinue();
   initSearch();
+  initPaginationButtons();
 });
-
-window.addPage = function(page) {
-  initPaginationButton(page);
-}

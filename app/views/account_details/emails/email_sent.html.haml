@@ -22,5 +22,5 @@
           %li
             = link_to("resend the email",
                       resend_email_primary_users_path,
-                      id: 'resend-link',
-                      onclick: "this.classList.add('disabled-link', 'transparent')")
+                      id: 'resend-link')
+          = javascript_pack_tag 'resendLink'

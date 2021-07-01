@@ -62,13 +62,13 @@ describe 'VehiclesManagement::FleetsController - POST #confirm_delete', type: :r
         context 'when user does not confirm details' do
           let(:confirmation) { 'no' }
 
-          it 'redirects to the fleets page' do
-            subject
-            expect(response).to redirect_to(fleets_path)
+          before { subject }
+
+          it 'redirects to the edit fleets page' do
+            expect(response).to redirect_to(edit_fleets_path)
           end
 
           it 'does not call VehiclesManagement::Fleet#delete_vehicle' do
-            subject
             expect(fleet).not_to have_received(:delete_vehicle)
           end
         end

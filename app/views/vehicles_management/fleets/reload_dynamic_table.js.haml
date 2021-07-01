@@ -1,0 +1,10 @@
+var newContent = "#{j render 'vehicles_management/fleets/dynamic_table'}";
+var div = document.createElement('div');
+div.innerHTML = newContent.trim();
+document.getElementById("dynamic-table").replaceWith(div.firstChild);
+
+/ initialize dynamic select tags
+var selectCazElements = document.getElementsByClassName('select-caz-tag');
+for (var i = 0; i < selectCazElements.length; i++) {
+selectCazElements[i].addEventListener('change', (e) => {document.getElementById('select_zone_button_' + e.target.dataset.key).click();});
+}

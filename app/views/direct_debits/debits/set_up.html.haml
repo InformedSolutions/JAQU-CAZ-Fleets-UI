@@ -26,13 +26,13 @@
               What you need to know before setting up an agreement:
               %ul.govuk-list.govuk-list--bullet
                 %li you need to set up an agreement with each zone
-                %li paying this way means you need to authorise a payment every time you want to pay a charge - the money will not automatically come out of your account
+                %li you need to authorise a payment every time you want to pay a charge. Your bank account is not debited automatically
                 %li bank account payments are made via Direct Debit and will appear as a Direct Debit in your bank account
                 %li we'll send a receipt by email to whoever makes the payment
                 %li we'll also send an email to whoever sets up the agreement when a payment is made. To let them know money is leaving the bank account
 
             %p
-              Zones you haven't set up an agreement with and where the local authority supports this type of payment will appear here.
+              Any zone you haven't set up an agreement with yet will appear here. (If the local authority supports this type of payment).
             .govuk-form-group
               .govuk-radios
                 - @zones.each do |mandate|

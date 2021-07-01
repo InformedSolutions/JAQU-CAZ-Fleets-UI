@@ -20,16 +20,12 @@ describe 'FleetsController - POST #submit_details', type: :request do
           subject
         end
 
-        it 'returns a 200 OK status' do
-          expect(response).to have_http_status(:ok)
+        it 'returns a 302 Found status' do
+          expect(response).to have_http_status(:found)
         end
 
-        it 'renders the view' do
-          expect(response).to render_template(:index)
-        end
-
-        it 'assigns @payment_features_enabled variable' do
-          expect(assigns(:payment_features_enabled)).not_to be(nil)
+        it 'redirect to fleets with appropriate params' do
+          expect(response).to redirect_to(fleets_path(vrn: vrn))
         end
       end
 
@@ -57,12 +53,12 @@ describe 'FleetsController - POST #submit_details', type: :request do
 
       let(:vrn) { '' }
 
-      it 'returns a 200 OK status' do
-        expect(response).to have_http_status(:ok)
+      it 'returns a 302 Found status' do
+        expect(response).to have_http_status(:found)
       end
 
-      it 'renders the view' do
-        expect(response).to render_template(:index)
+      it 'redirect to fleets with appropriate params' do
+        expect(response).to redirect_to(fleets_path(vrn: vrn))
       end
 
       it 'assigns flash error message' do

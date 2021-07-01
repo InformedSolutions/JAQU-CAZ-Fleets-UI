@@ -9,8 +9,6 @@
           = zone.name
           %br
           = zone.live? ? '(Live)' : '(Future)'
-      %th.govuk-table__header{scope: 'col'}
-        .govuk-visually-hidden Actions
   %tbody.govuk-table__body
     - @pagination.vehicle_list.each do |vehicle|
       %tr.govuk-table__row
@@ -21,5 +19,3 @@
         - @zones.each do |zone|
           %td.govuk-table__cell{scope: 'row', class: 'vehicle-management-column-static'}
             = vehicle.formatted_charge(zone.id)
-        %td.govuk-table__cell{scope: 'row'}
-          = link_to('Remove', assign_remove_fleets_path(vrn: vehicle.vrn), id: "remove_#{vehicle.vrn}")

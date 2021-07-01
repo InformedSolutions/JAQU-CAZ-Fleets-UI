@@ -39,50 +39,27 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the enter details page
 
-  Scenario: Fleet override
+  Scenario: Fleet add signle vehicle
     When I have vehicles in my fleet
       And I visit the manage vehicles page
-      And I press 'list of vehicles' link
-    Then I should be on the upload page
-
-  Scenario: Visiting the manage fleet page with vehicles in fleet with no payment permission
-    When I have vehicles in my fleet
-      And I visit the manage vehicles page
-    Then I should be on the manage vehicles page
-      And I should not see 'Make a payment' link
-    Then I press 'Return to Account home' link
-      And I should be on the Dashboard page
-
-  Scenario: Visiting the manage fleet page with vehicles in fleet with payment permission
-    When I have vehicles in my fleet
-      And I visit the manage vehicles page with payment permission
-    Then I should be on the manage vehicles page
-      And I press 'Make a payment' link
-      And I should be on the make a payment page
-
-  Scenario: Removing vehicle from the fleet
-    When I have vehicles in my fleet
-      And I visit the manage vehicles page
-      And I press 'Remove' link
-    Then I should be on the delete vehicle page
-      And I press the Continue
+      And I press 'Edit vehicle list' link
+    Then I should see 'Manage Vehicles'
+      And I press 'Continue' button
     Then I should see 'You must choose an answer'
-      And I choose 'Yes'
-      And I press the Continue
-    Then I should be on the manage vehicles page
-      And I should have deleted the vehicle
-      And I should see 'You have successfully removed'
+      And I choose 'Add single vehicle'
+      And I press 'Continue' button
+    Then I should be on add signle vehicle page
 
-  Scenario: Abandoning removing vehicle from fleet
+  Scenario: Fleet add multiple vehicles
     When I have vehicles in my fleet
       And I visit the manage vehicles page
-      And I press 'Remove' link
-    Then I should be on the delete vehicle page
-      And I choose 'No'
-      And I press the Continue
-    Then I should be on the manage vehicles page
-      And I should not have deleted the vehicle
-      And I should not see 'You have successfully removed'
+      And I press 'Edit vehicle list' link
+    Then I should see 'Manage Vehicles'
+      And I press 'Continue' button
+    Then I should see 'You must choose an answer'
+      And I choose 'Upload a new list'
+      And I press 'Continue' button
+    Then I should be on the upload page
 
   Scenario: Backend API is unavailable
     When Fleet backend API is unavailable

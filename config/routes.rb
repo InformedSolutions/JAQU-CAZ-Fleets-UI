@@ -62,6 +62,8 @@ Rails.application.routes.draw do
         get :remove
         post :remove, to: 'fleets#confirm_remove'
         get :export
+        get :edit
+        post :submit_edit
       end
     end
 

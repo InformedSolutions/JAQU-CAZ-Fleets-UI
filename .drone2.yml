@@ -122,6 +122,7 @@ steps:
     pull: never
     commands:
       - rubocop
+      - node_modules/.bin/eslint 'app/javascript'
       - node_modules/.bin/stylelint 'app/javascript/**/*.(s)?scss'
     volumes:
       - name: docker_sock
@@ -286,21 +287,21 @@ steps:
       - name: docker_sock
         path: /var/run/docker.sock
     when:
-        event:
-          - push
+      event:
+        - push
 
   # Trigger accessibility test
   - name: accessibility tests
     image: pa11y-ci
     pull: never
     environment:
-      BASE_URL: https://dev-accounts-web.cleanairzone.defra.gov.uk
+      BASE_URL: https://AccountsTestUser1:CleanAir99@dev-accounts-web.cleanairzone.defra.gov.uk
     commands:
       - mkdir screenshots
       - /usr/local/bin/pa11y-ci -c ci-cd-resources/pa11y/.pa11yci.conf.js
     when:
-        event:
-          - push
+      event:
+        - push
 
 
   ################################################## End of Dev Environment Steps #########################################################################
@@ -381,6 +382,7 @@ steps:
     pull: never
     commands:
       - rubocop
+      - node_modules/.bin/eslint 'app/javascript'
       - node_modules/.bin/stylelint 'app/javascript/**/*.(s)?scss'
     volumes:
       - name: docker_sock
@@ -654,6 +656,7 @@ steps:
     pull: never
     commands:
       - rubocop
+      - node_modules/.bin/eslint 'app/javascript'
       - node_modules/.bin/stylelint 'app/javascript/**/*.(s)?scss'
     volumes:
       - name: docker_sock
@@ -826,7 +829,7 @@ steps:
   - name: await ecs rollout
     image: docker:19.03.11-git
     environment:
-      build_id_url: https://sit-fleet.paycleanairzonecharge.co.uk/build_id
+      build_id_url: https://sit-accounts-web.cleanairzone.defra.gov.uk/build_id
       build_id: ${DRONE_BUILD_NUMBER}
     commands:
       - apk add curl
@@ -1021,7 +1024,7 @@ steps:
   - name: await ecs rollout
     image: alpine:3.11.6
     environment:
-      build_id_url: https://preprod-fleet.paycleanairzonecharge.co.uk/build_id
+      build_id_url: https://preprod-accounts-web.cleanairzone.defra.gov.uk/build_id
       SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
       AWS_ACCESS_KEY_ID:
         from_secret: jaqu_controlled_aws_access_key_id
@@ -1115,6 +1118,7 @@ steps:
     pull: never
     commands:
       - rubocop
+      - node_modules/.bin/eslint 'app/javascript'
       - node_modules/.bin/stylelint 'app/javascript/**/*.(s)?scss'
     volumes:
       - name: docker_sock
