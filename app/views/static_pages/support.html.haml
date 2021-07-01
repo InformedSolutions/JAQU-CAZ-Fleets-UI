@@ -114,7 +114,7 @@
                 %ul.govuk-list-govuk-list--bullet
                   %li
                     %p
-                      = link_to(zone.name, zone.exemption_url, id: "#{zone.name.downcase}-exemption")
+                      = external_link_to(zone.name, zone.exemption_url, id: "#{zone.name.downcase}-exemption")
 
         .govuk-accordion__section
           .govuk-accordion__section-header
