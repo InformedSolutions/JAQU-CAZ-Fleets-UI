@@ -70,7 +70,7 @@ describe UsersManagement::SetUpAccountForm, type: :model do
     let(:confirmation) { 'pass' }
     let(:error_message) do
       'Enter a password at least 12 characters long including at least 1 upper case letter, '\
-      '1 number and a special character'
+        '1 number and a special character'
     end
 
     before do

@@ -45,9 +45,9 @@ describe 'UsersManagement::CreateUsersController - POST #confirm_set_up', type: 
       errors = {
         token: nil,
         password: 'Enter a password at least 12 characters long including at least 1 upper case letter, '\
-                   '1 number and a special character',
+                  '1 number and a special character',
         password_confirmation: 'Enter a password at least 12 characters long including at least 1 upper case'\
-                   ' letter, 1 number and a special character'
+                               ' letter, 1 number and a special character'
       }
 
       expect(flash[:errors]).to eq(errors)

@@ -1,0 +1,45 @@
+- title_and_header = 'Select vehicles to remove'
+- content_for(:title, title_and_header)
+
+= render 'shared/js_back_link'
+
+%main.govuk-main-wrapper.govuk-main-wrapper--auto-spacing#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+
+      = render 'shared/error' if alert
+      %h2.govuk-heading-l= title_and_header
+      = render 'vehicles_management/remove_vehicles/search'
+
+      .govuk-form-group
+        %fieldset.govuk-fieldset
+          %legend.govuk-visually-hidden Select vehicles to remove
+
+          = form_for(remove_vehicles_fleets_path, method: :post, html: { id: 'remove-vehicles-form' }) do
+            = hidden_field_tag('vrns_on_page', @pagination.vrn_list)
+            = hidden_field_tag('all_selected_checkboxes_count', selected_vrns_count)
+            = render 'vehicles_management/remove_vehicles/table'
+
+            - if @pagination.total_vehicles_count > 10
+              = render 'pagination'
+
+              .govuk-form-group
+                %fieldset.govuk-fieldset{'aria-describedby': 'per-page-dropdown'}
+                  %legend.govuk-visually-hidden Results per page
+                  = select_tag('per_page',
+                                options_for_select(@pagination.results_per_page, params[:per_page]),
+                                class: 'govuk-select moj-pagination__results results-per-page-select',
+                                id: 'per-page-dropdown')
+                  = label_tag('per-page-dropdown',
+                               'Results per page',
+                               class: 'govuk-label moj-pagination__results results-per-page-select')
+
+            - if @pagination.total_vehicles_count.positive?
+              %p
+              .govuk-form-group
+                = submit_tag('Continue',
+                             class: 'govuk-button',
+                             id: 'continue-remove-vehicles-button',
+                             'data-module': 'govuk-button')
+
+= javascript_pack_tag 'removeVehicles'

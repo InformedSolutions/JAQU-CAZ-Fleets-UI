@@ -1,0 +1,19 @@
+.govuk-form-group
+  %label.govuk-label{for: 'vrn-search'}
+    Search for a number plate
+  - if alert && alert.include?(I18n.t('vrn_form.errors.vrn_missing'))
+    = render 'vehicles_management/remove_vehicles/vrn_input/errored', message: alert
+  - else
+    = render 'vehicles_management/remove_vehicles/vrn_input/normal'
+  %input{value: 'Search',
+         type: 'button',
+         id: 'search-form-submit',
+         class: 'govuk-button govuk-button--secondary',
+         'data-module': 'govuk-button'}
+
+- if @vrn.present?
+  %p
+    = link_to('Clear search (does not remove your selections)',
+              clear_search_payments_path,
+              id: 'clear-search-link',
+              class: 'govuk-link')
