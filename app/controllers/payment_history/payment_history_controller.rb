@@ -6,7 +6,7 @@ module PaymentHistory
   ##
   # Controller used to show detailed information about the all company and users payments
   #
-  class PaymentHistoryController < ApplicationController # rubocop:disable Metrics/ClassLength
+  class PaymentHistoryController < ApplicationController
     include CheckPermissions
 
     before_action lambda {
@@ -22,7 +22,6 @@ module PaymentHistory
     #
     def payment_history
       check_history_permissions
-      @back_button_url = determinate_back_link_url
     rescue BaseApi::Error400Exception
       return redirect_to payment_history_path unless page_number == 1
     end
@@ -38,7 +37,7 @@ module PaymentHistory
       @details =  PaymentHistory::Details.new(payment_id)
       @payments = @details.payments
       @payment_modifications = @details.payment_modifications
-      @back_button_url = determinate_back_link
+      @return_to_payments_history_url = determinate_back_link
     end
 
     ##
@@ -182,17 +181,6 @@ module PaymentHistory
     # export_id from params
     def export_id
       params['exportId']
-    end
-
-    # Returns back link url, e.g '.../company_payment_history?page=3?back=true'
-    def determinate_back_link_url
-      PaymentHistory::BackLinkHistory.call(
-        session: session,
-        back_button: request.query_parameters['page']&.include?('back'),
-        page: page_number,
-        default_url: dashboard_url,
-        url: payment_history_url
-      )
     end
 
     # Returns back link url on the payment history details page
