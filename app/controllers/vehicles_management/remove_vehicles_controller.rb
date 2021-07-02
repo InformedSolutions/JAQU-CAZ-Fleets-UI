@@ -201,6 +201,8 @@ module VehiclesManagement
           redirect_to edit_fleets_path
         end
       elsif vehicles_list_in_session.count >= 1
+        flash[:success] =
+          I18n.t('vrn_form.messages.multiple_vrns_removed', number: vehicles_list_in_session.count)
         redirect_to confirm_remove_vehicles_fleets_path
       else
         flash.now[:alert] = I18n.t('remove_vehicles.errors.messages.vrn_missing')
