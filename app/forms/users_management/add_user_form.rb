@@ -6,8 +6,8 @@ module UsersManagement
   ##
   # This class is used to validate user data filled in +app/views/users_management/users/new.html.haml+.
   class AddUserForm < NewUserBaseForm
-    # Blacklisted characters
-    BLACKLIST_CHARACTERS = /([%<>:`&])/u
+    # Deny list characters
+    DENY_LIST_CHARACTERS = /([%<>:`&])/u
 
     # validates name attribute to presence
     validates :name, presence: { message: I18n.t('add_new_user_form.errors.name_missing') }
@@ -20,7 +20,7 @@ module UsersManagement
     }, allow_blank: true
     # validates +email+ against duplication
     validate :email_not_duplicated, if: -> { email.present? }
-    # validates +name+ against blacklisted characters
+    # validates +name+ against deny list characters
     validate :allowed_name_characters, if: -> { name.present? }
 
     ##
@@ -38,9 +38,9 @@ module UsersManagement
 
     private
 
-    # Validates user's name against blacklisted characters
+    # Validates user's name against deny list characters
     def allowed_name_characters
-      return if name.match(BLACKLIST_CHARACTERS).blank?
+      return if name.match(DENY_LIST_CHARACTERS).blank?
 
       errors.add(:name, I18n.t('add_new_user_form.errors.name_invalid'))
     end

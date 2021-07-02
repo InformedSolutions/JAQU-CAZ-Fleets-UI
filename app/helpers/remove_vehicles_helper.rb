@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-# View helpers for remove vehicle flow
+# View helpers for remove vehicles flow.
 module RemoveVehiclesHelper
+  # Check of vrn was already checked by user.
   def remove_vrn_checked?(vrn)
     session['remove_vehicles_list']&.include?(vrn)
   end
