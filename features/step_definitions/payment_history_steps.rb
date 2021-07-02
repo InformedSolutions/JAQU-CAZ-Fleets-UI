@@ -80,16 +80,8 @@ And('I should be on the Payment history page number {int}') do |page_number|
   expect(page).to have_current_path("#{payment_history_url}?page=#{page_number}")
 end
 
-And('I should be on the Payment history page number {int} when using back button') do |page_number|
-  expect(page).to have_current_path("#{payment_history_url}?page=#{page_number}?back=true")
-end
-
 And('I should be on the User payment history page number {int}') do |page_number|
   expect(page).to have_current_path("#{user_payment_history_url}?page=#{page_number}")
-end
-
-And('I should be on the User payment history page number {int} when using back button') do |page_number|
-  expect(page).to have_current_path("#{user_payment_history_url}?page=#{page_number}?back=true")
 end
 
 When('I press {int} pagination button on the payment history page') do |selected_page|
