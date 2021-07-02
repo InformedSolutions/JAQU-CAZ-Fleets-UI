@@ -188,7 +188,7 @@ module VehiclesManagement
                                                                      params: permitted_params)
     end
 
-    # Redirects to proper page depends on vehicles size.
+    # Redirects to the proper page depends on vehicles size.
     def redirect_to_proper_page # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       if vehicles_list_in_session.count == 1
         FleetsApi.remove_vehicle_from_fleet(vrn: vehicles_list_in_session.first,
