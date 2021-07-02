@@ -32,9 +32,8 @@ describe 'VehiclesManagement::FleetsController - POST #submit_edit', type: :requ
     context 'with remove as edit_option' do
       let(:edit_option) { 'remove' }
 
-      it 'redirects to the remove vehicles method' do
-        # need to be updated when remove is implemented
-        expect(response).to redirect_to(root_path)
+      it 'redirects to the remove vehicles page' do
+        expect(response).to redirect_to(remove_vehicles_fleets_path)
       end
     end
 
