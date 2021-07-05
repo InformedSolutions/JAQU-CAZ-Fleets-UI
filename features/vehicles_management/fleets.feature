@@ -39,7 +39,7 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the enter details page
 
-  Scenario: Fleet add signle vehicle
+  Scenario: Fleet add single vehicle
     When I have vehicles in my fleet
       And I visit the manage vehicles page
       And I press 'Edit vehicle list' link
@@ -48,7 +48,7 @@ Feature: Fleets
     Then I should see 'You must choose an answer'
       And I choose 'Add single vehicle'
       And I press 'Continue' button
-    Then I should be on add signle vehicle page
+    Then I should be on add single vehicle page
 
   Scenario: Fleet add multiple vehicles
     When I have vehicles in my fleet
