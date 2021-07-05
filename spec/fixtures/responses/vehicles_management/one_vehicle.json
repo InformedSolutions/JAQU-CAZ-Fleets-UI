@@ -1,0 +1,19 @@
+{
+  "vehicles": [
+    {
+      "vrn": "CAZ101",
+      "isExempt": false,
+      "isRetrofitted": false,
+      "vehicleType": "caz vehicle type",
+      "cachedCharges": [
+        {
+          "cazId": "5cd7441d-766f-48ff-b8ad-1809586fea37",
+          "charge": 100,
+          "tariffCode": "tariffCode"
+        }
+      ]
+    }
+  ],
+  "totalVehiclesCount": 1,
+  "pageCount": 1
+}
