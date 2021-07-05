@@ -25,8 +25,10 @@ class ApplicationController < ActionController::Base
               BaseApi::Error422Exception,
               BaseApi::Error400Exception,
               BaseApi::Error404Exception,
-              InvalidHostException,
               with: :render_server_unavailable
+
+  rescue_from InvalidHostException,
+              with: :render_forbidden
 
   # rescues `UserAlreadyConfirmedException` exception
   rescue_from UserAlreadyConfirmedException, with: :render_sign_in
@@ -112,6 +114,13 @@ class ApplicationController < ActionController::Base
     Rails.logger.error "#{exception.class}: #{exception}"
 
     render template: 'errors/service_unavailable', status: :service_unavailable
+  end
+
+  # Logs the exception at info level and renders service unavailable page
+  def render_forbidden(exception)
+    Rails.logger.info "#{exception.class}: #{exception}"
+
+    render template: 'errors/service_unavailable', status: :forbidden
   end
 
   # Assign back button url
