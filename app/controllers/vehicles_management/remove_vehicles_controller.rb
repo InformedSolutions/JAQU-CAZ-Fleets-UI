@@ -149,9 +149,9 @@ module VehiclesManagement
     def delete_vehicles
       FleetsApi.remove_vehicles_from_fleet(vehicles: vehicles_list_in_session,
                                            account_id: current_user.account_id)
+      flash[:success] =
+        I18n.t('vrn_form.messages.multiple_vrns_removed', number: vehicles_list_in_session.count)
       if current_user.fleet.empty?
-        flash[:success] =
-          I18n.t('vrn_form.messages.multiple_vrns_removed', number: vehicles_list_in_session.count)
         redirect_to dashboard_path
       else
         redirect_to fleets_path
