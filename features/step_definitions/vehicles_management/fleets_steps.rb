@@ -74,7 +74,7 @@ When('I select Bulk upload') do
   choose('File upload')
 end
 
-Then('I should be on add signle vehicle page') do
+Then('I should be on add single vehicle page') do
   expect(page).to have_current_path(enter_details_vehicles_path)
 end
 
@@ -192,18 +192,6 @@ end
 
 Then('I should be on the edit vehicles page') do
   expect(page).to have_current_path(edit_fleets_path)
-end
-
-Then('I should be on the delete vehicle page') do
-  expect(page).to have_current_path(remove_fleets_path)
-end
-
-Then('I should have deleted the vehicle') do
-  expect(@fleet).to have_received(:delete_vehicle)
-end
-
-Then('I should not have deleted the vehicle') do
-  expect(@fleet.total_vehicles_count).to eq(15)
 end
 
 When('Fleet backend API is unavailable') do
