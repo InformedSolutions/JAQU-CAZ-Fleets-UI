@@ -7,8 +7,13 @@ module RemoveVehiclesHelper
     session['remove_vehicles_list']&.include?(vrn)
   end
 
-  # Number of selected vrns
+  # Number of selected vrns.
   def selected_vrns_count
     session['remove_vehicles_list']&.count
+  end
+
+  # The list of vehicles to remove in session.
+  def remove_vehicles_list
+    session['remove_vehicles_list']
   end
 end
