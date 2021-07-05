@@ -13,7 +13,7 @@ YARD::CLI::Stats.new.run('--list-undoc', '--private', '--compact', '--no-save', 
 
 SimpleCov.start 'rails' do
   # minimum coverage percentage expected
-  minimum_coverage 94.06
+  minimum_coverage 93.64
   # ignore next folders and files
   add_filter %w[
     app/models/application_record.rb

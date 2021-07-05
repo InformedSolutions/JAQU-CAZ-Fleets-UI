@@ -6,6 +6,9 @@
 %main.govuk-main-wrapper.govuk-main-wrapper--auto-spacing#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
+      - if alert
+        = render 'shared/error_summary', error_msg_div: '#confirm-vehicle-details-error', error_msg: alert
+
       %h2.govuk-heading-l= title_and_header
 
       %dl.govuk-summary-list

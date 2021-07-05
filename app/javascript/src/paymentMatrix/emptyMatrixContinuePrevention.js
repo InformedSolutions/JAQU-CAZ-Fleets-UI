@@ -3,13 +3,13 @@ function refreshContinueButtonDisability() {
   const continueButton = document.getElementById('continue-matrix-button');
 
   if (continueButton != null) {
-    continueButton.disabled = parseInt(allSelectedCheckboxesCount.value, 10) === 0;
+    continueButton.disabled = parseInt(allSelectedCheckboxesCount.value || 0, 10) === 0;
   }
 }
 
 function recalculateAllCheckedCheckboxesCount(target) {
   const allSelectedCheckboxesCountInput = document.getElementById('allSelectedCheckboxesCount');
-  let allSelectedCheckboxesCount = parseInt(allSelectedCheckboxesCountInput.value, 10);
+  let allSelectedCheckboxesCount = parseInt(allSelectedCheckboxesCountInput.value || 0, 10);
 
   if (target.checked) {
     allSelectedCheckboxesCount += 1;

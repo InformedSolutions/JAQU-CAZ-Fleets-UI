@@ -27,12 +27,12 @@
                 %fieldset.govuk-fieldset{'aria-describedby': 'per-page-dropdown'}
                   %legend.govuk-visually-hidden Results per page
                   = select_tag('per_page',
-                                options_for_select(@pagination.results_per_page, params[:per_page]),
-                                class: 'govuk-select moj-pagination__results results-per-page-select',
-                                id: 'per-page-dropdown')
+                               options_for_select(@pagination.results_per_page, params[:per_page]),
+                               class: 'govuk-select moj-pagination__results results-per-page-select',
+                               id: 'per-page-dropdown')
                   = label_tag('per-page-dropdown',
-                               'Results per page',
-                               class: 'govuk-label moj-pagination__results results-per-page-select')
+                              'Results per page',
+                              class: 'govuk-label moj-pagination__results results-per-page-select')
 
             - if @pagination.total_vehicles_count.positive?
               %p

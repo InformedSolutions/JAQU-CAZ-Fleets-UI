@@ -60,6 +60,8 @@ Rails.application.routes.draw do
         scope controller: :remove_vehicles do
           get :remove_vehicles
           post :remove_vehicles, to: 'remove_vehicles#submit_remove_vehicles'
+          get :confirm_remove_vehicle
+          delete :confirm_remove_vehicle, to: 'remove_vehicles#delete_vehicle'
           get :confirm_remove_vehicles
           delete :confirm_remove_vehicles, to: 'remove_vehicles#delete_vehicles'
           get :vehicles_to_remove_details
