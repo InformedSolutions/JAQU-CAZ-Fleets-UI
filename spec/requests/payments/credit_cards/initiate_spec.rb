@@ -11,7 +11,7 @@ describe 'Payments::CreditCardsController - POST #initiate', type: :request do
     add_to_session(new_payment: { caz_id: SecureRandom.uuid })
     response = { 'paymentId' => SecureRandom.uuid, 'nextUrl' => '/payments/result' }
     allow(Payments::MakeCardPayment).to receive(:call).and_return(response)
-    sign_in create_user
+    sign_in(create_user)
     subject
   end
 

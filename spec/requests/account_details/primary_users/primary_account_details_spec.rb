@@ -23,7 +23,7 @@ describe 'AccountDetails::PrimaryUsersController - GET #primary_account_details'
   end
 
   context 'when user is not owner' do
-    before { sign_in create_user }
+    before { sign_in(create_user) }
 
     it 'redirects to the not found page' do
       expect(subject).to redirect_to(not_found_path)

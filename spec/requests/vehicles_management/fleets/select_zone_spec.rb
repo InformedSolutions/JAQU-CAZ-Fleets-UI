@@ -24,11 +24,11 @@ describe 'VehiclesManagement::FleetsController - POST #select_zone', type: :requ
         subject
       end
 
-      it 'redirects to #remove' do
+      it 'redirects to manage vehicles page' do
         expect(response).to redirect_to(fleets_path)
       end
 
-      it 'changes seleced zone in the session' do
+      it 'changes selected zone in the session' do
         expect(VehiclesManagement::DynamicCazes::SelectCaz).to have_received(:call)
       end
     end

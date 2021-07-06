@@ -32,7 +32,7 @@ describe 'AccountDetails::PasswordsController - PATCH #update', type: :request d
   end
 
   context 'when signed in as non primary user' do
-    before { sign_in create_user(user_id: user_id) }
+    before { sign_in(create_user(user_id: user_id)) }
 
     context 'when correct parameters are provided' do
       before { allow(AccountsApi::Auth).to receive(:update_password).and_return(true) }

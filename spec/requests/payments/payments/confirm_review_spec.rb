@@ -22,7 +22,7 @@ describe 'PaymentsController - POST #confirm_review', type: :request do
 
     before do
       add_to_session(new_payment: payment_details)
-      sign_in create_user
+      sign_in(create_user)
       subject
     end
 

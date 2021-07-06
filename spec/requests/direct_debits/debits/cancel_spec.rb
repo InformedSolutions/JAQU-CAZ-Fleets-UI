@@ -9,7 +9,7 @@ describe 'DirectDebits::DebitsController - GET #cancel', type: :request do
     context 'with CAZ locked by current user' do
       before do
         add_to_session(new_payment: { caz_id: caz_id, details: {} })
-        sign_in create_user
+        sign_in(create_user)
         subject
       end
 

@@ -22,7 +22,7 @@ describe 'PaymentsController - POST #submit', type: :request do
   let(:vrn) { 'ABC123' }
 
   context 'when correct permissions' do
-    before { sign_in create_user }
+    before { sign_in(create_user) }
 
     it 'redirects to the :index' do
       expect(subject).to redirect_to(payments_path)

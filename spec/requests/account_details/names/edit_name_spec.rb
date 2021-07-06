@@ -9,7 +9,7 @@ describe 'AccountsDetails::NamesController - GET #edit_name', type: :request do
 
   context 'when user is not an owner' do
     before do
-      sign_in create_user
+      sign_in(create_user)
       subject
     end
 
