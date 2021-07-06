@@ -1,6 +1,6 @@
 function refreshContinueButtonDisability() {
-  const allSelectedCheckboxesCount = document.getElementById('allSelectedCheckboxesCount');
-  const continueButton = document.getElementById('continue-matrix-button');
+  const allSelectedCheckboxesCount = document.getElementById('all_selected_checkboxes_count');
+  const continueButton = document.getElementById('continue-remove-vehicles-button');
 
   if (continueButton != null) {
     continueButton.disabled = parseInt(allSelectedCheckboxesCount.value || 0, 10) === 0;
@@ -8,7 +8,7 @@ function refreshContinueButtonDisability() {
 }
 
 function recalculateAllCheckedCheckboxesCount(target) {
-  const allSelectedCheckboxesCountInput = document.getElementById('allSelectedCheckboxesCount');
+  const allSelectedCheckboxesCountInput = document.getElementById('all_selected_checkboxes_count');
   let allSelectedCheckboxesCount = parseInt(allSelectedCheckboxesCountInput.value || 0, 10);
 
   if (target.checked) {

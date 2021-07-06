@@ -1,0 +1,20 @@
+- title_and_header = 'Vehicles to remove'
+- content_for(:title, title_and_header)
+
+= render 'shared/js_back_link'
+
+%main.govuk-main-wrapper.govuk-main-wrapper--auto-spacing#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      %h2.govuk-heading-l= title_and_header
+
+      %table.govuk-table
+        %thead.govuk-table__head
+          %tr.govuk-table__row
+            %th.govuk-table__header{scope: 'col', colspan: 2} Number plate
+        %tbody.govuk-table__body
+          - @vrns.each do |vrn|
+            %tr.govuk-table__row
+              %td.govuk-table__cell{scope: 'row'}=vrn
+
+      %p= link_to('Return to confirmation', confirm_remove_vehicles_fleets_path, id: 'return-to-confirmation')

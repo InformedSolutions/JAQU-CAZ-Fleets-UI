@@ -13,7 +13,6 @@ module VehiclesManagement
 
     before_action -> { check_permissions(allow_manage_vehicles?) }
     before_action :assign_fleet
-    before_action :check_vrn, only: %i[remove confirm_remove]
     before_action :set_cache_headers, only: :index
     before_action :check_job_status, only: :index
     before_action :clear_user_data, only: :index
@@ -54,7 +53,7 @@ module VehiclesManagement
     end
 
     ##
-    # Action removes slelected zone on the Vehicle Management page if there are
+    # Action removes selected zone on the Vehicle Management page if there are
     # more than 3 CAZ available. Redirect back to previous page.
     #
     # ==== Path
@@ -94,7 +93,6 @@ module VehiclesManagement
           zone_id: params[:zone_id]
         )
       end
-
       reload_dynamic_table
     end
 
@@ -170,61 +168,6 @@ module VehiclesManagement
     end
 
     ##
-    # Assigns VRN to remove. Redirects to {delete view}[rdoc-ref:delete]
-    #
-    # ==== Path
-    #
-    #    :GET /manage_vehicles/assign_remove
-    #
-    # ==== Params
-    # * +vrn+ - vehicle registration number, required in params
-    #
-    def assign_remove
-      return redirect_to fleets_path unless params[:vrn]
-
-      session[:vrn] = params[:vrn]
-      redirect_to remove_fleets_path
-    end
-
-    ##
-    # Renders the confirmation page for deleting vehicles from the fleet.
-    #
-    # ==== Path
-    #
-    #    GET /manage_vehicles/remove
-    #
-    # ==== Params
-    # * +vrn+ - vehicle registration number, required in the session
-    #
-    def remove
-      @vehicle_registration = vrn
-    end
-
-    ##
-    # Removes the vehicle from the fleet if the user confirms this.
-    #
-    # ==== Path
-    #
-    #    POST /manage_vehicles/remove
-    #
-    # ==== Params
-    # * +vrn+ - vehicle registration number, required in the session
-    # * +confirm-delete+ - form confirmation, possible values: 'yes', 'no', nil
-    #
-    def confirm_remove
-      form = VehiclesManagement::ConfirmationForm.new(confirm_delete_param)
-      return redirect_to remove_fleets_path, alert: confirmation_error(form) unless form.valid?
-
-      if form.confirmed?
-        remove_vehicle
-        session[:vrn] = nil
-        redirect_to after_removal_redirect_path(@fleet)
-      else
-        redirect_to edit_fleets_path
-      end
-    end
-
-    ##
     # Downloads a csv file from AWS S3
     #
     # ==== Path
@@ -274,14 +217,6 @@ module VehiclesManagement
       @fleet = current_user.fleet
     end
 
-    # Check if vrn is present in the session
-    def check_vrn
-      return if vrn
-
-      Rails.logger.warn 'VRN is missing in the session. Redirecting to fleets_path'
-      redirect_to fleets_path
-    end
-
     # Gets VRN from session. Returns string, eg 'CU1234'
     def vrn
       session[:vrn]
@@ -290,17 +225,6 @@ module VehiclesManagement
     # Extract 'confirm-delete' from params
     def confirm_delete_param
       params['confirm-delete']
-    end
-
-    # Removes vehicle and sets successful flash message
-    def remove_vehicle
-      @fleet.delete_vehicle(vrn)
-      flash[:success] = I18n.t('vrn_form.messages.single_vrn_removed', vrn: session[:vrn])
-    end
-
-    # Returns redirect path after successful removal of vehicle from the fleet
-    def after_removal_redirect_path(fleet)
-      fleet.empty? ? dashboard_path : fleets_path
     end
 
     # Clears upload job data
@@ -367,8 +291,15 @@ module VehiclesManagement
       when 'add_multiple'
         uploads_path
       else
-        root_path # change to remove vehicles page
+        clear_remove_vehicles
+        remove_vehicles_fleets_path
       end
+    end
+
+    # Clears remove vehicles data from the session.
+    def clear_remove_vehicles
+      session[:remove_vehicles_list] = nil
+      session[:remove_vehicles_vrn_search] = nil
     end
   end
 end

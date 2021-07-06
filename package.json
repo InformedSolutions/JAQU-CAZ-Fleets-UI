@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ministryofjustice/frontend": "^0.2.4",
+    "@ministryofjustice/frontend": "^0.2.5",
     "@rails/actioncable": "^6.1.4",
     "@rails/activestorage": "^6.1.4",
     "@rails/ujs": "^6.1.4",
     "@rails/webpacker": "^5.4.0",
     "govuk-frontend": "^3.13.0",
-    "hmrc-frontend": "^1.36.0",
+    "hmrc-frontend": "^1.37.1",
     "rails-erb-loader": "^5.5.2"
   },
   "devDependencies": {
@@ -17,7 +17,7 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.4",
     "improved-yarn-audit": "^2.3.3",
-    "pa11y": "^6.0.0",
+    "pa11y": "^6.0.1",
     "stylelint": "^13.13.1",
     "stylelint-config-gds": "^0.1.0",
     "webpack-dev-server": "^3.11.2"

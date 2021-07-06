@@ -41,18 +41,20 @@
 
         = render 'payment_history/payment_history/pagination' if @pagination.total_payments_count > 10
 
-        = form_tag(payment_history_path, method: :get, id: 'payment-history-form') do
-          .govuk-form-group
-            %fieldset.govuk-fieldset{'aria-describedby': 'per_page'}
-              = link_to('Request a download link (CSV)',
-                        initiate_payment_history_download_path,
-                        class: 'govuk-button govuk-button--secondary',
-                        id:'download-payment-history',
-                        'data-module': 'govuk-button')
-              - if @pagination.total_payments_count > 10
+        = link_to('Request a download link (CSV)',
+                  initiate_payment_history_download_path,
+                  class: 'govuk-button govuk-button--secondary',
+                  id:'download-payment-history',
+                  'data-module': 'govuk-button')
+
+        - if @pagination.total_payments_count > 10
+          = form_tag(payment_history_path, method: :get, id: 'per-page-form') do
+            .govuk-form-group
+              %fieldset.govuk-fieldset{'aria-describedby': 'per-page-dropdown'}
+                %legend.govuk-visually-hidden Results per page
                 = select_tag('per_page',
                              options_for_select(@pagination.results_per_page, params[:per_page]),
                              class: 'govuk-select moj-pagination__results results-per-page-select',
                              id: 'per-page-dropdown')
-                = label_tag('per_page', 'Results per page', class: 'govuk-label moj-pagination__results results-per-page-select')
-                = javascript_pack_tag 'payment_history/perPage'
+                = label_tag('per-page-dropdown', 'Results per page', class: 'govuk-label moj-pagination__results results-per-page-select')
+                = javascript_pack_tag 'perPage'

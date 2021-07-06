@@ -1,4 +1,4 @@
-- title_and_header = raw("Remove #{@vehicle_registration}?")
+- title_and_header = raw("Remove #{remove_vehicles_list.first}?")
 - content_for(:title, title_and_header)
 
 = render 'shared/js_back_link'
@@ -8,7 +8,7 @@
     .govuk-grid-column-two-thirds
       = render 'shared/error_summary', error_msg_div: '#confirm-delete-error', error_msg: alert if alert
 
-      = form_tag remove_fleets_path, method: :post do
+      = form_tag confirm_remove_vehicle_fleets_path, method: :delete do
         .govuk-form-group{class: ('govuk-form-group--error' if alert)}
           %fieldset.govuk-fieldset
             %legend.govuk-fieldset__legend.govuk-fieldset__legend--l
@@ -29,4 +29,3 @@
                 %label.govuk-label.govuk-radios__label{for: 'confirm-delete-2'}
                   No
         = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'
-

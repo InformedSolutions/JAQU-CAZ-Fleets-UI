@@ -24,9 +24,9 @@
 
   = render 'pagination' if @pagination.total_vehicles_count > 10
 
-  = form_tag(fleets_path, method: :get, id: 'manage-vehicles-form') do
+  = form_tag(fleets_path, method: :get, id: 'per-page-form') do
     .govuk-form-group
-      %fieldset.govuk-fieldset{'aria-describedby': 'only_chargeable'}
+      %fieldset.govuk-fieldset{'aria-describedby': 'only-chargeable'}
         %legend.govuk-visually-hidden Hide vehicles that are not charge in any Zone
         .govuk-checkboxes
           .govuk-checkboxes__item
@@ -36,7 +36,7 @@
                             params['only_chargeable'],
                             class: 'govuk-checkboxes__input',
                             id: 'only-chargeable')
-            = label_tag('only_chargeable',
+            = label_tag('only-chargeable',
                         'Hide vehicles that are not charged in any Zone',
                         class: 'govuk-label govuk-checkboxes__label')
 
@@ -45,7 +45,10 @@
                            options_for_select(@pagination.results_per_page, params[:per_page]),
                            class: 'govuk-select moj-pagination__results results-per-page-select',
                            id: 'per-page-dropdown')
-              = label_tag('per_page', 'Results per page', class: 'govuk-label moj-pagination__results results-per-page-select')
+              = label_tag('per-page-dropdown',
+                          'Results per page',
+                          class: 'govuk-label moj-pagination__results results-per-page-select')
+              = javascript_pack_tag 'perPage'
 
   %p
     = link_to('Download the results (CSV)',
@@ -77,4 +80,4 @@
                         class: 'govuk-link')
 
   = javascript_pack_tag 'vehicles_management/onlyChargeable'
-  = javascript_pack_tag 'vehicles_management/perPage'
+

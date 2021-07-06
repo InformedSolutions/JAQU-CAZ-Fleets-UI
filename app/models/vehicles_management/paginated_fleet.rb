@@ -22,6 +22,11 @@ module VehiclesManagement
       @vehicle_list ||= data['vehicles'].map { |vehicle_data| VehiclesManagement::Vehicle.new(vehicle_data) }
     end
 
+    # Returns an array of vrns.
+    def vrn_list
+      @vrn_list ||= data['vehicles'].map { |vrn| vrn['vrn'] }
+    end
+
     # Returns the number of available pages
     def total_pages
       data['pageCount']
