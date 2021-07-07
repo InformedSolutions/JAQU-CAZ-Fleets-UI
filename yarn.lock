@@ -3849,9 +3849,9 @@ hmac-drbg@^1.0.1:
     minimalistic-crypto-utils "^1.0.1"
 
 hmrc-frontend@^1.37.1:
-  version "1.37.1"
-  resolved "https://registry.yarnpkg.com/hmrc-frontend/-/hmrc-frontend-1.37.1.tgz#8c014dbd9c9e532f6fae32d2289c403a5f47acf2"
-  integrity sha512-Ngvo10CGRRdKd8t2BXv3QrZl6HaK+69073gMI0regUjmqzVL9i+Nr09v2+oCjtvqjVQ2BrOR7RtpGjdq6exJsA==
+  version "1.38.0"
+  resolved "https://registry.yarnpkg.com/hmrc-frontend/-/hmrc-frontend-1.38.0.tgz#657403dbe11625ebeb2854e2e0f64e7ef7f99319"
+  integrity sha512-Gqo5pVzMODHcosgirq5xXbDnJLRQDfci/jKlhCdnWCp9W1/dhZjTVsTWqf+YloF3TIbNkRKJEo5HZ+JeUS2LDg==
   dependencies:
     govuk-frontend "^3.13.0"
 
