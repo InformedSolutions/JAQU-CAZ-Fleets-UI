@@ -66,3 +66,15 @@ Feature: Remove vehicles
     When I press Remove button and delete my last vehicle in fleet
     Then I should be on the Dashboard page
       And I should see 'You have successfully removed 2 vehicles from your vehicle list.'
+
+  Scenario: Remove single vehicle accidentally
+    When I visit the edit vehicles page
+      And I choose 'Remove vehicles'
+      And I press 'Continue' button
+    Then I should be on remove vehicles page
+    When I select one vrn
+      And I press 'Continue' button
+    Then I should be on confirm remove vehicle page
+      And I select 'No'
+    When I press 'Continue' button
+    Then I should be on the edit vehicles page

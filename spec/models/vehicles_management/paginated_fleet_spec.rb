@@ -22,6 +22,12 @@ describe VehiclesManagement::PaginatedFleet, type: :model do
     end
   end
 
+  describe '.vrn_list' do
+    it 'returns vrn_list value' do
+      expect(subject.vrn_list).to eq(%w[CAS301 CAS302 CAS303])
+    end
+  end
+
   describe '.total_pages' do
     it 'returns pageCount value' do
       expect(subject.total_pages).to eq(data['pageCount'])

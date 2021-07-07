@@ -24,7 +24,7 @@ describe 'Payments::CreditCardsController - GET #result', type: :request do
       .with(payment_id: id, caz_name: 'Bath').and_return(
         'paymentId' => id, 'status' => 'success', 'userEmail' => 'test@example.com'
       )
-    sign_in create_user
+    sign_in(create_user)
     subject
   end
 

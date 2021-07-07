@@ -50,6 +50,8 @@ describe DashboardController, type: :request do
             it 'assigns :all_mandates_active variable' do
               expect(assigns(:all_mandates_active)).to be_truthy
             end
+
+            it_behaves_like 'sets cache headers'
           end
 
           context 'when not all mandates are active' do
@@ -147,6 +149,21 @@ describe DashboardController, type: :request do
           expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).to be_nil
         end
       end
+
+      context 'when service call returns `InvalidHostException`' do
+        before do
+          allow(VehiclesManagement::Fleet).to receive(:new).and_raise(InvalidHostException)
+          subject
+        end
+
+        it 'renders the service unavailable page' do
+          expect(response).to render_template(:service_unavailable)
+        end
+
+        it 'returns a :forbidden response' do
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
     end
 
     context 'when user is signed in with password that is about to expire in 8 days' do
@@ -157,7 +174,7 @@ describe DashboardController, type: :request do
         mock_clean_air_zones
         mock_debits
         mock_payment_history
-        sign_in create_user(permissions: [], days_to_password_expiry: 8)
+        sign_in(create_user(permissions: [], days_to_password_expiry: 8))
         subject
       end
 
@@ -179,7 +196,7 @@ describe DashboardController, type: :request do
           mock_clean_air_zones
           mock_payment_history
           mock_debits
-          sign_in create_user(permissions: ['VIEW_PAYMENTS'], days_to_password_expiry: 8)
+          sign_in(create_user(permissions: ['VIEW_PAYMENTS'], days_to_password_expiry: 8))
           subject
         end
 
@@ -196,7 +213,7 @@ describe DashboardController, type: :request do
           mock_clean_air_zones
           mock_debits
           mock_empty_payment_history
-          sign_in create_user(permissions: ['VIEW_PAYMENTS'], days_to_password_expiry: 8)
+          sign_in(create_user(permissions: ['VIEW_PAYMENTS'], days_to_password_expiry: 8))
           subject
         end
 
@@ -215,7 +232,7 @@ describe DashboardController, type: :request do
           mock_clean_air_zones
           mock_payment_history
           mock_debits
-          sign_in create_user(permissions: ['MAKE_PAYMENTS'], days_to_password_expiry: 8)
+          sign_in(create_user(permissions: ['MAKE_PAYMENTS'], days_to_password_expiry: 8))
           subject
         end
 
@@ -232,7 +249,7 @@ describe DashboardController, type: :request do
           mock_clean_air_zones
           mock_empty_payment_history
           mock_debits
-          sign_in create_user(permissions: ['MAKE_PAYMENTS'], days_to_password_expiry: 8)
+          sign_in(create_user(permissions: ['MAKE_PAYMENTS'], days_to_password_expiry: 8))
           subject
         end
 
@@ -243,7 +260,7 @@ describe DashboardController, type: :request do
     end
 
     context 'when user enters the Dashboard with an outdated password' do
-      before { sign_in create_user(permissions: [], days_to_password_expiry: -2) }
+      before { sign_in(create_user(permissions: [], days_to_password_expiry: -2)) }
 
       it 'redirects to the edit password page' do
         subject
@@ -253,7 +270,7 @@ describe DashboardController, type: :request do
 
     context 'when user login IP does not match request IP' do
       before do
-        sign_in create_user(login_ip: '0.0.0.0')
+        sign_in(create_user(login_ip: '0.0.0.0'))
         subject
       end
 

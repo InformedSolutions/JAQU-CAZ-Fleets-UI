@@ -8,7 +8,7 @@ describe 'PaymentsController - GET #select_payment_method', type: :request do
   before { mock_direct_debit_enabled }
 
   context 'when correct permissions' do
-    before { sign_in create_user }
+    before { sign_in(create_user) }
 
     context 'when `direct_debit_enabled` in session is true' do
       before do

@@ -23,11 +23,10 @@ module VehiclesManagement
       @fleet = current_user.fleet
       return redirect_to choose_method_fleets_path if @fleet.empty?
 
-      page = (params[:page] || 1).to_i
       @vrn = vrn_search_in_session
       @vrn ? validate_search_params : assign_pagination
     rescue BaseApi::Error400Exception
-      return redirect_to remove_vehicles_path unless page == 1
+      return redirect_to remove_vehicles_fleets_path unless params[:page] == 1
     end
 
     ##
@@ -229,12 +228,10 @@ module VehiclesManagement
     end
 
     # Redirects to the proper page depends on vehicles size.
-    def redirect_to_proper_page # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    def redirect_to_proper_page
       if vehicles_list_in_session.count == 1
         redirect_to confirm_remove_vehicle_fleets_path
       elsif vehicles_list_in_session.count >= 1
-        flash[:success] =
-          I18n.t('vrn_form.messages.multiple_vrns_removed', number: vehicles_list_in_session.count)
         redirect_to confirm_remove_vehicles_fleets_path
       else
         flash.now[:alert] = I18n.t('remove_vehicles.errors.messages.vrn_missing')

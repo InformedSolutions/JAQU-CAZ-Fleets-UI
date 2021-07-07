@@ -8,7 +8,7 @@ describe 'PaymentsController - GET #vrn_not_found', type: :request do
   let(:caz_id) { mocked_uuid }
 
   context 'when correct permissions' do
-    before { sign_in create_user }
+    before { sign_in(create_user) }
 
     context 'with la in the session' do
       before do

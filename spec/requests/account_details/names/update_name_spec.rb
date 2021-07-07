@@ -8,7 +8,7 @@ describe 'AccountDetails::NamesController - GET #update_name', type: :request do
   let(:params) { { name: name } }
   let(:name) { 'Carl Gustav Jung' }
 
-  before { sign_in create_user }
+  before { sign_in(create_user) }
 
   context 'when params are valid' do
     context 'when user is successfully updated' do

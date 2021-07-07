@@ -217,16 +217,6 @@ module VehiclesManagement
       @fleet = current_user.fleet
     end
 
-    # Gets VRN from session. Returns string, eg 'CU1234'
-    def vrn
-      session[:vrn]
-    end
-
-    # Extract 'confirm-delete' from params
-    def confirm_delete_param
-      params['confirm-delete']
-    end
-
     # Clears upload job data
     # Clears show_continue_button from session when user lands on fleets page after end of CSV import
     def clear_user_data

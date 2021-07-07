@@ -20,7 +20,7 @@ describe 'PasswordsController - PATCH #update', type: :request do
   let(:password_confirmation) { 'new_password12345!' }
 
   context 'when signed in' do
-    before { sign_in create_user(user_id: user_id) }
+    before { sign_in(create_user(user_id: user_id)) }
 
     context 'when correct parameters are provided' do
       before { allow(AccountsApi::Auth).to receive(:update_password).and_return(true) }
