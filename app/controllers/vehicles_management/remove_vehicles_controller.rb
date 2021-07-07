@@ -105,23 +105,14 @@ module VehiclesManagement
     #
     #    :DELETE /manage_vehicles/remove_vehicles/confirm_remove_vehicle
     #
-    def delete_vehicle # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    def delete_vehicle
       form = VehiclesManagement::ConfirmationForm.new(params['confirm-delete'])
       unless form.valid?
         flash.now.alert = confirmation_error(form)
         return render :confirm_remove_vehicle
       end
-
       if form.confirmed?
-        FleetsApi.remove_vehicle_from_fleet(vrn: vehicles_list_in_session.first,
-                                            account_id: current_user.account_id)
-        flash[:success] =
-          I18n.t('vrn_form.messages.single_vrn_removed', vrn: vehicles_list_in_session.first)
-        if current_user.fleet.empty?
-          redirect_to dashboard_path
-        else
-          redirect_to fleets_path
-        end
+        determinate_next_step
       else
         redirect_to edit_fleets_path
       end
@@ -239,6 +230,23 @@ module VehiclesManagement
         assign_pagination
         render :remove_vehicles
       end
+    end
+
+    # Calls api to remove vehicle and redirects to the proper page.
+    def determinate_next_step
+      make_api_call
+      if current_user.fleet.empty?
+        redirect_to dashboard_path
+      else
+        redirect_to fleets_path
+      end
+    end
+
+    # Calls api to remove vehicle and assigns flash message.
+    def make_api_call
+      FleetsApi.remove_vehicle_from_fleet(vrn: vehicles_list_in_session.first,
+                                          account_id: current_user.account_id)
+      flash[:success] = I18n.t('vrn_form.messages.single_vrn_removed', vrn: vehicles_list_in_session.first)
     end
 
     # Permitted parameters.
