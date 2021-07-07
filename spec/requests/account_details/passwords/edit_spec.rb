@@ -22,7 +22,7 @@ describe 'AccountDetails::PasswordsController - GET #edit', type: :request do
 
   context 'when user is not owner' do
     before do
-      sign_in create_user
+      sign_in(create_user)
       subject
     end
 

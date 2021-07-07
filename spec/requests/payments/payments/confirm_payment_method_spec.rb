@@ -14,7 +14,7 @@ describe 'PaymentsController - POST #confirm_payment_method', type: :request do
         paymentId: SecureRandom.uuid,
         nextUrl: result_payments_path
       )
-      sign_in create_user
+      sign_in(create_user)
       subject
     end
 

@@ -9,7 +9,7 @@ describe 'AccountDetails::NonPrimaryUsersController - GET #non_primary_account_d
 
   context 'when user is not owner' do
     before do
-      sign_in create_user
+      sign_in(create_user)
       subject
     end
 

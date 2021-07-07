@@ -17,7 +17,7 @@ describe 'PaymentsController - GET #review', type: :request do
     context 'when user is not beta tester' do
       context 'when :total_to_pay is < Payments::Constants::CHARGE_LIMIT' do
         before do
-          sign_in create_user(beta_tester: false)
+          sign_in(create_user(beta_tester: false))
           subject
         end
 
@@ -49,7 +49,7 @@ describe 'PaymentsController - GET #review', type: :request do
       context 'when :total_to_pay is > Payments::Constants::CHARGE_LIMIT' do
         before do
           stub_const('Payments::Constants::CHARGE_LIMIT', 0)
-          sign_in create_user(beta_tester: false)
+          sign_in(create_user(beta_tester: false))
           subject
         end
 
@@ -61,7 +61,7 @@ describe 'PaymentsController - GET #review', type: :request do
     end
 
     context 'when user is beta tester' do
-      before { sign_in create_user(beta_tester: true) }
+      before { sign_in(create_user(beta_tester: true)) }
 
       it 'assigns correct value to session' do
         subject

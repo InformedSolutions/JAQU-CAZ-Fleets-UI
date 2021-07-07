@@ -23,7 +23,7 @@ describe 'AccountsApi::Accounts.create_account - POST' do
     it 'calls API with proper body' do
       body = { accountName: name }
       subject
-      expect(WebMock).to have_requested(:post, /accounts/).with(body: body).once
+      expect(WebMock).to have_requested(:post, /accounts/).with(body: body)
     end
   end
 

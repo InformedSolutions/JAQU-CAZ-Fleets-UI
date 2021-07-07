@@ -8,7 +8,7 @@ class DashboardController < ApplicationController
   include CazLock
   include PaymentFeatures
 
-  before_action :set_cache_headers, only: %i[index]
+  before_action :set_cache_headers, only: :index
   before_action :clear_input_history, only: :index
 
   # Handle Bath D-Day notice

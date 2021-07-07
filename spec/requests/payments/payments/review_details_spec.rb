@@ -25,7 +25,7 @@ describe 'PaymentsController - GET #review_details', type: :request do
 
     context 'when there are no sufficient data in session' do
       before do
-        sign_in create_user
+        sign_in(create_user)
         subject
       end
 
@@ -40,7 +40,7 @@ describe 'PaymentsController - GET #review_details', type: :request do
 
     context 'when there are correct data in session' do
       before do
-        sign_in create_user
+        sign_in(create_user)
         add_to_session(new_payment_session)
         subject
       end

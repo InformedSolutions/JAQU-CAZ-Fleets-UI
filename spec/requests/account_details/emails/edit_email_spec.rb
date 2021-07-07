@@ -23,7 +23,7 @@ describe 'AccountsDetails::EmailsController - GET #edit_email', type: :request d
   end
 
   context 'when user is not an owner' do
-    before { sign_in create_user }
+    before { sign_in(create_user) }
 
     it 'redirects to the not found page' do
       expect(subject).to redirect_to(not_found_path)

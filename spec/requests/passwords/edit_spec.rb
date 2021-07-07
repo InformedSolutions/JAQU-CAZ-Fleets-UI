@@ -6,7 +6,7 @@ describe 'PasswordsController - GET #edit', type: :request do
   subject { get edit_passwords_path }
 
   context 'when signed in' do
-    before { sign_in create_user }
+    before { sign_in(create_user) }
 
     it 'renders the view' do
       expect(subject).to render_template(:edit)

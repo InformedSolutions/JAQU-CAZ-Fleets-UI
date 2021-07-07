@@ -46,7 +46,7 @@ describe LogoutController, type: :request do
     subject { get timedout_user_path }
 
     before do
-      sign_in create_user
+      sign_in(create_user)
       subject
     end
 

@@ -28,7 +28,7 @@ describe 'SessionsController - GET #destroy', type: :request do
 
   context 'when CAZ locked by another user' do
     before do
-      sign_in create_user(user_id: SecureRandom.uuid)
+      sign_in(create_user(user_id: SecureRandom.uuid))
       subject
     end
 

@@ -89,7 +89,7 @@ describe 'PaymentsController - GET #matrix', type: :request do
 
           let(:upload_job_redis_key) { "account_id_#{user.account_id}" }
 
-          context 'with when status is SUCCESS' do
+          context 'with status is SUCCESS' do
             let(:status) { 'SUCCESS' }
 
             it 'renders the view' do
@@ -101,7 +101,7 @@ describe 'PaymentsController - GET #matrix', type: :request do
             end
           end
 
-          context 'with when status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
+          context 'with status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
             let(:status) { 'CHARGEABILITY_CALCULATION_IN_PROGRESS' }
 
             it 'redirects to the calculating chargeability page' do
@@ -109,7 +109,7 @@ describe 'PaymentsController - GET #matrix', type: :request do
             end
           end
 
-          context 'with when status is RUNNING' do
+          context 'with status is RUNNING' do
             let(:status) { 'RUNNING' }
 
             it 'redirects to the process uploading page' do
@@ -117,7 +117,7 @@ describe 'PaymentsController - GET #matrix', type: :request do
             end
           end
 
-          context 'with when status is unknown' do
+          context 'with status is unknown' do
             let(:status) { 'UNKNOWN' }
 
             it 'renders the view' do

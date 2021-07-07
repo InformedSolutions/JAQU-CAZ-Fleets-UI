@@ -83,7 +83,7 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_and_add_exempt_v
               expect(flash[:success]).to eq("You have successfully added #{vrn} to your vehicle list.")
             end
 
-            it 'redirects to the local vehicle exemptions' do
+            it 'redirects to manage vehicles page' do
               expect(response).to redirect_to(fleets_path)
             end
           end
