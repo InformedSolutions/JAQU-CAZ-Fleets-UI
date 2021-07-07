@@ -11,7 +11,7 @@
       = form_for('edit_form', url: submit_edit_fleets_path, method: :post) do |f|
         .govuk-form-group{class: ('govuk-form-group--error' if alert.present?)}
           %fieldset.govuk-fieldset
-            %legend.govuk-heading-xl= title_and_header
+            %legend.govuk-visually-hidden= title_and_header
             - if alert.present?
               %span#edit_option-error.govuk-error-message
                 %span.govuk-visually-hidden Error:
