@@ -45,7 +45,6 @@ module VehiclesManagement
     #
     def submit_details
       form = VrnForm.new(params[:vrn])
-
       determinate_next_step(form)
     end
 
