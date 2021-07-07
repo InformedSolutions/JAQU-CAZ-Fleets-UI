@@ -78,3 +78,19 @@ Feature: Remove vehicles
       And I select 'No'
     When I press 'Continue' button
     Then I should be on the edit vehicles page
+
+  Scenario: Pagination
+    When I visit the edit vehicles page
+      And I choose 'Remove vehicles'
+      And I press 'Continue' button
+    Then I should be on remove vehicles page
+    Then I should see active '1' pagination button
+      And I should see inactive '2' pagination button
+      And I should see inactive 'next' pagination button
+      And I should not see 'previous' pagination button
+    When I press 2 pagination button
+    Then I should see active '2' pagination button
+      And I should see inactive '1' pagination button
+      And I should see inactive 'previous' pagination button
+      And I should not see 'next' pagination button
+      And I should see 'Results per page'
