@@ -10,9 +10,9 @@
       = succeed('.') do
         = @zone.name
   %p
-    You can pay for
+    Payment can be made
     - if @dates[:past].present?
-      = "the past #{pluralize(@dates[:past].count, 'day')} and"
-    the next 7 days, which includes today.
+      = "#{pluralize(@dates[:past].count, 'day')} before,"
+      on the day of travel or by 11:59pm on the 6th day after driving in the zone or you may receive a penalty charge notice (PCN).
   %p
     A daily charge runs from midnight to midnight.

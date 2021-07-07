@@ -209,7 +209,7 @@ Feature: Fleets
       And I press the Continue
     Then I should be on the payment matrix page
       And I should see 'Next 7 days'
-      And I should see 'You can pay for the past 6 days'
+      And I should see 'Payment can be made 6 days before'
       And I should see 'Past 6 days'
 
   Scenario: Pagination
