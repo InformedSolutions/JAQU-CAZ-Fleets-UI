@@ -10,7 +10,7 @@ describe 'PaymentsController - GET #post_payment_details', type: :request do
 
     before do
       mock_clean_air_zones
-      sign_in create_user
+      sign_in(create_user)
       add_to_session(initiated_payment: { caz_id: mocked_uuid, details: payment_details })
     end
 

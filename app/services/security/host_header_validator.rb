@@ -4,7 +4,7 @@
 # Module used for security checks.
 module Security
   ##
-  # Service used to chcek if host from the request is valid and has not been modified over the request.
+  # Service used to check if host from the request is valid and has not been modified over the request.
   #
   class HostHeaderValidator < BaseService
     ##

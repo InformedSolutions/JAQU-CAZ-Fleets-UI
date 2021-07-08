@@ -23,11 +23,10 @@ module VehiclesManagement
       @fleet = current_user.fleet
       return redirect_to choose_method_fleets_path if @fleet.empty?
 
-      page = (params[:page] || 1).to_i
       @vrn = vrn_search_in_session
       @vrn ? validate_search_params : assign_pagination
     rescue BaseApi::Error400Exception
-      return redirect_to remove_vehicles_path unless page == 1
+      return redirect_to remove_vehicles_fleets_path unless params[:page] == 1
     end
 
     ##
@@ -106,23 +105,14 @@ module VehiclesManagement
     #
     #    :DELETE /manage_vehicles/remove_vehicles/confirm_remove_vehicle
     #
-    def delete_vehicle # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    def delete_vehicle
       form = VehiclesManagement::ConfirmationForm.new(params['confirm-delete'])
       unless form.valid?
         flash.now.alert = confirmation_error(form)
         return render :confirm_remove_vehicle
       end
-
       if form.confirmed?
-        FleetsApi.remove_vehicle_from_fleet(vrn: vehicles_list_in_session.first,
-                                            account_id: current_user.account_id)
-        flash[:success] =
-          I18n.t('vrn_form.messages.single_vrn_removed', vrn: vehicles_list_in_session.first)
-        if current_user.fleet.empty?
-          redirect_to dashboard_path
-        else
-          redirect_to fleets_path
-        end
+        determinate_next_step
       else
         redirect_to edit_fleets_path
       end
@@ -229,12 +219,10 @@ module VehiclesManagement
     end
 
     # Redirects to the proper page depends on vehicles size.
-    def redirect_to_proper_page # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    def redirect_to_proper_page
       if vehicles_list_in_session.count == 1
         redirect_to confirm_remove_vehicle_fleets_path
       elsif vehicles_list_in_session.count >= 1
-        flash[:success] =
-          I18n.t('vrn_form.messages.multiple_vrns_removed', number: vehicles_list_in_session.count)
         redirect_to confirm_remove_vehicles_fleets_path
       else
         flash.now[:alert] = I18n.t('remove_vehicles.errors.messages.vrn_missing')
@@ -242,6 +230,23 @@ module VehiclesManagement
         assign_pagination
         render :remove_vehicles
       end
+    end
+
+    # Calls api to remove vehicle and redirects to the proper page.
+    def determinate_next_step
+      make_api_call
+      if current_user.fleet.empty?
+        redirect_to dashboard_path
+      else
+        redirect_to fleets_path
+      end
+    end
+
+    # Calls api to remove vehicle and assigns flash message.
+    def make_api_call
+      FleetsApi.remove_vehicle_from_fleet(vrn: vehicles_list_in_session.first,
+                                          account_id: current_user.account_id)
+      flash[:success] = I18n.t('vrn_form.messages.single_vrn_removed', vrn: vehicles_list_in_session.first)
     end
 
     # Permitted parameters.

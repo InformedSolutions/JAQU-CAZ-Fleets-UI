@@ -33,9 +33,11 @@ describe 'VehiclesManagement::FleetsController - GET #index', type: :request do
         subject
       end
 
-      it 'does loads selecetd cazes from the api' do
+      it 'does loads selected cazes from the api' do
         expect(VehiclesManagement::DynamicCazes::SelectedCazes).to have_received(:call)
       end
+
+      it_behaves_like 'sets cache headers'
     end
 
     context 'when less than or equal to 3 active CAZ' do
@@ -85,7 +87,7 @@ describe 'VehiclesManagement::FleetsController - GET #index', type: :request do
           subject
         end
 
-        context 'with when status is SUCCESS' do
+        context 'with status is SUCCESS' do
           let(:status) { 'SUCCESS' }
 
           it 'renders manage vehicles page' do
@@ -97,7 +99,7 @@ describe 'VehiclesManagement::FleetsController - GET #index', type: :request do
           end
         end
 
-        context 'with when status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
+        context 'with status is CHARGEABILITY_CALCULATION_IN_PROGRESS' do
           let(:status) { 'CHARGEABILITY_CALCULATION_IN_PROGRESS' }
 
           it 'redirects to the calculating chargeability page' do
@@ -109,7 +111,7 @@ describe 'VehiclesManagement::FleetsController - GET #index', type: :request do
           end
         end
 
-        context 'with when status is RUNNING' do
+        context 'with status is RUNNING' do
           let(:status) { 'RUNNING' }
 
           it 'redirects to the process uploading page' do
@@ -121,7 +123,7 @@ describe 'VehiclesManagement::FleetsController - GET #index', type: :request do
           end
         end
 
-        context 'with when status is unknown' do
+        context 'with status is unknown' do
           let(:status) { 'UNKNOWN' }
 
           it 'renders manage vehicles page' do
@@ -138,7 +140,7 @@ describe 'VehiclesManagement::FleetsController - GET #index', type: :request do
         end
       end
 
-      context 'with when api returns 404 status' do
+      context 'with api returns 404 status' do
         before do
           add_upload_job_to_redis
           mock_fleet

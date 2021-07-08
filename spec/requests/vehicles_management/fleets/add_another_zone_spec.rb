@@ -24,7 +24,7 @@ describe 'VehiclesManagement::FleetsController - GET #add_another_zone', type: :
         subject
       end
 
-      it 'redirects to #remove' do
+      it 'redirects to manage vehicles page' do
         expect(response).to redirect_to(fleets_path)
       end
 
