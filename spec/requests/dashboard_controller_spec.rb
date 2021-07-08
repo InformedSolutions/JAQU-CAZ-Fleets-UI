@@ -149,21 +149,6 @@ describe DashboardController, type: :request do
           expect(REDIS.hget(caz_lock_redis_key, 'caz_id')).to be_nil
         end
       end
-
-      context 'when service call returns `InvalidHostException`' do
-        before do
-          allow(VehiclesManagement::Fleet).to receive(:new).and_raise(InvalidHostException)
-          subject
-        end
-
-        it 'renders the service unavailable page' do
-          expect(response).to render_template(:service_unavailable)
-        end
-
-        it 'returns a :forbidden response' do
-          expect(response).to have_http_status(:forbidden)
-        end
-      end
     end
 
     context 'when user is signed in with password that is about to expire in 8 days' do
