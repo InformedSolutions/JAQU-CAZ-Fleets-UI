@@ -17,7 +17,7 @@ describe UsersManagement::EditFleetForm, type: :model do
     it { is_expected.not_to be_valid }
 
     it 'has a proper error message' do
-      expect(subject.errors.messages[:edit_option]).to include('You must choose an answer')
+      expect(subject.errors.messages[:edit_option]).to include('You must choose an option')
     end
   end
 
@@ -29,7 +29,7 @@ describe UsersManagement::EditFleetForm, type: :model do
     it { is_expected.not_to be_valid }
 
     it 'has a proper error message' do
-      expect(subject.errors.messages[:edit_option]).to include('You must choose an answer')
+      expect(subject.errors.messages[:edit_option]).to include('You must choose an option')
     end
   end
 end
