@@ -38,7 +38,7 @@ en:
       no_file: Select a CSV file to upload
   edit_fleet_form:
     errors:
-      missing_answer: You must choose an answer
+      missing_answer: You must choose an option
   edit_user_email_form:
     errors:
       email_duplicated: Email address already exists
