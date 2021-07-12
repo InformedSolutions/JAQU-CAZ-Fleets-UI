@@ -6,6 +6,7 @@
 class StaticPagesController < ApplicationController
   skip_before_action :authenticate_user!
   skip_before_action :check_password_age
+  before_action :disable_cookies, only: :relevant_portal_cookies
 
   ##
   # Renders the accessibility statement page
@@ -24,6 +25,16 @@ class StaticPagesController < ApplicationController
   #    GET /cookies
   #
   def cookies
+    # renders static page
+  end
+
+  ##
+  # Renders the support page
+  #
+  # ==== Path
+  #    GET /relevant_portal_cookies
+  #
+  def relevant_portal_cookies
     # renders static page
   end
 
@@ -55,5 +66,12 @@ class StaticPagesController < ApplicationController
   #
   def terms_and_conditions
     # renders static page
+  end
+
+  private
+
+  # Disable session cookies
+  def disable_cookies
+    request.session_options[:skip] = true
   end
 end

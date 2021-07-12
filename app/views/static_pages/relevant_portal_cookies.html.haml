@@ -1,0 +1,48 @@
+- title_and_header = 'Cookies'
+- content_for(:title, title_and_header)
+
+= render 'shared/js_back_link'
+
+%main.govuk-main-wrapper#main-content{role: 'main'}
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      %h1.govuk-heading-xl
+        = title_and_header
+      %p
+        A cookie is a small piece of data that’s stored on your computer,
+        tablet, or phone when you visit a website.
+        Most websites need cookies to work properly.
+
+      %p
+        Cookies are not used in this page.
+
+      %p
+        Cookies are used in the following services:
+
+        %ul.govuk-list-govuk-list--bullet
+          %li
+            %p
+              Check a single vehicle
+          %li
+            %p
+              Pay a charge for a single vehicle
+          %li
+            %p
+              Check and pay for multiple vehicles
+
+        %p
+          How are cookies used in these services:
+          %ul.govuk-list-govuk-list--bullet
+            %li
+              %p
+                measure how you use the services so they can be improved
+            %li
+              %p
+                temporarily store the answers you’ll give
+
+        %p
+          Find out more about
+          = succeed '.' do
+            = external_link_to('how to manage cookies',
+                               'https://www.aboutcookies.org',
+                               id: 'manage-cookies-link')
