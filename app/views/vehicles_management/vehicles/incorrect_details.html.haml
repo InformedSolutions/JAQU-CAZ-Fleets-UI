@@ -35,7 +35,7 @@
           = @vehicle_registration
         is correct and add it to this account.
 
-      = form_tag confirm_incorrect_details_vehicles_path, method: :post do
+      = form_tag incorrect_details_vehicles_path, method: :post do
         .govuk-form-group{class: ('govuk-form-group--error' if alert)}
           %fieldset.govuk-fieldset
             %legend.govuk-visually-hidden

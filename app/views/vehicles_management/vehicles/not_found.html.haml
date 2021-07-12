@@ -29,8 +29,8 @@
       %p
         If the details still can not be found and you believe the vehicle should be registered in the UK, you must
         = external_link_to('update the details',
-                          'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
-                          id: 'dvla-link')
+                           'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
+                           id: 'dvla-link')
         the DVLA holds for the vehicle.
 
       = render 'shared/warning' do
@@ -54,7 +54,7 @@
           = @vehicle_registration
         is correct and add it to this account.
 
-      = form_tag confirm_not_found_vehicles_path, method: :post do
+      = form_tag not_found_vehicles_path, method: :post do
         .govuk-form-group{class: ('govuk-form-group--error' if alert)}
           %fieldset.govuk-fieldset
             %legend.govuk-visually-hidden

@@ -145,16 +145,19 @@ module VehiclesManagement
     ##
     # Validates user has confirmed VRN with incorrect vehicle details.
     # If it is valid, redirects to {manage vehicles page}[rdoc-ref:FleetsController.index]
-    # If not, renders {not found}[rdoc-ref:incorrect_details] with errors
+    # If not, renders {incorrect details}[rdoc-ref:incorrect_details] with errors
     #
     # ==== Path
     #    POST /vehicles/confirm_incorrect_details
     #
     def confirm_incorrect_details
       form = VehiclesManagement::ConfirmationForm.new(params['confirm-registration'])
-      return redirect_to incorrect_details_vehicles_path, alert: confirmation_error(form) unless form.valid?
-
-      redirect_to local_exemptions_vehicles_path
+      if form.valid?
+        redirect_to local_exemptions_vehicles_path
+      else
+        flash.now[:alert] = confirmation_error(form)
+        render :incorrect_details
+      end
     end
 
     ##
@@ -181,9 +184,12 @@ module VehiclesManagement
     #
     def confirm_not_found
       form = VehiclesManagement::ConfirmationForm.new(params['confirm-registration'])
-      return redirect_to not_found_vehicles_path, alert: confirmation_error(form) unless form.valid?
-
-      redirect_to local_exemptions_vehicles_path
+      if form.valid?
+        redirect_to local_exemptions_vehicles_path
+      else
+        flash.now[:alert] = confirmation_error(form)
+        render :not_found
+      end
     end
 
     ##
