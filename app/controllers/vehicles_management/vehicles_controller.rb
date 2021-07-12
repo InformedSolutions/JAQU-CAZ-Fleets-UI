@@ -7,7 +7,7 @@ module VehiclesManagement
   # Controller used to manage adding vehicles to the fleet manually.
   # It should use similar approach as VCCS UI
   #
-  class VehiclesController < ApplicationController
+  class VehiclesController < ApplicationController # rubocop:disable Metrics/ClassLength
     include CheckPermissions
     include ChargeabilityCalculator
 
@@ -140,6 +140,21 @@ module VehiclesManagement
     #
     def incorrect_details
       @vehicle_registration = vrn
+    end
+
+    ##
+    # Validates user has confirmed VRN with incorrect vehicle details.
+    # If it is valid, redirects to {manage vehicles page}[rdoc-ref:FleetsController.index]
+    # If not, renders {not found}[rdoc-ref:incorrect_details] with errors
+    #
+    # ==== Path
+    #    POST /vehicles/confirm_incorrect_details
+    #
+    def confirm_incorrect_details
+      form = VehiclesManagement::ConfirmationForm.new(params['confirm-registration'])
+      return redirect_to incorrect_details_vehicles_path, alert: confirmation_error(form) unless form.valid?
+
+      redirect_to local_exemptions_vehicles_path
     end
 
     ##

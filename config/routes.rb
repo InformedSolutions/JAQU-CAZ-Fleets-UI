@@ -86,6 +86,7 @@ Rails.application.routes.draw do
         post :confirm_details
         get :exempt
         get :incorrect_details
+        post :confirm_incorrect_details
         get :not_found
         post :confirm_not_found
         get :local_exemptions
