@@ -3,11 +3,6 @@
 
   .govuk-grid-row
     .govuk-grid-column-two-thirds
-      - if alert
-        = render 'shared/error_summary',
-                  error_msg_div: '#edit_option-error',
-                  error_msg: "#{alert}"
-
       = form_for('edit_form', url: submit_edit_fleets_path, method: :post) do |f|
         .govuk-form-group{class: ('govuk-form-group--error' if alert.present?)}
           %fieldset.govuk-fieldset
