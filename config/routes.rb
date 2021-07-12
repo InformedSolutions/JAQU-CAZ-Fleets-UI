@@ -225,6 +225,7 @@ Rails.application.routes.draw do
     get :support
     get :privacy_notice
     get :terms_and_conditions
+    get :relevant_portal_cookies
   end
 
   scope controller: :application do
