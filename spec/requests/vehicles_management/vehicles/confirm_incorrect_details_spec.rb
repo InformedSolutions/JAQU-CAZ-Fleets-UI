@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe 'VehiclesManagement::VehicleController - POST #confirm_not_found', type: :request do
-  subject { post not_found_vehicles_path, params: { 'confirm-registration': confirmation } }
+describe 'VehiclesManagement::VehicleController - POST #confirm_incorrect_details', type: :request do
+  subject { post incorrect_details_vehicles_path, params: { 'confirm-registration': confirmation } }
 
   let(:confirmation) { 'yes' }
 
@@ -41,8 +41,8 @@ describe 'VehiclesManagement::VehicleController - POST #confirm_not_found', type
           expect(response).to have_http_status(:ok)
         end
 
-        it 'renders the not_found page' do
-          expect(response).to render_template(:not_found)
+        it 'redirects to the incorrect_details page' do
+          expect(response).to render_template(:incorrect_details)
         end
       end
     end

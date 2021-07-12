@@ -15,17 +15,32 @@
       %p
         Try
         = link_to 'entering the details', enter_details_vehicles_path, class: 'govuk-link'
-        again making sure you have not mixed up letters and numbers. For example, the letters I and O with
-        the numbers 1 (one) and 0 (zero).
+        entering the details again making sure you have not mixed up letters and numbers (for example, the letters
+        %strong I
+        and
+        %strong O
+        with the numbers
+        %strong 1
+        and
+        %strong 0
+        ).
 
       %h1.govuk-heading-m Check the registration details
       %p
-        = succeed '.' do
-          If we still can not find the vehicle details and you are sure it's registered in the UK, update the
-          details with
-          = external_link_to('DVLA',
-                             'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
-                             id: 'dvla-link')
+        If the details still can not be found and you believe the vehicle should be registered in the UK, you must
+        = external_link_to('update the details',
+                           'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
+                           id: 'dvla-link')
+        the DVLA holds for the vehicle.
+
+      = render 'shared/warning' do
+        You must update your vehicles with DVLA, or your vehicle may be classed as chargeable
+        and you may receive a penalty charge notice (PCN) if you drive into a zone and do not pay the charge.
+
+      %h1.govuk-heading-m You still have to pay the Clean Air Zone charge
+      %p
+        Payment can be made 6 days before, on the day of travel or by 11:59pm on the 6th day after driving
+        in the zone or you may receive a penalty charge notice (PCN).
 
       %p
         If your vehicle does meet emission standards, you can claim a
@@ -36,10 +51,10 @@
       %p
         Confirm the number plate
         %b
-          = @vrn
+          = @vehicle_registration
         is correct and add it to this account.
 
-      = form_tag confirm_not_found_vehicles_path, method: :post do
+      = form_tag not_found_vehicles_path, method: :post do
         .govuk-form-group{class: ('govuk-form-group--error' if alert)}
           %fieldset.govuk-fieldset
             %legend.govuk-visually-hidden

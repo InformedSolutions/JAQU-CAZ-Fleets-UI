@@ -86,8 +86,9 @@ Rails.application.routes.draw do
         post :confirm_details
         get :exempt
         get :incorrect_details
+        post :incorrect_details, to: 'vehicles#confirm_incorrect_details'
         get :not_found
-        post :confirm_not_found
+        post :not_found, to: 'vehicles#confirm_not_found'
         get :local_exemptions
         post :add_to_fleet
         post :confirm_and_add_exempt_vehicle_to_fleet
