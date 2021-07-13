@@ -268,9 +268,7 @@ module VehiclesManagement
 
     # Loads error from form if needed and redirect to fleets index with appropriate params
     def redirect_to_proper_page(form)
-      flash.now[:alert] = form.first_error_message if form.first_error_message
-
-      redirect_to fleets_path(vrn: form.vrn)
+      redirect_to fleets_path(vrn: form.vrn), alert: form.first_error_message
     end
 
     # Determine path to edit fleet option.

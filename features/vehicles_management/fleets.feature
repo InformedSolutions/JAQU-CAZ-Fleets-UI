@@ -80,6 +80,12 @@ Feature: Fleets
       And I should see inactive 'previous' pagination button
       And I should not see 'next' pagination button
 
+  Scenario: Empty Search errors
+    When I have vehicles in my fleet
+      And I visit the manage vehicles page
+      And I press 'Search' button
+    Then I should see 'Enter the number plate of the vehicle' 2 times
+
   Scenario: A beta member user visits the Vehicle Management page
     When I have vehicles in my fleet
       And I visit the manage vehicles page as a beta tester
