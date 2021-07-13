@@ -9,7 +9,7 @@
     "@rails/ujs": "^6.1.4",
     "@rails/webpacker": "^5.4.0",
     "govuk-frontend": "^3.13.0",
-    "hmrc-frontend": "^1.37.1",
+    "hmrc-frontend": "^2.0.0",
     "rails-erb-loader": "^5.5.2"
   },
   "devDependencies": {
