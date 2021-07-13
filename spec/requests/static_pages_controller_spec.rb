@@ -36,4 +36,10 @@ describe StaticPagesController, type: :request do
 
     it_behaves_like 'a static page'
   end
+
+  describe 'GET #relevant_portal_cookies' do
+    subject { get relevant_portal_cookies_path }
+
+    it_behaves_like 'a static page'
+  end
 end

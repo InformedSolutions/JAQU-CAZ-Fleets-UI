@@ -34,3 +34,9 @@ Feature: Static Pages
       And I should not see 'FutureCaz'
       And I should see 'Birmingham' 3 times
       And I should see 'Available Now' link
+
+  Scenario: User can access separate cookies path from triage page
+    Given I am on the Relevant portal form page
+    Then I should see 'Cookies'
+    When I press footer link 'Cookies'
+    Then I should see 'Cookies are not used in this page.'

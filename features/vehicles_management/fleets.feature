@@ -45,7 +45,7 @@ Feature: Fleets
       And I press 'Edit vehicle list' link
     Then I should see 'Manage Vehicles'
       And I press 'Continue' button
-    Then I should see 'You must choose an answer'
+    Then I should see 'You must choose an option'
       And I choose 'Add single vehicle'
       And I press 'Continue' button
     Then I should be on add single vehicle page
@@ -56,7 +56,7 @@ Feature: Fleets
       And I press 'Edit vehicle list' link
     Then I should see 'Manage Vehicles'
       And I press 'Continue' button
-    Then I should see 'You must choose an answer'
+    Then I should see 'You must choose an option'
       And I choose 'Upload a new list'
       And I press 'Continue' button
     Then I should be on the upload page
