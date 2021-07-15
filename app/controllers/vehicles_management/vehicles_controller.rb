@@ -7,14 +7,14 @@ module VehiclesManagement
   # Controller used to manage adding vehicles to the fleet manually.
   # It should use similar approach as VCCS UI
   #
-  class VehiclesController < ApplicationController
+  class VehiclesController < ApplicationController # rubocop:disable Metrics/ClassLength
     include CheckPermissions
     include ChargeabilityCalculator
 
     before_action -> { check_permissions(allow_manage_vehicles?) }
+    before_action :assign_back_button_url, only: :enter_details
     before_action :check_vrn, only: %i[details confirm_details exempt incorrect_details not_found
                                        confirm_and_add_exempt_vehicle_to_fleet]
-    before_action :assign_back_button_url, only: %i[enter_details]
 
     # 404 HTTP status from API means vehicle in not found in DLVA database. Redirects to the proper page.
     rescue_from BaseApi::Error404Exception, with: :vehicle_not_found
@@ -143,6 +143,24 @@ module VehiclesManagement
     end
 
     ##
+    # Validates user has confirmed VRN with incorrect vehicle details.
+    # If it is valid, redirects to {manage vehicles page}[rdoc-ref:FleetsController.index]
+    # If not, renders {incorrect details}[rdoc-ref:incorrect_details] with errors
+    #
+    # ==== Path
+    #    POST /vehicles/confirm_incorrect_details
+    #
+    def confirm_incorrect_details
+      form = VehiclesManagement::ConfirmationForm.new(params['confirm-registration'])
+      if form.valid?
+        redirect_to local_exemptions_vehicles_path
+      else
+        flash.now[:alert] = confirmation_error(form)
+        render :incorrect_details
+      end
+    end
+
+    ##
     # Renders the page for vehicles not found in the DVLA database.
     #
     # ==== Path
@@ -166,9 +184,12 @@ module VehiclesManagement
     #
     def confirm_not_found
       form = VehiclesManagement::ConfirmationForm.new(params['confirm-registration'])
-      return redirect_to not_found_vehicles_path, alert: confirmation_error(form) unless form.valid?
-
-      redirect_to local_exemptions_vehicles_path
+      if form.valid?
+        redirect_to local_exemptions_vehicles_path
+      else
+        flash.now[:alert] = confirmation_error(form)
+        render :not_found
+      end
     end
 
     ##

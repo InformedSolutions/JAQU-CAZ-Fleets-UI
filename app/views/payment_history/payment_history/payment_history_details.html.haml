@@ -1,7 +1,7 @@
 - title_and_header = 'Charge details'
 - content_for(:title, title_and_header)
 
-= link_to 'Back', @back_button_url, class: 'govuk-back-link'
+= render 'shared/js_back_link'
 
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
@@ -59,5 +59,5 @@
 
 
       %p
-        = link_to 'Return to payment history', @back_button_url
+        = link_to 'Return to payment history', @return_to_payments_history_url
       = render 'shared/print_link' if session[:company_payment_history]

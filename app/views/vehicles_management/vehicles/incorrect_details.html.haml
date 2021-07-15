@@ -6,22 +6,52 @@
 %main.govuk-main-wrapper#main-content{role: 'main'}
   .govuk-grid-row
     .govuk-grid-column-two-thirds
+      - if alert
+        = render 'shared/error_summary',
+                  error_msg_div: '#unrecognised-vehicle-error',
+                  error_msg: I18n.t('vehicle_not_found.errors.confirmation_alert')
+
       %h1.govuk-heading-l
         = title_and_header
       %p
-        If the vehicle details are incorrect, you can
-        = succeed '.' do
-          = external_link_to('contact us',
-                             Rails.configuration.x.contact_form_link,
-                             id: 'contact-us')
+        You must
+        = external_link_to('update the details',
+                           'https://www.gov.uk/change-vehicle-details-registration-certificate/how-to-tell-dvla',
+                           id: 'dvla-link')
+        the DVLA holds for the vehicle.
+
+      = render 'shared/warning' do
+        You must update your vehicles with DVLA, or your vehicle may be classed as chargeable
+        and you may receive a penalty charge notice (PCN) if you drive into a zone and do not pay the charge.
+
+      %h1.govuk-heading-m You still have to pay the Clean Air Zone charge
       %p
-        The charge still needs to be paid if you have driven, or are planning to drive, in the zone.
+        Payment can be made 6 days before, on the day of travel or by 11:59pm on the 6th day after driving
+        in the zone or you may receive a penalty charge notice (PCN).
+
       %p
-        If your vehicle does meet emission standards, you can claim a
-        = external_link_to('refund',
-                           'https://www.gov.uk/guidance/driving-in-a-clean-air-zone',
-                           id: 'refund-link')
-        from the local authority after your registration details have been updated.
-      %p
-        Continue to add the vehicle to this account.
-      = link_to 'Continue', local_exemptions_vehicles_path, class: 'govuk-button'
+        Confirm the number plate
+        %b
+          = @vehicle_registration
+        is correct and add it to this account.
+
+      = form_tag incorrect_details_vehicles_path, method: :post do
+        .govuk-form-group{class: ('govuk-form-group--error' if alert)}
+          %fieldset.govuk-fieldset
+            %legend.govuk-visually-hidden
+              = I18n.t('vehicle_not_found.errors.confirmation_alert')
+
+            - if alert
+              %span#unrecognised-vehicle-error.govuk-error-message
+                %span.govuk-visually-hidden Error:
+                = I18n.t('vehicle_not_found.errors.confirmation_alert')
+
+            .govuk-checkboxes
+              .govuk-checkboxes__item
+                %input.govuk-checkboxes__input{name: 'confirm-registration',
+                                               type: 'checkbox',
+                                               value: 'yes',
+                                               id: 'confirm-registration'}
+                %label.govuk-label.govuk-checkboxes__label{for: 'confirm-registration'}
+                  I confirm the number plate is correct and I want to add it to this account.
+        = submit_tag 'Continue', class: 'govuk-button', 'data-module': 'govuk-button'

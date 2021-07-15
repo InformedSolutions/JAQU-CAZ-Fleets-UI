@@ -155,11 +155,9 @@ class ApplicationController < ActionController::Base
   end
 
   # Checks if hosts were not manipulated
-  # :nocov:
   def validate_host_headers!
     Security::HostHeaderValidator.call(request: request, allowed_hosts: Rails.configuration.x.host)
   end
-  # :nocov:
 
   # Sets number of remaining days to password expiry
   # Returns number or nil if password was already changed during existing session
