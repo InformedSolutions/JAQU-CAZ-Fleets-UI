@@ -1060,15 +1060,7 @@ steps:
       - echo -e "[profile target_acc]\nrole_arn = $SRC_AWS_ACCOUNT_ROLE\ncredential_source = Environment\nrole_session_name = AWSACCOUNT" > ~/.aws/config
       - TASKDEF=`aws ecs describe-services --profile target_acc --cluster accounts-cluster-sit --services accounts-sit-ecs-service | jq --raw-output '.services[0].taskDefinition'`
       - export TF_VAR_build_number=`aws ecs describe-task-definition --profile target_acc --task-definition $TASKDEF | jq --raw-output '.taskDefinition.containerDefinitions[0].image' | cut -f 2 -d ':'`
-      - mkdir ~/.ssh
-      - echo -e "$GIT_PRIVATE_SSH" > ~/.ssh/id_rsa
-      - chmod 600 ~/.ssh/id_rsa
-      - touch ~/.ssh/known_hosts
-      - chmod 600 ~/.ssh/known_hosts
-      - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
-      - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
-      - git checkout staging_preprod
       - cd terraform-iac/projects/payments/layers/01.networking
       - PATH=$PATH:../../../../bin/
       - chmod +x ../../../../bin/tf
@@ -1102,8 +1094,6 @@ steps:
       AWS_DEFAULT_REGION: eu-west-2
       AWS_ACCOUNT_NAME: jaqu-staging
       SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
-      GIT_PRIVATE_SSH:
-        from_secret: jaqu_lower_github_private_key
       TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
@@ -1121,15 +1111,7 @@ steps:
       - echo -e "[profile target_acc]\nrole_arn = $SRC_AWS_ACCOUNT_ROLE\ncredential_source = Environment\nrole_session_name = AWSACCOUNT" > ~/.aws/config
       - TASKDEF=`aws ecs describe-services --profile target_acc --cluster accounts-cluster-sit --services accounts-sit-ecs-service | jq --raw-output '.services[0].taskDefinition'`
       - export TF_VAR_build_number=`aws ecs describe-task-definition --profile target_acc --task-definition $TASKDEF | jq --raw-output '.taskDefinition.containerDefinitions[0].image' | cut -f 2 -d ':'`
-      - mkdir ~/.ssh
-      - echo -e "$GIT_PRIVATE_SSH" > ~/.ssh/id_rsa
-      - chmod 600 ~/.ssh/id_rsa
-      - touch ~/.ssh/known_hosts
-      - chmod 600 ~/.ssh/known_hosts
-      - ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
-      - git clone git@github.com:InformedSolutions/JAQU-CAZ-IAC.git
       - cd JAQU-CAZ-IAC
-      - git checkout staging_preprod
       - cd terraform-iac/projects/payments/layers/01.networking
       - PATH=$PATH:../../../../bin/
       - chmod +x ../../../../bin/tf
@@ -1163,8 +1145,6 @@ steps:
       AWS_DEFAULT_REGION: eu-west-2
       AWS_ACCOUNT_NAME: jaqu-staging
       SRC_AWS_ACCOUNT_ROLE: arn:aws:iam::072187228077:role/jaqu-controlledServiceRole
-      GIT_PRIVATE_SSH:
-        from_secret: jaqu_lower_github_private_key
       TF_VAR_feedback_url: https://defragroup.eu.qualtrics.com/jfe/form/SV_7U7lt37vNismJI9
       TF_VAR_enable_https_redirect: false
     when:
