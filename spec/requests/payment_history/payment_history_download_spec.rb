@@ -12,8 +12,7 @@ describe 'PaymentsHistory::PaymentHistoryController - GET #payment_history_downl
 
     describe 'with file details in session' do
       before do
-        add_to_session(payment_history_file_name: file_name)
-        add_to_session(payment_history_file_url: file_url)
+        add_to_session(payment_history_file_name: file_name, payment_history_file_url: file_url)
         subject
       end
 

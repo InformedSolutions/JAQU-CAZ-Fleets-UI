@@ -2,6 +2,6 @@
   Contents
 %ul.govuk-tabs__list
   %li#view-charges.govuk-tabs__list-item{class: selected_tab == 'view-charges' ? 'govuk-tabs__list-item--selected' : '', role: 'presentation'}
-    = link_to('View charges', fleets_path, class: 'govuk-tabs__tab')
+    = link_to('View charges', fleets_path, class: 'govuk-tabs__tab', id: 'view-charges-tab')
   %li.govuk-tabs__list-item{class: selected_tab == 'edit-vehicle-list' ? 'govuk-tabs__list-item--selected' : '', role: 'presentation'}
-    = link_to('Edit vehicle list', edit_fleets_path)
+    = link_to('Edit vehicle list', edit_fleets_path, id: 'edit-list-tab')
