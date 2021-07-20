@@ -27,7 +27,14 @@
       %h1.govuk-heading-m You still have to pay the Clean Air Zone charge
       %p
         Payment can be made 6 days before, on the day of travel or by 11:59pm on the 6th day after driving
-        in the zone or you may receive a penalty charge notice (PCN).
+        in the zone otherwise you may receive a penalty charge notice (PCN).
+
+      %p
+        If your vehicle does meet emission standards, you can claim a
+        = external_link_to('refund',
+                           'https://www.gov.uk/guidance/driving-in-a-clean-air-zone',
+                           id: 'refund-link')
+        from the local authority after your registration details have been updated.
 
       %p
         If your vehicle does meet emission standards, you can claim a
